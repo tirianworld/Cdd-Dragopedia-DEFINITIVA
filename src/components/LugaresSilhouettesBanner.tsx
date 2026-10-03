@@ -1,36 +1,37 @@
 import React, { useState } from "react";
-import { CALDO_LUGARES_CARROZA_SOLID_SRC, CALDO_LUGARES_CARROZA_FALLBACK_URL } from "../assets/caldoLugaresSolidData";
 
 interface LugaresSilhouettesBannerProps {
   className?: string;
   color?: string;
 }
 
-/**
- * Banner de silueta dibujada en color sólido #232e33 para la categoría Lugares.
- * Muestra la carreta/carroza medieval con caballo y cochero/conductor al frente,
- * con la caja de la carroza despejada (sin los pasajeros), centrada en el banner oscuro.
- */
 export function LugaresSilhouettesBanner({
-  className = "w-full h-28 sm:h-36 md:h-44",
+  className = "w-full h-full",
+  color = "#232e33",
 }: LugaresSilhouettesBannerProps) {
-  const [imgSrc, setImgSrc] = useState<string>(CALDO_LUGARES_CARROZA_SOLID_SRC);
+  const [imgSrc, setImgSrc] = useState("/images/caldo_lugares_carroza_solid.png");
 
   return (
-    <div className={`relative w-full overflow-hidden select-none pointer-events-none flex items-end justify-center ${className}`}>
-      <img
-        src={imgSrc}
-        alt="Silueta de carroza con caballo y conductor en Lugares"
-        className="w-auto h-full max-h-48 object-contain object-bottom select-none pointer-events-none mx-auto"
-        style={{
-          filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.45))"
-        }}
-        onError={() => {
-          if (imgSrc !== CALDO_LUGARES_CARROZA_FALLBACK_URL) {
-            setImgSrc(CALDO_LUGARES_CARROZA_FALLBACK_URL);
-          }
-        }}
+    <div
+      className={`relative w-full overflow-hidden select-none flex items-end justify-center p-0 m-0 ${className}`}
+    >
+      {/* Suelo sólido de extremo a extremo */}
+      <div
+        className="absolute bottom-0 inset-x-0 w-full h-[4px] sm:h-[5px] md:h-[6.5px] pointer-events-none z-20"
+        style={{ backgroundColor: color }}
       />
+      <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/80 to-transparent pointer-events-none z-30" />
+
+      {/* Lugares / Carroza silhouette (sin aura, al ras del suelo y sin márgenes laterales) */}
+      <div className="relative z-10 flex items-end justify-center w-full h-full p-0 m-0 pt-3 sm:pt-4">
+        <img
+          src={imgSrc}
+          alt="Silueta de Lugares y Carroza de Caldo de Dragón"
+          className="max-h-[86%] sm:max-h-[88%] max-w-full w-auto h-auto self-end object-contain object-bottom select-none pointer-events-none transition-transform duration-300 origin-bottom group-hover:scale-[1.01] block m-0 p-0"
+          style={{ objectPosition: "center bottom" }}
+          onError={() => setImgSrc("/images/caldo_lugares_carroza_solid.png")}
+        />
+      </div>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { 
   Sparkles, Edit3, X, Check, Plus, Link as LinkIcon, Image, 
   Dna, Network, BookOpen, Save, Trash2, Sliders, ChevronDown, 
-  HelpCircle, Eye, AlertCircle, Info, RefreshCw, Layers, Type, SlidersHorizontal
+  HelpCircle, Eye, AlertCircle, Info, RefreshCw, Layers, Type
 } from "lucide-react";
 import { useVisualEditor } from "../context/VisualEditorContext";
 import { useCategories } from "../context/CategoryContext";
@@ -13,7 +13,6 @@ import { ArtGalleryPickerModal } from "./ArtGalleryPickerModal";
 import { CartoCraftMapPickerModal } from "./CartoCraftMapPickerModal";
 import { HunterCreaturePickerModal } from "./HunterCreaturePickerModal";
 import { AllTextsInspectorModal } from "./webbuilder/AllTextsInspectorModal";
-import { CategoryReorderModal } from "./CategoryReorderModal";
 import { CharacterNode, GlobalGenealogyData } from "../types";
 
 export function VisualEditorHUD() {
@@ -71,7 +70,6 @@ export function VisualEditorHUD() {
 
   // Cached genealogy characters list for relationship selector
   const [treeCharacters, setTreeCharacters] = useState<CharacterNode[]>([]);
-  const [showReorderModal, setShowReorderModal] = useState(false);
 
   useEffect(() => {
     try {
@@ -297,16 +295,6 @@ export function VisualEditorHUD() {
                 >
                   <Layers className="h-3.5 w-3.5 text-primary" />
                   <span className="hidden sm:inline">Categoría</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setShowReorderModal(true)}
-                  className="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-secondary/80 hover:bg-secondary border border-border text-foreground hover:text-accent transition-all flex items-center gap-1.5"
-                  title="Reordenar categorías (personalizadas y fijas)"
-                >
-                  <SlidersHorizontal className="h-3.5 w-3.5 text-accent" />
-                  <span className="hidden sm:inline">Reordenar</span>
                 </button>
 
                 <button
@@ -757,12 +745,6 @@ export function VisualEditorHUD() {
       <AllTextsInspectorModal
         isOpen={isUIInspectorOpen}
         onClose={() => setIsUIInspectorOpen(false)}
-      />
-
-      {/* Global Category Reorder Modal */}
-      <CategoryReorderModal
-        isOpen={showReorderModal}
-        onClose={() => setShowReorderModal(false)}
       />
     </>
   );

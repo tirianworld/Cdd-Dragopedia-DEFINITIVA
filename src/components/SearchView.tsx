@@ -4,10 +4,12 @@ import { WikiArticle } from "../types";
 import { ArticleCard } from "./ArticleCard";
 import { Search, ArrowLeft, BookOpen } from "lucide-react";
 import { syncFetch, getCachedArticles } from "../utils/syncArticles";
+import { useCategories } from "../context/CategoryContext";
 
 export function SearchView() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
+  const { mergedCategories } = useCategories();
   
   const filterByQuery = (allArticles: WikiArticle[], q: string) => {
     const safeArticles = Array.isArray(allArticles) ? allArticles.filter(a => a && a.id) : [];
@@ -29,6 +31,7 @@ export function SearchView() {
   });
 
   // Selectable filters state
+  const [selCategoria, setSelCategoria] = useState("");
   const [selCampana, setSelCampana] = useState("");
   const [selContinente, setSelContinente] = useState("");
   const [selPlano, setSelPlano] = useState("");
@@ -42,6 +45,7 @@ export function SearchView() {
   });
 
   useEffect(() => {
+    setSelCategoria("");
     setSelCampana("");
     setSelContinente("");
     setSelPlano("");
@@ -77,6 +81,16 @@ export function SearchView() {
   // Live client-side filter
   const filteredArticles = (Array.isArray(articles) ? articles : []).filter((a) => {
     if (!a) return false;
+    // Categoría filter
+    if (selCategoria) {
+      const target = selCategoria.toLowerCase().trim();
+      const artCat = (a.category || "").toLowerCase().trim();
+      const extraMatch = Array.isArray(a.extra_categories)
+        ? a.extra_categories.some((ec) => (ec || "").toLowerCase().trim() === target)
+        : false;
+      if (artCat !== target && !extraMatch) return false;
+    }
+
     // Campaña filter
     if (selCampana) {
       const hasCampana = a.filters?.campaña?.some((v: string) => v && typeof v === "string" && v.toLowerCase() === selCampana.toLowerCase());
@@ -147,7 +161,23 @@ export function SearchView() {
       </div>
 
       {/* Dropdown Filters (Desplegables) */}
-      <div className="bg-card border border-border/60 rounded-xl p-4 grid grid-cols-1 sm:grid-cols-5 gap-4 shadow-sm">
+      <div className="bg-card border border-border/60 rounded-xl p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 shadow-sm">
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">Categoría</label>
+          <select
+            value={selCategoria}
+            onChange={(e) => setSelCategoria(e.target.value)}
+            className="w-full h-8 px-2.5 bg-secondary border border-border/80 rounded-md text-foreground focus:outline-none focus:ring-1 focus:ring-primary/45 text-xs transition-all"
+          >
+            <option value="">Todas las categorías</option>
+            {mergedCategories.map((cat) => (
+              <option key={cat.id || cat.slug} value={cat.name}>
+                {cat.parentId || cat.parentSlug ? `— ${cat.name}` : cat.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div className="space-y-1.5">
           <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">Campaña</label>
           <select

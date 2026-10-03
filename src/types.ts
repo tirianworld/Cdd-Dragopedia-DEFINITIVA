@@ -126,6 +126,7 @@ export interface WikiArticle {
   summary: string;
   content: string;
   category: string; // e.g., 'Personajes', 'Lugares', 'Eventos', etc.
+  extra_categories?: string[];
   image_url?: string;
   image_position_x?: number;
   image_position_y?: number;
@@ -174,6 +175,8 @@ export interface WikiCategory {
   description?: string;
   icon?: string;
   color?: string;
+  parentId?: string | null;
+  parentSlug?: string | null;
 }
 
 export interface CampaignEvent {

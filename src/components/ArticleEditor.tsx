@@ -1,18 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { WikiArticle, WikiCategory, TimelineMarker, GalleryItem } from "../types";
-import { mergeCategories } from "../utils/categoryHelper";
+import { mergeCategories, getAllArticleCategories } from "../utils/categoryHelper";
+import { useCategories } from "../context/CategoryContext";
 import { syncFetch, getCachedArticles, getCachedArticleBySlugOrId } from "../utils/syncArticles";
 import { getCleanMapUrl } from "../utils/mapHelper";
 import { 
   ArrowLeft, ArrowRight, Save, Plus, Trash2, Calendar, Gem, Link2, Info, Loader2, Image, List, Check, Compass,
   Bold, Italic, HelpCircle, FileText, Layers, Settings, Eye, Code, Sparkles, Maximize2, Minimize2, RotateCcw, ExternalLink,
   Wand2, Swords, ShieldCheck, ShieldAlert, Table, Undo2, AlertTriangle, CheckCircle2, ChevronRight, X, MessageSquare, GitMerge,
-  Network, Orbit, Sliders, UploadCloud, Box
+  Network, Orbit, Sliders, UploadCloud
 } from "lucide-react";
 import { uploadImageToServerAndGitHub, readFileAsDataURL } from "../utils/localImageStorage";
 import { CartoCraftMapPickerModal } from "./CartoCraftMapPickerModal";
-import { HeroForgeEmbedModal } from "./HeroForgeEmbedModal";
 import { GraphPickerModal } from "./GraphPickerModal";
 import { EmbeddedGraphViewer } from "./EmbeddedGraphViewer";
 import { ArticleEmbeddedGraph } from "../types";
@@ -31,6 +31,7 @@ export function ArticleEditor() {
   const location = useLocation();
 
   const cachedArt = slug ? getCachedArticleBySlugOrId(slug) : null;
+  const { mergedCategories } = useCategories();
   const [loading, setLoading] = useState(() => isEditMode ? !cachedArt : false);
   const [allArticles, setAllArticles] = useState<WikiArticle[]>(() => getCachedArticles());
   const [categories, setCategories] = useState<WikiCategory[]>([]);
@@ -38,6 +39,10 @@ export function ArticleEditor() {
   // Editor form states
   const [title, setTitle] = useState(() => cachedArt?.title || "");
   const [articleCategory, setArticleCategory] = useState(() => cachedArt?.category || "Personajes");
+  const [extraCategories, setExtraCategories] = useState<string[]>(() => {
+    const initial = getAllArticleCategories(cachedArt);
+    return initial.length > 0 ? initial : ["Personajes"];
+  });
   const [summary, setSummary] = useState(() => cachedArt?.summary || "");
   const [content, setContent] = useState(() => cachedArt?.content || "");
   const [imageUrl, setImageUrl] = useState(() => cachedArt?.image_url || "");
@@ -114,9 +119,8 @@ export function ArticleEditor() {
   const [markerPlainContents, setMarkerPlainContents] = useState<Record<string, string>>({});
   const markerTextareaRefs = useRef<Record<string, HTMLTextAreaElement | null>>({});
 
-  // Modals for CartoCraft map embedding, HeroForge 3D miniatures, Graphs/Subgraphs, Diario del Cazador creatures, and Art Gallery Picker
+  // Modals for CartoCraft map embedding, Graphs/Subgraphs, Diario del Cazador creatures, and Art Gallery Picker
   const [showCartoCraftModal, setShowCartoCraftModal] = useState(false);
-  const [showHeroForgeModal, setShowHeroForgeModal] = useState(false);
   const [showGraphModal, setShowGraphModal] = useState(false);
   const [embeddedGraph, setEmbeddedGraph] = useState<ArticleEmbeddedGraph | null>(
     () => cachedArt?.embedded_graph || null
@@ -310,6 +314,7 @@ export function ArticleEditor() {
         setOriginalArticle(updatedArt);
         setTitle(updatedArt.title);
         setArticleCategory(updatedArt.category);
+        setExtraCategories(getAllArticleCategories(updatedArt));
         setSummary(updatedArt.summary || "");
         setContent(updatedArt.content || "");
         setPlainContent(htmlToMarkdown(updatedArt.content || ""));
@@ -343,7 +348,7 @@ export function ArticleEditor() {
         const tMarkers = updatedArt.timeline_markers || [];
         setTimelineMarkers(tMarkers);
         const initialPlains: Record<string, string> = {};
-        tMarkers.forEach((m) => {
+        tMarkers.forEach((m: any) => {
           initialPlains[m.id] = htmlToMarkdown(m.content || "");
         });
         setMarkerPlainContents(initialPlains);
@@ -514,23 +519,6 @@ export function ArticleEditor() {
   };
 
   const handleInsertCartoCraftIntoContent = (embedHtml: string, embedMarkdown: string) => {
-    if (modalTargetMarkerId) {
-      const isCode = markerTabs[modalTargetMarkerId] === "code";
-      if (isCode) {
-        insertHtmlTagForMarker(modalTargetMarkerId, embedHtml, "");
-      } else {
-        insertPlainTagForMarker(modalTargetMarkerId, embedMarkdown, "");
-      }
-    } else {
-      if (editorTab === "code") {
-        insertHtmlTag(embedHtml, "");
-      } else {
-        insertPlainTag(embedMarkdown, "");
-      }
-    }
-  };
-
-  const handleInsertHeroForgeIntoContent = (embedHtml: string, embedMarkdown: string) => {
     if (modalTargetMarkerId) {
       const isCode = markerTabs[modalTargetMarkerId] === "code";
       if (isCode) {
@@ -957,6 +945,8 @@ export function ArticleEditor() {
             setOriginalArticle(art);
             setTitle(art.title || "");
             setArticleCategory(art.category || "Personajes");
+            const allCats = getAllArticleCategories(art);
+            setExtraCategories(allCats.length > 0 ? allCats : [art.category || "Personajes"]);
             setSummary(art.summary || "");
             setContent(art.content || "");
             setPlainContent(htmlToMarkdown(art.content || ""));
@@ -993,7 +983,7 @@ export function ArticleEditor() {
             const tMarkers = Array.isArray(art.timeline_markers) ? art.timeline_markers : [];
             setTimelineMarkers(tMarkers);
             const initialPlains: Record<string, string> = {};
-            tMarkers.forEach((m) => {
+            tMarkers.forEach((m: any) => {
               if (m && m.id) {
                 initialPlains[m.id] = htmlToMarkdown(m.content || "");
               }
@@ -1183,6 +1173,10 @@ export function ArticleEditor() {
       finalContent = markdownToHtml(plainContent);
     }
 
+    const finalExtraCategories = Array.from(
+      new Set([articleCategory, ...extraCategories].map((c) => (c || "").trim()).filter(Boolean))
+    );
+
     const savedArticleData: WikiArticle = {
       id: isEditMode && originalArticle ? originalArticle.id : `art-${Date.now()}`,
       title: title.trim(),
@@ -1190,6 +1184,7 @@ export function ArticleEditor() {
       summary: summary.trim(),
       content: finalContent,
       category: articleCategory,
+      extra_categories: finalExtraCategories,
       image_url: imageUrl.trim() || undefined,
       image_position_x: imagePositionX,
       image_position_y: imagePositionY,
@@ -1756,18 +1751,6 @@ export function ArticleEditor() {
                       type="button"
                       onClick={() => {
                         setModalTargetMarkerId(null);
-                        setShowHeroForgeModal(true);
-                      }}
-                      className="p-1.5 px-2.5 bg-card hover:bg-secondary border border-border/60 hover:border-amber-500/50 rounded text-amber-400 font-bold text-[10px] transition-all flex items-center gap-1 shadow-sm cursor-pointer"
-                      title="Incrustar Miniatura 3D de Hero Forge (heroforge.com)"
-                    >
-                      <Box className="h-3.5 w-3.5 text-amber-400" />
-                      <span>Miniatura HeroForge</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setModalTargetMarkerId(null);
                         setShowGraphModal(true);
                       }}
                       className="p-1.5 px-2.5 bg-card hover:bg-secondary border border-border/60 hover:border-cyan-500/50 rounded text-cyan-400 font-bold text-[10px] transition-all flex items-center gap-1 shadow-sm cursor-pointer"
@@ -1893,18 +1876,6 @@ export function ArticleEditor() {
                     >
                       <Compass className="h-3.5 w-3.5 text-primary" />
                       <span>Mapa CartoCraft</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setModalTargetMarkerId(null);
-                        setShowHeroForgeModal(true);
-                      }}
-                      className="p-1.5 px-2.5 bg-card hover:bg-secondary border border-border/60 hover:border-amber-500/50 rounded text-amber-400 font-bold text-[10px] transition-all flex items-center gap-1 shadow-sm cursor-pointer"
-                      title="Incrustar Miniatura 3D de Hero Forge (heroforge.com)"
-                    >
-                      <Box className="h-3.5 w-3.5 text-amber-400" />
-                      <span>Miniatura HeroForge</span>
                     </button>
                     <button
                       type="button"
@@ -2297,18 +2268,131 @@ export function ArticleEditor() {
               Clasificación y Portada
             </h3>
 
-            {/* Category select */}
-            <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-muted-foreground uppercase">Categoría de Lore</label>
-              <select
-                value={articleCategory}
-                onChange={(e) => setArticleCategory(e.target.value)}
-                className="w-full h-10 px-3 bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-primary/50 transition-all text-xs"
-              >
-                {mergeCategories(categories).map((c) => (
-                  <option key={c.name} value={c.name}>{c.name}</option>
-                ))}
-              </select>
+            {/* Category select & Multi-category selector */}
+            <div className="space-y-3">
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-muted-foreground uppercase block">
+                  Categoría Principal
+                </label>
+                <select
+                  value={articleCategory}
+                  onChange={(e) => {
+                    const nextCat = e.target.value;
+                    setArticleCategory(nextCat);
+                    setExtraCategories((prev) => {
+                      if (prev.some((c) => c.toLowerCase().trim() === nextCat.toLowerCase().trim())) {
+                        return prev;
+                      }
+                      return [...prev, nextCat];
+                    });
+                  }}
+                  className="w-full h-10 px-3 bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-primary/50 transition-all text-xs font-medium"
+                >
+                  {(mergedCategories.length > 0 ? mergedCategories : mergeCategories(categories)).map((c) => (
+                    <option key={c.slug || c.name} value={c.name}>
+                      {c.parentId || c.parentSlug ? `↳ ${c.name}` : c.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Multi-category chips & selector */}
+              <div className="space-y-2 pt-2 border-t border-border/40">
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-bold text-muted-foreground uppercase">
+                    Categorías Asignadas ({Array.from(new Set([articleCategory, ...extraCategories].filter(Boolean))).length})
+                  </label>
+                  <span className="text-[10px] text-muted-foreground">
+                    Aparece en cada sección con su categoría
+                  </span>
+                </div>
+
+                {/* Selected category chips */}
+                <div className="flex flex-wrap gap-1.5">
+                  {Array.from(new Set([articleCategory, ...extraCategories].filter(Boolean))).map((catName) => {
+                    const catList = mergedCategories.length > 0 ? mergedCategories : mergeCategories(categories);
+                    const matched = catList.find((c) => c.name.toLowerCase().trim() === catName.toLowerCase().trim());
+                    const chipColor = matched?.color || "#2dd4bf";
+                    const isPrimary = catName.toLowerCase().trim() === articleCategory.toLowerCase().trim();
+                    const allSelected = Array.from(new Set([articleCategory, ...extraCategories].filter(Boolean)));
+
+                    return (
+                      <div
+                        key={catName}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold border transition-all"
+                        style={{
+                          backgroundColor: `${chipColor}20`,
+                          borderColor: isPrimary ? chipColor : `${chipColor}55`,
+                          color: chipColor
+                        }}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setArticleCategory(catName)}
+                          title={isPrimary ? "Categoría principal" : "Haz clic para marcar como categoría principal"}
+                          className="cursor-pointer flex items-center gap-1"
+                        >
+                          <span>{catName}</span>
+                          {isPrimary && (
+                            <span className="text-[9px] uppercase px-1 py-0.2 rounded bg-black/25 font-bold">
+                              Principal
+                            </span>
+                          )}
+                        </button>
+                        {allSelected.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const remaining = allSelected.filter(
+                                (c) => c.toLowerCase().trim() !== catName.toLowerCase().trim()
+                              );
+                              setExtraCategories(remaining);
+                              if (isPrimary && remaining.length > 0) {
+                                setArticleCategory(remaining[0]);
+                              }
+                            }}
+                            title={`Quitar de ${catName}`}
+                            className="hover:opacity-75 p-0.5 rounded cursor-pointer"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Dropdown to add another category */}
+                <select
+                  value=""
+                  onChange={(e) => {
+                    const added = e.target.value;
+                    if (!added) return;
+                    setExtraCategories((prev) => {
+                      const current = Array.from(new Set([articleCategory, ...prev].filter(Boolean)));
+                      if (current.some((c) => c.toLowerCase().trim() === added.toLowerCase().trim())) {
+                        return current;
+                      }
+                      return [...current, added];
+                    });
+                  }}
+                  className="w-full h-9 px-3 bg-secondary/70 border border-dashed border-primary/40 hover:border-primary rounded-lg text-foreground focus:outline-none text-xs cursor-pointer transition-all"
+                >
+                  <option value="">+ Añadir otra categoría o subcategoría...</option>
+                  {(mergedCategories.length > 0 ? mergedCategories : mergeCategories(categories))
+                    .filter(
+                      (c) =>
+                        !Array.from(new Set([articleCategory, ...extraCategories].filter(Boolean))).some(
+                          (sel) => sel.toLowerCase().trim() === c.name.toLowerCase().trim()
+                        )
+                    )
+                    .map((c) => (
+                      <option key={c.slug || c.name} value={c.name}>
+                        {c.parentId || c.parentSlug ? `↳ ${c.name}` : c.name}
+                      </option>
+                    ))}
+                </select>
+              </div>
             </div>
 
             {/* Filters */}
@@ -3446,18 +3530,6 @@ export function ArticleEditor() {
                       type="button"
                       onClick={() => {
                         setModalTargetMarkerId(null);
-                        setShowHeroForgeModal(true);
-                      }}
-                      className="p-1.5 px-3 bg-card hover:bg-secondary border border-border/60 hover:border-amber-500/50 rounded text-amber-400 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
-                      title="Incrustar Miniatura 3D de Hero Forge (heroforge.com)"
-                    >
-                      <Box className="h-4 w-4 text-amber-400" />
-                      <span>Miniatura HeroForge</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setModalTargetMarkerId(null);
                         setShowGraphModal(true);
                       }}
                       className="p-1.5 px-3 bg-card hover:bg-secondary border border-border/60 hover:border-cyan-500/50 rounded text-cyan-400 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
@@ -3582,18 +3654,6 @@ export function ArticleEditor() {
                     >
                       <Compass className="h-4 w-4 text-primary" />
                       <span>Mapa CartoCraft</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setModalTargetMarkerId(null);
-                        setShowHeroForgeModal(true);
-                      }}
-                      className="p-1.5 px-3 bg-card hover:bg-secondary border border-border/60 hover:border-amber-500/50 rounded text-amber-400 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
-                      title="Incrustar Miniatura 3D de Hero Forge (heroforge.com)"
-                    >
-                      <Box className="h-4 w-4 text-amber-400" />
-                      <span>Miniatura HeroForge</span>
                     </button>
                     <button
                       type="button"
@@ -3729,18 +3789,6 @@ export function ArticleEditor() {
                         type="button"
                         onClick={() => {
                           setModalTargetMarkerId(mId);
-                          setShowHeroForgeModal(true);
-                        }}
-                        className="p-1.5 px-3 bg-card hover:bg-secondary border border-border/60 hover:border-amber-500/50 rounded text-amber-400 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
-                        title="Incrustar Miniatura 3D de Hero Forge (heroforge.com)"
-                      >
-                        <Box className="h-4 w-4 text-amber-400" />
-                        <span>Miniatura HeroForge</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setModalTargetMarkerId(mId);
                           setShowGraphModal(true);
                         }}
                         className="p-1.5 px-3 bg-card hover:bg-secondary border border-border/60 hover:border-cyan-500/50 rounded text-cyan-400 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
@@ -3859,18 +3907,6 @@ export function ArticleEditor() {
                         type="button"
                         onClick={() => {
                           setModalTargetMarkerId(mId);
-                          setShowHeroForgeModal(true);
-                        }}
-                        className="p-1.5 px-3 bg-card hover:bg-secondary border border-border/60 hover:border-amber-500/50 rounded text-amber-400 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
-                        title="Incrustar Miniatura 3D de Hero Forge (heroforge.com)"
-                      >
-                        <Box className="h-4 w-4 text-amber-400" />
-                        <span>Miniatura HeroForge</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setModalTargetMarkerId(mId);
                           setShowGraphModal(true);
                         }}
                         className="p-1.5 px-3 bg-card hover:bg-secondary border border-border/60 hover:border-cyan-500/50 rounded text-cyan-400 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
@@ -3924,13 +3960,6 @@ export function ArticleEditor() {
         onInsertIntoContent={(html, md) => handleInsertCartoCraftIntoContent(html, md)}
         onSetArticleMapUrl={(url) => setMapUrl(url)}
         currentMapUrl={mapUrl}
-      />
-
-      {/* Hero Forge Miniature Picker Modal */}
-      <HeroForgeEmbedModal
-        isOpen={showHeroForgeModal}
-        onClose={() => setShowHeroForgeModal(false)}
-        onInsertIntoContent={(html, md) => handleInsertHeroForgeIntoContent(html, md)}
       />
 
       {/* Graph & Subgraph Picker Modal */}

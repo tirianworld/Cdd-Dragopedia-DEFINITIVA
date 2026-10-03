@@ -93,6 +93,84 @@ interface PendingSyncAction {
 
 let memoryArticlesCache: { [key: string]: WikiArticle[] } = {};
 
+export const DEFAULT_ARTICLE_SUBCATEGORY_ASSIGNMENTS: Record<string, { category: string; extra_categories: string[] }> = {
+  "astora": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+  "alejandria": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+  "morgana": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+  "laberinto-de-cristales": { category: "Dominio", extra_categories: ["Lugares", "Dominio"] },
+  "zaratras": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+  "gravatax-el-dragon-de-amatista": { category: "Gemáticos", extra_categories: ["Dragones", "Gemáticos"] },
+  "minos-el-chaman-minotauro": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+  "fafnir-el-dios-dragon": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
+  "coliseo-de-catarina-mt7cpt8n": { category: "Arena", extra_categories: ["Lugares", "Arena"] },
+  "el-santa-maria": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+  "mehetia-mrfciyvp": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+  "torre-de-latria-mrfccvm3": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+  "palacio-de-los-elfos-de-siramar-mreuygo8": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+  "camelot": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
+  "svartal-mre7hjm6": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+  "siramar-mre5xebn": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+  "gran-reino-enano-de-thorin-mrdtvqcc": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
+  "thrag-mrdrc85l": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+  "las-islas-de-kaanil-mrdowgts": { category: "Lugares", extra_categories: ["Lugares"] },
+  "coliseo-onirico-mrdbt1cy": { category: "Arena", extra_categories: ["Lugares", "Arena"] },
+  "mansion-de-zaltar": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+  "mansion-loux": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+  "mansion-ferton": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+  "manantial-del-feywild": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+  "magordito": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+  "magor": { category: "Dioses", extra_categories: ["Dioses"] },
+  "kaanil-nah": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
+  "gran-torre-arcana-de-cryostar": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+  "gorm": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
+  "gildemar-el-rey-mago": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+  "fafnir": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
+  "el-oni-del-cerezo": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+  "cryovain": { category: "Cromáticos", extra_categories: ["Dragones", "Cromáticos"] },
+  "cryostar": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
+  "arthorius": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+  "arlem-diaz": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+  "arkadis": { category: "Metálicos", extra_categories: ["Dragones", "Metálicos"] },
+  "zaltar": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+  "varianthel": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+  "templo-de-makai": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+  "tauron": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
+  "takhisis": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
+  "syndragosa": { category: "Metálicos", extra_categories: ["Dragones", "Metálicos"] },
+  "rexyrian": { category: "Bestias", extra_categories: ["Dragones", "Bestias"] },
+  "nemuina": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
+  "moonhaven": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
+  "minas-de-icespear": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+  "auros": { category: "Metálicos", extra_categories: ["Dragones", "Metálicos"] },
+  "glimmerstone-aa54d9": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+  "ravenholm-075d82": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+  "icespear-9a1e7c": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+  "el-maestro-db608e": { category: "Antiguos", extra_categories: ["Personajes", "Antiguos"] },
+  "tarot-el-gran-bibliotecario-8300f5": { category: "Antiguos", extra_categories: ["Personajes", "Antiguos"] },
+  "gran-arana-acorazada-ea7987": { category: "Antiguos", extra_categories: ["Personajes", "Antiguos"] },
+  "rey-allant-fb4cad": { category: "Portadores de Marca", extra_categories: ["Personajes", "Portadores de Marca"] },
+  "el-santuario-d45cdc": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+  "lothric-a1d86b": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
+  "drangleic-869efe": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
+  "boletaria-7e36fa": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] }
+};
+
+export function applyDefaultArticleSubcategories(articles: WikiArticle[]): WikiArticle[] {
+  if (!Array.isArray(articles)) return [];
+  return articles.map((art) => {
+    if (!art || !art.slug) return art;
+    const preset = DEFAULT_ARTICLE_SUBCATEGORY_ASSIGNMENTS[art.slug];
+    if (preset && (!Array.isArray(art.extra_categories) || art.extra_categories.length === 0)) {
+      return {
+        ...art,
+        category: preset.category,
+        extra_categories: preset.extra_categories
+      };
+    }
+    return art;
+  });
+}
+
 // Helper to strip heavy base64 and oversized assets before storing in localStorage
 function sanitizeArticlesForLocalStorage(articles: WikiArticle[]): any[] {
   return articles.map((art) => {
@@ -125,6 +203,7 @@ function createCompactArticlesIndex(articles: any[]): any[] {
     slug: a.slug,
     title: a.title,
     category: a.category,
+    extra_categories: a.extra_categories || [],
     summary: a.summary || "",
     tags: a.tags || [],
     updated_date: a.updated_date,
@@ -148,8 +227,9 @@ export function getCachedArticles(): WikiArticle[] {
       if (raw) {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          memoryArticlesCache[key] = parsed;
-          return parsed;
+          const normalized = applyDefaultArticleSubcategories(parsed);
+          memoryArticlesCache[key] = normalized;
+          return normalized;
         }
       }
     } catch (e) {
@@ -165,16 +245,15 @@ export function getCachedArticleBySlugOrId(slugOrId: string): WikiArticle | null
   const articles = getCachedArticles();
   const normalized = slugOrId.toLowerCase().trim();
   return articles.find(a => 
-    Boolean(a && a.id && a.title && (
-      (a.id && a.id.toLowerCase() === normalized) || 
-      (a.slug && a.slug.toLowerCase() === normalized) ||
-      (a.title && a.title.toLowerCase() === normalized)
-    ))
+    (a.id && a.id.toLowerCase() === normalized) || 
+    (a.slug && a.slug.toLowerCase() === normalized) ||
+    (a.title && a.title.toLowerCase() === normalized)
   ) || null;
 }
 
 // Helper to save articles to cache safely without exceeding storage quota
-export function setCachedArticles(articles: WikiArticle[]): void {
+export function setCachedArticles(rawArticles: WikiArticle[]): void {
+  const articles = applyDefaultArticleSubcategories(rawArticles);
   const key = getCacheKey();
   // Keep the complete, high-fidelity objects in active RAM memory cache
   memoryArticlesCache[key] = articles;
@@ -353,14 +432,10 @@ export async function syncFetch(
           }
         }
         
-        // If response is not ok (e.g. 404 on static hosting or 500 error), try fallback to data/articles.json
+        // If response is not ok (e.g. 404 on static hosting or 500 error), try fallback to /data/articles.json
         try {
-          const staticDataUrl = `${import.meta.env.BASE_URL}data/articles.json`;
-          let fallbackRes = await originalFetch(staticDataUrl).catch(() => null);
-          if (!fallbackRes || !fallbackRes.ok) {
-            fallbackRes = await originalFetch("https://raw.githubusercontent.com/tirianworld/Cdd-Wiki-V2/main/src/data/articles.json").catch(() => null);
-          }
-          if (fallbackRes && fallbackRes.ok) {
+          const fallbackRes = await originalFetch("/data/articles.json");
+          if (fallbackRes.ok) {
             const clonedFallback = fallbackRes.clone();
             const articles = await clonedFallback.json();
             if (Array.isArray(articles) && articles.length > 0) {
@@ -369,19 +444,15 @@ export async function syncFetch(
             }
           }
         } catch (fErr) {
-          console.warn("[syncArticles] Fallback to data/articles.json failed:", fErr);
+          console.warn("[syncArticles] Fallback to /data/articles.json failed:", fErr);
         }
 
         return response;
       } catch (err) {
         // Network error (e.g. backend not running in static deployment): try static fallback
         try {
-          const staticDataUrl = `${import.meta.env.BASE_URL}data/articles.json`;
-          let fallbackRes = await originalFetch(staticDataUrl).catch(() => null);
-          if (!fallbackRes || !fallbackRes.ok) {
-            fallbackRes = await originalFetch("https://raw.githubusercontent.com/tirianworld/Cdd-Wiki-V2/main/src/data/articles.json").catch(() => null);
-          }
-          if (fallbackRes && fallbackRes.ok) {
+          const fallbackRes = await originalFetch("/data/articles.json");
+          if (fallbackRes.ok) {
             const clonedFallback = fallbackRes.clone();
             const articles = await clonedFallback.json();
             if (Array.isArray(articles) && articles.length > 0) {
@@ -399,11 +470,15 @@ export async function syncFetch(
       // Background smart revalidation with server (Stale-While-Revalidate pattern)
       setTimeout(async () => {
         try {
-          const cachedMap: { [id: string]: string } = {};
+          const cachedMap: { [id: string]: { updated_date: string; category?: string; extra_categories?: string[] } } = {};
           const currentCached = getCachedArticles();
           currentCached.forEach((art) => {
             if (art.id) {
-              cachedMap[art.id] = art.updated_date || "";
+              cachedMap[art.id] = {
+                updated_date: art.updated_date || "",
+                category: art.category || "",
+                extra_categories: Array.isArray(art.extra_categories) ? art.extra_categories : []
+              };
             }
           });
 

@@ -9,17 +9,14 @@ import {
 } from "lucide-react";
 import { TarotLogo } from "./TarotLogo";
 import { EditableText } from "./webbuilder/EditableText";
-import defaultEvents from "../data/campaign_events.json";
 
 interface LatestEventsPanelProps {
   articles?: WikiArticle[];
 }
 
 export function LatestEventsPanel({ articles = [] }: LatestEventsPanelProps) {
-  const [events, setEvents] = useState<CampaignEvent[]>(() => {
-    return Array.isArray(defaultEvents) ? (defaultEvents as unknown as CampaignEvent[]) : [];
-  });
-  const [loading, setLoading] = useState(false);
+  const [events, setEvents] = useState<CampaignEvent[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeCampaignFilter, setActiveCampaignFilter] = useState<string>("all");
   const [activeCategoryFilter, setActiveCategoryFilter] = useState<string>("all");
 
@@ -37,28 +34,19 @@ export function LatestEventsPanel({ articles = [] }: LatestEventsPanelProps) {
   const [aiPrompt, setAiPrompt] = useState("");
   const [aiModalOpen, setAiModalOpen] = useState(false);
 
-  // Fetch events with offline / static export fallback
+  // Fetch events
   const fetchEvents = async () => {
     try {
+      setLoading(true);
       const res = await fetch("/api/campaign-events");
-      if (res.ok) {
-        const data = await res.json();
-        const list = Array.isArray(data?.events) ? data.events : (Array.isArray(data) ? data : []);
-        if (list.length > 0) {
-          setEvents(list);
-          return;
-        }
+      const data = await res.json();
+      if (Array.isArray(data.events)) {
+        setEvents(data.events);
       }
-      // Static fallback for exported build or GitHub Pages
-      const staticRes = await fetch(`${import.meta.env.BASE_URL}data/campaign_events.json`);
-      if (staticRes.ok) {
-        const staticData = await staticRes.json();
-        if (Array.isArray(staticData) && staticData.length > 0) {
-          setEvents(staticData);
-        }
-      }
-    } catch {
-      // In offline / static mode, defaultEvents is already initialized
+    } catch (err) {
+      console.error("Error fetching campaign events:", err);
+    } finally {
+      setLoading(false);
     }
   };
 

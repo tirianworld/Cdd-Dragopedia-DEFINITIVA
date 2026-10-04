@@ -391,8 +391,8 @@ export function Layout({ children }: LayoutProps) {
       )}
 
       {/* Top sticky header */}
-      <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
-        <div className={`flex items-center h-14 px-4 justify-between gap-4 w-full ${isFullWidthPage ? "max-w-none px-4 sm:px-6" : "max-w-[1400px] mx-auto"}`}>
+      <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md w-full">
+        <div className="flex items-center h-14 px-4 sm:px-6 justify-between gap-4 w-full">
           
           {/* Logo & Toggle */}
           <div className="flex items-center gap-3">
@@ -497,7 +497,7 @@ export function Layout({ children }: LayoutProps) {
       <SelectionSearchTooltip />
 
       {/* Main Container */}
-      <div className={`flex flex-1 w-full relative ${isFullWidthPage ? "max-w-none" : "max-w-[1400px] mx-auto"}`}>
+      <div className="flex flex-1 w-full relative">
         
         {/* Navigation Sidebar (Desktop + Mobile overlay) */}
         {mobileMenuOpen && (
@@ -508,10 +508,10 @@ export function Layout({ children }: LayoutProps) {
         )}
         <aside className={`
           ${mobileMenuOpen 
-            ? "fixed top-14 left-0 bottom-0 z-50 w-64 bg-card/95 border-r border-border shadow-2xl overflow-y-auto p-4 block animate-in slide-in-from-left duration-200" 
+            ? "fixed top-14 left-0 bottom-0 z-50 w-72 sm:w-80 bg-card/95 border-r border-border shadow-2xl overflow-y-auto p-4 sm:p-5 block animate-in slide-in-from-left duration-200" 
             : "hidden"
           }
-          lg:block lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-60 shrink-0 border-r border-border overflow-y-auto p-4 bg-card/45 backdrop-blur-md
+          lg:block lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-72 shrink-0 border-r border-border overflow-y-auto p-4 sm:p-5 bg-card/45 backdrop-blur-md
         `}>
           <div className="space-y-6">
             
@@ -1040,8 +1040,10 @@ export function Layout({ children }: LayoutProps) {
         </aside>
 
         {/* Primary Page Content */}
-        <main className="flex-1 min-w-0 bg-transparent relative z-10">
-          {children}
+        <main className="flex-1 min-w-0 bg-transparent relative z-10 w-full">
+          <div className="w-full">
+            {children}
+          </div>
         </main>
 
         {/* Global Tarot AI Chatbot Widget */}

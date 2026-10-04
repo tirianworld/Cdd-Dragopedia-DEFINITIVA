@@ -641,7 +641,7 @@ export function CategoryView() {
 
   const NewSubSelectedIcon = ICON_MAP[newSubIcon] || ICON_MAP.Sparkles || BookOpen;
 
-  // 2 filas visibles de artículos con bajada/subida por rueda de ratón (mouse wheel)
+  // Detección de columnas y altura para mostrar exactamente 2 filas enteras a la vez
   const [articleCols, setArticleCols] = useState<number>(3);
   useEffect(() => {
     const updateCols = () => {
@@ -659,137 +659,38 @@ export function CategoryView() {
   }, []);
 
   const totalArticleRows = Math.ceil(sortedArticles.length / articleCols);
-  const maxArticleRow = Math.max(0, totalArticleRows - 2);
-  const [currentArticleRow, setCurrentArticleRow] = useState<number>(0);
-  const [articleCardHeight, setArticleCardHeight] = useState<number>(410);
+  const [twoRowsHeight, setTwoRowsHeight] = useState<number | null>(null);
   const articleGridRef = useRef<HTMLDivElement | null>(null);
-  const articleContainerRef = useRef<HTMLDivElement | null>(null);
-  const articleRowRef = useRef<number>(0);
-  const maxArticleRowRef = useRef<number>(0);
-  const lastArticleWheelTimeRef = useRef<number>(0);
-  const articleTouchStartYRef = useRef<number | null>(null);
 
-  articleRowRef.current = currentArticleRow;
-  maxArticleRowRef.current = maxArticleRow;
-
-  // Reiniciar a la primera fila cuando cambia la categoría o los filtros
-  useEffect(() => {
-    setCurrentArticleRow(0);
-    articleRowRef.current = 0;
-  }, [slug, selectedSubcategory, filterQuery, selCampana, selContinente, selPlano, selCriatura, sortBy]);
-
-  // Asegurar que la fila actual no sobrepase maxArticleRow
-  useEffect(() => {
-    if (currentArticleRow > maxArticleRow) {
-      setCurrentArticleRow(maxArticleRow);
-      articleRowRef.current = maxArticleRow;
-    }
-  }, [maxArticleRow, currentArticleRow]);
-
-  // Medición dinámica de la altura de la tarjeta de artículo
+  // Medir la altura exacta para que SIEMPRE se vean 2 filas enteras sin recortes
   useEffect(() => {
     if (!articleGridRef.current) return;
     const updateHeight = () => {
-      const firstChild = articleGridRef.current?.firstElementChild as HTMLElement;
-      if (firstChild && firstChild.offsetHeight > 0) {
-        setArticleCardHeight(firstChild.offsetHeight);
+      const grid = articleGridRef.current;
+      if (!grid) return;
+      const cards = Array.from(grid.children) as HTMLElement[];
+      if (cards.length === 0) return;
+
+      if (cards.length > articleCols * 2) {
+        const row2Card = cards[articleCols] || cards[1];
+        if (row2Card && row2Card.offsetTop !== undefined) {
+          const row2Bottom = row2Card.offsetTop + row2Card.offsetHeight;
+          setTwoRowsHeight(row2Bottom + 12);
+          return;
+        }
       }
+      setTwoRowsHeight(null);
     };
+
     updateHeight();
     const ro = new ResizeObserver(updateHeight);
-    if (articleGridRef.current.firstElementChild) {
-      ro.observe(articleGridRef.current.firstElementChild);
-    }
-    return () => ro.disconnect();
-  }, [sortedArticles.length, articleCols]);
-
-  // Eventos de rueda de ratón (wheel) y touch para bajar y subir fila por fila
-  useEffect(() => {
-    const el = articleContainerRef.current;
-    if (!el || totalArticleRows <= 2) return;
-
-    const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) < 15) return;
-
-      const now = Date.now();
-      const isDown = e.deltaY > 0;
-      const isUp = e.deltaY < 0;
-
-      if (isDown && articleRowRef.current < maxArticleRowRef.current) {
-        e.preventDefault();
-        if (now - lastArticleWheelTimeRef.current > 240) {
-          lastArticleWheelTimeRef.current = now;
-          setCurrentArticleRow((r) => {
-            const next = Math.min(r + 1, maxArticleRowRef.current);
-            articleRowRef.current = next;
-            return next;
-          });
-        }
-        return;
-      }
-
-      if (isUp && articleRowRef.current > 0) {
-        e.preventDefault();
-        if (now - lastArticleWheelTimeRef.current > 240) {
-          lastArticleWheelTimeRef.current = now;
-          setCurrentArticleRow((r) => {
-            const next = Math.max(r - 1, 0);
-            articleRowRef.current = next;
-            return next;
-          });
-        }
-        return;
-      }
-    };
-
-    const onTouchStart = (e: TouchEvent) => {
-      articleTouchStartYRef.current = e.touches[0].clientY;
-    };
-
-    const onTouchMove = (e: TouchEvent) => {
-      if (articleTouchStartYRef.current === null) return;
-      const deltaY = articleTouchStartYRef.current - e.touches[0].clientY;
-      const now = Date.now();
-
-      if (Math.abs(deltaY) > 35) {
-        if (deltaY > 0 && articleRowRef.current < maxArticleRowRef.current) {
-          e.preventDefault();
-          if (now - lastArticleWheelTimeRef.current > 240) {
-            lastArticleWheelTimeRef.current = now;
-            articleTouchStartYRef.current = e.touches[0].clientY;
-            setCurrentArticleRow((r) => Math.min(r + 1, maxArticleRowRef.current));
-          }
-        } else if (deltaY < 0 && articleRowRef.current > 0) {
-          e.preventDefault();
-          if (now - lastArticleWheelTimeRef.current > 240) {
-            lastArticleWheelTimeRef.current = now;
-            articleTouchStartYRef.current = e.touches[0].clientY;
-            setCurrentArticleRow((r) => Math.max(r - 1, 0));
-          }
-        }
-      }
-    };
-
-    const onTouchEnd = () => {
-      articleTouchStartYRef.current = null;
-    };
-
-    el.addEventListener("wheel", onWheel, { passive: false });
-    el.addEventListener("touchstart", onTouchStart, { passive: true });
-    el.addEventListener("touchmove", onTouchMove, { passive: false });
-    el.addEventListener("touchend", onTouchEnd, { passive: true });
-
+    ro.observe(articleGridRef.current);
+    window.addEventListener("resize", updateHeight);
     return () => {
-      el.removeEventListener("wheel", onWheel);
-      el.removeEventListener("touchstart", onTouchStart);
-      el.removeEventListener("touchmove", onTouchMove);
-      el.removeEventListener("touchend", onTouchEnd);
+      ro.disconnect();
+      window.removeEventListener("resize", updateHeight);
     };
-  }, [totalArticleRows, maxArticleRow]);
-
-  const articleGap = 24; // gap-6 = 24px
-  const articleContainerHeight = articleCardHeight * 2 + articleGap;
-  const articleRowStep = articleCardHeight + articleGap;
+  }, [sortedArticles.length, articleCols]);
 
   return (
     <div className="p-6 lg:p-8 space-y-6">
@@ -1982,95 +1883,56 @@ export function CategoryView() {
           })}
         </div>
       ) : sortedArticles.length > 0 ? (
-        /* Vista de cuadrícula estándar con 2 filas visibles y navegación por rueda de ratón */
+        /* Vista de cuadrícula estándar con 2 filas enteras visibles a la vez y desplazamiento con ratón */
         <div className="space-y-4">
-          <div className="flex items-center justify-between gap-3 flex-wrap">
-            {/* Indicador de filas y ayuda de ratón cuando hay más de 2 filas */}
-            {totalArticleRows > 2 ? (
-              <div className="flex items-center gap-2 text-xs">
-                <span className="font-heading font-semibold text-foreground/90 uppercase tracking-wider text-[11px]">
-                  Filas {currentArticleRow + 1}-{Math.min(currentArticleRow + 2, totalArticleRows)} de {totalArticleRows}
-                </span>
-                <span className="text-[11px] text-muted-foreground hidden sm:inline">
-                  • Usa la rueda del ratón para bajar a las demás
-                </span>
-                <div className="flex items-center gap-1 ml-1.5">
-                  <button
-                    type="button"
-                    disabled={currentArticleRow <= 0}
-                    onClick={() => {
-                      const next = Math.max(0, currentArticleRow - 1);
-                      setCurrentArticleRow(next);
-                      articleRowRef.current = next;
-                    }}
-                    className="p-1 rounded-md bg-secondary/80 hover:bg-secondary border border-border/70 text-foreground disabled:opacity-30 disabled:pointer-events-none cursor-pointer transition-colors"
-                    title="Subir a la fila anterior"
-                  >
-                    <ChevronUp className="h-3.5 w-3.5" />
-                  </button>
-                  <button
-                    type="button"
-                    disabled={currentArticleRow >= maxArticleRow}
-                    onClick={() => {
-                      const next = Math.min(maxArticleRow, currentArticleRow + 1);
-                      setCurrentArticleRow(next);
-                      articleRowRef.current = next;
-                    }}
-                    className="p-1 rounded-md bg-secondary/80 hover:bg-secondary border border-border/70 text-foreground disabled:opacity-30 disabled:pointer-events-none cursor-pointer transition-colors"
-                    title="Bajar a la siguiente fila"
-                  >
-                    <ChevronDown className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div />
-            )}
+          {isVisualEditMode && (
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={() => {
+                  setAssignSearchQuery("");
+                  setAssignCategoryFilter("all");
+                  setIsAssignArticlesOpen(true);
+                }}
+                className="inline-flex items-center gap-1.5 text-xs px-3.5 py-1.5 bg-primary/20 text-primary border border-primary/30 rounded-lg hover:bg-primary/35 transition-all font-semibold cursor-pointer"
+              >
+                <FolderPlus className="h-3.5 w-3.5" />
+                <span>Asignar Artículos a {currentCategory?.name || "esta categoría"}</span>
+              </button>
+            </div>
+          )}
 
-            {isVisualEditMode && (
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setAssignSearchQuery("");
-                    setAssignCategoryFilter("all");
-                    setIsAssignArticlesOpen(true);
-                  }}
-                  className="inline-flex items-center gap-1.5 text-xs px-3.5 py-1.5 bg-primary/20 text-primary border border-primary/30 rounded-lg hover:bg-primary/35 transition-all font-semibold cursor-pointer"
-                >
-                  <FolderPlus className="h-3.5 w-3.5" />
-                  <span>Asignar Artículos a {currentCategory?.name || "esta categoría"}</span>
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Contenedor de artículos: exactamente 2 filas visibles con scroll de ratón suave */}
+          {/* Contenedor de artículos: exactamente 2 filas enteras visibles a la vez con scroll de ratón fluido */}
           <div
-            ref={articleContainerRef}
-            className="relative overflow-hidden w-full select-none"
+            className={`w-full relative pr-1 ${
+              totalArticleRows > 2 ? "overflow-y-auto" : "overflow-visible"
+            }`}
             style={{
-              height: totalArticleRows > 2 ? `${articleContainerHeight}px` : undefined,
+              maxHeight: twoRowsHeight && totalArticleRows > 2 ? `${twoRowsHeight}px` : undefined,
+              scrollBehavior: "smooth",
+              scrollbarWidth: "thin",
+              scrollSnapType: totalArticleRows > 2 ? "y proximity" : undefined,
             }}
           >
             <div
               ref={articleGridRef}
-              style={{
-                transform: totalArticleRows > 2 ? `translateY(-${currentArticleRow * articleRowStep}px)` : undefined,
-                transition: "transform 320ms cubic-bezier(0.2, 0.8, 0.25, 1)",
-              }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-1"
             >
               {sortedArticles.map((article) => (
-                <ArticleCard
+                <div
                   key={article.id}
-                  article={article}
-                  displayCategory={getCategoryForArticleInSection(
-                    article,
-                    activeSubcategoryObj || currentCategory,
-                    mergedCategories
-                  )}
-                />
+                  className="scroll-mt-3"
+                  style={{ scrollSnapAlign: "start" }}
+                >
+                  <ArticleCard
+                    article={article}
+                    displayCategory={getCategoryForArticleInSection(
+                      article,
+                      activeSubcategoryObj || currentCategory,
+                      mergedCategories
+                    )}
+                  />
+                </div>
               ))}
             </div>
           </div>

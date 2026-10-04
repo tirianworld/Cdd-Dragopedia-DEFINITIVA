@@ -78,7 +78,7 @@
   ],
   "banner.image.ascendidos": "/images/banners/banner_ascendidos_1790951489101_9iqq.png?t=1790955000000",
   "banner.fit.ascendidos": "contain",
-  "_updated_at": 1791029706246,
+  "_updated_at": 1791133359568,
   "banner.transparent.ascendidos": "true",
   "banner.ground.ascendidos": "true",
   "banner.tint.ascendidos": "true",
@@ -116,8 +116,8 @@
   "banner.tint.jugadores": "true",
   "banner.transparent.jugadores": "true",
   "banner.ground.jugadores": "true",
-  "banner.scale.jugadores": "100",
+  "banner.scale.jugadores": "110",
   "banner.fit.jugadores": "contain",
-  "banner.image.jugadores": "/images/caldo_jugadores_silhouettes_solid.png?v=3",
+  "banner.image.jugadores": "/images/banners/banner_jugadores_1791030342369_keml.png?t=1791030346137",
   "banner.offsetY.jugadores": "0"
 }

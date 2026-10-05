@@ -1,5 +1,35 @@
 [
   {
+    "id": "art-mongraal-player",
+    "title": "Mongraal",
+    "slug": "mongraal",
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Expedición de Moonhaven"
+    ],
+    "summary": "Guerrero y brawler tiefling de piel roja carmesí, grandes cuernos negros y fuerza colosal, célebre por sus pulsos épicos en la taberna y su bravura en combate.",
+    "content": "<p><strong>Mongraal</strong> es un poderoso combatiente y aventurero miembro de la compañía de <em>Caldo de Dragón</em>. De piel roja encendida, cornamenta negra azabache, bigote distintivo y musculatura formidable, Mongraal destaca por su ferocidad en la batalla y su carácter festivo en las tabernas.</p><h2>El Gran Pulso de la Taberna</h2><p>Es legendario su duelo de fuerza contra <a href=\"/articulo/pepe-loux\">Pepe Loux</a>, donde ambos contendientes hicieron temblar las mesas de roble entre jarras de hidromiel y los vítores de sus compañeros aventureros.</p><h2>Compañeros de Aventuras</h2><ul><li><a href=\"/articulo/roxanne\">Roxanne</a></li><li><a href=\"/articulo/arlem-diaz\">Arlem Díaz</a></li><li><a href=\"/articulo/barled\">Barled</a></li><li><a href=\"/articulo/pepe-loux\">Pepe Loux</a></li><li><a href=\"/articulo/kairon\">Kairon</a></li><li><a href=\"/articulo/raxxar\">Raxxar</a></li><li><a href=\"/articulo/edacorn\">Edacorn</a></li></ul>",
+    "tags": [
+      "Jugadores",
+      "Tiefling",
+      "Guerrero",
+      "Caldo de Dragón",
+      "Taberna",
+      "Pulso"
+    ],
+    "author": "Tarot",
+    "created_date": "2026-10-03T11:58:00Z",
+    "updated_date": "2026-10-04T18:25:32.693Z",
+    "infobox": {
+      "Raza": "Tiefling / Demonio",
+      "Clase": "Brawler / Bárbaro / Guerrero",
+      "Grupo": "Jugadores de Caldo de Dragón",
+      "Compañero de Pulso": "Pepe Loux"
+    }
+  },
+  {
     "id": "caldo-de-dragon",
     "title": "Caldo de Dragón",
     "slug": "caldo-de-dragon",
@@ -663,7 +693,7 @@
     "is_featured": false,
     "id": "art-1789848463573",
     "created_date": "2026-09-19T20:07:43.573Z",
-    "updated_date": "2026-10-02T11:52:47.443Z",
+    "updated_date": "2026-09-22T09:56:54.659Z",
     "image_url": "/images/uploads/zaratras-1790070976862_h5of0.png",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -680,8 +710,7 @@
     },
     "extra_categories": [
       "Personajes",
-      "Ascendidos",
-      "Leyendas"
+      "Ascendidos"
     ]
   },
   {
@@ -10466,7 +10495,7 @@
     "timeline_markers": [],
     "timeline_order": [],
     "created_date": "2026-08-24T14:48:40.775Z",
-    "updated_date": "2026-10-02T11:43:11.929Z",
+    "updated_date": "2026-09-03T08:25:08.300Z",
     "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/5bb775e1-8bda-4773-880a-34894f3f5257/depe61q-4b19a8f2-8b06-48bf-b770-d66de9868bbd.png/v1/fill/w_622,h_350,q_70,strp/coliseo_concept_by_halemartist_depe61q-350t.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6Ii9mLzViYjc3NWUxLThiZGEtNDc3My04ODBhLTM0ODk0ZjNmNTI1Ny9kZXBlNjFxLTRiMTlhOGYyLThiMDYtNDhiZi1iNzcwLWQ2NmRlOTg2OGJiZC5wbmciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.8puxmsE6JWcnXpgMseesRptfAfq3-lKfiI7q16RS2YI",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -10486,8 +10515,7 @@
     },
     "extra_categories": [
       "Lugares",
-      "Arena",
-      "No letal"
+      "Arena"
     ]
   },
   {
@@ -12366,7 +12394,7 @@
     "summary": "General saurio que lideró la resistencia contra los humanos serpentinos en las Islas de Kaanil, enfrentándose a la amenaza de su expansión y buscando proteger a su pueblo.",
     "content": "<h2>Thrag</h2>\n<p><strong>Thrag</strong> es un general saurio, líder de las tribus de saurios en las <a href=\"/articulo/las-islas-de-kaanil-mrdowgts\">Islas de Kaanil</a>. Su historia está marcada por la resistencia contra la expansión de los <a href=\"/articulo/humanos-serpentinos\">humanos serpentinos</a>, quienes buscaban dominar las islas y someter a los saurios.</p>\n<h2>Historia</h2>\n<p>Tras la llegada de los <a href=\"/articulo/humanos-serpentinos\">humanos serpentinos</a> a las <a href=\"/articulo/las-islas-de-kaanil-mrdowgts\">Islas de Kaanil</a>, Thrag lideró a su pueblo en una guerra contra estos invasores. Los <a href=\"/articulo/humanos-serpentinos\">humanos serpentinos</a>, con su <a href=\"/articulo/magia\">magia</a> y alquimia, intentaban imponer su dominio sobre las tribus saurias, pero Thrag se negó a rendirse. Su resistencia fue feroz, y aunque inicialmente logró contener el avance enemigo, finalmente fue derrotado debido a la intervención de un viajero del futuro y la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a>.</p>\n<p>Tras su derrota, Thrag fue ejecutado, y su pueblo fue erradicado. Sin embargo, su legado perdura como un símbolo de la lucha por la libertad y la resistencia contra la opresión.</p>\n<p>Thrag es un apasionado del combate y respeta profundamente a <a href=\"/articulo/eyegore-mrdrh1ob\">Eyegore</a>, miembro de la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a>, por su fuerza y habilidad en la batalla. Cada vez que lo ve, se emociona y lo reta a duelo. Aunque su inteligencia no es elevada —solo ligeramente superior a la de un cavernícola—, Thrag demuestra ser un gran estratega en el campo de batalla.</p>",
     "created_date": "2026-07-09T17:05:13.545Z",
-    "updated_date": "2026-10-02T11:58:52.985Z",
+    "updated_date": "2026-09-17T10:56:17.306Z",
     "infobox": {},
     "timeline_markers": [
       {
@@ -12421,9 +12449,8 @@
       ]
     },
     "extra_categories": [
-      "Ascendidos",
       "Personajes",
-      "Leyendas"
+      "Ascendidos"
     ],
     "spells": [],
     "spell_images": {}
@@ -12569,7 +12596,7 @@
     "summary": "<i>El Coliseo Onírico es un lugar de combate eterno dentro del Reino de los Sueños, donde Varianthel, el Príncipe Feérico, obligaba a los soñadores a luchar en torneos interminables. Tras su derrota, el grupo Caldo de Dragón tomó el control del coliseo, convirtiéndolo en un punto de poder y estrategia.</i>",
     "content": "<p><a href=\"/articulo/coliseo-onirico\">Coliseo Onírico</a></p>\n<p>El <strong><a href=\"/articulo/coliseo-onirico\">Coliseo Onírico</a></strong> es un lugar de combate eterno dentro del <a href=\"/articulo/reino-de-los-suenos-mrdbnam8\">Reino de los Sueños</a>, un territorio luminoso y cambiante del <a href=\"/articulo/plano-onirico\">Plano Onírico</a>. Este coliseo fue el escenario donde <a href=\"/articulo/varianthel\">Varianthel</a>, el Príncipe Feérico, obligaba a los soñadores a competir en torneos interminables, diseñados para satisfacer su capricho y crueldad.</p>\n<h2>Características</h2>\n<ul>\n<li><strong>Combates sin fin:</strong> Los participantes no podían morir permanentemente, ya que los derrotados simplemente reaparecían en las gradas del coliseo, transformando los combates en una lucha de resistencia y estrategia.</li>\n</ul>\n<ul>\n<li><strong>Paisajes cambiantes:</strong> El coliseo se transformaba constantemente, reflejando los deseos y emociones de quienes lo habitaban o visitaban, creando un entorno surrealista y desafiante.</li>\n</ul>\n<ul>\n<li><strong>Reglas arbitrarias:</strong> <a href=\"/articulo/varianthel\">Varianthel</a> manipulaba las reglas del torneo según su voluntad, asegurándose de que los participantes nunca escaparan de su control.</li>\n</ul>\n<ul>\n<li><strong>Ambiente onírico:</strong> El coliseo estaba impregnado de una atmósfera mágica, donde la realidad se distorsionaba y los sueños cobraban vida.</li>\n</ul>\n<h2>Historia</h2>\n<p>El Coliseo Onírico fue creado por <a href=\"/articulo/varianthel\">Varianthel</a> como un lugar de entretenimiento sádico, donde los soñadores eran secuestrados y obligados a luchar en su arena. Los participantes, que creían que ganarían su libertad, descubrían demasiado tarde que <a href=\"/articulo/varianthel\">Varianthel</a> rara vez cumplía sus promesas. Su capricho y crueldad lo convirtieron en un tirano dentro del <a href=\"/articulo/reino-de-los-suenos-mrdbnam8\">Reino de los Sueños</a>.</p>\n<p>Sin embargo, su arrogancia lo llevó a cometer un error fatal: secuestrar a <a href=\"/articulo/chispo-deez\">Chispo Deez</a>, un <a href=\"/articulo/paladin\" class=\"text-primary hover:underline font-semibold\">paladín</a> de <a href=\"/articulo/marduk\">Marduk</a> y miembro del grupo <a href=\"/tarot-el-gran-bibliotecario-8300f5\">Caldo de Dragón</a>. Cuando el grupo descubrió la desaparición de su compañero, se adentró en el <a href=\"/articulo/reino-de-los-suenos-mrdbnam8\">Reino de los Sueños</a> y llegó al Coliseo Onírico para rescatarlo. Tras participar en el torneo y ganar la competición, <a href=\"/articulo/varianthel\">Varianthel</a> se negó a liberar a <a href=\"/articulo/chispo-deez\">Chispo Deez</a>, desencadenando la furia del grupo.</p>\n<p>En un enfrentamiento épico, <a href=\"/tarot-el-gran-bibliotecario-8300f5\">Caldo de Dragón</a> logró derrotar a <a href=\"/articulo/varianthel\">Varianthel</a>, desterrándolo al <a href=\"/articulo/reino-de-las-pesadillas-mrc2mkc6\">Reino de las Pesadillas</a>. Con <a href=\"/articulo/varianthel\">Varianthel</a> derrotado, el grupo tomó el control del Coliseo Onírico, convirtiéndolo en un punto de poder y estrategia para futuras aventuras.</p>\n<h2>Consecuencias</h2>\n<p>Tras la victoria de <a href=\"/tarot-el-gran-bibliotecario-8300f5\">Caldo de Dragón</a>, el Coliseo Onírico quedó bajo su control. Esto les permitió decidir qué hacer con el lugar y sus poderes, abriendo nuevas posibilidades para el grupo. Además, el control del coliseo les dio acceso a recursos y aliados que antes eran inalcanzables.</p>\n<h2>Curiosidades</h2>\n<ul>\n<li>El Coliseo Onírico es uno de los pocos lugares dentro del <a href=\"/articulo/plano-onirico\">Plano Onírico</a> donde los combates no tienen consecuencias permanentes, ya que los derrotados siempre reaparecen.</li>\n</ul>\n<ul>\n<li><a href=\"/articulo/varianthel\">Varianthel</a> disfrutaba especialmente de los torneos donde los participantes creían que podían ganar su libertad, solo para descubrir que su victoria no significaba nada.</li>\n</ul>\n<ul>\n<li>Tras la derrota de <a href=\"/articulo/varianthel\">Varianthel</a>, el Coliseo Onírico se convirtió en un lugar de poder, donde los soñadores podían entrenar y prepararse para futuras batallas.</li>\n</ul>",
     "created_date": "2026-07-09T09:50:24.034Z",
-    "updated_date": "2026-10-02T11:43:15.034Z",
+    "updated_date": "2026-08-26T17:00:30.487Z",
     "timeline_markers": [
       {
         "id": "tl-coliseo-onirico-creation-1785317365527-1",
@@ -12622,8 +12649,7 @@
     },
     "extra_categories": [
       "Lugares",
-      "Arena",
-      "No letal"
+      "Arena"
     ]
   },
   {
@@ -13490,7 +13516,7 @@
     "is_featured": false,
     "id": "art-1783384186757",
     "created_date": "2026-07-07T00:29:56.476Z",
-    "updated_date": "2026-10-02T11:30:54.557Z",
+    "updated_date": "2026-10-04T18:27:25.269Z",
     "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/d8/Magordito_webpng.png/revision/latest/scale-to-width-down/1000?cb=20250721184246&path-prefix=es",
     "gallery": [],
     "related_article_ids": [
@@ -14745,7 +14771,7 @@
     "is_featured": false,
     "id": "art-1783384061420",
     "created_date": "2026-07-07T00:27:45.072Z",
-    "updated_date": "2026-09-17T09:47:02.525Z",
+    "updated_date": "2026-10-04T18:34:02.057Z",
     "related_article_ids": [
       "art-1787666625565"
     ],
@@ -14762,7 +14788,10 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [
+      "Dragones",
+      "Bestias"
+    ]
   },
   {
     "title": "Kurogame",
@@ -18423,7 +18452,7 @@
     "is_featured": false,
     "id": "art-1783383487225",
     "created_date": "2026-07-07T00:18:11.912Z",
-    "updated_date": "2026-10-02T11:30:54.557Z",
+    "updated_date": "2026-10-04T18:27:04.356Z",
     "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/0c/Arlem_diaz_web.png/revision/latest/scale-to-width-down/250?cb=20250716175521&path-prefix=es",
     "gallery": [],
     "related_article_ids": [],
@@ -19777,7 +19806,7 @@
     "is_featured": false,
     "id": "art-1783383293618",
     "created_date": "2026-07-07T00:14:58.926Z",
-    "updated_date": "2026-10-02T11:45:50.154Z",
+    "updated_date": "2026-07-20T23:27:35.996Z",
     "related_article_ids": [
       "art-1783509789811",
       "art-1783383634680",
@@ -19866,7 +19895,7 @@
     "is_featured": false,
     "id": "art-1783383283975",
     "created_date": "2026-07-07T00:14:50.425Z",
-    "updated_date": "2026-10-02T11:45:47.126Z",
+    "updated_date": "2026-07-20T23:27:39.953Z",
     "related_article_ids": [
       "art-1783383634680",
       "art-1787665090919",

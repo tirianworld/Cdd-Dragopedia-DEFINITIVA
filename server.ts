@@ -238,7 +238,7 @@ const GITHUB_CONFIG_FILE = "/tmp/dragopedia_github_config.json";
 
 function loadGitHubConfig(): GitHubRuntimeConfig {
   let token = process.env.GITHUB_TOKEN || "";
-  let repo = process.env.GITHUB_REPO || "theworldoftirian/dragopedia";
+  let repo = process.env.GITHUB_REPO || "tirianworld/Cdd-Dragopedia-DEFINITIVA";
   let branch = process.env.GITHUB_BRANCH || "main";
   let user: string | undefined = undefined;
 
@@ -246,14 +246,14 @@ function loadGitHubConfig(): GitHubRuntimeConfig {
     if (fs.existsSync(GITHUB_CONFIG_FILE)) {
       const parsed = JSON.parse(fs.readFileSync(GITHUB_CONFIG_FILE, "utf8"));
       if (parsed.token) token = parsed.token;
-      if (parsed.repo && parsed.repo !== "tirianworld/Cdd-Wiki-V2" && parsed.repo !== "tirianworld/Cdd-wiki-V3") {
+      if (parsed.repo) {
         repo = parsed.repo;
       }
       if (parsed.branch && !process.env.GITHUB_BRANCH) branch = parsed.branch;
       if (parsed.user) user = parsed.user;
     }
   } catch (e) {
-    console.warn("Could not load data/github_config.json:", e);
+    console.warn("Could not load github_config.json:", e);
   }
 
   return { token, repo, branch, user };
@@ -276,7 +276,7 @@ export function getEffectiveGitHubToken(req?: Request): string {
 }
 
 export function getEffectiveGitHubRepo(): string {
-  return activeGitHubConfig.repo || process.env.GITHUB_REPO || "theworldoftirian/dragopedia";
+  return activeGitHubConfig.repo || process.env.GITHUB_REPO || "tirianworld/Cdd-Dragopedia-DEFINITIVA";
 }
 
 export function getEffectiveGitHubBranch(): string {
@@ -306,7 +306,7 @@ async function readFromGitHub<T>(repoPath: string, tokenOverride?: string): Prom
   const currentRepo = getEffectiveGitHubRepo();
   const currentBranch = getEffectiveGitHubBranch();
   const currentToken = tokenOverride || getEffectiveGitHubToken();
-  const candidateRepos = Array.from(new Set([currentRepo, "theworldoftirian/dragopedia", "tirianworld/Cdd-wiki-V5"]));
+  const candidateRepos = Array.from(new Set([currentRepo, "tirianworld/Cdd-Dragopedia-DEFINITIVA", "theworldoftirian/dragopedia"]));
   const altPath = repoPath.startsWith("public/data/")
     ? repoPath.replace(/^public\/data\//, "src/data/")
     : repoPath.startsWith("src/data/")
@@ -590,11 +590,9 @@ async function executeGitSync(
     return true;
   } catch (pushErr: any) {
     const errMsg = String(pushErr?.stderr || pushErr?.message || pushErr);
-    if (activeRepo !== "theworldoftirian/dragopedia" && (errMsg.includes("403") || errMsg.includes("Permission") || errMsg.includes("denied"))) {
-      console.warn(`[Git Sync] Push to ${activeRepo} denied for current token; automatically switching active repo to theworldoftirian/dragopedia...`);
-      activeGitHubConfig.repo = "theworldoftirian/dragopedia";
-      GITHUB_REPO = "theworldoftirian/dragopedia";
-      return executeGitSync(repoPath, contentStr, commitMessage, activeToken);
+    console.error(`[Git Sync Error] Push hacia ${activeRepo}:${activeBranch} falló:`, errMsg);
+    if (errMsg.includes("403") || errMsg.includes("Permission") || errMsg.includes("denied")) {
+      console.error(`[Git Sync Auth] Permiso denegado al hacer push a ${activeRepo}. Asegúrate de que el token de GitHub (${activeToken ? activeToken.slice(0, 8) + "..." : "sin token"}) tenga permisos de colaborador/escritura en https://github.com/${activeRepo}/settings/access`);
     }
     throw pushErr;
   }
@@ -1812,9 +1810,22 @@ async function readCategories(): Promise<WikiCategory[]> {
     }
   }
 
-  if (categories.length === 0) {
-    categories = DEFAULT_CATEGORIES;
+  // Asegurar SIEMPRE que DEFAULT_CATEGORIES (categorías base del lore: Personajes, Lugares, Eventos, Dioses, Dragones, etc.) estén presentes en el árbol
+  const mergedBaseMap = new Map<string, WikiCategory>();
+  for (const def of DEFAULT_CATEGORIES) {
+    if (def && (def.id || def.slug)) {
+      const key = (def.slug || def.id).toLowerCase().trim();
+      mergedBaseMap.set(key, { ...def });
+    }
   }
+  for (const cat of categories) {
+    if (cat && (cat.id || cat.slug)) {
+      const key = (cat.slug || cat.id).toLowerCase().trim();
+      const existing = mergedBaseMap.get(key);
+      mergedBaseMap.set(key, { ...existing, ...cat });
+    }
+  }
+  categories = Array.from(mergedBaseMap.values());
 
   // Ensure animal/pet categories use PawPrint icon and exclude Tarot AI / Aplicaciones sections
   categories = categories
@@ -10361,6 +10372,234 @@ ${JSON.stringify(chunkSummary, null, 2)}`;
   };
 }
 
+interface CategoryHierarchyItem {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  color?: string;
+  icon?: string;
+  parentId?: string | null;
+  parentSlug?: string | null;
+  path: string; // e.g. "Inicio / Personajes / Jugadores / Caldo de Dragón C1"
+  ancestors: { name: string; slug: string }[];
+  assignedArticles: { title: string; slug: string; id: string; summary?: string }[];
+}
+
+function doesArticleBelongToCategory(a: WikiArticle, targetName: string, targetSlug: string): boolean {
+  if (!a) return false;
+  const normTName = (targetName || "").toLowerCase().trim();
+  const normTSlug = (targetSlug || "").toLowerCase().trim();
+  if (a.category) {
+    const artCat = a.category.toLowerCase().trim();
+    if (artCat === normTName || artCat === normTSlug) return true;
+  }
+  if (Array.isArray(a.extra_categories)) {
+    if (a.extra_categories.some(ec => {
+      const norm = (ec || "").toLowerCase().trim();
+      return norm === normTName || norm === normTSlug;
+    })) return true;
+  }
+  if (Array.isArray((a as any).categories)) {
+    if ((a as any).categories.some((ec: string) => {
+      const norm = (ec || "").toLowerCase().trim();
+      return norm === normTName || norm === normTSlug;
+    })) return true;
+  }
+  return false;
+}
+
+function buildCategoryHierarchyTree(
+  categoriesList: WikiCategory[],
+  allArticles: WikiArticle[]
+): CategoryHierarchyItem[] {
+  const catById = new Map<string, WikiCategory>();
+  const catBySlug = new Map<string, WikiCategory>();
+  
+  categoriesList.forEach(c => {
+    if (!c) return;
+    if (c.id) catById.set(c.id, c);
+    if (c.slug) {
+      catBySlug.set(c.slug.toLowerCase().trim(), c);
+      catById.set(c.slug.toLowerCase().trim(), c);
+    }
+    if (c.name) {
+      catBySlug.set(c.name.toLowerCase().trim(), c);
+    }
+  });
+
+  const getParent = (c: WikiCategory): WikiCategory | null => {
+    if (c.parentId && catById.has(c.parentId)) return catById.get(c.parentId)!;
+    if (c.parentId && catById.has(c.parentId.toLowerCase().trim())) return catById.get(c.parentId.toLowerCase().trim())!;
+    if (c.parentSlug && catBySlug.has(c.parentSlug.toLowerCase().trim())) return catBySlug.get(c.parentSlug.toLowerCase().trim())!;
+    if (c.parentSlug && catById.has(c.parentSlug.toLowerCase().trim())) return catById.get(c.parentSlug.toLowerCase().trim())!;
+    if (c.parentId && catBySlug.has(c.parentId.toLowerCase().trim())) return catBySlug.get(c.parentId.toLowerCase().trim())!;
+    return null;
+  };
+
+  const getAncestors = (c: WikiCategory): { name: string; slug: string }[] => {
+    const list: { name: string; slug: string }[] = [];
+    let curr = getParent(c);
+    const visited = new Set<string>();
+    while (curr && !visited.has(curr.id || curr.slug)) {
+      visited.add(curr.id || curr.slug);
+      list.unshift({ name: curr.name, slug: curr.slug });
+      curr = getParent(curr);
+    }
+    return list;
+  };
+
+  return categoriesList.map(cat => {
+    const ancestors = getAncestors(cat);
+    const pathParts = ["Inicio", ...ancestors.map(a => a.name), cat.name];
+    const path = pathParts.join(" / ");
+    
+    const assigned = allArticles
+      .filter(a => doesArticleBelongToCategory(a, cat.name, cat.slug))
+      .map(a => ({
+        title: a.title,
+        slug: a.slug,
+        id: a.id,
+        summary: a.summary || ""
+      }));
+
+    return {
+      id: cat.id || `cat-${cat.slug}`,
+      name: cat.name,
+      slug: cat.slug,
+      description: cat.description || "",
+      color: cat.color,
+      icon: cat.icon,
+      parentId: cat.parentId || null,
+      parentSlug: cat.parentSlug || null,
+      path,
+      ancestors,
+      assignedArticles: assigned
+    };
+  });
+}
+
+function searchCategoriesByQuery(
+  query: string,
+  hierarchy: CategoryHierarchyItem[]
+): { item: CategoryHierarchyItem; score: number; matchReason: string }[] {
+  const normQuery = query.toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, " ")
+    .trim();
+  
+  const words = normQuery.split(/\s+/).filter(w => w.length > 2);
+  const stopWords = new Set([
+    "articulos", "articulo", "tomo", "tomos", "categoria", "categorias",
+    "subcategoria", "subcategorias", "sobre", "quien", "donde", "como", "con",
+    "que", "del", "los", "las", "para", "por", "una", "uno", "unos", "unas", "dime", "cuenta", "explicame", "sabes"
+  ]);
+  const searchTerms = words.filter(w => !stopWords.has(w));
+  if (searchTerms.length === 0 && normQuery.length > 0) searchTerms.push(normQuery);
+
+  const results: { item: CategoryHierarchyItem; score: number; matchReason: string }[] = [];
+
+  hierarchy.forEach(item => {
+    let score = 0;
+    const reasons: string[] = [];
+    const normName = item.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const normDesc = (item.description || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const normPath = item.path.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const normSlug = item.slug.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+    // Direct phrase matching
+    if (normQuery.length > 3 && (normName.includes(normQuery) || normQuery.includes(normName))) {
+      score += 260;
+      reasons.push(`Coincidencia directa con nombre de categoría ("${item.name}")`);
+    }
+
+    if (normQuery.length > 3 && normDesc.includes(normQuery)) {
+      score += 300;
+      reasons.push(`Coincidencia con su descripción oficial ("${item.description}")`);
+    }
+
+    // Term checks
+    let termMatchesInDesc = 0;
+    let termMatchesInName = 0;
+    searchTerms.forEach(t => {
+      if (normName.includes(t) || normSlug.includes(t)) {
+        score += 85;
+        termMatchesInName++;
+      }
+      if (normDesc.includes(t)) {
+        score += 110;
+        termMatchesInDesc++;
+      }
+      if (normPath.includes(t)) {
+        score += 35;
+      }
+    });
+
+    if (termMatchesInName > 0 && termMatchesInDesc > 0) {
+      score += 180;
+      reasons.push(`Coincide tanto en el nombre ("${item.name}") como en su descripción ("${item.description}")`);
+    } else if (termMatchesInDesc > 0 && reasons.length === 0) {
+      reasons.push(`Términos hallados en su descripción oficial: "${item.description}"`);
+    } else if (termMatchesInName > 0 && reasons.length === 0) {
+      reasons.push(`Términos hallados en el nombre de la categoría: "${item.name}"`);
+    }
+
+    // Semántica de Lore y Campañas (Aeros / Reencarnación / C1 / C2 / Ávalon / etc.):
+    const isAerosQuery = normQuery.includes("aeros") || 
+      normQuery.includes("c1") || 
+      normQuery.includes("primera campana") || 
+      normQuery.includes("campana 1") || 
+      normQuery.includes("antes de reencarnar") || 
+      normQuery.includes("heroes de aeros");
+
+    if (isAerosQuery && item.slug === "caldo-de-dragon-c1") {
+      score += 450;
+      reasons.push("Subcategoría identificada como Caldo de Dragón en su primera campaña en Aeros ('Héroes de Aeros'), antes de la reencarnación");
+    }
+
+    const isKaliriaQuery = normQuery.includes("kaliria") || 
+      normQuery.includes("c2") || 
+      normQuery.includes("segunda campana") || 
+      normQuery.includes("campana 2") || 
+      normQuery.includes("despues de reencarnar") || 
+      normQuery.includes("reencarnad") || 
+      normQuery.includes("latentes");
+
+    if (isKaliriaQuery && item.slug === "caldo-de-dragon-c2") {
+      score += 450;
+      reasons.push("Subcategoría identificada como Caldo de Dragón en su segunda campaña en Kaliria ('Latentes de Kaliria'), tras su reencarnación");
+    }
+
+    const isMoonhavenQuery = normQuery.includes("moonhaven") || 
+      normQuery.includes("avalon") || 
+      normQuery.includes("aventureros de avalon") || 
+      normQuery.includes("expedicion");
+
+    if (isMoonhavenQuery && item.slug === "expedicion-de-moonhaven") {
+      score += 450;
+      reasons.push("Subcategoría identificada como la Expedición de Moonhaven ('Aventureros de Ávalon')");
+    }
+
+    // Reconocimiento de artículos asignados mencionados en la consulta
+    if (item.assignedArticles && item.assignedArticles.length > 0) {
+      const matchedArt = item.assignedArticles.find(a => {
+        const normTitle = a.title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        return normQuery.includes(normTitle);
+      });
+      if (matchedArt) {
+        score += 200;
+        reasons.push(`El personaje/tomo "${matchedArt.title}" consultado pertenece a esta categoría`);
+      }
+    }
+
+    if (score > 0) {
+      results.push({ item, score, matchReason: reasons.join(". ") });
+    }
+  });
+
+  return results.sort((a, b) => b.score - a.score);
+}
+
 function searchArticlesByKeyword(query: string, allArticles: WikiArticle[]): { article: WikiArticle; reason: string }[] {
   const normalizedQuery = query.toLowerCase()
     .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
@@ -10390,6 +10629,10 @@ function searchArticlesByKeyword(query: string, allArticles: WikiArticle[]): { a
     const content = (article.content || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     const summary = (article.summary || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     const category = article.category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const extraCategories = (Array.isArray(article.extra_categories) ? article.extra_categories : [])
+      .concat(Array.isArray((article as any).categories) ? (article as any).categories : [])
+      .map(c => (c || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+      .join(" ");
     const tags = (article.tags || []).map(t => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")).join(" ");
     
     // Check if the article's country / infobox says the term (e.g. País: Boletaria)
@@ -10398,6 +10641,7 @@ function searchArticlesByKeyword(query: string, allArticles: WikiArticle[]): { a
     searchTerms.forEach(term => {
       if (title.includes(term)) score += 50;
       if (category.includes(term)) score += 30;
+      if (extraCategories.includes(term)) score += 35;
       if (tags.includes(term)) score += 20;
       if (infoboxStr.includes(term)) score += 25;
       if (summary.includes(term)) score += 15;
@@ -10432,8 +10676,8 @@ function searchArticlesByKeyword(query: string, allArticles: WikiArticle[]): { a
         reason = "Coincidencia por término del título";
       } else if (searchTerms.some(t => title.includes(t))) {
         reason = "Coincidencia de Título";
-      } else if (searchTerms.some(t => category.includes(t))) {
-        reason = "Coincidencia de Categoría";
+      } else if (searchTerms.some(t => category.includes(t) || extraCategories.includes(t))) {
+        reason = "Coincidencia de Categoría / Subcategoría";
       } else if (searchTerms.some(t => {
         const regex = new RegExp(`<a[^>]*href=[^>]*${t}[^>]*>`, "i");
         return regex.test(article.content || "");
@@ -10618,8 +10862,9 @@ async function getMonsterStatsContext(userMessage: string): Promise<string> {
     }
   });
 
-  // Dynamic LLM fallback if no match found via rule-based checks
-  if (matches.length === 0) {
+  // Dynamic LLM fallback only if query pertains to monsters/bestiary/stats
+  const isMonsterQuery = /(?:monstruo|bestiario|diario del cazador|criatura|estad[ií]stica|stats|cr\b|challenge rating|hp\b|puntos de golpe)/i.test(userMessage);
+  if (matches.length === 0 && isMonsterQuery) {
     const extractedIndexes = await extractMonsterIndexes(userMessage);
     for (const idx of extractedIndexes) {
       const found = list.find((m: any) => m.index === idx || m.name.toLowerCase() === idx);
@@ -10687,6 +10932,24 @@ app.post("/api/ai/chat", async (req: Request, res: Response) => {
     }
 
     const articles = await readArticles();
+    const serverCategories = await readCategories();
+    const clientCategories = Array.isArray(req.body.clientCategories) ? req.body.clientCategories : [];
+
+    // Combinar categorías del servidor con categorías del cliente si vienen
+    const categoriesMap = new Map<string, WikiCategory>();
+    serverCategories.forEach(c => {
+      if (c && (c.slug || c.id)) categoriesMap.set((c.slug || c.id).toLowerCase().trim(), c);
+    });
+    clientCategories.forEach((c: any) => {
+      if (c && (c.slug || c.id)) {
+        const k = (c.slug || c.id).toLowerCase().trim();
+        categoriesMap.set(k, { ...categoriesMap.get(k), ...c });
+      }
+    });
+    const allCategories = Array.from(categoriesMap.values());
+
+    // Construir el árbol taxonómico completo con jerarquía y asignaciones de artículos
+    const categoryHierarchy = buildCategoryHierarchyTree(allCategories, articles);
     
     // Build an expanded search query that includes recent user queries from the history to preserve context and allow relative questions
     let expandedQuery = message || "";
@@ -10702,21 +10965,42 @@ app.post("/api/ai/chat", async (req: Request, res: Response) => {
       }
     }
 
+    // Búsqueda inteligente de categorías y subcategorías relevantes para la consulta
+    const matchedCategories = searchCategoriesByQuery(expandedQuery, categoryHierarchy);
+    const topMatchedCategories = matchedCategories.slice(0, 6);
+
     // Dynamic real-time library search using the expanded contextual query
     const searchResults = searchArticlesByKeyword(expandedQuery, articles);
     
     // Bidirectional related articles mapping to load everything relevant to the query context
     const relatedArticlesMap = new Map<string, { article: WikiArticle; reason: string }>();
 
-    // 1. Add direct keyword matches (up to 15 articles)
-    searchResults.slice(0, 15).forEach((m) => {
-      relatedArticlesMap.set(m.article.slug, {
-        article: m.article,
-        reason: `Coincidencia directa de búsqueda (${m.reason})`
+    // 1. Añadir artículos directamente vinculados a las subcategorías coincidentes (máxima prioridad de lore)
+    topMatchedCategories.forEach(m => {
+      m.item.assignedArticles.forEach(ref => {
+        if (!relatedArticlesMap.has(ref.slug)) {
+          const fullArt = articles.find(a => a.slug === ref.slug);
+          if (fullArt) {
+            relatedArticlesMap.set(fullArt.slug, {
+              article: fullArt,
+              reason: `Perteneciente a la subcategoría "${m.item.name}" (${m.item.path}) [Descripción: "${m.item.description || 'Sin descripción'}"]`
+            });
+          }
+        }
       });
     });
 
-    // 2. Add connected/related articles (linked from, or linking to, the top matches)
+    // 2. Add direct keyword matches (up to 15 articles)
+    searchResults.slice(0, 15).forEach((m) => {
+      if (!relatedArticlesMap.has(m.article.slug)) {
+        relatedArticlesMap.set(m.article.slug, {
+          article: m.article,
+          reason: `Coincidencia directa de búsqueda (${m.reason})`
+        });
+      }
+    });
+
+    // 3. Add connected/related articles (linked from, or linking to, the top matches)
     searchResults.slice(0, 5).forEach((m) => {
       const article = m.article;
       
@@ -10757,6 +11041,7 @@ app.post("/api/ai/chat", async (req: Request, res: Response) => {
 ID: "${r.article.id}"
 Slug: "${r.article.slug}"
 Categoría: "${r.article.category}"
+Categorías / Subcategorías extra: ${JSON.stringify(r.article.extra_categories || [])}
 Relación: "${r.reason}"
 Resumen: "${r.article.summary || "Sin resumen"}"
 Ficha Técnica (Infobox): ${JSON.stringify(r.article.infobox || {})}
@@ -10771,16 +11056,81 @@ ${r.article.content || "Sin contenido"}
     const matchedSlugs = new Set(relatedArticlesList.map(r => r.article.slug));
     const articlesSummary = articles
       .filter(a => !matchedSlugs.has(a.slug))
-      .map(a => `- Título: "${a.title}", Slug: "${a.slug}", Categoría: "${a.category}", Resumen: "${a.summary || "Sin resumen"}"`)
+      .map(a => `- Título: "${a.title}", Slug: "${a.slug}", Categoría: "${a.category}", Subcategorías: [${(a.extra_categories || []).join(", ")}], Resumen: "${a.summary || "Sin resumen"}"`)
       .slice(0, 30) // Show up to 30 other cataloged items for context
       .join("\n");
 
     const monsterStatsContext = await getMonsterStatsContext(expandedQuery);
 
+    // Texto descriptivo de las categorías y subcategorías detectadas para la consulta
+    const matchedCategoriesText = topMatchedCategories.length > 0
+      ? topMatchedCategories.map(({ item, matchReason }, idx) => {
+          const articlesListStr = item.assignedArticles.length > 0
+            ? item.assignedArticles.map(a => `<a href="/articulo/${a.slug}">${a.title}</a>`).join(", ")
+            : "Sin artículos asignados directamente aún";
+
+          return `=== SUBCATEGORÍA / CATEGORÍA DETECTADA ${idx + 1}: "${item.name}" ===
+- Ruta jerárquica exacta (Breadcrumb): ${item.path}
+- Nombre: "${item.name}"
+- Slug: "${item.slug}"
+- Descripción oficial: "${item.description || "Sin descripción"}"
+- Motivo de coincidencia: ${matchReason}
+- Jerarquía de ancestros: ${item.ancestors.length > 0 ? item.ancestors.map(a => a.name).join(" > ") : "Categoría Raíz"}
+- Artículos registrados en esta categoría/subcategoría (${item.assignedArticles.length}):
+  ${articlesListStr}
+- CONTEXTO FUNDAMENTAL DE LORE SEGÚN SU CATEGORÍA Y DESCRIPCIÓN:
+  * Si es "Caldo de Dragón C1" (Héroes de Aeros): Su ruta oficial es "${item.path}" y su descripción oficial en la wiki es "Héroes de Aeros". Son los miembros originales del grupo "Caldo de Dragón" durante la primera campaña en Aeros ("Héroes de Aeros"), antes de su posterior reencarnación en C2 ("Latentes de Kaliria").
+  * Si es "Caldo de Dragón C2" (Latentes de Kaliria): En "Inicio / Personajes / Jugadores / Caldo de Dragón C2", con descripción "Latentes de Kaliria" (Campaña 2 en Kaliria, reencarnados).
+  * Si es "Expedición de Moonhaven": En "Inicio / Personajes / Jugadores / Expedición de Moonhaven", con descripción "Aventureros de Ávalon".`;
+        }).join("\n\n")
+      : "";
+
+    // Directorio completo estructurado y recursivo de todas las categorías y subcategorías de la wiki
+    const renderCategoryTreeBranch = (item: CategoryHierarchyItem, depth = 0): string => {
+      const indent = "  ".repeat(depth);
+      const bullet = depth === 0 ? "• CATEGORÍA PRINCIPAL:" : depth === 1 ? "  * Subcategoría:" : `    - Subcategoría nivel ${depth}:`;
+      const articlesPreview = item.assignedArticles.length > 0
+        ? ` (${item.assignedArticles.length} artículos: ${item.assignedArticles.map(a => `<a href="/articulo/${a.slug}">${a.title}</a>`).join(", ")})`
+        : ` (0 artículos)`;
+      
+      let loreSignificance = "";
+      if (item.slug === "caldo-de-dragon-c1" || item.name.toLowerCase().includes("c1")) {
+        loreSignificance = ` [SIGNIFICADO DE LORE: Miembros originales del grupo "Caldo de Dragón" durante la primera campaña en Aeros ('Héroes de Aeros'), antes de su posterior reencarnación en C2]`;
+      } else if (item.slug === "caldo-de-dragon-c2" || item.name.toLowerCase().includes("c2")) {
+        loreSignificance = ` [SIGNIFICADO DE LORE: Miembros del grupo "Caldo de Dragón" en la segunda campaña en Kaliria ('Latentes de Kaliria'), tras su reencarnación]`;
+      } else if (item.slug === "expedicion-de-moonhaven") {
+        loreSignificance = ` [SIGNIFICADO DE LORE: Aventureros de la Expedición de Moonhaven en el continente de Ávalon]`;
+      }
+
+      let line = `${indent}${bullet} "${item.name}" (Slug: "${item.slug}") [Ruta oficial: ${item.path}] - Descripción oficial: "${item.description || "Sin descripción"}"${loreSignificance}${articlesPreview}`;
+
+      const directChildren = categoryHierarchy.filter(c => {
+        if (c.parentId && (c.parentId === item.id || c.parentId === item.slug)) return true;
+        if (c.parentSlug && c.parentSlug.toLowerCase().trim() === item.slug.toLowerCase().trim()) return true;
+        if (c.ancestors.length > 0 && c.ancestors[c.ancestors.length - 1].slug.toLowerCase().trim() === item.slug.toLowerCase().trim()) return true;
+        return false;
+      });
+
+      if (directChildren.length > 0) {
+        const childrenLines = directChildren.map(child => renderCategoryTreeBranch(child, depth + 1)).join("\n");
+        line += "\n" + childrenLines;
+      }
+      return line;
+    };
+
+    const rootCategories = categoryHierarchy.filter(c => c.ancestors.length === 0);
+    const fullCategoriesDirectory = rootCategories.map(r => renderCategoryTreeBranch(r, 0)).join("\n\n");
+
     const ai = getGeminiClient();
 
     const systemInstruction = `Eres Tarot, el asistente de consulta de la wiki "Caldo de Dragón".
 Responde en español de forma concisa y directa, respondiendo de manera precisa a lo que se pide concretamente, pero permitiendo el contexto y antecedentes necesarios para que la respuesta sea comprensible, completa y útil. Evita rodeos exagerados o adornos poéticos, pero no recortes detalles o explicaciones importantes que aporten un contexto valioso. Nada de roleplay, tono solemne, poético o de personaje: sin presentaciones, sin frases de ambientación, sin adornos narrativos. Ve directo a la información requerida aportando el contexto justo.
+
+=== ESTRUCTURA DE CATEGORÍAS Y SUBCATEGORÍAS DEL LORE (ÁRBOL TAXONÓMICO DE LA WIKI) ===
+A continuación tienes la estructura oficial completa de categorías y subcategorías de la enciclopedia, con sus descripciones oficiales, rutas jerárquicas exactas y artículos asignados:
+${fullCategoriesDirectory}
+
+${matchedCategoriesText ? `\n=== CATEGORÍAS Y SUBCATEGORÍAS DIRECTAMENTE DETECTADAS PARA LA CONSULTA ===\n${matchedCategoriesText}\n` : ""}
 
 Aquí están los TOMOS RELACIONADOS reales extraídos de la biblioteca para la consulta actual. DEBES leerlos minuciosamente y basar tu respuesta ÚNICAMENTE en la información 100% real de estos manuscritos:
 ${searchResultsText}
@@ -10788,6 +11138,36 @@ ${monsterStatsContext ? `\n=== INFORMACIÓN OFICIAL DEL BESTIARIO DE LA DRAGOPED
 
 Y aquí hay otros tomos catalogados en la biblioteca para tu referencia de contexto:
 ${articlesSummary}
+
+REGLAS DE ORO DE VERACIDAD Y CONOCIMIENTO TAXONÓMICO DEL LORE:
+1. PRIORIDAD ABSOLUTA DE LA TAXONOMÍA Y LECTURA DE CATEGORÍAS/SUBCATEGORÍAS:
+   - Las categorías y subcategorías oficiales de la wiki no son simples carpetas técnicas: son la clave cosmológica, histórica y genealógica del lore ("=== ESTRUCTURA DE CATEGORÍAS Y SUBCATEGORÍAS DEL LORE ===").
+   - Siempre que se te pregunte por "categoría", "subcategoría", "dónde está clasificado", "a qué categoría pertenece", un grupo, facción o campaña:
+     * DEBES citar la ruta jerárquica exacta de la wiki (ejemplo: "Inicio / Personajes / Jugadores / Caldo de Dragón C1").
+     * NUNCA confundas ni sustituyas esta ruta oficial con etiquetas internas de la ficha técnica infobox (como "Facciones" o "Aliado estratégico").
+     * Responde siempre en lenguaje natural, claro y elegante en el campo "message", NUNCA devuelvas objetos JSON crudos en message.
+2. CASO FUNDAMENTAL DE LORE: "CALDO DE DRAGÓN EN AEROS", "C1", "C2" Y LAS REENCARNACIONES:
+   - La subcategoría "Caldo de Dragón C1" tiene la ruta oficial:
+     "Inicio / Personajes / Jugadores / Caldo de Dragón C1".
+   - Su descripción oficial en la wiki es: "Héroes de Aeros".
+   - Por tanto, cuando te pregunten por "Caldo de Dragón en Aeros" (o "Héroes de Aeros", o "Caldo de Dragón antes de reencarnar", o "primera campaña"):
+     1) Reconoce de inmediato que se trata de la subcategoría "Caldo de Dragón C1" ubicada en la ruta:
+        "Inicio / Personajes / Jugadores / Caldo de Dragón C1".
+     2) Explica que su descripción oficial pone "Héroes de Aeros", lo que significa que son los miembros del grupo "Caldo de Dragón" de la primera campaña en Aeros, antes de su posterior reencarnación en campañas siguientes (como C2 "Latentes de Kaliria").
+     3) Cita y enlaza a todos los personajes miembros de esta subcategoría usando enlaces HTML reales:
+        - <a href="/articulo/magordito">Magordito</a>
+        - <a href="/articulo/edacorn">Edacorn</a>
+        - <a href="/articulo/chispo-deez">Chispo Deez</a>
+        - <a href="/articulo/arlem-diaz">Arlem Díaz</a>
+        - <a href="/articulo/pepe-loux">Pepe Loux</a>
+     4) Explica los detalles relevantes de su historia que constan en sus manuscritos reales.
+   - De la misma forma:
+     * "Caldo de Dragón C2" está en "Inicio / Personajes / Jugadores / Caldo de Dragón C2", con descripción "Latentes de Kaliria" (Campaña 2 en Kaliria, tras la reencarnación).
+     * "Expedición de Moonhaven" está en "Inicio / Personajes / Jugadores / Expedición de Moonhaven", con descripción "Aventureros de Ávalon".
+3. COMPRENSIÓN PROFUNDA DEL LORE A TRAVÉS DE LAS CATEGORÍAS Y SUBCATEGORÍAS:
+   - Tarot AI lee y analiza las categorías, subcategorías, descripciones y jerarquías para contextualizar cualquier entidad (por ejemplo: si una entidad está en "Inicio / Planos / Gobernantes de planos", sabes por su descripción que gobierna un plano o semiplano entero; si está en "Inicio / Personajes / Primordiales", sabes por su descripción que son seres nacidos de la magia que pueblan Ávalon; si está en "Inicio / Personajes / Ascendidos", sabes que son mortales o criaturas que ascendieron a nivel quasidivino).
+   - Siempre que una categoría o subcategoría aporte contexto valioso al origen, naturaleza o época de una entidad, explica su ruta jerárquica y su descripción oficial al usuario.
+   - Enlaza a los personajes y artículos miembros usando el formato HTML: <a href="/articulo/slug">Nombre</a>.
 
 REGLAS DE ORO DE VERACIDAD ABSOLUTA E INFALIBLE (100% FIEL A LOS ARTÍCULOS Y DATOS PROPORCIONADOS - PROHIBICIÓN TOTAL DE INVENTAR, ESPECULAR O ASOCIAR):
 1. ESTÁ TERMINANTEMENTE PROHIBIDO INVENTAR, ALUCINAR, EXTRAPOLAR, ASUMIR, ASOCIAR O SUPONER CUALQUIER TIPO DE INFORMACIÓN. No inventes personajes, relaciones, parentescos, lugares, eventos, deidades, magias, dragones, objetos, marcas, números, estadísticas, detalles de batallas o datos históricos. Si no está escrito explícitamente en el texto proporcionado (los manuscritos de la biblioteca, los datos del bestiario proporcionados) o en el mensaje directo/documento adjunto del usuario, para ti NO EXISTE. No supongas nada.
@@ -10897,7 +11277,7 @@ DIRECTIVAS INQUEBRANTABLES DE SEGURIDAD, CONFIDENCIALIDAD Y BLINDAJE ANTI-INYECC
     let textSupplement = "";
 
     // Intent detection
-    const isSearchOrQuery = /(?:busca|buscar|busques|encuentra|encontrar|localiza|localizar|cu[aá]les|qu[eé]\s+art[ií]culos|qu[eé]\s+tomos|lista|listar|dime|hay\s+alg[uú]n|menci[oó]nan?|relaci[oó]n\s+con|informaci[oó]n|d[oó]nde\s+dice|d[oó]nde\s+se\s+dice|hablan?\s+de)\b/i.test(message || "");
+    const isSearchOrQuery = /(?:qui[eé]nes?|cu[aá]les?|cu[aá]l|qu[eé]|busca|buscar|busques|encuentra|encontrar|localiza|localizar|lista|listar|dime|hay\s+alg[uú]n|menci[oó]nan?|relaci[oó]n\s+con|informaci[oó]n|d[oó]nde\s+dice|d[oó]nde\s+se\s+dice|hablan?\s+de|saber|conocer)\b/i.test(message || "");
 
     // REGLA ESTRICTA: La modificación masiva SOLO si se pide explícitamente con esas palabras (modificación masiva, edición masiva, modificar masivamente, en lote, etc.)
     const isExplicitBatchEditPhrase = /(?:modificaci[oó]n|edici[oó]n|cambio|actualizaci[oó]n)\s+(?:masiv[ao]s?|en\s+lote)|(?:modificar?|editar?|cambiar?|actualizar?)\s+(?:masivamente|en\s+lote)|(?:masivamente|en\s+lote)\s+(?:modificar?|editar?|cambiar?|actualizar?)/i.test(message || "");
@@ -10983,11 +11363,13 @@ DIRECTIVAS INQUEBRANTABLES DE SEGURIDAD, CONFIDENCIALIDAD Y BLINDAJE ANTI-INYECC
 
     if (isSearchOrQuery && !isExplicitBatchEditPhrase) {
       textSupplement += `\n\n[INSTRUCCIÓN CRÍTICA DE BÚSQUEDA Y CONSULTA]:
-El usuario está realizando una BÚSQUEDA O CONSULTA para encontrar información o artículos en la enciclopedia.
-1. Responde de forma clara y directa con una LISTA estructurada de todos los artículos de la enciclopedia que se relacionan con lo preguntado.
-2. Explica qué dice cada artículo sobre el tema o la relación consultada.
-3. Para cada artículo mencionado, incluye OBLIGATORIAMENTE su enlace HTML: <a href="/articulo/slug">Título</a>.
-4. ESTÁ TERMINANTEMENTE PROHIBIDO generar executionCommand o pendingEdit. Mantén executionCommand y pendingEdit estrictamente como null.`;
+El usuario está realizando una CONSULTA O PREGUNTA DE LORE sobre la enciclopedia.
+1. Si la pregunta involucra una categoría, subcategoría, grupo, era o campaña (por ejemplo, "Caldo de Dragón en Aeros", "Héroes de Aeros", etc.):
+   - Comienza SIEMPRE explicando el contexto taxonómico y de lore: indica la ruta jerárquica exacta de la wiki (ej: "Inicio / Personajes / Jugadores / Caldo de Dragón C1"), cita su descripción oficial (ej: "Héroes de Aeros"), y explica lo que significa en el lore (ej: que son los miembros originales de Caldo de Dragón durante la primera campaña en Aeros, antes de su posterior reencarnación en C2 "Latentes de Kaliria").
+2. A continuación, presenta y describe a los personajes o artículos correspondientes en lenguaje natural (con párrafos o viñetas Markdown) explicando su papel según sus manuscritos reales.
+3. Para cada artículo o personaje mencionado, incluye OBLIGATORIAMENTE su enlace HTML real: <a href="/articulo/slug">Título</a>.
+4. Responde SIEMPRE en lenguaje natural fluido en español. ESTÁ TERMINANTEMENTE PROHIBIDO responder con objetos JSON crudos como {"nombre": ...} o llaves dentro de tu texto.
+5. Mantén executionCommand y pendingEdit estrictamente como null.`;
     } else if (isBatchEditIntent) {
       textSupplement += `\n\n[INSTRUCCIÓN CRÍTICA DE EDICIÓN MASIVA DE ARTÍCULOS]:
 El usuario ha solicitado realizar una EDICIÓN MASIVA O EN LOTE sobre múltiples artículos a la vez.
@@ -11107,7 +11489,7 @@ El usuario ha solicitado EDITAR el artículo existente "${targetEditArticle.titl
     const contents = [...mappedHistory, currentPrompt];
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.7-flash",
+      model: "gemini-3.8-flash",
       contents,
       config: {
         systemInstruction,
@@ -11118,7 +11500,7 @@ El usuario ha solicitado EDITAR el artículo existente "${targetEditArticle.titl
           properties: {
             message: {
               type: Type.STRING,
-              description: "La respuesta mística de Tarot AI en español elegante."
+              description: "La respuesta de Tarot AI en español redactada en lenguaje natural comprensible (párrafos en prosa, viñetas Markdown y enlaces HTML reales <a href='/articulo/slug'>Título</a>). NUNCA devolver JSON crudo ni llaves de código dentro de este campo."
             },
             suggestedAction: {
               type: Type.OBJECT,

@@ -9,9 +9,9 @@ import {
   ArrowLeft, ArrowRight, Save, Plus, Trash2, Calendar, Gem, Link2, Info, Loader2, Image, List, Check, Compass,
   Bold, Italic, HelpCircle, FileText, Layers, Settings, Eye, Code, Sparkles, Maximize2, Minimize2, RotateCcw, ExternalLink,
   Wand2, Swords, ShieldCheck, ShieldAlert, Table, Undo2, AlertTriangle, CheckCircle2, ChevronRight, X, MessageSquare, GitMerge,
-  Network, Orbit, Sliders, UploadCloud
+  Network, Orbit, Sliders, UploadCloud, Download
 } from "lucide-react";
-import { uploadImageToServerAndGitHub, readFileAsDataURL } from "../utils/localImageStorage";
+import { uploadImageToServerAndGitHub, saveCloudImageToServer, readFileAsDataURL } from "../utils/localImageStorage";
 import { CartoCraftMapPickerModal } from "./CartoCraftMapPickerModal";
 import { GraphPickerModal } from "./GraphPickerModal";
 import { EmbeddedGraphViewer } from "./EmbeddedGraphViewer";
@@ -710,6 +710,27 @@ export function ArticleEditor() {
       setIsUploadingCoverPC(false);
       setTimeout(() => setCoverUploadNotification(null), 4500);
       if (pcCoverInputRef.current) pcCoverInputRef.current.value = "";
+    }
+  };
+
+  const [isDownloadingCloudCover, setIsDownloadingCloudCover] = useState(false);
+  const handleDownloadCloudCover = async () => {
+    if (!imageUrl || (!imageUrl.startsWith("http://") && !imageUrl.startsWith("https://"))) return;
+    setIsDownloadingCloudCover(true);
+    setCoverUploadNotification("Descargando imagen de la nube y guardándola en el servidor local...");
+    try {
+      const res = await saveCloudImageToServer(imageUrl, slug || title || "cover", "cloud");
+      if (res.success && res.url && res.isLocal) {
+        setImageUrl(res.url);
+        setCoverUploadNotification("¡Imagen de la nube guardada permanentemente en local!");
+      } else {
+        setCoverUploadNotification("No se pudo descargar la imagen, pero se mantendrá el enlace original.");
+      }
+    } catch (err: any) {
+      setCoverUploadNotification("Error al guardar imagen de la nube.");
+    } finally {
+      setIsDownloadingCloudCover(false);
+      setTimeout(() => setCoverUploadNotification(null), 4500);
     }
   };
 
@@ -2487,6 +2508,22 @@ export function ArticleEditor() {
                   placeholder="https://ejemplo.com/recurso.png"
                   className="flex-1 h-10 px-3 bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-primary/50 transition-all text-xs font-mono"
                 />
+                {imageUrl && (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) && (
+                  <button
+                    type="button"
+                    onClick={handleDownloadCloudCover}
+                    disabled={isDownloadingCloudCover}
+                    className="px-3 h-10 bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-500/40 hover:border-emerald-400 rounded-lg text-emerald-200 font-bold text-xs flex items-center gap-1.5 transition-all shrink-0 cursor-pointer shadow-sm disabled:opacity-50"
+                    title="Descargar esta imagen de la nube y guardarla permanentemente en el servidor local"
+                  >
+                    {isDownloadingCloudCover ? (
+                      <Loader2 className="h-4 w-4 animate-spin text-emerald-400" />
+                    ) : (
+                      <Download className="h-4 w-4 text-emerald-400" />
+                    )}
+                    <span className="hidden sm:inline">Guardar en local</span>
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => pcCoverInputRef.current?.click()}
@@ -2511,6 +2548,13 @@ export function ArticleEditor() {
                   <span className="hidden sm:inline">Galería</span>
                 </button>
               </div>
+
+              {imageUrl && imageUrl.startsWith("/images/") && (
+                <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 font-mono">
+                  <Check className="h-3.5 w-3.5" />
+                  <span>Imagen guardada permanentemente en el servidor local ({imageUrl})</span>
+                </div>
+              )}
 
               {coverUploadNotification && (
                 <div className="p-2.5 rounded-lg bg-sky-950/70 border border-sky-500/40 text-sky-200 text-xs flex items-center gap-2 animate-in fade-in duration-200">

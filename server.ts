@@ -1260,6 +1260,86 @@ function extractBase64CoverImage(slugOrId: string, imageUrl: string): string {
   return persistBase64Image(slugOrId, imageUrl, "covers");
 }
 
+async function persistCloudImage(slugOrId: string, imageUrl: string, subfolder = "cloud"): Promise<string> {
+  if (!imageUrl || typeof imageUrl !== "string") return imageUrl;
+  const trimmed = imageUrl.trim();
+  if (!trimmed.startsWith("http://") && !trimmed.startsWith("https://")) {
+    return imageUrl;
+  }
+  // Ignore local URLs or data URLs
+  if (trimmed.startsWith("/images/") || trimmed.includes("/images/cloud/") || trimmed.includes("/images/covers/")) {
+    return imageUrl;
+  }
+  try {
+    const hash = crypto.createHash("md5").update(trimmed).digest("hex").slice(0, 10);
+    const safeSlug = (slugOrId || "img").replace(/[^a-zA-Z0-9_-]/g, "_").slice(0, 35);
+    let ext = "jpg";
+    const urlWithoutQuery = trimmed.split("?")[0];
+    const match = urlWithoutQuery.match(/\.([a-zA-Z0-9]{3,4})$/);
+    if (match) {
+      const candidate = match[1].toLowerCase();
+      if (["jpg", "jpeg", "png", "webp", "gif", "svg"].includes(candidate)) {
+        ext = candidate === "jpeg" ? "jpg" : candidate;
+      }
+    }
+    const targetDir = path.join(process.cwd(), "public", "images", subfolder);
+    if (!fs.existsSync(targetDir)) {
+      fs.mkdirSync(targetDir, { recursive: true });
+    }
+    let fileName = `${safeSlug}_${hash}.${ext}`;
+    let localFilePath = path.join(targetDir, fileName);
+
+    // Reuse existing file if already downloaded
+    if (fs.existsSync(localFilePath) && fs.statSync(localFilePath).size > 100) {
+      return `/images/${subfolder}/${fileName}`;
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12000);
+    const headers: Record<string, string> = {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+      "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+      "Referer": "https://www.google.com/"
+    };
+    if (trimmed.includes("deviantart") || trimmed.includes("wixmp")) headers["Referer"] = "https://www.deviantart.com/";
+    else if (trimmed.includes("artstation")) headers["Referer"] = "https://www.artstation.com/";
+    else if (trimmed.includes("fandom") || trimmed.includes("wikia")) headers["Referer"] = "https://www.fandom.com/";
+    else if (trimmed.includes("pinterest") || trimmed.includes("pinimg")) headers["Referer"] = "https://www.pinterest.com/";
+
+    const res = await fetch(trimmed, { headers, signal: controller.signal });
+    clearTimeout(timeout);
+    if (res.ok) {
+      const arrayBuffer = await res.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      if (buffer.length > 50) {
+        const contentType = res.headers.get("content-type") || "";
+        if (contentType.includes("image/png")) ext = "png";
+        else if (contentType.includes("image/webp")) ext = "webp";
+        else if (contentType.includes("image/jpeg")) ext = "jpg";
+        else if (contentType.includes("image/gif")) ext = "gif";
+        else if (contentType.includes("image/svg")) ext = "svg";
+
+        fileName = `${safeSlug}_${hash}.${ext}`;
+        localFilePath = path.join(targetDir, fileName);
+        fs.writeFileSync(localFilePath, buffer);
+
+        const webPath = `/images/${subfolder}/${fileName}`;
+        const repoPath = `public/images/${subfolder}/${fileName}`;
+        console.log(`[Cloud Image Storage] Downloaded & persisted cloud image ${trimmed} -> ${webPath}`);
+        if (GITHUB_TOKEN) {
+          writeBinaryToGitHub(repoPath, buffer, `Add downloaded cloud image ${fileName} to repo`).catch((err) => {
+            console.warn(`[GitHub Image Write Warning] Failed for ${repoPath}:`, err);
+          });
+        }
+        return webPath;
+      }
+    }
+  } catch (err) {
+    console.warn(`[Cloud Image Storage] Could not download cloud image ${imageUrl}:`, err);
+  }
+  return imageUrl;
+}
+
 function sanitizeAndPersistArticleImages(article: WikiArticle): { article: WikiArticle; modified: boolean } {
   if (!article) return { article, modified: false };
   let modified = false;
@@ -1309,6 +1389,71 @@ function sanitizeAndPersistArticleImages(article: WikiArticle): { article: WikiA
         return `${prefix}${newUrl}${suffix}`;
       }
     );
+  }
+
+  return { article, modified };
+}
+
+async function sanitizeAndPersistArticleImagesAsync(article: WikiArticle): Promise<{ article: WikiArticle; modified: boolean }> {
+  if (!article) return { article, modified: false };
+  let { modified } = sanitizeAndPersistArticleImages(article);
+  const slugOrId = article.slug || article.id || "article";
+
+  // 1. Cover image from cloud link
+  if (article.image_url && typeof article.image_url === "string" && (article.image_url.startsWith("http://") || article.image_url.startsWith("https://"))) {
+    const localUrl = await persistCloudImage(slugOrId, article.image_url, "cloud");
+    if (localUrl !== article.image_url) {
+      article.image_url = localUrl;
+      modified = true;
+    }
+  }
+  if (article.cover_image && typeof article.cover_image === "string" && (article.cover_image.startsWith("http://") || article.cover_image.startsWith("https://"))) {
+    const localUrl = await persistCloudImage(`${slugOrId}-cover`, article.cover_image, "cloud");
+    if (localUrl !== article.cover_image) {
+      article.cover_image = localUrl;
+      modified = true;
+    }
+  }
+
+  // 2. Gallery images from cloud links
+  if (Array.isArray(article.gallery)) {
+    for (let idx = 0; idx < article.gallery.length; idx++) {
+      const item = article.gallery[idx];
+      if (item && item.url && typeof item.url === "string" && (item.url.startsWith("http://") || item.url.startsWith("https://"))) {
+        const localUrl = await persistCloudImage(`${slugOrId}-gal-${idx}`, item.url, "cloud");
+        if (localUrl !== item.url) {
+          item.url = localUrl;
+          modified = true;
+        }
+      }
+    }
+  }
+
+  // 3. Monster images from cloud links
+  if (article.monster_images && typeof article.monster_images === "object") {
+    for (const [key, val] of Object.entries(article.monster_images)) {
+      if (typeof val === "string" && (val.startsWith("http://") || val.startsWith("https://"))) {
+        const localUrl = await persistCloudImage(`${slugOrId}-mon-${key}`, val, "cloud");
+        if (localUrl !== val) {
+          article.monster_images[key] = localUrl;
+          modified = true;
+        }
+      }
+    }
+  }
+
+  // 4. Content embedded cloud images
+  if (article.content && typeof article.content === "string") {
+    const regex = /https?:\/\/[^\s"'<>\)]+\.(?:jpg|jpeg|png|webp|gif|svg)(?:\?[^\s"'<>\)]*)?/gi;
+    const matches = Array.from(new Set(article.content.match(regex) || []));
+    for (let i = 0; i < matches.length; i++) {
+      const remoteUrl = matches[i];
+      const localUrl = await persistCloudImage(`${slugOrId}-content-${i}`, remoteUrl, "cloud");
+      if (localUrl !== remoteUrl) {
+        article.content = article.content.split(remoteUrl).join(localUrl);
+        modified = true;
+      }
+    }
   }
 
   return { article, modified };
@@ -3938,7 +4083,7 @@ app.post("/api/articles", async (req: Request, res: Response) => {
       newArticle.id = `art-${Date.now()}`;
     }
 
-    sanitizeAndPersistArticleImages(newArticle);
+    await sanitizeAndPersistArticleImagesAsync(newArticle);
 
     newArticle.created_date = newArticle.created_date || new Date().toISOString();
     newArticle.updated_date = new Date().toISOString();
@@ -3982,7 +4127,7 @@ app.put("/api/articles/:id", async (req: Request, res: Response) => {
         if (oldArticle.timeline_markers && !updatedData.timeline_markers) updatedData.timeline_markers = oldArticle.timeline_markers;
       }
       
-      sanitizeAndPersistArticleImages(updatedData as any);
+      await sanitizeAndPersistArticleImagesAsync(updatedData as any);
 
       // Check if content is modified and create backup in background
       const isContentModified = updatedData.content !== undefined && updatedData.content !== oldArticle.content;
@@ -4001,7 +4146,7 @@ app.put("/api/articles/:id", async (req: Request, res: Response) => {
     } else {
       // If not found in index, create/insert it to avoid losing user work
       const fallbackData = { ...req.body };
-      sanitizeAndPersistArticleImages(fallbackData as any);
+      await sanitizeAndPersistArticleImagesAsync(fallbackData as any);
       const fallbackArticle: WikiArticle = {
         ...fallbackData,
         id,
@@ -4114,7 +4259,60 @@ app.post("/api/upload-image", async (req: Request, res: Response) => {
   }
 });
 
-// 5d. Sync all local images to GitHub
+// 5d. Save a single remote cloud image to local disk and GitHub
+app.post("/api/save-cloud-image", async (req: Request, res: Response) => {
+  try {
+    const { url, articleSlug, subfolder = "cloud" } = req.body || {};
+    if (!url || typeof url !== "string") {
+      res.status(400).json({ error: "Se requiere la URL de la imagen." });
+      return;
+    }
+    const localUrl = await persistCloudImage(articleSlug || "img", url, subfolder);
+    res.json({
+      success: true,
+      url: localUrl,
+      originalUrl: url,
+      isLocal: localUrl.startsWith("/images/")
+    });
+  } catch (err: any) {
+    console.error("Save Cloud Image Error:", err);
+    res.status(500).json({ error: err?.message || "Error al descargar imagen de la nube." });
+  }
+});
+
+// 5e. Full batch sync of all cloud image URLs in articles and maps
+app.post("/api/sync-cloud-images", async (req: Request, res: Response) => {
+  try {
+    const articles = await readArticles();
+    let modifiedArticles = 0;
+    let downloadedCount = 0;
+
+    for (let i = 0; i < articles.length; i++) {
+      const art = articles[i];
+      const { modified } = await sanitizeAndPersistArticleImagesAsync(art);
+      if (modified) {
+        modifiedArticles++;
+        downloadedCount++;
+      }
+    }
+
+    if (modifiedArticles > 0) {
+      await writeArticles(articles);
+    }
+
+    res.json({
+      success: true,
+      modifiedArticles,
+      downloadedCount,
+      message: `Se han procesado y guardado localmente las imágenes de ${modifiedArticles} artículos.`
+    });
+  } catch (err: any) {
+    console.error("Batch Sync Cloud Images Error:", err);
+    res.status(500).json({ error: err?.message || "Error al sincronizar imágenes de la nube." });
+  }
+});
+
+// 5f. Sync all local images to GitHub
 app.post("/api/sync-images-to-github", async (req: Request, res: Response) => {
   try {
     if (!GITHUB_TOKEN) {
@@ -4124,7 +4322,7 @@ app.post("/api/sync-images-to-github", async (req: Request, res: Response) => {
     const publicPath = path.join(process.cwd(), "public", "images");
     let syncedCount = 0;
     if (fs.existsSync(publicPath)) {
-      const subdirs = ["covers", "uploads", "gallery", "monsters"];
+      const subdirs = ["covers", "uploads", "gallery", "monsters", "cloud", "banners"];
       for (const sub of subdirs) {
         const fullSub = path.join(publicPath, sub);
         if (fs.existsSync(fullSub)) {
@@ -4822,6 +5020,35 @@ app.post("/api/github-config", async (req: Request, res: Response) => {
   } catch (err: any) {
     console.error("Error in POST /api/github-config:", err);
     res.status(500).json({ error: err.message || "Error al guardar configuración de GitHub." });
+  }
+});
+
+app.post("/api/github-push-all", async (req: Request, res: Response) => {
+  try {
+    const token = (req.body?.token as string) || (req.headers["x-github-token"] as string) || getEffectiveGitHubToken();
+    if (!token) {
+      return res.status(400).json({
+        error: "Se requiere un Personal Access Token (PAT) de GitHub con permiso 'repo' para subir los cambios a https://github.com/tirianworld/Cdd-Dragopedia-DEFINITIVA."
+      });
+    }
+
+    const scriptPath = path.join(process.cwd(), "scripts", "push_to_github.sh");
+    const output = execSync(`bash "${scriptPath}" "${token}"`, {
+      encoding: "utf8",
+      timeout: 120000
+    });
+
+    res.json({
+      success: true,
+      message: "¡Actualización completa (código, 510 imágenes y artículos) subida con éxito a GitHub!",
+      output
+    });
+  } catch (err: any) {
+    console.error("Error in /api/github-push-all:", err);
+    res.status(500).json({
+      error: err?.message || "Error al subir cambios a GitHub",
+      stderr: String(err?.stderr || "")
+    });
   }
 });
 

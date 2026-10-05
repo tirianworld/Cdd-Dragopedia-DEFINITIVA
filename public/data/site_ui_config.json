@@ -78,7 +78,7 @@
   ],
   "banner.image.ascendidos": "/images/banners/banner_ascendidos_1790951489101_9iqq.png?t=1790955000000",
   "banner.fit.ascendidos": "contain",
-  "_updated_at": 1791198060157,
+  "_updated_at": 1791198064024,
   "banner.transparent.ascendidos": "true",
   "banner.ground.ascendidos": "true",
   "banner.tint.ascendidos": "true",
@@ -112,5 +112,10 @@
   "banner.scale.jugadores": "148",
   "banner.fit.jugadores": "contain",
   "banner.image.jugadores": "/images/banners/banner_jugadores_1791133387011_ageu.png?t=1791133391826",
-  "banner.offsetY.jugadores": "0"
+  "banner.offsetY.jugadores": "0",
+  "banner.image.leyendas": "/images/banners/banner_leyendas_1791198062256_of5k.png",
+  "banner.fit.leyendas": "contain",
+  "banner.transparent.leyendas": "true",
+  "banner.ground.leyendas": "true",
+  "banner.tint.leyendas": "true"
 }

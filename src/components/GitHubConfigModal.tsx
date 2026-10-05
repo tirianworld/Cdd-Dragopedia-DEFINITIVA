@@ -13,7 +13,7 @@ interface GitHubConfigModalProps {
 
 export function GitHubConfigModal({ isOpen, onClose, onSuccess }: GitHubConfigModalProps) {
   const [token, setToken] = useState("");
-  const [repo, setRepo] = useState("tirianworld/Cdd-Dragopedia-DEFINITIVA");
+  const [repo, setRepo] = useState("tirianworld/Cdd-wiki-V3");
   const [branch, setBranch] = useState("main");
   const [isConfigured, setIsConfigured] = useState(false);
   const [userLogin, setUserLogin] = useState<string | null>(null);
@@ -102,7 +102,7 @@ export function GitHubConfigModal({ isOpen, onClose, onSuccess }: GitHubConfigMo
 
   const handleSyncNow = async () => {
     setSyncing(true);
-    setMessage({ type: "info", text: "Sincronizando todas las categorías, subcategorías y artículos con GitHub..." });
+    setMessage({ type: "info", text: "Sincronizando categorías, subcategorías y orden con GitHub..." });
 
     try {
       const activeToken = token.trim() || localStorage.getItem("dragopedia_github_token") || "";
@@ -112,17 +112,17 @@ export function GitHubConfigModal({ isOpen, onClose, onSuccess }: GitHubConfigMo
           "Content-Type": "application/json",
           ...(activeToken ? { "x-github-token": activeToken } : {})
         },
-        body: JSON.stringify({ target: "all" })
+        body: JSON.stringify({ target: "categories" })
       });
 
       const data = await res.json();
-      if (!res.ok || data.success === false) {
-        throw new Error(data.error || data.message || "Error en la sincronización.");
+      if (!res.ok) {
+        throw new Error(data.error || "Error en la sincronización.");
       }
 
       setMessage({ 
         type: "success", 
-        text: `✓ ${data.message || "Categorías, subcategorías y artículos sincronizados en GitHub exitosamente."}` 
+        text: `✓ ${data.message || "Subcategorías y orden sincronizados en GitHub exitosamente."}` 
       });
       if (onSuccess) onSuccess();
     } catch (err: any) {
@@ -251,7 +251,7 @@ export function GitHubConfigModal({ isOpen, onClose, onSuccess }: GitHubConfigMo
                     GitHub Personal Access Token (PAT)
                   </label>
                   <a
-                    href="https://github.com/settings/tokens/new?scopes=repo&description=Dragopedia%20Cdd-wiki-V5%20Sync"
+                    href="https://github.com/settings/tokens/new?scopes=repo&description=Dragopedia%20Cdd-wiki-V3%20Sync"
                     target="_blank"
                     rel="noreferrer"
                     className="text-[10px] text-primary hover:underline flex items-center gap-1"

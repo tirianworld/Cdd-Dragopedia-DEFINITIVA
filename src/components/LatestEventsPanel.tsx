@@ -10,13 +10,17 @@ import {
 import { TarotLogo } from "./TarotLogo";
 import { EditableText } from "./webbuilder/EditableText";
 
+import defaultCampaignEventsData from "../data/campaign_events.json";
+
 interface LatestEventsPanelProps {
   articles?: WikiArticle[];
 }
 
 export function LatestEventsPanel({ articles = [] }: LatestEventsPanelProps) {
-  const [events, setEvents] = useState<CampaignEvent[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [events, setEvents] = useState<CampaignEvent[]>(() =>
+    Array.isArray(defaultCampaignEventsData) ? (defaultCampaignEventsData as CampaignEvent[]) : []
+  );
+  const [loading, setLoading] = useState(false);
   const [activeCampaignFilter, setActiveCampaignFilter] = useState<string>("all");
   const [activeCategoryFilter, setActiveCategoryFilter] = useState<string>("all");
 
@@ -37,16 +41,17 @@ export function LatestEventsPanel({ articles = [] }: LatestEventsPanelProps) {
   // Fetch events
   const fetchEvents = async () => {
     try {
-      setLoading(true);
       const res = await fetch("/api/campaign-events");
-      const data = await res.json();
-      if (Array.isArray(data.events)) {
-        setEvents(data.events);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.events) && data.events.length > 0) {
+          setEvents(data.events);
+        } else if (Array.isArray(data) && data.length > 0) {
+          setEvents(data);
+        }
       }
     } catch (err) {
-      console.error("Error fetching campaign events:", err);
-    } finally {
-      setLoading(false);
+      console.warn("Could not fetch latest campaign events from API, relying on hardcoded events:", err);
     }
   };
 

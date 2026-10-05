@@ -69,6 +69,8 @@ export function getFolderDisplay(folderName?: string): { label: string; icon: st
   return { label: folderName, icon: "📍" };
 }
 
+import defaultMapsData from "../data/maps.json";
+
 /**
  * Fetches dynamic maps and folders from CartoCraft server endpoint
  */
@@ -77,7 +79,7 @@ export async function fetchCartoCraftData(): Promise<{ folders: CartoCraftFolder
     const res = await fetch("/api/cartocraft/maps");
     if (res.ok) {
       const data = await res.json();
-      if (data && Array.isArray(data.maps)) {
+      if (data && Array.isArray(data.maps) && data.maps.length > 0) {
         return {
           folders: Array.isArray(data.folders) ? data.folders : [],
           maps: data.maps
@@ -85,7 +87,16 @@ export async function fetchCartoCraftData(): Promise<{ folders: CartoCraftFolder
       }
     }
   } catch (err) {
-    console.warn("[CartoCraft Service] Could not fetch maps from API, using fallback:", err);
+    console.warn("[CartoCraft Service] Could not fetch maps from API, using hardcoded fallback:", err);
   }
+
+  // Hardcoded fallback from bundled data
+  if (defaultMapsData && Array.isArray((defaultMapsData as any).maps)) {
+    return {
+      folders: Array.isArray((defaultMapsData as any).folders) ? (defaultMapsData as any).folders : [],
+      maps: (defaultMapsData as any).maps
+    };
+  }
+
   return { folders: [], maps: [] };
 }

@@ -897,7 +897,7 @@ export function ArticleView() {
       .then(([articlesList, activeArticle, monstersList, spellsData]) => {
         const safeArticles = Array.isArray(articlesList) ? articlesList : [];
         setAllArticles(safeArticles);
-        if (activeArticle) {
+        if (activeArticle && activeArticle.title) {
           setArticle(activeArticle);
           // Default select first timeline milestone if available, or restore from localStorage if it exists for this article
           if (Array.isArray(activeArticle.timeline_markers) && activeArticle.timeline_markers.length > 0) {

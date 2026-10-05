@@ -13,7 +13,7 @@
     "not_found_handling": "single-page-application"
   },
   "vars": {
-    "GITHUB_REPO": "tirianworld/Cdd-Wiki-V2",
+    "GITHUB_REPO": "tirianworld/Cdd-Dragopedia-DEFINITIVA",
     "GITHUB_BRANCH": "main"
   }
 }

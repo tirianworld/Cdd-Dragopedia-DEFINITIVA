@@ -40,22 +40,50 @@ export default {
     if (url.pathname.startsWith("/api/")) {
       const cleanPath = url.pathname.replace(/\/$/, "");
 
-      // 1.1 Articles endpoint
+      // 1.1 Articles list endpoint
       if (cleanPath === "/api/articles") {
         if (request.method === "GET") {
-          const assetReq = new Request(new URL("/data/articles.json", request.url), request);
+          const assetReq = new Request(new URL("/data/articles.json", request.url));
           const assetRes = await env.ASSETS.fetch(assetReq);
           if (assetRes.ok) {
-            const body = await assetRes.text();
-            return new Response(body, {
-              status: 200,
-              headers: { "Content-Type": "application/json; charset=utf-8", ...CORS_HEADERS },
-            });
+            return assetRes;
           }
           return jsonResponse([]);
         }
-        // POST/PUT/DELETE
-        return jsonResponse({ success: true, message: "Artículo procesado con éxito" });
+        try {
+          const body = await request.json().catch(() => ({}));
+          return jsonResponse({ success: true, article: body });
+        } catch {
+          return jsonResponse({ success: true, message: "Artículo procesado con éxito" });
+        }
+      }
+
+      // 1.1b Individual Article endpoint: /api/articles/:slug
+      const articleMatch = cleanPath.match(/^\/api\/articles\/([^/]+)$/);
+      if (articleMatch) {
+        const targetSlug = decodeURIComponent(articleMatch[1]).toLowerCase();
+        if (request.method === "GET") {
+          const assetReq = new Request(new URL("/data/articles.json", request.url));
+          const assetRes = await env.ASSETS.fetch(assetReq);
+          if (assetRes.ok) {
+            const list = await assetRes.json().catch(() => []) as any[];
+            const found = list.find((a: any) =>
+              (a.slug && a.slug.toLowerCase() === targetSlug) ||
+              (a.id && a.id.toLowerCase() === targetSlug) ||
+              (a.title && a.title.toLowerCase() === targetSlug)
+            );
+            if (found) {
+              return jsonResponse(found);
+            }
+          }
+          return jsonResponse({ error: "Artículo no encontrado" }, 404);
+        }
+        try {
+          const body = await request.json().catch(() => ({}));
+          return jsonResponse({ success: true, article: body });
+        } catch {
+          return jsonResponse({ success: true });
+        }
       }
 
       // 1.2 Articles synchronization endpoint
@@ -71,16 +99,29 @@ export default {
       // 1.3 Campaign Events endpoint
       if (cleanPath === "/api/campaign-events") {
         if (request.method === "GET") {
-          const assetReq = new Request(new URL("/data/campaign_events.json", request.url), request);
+          const assetReq = new Request(new URL("/data/campaign_events.json", request.url));
           const assetRes = await env.ASSETS.fetch(assetReq);
           if (assetRes.ok) {
-            const body = await assetRes.text();
-            return new Response(body, {
-              status: 200,
-              headers: { "Content-Type": "application/json; charset=utf-8", ...CORS_HEADERS },
-            });
+            const raw = await assetRes.json().catch(() => []);
+            const events = Array.isArray(raw) ? raw : (raw?.events || []);
+            return jsonResponse({ events, count: events.length });
           }
-          return jsonResponse([]);
+          return jsonResponse({ events: [], count: 0 });
+        }
+        return jsonResponse({ success: true });
+      }
+
+      // 1.3b Timeline endpoint
+      if (cleanPath === "/api/timeline") {
+        if (request.method === "GET") {
+          const assetReq = new Request(new URL("/data/timeline_markers.json", request.url));
+          const assetRes = await env.ASSETS.fetch(assetReq);
+          if (assetRes.ok) {
+            const raw = await assetRes.json().catch(() => []);
+            const markers = Array.isArray(raw) ? raw : (raw?.markers || []);
+            return jsonResponse({ markers });
+          }
+          return jsonResponse({ markers: [] });
         }
         return jsonResponse({ success: true });
       }

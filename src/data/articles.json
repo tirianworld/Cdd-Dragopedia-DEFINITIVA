@@ -21,12 +21,29 @@
     ],
     "author": "Tarot",
     "created_date": "2026-10-03T11:58:00Z",
-    "updated_date": "2026-10-04T18:25:32.693Z",
+    "updated_date": "2026-10-05T11:22:04.009Z",
     "infobox": {
       "Raza": "Tiefling / Demonio",
       "Clase": "Brawler / Bárbaro / Guerrero",
       "Grupo": "Jugadores de Caldo de Dragón",
       "Compañero de Pulso": "Pepe Loux"
+    },
+    "image_position_x": 50,
+    "image_position_y": 50,
+    "gallery": [],
+    "related_article_ids": [],
+    "timeline_markers": [],
+    "timeline_order": [],
+    "monsters": [],
+    "monster_images": {},
+    "spells": [],
+    "spell_images": {},
+    "filters": {
+      "campaña": [],
+      "continente": [],
+      "plano": [],
+      "criatura": [],
+      "entidad": []
     }
   },
   {

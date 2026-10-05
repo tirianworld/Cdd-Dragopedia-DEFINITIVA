@@ -22762,22 +22762,24 @@
     "map_url": null,
     "infobox": {},
     "filters": {
-      "campaña": [
-        "las doce marcas"
-      ],
       "continente": [
         "Kaliria"
       ],
       "plano": [
         "Material"
       ],
-      "criatura": [],
+      "campaña": [
+        "las doce marcas"
+      ],
       "entidad": []
     },
     "title": "Gran araña acorazada",
     "content": "<h2><strong>Apariencia</strong></h2><p>Su enorme cuerpo está cubierto por un exoesqueleto compuesto de placas endurecidas de metal y minerales que ha recolectado y absorbido a lo largo de los años.</p><p>Su tamaño es imponente; sus patas largas y robustas parecen ser pilares de <a href=\"/articulo/acero\" class=\"text-primary hover:underline font-semibold\">acero</a> y <a href=\"/articulo/hierro\" class=\"text-primary hover:underline font-semibold\">hierro</a>, cubiertas por capas de material áspero y fragmentos de la infraestructura que ha saqueado.</p><p>El rasgo más aterrador de esta criatura es su ojo único, un ojo central que se encuentra en su rostro, justo en el centro de su cabeza.</p><p>expulsa una sustancia viscosa y altamente inflamable que, al contacto con el aire, se enciende con facilidad, convirtiendo su área inmediata en un campo de fuego. La sustancia se mezcla con el ambiente oxidado, formando nubes de humo y llamas que hacen aún más difícil ver su figura.</p><h2><strong>Personalidad</strong></h2><p>Es una cazadora paciente, acechando a sus presas desde las sombras de los edificios abandonados, esperando el momento perfecto para atacar</p><h2><strong>Historia</strong></h2><p>La Gran Araña Acorazada no es una creación mágica ni, ni fue invocada, simplemente vive allí, cazando en silencio entre el óxido y la oscuridad.</p><p><strong>Habilidades y Poderes</strong></p><p><strong>Apariciones</strong></p><ul><li>El barracón(primera aparición)</li><li>El barracón(ultima aparición)</li></ul>",
     "tags": [],
-    "related_article_ids": [],
+    "related_article_ids": [
+      "art-1787666796733",
+      "art-1787666801376"
+    ],
     "category": "Personajes",
     "slug": "gran-arana-acorazada-ea7987",
     "gallery": [],
@@ -22788,7 +22790,7 @@
     "created_by_id": "6a1582a600c89abf9b79b92a",
     "is_sample": false,
     "image_position_x": 50,
-    "image_position_y": 50,
+    "image_position_y": 20,
     "extra_categories": [
       "Personajes"
     ],

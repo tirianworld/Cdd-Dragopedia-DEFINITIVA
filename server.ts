@@ -5601,6 +5601,8 @@ const STATIC_BANNER_FILES: Record<string, string> = {
   dragones: "caldo_dragones_combate_solid.png",
   ascendidos: "caldo_ascendidos_silhouettes_solid.png",
   antiguos: "caldo_antiguos_silhouettes_solid.png",
+  portadores_de_marca: "banners/banner_portadores_de_marca.jpg",
+  portadores: "banners/banner_portadores_de_marca.jpg",
 };
 
 app.post("/api/banner-image", async (req: Request, res: Response) => {

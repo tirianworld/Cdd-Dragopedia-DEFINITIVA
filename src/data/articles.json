@@ -22784,14 +22784,13 @@
     "is_featured": false,
     "id": "6a1f41e3e1d1e6e926ea7987",
     "created_date": "2026-06-02T20:49:39.434000",
-    "updated_date": "2026-10-05T17:51:27.948Z",
+    "updated_date": "2026-10-05T17:52:07.105Z",
     "created_by_id": "6a1582a600c89abf9b79b92a",
     "is_sample": false,
     "image_position_x": 50,
     "image_position_y": 50,
     "extra_categories": [
-      "Personajes",
-      "Antiguos"
+      "Personajes"
     ],
     "timeline_markers": [],
     "timeline_order": [],

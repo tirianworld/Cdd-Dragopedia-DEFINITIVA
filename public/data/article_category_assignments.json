@@ -1,0 +1,2118 @@
+{
+  "mongraal": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Expedición de Moonhaven"
+    ],
+    "image_url": ""
+  },
+  "caldo-de-dragon": {
+    "category": "Organizaciones",
+    "extra_categories": [
+      "Organizaciones"
+    ],
+    "image_url": "/images/uploads/logo_caldo_de_dragon_v3-1790341867122_as778.png"
+  },
+  "culto-a-los-dragones": {
+    "category": "Religiones",
+    "extra_categories": [
+      "Religiones"
+    ],
+    "image_url": ""
+  },
+  "culto-a-la-piedad": {
+    "category": "Religiones",
+    "extra_categories": [
+      "Religiones"
+    ],
+    "image_url": ""
+  },
+  "astora": {
+    "category": "Asentamientos",
+    "extra_categories": [
+      "Lugares",
+      "Asentamientos"
+    ],
+    "image_url": ""
+  },
+  "lordran": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": ""
+  },
+  "oceiros": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": ""
+  },
+  "faram-senor-del-sol": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses",
+      "Verdaderos"
+    ],
+    "image_url": ""
+  },
+  "alejandria": {
+    "category": "Asentamientos",
+    "extra_categories": [
+      "Lugares",
+      "Asentamientos"
+    ],
+    "image_url": ""
+  },
+  "guerreros-de-la-luz-solar": {
+    "category": "Religiones",
+    "extra_categories": [
+      "Religiones"
+    ],
+    "image_url": ""
+  },
+  "seguidores-de-la-luna-oscura": {
+    "category": "Religiones",
+    "extra_categories": [
+      "Religiones"
+    ],
+    "image_url": ""
+  },
+  "la-luna-oscura": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses",
+      "Verdaderos"
+    ],
+    "image_url": ""
+  },
+  "orbe-misterioso": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": "/images/uploads/orbe_de_adamantita-1790071058117_vg08v.png"
+  },
+  "cid": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://i.imgur.com/ZkPxZuA.png"
+  },
+  "morgana": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Personajes",
+      "Ascendidos"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/010/818/999/20180515105645/smaller_square/dimitri-jakubowski-wip14.jpg?1526399805"
+  },
+  "firulais": {
+    "category": "Mascotas",
+    "extra_categories": [
+      "Mascotas"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/4/4d/Winter_wolf-5e.png/revision/latest?cb=20171012153220"
+  },
+  "biden": {
+    "category": "Mascotas",
+    "extra_categories": [
+      "Mascotas"
+    ],
+    "image_url": "https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/bestiary/MM/Hawk.webp"
+  },
+  "teri": {
+    "category": "Mascotas",
+    "extra_categories": [
+      "Mascotas"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/063/925/735/20230613162001/smaller_square/sergey-avtushenko-baby-triceratops2.jpg?1686691201"
+  },
+  "laberinto-de-cristales": {
+    "category": "Dominio",
+    "extra_categories": [
+      "Lugares",
+      "Dominio"
+    ],
+    "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bb742333-f86c-48f0-a01c-c89a22ec5a29/d10iv37-b41a753b-f54f-42e1-9e2d-1e5bca0380b1.jpg/v1/fill/w_600,h_450,q_75,strp/mirror_labyrinth_3_by_szandordubois_stock_d10iv37-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NDUwIiwicGF0aCI6IlwvZlwvYmI3NDIzMzMtZjg2Yy00OGYwLWEwMWMtYzg5YTIyZWM1YTI5XC9kMTBpdjM3LWI0MWE3NTNiLWY1NGYtNDJlMS05ZTJkLTFlNWJjYTAzODBiMS5qcGciLCJ3aWR0aCI6Ijw9NjAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.wloinEEtM1JoXwRdcitDXTV-L9ku-b_D8Bh7HbM5IFg"
+  },
+  "zaratras": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Personajes",
+      "Ascendidos"
+    ],
+    "image_url": "/images/uploads/zaratras-1790070976862_h5of0.png"
+  },
+  "inigo": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9ef5ff6c-3d8d-408c-a00c-c7e796b34934/d39g52u-1db2c53f-58ae-4018-8255-daf5101b36f1.jpg/v1/fill/w_434,h_576,q_75,strp/hello_my_name_is_inigo_montoya_by_brucewhite_d39g52u-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvOWVmNWZmNmMtM2Q4ZC00MDhjLWEwMGMtYzdlNzk2YjM0OTM0XC9kMzlnNTJ1LTFkYjJjNTNmLTU4YWUtNDAxOC04MjU1LWRhZjUxMDFiMzZmMS5qcGciLCJ3aWR0aCI6Ijw9NDM0In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.DnnQmJJsgIRWcjodj9nCZeqDVjNaGMf93n3fXJz6JBo"
+  },
+  "gravatax-el-dragon-de-amatista": {
+    "category": "Gemáticos",
+    "extra_categories": [
+      "Dragones",
+      "Gemáticos"
+    ],
+    "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cd2b924c-80a7-4b79-982b-87d8f947b16e/dl18igh-41c8d046-b9d5-4cbd-88d6-07fda2d4f583.png/v1/fill/w_1196,h_668,q_70,strp/black_amethyst_dragon_by_starlyssskye_dl18igh-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9jZDJiOTI0Yy04MGE3LTRiNzktOTgyYi04N2Q4Zjk0N2IxNmUvZGwxOGlnaC00MWM4ZDA0Ni1iOWQ1LTRjYmQtODhkNi0wN2ZkYTJkNGY1ODMucG5nIiwiaGVpZ2h0IjoiPD03MTUiLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS53YXRlcm1hcmsiXSwid21rIjp7InBhdGgiOiIvd20vY2QyYjkyNGMtODBhNy00Yjc5LTk4MmItODdkOGY5NDdiMTZlL3N0YXJseXNzc2t5ZS00LnBuZyIsIm9wYWNpdHkiOjk1LCJwcm9wb3J0aW9ucyI6MC40NSwiZ3Jhdml0eSI6ImNlbnRlciJ9fQ.Z1V751X_veeeTY_Nba0cpPmTz8-nmWqpj3KTX-_f8ag"
+  },
+  "semiplano-del-hielo": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://i.pinimg.com/originals/24/c1/5b/24c15b569682eba12c5603f4771c9970.png"
+  },
+  "semiplano-del-vapor": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/056/483/153/medium/fu-chuan-.jpg?1669346696"
+  },
+  "plano-de-la-tierra": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://i.pinimg.com/736x/b2/5a/2d/b25a2db92bfc54dbb02cadf1d2eeff25.jpg"
+  },
+  "plano-del-aire": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://i.pinimg.com/originals/c1/fa/bf/c1fabfbc75ceda34de1aa9d1633e6a8e.jpg"
+  },
+  "plano-del-agua": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://i.pinimg.com/736x/43/de/6d/43de6d855705d0e7e544f85e7c6f6063.jpg"
+  },
+  "heaven": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://i.etsystatic.com/26056260/r/il/5ee588/4885614715/il_fullxfull.4885614715_kol9.jpg"
+  },
+  "monte-olimp": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/031/768/741/large/cullen-cole-gh1-bg-olympus-ext-ext-day-view1-color-v01.jpg?1604536883"
+  },
+  "eliseo": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://i.pinimg.com/originals/77/a9/85/77a9855deb1ce65a2b1a8155b8536430.jpg"
+  },
+  "paraiso": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://pre00.deviantart.net/f642/th/pre/i/2015/154/c/5/fantasy_forest_grotto_by_wwsketch-d8vwarl.jpg"
+  },
+  "plano-etereo": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://i.pinimg.com/736x/86/bf/2c/86bf2cd5a717bf82556f165a6c0f71e9.jpg"
+  },
+  "energia-oscura-shadowfell": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://i.pinimg.com/originals/32/3c/9d/323c9d2a3246d5c706ca6051f4e070ef.jpg"
+  },
+  "shadowfell": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/0/0e/DMG5e_-_Shadowfell_-_Mark_Molnar_-_p51.jpg/revision/latest?cb=20150505095216"
+  },
+  "refugiados-del-feywild": {
+    "category": "Organizaciones",
+    "extra_categories": [
+      "Organizaciones"
+    ],
+    "image_url": ""
+  },
+  "corte-feerica": {
+    "category": "Gobernantes de planos",
+    "extra_categories": [
+      "Gobernantes de planos"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/009/097/004/large/srikanth-m-the-glorious-court-of-royalty.jpg?1517133024"
+  },
+  "seis-magias-primordiales": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://i.imgur.com/igB9IsL.png"
+  },
+  "adamantita": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/054/049/201/large/ashkan-ghanbari-golem-adamantine1re2.jpg?1663657676"
+  },
+  "familias-de-herreros-malditos": {
+    "category": "Familias",
+    "extra_categories": [
+      "Familias"
+    ],
+    "image_url": ""
+  },
+  "diablos": {
+    "category": "Organizaciones",
+    "extra_categories": [
+      "Organizaciones"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/covers/images/001/070/528/large/dmitry-prozorov-diablo.jpg?1439397102"
+  },
+  "averno": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "/images/covers/averno.png"
+  },
+  "acero-infernal": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/019/306/907/large/clint-cearley-descent-into-avernus.jpg?1562886085"
+  },
+  "mithril": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": "https://i.pinimg.com/originals/86/0b/37/860b37e1981ed83d2aa6cddfab73f188.jpg"
+  },
+  "la-casa-loux": {
+    "category": "Familias",
+    "extra_categories": [
+      "Familias"
+    ],
+    "image_url": ""
+  },
+  "acero-negro": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/064/922/496/large/miva-dokyeom-gwon-9.jpg?1689083204"
+  },
+  "magia-sagrada": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/0e7c85c7-e287-412e-bd53-a461a830a701/dclmhh3-81d6031d-e295-495c-ad1d-7afed6878a30.jpg/v1/fill/w_1043,h_766,q_70,strp/mtg___aurelia__the_warleader_by_abigbat_dclmhh3-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTQxIiwicGF0aCI6IlwvZlwvMGU3Yzg1YzctZTI4Ny00MTJlLWJkNTMtYTQ2MWE4MzBhNzAxXC9kY2xtaGgzLTgxZDYwMzFkLWUyOTUtNDk1Yy1hZDFkLTdhZmVkNjg3OGEzMC5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.xHObbHS26xW8SM1tWpHs-qNophJwREON4mQYkBlV-eM"
+  },
+  "planos": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/e/ec/Astral_plane.png/revision/latest?cb=20230317191034"
+  },
+  "hierro": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": "https://i.pinimg.com/originals/fe/4f/0b/fe4f0bacd0bb94da84d73241f5102489.jpg"
+  },
+  "elementos": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/049/874/420/large/david-ortiz-edge-of-the-world-1-3.jpg?1653512937"
+  },
+  "guerreros-totemicos": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/070/726/780/4k/von-milano-as-vonmilano-ph-myth-bato-bato-01.jpg?1703283860"
+  },
+  "totems": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/018/552/181/large/dominika-kozarska-asset.jpg?1559801408"
+  },
+  "espiritus": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/078/223/473/large/ferial-concept-portfolio-3.jpg?1721544346"
+  },
+  "chaman": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/079/091/853/large/emanuel-gaggino-chaman-full.jpg?1723957305"
+  },
+  "minos-el-chaman-minotauro": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Personajes",
+      "Ascendidos"
+    ],
+    "image_url": "/images/covers/minos-el-chaman-minotauro.png"
+  },
+  "magia-negra": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://i.pinimg.com/originals/aa/d9/7c/aad97cfda4755c9935cc657f10880af8.jpg"
+  },
+  "exploradores-maestros-del-terreno": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/005/950/928/large/zy-hwang-ranger.jpg?1494941954"
+  },
+  "reloj-astral": {
+    "category": "Eventos",
+    "extra_categories": [
+      "Eventos"
+    ],
+    "image_url": ""
+  },
+  "clerigos": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/000/206/266/large/joshua-calloway-cleric-portfolio.jpg?1410797158"
+  },
+  "metamagia": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://i.pinimg.com/736x/75/33/30/75333035acb7a8aecdd4d3aed3cebf17.jpg"
+  },
+  "el-nexo": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://i.pinimg.com/736x/ad/dc/54/addc54550232cea62702a1254d42bf27.jpg"
+  },
+  "smurph-draco": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Caldo de Dragón C2"
+    ],
+    "image_url": "/images/covers/smurph-draco.png"
+  },
+  "hechicero": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/032/713/957/large/mikhail-palamarchuk-ritual.jpg?1607265893"
+  },
+  "maldiciones-de-sangre": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/056/587/981/large/quang-ho-unnamed.jpg?1669639706"
+  },
+  "segadores": {
+    "category": "Organizaciones",
+    "extra_categories": [
+      "Organizaciones"
+    ],
+    "image_url": ""
+  },
+  "aulladores": {
+    "category": "Organizaciones",
+    "extra_categories": [
+      "Organizaciones"
+    ],
+    "image_url": ""
+  },
+  "ludwig": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": ""
+  },
+  "bloodhunters": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/060/763/595/large/shannon-brocas-desert-hunter-02.jpg?1679287819"
+  },
+  "blanca-via": {
+    "category": "Religiones",
+    "extra_categories": [
+      "Religiones"
+    ],
+    "image_url": ""
+  },
+  "paladin": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/002/637/127/large/simon-dubuc-sunveilpaladin-2048.jpg?1463948315"
+  },
+  "picaro": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://i.pinimg.com/736x/9d/c6/9d/9dc69dc1219badbf98b8e898167b21c6.jpg"
+  },
+  "chemos-el-dios-oscuro": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses",
+      "Consejo Omega"
+    ],
+    "image_url": ""
+  },
+  "fafnir-el-dios-dragon": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Dioses",
+      "Ascendidos"
+    ],
+    "image_url": ""
+  },
+  "ki-energia-vital": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/060/711/106/4k/rayven-studios-monk-loe-1.jpg?1679152704"
+  },
+  "onan-vindland": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Aliados"
+    ],
+    "image_url": "/images/covers/onan-vindland.png"
+  },
+  "santuario-de-la-mano-abierta": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": ""
+  },
+  "monjes-de-la-mano-abierta": {
+    "category": "Organizaciones",
+    "extra_categories": [
+      "Organizaciones"
+    ],
+    "image_url": ""
+  },
+  "nigromancia": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/000/977/384/large/roman-tishenin-37-2v.jpg?1437412479"
+  },
+  "magos": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://i.pinimg.com/originals/54/33/96/5433963d86e8f1bba55ce613c3415c0d.jpg"
+  },
+  "guerrero": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/004/972/423/large/harang-warrior.jpg?1487590807"
+  },
+  "wild-shape": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/011/282/624/large/svetlin-velinov-bristling-boar.jpg?1528791623"
+  },
+  "druida": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/07/new-phb-druid-art-1.jpg"
+  },
+  "hexblade": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/036/469/404/large/chris-ibarra-ba99a7e8-2126-47f7-ba9c-bd8469ebd3e5.jpg?1617758455"
+  },
+  "brujo": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/003/968/066/large/anthony-star-soul-slaver.jpg?1479038309"
+  },
+  "barbaro": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://www.dndbeyond.com/attachments/10/350/barbarian-class-features.jpg"
+  },
+  "goliats": {
+    "category": "Organizaciones",
+    "extra_categories": [
+      "Organizaciones"
+    ],
+    "image_url": "https://www.wargamer.com/wp-content/sites/wargamer/2023/03/dnd-goliath-5e-warrior.jpeg"
+  },
+  "la-clase-de-bardo": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/07/bard-5e-dnd.jpg"
+  },
+  "los-vulpins": {
+    "category": "Organizaciones",
+    "extra_categories": [
+      "Organizaciones"
+    ],
+    "image_url": "https://images.dungeonnexus.com/1024x1024/races/vulpin.jpg"
+  },
+  "los-latentes": {
+    "category": "Organizaciones",
+    "extra_categories": [
+      "Organizaciones"
+    ],
+    "image_url": ""
+  },
+  "el-plano-material": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "/images/covers/el-plano-material.jpg"
+  },
+  "nigromantes": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/006/544/781/large/thanh-tu-n-necro-retouch-rs.jpg?1499399902"
+  },
+  "magia-salvaje": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://i.pinimg.com/originals/29/53/c5/2953c5d41c50f3632b16e0466269c20a.jpg"
+  },
+  "magia-arcana": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/covers/images/082/942/407/large/victor-maury-victor-maury-vikthumbnail.jpg?1734357334"
+  },
+  "magia-oscura": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/016/396/265/large/tara-spruit-fairyloot-april8.jpg?1551992010"
+  },
+  "magia-extraplanar": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/006/578/604/large/nordeus-games-art-station-environment-tower.jpg?1499686046"
+  },
+  "magia-natural": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://i.pinimg.com/736x/de/08/8f/de088f6ff7327de602a94aafd0c869e4.jpg"
+  },
+  "magia-divina": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/044/087/841/large/marta-nael-moon-blessed-martanael.jpg?1639056024"
+  },
+  "universo-caldo-de-dragon": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/e437098d-0bcc-41b6-b7f9-7dd4630269e1/d5ditq6-7ed44050-340d-4cca-a9d8-e194abe24f2f.jpg/v1/fill/w_900,h_600,q_75,strp/colourful_cosmos__by_maspix_d5ditq6-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2U0MzcwOThkLTBiY2MtNDFiNi1iN2Y5LTdkZDQ2MzAyNjllMVwvZDVkaXRxNi03ZWQ0NDA1MC0zNDBkLTRjY2EtYTlkOC1lMTk0YWJlMjRmMmYuanBnIiwiaGVpZ2h0IjoiPD02MDAiLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLndhdGVybWFyayJdLCJ3bWsiOnsicGF0aCI6Ilwvd21cL2U0MzcwOThkLTBiY2MtNDFiNi1iN2Y5LTdkZDQ2MzAyNjllMVwvbWFzcGl4LTQucG5nIiwib3BhY2l0eSI6OTUsInByb3BvcnRpb25zIjowLjQ1LCJncmF2aXR5IjoiY2VudGVyIn19.FK4HNWzl9hnFYLgASosYoYtn-2Iuz_s8DnZ-V5VgEII"
+  },
+  "primordiales": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses"
+    ],
+    "image_url": ""
+  },
+  "poder-cosmico": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://i.pinimg.com/originals/78/39/0d/78390d564d0480161bc8f6448ff74dd2.jpg"
+  },
+  "magia": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/002/255/440/large/james-paick-epic-10122015-orion-final-copy.jpg?1459377343"
+  },
+  "plaga-de-las-bestias": {
+    "category": "Eventos",
+    "extra_categories": [
+      "Eventos"
+    ],
+    "image_url": ""
+  },
+  "logario": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": ""
+  },
+  "la-blanca-inquisicion": {
+    "category": "Religiones",
+    "extra_categories": [
+      "Religiones"
+    ],
+    "image_url": ""
+  },
+  "la-blanca-via": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses",
+      "Verdaderos"
+    ],
+    "image_url": ""
+  },
+  "devotos-de-la-reina": {
+    "category": "Organizaciones",
+    "extra_categories": [
+      "Organizaciones"
+    ],
+    "image_url": ""
+  },
+  "blackguard": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://i.pinimg.com/736x/8c/56/c1/8c56c1aedf78e03138c7af7a0e7e8bab.jpg"
+  },
+  "los-nueve-infiernos": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://i.pinimg.com/736x/60/9d/94/609d94db1cac87869dc759efae523e6a.jpg"
+  },
+  "plano-astral": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/d/d1/Astral_ships-4e.jpg/revision/latest?cb=20200627164413"
+  },
+  "plano-del-fuego": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/2/24/CityOfBrass4e.jpg/revision/latest?cb=20150906150034"
+  },
+  "stygia": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "/images/covers/stygia-1789491651779.png"
+  },
+  "planeshifter": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/066/919/162/large/sam-ee-spb-concept-final-colour2.jpg?1716899999"
+  },
+  "conocimiento-arcano": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/024/241/652/large/lily-morran-belousova10-fixed-1200.jpg?1581778587"
+  },
+  "pistolero": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://i1.wp.com/dmdave.com/wp-content/uploads/2018/10/pistolero.jpg?fit=800%2C450&ssl=1"
+  },
+  "armas-de-fuego": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": "https://cdnb.artstation.com/p/assets/images/images/012/844/651/large/guillaume-sinou-screenshot000-2.jpg?1536796181"
+  },
+  "armero": {
+    "category": "Clases",
+    "extra_categories": [
+      "Clases"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/065/657/886/large/dani-delgado-eddie.jpg?1690907054"
+  },
+  "la-gran-biblioteca-de-kaliria-mt7cxkz1": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": ""
+  },
+  "coliseo-de-catarina-mt7cpt8n": {
+    "category": "Arena",
+    "extra_categories": [
+      "Lugares",
+      "Arena"
+    ],
+    "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/5bb775e1-8bda-4773-880a-34894f3f5257/depe61q-4b19a8f2-8b06-48bf-b770-d66de9868bbd.png/v1/fill/w_622,h_350,q_70,strp/coliseo_concept_by_halemartist_depe61q-350t.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6Ii9mLzViYjc3NWUxLThiZGEtNDc3My04ODBhLTM0ODk0ZjNmNTI1Ny9kZXBlNjFxLTRiMTlhOGYyLThiMDYtNDhiZi1iNzcwLWQ2NmRlOTg2OGJiZC5wbmciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.8puxmsE6JWcnXpgMseesRptfAfq3-lKfiI7q16RS2YI"
+  },
+  "carpa-de-la-compania-mt7c8mh8": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "/images/covers/carpa-de-la-compania-mt7c8mh8.png"
+  },
+  "drangleic-alternativo-msq7fs0t": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/sw5OzfP.png"
+  },
+  "el-santa-maria": {
+    "category": "Mazmorras",
+    "extra_categories": [
+      "Lugares",
+      "Mazmorras"
+    ],
+    "image_url": "/images/covers/el-santa-maria.png"
+  },
+  "faustus": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": ""
+  },
+  "fara": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": ""
+  },
+  "limeyr": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Expedición de Moonhaven"
+    ],
+    "image_url": "https://i.imgur.com/K1xvoFz.png"
+  },
+  "grimorios-de-faustus": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": ""
+  },
+  "magia-de-los-espejos-mrfe8ahx": {
+    "category": "Magias",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/061/996/574/large/mael-jaouen-ep2-pm-firstportal.jpg?1682093343"
+  },
+  "academia-de-los-espejos-de-drangleic-mrfddq1b": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": ""
+  },
+  "glacio-mrfd5pzs": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/032/345/906/large/arvin-villapando-avillapando-boleteriavista-01.jpg?1606176511"
+  },
+  "mehetia-mrfciyvp": {
+    "category": "Mazmorras",
+    "extra_categories": [
+      "Lugares",
+      "Mazmorras"
+    ],
+    "image_url": ""
+  },
+  "torre-de-latria-mrfccvm3": {
+    "category": "Mazmorras",
+    "extra_categories": [
+      "Lugares",
+      "Mazmorras"
+    ],
+    "image_url": "https://cloudfront-eu-central-1.images.arcpublishing.com/diarioas/LOJEEGFVIZOOPN3EMATR6SYNZQ.jpg"
+  },
+  "arbol-aureo-mrf9a5jc": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses"
+    ],
+    "image_url": ""
+  },
+  "palacio-de-los-elfos-de-siramar-mreuygo8": {
+    "category": "Mazmorras",
+    "extra_categories": [
+      "Lugares",
+      "Mazmorras"
+    ],
+    "image_url": "https://i.imgur.com/ToFeTOJ.png"
+  },
+  "avalon": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/Y7ebSA7.png"
+  },
+  "camelot": {
+    "category": "Reinos",
+    "extra_categories": [
+      "Lugares",
+      "Reinos"
+    ],
+    "image_url": "https://i.imgur.com/TEvOTDh.png"
+  },
+  "la-capital": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": ""
+  },
+  "mascara-de-purga": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": ""
+  },
+  "parasito-de-cobre": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": ""
+  },
+  "svartal-mre7hjm6": {
+    "category": "Asentamientos",
+    "extra_categories": [
+      "Lugares",
+      "Asentamientos"
+    ],
+    "image_url": "https://i.imgur.com/jr08E4K.png"
+  },
+  "siramar-mre5xebn": {
+    "category": "Asentamientos",
+    "extra_categories": [
+      "Lugares",
+      "Asentamientos"
+    ],
+    "image_url": "https://i.imgur.com/KLCNYeW.png"
+  },
+  "stariax-mre4wqiy": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Expedición de Moonhaven"
+    ],
+    "image_url": "https://i.imgur.com/Ze5uD25.png"
+  },
+  "gran-reino-enano-de-thorin-mrdtvqcc": {
+    "category": "Reinos",
+    "extra_categories": [
+      "Lugares",
+      "Reinos"
+    ],
+    "image_url": "https://i.imgur.com/HbwnO2N.png"
+  },
+  "eyegore-mrdrh1ob": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Expedición de Moonhaven"
+    ],
+    "image_url": ""
+  },
+  "thrag-mrdrc85l": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Personajes",
+      "Ascendidos"
+    ],
+    "image_url": "/images/covers/thrag-mrdrc85l.png"
+  },
+  "las-islas-de-kaanil-mrdowgts": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/pl8bxcO.png"
+  },
+  "gripe-de-la-plata-mrdhl7vn": {
+    "category": "Eventos",
+    "extra_categories": [
+      "Eventos"
+    ],
+    "image_url": ""
+  },
+  "coliseo-onirico-mrdbt1cy": {
+    "category": "Arena",
+    "extra_categories": [
+      "Lugares",
+      "Arena"
+    ],
+    "image_url": "https://cdna.artstation.com/p/assets/images/images/054/005/446/large/xh-.jpg?1663556065"
+  },
+  "reino-de-los-suenos-mrdbnam8": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "/images/covers/reino-de-los-suenos-mrdbnam8-1789491629544.png"
+  },
+  "reino-de-las-pesadillas-mrc2mkc6": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "/images/covers/reino-de-las-pesadillas-mrc2mkc6-1789491599656.png"
+  },
+  "la-compania-mrc0in6q": {
+    "category": "Organizaciones",
+    "extra_categories": [
+      "Organizaciones"
+    ],
+    "image_url": ""
+  },
+  "semiplano-de-la-ceniza-mrc08cqq": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "/images/covers/semiplano-de-la-ceniza-mrc08cqq-1789304920179.png"
+  },
+  "la-gran-nada-mrbzhsjf": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/rwAVkcr.png"
+  },
+  "mercado-negro-de-icespear": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/QTrDHKA.png"
+  },
+  "mansion-de-zaltar": {
+    "category": "Mazmorras",
+    "extra_categories": [
+      "Lugares",
+      "Mazmorras"
+    ],
+    "image_url": "https://i.imgur.com/alepF6P.png"
+  },
+  "mansion-loux": {
+    "category": "Asentamientos",
+    "extra_categories": [
+      "Lugares",
+      "Asentamientos"
+    ],
+    "image_url": "https://i.imgur.com/gBvmZQ0.png"
+  },
+  "mansion-ferton": {
+    "category": "Mazmorras",
+    "extra_categories": [
+      "Lugares",
+      "Mazmorras"
+    ],
+    "image_url": "https://i.imgur.com/feUiJp7.png"
+  },
+  "manantial-del-feywild": {
+    "category": "Mazmorras",
+    "extra_categories": [
+      "Lugares",
+      "Mazmorras"
+    ],
+    "image_url": "https://i.imgur.com/DVfq6h8.png"
+  },
+  "magordito": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Personajes",
+      "Ascendidos",
+      "Jugadores",
+      "Caldo de Dragón C1"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/d8/Magordito_webpng.png/revision/latest/scale-to-width-down/1000?cb=20250721184246&path-prefix=es"
+  },
+  "magor": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/f/f0/MagorElnegro.png/revision/latest/scale-to-width-down/1000?cb=20250904171354&path-prefix=es"
+  },
+  "luna-diaz": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/b0/Luna_L%C3%ADaz.png/revision/latest/scale-to-width-down/1000?cb=20250716103848&path-prefix=es"
+  },
+  "llamas-en-la-noche": {
+    "category": "Eventos",
+    "extra_categories": [
+      "Eventos"
+    ],
+    "image_url": ""
+  },
+  "leonard-loux": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/f/f0/Leonard_loux.png/revision/latest/scale-to-width-down/1000?cb=20250706193332&path-prefix=es"
+  },
+  "laila-diaz": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/a/ae/Laila_d%C3%ADaz.png/revision/latest/scale-to-width-down/1000?cb=20250716101854&path-prefix=es"
+  },
+  "la-profecia-viviente": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/4/46/Laprofeciaviviente.png/revision/latest/scale-to-width-down/1000?cb=20250320162920&path-prefix=es"
+  },
+  "la-tienda-23": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/zIfiy7w.png"
+  },
+  "la-guerra-del-averno": {
+    "category": "Eventos",
+    "extra_categories": [
+      "Eventos"
+    ],
+    "image_url": ""
+  },
+  "la-familia-elegida": {
+    "category": "Familias",
+    "extra_categories": [
+      "Familias"
+    ],
+    "image_url": ""
+  },
+  "la-era-de-los-dioses": {
+    "category": "Eventos",
+    "extra_categories": [
+      "Eventos"
+    ],
+    "image_url": ""
+  },
+  "koryu-no-kame": {
+    "category": "Dragones",
+    "extra_categories": [
+      "Dragones",
+      "Bestias"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/4/4f/Dragon_Turtle_AFR.jpg/revision/latest?cb=20210704122513"
+  },
+  "kurogame": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/6/63/Kurogame.png/revision/latest/scale-to-width-down/1000?cb=20250904155546&path-prefix=es"
+  },
+  "kaliria": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/glZMHQn.png"
+  },
+  "kairon": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Caldo de Dragón C2"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/a/a7/Kairon.png/revision/latest/scale-to-width-down/1000?cb=20250904083407&path-prefix=es"
+  },
+  "kaelgor-loux": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/3/3d/Kaelgor.png/revision/latest/scale-to-width-down/1000?cb=20250704180349&path-prefix=es"
+  },
+  "kaanil-nah": {
+    "category": "Reinos",
+    "extra_categories": [
+      "Lugares",
+      "Reinos"
+    ],
+    "image_url": "https://i.imgur.com/U9IJ1fe.png"
+  },
+  "herald-i-de-moonhaven": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": ""
+  },
+  "havrik-deez": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/1/1a/Havrik_Deez.png/revision/latest/scale-to-width-down/1000?cb=20250707104708&path-prefix=es"
+  },
+  "hagamos-caldo-de-dragon": {
+    "category": "Eventos",
+    "extra_categories": [
+      "Eventos"
+    ],
+    "image_url": ""
+  },
+  "gungnir": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": ""
+  },
+  "gromock": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/c/c6/Gromock.png/revision/latest/scale-to-width-down/250?cb=20250904183612&path-prefix=es"
+  },
+  "greta-diaz": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/3/31/Greta_diaz.png/revision/latest/scale-to-width-down/1000?cb=20250716100138&path-prefix=es"
+  },
+  "greg-diaz": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/78/Greg_D%C3%ADaz.png/revision/latest/scale-to-width-down/250?cb=20250707090241&path-prefix=es"
+  },
+  "gran-torre-arcana-de-cryostar": {
+    "category": "Mazmorras",
+    "extra_categories": [
+      "Lugares",
+      "Mazmorras"
+    ],
+    "image_url": "https://i.imgur.com/qiO2SRs.png"
+  },
+  "gorm": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Dioses",
+      "Ascendidos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/db/Dios_Gorm.png/revision/latest/scale-to-width-down/1000?cb=20250328101402&path-prefix=es"
+  },
+  "gobernante-de-moonhaven": {
+    "category": "Organizaciones",
+    "extra_categories": [
+      "Organizaciones"
+    ],
+    "image_url": ""
+  },
+  "gildemar-el-rey-mago": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Personajes",
+      "Ascendidos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/1/1c/Gildemar.png/revision/latest/scale-to-width-down/250?cb=20250709104812&path-prefix=es"
+  },
+  "freya": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses"
+    ],
+    "image_url": ""
+  },
+  "fit-fitson": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "/images/covers/fit-fitson.png"
+  },
+  "feywild": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://i.imgur.com/7y5AzYb.png"
+  },
+  "ferton": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/86/Ferton.webp/revision/latest/scale-to-width-down/250?cb=20250908112540&path-prefix=es"
+  },
+  "feria-de-makai": {
+    "category": "Eventos",
+    "extra_categories": [
+      "Eventos"
+    ],
+    "image_url": ""
+  },
+  "familia-diaz": {
+    "category": "Familias",
+    "extra_categories": [
+      "Familias"
+    ],
+    "image_url": ""
+  },
+  "familia-deez": {
+    "category": "Familias",
+    "extra_categories": [
+      "Familias"
+    ],
+    "image_url": ""
+  },
+  "fafnir": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Dioses",
+      "Ascendidos"
+    ],
+    "image_url": ""
+  },
+  "emboscada": {
+    "category": "Eventos",
+    "extra_categories": [
+      "Eventos"
+    ],
+    "image_url": ""
+  },
+  "el-baron": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "/images/covers/el-baron.png"
+  },
+  "el-senor-de-la-ceniza-bestia-del-apocalipsis": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/6/6f/Se%C3%B1or_de_la_ceniza.png/revision/latest/scale-to-width-down/250?cb=20250715081526&path-prefix=es"
+  },
+  "el-reino-de-los-suenos": {
+    "category": "Eventos",
+    "extra_categories": [
+      "Eventos"
+    ],
+    "image_url": ""
+  },
+  "el-oni-del-cerezo": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Personajes",
+      "Ascendidos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/bc/Oni.png/revision/latest/scale-to-width-down/250?cb=20250905102132&path-prefix=es"
+  },
+  "el-loa-tigre": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses"
+    ],
+    "image_url": ""
+  },
+  "el-ciervo-celeste": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/tDfiS8a.png"
+  },
+  "edacorn": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Caldo de Dragón C1"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/85/Edacorn_wiki.png/revision/latest/scale-to-width-down/1000?cb=20250716084500&path-prefix=es"
+  },
+  "durnik": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/db/Durnik.webp/revision/latest/scale-to-width-down/250?cb=20250908113624&path-prefix=es"
+  },
+  "druunia-deez": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/02/Druina_deez.png/revision/latest/scale-to-width-down/250?cb=20250707103332&path-prefix=es"
+  },
+  "drakaris": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/72/Drakaris.png/revision/latest/scale-to-width-down/1000?cb=20250328180328&path-prefix=es"
+  },
+  "cryovain": {
+    "category": "Cromáticos",
+    "extra_categories": [
+      "Dragones",
+      "Cromáticos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/9/90/White_Dragon_AFR.jpg/revision/latest?cb=20210901150509"
+  },
+  "cryostar": {
+    "category": "Reinos",
+    "extra_categories": [
+      "Lugares",
+      "Reinos"
+    ],
+    "image_url": "https://i.imgur.com/dX1XMCx.png"
+  },
+  "consejo-omega": {
+    "category": "Organizaciones",
+    "extra_categories": [
+      "Organizaciones"
+    ],
+    "image_url": ""
+  },
+  "chispo-deez": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Caldo de Dragón C1"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/83/Chispo_deez_web_%282%29.png/revision/latest/scale-to-width-down/250?cb=20250904112604&path-prefix=es"
+  },
+  "chemos": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses",
+      "Consejo Omega"
+    ],
+    "image_url": ""
+  },
+  "bestias-del-apocalipsis": {
+    "category": "Organizaciones",
+    "extra_categories": [
+      "Organizaciones"
+    ],
+    "image_url": ""
+  },
+  "bellmoth": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": ""
+  },
+  "belcebu": {
+    "category": "Gobernantes de planos",
+    "extra_categories": [
+      "Gobernantes de planos"
+    ],
+    "image_url": "/images/covers/belcebu-1789305546288.png"
+  },
+  "barled": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Caldo de Dragón C2"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/2/27/Barled_web.png/revision/latest/scale-to-width-down/250?cb=20250924155207&path-prefix=es"
+  },
+  "auros-diaz": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/0e/Auros_D%C3%ADaz.png/revision/latest/scale-to-width-down/250?cb=20250328184714&path-prefix=es"
+  },
+  "asmodeo": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/d4/Asmodeo.png/revision/latest/scale-to-width-down/250?cb=20250329202142&path-prefix=es"
+  },
+  "arthorius": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Personajes",
+      "Ascendidos"
+    ],
+    "image_url": "https://i.imgur.com/vuaAXPh.png"
+  },
+  "armagedon": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": ""
+  },
+  "arlem-diaz": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Personajes",
+      "Ascendidos",
+      "Jugadores",
+      "Caldo de Dragón C1"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/0c/Arlem_diaz_web.png/revision/latest/scale-to-width-down/250?cb=20250716175521&path-prefix=es"
+  },
+  "arkalon-diaz": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/3/38/Arkalon.png/revision/latest?cb=20250329103135&path-prefix=es"
+  },
+  "arkadis": {
+    "category": "Metálicos",
+    "extra_categories": [
+      "Dragones",
+      "Metálicos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/e/e2/Arkadis.png/revision/latest/scale-to-width-down/250?cb=20250328125458&path-prefix=es"
+  },
+  "arashi": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": ""
+  },
+  "aeros": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/Kd8XtUi.jpeg"
+  },
+  "aeliana": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://i.imgur.com/4ob6yxn.png"
+  },
+  "exodus-umbral": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/slpc8WW.png"
+  },
+  "zaltar": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Personajes",
+      "Ascendidos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/bd/ZALTAR_WIKI.png/revision/latest/scale-to-width-down/1000?cb=20250904173049&path-prefix=es"
+  },
+  "varianthel": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Personajes",
+      "Ascendidos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/08/Varianthelwiki.webp/revision/latest/scale-to-width-down/250?cb=20250904175937&path-prefix=es"
+  },
+  "una-carta-inesperada": {
+    "category": "Eventos",
+    "extra_categories": [
+      "Eventos"
+    ],
+    "image_url": ""
+  },
+  "una-leyenda-se-forja": {
+    "category": "Eventos",
+    "extra_categories": [
+      "Eventos"
+    ],
+    "image_url": ""
+  },
+  "umberlee": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses"
+    ],
+    "image_url": ""
+  },
+  "tumba-de-chemos": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/oPJOmmw.png"
+  },
+  "thravir-el-loxodon": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://i.imgur.com/FEcw0cV.png"
+  },
+  "thorin-loux": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/3/37/Thorin.webp/revision/latest/scale-to-width-down/1000?cb=20250703154130&path-prefix=es"
+  },
+  "thorfin-loux": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/8c/Thorfin.png/revision/latest/scale-to-width-down/1000?cb=20250703155141&path-prefix=es"
+  },
+  "templo-de-makai": {
+    "category": "Mazmorras",
+    "extra_categories": [
+      "Lugares",
+      "Mazmorras"
+    ],
+    "image_url": "https://i.imgur.com/H96QfKy.png"
+  },
+  "taverna-de-caldo-de-dragon": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/Z1lF8fn.png"
+  },
+  "tauron": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Dioses",
+      "Ascendidos"
+    ],
+    "image_url": ""
+  },
+  "takhisis": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Dioses",
+      "Ascendidos"
+    ],
+    "image_url": ""
+  },
+  "syndragosa": {
+    "category": "Metálicos",
+    "extra_categories": [
+      "Dragones",
+      "Metálicos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/2/21/Ancient_Gold_Dragon_CLB.jpg/revision/latest?cb=20220530172853"
+  },
+  "stitch": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/d9/Sir_percival.png/revision/latest/scale-to-width-down/1000?cb=20250329193332&path-prefix=es"
+  },
+  "spellforge": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/gsN7AqH.png"
+  },
+  "roxanne": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Caldo de Dragón C2"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/f/fe/Roxanne_web.png/revision/latest/scale-to-width-down/1000?cb=20250914120642&path-prefix=es"
+  },
+  "rey-redcap": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://i.imgur.com/pTX0dMJ.png"
+  },
+  "rexyrian": {
+    "category": "Bestias",
+    "extra_categories": [
+      "Dragones",
+      "Bestias"
+    ],
+    "image_url": "/images/covers/rexyrian-1789638711927.png"
+  },
+  "raxxar": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Caldo de Dragón C2"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/f/f1/Raxxar_Web.png/revision/latest/scale-to-width-down/1000?cb=20250904084238&path-prefix=es"
+  },
+  "ragnavaldr": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Caldo de Dragón C2"
+    ],
+    "image_url": "https://i.imgur.com/FPSNBBo.png"
+  },
+  "ragnarok": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://i.imgur.com/b2peZiC.png"
+  },
+  "pythor": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/75/Pythor.png/revision/latest/scale-to-width-down/250?cb=20250328120529&path-prefix=es"
+  },
+  "prometeo": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Caldo de Dragón C2"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/09/Prometeo_web.png/revision/latest?cb=20250904083848&path-prefix=es"
+  },
+  "plano-del-polvo": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://i.imgur.com/zCWkO7B.png"
+  },
+  "plano-onirico": {
+    "category": "Planos",
+    "extra_categories": [
+      "Planos"
+    ],
+    "image_url": "https://i.imgur.com/dpF6AW4.png"
+  },
+  "pico-de-icespear": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/ZKLG3HD.png"
+  },
+  "pepe-loux": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes",
+      "Jugadores",
+      "Caldo de Dragón C1",
+      "Expedición de Moonhaven"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/e/ef/Pepe_loux_wiki2.png/revision/latest?cb=20250904083106&path-prefix=es"
+  },
+  "nuitari": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses",
+      "Consejo Omega"
+    ],
+    "image_url": ""
+  },
+  "nidhog": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": ""
+  },
+  "nemuina": {
+    "category": "Ascendidos",
+    "extra_categories": [
+      "Dioses",
+      "Ascendidos"
+    ],
+    "image_url": ""
+  },
+  "mushusu": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": ""
+  },
+  "morgion": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses",
+      "Consejo Omega"
+    ],
+    "image_url": ""
+  },
+  "moonhaven": {
+    "category": "Reinos",
+    "extra_categories": [
+      "Lugares",
+      "Reinos"
+    ],
+    "image_url": "https://i.imgur.com/s3nFTJd.png"
+  },
+  "minas-de-icespear": {
+    "category": "Mazmorras",
+    "extra_categories": [
+      "Lugares",
+      "Mazmorras"
+    ],
+    "image_url": "https://i.imgur.com/RGQRB1b.png"
+  },
+  "mimir": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/b6/Mimir.png/revision/latest/scale-to-width-down/1000?cb=20250705190231&path-prefix=es"
+  },
+  "midas-diosa-del-comercio": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses"
+    ],
+    "image_url": ""
+  },
+  "marduk": {
+    "category": "Dioses",
+    "extra_categories": [
+      "Dioses"
+    ],
+    "image_url": ""
+  },
+  "mamon": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://i.imgur.com/qWGQjt7.png"
+  },
+  "la-corona-del-apocalipsis": {
+    "category": "Objetos",
+    "extra_categories": [
+      "Objetos"
+    ],
+    "image_url": ""
+  },
+  "auros": {
+    "category": "Metálicos",
+    "extra_categories": [
+      "Dragones",
+      "Metálicos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/2/28/Auros-.png/revision/latest?cb=20250319170442&path-prefix=es"
+  },
+  "arlon-diaz": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/87/Arlon.png/revision/latest/scale-to-width-down/250?cb=20250329104958&path-prefix=es"
+  },
+  "glimmerstone-aa54d9": {
+    "category": "Asentamientos",
+    "extra_categories": [
+      "Lugares",
+      "Asentamientos"
+    ],
+    "image_url": "https://i.imgur.com/r49saMf.png"
+  },
+  "makai-d7e6b8": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/kbtgdpB.png"
+  },
+  "ravenholm-075d82": {
+    "category": "Asentamientos",
+    "extra_categories": [
+      "Lugares",
+      "Asentamientos"
+    ],
+    "image_url": "https://i.imgur.com/lK84OjE.png"
+  },
+  "icespear-9a1e7c": {
+    "category": "Asentamientos",
+    "extra_categories": [
+      "Lugares",
+      "Asentamientos"
+    ],
+    "image_url": "https://i.imgur.com/eWibqjZ.png"
+  },
+  "la-antigua-capital-72cd6a": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/5xcULFK.png"
+  },
+  "el-abismo-96325e": {
+    "category": "Lugares",
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "https://i.imgur.com/AfG8TZP.png"
+  },
+  "el-cierre-del-reloj-astral-36732c": {
+    "category": "Eventos",
+    "extra_categories": [
+      "Eventos"
+    ],
+    "image_url": "https://i.imgur.com/PKTZRLn.png"
+  },
+  "el-maestro-db608e": {
+    "category": "Antiguos",
+    "extra_categories": [
+      "Personajes",
+      "Antiguos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/ba/El_maestro.png/revision/latest/scale-to-width-down/250?cb=20250717093543&path-prefix=es"
+  },
+  "tarot-el-gran-bibliotecario-8300f5": {
+    "category": "Antiguos",
+    "extra_categories": [
+      "Personajes",
+      "Antiguos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/7b/Tarot_wiki.png/revision/latest/scale-to-width-down/250?cb=20250716115501&path-prefix=es"
+  },
+  "borroko-65d44d": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/c/c7/Borroko_app.png/revision/latest/scale-to-width-down/250?cb=20250717095340&path-prefix=es"
+  },
+  "el-caballero-del-espejo-95b1cd": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/c/ce/Caballero_del_espejo_web.png/revision/latest/scale-to-width-down/250?cb=20250924151237&path-prefix=es"
+  },
+  "rey-allant-fb4cad": {
+    "category": "Portadores de Marca",
+    "extra_categories": [
+      "Personajes",
+      "Portadores de Marca"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/4/48/Viejo_rey_Allant.png/revision/latest/scale-to-width-down/250?cb=20250711202007&path-prefix=es"
+  },
+  "ostrava-c9fdb2": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/9/9d/Ostraba.png/revision/latest/scale-to-width-down/250?cb=20250711195551&path-prefix=es"
+  },
+  "zamos-vinland-9d7ed1": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/89/Zamos_Vinland.png/revision/latest?cb=20250712130240&path-prefix=es"
+  },
+  "garl-vinland-y-la-dama-astraea-ffd99b": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/1/19/Gar_vindland_y_dama_astraea.png/revision/latest/scale-to-width-down/250?cb=20250711194519&path-prefix=es"
+  },
+  "padre-gabriel-cd1d8e": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/04/Padre_gabriel_2.png/revision/latest/scale-to-width-down/1000?cb=20250712122101&path-prefix=es"
+  },
+  "el-santuario-d45cdc": {
+    "category": "Asentamientos",
+    "extra_categories": [
+      "Lugares",
+      "Asentamientos"
+    ],
+    "image_url": "https://i.imgur.com/tCueEd5.png"
+  },
+  "gran-arana-acorazada-ea7987": {
+    "category": "Antiguos",
+    "extra_categories": [
+      "Personajes",
+      "Antiguos"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/77/Araña_acorazada.png/revision/latest?cb=20250711190614&path-prefix=es"
+  },
+  "lothric-a1d86b": {
+    "category": "Reinos",
+    "extra_categories": [
+      "Lugares",
+      "Reinos"
+    ],
+    "image_url": "https://i.imgur.com/hB1mT3O.png"
+  },
+  "el-caballero-de-la-torre-30a91b": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/9/91/El_caballero_de_la_torre.png/revision/latest?cb=20250711193133&path-prefix=es"
+  },
+  "drangleic-869efe": {
+    "category": "Reinos",
+    "extra_categories": [
+      "Lugares",
+      "Reinos"
+    ],
+    "image_url": "https://i.imgur.com/QEThPRQ.png"
+  },
+  "boletaria-7e36fa": {
+    "category": "Reinos",
+    "extra_categories": [
+      "Lugares",
+      "Reinos"
+    ],
+    "image_url": "https://i.imgur.com/hbR3CWs.png"
+  },
+  "nuevo-documento-c7a172": {
+    "category": "Otros",
+    "extra_categories": [
+      "Otros"
+    ],
+    "image_url": ""
+  },
+  "ivan-del-valle-boreal-326760": {
+    "category": "Personajes",
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/bd/Iván_del_Valle_Boreal.png/revision/latest/scale-to-width-down/250?cb=20250711203122&path-prefix=es"
+  }
+}

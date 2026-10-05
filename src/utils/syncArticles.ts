@@ -98,78 +98,24 @@ interface PendingSyncAction {
 
 let memoryArticlesCache: { [key: string]: WikiArticle[] } = {};
 
-export const DEFAULT_ARTICLE_SUBCATEGORY_ASSIGNMENTS: Record<string, { category: string; extra_categories: string[] }> = {
-  "astora": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
-  "alejandria": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
-  "morgana": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
-  "laberinto-de-cristales": { category: "Dominio", extra_categories: ["Lugares", "Dominio"] },
-  "zaratras": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
-  "gravatax-el-dragon-de-amatista": { category: "Gemáticos", extra_categories: ["Dragones", "Gemáticos"] },
-  "minos-el-chaman-minotauro": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
-  "fafnir-el-dios-dragon": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
-  "coliseo-de-catarina-mt7cpt8n": { category: "Arena", extra_categories: ["Lugares", "Arena"] },
-  "el-santa-maria": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
-  "mehetia-mrfciyvp": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
-  "torre-de-latria-mrfccvm3": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
-  "palacio-de-los-elfos-de-siramar-mreuygo8": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
-  "camelot": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
-  "svartal-mre7hjm6": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
-  "siramar-mre5xebn": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
-  "gran-reino-enano-de-thorin-mrdtvqcc": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
-  "thrag-mrdrc85l": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
-  "las-islas-de-kaanil-mrdowgts": { category: "Lugares", extra_categories: ["Lugares"] },
-  "coliseo-onirico-mrdbt1cy": { category: "Arena", extra_categories: ["Lugares", "Arena"] },
-  "mansion-de-zaltar": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
-  "mansion-loux": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
-  "mansion-ferton": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
-  "manantial-del-feywild": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
-  "magordito": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
-  "magor": { category: "Dioses", extra_categories: ["Dioses"] },
-  "kaanil-nah": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
-  "gran-torre-arcana-de-cryostar": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
-  "gorm": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
-  "gildemar-el-rey-mago": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
-  "fafnir": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
-  "el-oni-del-cerezo": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
-  "cryovain": { category: "Cromáticos", extra_categories: ["Dragones", "Cromáticos"] },
-  "cryostar": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
-  "arthorius": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
-  "arlem-diaz": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
-  "arkadis": { category: "Metálicos", extra_categories: ["Dragones", "Metálicos"] },
-  "zaltar": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
-  "varianthel": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
-  "templo-de-makai": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
-  "tauron": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
-  "takhisis": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
-  "syndragosa": { category: "Metálicos", extra_categories: ["Dragones", "Metálicos"] },
-  "rexyrian": { category: "Bestias", extra_categories: ["Dragones", "Bestias"] },
-  "nemuina": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
-  "moonhaven": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
-  "minas-de-icespear": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
-  "auros": { category: "Metálicos", extra_categories: ["Dragones", "Metálicos"] },
-  "glimmerstone-aa54d9": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
-  "ravenholm-075d82": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
-  "icespear-9a1e7c": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
-  "el-maestro-db608e": { category: "Antiguos", extra_categories: ["Personajes", "Antiguos"] },
-  "tarot-el-gran-bibliotecario-8300f5": { category: "Antiguos", extra_categories: ["Personajes", "Antiguos"] },
-  "gran-arana-acorazada-ea7987": { category: "Antiguos", extra_categories: ["Personajes", "Antiguos"] },
-  "rey-allant-fb4cad": { category: "Portadores de Marca", extra_categories: ["Personajes", "Portadores de Marca"] },
-  "el-santuario-d45cdc": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
-  "lothric-a1d86b": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
-  "drangleic-869efe": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
-  "boletaria-7e36fa": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] }
-};
+import articleCategoryAssignments from "../data/article_category_assignments.json";
+
+export const DEFAULT_ARTICLE_SUBCATEGORY_ASSIGNMENTS: Record<string, { category: string; extra_categories: string[]; image_url?: string }> = 
+  articleCategoryAssignments as Record<string, { category: string; extra_categories: string[]; image_url?: string }>;
 
 export function applyDefaultArticleSubcategories(articles: WikiArticle[]): WikiArticle[] {
   if (!Array.isArray(articles)) return [];
   return articles.map((art) => {
     if (!art || !art.slug) return art;
     const preset = DEFAULT_ARTICLE_SUBCATEGORY_ASSIGNMENTS[art.slug];
-    if (preset && (!Array.isArray(art.extra_categories) || art.extra_categories.length === 0)) {
+    if (preset) {
       return {
         ...art,
-        category: preset.category,
-        extra_categories: preset.extra_categories
+        category: art.category || preset.category,
+        extra_categories: (Array.isArray(art.extra_categories) && art.extra_categories.length > 0)
+          ? art.extra_categories
+          : preset.extra_categories,
+        image_url: art.image_url || preset.image_url || ""
       };
     }
     return art;

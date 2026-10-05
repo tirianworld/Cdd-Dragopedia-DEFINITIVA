@@ -78,7 +78,7 @@
   ],
   "banner.image.ascendidos": "/images/banners/banner_ascendidos_1790951489101_9iqq.png?t=1790955000000",
   "banner.fit.ascendidos": "contain",
-  "_updated_at": 1791198082026,
+  "_updated_at": 1791201039123,
   "banner.transparent.ascendidos": "true",
   "banner.ground.ascendidos": "true",
   "banner.tint.ascendidos": "true",
@@ -87,7 +87,7 @@
   "banner.transparent.personajes": "true",
   "banner.ground.personajes": "true",
   "banner.tint.personajes": "true",
-  "banner.scale.personajes": "85",
+  "banner.scale.personajes": "147",
   "banner.offsetY.personajes": "5",
   "banner.offsetY.antiguos": "0",
   "banner.fit.antiguos": "contain",
@@ -119,5 +119,11 @@
   "banner.ground.leyendas": "true",
   "banner.tint.leyendas": "true",
   "banner.scale.leyendas": "201",
-  "banner.offsetY.leyendas": "0"
+  "banner.offsetY.leyendas": "0",
+  "banner.image.portadores_de_marca": "/images/banners/banner_portadores_de_marca.jpg",
+  "banner.fit.portadores_de_marca": "cover",
+  "banner.scale.portadores_de_marca": "100",
+  "banner.image.portadores-de-marca": "/images/banners/banner_portadores_de_marca.jpg",
+  "banner.fit.portadores-de-marca": "cover",
+  "banner.scale.portadores-de-marca": "100"
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export interface CarriageLoaderProps {
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "fullscreen";
@@ -8,6 +8,15 @@ export interface CarriageLoaderProps {
   showRoad?: boolean;
 }
 
+const CARRIAGE_FRAMES = [
+  "/images/carriage_cropped/frame_0.png",
+  "/images/carriage_cropped/frame_1.png",
+  "/images/carriage_cropped/frame_2.png",
+  "/images/carriage_cropped/frame_3.png",
+  "/images/carriage_cropped/frame_4.png",
+  "/images/carriage_cropped/frame_5.png",
+];
+
 export function CarriageLoader({
   size = "md",
   text,
@@ -15,7 +24,24 @@ export function CarriageLoader({
   className = "",
   showRoad = true,
 }: CarriageLoaderProps) {
-  // Dimensions based on size
+  const [currentFrame, setCurrentFrame] = useState(0);
+
+  // Preload all frames immediately
+  useEffect(() => {
+    CARRIAGE_FRAMES.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
+  // Frame animation clock (115ms per frame = ~8.7 fps, classic sprite trot speed)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentFrame((prev) => (prev + 1) % CARRIAGE_FRAMES.length);
+    }, 115);
+    return () => clearInterval(interval);
+  }, []);
+
   const sizeClasses = {
     xs: "w-36 max-w-[90vw]",
     sm: "w-52 max-w-[90vw]",
@@ -27,24 +53,31 @@ export function CarriageLoader({
 
   const content = (
     <div className={`flex flex-col items-center justify-center select-none ${className}`}>
-      {/* Animated AI Sprite: Horse & Carriage Walking Cycle */}
-      <div className={`relative ${sizeClasses} overflow-hidden flex flex-col items-center`}>
-        <picture className="w-full h-auto block">
-          <source srcSet="/images/carriage_loader_ai.webp" type="image/webp" />
-          <img
-            src="/images/carriage_loader_ai.gif"
-            alt="Cargando..."
-            className="w-full h-auto block object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
-            loading="eager"
-          />
-        </picture>
+      {/* Hidden preloader container */}
+      <div className="hidden" aria-hidden="true">
+        {CARRIAGE_FRAMES.map((src) => (
+          <img key={src} src={src} alt="" />
+        ))}
+      </div>
 
-        {/* Ambient Moving Ground Line */}
+      {/* Frame-accurate Sprite Display: exactly ONE frame rendered at any moment (no stacking) */}
+      <div className={`relative ${sizeClasses} flex flex-col items-center justify-center`}>
+        <div className="w-full aspect-[450/240] relative flex items-center justify-center overflow-hidden">
+          <img
+            key={currentFrame}
+            src={CARRIAGE_FRAMES[currentFrame]}
+            alt="Cargando..."
+            className="w-full h-full object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] select-none pointer-events-none"
+            draggable={false}
+          />
+        </div>
+
+        {/* Ambient Moving Road Track */}
         {showRoad && (
-          <div className="w-full mt-[-6px] relative flex items-center justify-center overflow-hidden">
-            <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent relative">
+          <div className="w-full mt-[-4px] relative flex items-center justify-center overflow-hidden px-2">
+            <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-500/35 to-transparent relative">
               <div 
-                className="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_12px,rgba(203,247,245,0.4)_12px,rgba(203,247,245,0.4)_24px)] animate-[roadflow_0.5s_linear_infinite]" 
+                className="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_14px,rgba(203,247,245,0.45)_14px,rgba(203,247,245,0.45)_28px)] animate-[roadflow_0.45s_linear_infinite]" 
               />
             </div>
           </div>
@@ -67,11 +100,11 @@ export function CarriageLoader({
         </div>
       )}
 
-      {/* Embedded roadflow animation style */}
+      {/* Road animation CSS */}
       <style>{`
         @keyframes roadflow {
           0% { transform: translateX(0); }
-          100% { transform: translateX(24px); }
+          100% { transform: translateX(28px); }
         }
       `}</style>
     </div>

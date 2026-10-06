@@ -1275,7 +1275,7 @@ export async function installCddAppZip(zipSource: Buffer | string, fileName: str
     <canvas id="unity-canvas" tabindex="-1"></canvas>
     <div id="loading-bar">
       <div style="width: 340px; max-width: 90vw;">
-        <img src="/images/carriage-loader.svg" alt="Cargando..." style="width: 100%; height: auto; display: block;" />
+        <img src="/images/carriage_loader_ai.gif" alt="Cargando..." style="width: 100%; height: auto; display: block;" />
       </div>
       <div id="loading-text" style="margin-top: 16px; font-size: 14px; color: #89c2be; font-weight: bold;">Cargando App Caldo de Dragón... (0%)</div>
     </div>

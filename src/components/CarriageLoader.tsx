@@ -8,9 +8,9 @@ export interface CarriageLoaderProps {
   showRoad?: boolean;
 }
 
-// 24 fluid, continuous tweened frames in a closed loop (1.8s cycle)
-const CARRIAGE_FRAMES = Array.from({ length: 24 }, (_, i) => 
-  `/images/carriage_fluid/frame_${String(i).padStart(2, "0")}.png`
+// 16 solid locked-position frames (zero horizontal displacement, 1.84s cycle)
+const CARRIAGE_FRAMES = Array.from({ length: 16 }, (_, i) => 
+  `/images/carriage_solid_anim/frame_${String(i).padStart(2, "0")}.png`
 );
 
 export function CarriageLoader({
@@ -22,7 +22,7 @@ export function CarriageLoader({
 }: CarriageLoaderProps) {
   const [currentFrame, setCurrentFrame] = useState(0);
 
-  // Preload all 24 frames once so playback is silky smooth from frame 0
+  // Preload all 16 frames immediately in browser cache
   useEffect(() => {
     CARRIAGE_FRAMES.forEach((src) => {
       const img = new Image();
@@ -30,11 +30,11 @@ export function CarriageLoader({
     });
   }, []);
 
-  // Fluid 24-frame clock: 75ms per frame = 1.8s total cycle duration (deliberate majestic trot)
+  // Steady, deliberate trot clock: 115ms * 16 frames = 1.84 seconds per cycle
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentFrame((prev) => (prev + 1) % CARRIAGE_FRAMES.length);
-    }, 75);
+    }, 115);
     return () => clearInterval(interval);
   }, []);
 
@@ -56,9 +56,9 @@ export function CarriageLoader({
         ))}
       </div>
 
-      {/* Frame-accurate Sprite: 24 fluid frames, strictly one active frame, 100% position lock */}
+      {/* Frame-accurate Sprite: 1 single sprite rendered in place at all times (zero displacement) */}
       <div className={`relative ${sizeClasses} flex flex-col items-center justify-center`}>
-        <div className="w-full aspect-[460/240] relative flex items-center justify-center overflow-hidden">
+        <div className="w-full aspect-[500/230] relative flex items-center justify-center overflow-hidden">
           <img
             key={currentFrame}
             src={CARRIAGE_FRAMES[currentFrame]}
@@ -68,12 +68,12 @@ export function CarriageLoader({
           />
         </div>
 
-        {/* Ambient Moving Road Track */}
+        {/* Ambient Moving Road Track (Ground remains steady beneath wheels) */}
         {showRoad && (
-          <div className="w-full mt-[-6px] relative flex items-center justify-center overflow-hidden px-2">
+          <div className="w-full mt-[-4px] relative flex items-center justify-center overflow-hidden px-2">
             <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-500/35 to-transparent relative">
               <div 
-                className="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_16px,rgba(203,247,245,0.45)_16px,rgba(203,247,245,0.45)_32px)] animate-[roadflow_0.55s_linear_infinite]" 
+                className="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_16px,rgba(203,247,245,0.45)_16px,rgba(203,247,245,0.45)_32px)] animate-[roadflow_0.6s_linear_infinite]" 
               />
             </div>
           </div>

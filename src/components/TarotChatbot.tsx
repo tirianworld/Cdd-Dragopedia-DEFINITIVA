@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { X, Send, BookOpen, FilePlus, Loader2, Minimize2, Maximize2, Edit2, Paperclip, FileText, Check, History, Plus, MessageSquare, Trash2, ArrowLeft, ExternalLink, Menu, Orbit, Sparkles, Compass } from "lucide-react";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { TarotLogo, TarotAISeal } from "./TarotLogo";
-import { renderTarotContent } from "../utils/tarotFormatter";
+import { renderTarotContent, extractCleanChatMessage } from "../utils/tarotFormatter";
 import { useCategories } from "../context/CategoryContext";
 
 interface SuggestedAction {
@@ -375,7 +375,7 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
 
       if (response.ok) {
         const data = await response.json();
-        const extractedText =
+        const rawExtracted =
           (typeof data?.message === "string" && data.message.trim())
             ? data.message
             : (typeof data?.respuesta === "string" && data.respuesta.trim())
@@ -391,6 +391,8 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
                       : (typeof data?.content === "string" && data.content.trim())
                         ? data.content
                         : (typeof data === "string" ? data : "<p>Tarot no ha devuelto un texto legible.</p>");
+
+        const extractedText = extractCleanChatMessage(rawExtracted);
 
         setHistory((prev) => [
           ...prev,
@@ -590,7 +592,7 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
 
       if (response.ok) {
         const data = await response.json();
-        const extractedText =
+        const rawExtracted =
           (typeof data?.message === "string" && data.message.trim())
             ? data.message
             : (typeof data?.respuesta === "string" && data.respuesta.trim())
@@ -606,6 +608,8 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
                       : (typeof data?.content === "string" && data.content.trim())
                         ? data.content
                         : (typeof data === "string" ? data : "<p>Tarot no ha devuelto un texto legible.</p>");
+
+        const extractedText = extractCleanChatMessage(rawExtracted);
 
         setHistory((prev) => [
           ...prev,

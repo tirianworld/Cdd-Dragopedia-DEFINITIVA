@@ -2381,6 +2381,7 @@ async function generateContentWithGroqRetry(
         model: modelToUse,
         messages: messagesToSend as any,
         temperature: temperature !== undefined ? temperature : 0.7,
+        max_tokens: 4096,
         response_format: wantsJson ? { type: "json_object" } : undefined,
       });
 
@@ -2538,7 +2539,7 @@ async function callOpenAICompatibleChat(
   for (const model of modelList) {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 25000); // 25s timeout
+      const timeoutId = setTimeout(() => controller.abort(), 50000); // 50s timeout
 
       const res = await fetch(`${baseUrl}/chat/completions`, {
         method: "POST",
@@ -2551,6 +2552,7 @@ async function callOpenAICompatibleChat(
           model,
           messages: messagesToSend,
           temperature,
+          max_tokens: 4096,
           ...(wantsJson ? { response_format: { type: "json_object" } } : {}),
         }),
       });
@@ -11214,11 +11216,12 @@ Y aquí hay otros tomos catalogados en la biblioteca para tu referencia de conte
 ${articlesSummary}
 
 REGLAS DE ORO DE VERACIDAD Y CONOCIMIENTO TAXONÓMICO DEL LORE:
-1. PRIORIDAD ABSOLUTA DE LA TAXONOMÍA Y LECTURA DE CATEGORÍAS/SUBCATEGORÍAS:
-   - Las categorías y subcategorías oficiales de la wiki no son simples carpetas técnicas: son la clave cosmológica, histórica y genealógica del lore ("=== ESTRUCTURA DE CATEGORÍAS Y SUBCATEGORÍAS DEL LORE ===").
+1. PRIORIDAD ABSOLUTA DE LA TAXONOMÍA Y FINALIZACIÓN COMPLETA DE RESPUESTAS:
+   - Termina SIEMPRE tus respuestas completas con punto final, sin cortarte nunca a la mitad ni dejar oraciones incompletas.
+   - Las categorías y subcategorías oficiales de la wiki son la clave cosmológica, histórica y genealógica del lore (=== ESTRUCTURA DE CATEGORÍAS Y SUBCATEGORÍAS DEL LORE ===).
    - Siempre que se te pregunte por "categoría", "subcategoría", "dónde está clasificado", "a qué categoría pertenece", un grupo, facción o campaña:
-     * DEBES citar la ruta jerárquica exacta de la wiki (ejemplo: "Inicio / Personajes / Jugadores / Caldo de Dragón C1").
-     * NUNCA confundas ni sustituyas esta ruta oficial con etiquetas internas de la ficha técnica infobox (como "Facciones" o "Aliado estratégico").
+     * DEBES citar la ruta jerárquica exacta de la wiki usando comillas angulares o simples (ejemplo: «Inicio / Personajes / Jugadores / Caldo de Dragón C1»). NUNCA uses comillas dobles rectas (") dentro de tus textos.
+     * NUNCA confundas ni sustituyas esta ruta oficial con etiquetas internas de la ficha técnica infobox (como «Facciones» o «Aliado estratégico»).
      * Responde siempre en lenguaje natural, claro y elegante en el campo "message", NUNCA devuelvas objetos JSON crudos en message.
 2. CASO FUNDAMENTAL DE LORE: "CALDO DE DRAGÓN EN AEROS", "C1", "C2" Y LAS REENCARNACIONES:
    - La subcategoría "Caldo de Dragón C1" tiene la ruta oficial:
@@ -11438,12 +11441,14 @@ DIRECTIVAS INQUEBRANTABLES DE SEGURIDAD, CONFIDENCIALIDAD Y BLINDAJE ANTI-INYECC
     if (isSearchOrQuery && !isExplicitBatchEditPhrase) {
       textSupplement += `\n\n[INSTRUCCIÓN CRÍTICA DE BÚSQUEDA Y CONSULTA]:
 El usuario está realizando una CONSULTA O PREGUNTA DE LORE sobre la enciclopedia.
-1. Si la pregunta involucra una categoría, subcategoría, grupo, era o campaña (por ejemplo, "Caldo de Dragón en Aeros", "Héroes de Aeros", etc.):
-   - Comienza SIEMPRE explicando el contexto taxonómico y de lore: indica la ruta jerárquica exacta de la wiki (ej: "Inicio / Personajes / Jugadores / Caldo de Dragón C1"), cita su descripción oficial (ej: "Héroes de Aeros"), y explica lo que significa en el lore (ej: que son los miembros originales de Caldo de Dragón durante la primera campaña en Aeros, antes de su posterior reencarnación en C2 "Latentes de Kaliria").
+1. Si la pregunta involucra una categoría, subcategoría, grupo, era o campaña (por ejemplo, «Caldo de Dragón en Aeros», «Héroes de Aeros», etc.):
+   - Comienza SIEMPRE explicando el contexto taxonómico y de lore: indica la ruta jerárquica exacta de la wiki (ej: «Inicio / Personajes / Jugadores / Caldo de Dragón C1»), cita su descripción oficial (ej: «Héroes de Aeros»), y explica lo que significa en el lore (ej: que son los miembros originales de Caldo de Dragón durante la primera campaña en Aeros, antes de su posterior reencarnación en C2 «Latentes de Kaliria»).
 2. A continuación, presenta y describe a los personajes o artículos correspondientes en lenguaje natural (con párrafos o viñetas Markdown) explicando su papel según sus manuscritos reales.
 3. Para cada artículo o personaje mencionado, incluye OBLIGATORIAMENTE su enlace HTML real: <a href="/articulo/slug">Título</a>.
-4. Responde SIEMPRE en lenguaje natural fluido en español. ESTÁ TERMINANTEMENTE PROHIBIDO responder con objetos JSON crudos como {"nombre": ...} o llaves dentro de tu texto.
-5. Mantén executionCommand y pendingEdit estrictamente como null.`;
+4. Responde SIEMPRE en lenguaje natural fluido en español de forma completa, sin recortar frases ni dejar nada a medias. Termina SIEMPRE hasta el punto final.
+5. Para evitar roturas de formato, NUNCA uses comillas dobles rectas (") dentro de tu mensaje: usa comillas angulares (« ») o comillas simples (' ') para citar rutas, nombres o ejemplos.
+6. ESTÁ TERMINANTEMENTE PROHIBIDO responder con objetos JSON crudos como {"nombre": ...} o llaves dentro de tu texto.
+7. Mantén executionCommand y pendingEdit estrictamente como null.`;
     } else if (isBatchEditIntent) {
       textSupplement += `\n\n[INSTRUCCIÓN CRÍTICA DE EDICIÓN MASIVA DE ARTÍCULOS]:
 El usuario ha solicitado realizar una EDICIÓN MASIVA O EN LOTE sobre múltiples artículos a la vez.
@@ -11663,113 +11668,105 @@ El usuario ha solicitado EDITAR el artículo existente "${targetEditArticle.titl
     }
 
     const rawResponseText = (response.text || "").trim();
-    let parsed: any = null;
 
+    // Helper robusto para extraer el mensaje limpio de Tarot AI
+    // Elimina cualquier rastro de {"message": ...}, desescapa caracteres y evita recortes o llaves
+    const cleanChatMessage = (raw: string): string => {
+      if (!raw || typeof raw !== "string") return "";
+      let text = raw.trim();
+
+      // Eliminar bloques de código markdown ```json ... ```
+      text = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
+
+      // 1. Intento de parseo JSON completo
+      try {
+        const obj = JSON.parse(text);
+        if (obj && typeof obj === "object" && !Array.isArray(obj)) {
+          const val = obj.message ?? obj.respuesta ?? obj.mensaje ?? obj.response ?? obj.text ?? obj.content ?? obj.reply;
+          if (typeof val === "string" && val.trim()) {
+            return cleanChatMessage(val);
+          }
+        }
+      } catch {}
+
+      // 2. Intento de corte entre llaves { ... }
+      const firstBrace = text.indexOf("{");
+      const lastBrace = text.lastIndexOf("}");
+      if (firstBrace !== -1 && lastBrace > firstBrace) {
+        try {
+          const obj = JSON.parse(text.slice(firstBrace, lastBrace + 1));
+          if (obj && typeof obj === "object" && !Array.isArray(obj)) {
+            const val = obj.message ?? obj.respuesta ?? obj.mensaje ?? obj.response ?? obj.text ?? obj.content ?? obj.reply;
+            if (typeof val === "string" && val.trim()) {
+              return cleanChatMessage(val);
+            }
+          }
+        } catch {}
+      }
+
+      // 3. Extracción por Regex si viene como { "message": " ... incluso si quedó truncado o sin cerrar
+      const match = text.match(/^\s*\{?\s*["']?(?:message|respuesta|mensaje|response|content|reply|text|answer)["']?\s*:\s*["']?([\s\S]*)/i);
+      if (match) {
+        let inner = match[1];
+        const subsequentFieldMatch = inner.match(/^([\s\S]*?)(?:["']\s*,\s*["'][a-zA-Z_]+["']\s*:|["']\s*\}\s*$)/);
+        if (subsequentFieldMatch) {
+          inner = subsequentFieldMatch[1];
+        } else {
+          inner = inner.replace(/["']\s*\}?\s*$/, "");
+        }
+
+        inner = inner
+          .replace(/\\"/g, '"')
+          .replace(/\\n/g, '\n')
+          .replace(/\\r/g, '')
+          .replace(/\\t/g, '\t')
+          .replace(/\\\\/g, '\\');
+
+        text = inner.trim();
+      }
+
+      // 4. Limpieza de comillas colgantes finales o artefactos de corte como (ej: "
+      text = text.replace(/["']\s*\}?\s*$/, "").trim();
+      if (/\(ej:\s*["']?$/i.test(text)) {
+        text = text.replace(/\(ej:\s*["']?$/i, "").trim();
+      } else if (/["']$/i.test(text) && !text.startsWith('"') && !text.startsWith("'")) {
+        text = text.replace(/["']$/i, "").trim();
+      }
+
+      return text;
+    };
+
+    let parsed: any = null;
     try {
       parsed = JSON.parse(rawResponseText);
     } catch {
       try {
-        const cleaned = rawResponseText
-          .replace(/^```(?:json)?\s*/i, "")
-          .replace(/\s*```$/i, "")
-          .trim();
+        const cleaned = rawResponseText.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
         parsed = JSON.parse(cleaned);
       } catch {
-        try {
-          const firstBrace = rawResponseText.indexOf("{");
-          const lastBrace = rawResponseText.lastIndexOf("}");
-          if (firstBrace !== -1 && lastBrace > firstBrace) {
+        const firstBrace = rawResponseText.indexOf("{");
+        const lastBrace = rawResponseText.lastIndexOf("}");
+        if (firstBrace !== -1 && lastBrace > firstBrace) {
+          try {
             parsed = JSON.parse(rawResponseText.slice(firstBrace, lastBrace + 1));
-          }
-        } catch {
-          parsed = {
-            message: rawResponseText,
-            suggestedAction: null,
-            executionCommand: null,
-            pendingEdit: null
-          };
+          } catch {}
         }
       }
     }
 
     if (!parsed || typeof parsed !== "object") {
       parsed = {
-        message: rawResponseText || "Tarot no ha devuelto un texto.",
+        message: "",
         suggestedAction: null,
         executionCommand: null,
         pendingEdit: null
       };
     }
 
-    // Función auxiliar para extraer el mensaje de texto de cualquier forma que el modelo lo retorne
-    const extractTextFromObj = (obj: any): string => {
-      if (!obj) return "";
-      if (typeof obj === "string") return obj;
-      return (
-        obj.message ||
-        obj.respuesta ||
-        obj.mensaje ||
-        obj.response ||
-        obj.text ||
-        obj.answer ||
-        obj.content ||
-        obj.reply ||
-        ""
-      );
-    };
-
-    // Helper to format a raw JSON object into human-readable formatted Markdown/text
-    const formatJsonObjectToText = (obj: any): string => {
-      if (!obj || typeof obj !== "object") return String(obj || "");
-      if (Array.isArray(obj)) {
-        return obj.map(item => typeof item === "object" ? formatJsonObjectToText(item) : `- ${item}`).join("\n");
-      }
-      const lines: string[] = [];
-      const titleKey = Object.keys(obj).find(k => ["nombre", "name", "title", "titulo"].includes(k.toLowerCase()));
-      if (titleKey && obj[titleKey]) {
-        lines.push(`### ${obj[titleKey]}`);
-      }
-      for (const [k, v] of Object.entries(obj)) {
-        if (k === titleKey) continue;
-        const label = k
-          .replace(/_/g, " ")
-          .replace(/([a-z])([A-Z])/g, "$1 $2")
-          .replace(/\b\w/g, (c: string) => c.toUpperCase());
-        if (Array.isArray(v)) {
-          lines.push(`**${label}:**\n${v.map((item: any) => `  - ${typeof item === "object" ? JSON.stringify(item) : item}`).join("\n")}`);
-        } else if (v && typeof v === "object") {
-          lines.push(`**${label}:**\n${formatJsonObjectToText(v)}`);
-        } else if (v !== null && v !== undefined && String(v).trim()) {
-          lines.push(`**${label}:** ${v}`);
-        }
-      }
-      return lines.join("\n\n");
-    };
-
-    let extractedMessage = extractTextFromObj(parsed);
-
-    // Si aún está vacío o es un JSON stringificado, intentar extraer el valor interno o formatear el objeto
-    if (!extractedMessage || (typeof extractedMessage === "string" && extractedMessage.trim().startsWith("{"))) {
-      try {
-        const innerParsed = JSON.parse(extractedMessage || rawResponseText);
-        const textFromInner = extractTextFromObj(innerParsed);
-        if (textFromInner && typeof textFromInner === "string" && !textFromInner.trim().startsWith("{")) {
-          extractedMessage = textFromInner;
-        } else if (innerParsed && typeof innerParsed === "object") {
-          extractedMessage = formatJsonObjectToText(innerParsed);
-        }
-      } catch {
-        // mantener como estaba
-      }
-    }
-
-    if (!extractedMessage || typeof extractedMessage !== "string") {
-      extractedMessage = rawResponseText || "Tarot no ha devuelto un texto legible.";
-    }
-
-    parsed.message = extractedMessage;
-    parsed.response = extractedMessage;
-    parsed.respuesta = extractedMessage;
+    const finalMessage = cleanChatMessage(parsed.message || rawResponseText) || "Tarot no ha devuelto un texto legible.";
+    parsed.message = finalMessage;
+    parsed.response = finalMessage;
+    parsed.respuesta = finalMessage;
     
     // Process execution command if requested
     let executionResult = null;

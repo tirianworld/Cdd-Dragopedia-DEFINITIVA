@@ -8,14 +8,10 @@ export interface CarriageLoaderProps {
   showRoad?: boolean;
 }
 
-const CARRIAGE_FRAMES = [
-  "/images/carriage_cropped/frame_0.png",
-  "/images/carriage_cropped/frame_1.png",
-  "/images/carriage_cropped/frame_2.png",
-  "/images/carriage_cropped/frame_3.png",
-  "/images/carriage_cropped/frame_4.png",
-  "/images/carriage_cropped/frame_5.png",
-];
+// 24 fluid, continuous tweened frames in a closed loop (1.8s cycle)
+const CARRIAGE_FRAMES = Array.from({ length: 24 }, (_, i) => 
+  `/images/carriage_fluid/frame_${String(i).padStart(2, "0")}.png`
+);
 
 export function CarriageLoader({
   size = "md",
@@ -26,7 +22,7 @@ export function CarriageLoader({
 }: CarriageLoaderProps) {
   const [currentFrame, setCurrentFrame] = useState(0);
 
-  // Preload all frames immediately
+  // Preload all 24 frames once so playback is silky smooth from frame 0
   useEffect(() => {
     CARRIAGE_FRAMES.forEach((src) => {
       const img = new Image();
@@ -34,11 +30,11 @@ export function CarriageLoader({
     });
   }, []);
 
-  // Frame animation clock (115ms per frame = ~8.7 fps, classic sprite trot speed)
+  // Fluid 24-frame clock: 75ms per frame = 1.8s total cycle duration (deliberate majestic trot)
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentFrame((prev) => (prev + 1) % CARRIAGE_FRAMES.length);
-    }, 115);
+    }, 75);
     return () => clearInterval(interval);
   }, []);
 
@@ -53,16 +49,16 @@ export function CarriageLoader({
 
   const content = (
     <div className={`flex flex-col items-center justify-center select-none ${className}`}>
-      {/* Hidden preloader container */}
+      {/* Hidden preloader */}
       <div className="hidden" aria-hidden="true">
         {CARRIAGE_FRAMES.map((src) => (
           <img key={src} src={src} alt="" />
         ))}
       </div>
 
-      {/* Frame-accurate Sprite Display: exactly ONE frame rendered at any moment (no stacking) */}
+      {/* Frame-accurate Sprite: 24 fluid frames, strictly one active frame, 100% position lock */}
       <div className={`relative ${sizeClasses} flex flex-col items-center justify-center`}>
-        <div className="w-full aspect-[450/240] relative flex items-center justify-center overflow-hidden">
+        <div className="w-full aspect-[460/240] relative flex items-center justify-center overflow-hidden">
           <img
             key={currentFrame}
             src={CARRIAGE_FRAMES[currentFrame]}
@@ -74,10 +70,10 @@ export function CarriageLoader({
 
         {/* Ambient Moving Road Track */}
         {showRoad && (
-          <div className="w-full mt-[-4px] relative flex items-center justify-center overflow-hidden px-2">
+          <div className="w-full mt-[-6px] relative flex items-center justify-center overflow-hidden px-2">
             <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-500/35 to-transparent relative">
               <div 
-                className="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_14px,rgba(203,247,245,0.45)_14px,rgba(203,247,245,0.45)_28px)] animate-[roadflow_0.45s_linear_infinite]" 
+                className="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_16px,rgba(203,247,245,0.45)_16px,rgba(203,247,245,0.45)_32px)] animate-[roadflow_0.55s_linear_infinite]" 
               />
             </div>
           </div>
@@ -104,7 +100,7 @@ export function CarriageLoader({
       <style>{`
         @keyframes roadflow {
           0% { transform: translateX(0); }
-          100% { transform: translateX(28px); }
+          100% { transform: translateX(32px); }
         }
       `}</style>
     </div>

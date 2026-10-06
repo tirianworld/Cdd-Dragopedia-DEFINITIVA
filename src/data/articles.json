@@ -496,7 +496,16 @@
     "updated_date": "2026-09-19T23:01:07.778Z",
     "image_position_x": 50,
     "image_position_y": 50,
-    "gallery": [],
+    "gallery": [
+      {
+        "url": "/images/cloud/morgana_star_nemesis_7852d8b2d7.jpg",
+        "caption": "Star Nemesis Morgana (Horace Hsu)"
+      },
+      {
+        "url": "/images/cloud/morgana_fanart_e2cd5e6a0d.jpg",
+        "caption": "Morgana Fanart (Zhong Yang)"
+      }
+    ],
     "tags": [],
     "related_article_ids": [
       "art-1787666875758",

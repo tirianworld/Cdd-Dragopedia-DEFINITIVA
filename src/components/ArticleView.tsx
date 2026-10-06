@@ -21,6 +21,7 @@ import { TarotLogo } from "./TarotLogo";
 import { useVisualEditor } from "../context/VisualEditorContext";
 import { useFloatingMap } from "../context/FloatingMapContext";
 import { ArtGalleryPickerModal } from "./ArtGalleryPickerModal";
+import { CarriageLoader } from "./CarriageLoader";
 import { ArticlePrintModal } from "./ArticlePrintModal";
 import { ArticleTarotScribeModal } from "./ArticleTarotScribeModal";
 import { WebBuilderCanvas } from "./webbuilder/WebBuilderCanvas";
@@ -2447,9 +2448,13 @@ export function ArticleView() {
             {/* Content block */}
             <div className="p-6 space-y-4">
               {loadingMonsterDetails ? (
-                <div className="py-12 flex flex-col items-center justify-center gap-3">
-                  <Loader2 className="h-8 w-8 animate-spin text-[#58180d]" />
-                  <span className="text-xs font-sans text-[#58180d] uppercase tracking-wider font-semibold">Consultando Bestiario de Caldo de Dragón...</span>
+                <div className="py-8 flex flex-col items-center justify-center">
+                  <CarriageLoader
+                    size="sm"
+                    text="Consultando Bestiario..."
+                    subtext="Compendio oficial de Caldo de Dragón"
+                    className="text-[#58180d]"
+                  />
                 </div>
               ) : selectedMonster ? (
                 (() => {
@@ -2656,9 +2661,13 @@ export function ArticleView() {
             </div>
 
             {loadingSpellDetails && !selectedSpellDetails ? (
-              <div className="p-12 flex flex-col items-center justify-center gap-3 text-muted-foreground">
-                <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
-                <p className="text-xs">Consultando compendio del Libro de Hechizos...</p>
+              <div className="p-8 flex flex-col items-center justify-center text-muted-foreground">
+                <CarriageLoader
+                  size="sm"
+                  text="Consultando Hechizo..."
+                  subtext="Compendio del Libro de Hechizos..."
+                  className="text-purple-400"
+                />
               </div>
             ) : selectedSpellDetails ? (
               <div className="p-5 sm:p-6 space-y-5">

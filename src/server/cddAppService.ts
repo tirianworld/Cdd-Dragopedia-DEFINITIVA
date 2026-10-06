@@ -1268,15 +1268,15 @@ export async function installCddAppZip(zipSource: Buffer | string, fileName: str
     #unity-container { width: 100%; height: 100%; position: absolute; inset: 0; }
     #unity-canvas { width: 100%; height: 100%; background: #0a1112; display: block; outline: none; }
     #loading-bar { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #0a1112; z-index: 50; }
-    .spinner { width: 48px; height: 48px; border: 4px solid rgba(108,163,160,0.2); border-top-color: #6ca3a0; border-radius: 50%; animation: spin 1s infinite linear; }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
   <div id="unity-container">
     <canvas id="unity-canvas" tabindex="-1"></canvas>
     <div id="loading-bar">
-      <div class="spinner"></div>
+      <div style="width: 340px; max-width: 90vw;">
+        <img src="/images/carriage-loader.svg" alt="Cargando..." style="width: 100%; height: auto; display: block;" />
+      </div>
       <div id="loading-text" style="margin-top: 16px; font-size: 14px; color: #89c2be; font-weight: bold;">Cargando App Caldo de Dragón... (0%)</div>
     </div>
   </div>

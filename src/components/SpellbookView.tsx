@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Loader2, Wand2, Copy, Check, Sparkles, X } from "lucide-react";
+import { Wand2, Copy, Check, Sparkles, X } from "lucide-react";
+import { CarriageLoader } from "./CarriageLoader";
 
 export const SPELLBOOK_URL = "https://spellbook-cdd.ai.studio";
 
@@ -70,17 +71,13 @@ export function SpellbookView() {
       <div className="relative flex-1 w-full h-full overflow-hidden">
         {/* Loading Overlay */}
         {isLoading && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/90 backdrop-blur-sm gap-3">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <div className="text-center space-y-1">
-              <p className="text-xs font-heading tracking-widest text-foreground font-bold uppercase flex items-center justify-center gap-1.5">
-                <Wand2 className="h-3.5 w-3.5 text-primary" />
-                Cargando Libro de Hechizos
-              </p>
-              <p className="text-[11px] text-muted-foreground">
-                Conectando con el compendio arcano oficial...
-              </p>
-            </div>
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/95 backdrop-blur-md p-6">
+            <CarriageLoader
+              size="lg"
+              text="Cargando Libro de Hechizos"
+              subtext="Conectando con el compendio arcano oficial..."
+              className="text-[#cbf7f5]"
+            />
           </div>
         )}
 

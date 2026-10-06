@@ -8,10 +8,13 @@ export interface CarriageLoaderProps {
   showRoad?: boolean;
 }
 
-// 16 solid locked-position frames (zero horizontal displacement, 1.84s cycle)
-const CARRIAGE_FRAMES = Array.from({ length: 16 }, (_, i) => 
-  `/images/carriage_solid_anim/frame_${String(i).padStart(2, "0")}.png`
-);
+// 4 distinct stationary trot cycle sprites, perfectly aligned with zero displacement
+const CARRIAGE_STEPS = [
+  "/images/carriage_steps/step_0.png",
+  "/images/carriage_steps/step_1.png",
+  "/images/carriage_steps/step_2.png",
+  "/images/carriage_steps/step_3.png",
+];
 
 export function CarriageLoader({
   size = "md",
@@ -22,19 +25,19 @@ export function CarriageLoader({
 }: CarriageLoaderProps) {
   const [currentFrame, setCurrentFrame] = useState(0);
 
-  // Preload all 16 frames immediately in browser cache
+  // Preload all 4 sprites in browser cache for instant flicker-free playback
   useEffect(() => {
-    CARRIAGE_FRAMES.forEach((src) => {
+    CARRIAGE_STEPS.forEach((src) => {
       const img = new Image();
       img.src = src;
     });
   }, []);
 
-  // Steady, deliberate trot clock: 115ms * 16 frames = 1.84 seconds per cycle
+  // Sprite alternating clock: 200ms per step = 800ms natural equine trot gait in place
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentFrame((prev) => (prev + 1) % CARRIAGE_FRAMES.length);
-    }, 115);
+      setCurrentFrame((prev) => (prev + 1) % CARRIAGE_STEPS.length);
+    }, 200);
     return () => clearInterval(interval);
   }, []);
 
@@ -51,31 +54,27 @@ export function CarriageLoader({
     <div className={`flex flex-col items-center justify-center select-none ${className}`}>
       {/* Hidden preloader */}
       <div className="hidden" aria-hidden="true">
-        {CARRIAGE_FRAMES.map((src) => (
+        {CARRIAGE_STEPS.map((src) => (
           <img key={src} src={src} alt="" />
         ))}
       </div>
 
-      {/* Frame-accurate Sprite: 1 single sprite rendered in place at all times (zero displacement) */}
+      {/* Frame-accurate Sprite: centered in place, zero displacement, alternating sprites */}
       <div className={`relative ${sizeClasses} flex flex-col items-center justify-center`}>
-        <div className="w-full aspect-[500/230] relative flex items-center justify-center overflow-hidden">
+        <div className="w-full aspect-[480/180] relative flex items-center justify-center overflow-hidden">
           <img
             key={currentFrame}
-            src={CARRIAGE_FRAMES[currentFrame]}
+            src={CARRIAGE_STEPS[currentFrame]}
             alt="Cargando..."
             className="w-full h-full object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] select-none pointer-events-none"
             draggable={false}
           />
         </div>
 
-        {/* Ambient Moving Road Track (Ground remains steady beneath wheels) */}
+        {/* Steady stationary ground line - no translation so vehicle feels completely anchored */}
         {showRoad && (
-          <div className="w-full mt-[-4px] relative flex items-center justify-center overflow-hidden px-2">
-            <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-500/35 to-transparent relative">
-              <div 
-                className="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_16px,rgba(203,247,245,0.45)_16px,rgba(203,247,245,0.45)_32px)] animate-[roadflow_0.6s_linear_infinite]" 
-              />
-            </div>
+          <div className="w-full mt-[-2px] relative flex items-center justify-center px-4">
+            <div className="w-full h-[1.5px] bg-gradient-to-r from-transparent via-[#6ca3a0]/40 to-transparent" />
           </div>
         )}
       </div>
@@ -95,14 +94,6 @@ export function CarriageLoader({
           )}
         </div>
       )}
-
-      {/* Road animation CSS */}
-      <style>{`
-        @keyframes roadflow {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(32px); }
-        }
-      `}</style>
     </div>
   );
 

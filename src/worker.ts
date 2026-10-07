@@ -49,28 +49,33 @@ const PROVIDERS = [
   { name: "mistral", base: "MISTRAL_API_KEY", url: "https://api.mistral.ai/v1/chat/completions", model: "mistral-small-latest" },
 ];
 
+let lastAttempts: string[] = [];
+
 async function generate(env: Env, messages: unknown[], extra: Record<string, unknown> = {}) {
+  lastAttempts = [];
   for (const p of PROVIDERS) {
     const keys = collectKeys(env, p.base).sort(() => Math.random() - 0.5);
-    for (const key of keys) {
+    if (!keys.length) lastAttempts.push(`${p.name}: sin claves`);
+    for (let i = 0; i < keys.length; i++) {
       try {
         const res = await fetch(p.url, {
           method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${keys[i]}` },
           body: JSON.stringify({ model: p.model, messages, ...extra }),
         });
         if (res.ok) {
           const data = (await res.json()) as Record<string, unknown>;
           return { provider: p.name, ...data };
         }
-      } catch (err) {
-        console.error(`[AI ${p.name}]`, err);
+        const txt = (await res.text()).slice(0, 200);
+        lastAttempts.push(`${p.name} #${i + 1}: HTTP ${res.status} ${txt}`);
+      } catch (err: any) {
+        lastAttempts.push(`${p.name} #${i + 1}: ${err?.message || err}`);
       }
     }
   }
   return null;
 }
-
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
@@ -99,7 +104,7 @@ export default {
           return jsonResponse({ error: "Falta el campo 'messages'" }, 400);
         }
         const result = await generate(env, body.messages);
-        return result ? jsonResponse(result) : jsonResponse({ error: "Todos los proveedores fallaron" }, 502);
+        return result ? jsonResponse(result) : jsonResponse({ error: "Todos los proveedores fallaron", attempts: lastAttempts }, 502);
       }
 
       if (cleanPath === "/api/articles") {

@@ -1,5 +1,7 @@
 import { WikiArticle } from "../types";
-import seedArticlesRaw from "../data/seed_articles.json";
+// OJO: seed_articles.json esta desactualizado (le falta "Magia Aurea" y 10 articulos estan en
+// version antigua). articles.json es el que se mantiene al dia en cada actualizacion.
+import seedArticlesRaw from "../data/articles.json";
 
 export const HARDCODED_ARTICLES: WikiArticle[] = Array.isArray(seedArticlesRaw)
   ? (seedArticlesRaw as unknown as WikiArticle[])
@@ -17,6 +19,9 @@ function getCacheKey(): string {
   }
   return CACHE_PREFIX;
 }
+
+// Claves de cache que SOLO contienen el seed compilado en la app (no la lista real del servidor)
+const seedOnlyKeys = new Set<string>();
 
 // Borra (una sola vez por sesion) los caches antiguos para liberar espacio en localStorage
 let legacyCacheCleaned = false;
@@ -240,6 +245,7 @@ export function getCachedArticles(): WikiArticle[] {
   // Initialize from bundled seed articles!
   const defaultList = applyDefaultArticleSubcategories(HARDCODED_ARTICLES);
   memoryArticlesCache[key] = defaultList;
+  seedOnlyKeys.add(key);
   return defaultList;
 }
 
@@ -270,6 +276,7 @@ export function setCachedArticles(rawArticles: WikiArticle[]): void {
   const key = getCacheKey();
   // Keep the complete, high-fidelity objects in active RAM memory cache
   memoryArticlesCache[key] = articles;
+  seedOnlyKeys.delete(key);
 
   if (typeof window === "undefined" || !window.localStorage) return;
 
@@ -432,6 +439,31 @@ export async function syncFetch(
     }, 100);
 
     const cached = getCachedArticles();
+
+    // Solo tenemos el seed compilado (puede faltar algun articulo o estar desactualizado):
+    // pedir la lista real al servidor. Sin red, se usa el seed.
+    if (cached.length > 0 && seedOnlyKeys.has(getCacheKey())) {
+      try {
+        const modifiedInput = appendLangToInput(input, selectedLang || "es");
+        let res = await originalFetch(modifiedInput, init);
+        let list: any = res.ok ? await res.clone().json().catch(() => null) : null;
+        if (!Array.isArray(list) || list.length === 0) {
+          res = await originalFetch("/data/articles.json");
+          list = res.ok ? await res.clone().json().catch(() => null) : null;
+        }
+        if (Array.isArray(list) && list.length > 0) {
+          setCachedArticles(list);
+          return res;
+        }
+      } catch {
+        // sin red: se usa el seed
+      }
+      return new Response(JSON.stringify(cached), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     if (cached.length === 0) {
       // First time loading: fetch all and save
       try {
@@ -583,13 +615,16 @@ export async function syncFetch(
           if (article && (article.id || article.slug) && article.title && article.content) {
             // Update the article in our local cache
             const cached = getCachedArticles();
-            const index = cached.findIndex((a) => (article.id && a.id === article.id) || (article.slug && a.slug === article.slug));
-            if (index !== -1) {
-              cached[index] = { ...cached[index], ...article, _compact: undefined } as any;
-            } else {
-              cached.unshift(article);
+            // Si solo hay seed, no se guarda como cache real: la lista completa la trae /api/articles
+            if (!seedOnlyKeys.has(getCacheKey())) {
+              const index = cached.findIndex((a) => (article.id && a.id === article.id) || (article.slug && a.slug === article.slug));
+              if (index !== -1) {
+                cached[index] = { ...cached[index], ...article, _compact: undefined } as any;
+              } else {
+                cached.unshift(article);
+              }
+              setCachedArticles(cached);
             }
-            setCachedArticles(cached);
             return response;
           }
         }

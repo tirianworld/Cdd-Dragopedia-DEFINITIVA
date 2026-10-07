@@ -17,6 +17,79 @@ function jsonResponse(data: unknown, status = 200): Response {
   });
 }
 
+function stripHtml(s: string): string {
+  return (s || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+async function tarotCheck(env: Env, request: Request, body: any) {
+  const { title, category, content, summary, currentSlug } = body || {};
+  const clean = stripHtml(String(content || ""));
+  if (!clean) return { issues: [], checkedAgainstCount: 0 };
+
+  let raw: any = [];
+  try {
+    const res = await env.ASSETS.fetch(new Request(new URL("/data/articles.json", request.url)));
+    raw = await res.json();
+  } catch {}
+  const all: any[] = Array.isArray(raw) ? raw : (raw && raw.articles) || [];
+  const others = all.filter((a) => a && a.slug !== currentSlug);
+
+  const text = (String(title || "") + " " + clean.slice(0, 1500)).toLowerCase();
+  const words = new Set(text.split(/[^a-z0-9\u00e0-\u00ff]+/).filter((w) => w.length > 3));
+  const scored = others.map((a) => {
+    const t = String(a.title || "").toLowerCase();
+    let score = t && text.includes(t) ? 10 : 0;
+    for (const w of t.split(/[^a-z0-9\u00e0-\u00ff]+/)) if (w.length > 3 && words.has(w)) score++;
+    return { a, score };
+  }).sort((x, y) => y.score - x.score);
+  const picked = (scored.some((s) => s.score > 0) ? scored.filter((s) => s.score > 0) : scored)
+    .slice(0, 12)
+    .map((s) => ({
+      title: s.a.title,
+      slug: s.a.slug,
+      category: s.a.category,
+      summary: s.a.summary || "",
+      snippet: stripHtml(s.a.content || "").slice(0, 500),
+    }));
+
+  const system = `Eres Tarot, el Gran Guardian y Verificador de Coherencia de Lore de Dragopedia / Caldo de Dragon.
+Tu tarea es auditar un borrador de articulo para detectar CONTRADICCIONES, ANOMALIAS O INCONSISTENCIAS frente a los articulos existentes de la enciclopedia.
+Tipos: "date" (fechas, eras, anos), "relation" (parentescos, linajes, alianzas), "event" (acontecimientos, batallas, tratados), "status" (estado vital), "location" (ciudad, templo o reino en lugar equivocado), "lore_rule" (violar reglas sagradas del lore).
+Si no hay inconsistencias reales, devuelve "issues" vacio. No inventes errores si el texto es compatible. Se riguroso y constructivo. Responde en castellano.
+Responde UNICAMENTE con un objeto JSON valido, sin texto adicional ni bloques de codigo.`;
+
+  const prompt = `Analiza este texto frente a los tomos de la enciclopedia.
+
+ARTICULO A AUDITAR:
+- Titulo: "${title || "Borrador"}"
+- Categoria: "${category || "General"}"
+- Resumen: "${summary || ""}"
+- Contenido: """${clean.slice(0, 4000)}"""
+
+TOMOS RELACIONADOS:
+${JSON.stringify(picked)}
+
+Devuelve exactamente este formato:
+{"issues":[{"type":"date|relation|event|status|location|lore_rule","severity":"warning|error|notice","description":"explicacion clara","conflictingArticleTitle":"titulo","conflictingArticleSlug":"slug","suggestion":"propuesta para resolverlo"}]}`;
+
+  const r: any = await generate(env, [
+    { role: "system", content: system },
+    { role: "user", content: prompt },
+  ]);
+  if (!r) throw new Error("Todos los proveedores de IA fallaron");
+
+  const out: string = r.choices?.[0]?.message?.content || "";
+  let issues: unknown[] = [];
+  const s = out.indexOf("{");
+  const e = out.lastIndexOf("}");
+  if (s >= 0 && e > s) {
+    try {
+      const parsed = JSON.parse(out.slice(s, e + 1));
+      if (Array.isArray(parsed.issues)) issues = parsed.issues;
+    } catch {}
+  }
+  return { issues, checkedAgainstCount: picked.length };
+}
 async function staticJson(env: Env, request: Request, path: string, fallback: unknown): Promise<Response> {
   const res = await env.ASSETS.fetch(new Request(new URL(path, request.url)));
   if (res.ok) {
@@ -93,7 +166,16 @@ async function generate(env: Env, messages: unknown[], extra: Record<string, unk
     if (url.pathname.startsWith("/api/")) {
       const cleanPath = url.pathname.replace(/\/$/, "");
 
-      if (cleanPath === "/api/ai/status") {
+      if (cleanPath === "/api/tarot/check-consistency" && request.method === "POST") {
+      try {
+        const body = await request.json();
+        return jsonResponse(await tarotCheck(env, request, body));
+      } catch (e: any) {
+        return jsonResponse({ error: e?.message || "Error al verificar coherencia de lore." }, 500);
+      }
+    }
+
+    if (cleanPath === "/api/ai/status") {
         return jsonResponse({
           groq: collectKeys(env, "GROQ_API_KEY").length,
           cerebras: collectKeys(env, "CEREBRAS_API_KEY").length,

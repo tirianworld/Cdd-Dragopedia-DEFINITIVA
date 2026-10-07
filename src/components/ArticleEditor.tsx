@@ -283,16 +283,22 @@ export function ArticleEditor() {
 
   const fetchBackups = async (artId?: string) => {
     const targetId = artId || originalArticle?.id;
-    if (!targetId) return;
+    if (!targetId) {
+      setBackups([]);
+      return;
+    }
     setLoadingBackups(true);
     try {
       const res = await fetch(`/api/articles/${targetId}/backups`);
       if (res.ok) {
         const data = await res.json();
-        setBackups(data);
+        setBackups(Array.isArray(data) ? data : []);
+      } else {
+        setBackups([]);
       }
     } catch (err) {
       console.error("Error fetching backups:", err);
+      setBackups([]);
     } finally {
       setLoadingBackups(false);
     }
@@ -942,7 +948,13 @@ export function ArticleEditor() {
         const safeArticles = Array.isArray(articlesList) ? articlesList : [];
         setAllArticles(safeArticles);
         setCategories(Array.isArray(categoriesList) ? categoriesList : []);
-        setAvailableFilters(filtersList || { campaña: [], continente: [], plano: [], criatura: [] });
+        const safeFilters = filtersList && typeof filtersList === "object" && !Array.isArray(filtersList) ? {
+          campaña: Array.isArray(filtersList.campaña) ? filtersList.campaña : [],
+          continente: Array.isArray(filtersList.continente) ? filtersList.continente : [],
+          plano: Array.isArray(filtersList.plano) ? filtersList.plano : [],
+          criatura: Array.isArray(filtersList.criatura) ? filtersList.criatura : [],
+        } : { campaña: [], continente: [], plano: [], criatura: [] };
+        setAvailableFilters(safeFilters);
         
         const uniqueMonsters: any[] = [];
         const seenIdx = new Set<string>();
@@ -2309,7 +2321,7 @@ export function ArticleEditor() {
                   }}
                   className="w-full h-10 px-3 bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-primary/50 transition-all text-xs font-medium"
                 >
-                  {(mergedCategories.length > 0 ? mergedCategories : mergeCategories(categories)).map((c) => (
+                  {(Array.isArray(mergedCategories) && mergedCategories.length > 0 ? mergedCategories : mergeCategories(Array.isArray(categories) ? categories : [])).map((c) => (
                     <option key={c.slug || c.name} value={c.name}>
                       {c.parentId || c.parentSlug ? `↳ ${c.name}` : c.name}
                     </option>
@@ -2321,7 +2333,7 @@ export function ArticleEditor() {
               <div className="space-y-2 pt-2 border-t border-border/40">
                 <div className="flex items-center justify-between">
                   <label className="text-[11px] font-bold text-muted-foreground uppercase">
-                    Categorías Asignadas ({Array.from(new Set([articleCategory, ...extraCategories].filter(Boolean))).length})
+                    Categorías Asignadas ({Array.from(new Set([articleCategory, ...(Array.isArray(extraCategories) ? extraCategories : [])].filter(Boolean))).length})
                   </label>
                   <span className="text-[10px] text-muted-foreground">
                     Aparece en cada sección con su categoría
@@ -2330,12 +2342,12 @@ export function ArticleEditor() {
 
                 {/* Selected category chips */}
                 <div className="flex flex-wrap gap-1.5">
-                  {Array.from(new Set([articleCategory, ...extraCategories].filter(Boolean))).map((catName) => {
-                    const catList = mergedCategories.length > 0 ? mergedCategories : mergeCategories(categories);
+                  {Array.from(new Set([articleCategory, ...(Array.isArray(extraCategories) ? extraCategories : [])].filter(Boolean))).map((catName) => {
+                    const catList = Array.isArray(mergedCategories) && mergedCategories.length > 0 ? mergedCategories : mergeCategories(Array.isArray(categories) ? categories : []);
                     const matched = catList.find((c) => c.name.toLowerCase().trim() === catName.toLowerCase().trim());
                     const chipColor = matched?.color || "#2dd4bf";
                     const isPrimary = catName.toLowerCase().trim() === articleCategory.toLowerCase().trim();
-                    const allSelected = Array.from(new Set([articleCategory, ...extraCategories].filter(Boolean)));
+                    const allSelected = Array.from(new Set([articleCategory, ...(Array.isArray(extraCategories) ? extraCategories : [])].filter(Boolean)));
 
                     return (
                       <div
@@ -2400,10 +2412,10 @@ export function ArticleEditor() {
                   className="w-full h-9 px-3 bg-secondary/70 border border-dashed border-primary/40 hover:border-primary rounded-lg text-foreground focus:outline-none text-xs cursor-pointer transition-all"
                 >
                   <option value="">+ Añadir otra categoría o subcategoría...</option>
-                  {(mergedCategories.length > 0 ? mergedCategories : mergeCategories(categories))
+                  {(Array.isArray(mergedCategories) && mergedCategories.length > 0 ? mergedCategories : mergeCategories(Array.isArray(categories) ? categories : []))
                     .filter(
                       (c) =>
-                        !Array.from(new Set([articleCategory, ...extraCategories].filter(Boolean))).some(
+                        !Array.from(new Set([articleCategory, ...(Array.isArray(extraCategories) ? extraCategories : [])].filter(Boolean))).some(
                           (sel) => sel.toLowerCase().trim() === c.name.toLowerCase().trim()
                         )
                     )
@@ -2428,7 +2440,7 @@ export function ArticleEditor() {
                   className="w-full h-8 px-2 bg-secondary border border-border rounded-md text-foreground focus:outline-none focus:border-primary/50 text-[11px]"
                 >
                   <option value="">-- Sin campaña --</option>
-                  {(availableFilters.campaña || []).map(v => (
+                  {(Array.isArray(availableFilters?.campaña) ? availableFilters.campaña : []).map(v => (
                     <option key={v} value={v}>{v}</option>
                   ))}
                 </select>
@@ -2442,7 +2454,7 @@ export function ArticleEditor() {
                   className="w-full h-8 px-2 bg-secondary border border-border rounded-md text-foreground focus:outline-none focus:border-primary/50 text-[11px]"
                 >
                   <option value="">-- Sin continente --</option>
-                  {(availableFilters.continente || []).map(v => (
+                  {(Array.isArray(availableFilters?.continente) ? availableFilters.continente : []).map(v => (
                     <option key={v} value={v}>{v}</option>
                   ))}
                 </select>
@@ -2456,7 +2468,7 @@ export function ArticleEditor() {
                   className="w-full h-8 px-2 bg-secondary border border-border rounded-md text-foreground focus:outline-none focus:border-primary/50 text-[11px]"
                 >
                   <option value="">-- Sin plano --</option>
-                  {(availableFilters.plano || []).map(v => (
+                  {(Array.isArray(availableFilters?.plano) ? availableFilters.plano : []).map(v => (
                     <option key={v} value={v}>{v}</option>
                   ))}
                 </select>
@@ -2470,7 +2482,7 @@ export function ArticleEditor() {
                   className="w-full h-8 px-2 bg-secondary border border-border rounded-md text-foreground focus:outline-none focus:border-primary/50 text-[11px]"
                 >
                   <option value="">-- Sin criatura --</option>
-                  {(availableFilters.criatura || []).map(v => (
+                  {(Array.isArray(availableFilters?.criatura) ? availableFilters.criatura : []).map(v => (
                     <option key={v} value={v}>{v}</option>
                   ))}
                 </select>
@@ -3321,13 +3333,13 @@ export function ArticleEditor() {
                 <div className="flex justify-center py-4">
                   <Loader2 className="h-5 w-5 animate-spin text-primary" />
                 </div>
-              ) : backups.length === 0 ? (
+              ) : !Array.isArray(backups) || backups.length === 0 ? (
                 <p className="text-[10px] text-muted-foreground/60 italic text-center py-4">
                   No hay copias de seguridad anteriores disponibles todavía.
                 </p>
               ) : (
                 <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
-                  {backups.map((bak) => {
+                  {(Array.isArray(backups) ? backups : []).map((bak) => {
                     const createdDate = new Date(bak.createdAt);
                     const expiresDate = new Date(bak.expiresAt);
                     

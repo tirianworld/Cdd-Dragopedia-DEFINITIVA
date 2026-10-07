@@ -2372,7 +2372,7 @@ async function generateContentWithGroqRetry(
   let modelToUse = candidateModels[0] || "openai/gpt-oss-120b";
 
   // Margen de seguridad amplio para procesar artículos completos sin recortar
-  let tokenBudget = 64000;
+  let tokenBudget = 10000;
 
   while (true) {
     const account = pickGroqAccount();
@@ -7775,7 +7775,7 @@ ESTADO ACTUAL DEL ARTÍCULO:
 - Resumen actual: ${currentSummary || "No definido"}
 - Contenido actual:
 """
-${currentContent || "Sin contenido previo."}
+${currentContent ? currentContent.slice(0, 4000) : "Sin contenido previo."}
 """
 
 MODO DE IMPORTACIÓN: ${importMode}
@@ -8366,7 +8366,7 @@ async function runTarotAiAnalysis(contentToAnalyze: string, isFandomUrl: boolean
   };
 
   if (isFandomUrl && fandomDirectImport) {
-    const textSample = contentToAnalyze;
+    const textSample = contentToAnalyze.slice(0, 25000);
     const systemInstruction = `Eres Tarot, el Gran Bibliotecario y Archivista del universo de fantasía oscura mística "Caldo de Dragón". El mundo no tiene nombre, y está formado por dos continentes (Aeros y Kaliria) y la isla sobrenatural de Avalon.
 El cuerpo del artículo ya fue extraído palabra por palabra directamente de la wiki (no debes tocarlo). Tu única tarea aquí es generar unos metadatos breves (resumen, categoría, etiquetas y, si corresponde, hitos cronológicos) a partir del texto que se te da, en español con un tono místico, solemne y elegante.
 Las categorías oficiales y personalizadas disponibles en nuestro archivo son:
@@ -9734,7 +9734,7 @@ Fragmento seleccionado:
 ${selectedText}
 """
 
-${fullArticleContext ? `Contexto del manuscrito circundante (para coherencia):\n"""\n${fullArticleContext}\n"""` : ""}
+${fullArticleContext ? `Contexto del manuscrito circundante (para coherencia):\n"""\n${fullArticleContext.slice(0, 2500)}\n"""` : ""}
 
 Devuelve el fragmento transformado:`;
 
@@ -11046,7 +11046,7 @@ app.post("/api/ai/chat", async (req: Request, res: Response) => {
 
     // Búsqueda inteligente de categorías y subcategorías relevantes para la consulta
     const matchedCategories = searchCategoriesByQuery(expandedQuery, categoryHierarchy);
-    const topMatchedCategories = matchedCategories;
+    const topMatchedCategories = matchedCategories.slice(0, 6);
 
     // Dynamic real-time library search using the expanded contextual query
     const searchResults = searchArticlesByKeyword(expandedQuery, articles);
@@ -11070,7 +11070,7 @@ app.post("/api/ai/chat", async (req: Request, res: Response) => {
     });
 
     // 2. Add direct keyword matches (all matching articles)
-    searchResults.forEach((m) => {
+    searchResults.slice(0, 15).forEach((m) => {
       if (!relatedArticlesMap.has(m.article.slug)) {
         relatedArticlesMap.set(m.article.slug, {
           article: m.article,
@@ -11080,7 +11080,7 @@ app.post("/api/ai/chat", async (req: Request, res: Response) => {
     });
 
     // 3. Add connected/related articles (linked from, or linking to, the top matches)
-    searchResults.slice(0, 30).forEach((m) => {
+    searchResults.slice(0, 5).forEach((m) => {
       const article = m.article;
       
       // Articles linked FROM this matched article
@@ -11551,7 +11551,7 @@ El usuario ha solicitado EDITAR el artículo existente "${targetEditArticle.titl
     const promptText = textSupplement ? `${basePromptText}${textSupplement}` : basePromptText;
 
     const mappedHistory = Array.isArray(history)
-      ? history.map((msg: any) => ({
+      ? history.slice(-4).map((msg: any) => ({
           role: msg.role === "assistant" || msg.role === "model" || msg.role === "bot" ? "model" : "user",
           parts: [{ text: msg.text || msg.content || "" }]
         }))

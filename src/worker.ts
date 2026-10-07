@@ -30,9 +30,10 @@ function jsonResponse(data: unknown, status = 200): Response {
 async function tarotInlineEdit(env: Env, body: any) {
   const selectedText = String(body?.selectedText || "");
   if (!selectedText.trim()) throw new Error("Debe seleccionar un fragmento de texto para transformar.");
+  if (selectedText.length > 6000) throw new Error("El fragmento seleccionado es demasiado largo (maximo 6000 caracteres).");
   const command = String(body?.command || "custom");
   const customPrompt = String(body?.customPrompt || "");
-  const ctxText = String(body?.fullArticleContext || "");
+  const ctxText = String(body?.fullArticleContext || "").slice(0, 1500);
   const title = String(body?.title || "Articulo");
   const category = String(body?.category || "General");
 
@@ -129,6 +130,7 @@ async function tarotFormat(env: Env, body: any) {
   const content = String(body?.content || "");
   const title = String(body?.title || "Sin titulo");
   if (!content.trim()) throw new Error("Contenido a formatear es requerido.");
+  if (content.length > 12000) throw new Error("El texto es demasiado largo para formatearlo de una vez (maximo 12000 caracteres). Formatea por secciones.");
 
   const system = `Eres Tarot, el Gran Bibliotecario del universo "Caldo de Dragon".
 Tu tarea es organizar el texto de un manuscrito con estilo limpio tipo Fandom Wiki, en HTML valido:
@@ -177,7 +179,7 @@ function stripHtml(s: string): string {
 async function tarotChat(env: Env, request: Request, body: any) {
   const message = String(body?.message || "").trim();
   if (!message) throw new Error("El mensaje es requerido.");
-  const history: any[] = Array.isArray(body?.history) ? body.history : [];
+  const history: any[] = Array.isArray(body?.history) ? body.history.slice(-10) : [];
 
   let raw: any = [];
   try {
@@ -188,7 +190,7 @@ async function tarotChat(env: Env, request: Request, body: any) {
 
   const recentUser = history
     .filter((m) => m && (m.role === "user" || m.role === "client"))
-    .map((m) => String(m.text || m.content || ""))
+    .slice(-3).map((m) => String(m.text || m.content || ""))
     .join(" ");
   const q = norm(recentUser + " " + message);
   const stop = new Set(["que", "como", "cual", "cuales", "quien", "quienes", "donde", "cuando", "sobre", "para", "pero", "porque", "tiene", "tienen", "esta", "estan", "este", "esto", "esos", "esas", "hola", "dime", "puedes", "algo", "todo", "todos", "entre", "desde", "hasta", "unos", "unas"]);
@@ -197,7 +199,7 @@ async function tarotChat(env: Env, request: Request, body: any) {
   const scored = all.map((a) => {
     const t = norm(String(a.title));
     const sm = norm(String(a.summary || ""));
-    const body2 = norm(stripHtml(String(a.content || "")));
+    const body2 = norm(stripHtml(String(a.content || "")).slice(0, 2500));
     let score = t.length > 2 && q.includes(t) ? 10 : 0;
     for (const w of qWords) {
       if (t.includes(w)) score += 3;
@@ -205,14 +207,14 @@ async function tarotChat(env: Env, request: Request, body: any) {
       if (body2.includes(w)) score += 1;
     }
     return { a, score };
-  }).filter((s) => s.score > 0).sort((x, y) => y.score - x.score).slice(0, 20);
+  }).filter((s) => s.score > 0).sort((x, y) => y.score - x.score).slice(0, 6);
 
   const ctx = scored.map((s, i) =>
-    `=== TOMO ${i + 1}: ${s.a.title} (slug: ${s.a.slug}, categoría: ${s.a.category || "General"}) ===\nResumen: ${s.a.summary || "Sin resumen"}\n${stripHtml(String(s.a.content || ""))}`
+    `=== TOMO ${i + 1}: ${s.a.title} (slug: ${s.a.slug}, categoría: ${s.a.category || "General"}) ===\nResumen: ${s.a.summary || "Sin resumen"}\n${stripHtml(String(s.a.content || "")).slice(0, 1800)}`
   ).join("\n\n");
 
   const used = new Set(scored.map((s) => s.a.slug));
-  const catalog = all.filter((a) => !used.has(a.slug)).map((a) => `- ${a.title} (${a.category || "General"})`).join("\n");
+  const catalog = all.filter((a) => !used.has(a.slug)).slice(0, 40).map((a) => `- ${a.title} (${a.category || "General"})`).join("\n");
 
   const system = `Eres Tarot, el asistente de consulta de la wiki "Caldo de Dragón".
 Responde en español, de forma concisa y directa, con el contexto justo para que se entienda. Nada de roleplay ni adornos poéticos.
@@ -229,7 +231,7 @@ ${catalog}`;
   for (const m of history) {
     const text = String(m?.text || m?.content || "").trim();
     if (!text) continue;
-    msgs.push({ role: m.role === "user" || m.role === "client" ? "user" : "assistant", content: text });
+    msgs.push({ role: m.role === "user" || m.role === "client" ? "user" : "assistant", content: text.slice(0, 1500) });
   }
   msgs.push({ role: "user", content: message });
 
@@ -263,7 +265,7 @@ ESTADO ACTUAL DEL ARTÍCULO:
 - Resumen actual: ${currentSummary || "No definido"}
 - Contenido actual:
 """
-${currentContent || "Sin contenido previo."}
+${currentContent ? String(currentContent).slice(0, 4000) : "Sin contenido previo."}
 """
 
 MODO: ${importMode}
@@ -498,7 +500,7 @@ async function tarotCheck(env: Env, request: Request, body: any) {
   const all: any[] = Array.isArray(raw) ? raw : (raw && raw.articles) || [];
   const others = all.filter((a) => a && a.slug !== currentSlug);
 
-  const text = (String(title || "") + " " + clean).toLowerCase();
+  const text = (String(title || "") + " " + clean.slice(0, 1500)).toLowerCase();
   const words = new Set(text.split(/[^a-z0-9\u00e0-\u00ff]+/).filter((w) => w.length > 3));
   const scored = others.map((a) => {
     const t = String(a.title || "").toLowerCase();
@@ -507,13 +509,13 @@ async function tarotCheck(env: Env, request: Request, body: any) {
     return { a, score };
   }).sort((x, y) => y.score - x.score);
   const picked = (scored.some((s) => s.score > 0) ? scored.filter((s) => s.score > 0) : scored)
-    .slice(0, 25)
+    .slice(0, 12)
     .map((s) => ({
       title: s.a.title,
       slug: s.a.slug,
       category: s.a.category,
       summary: s.a.summary || "",
-      snippet: stripHtml(s.a.content || ""),
+      snippet: stripHtml(s.a.content || "").slice(0, 500),
     }));
 
   const system = `Eres Tarot, el Gran Guardián y Verificador de Coherencia de Lore de Dragopedia / Caldo de Dragón.
@@ -528,7 +530,7 @@ ARTÍCULO A AUDITAR:
 - Título: "${title || "Borrador"}"
 - Categoría: "${category || "General"}"
 - Resumen: "${summary || ""}"
-- Contenido: """${clean}"""
+- Contenido: """${clean.slice(0, 4000)}"""
 
 TOMOS RELACIONADOS:
 ${JSON.stringify(picked)}

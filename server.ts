@@ -13485,6 +13485,10 @@ async function startServer() {
     app.use(express.static(publicPath));
     app.use("/images", express.static(path.join(publicPath, "images")));
     app.use("/data", express.static(path.join(publicPath, "data")));
+    const distAssetsPath = path.join(process.cwd(), "dist", "assets");
+    if (fs.existsSync(distAssetsPath)) {
+      app.use("/assets", express.static(distAssetsPath));
+    }
   }
 
     // Helper to construct OpenGraph metadata for graphs (Discord, Twitter, Telegram, WhatsApp)

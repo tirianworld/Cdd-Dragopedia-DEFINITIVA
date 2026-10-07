@@ -1,5 +1,64 @@
 [
   {
+    "id": "bak-art-1783707314003-1791362080611",
+    "articleId": "art-1783707314003",
+    "title": "Árbol Áureo",
+    "content": "<h1>Árbol Áureo</h1><p>El <strong>Árbol Áureo</strong> es una entidad divina y ancestral que se erige como el corazón y el alma de <a href=\"/articulo/avalon\">Ávalon</a>. Su existencia es el pilar que mantiene unida a la isla, y su poder trasciende las leyes naturales, especialmente la muerte. Este árbol sagrado fue creado por la unión de la <a href=\"/articulo/magia-divina\" class=\"text-primary hover:underline font-semibold\">magia divina</a> y la <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a>, y con el tiempo desarrolló una conciencia propia, elevándose a un nivel cercano al de las deidades menores.</p><h2>Origen y Creación</h2><p>El Árbol Áureo nació de la fusión entre la <a href=\"/articulo/magia-divina\" class=\"text-primary hover:underline font-semibold\">magia divina</a> y la <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a>, un proceso que ocurrió en los albores de la creación de <a href=\"/articulo/avalon\">Ávalon</a>. Su formación fue un evento único, donde las fuerzas de la creación y la protección se unieron para dar vida a una entidad que trascendería el tiempo y el espacio.</p><h2>Poderes y Funciones</h2><p>El Árbol Áureo posee un poder único que desafía las leyes naturales:</p><ul><li><strong>Inmortalidad en Ávalon:</strong> Mientras el Árbol Áureo exista, la muerte en <a href=\"/articulo/avalon\">Ávalon</a> es imposible. Su presencia actúa como un escudo divino que protege a los habitantes de la isla de la muerte natural.</li><li><strong>Absorción de Energía Vital:</strong> Cuando alguien muere en <a href=\"/articulo/avalon\">Ávalon</a>, el Árbol Áureo absorbe parte de la energía vital y un fragmento del alma del difunto. Este proceso ocurre de dos formas:</li><ul><li>Si el asesino de la víctima muere, la energía vital y el alma de la víctima original son devueltos a su poseedor original.</li><li>Si la víctima no es asesinada, pero su energía vital se agota por otros medios, su alma es forzada a reencarnar.</li></ul><li><strong>Nutrición del Árbol:</strong> Ambos procesos envían \"nutrientes\" al Árbol Áureo, aumentando su poder y fortaleciéndolo. Con el tiempo, estos nutrientes han elevado al Árbol Áureo a un nivel que roza el de las deidades menores.</li></ul><h2>Interés en la Expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a></h2><p>El Árbol Áureo ha mostrado un especial interés en la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a>. Cree que los miembros de esta expedición podrían ser clave para cumplir su plan: alcanzar un poder aún mayor y trascender su estado actual. El Árbol Áureo ve en ellos la posibilidad de fortalecerse y expandir su influencia más allá de los límites de <a href=\"/articulo/avalon\">Ávalon</a>.</p><h2>Relación con <a href=\"/articulo/avalon\">Ávalon</a></h2><p>El Árbol Áureo es el corazón de <a href=\"/articulo/avalon\">Ávalon</a>. Sus raíces se extienden por toda la isla, manteniéndola unida y protegiéndola de cualquier amenaza externa. Sin el Árbol Áureo, <a href=\"/articulo/avalon\">Ávalon</a> dejaría de existir como la conocemos, y la muerte volvería a reclamar a sus habitantes.</p>",
+    "summary": "Entidad divina que mantiene unida a Ávalon y otorga inmortalidad a sus habitantes mediante la absorción de energía vital y almas.",
+    "category": "Dioses",
+    "infobox": {
+      "Nombre": "Árbol Áureo",
+      "Categoría": "Dioses",
+      "Tipo de Entidad": "Entidad Divina y Ancestral",
+      "Ubicación": "Ávalon",
+      "Origen": "Fusión de la magia divina y la magia natural",
+      "Poderes": [
+        "Inmortalidad en Ávalon",
+        "Absorción de Energía Vital",
+        "Nutrición del Árbol"
+      ],
+      "Relación con Ávalon": "Corazón y alma de la isla",
+      "Interés en": "Expedición de Moonhaven",
+      "Nivel de Poder": "Cerca del de las deidades menores",
+      "Propósito": "Mantener unida a la isla de Ávalon y protegerla de la muerte",
+      "Conexiones": [
+        "Ávalon",
+        "Expedición de Moonhaven"
+      ],
+      "Idiomas": "No especificado",
+      "Familia": "No especificado",
+      "Alineamiento": "No especificado",
+      "Edad": "No especificado",
+      "Estadísticas": "No especificado",
+      "Clase": "No especificado",
+      "Raza": "No especificado",
+      "Profesión": "No especificado",
+      "Nivel": "No especificado"
+    },
+    "timeline_markers": [
+      {
+        "id": "tl-arbol-aureo-mrf9a5jc-1785317324509-1",
+        "label": "Origen del Árbol Áureo - Creación de Ávalon",
+        "content": "El Árbol Áureo nació de la fusión entre la magia divina y la magia natural en los albores de la creación de Ávalon, formando una entidad que trascendería el tiempo y el espacio.",
+        "image_url": ""
+      },
+      {
+        "id": "tl-arbol-aureo-mrf9a5jc-1785317324509-2",
+        "label": "Desarrollo de Conciencia y Poderes",
+        "content": "Con el tiempo, el Árbol Áureo desarrolló una conciencia propia y elevó su poder a un nivel cercano al de las deidades menores, otorgando inmortalidad a los habitantes de Ávalon y absorbiendo energía vital y almas.",
+        "image_url": ""
+      },
+      {
+        "id": "tl-arbol-aureo-mrf9a5jc-1785317324509-3",
+        "label": "Interés en la Expedición de Moonhaven",
+        "content": "El Árbol Áureo mostró un especial interés en la expedición de Moonhaven, creyendo que sus miembros podrían ser clave para alcanzar un poder aún mayor y trascender su estado actual.",
+        "image_url": ""
+      }
+    ],
+    "createdAt": 1791362080611,
+    "expiresAt": 1791496800000
+  },
+  {
     "id": "bak-art-1791351732056-1791353980999",
     "articleId": "art-1791351732056",
     "title": "Magia Áurea",

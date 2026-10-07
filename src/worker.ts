@@ -1,7 +1,7 @@
 interface Env {
   ASSETS: Fetcher;
   BACKEND_URL?: string;
-  [key: string]: unknown; // GROQ_API_KEY_2, MISTRAL_API_KEY_4, etc.
+  [key: string]: unknown;
 }
 
 const CORS_HEADERS: Record<string, string> = {
@@ -17,7 +17,6 @@ function jsonResponse(data: unknown, status = 200): Response {
   });
 }
 
-// Sirve un JSON estático desde /data/ o devuelve un valor por defecto
 async function staticJson(env: Env, request: Request, path: string, fallback: unknown): Promise<Response> {
   const res = await env.ASSETS.fetch(new Request(new URL(path, request.url)));
   if (res.ok) {
@@ -30,9 +29,6 @@ async function staticJson(env: Env, request: Request, path: string, fallback: un
   return jsonResponse(fallback);
 }
 
-// ---------------------------------------------------------------------------
-// Proveedores de IA: Groq -> Cerebras -> Mistral (con rotación de claves)
-// ---------------------------------------------------------------------------
 function collectKeys(env: Env, base: string): string[] {
   const re = new RegExp(`^${base}(_\\d+)?$`);
   const keys = Object.entries(env)
@@ -65,7 +61,6 @@ async function generate(env: Env, messages: unknown[], extra: Record<string, unk
           const data = (await res.json()) as Record<string, unknown>;
           return { provider: p.name, ...data };
         }
-        // 401/429/5xx: probar siguiente clave o proveedor
       } catch (err) {
         console.error(`[AI ${p.name}]`, err);
       }
@@ -88,7 +83,6 @@ export default {
     if (url.pathname.startsWith("/api/")) {
       const cleanPath = url.pathname.replace(/\/$/, "");
 
-      // ---------- IA ----------
       if (cleanPath === "/api/ai/status") {
         return jsonResponse({
           groq: collectKeys(env, "GROQ_API_KEY").length,
@@ -106,7 +100,6 @@ export default {
         return result ? jsonResponse(result) : jsonResponse({ error: "Todos los proveedores fallaron" }, 502);
       }
 
-      // ---------- Artículos ----------
       if (cleanPath === "/api/articles") {
         if (request.method === "GET") {
           const res = await env.ASSETS.fetch(new Request(new URL("/data/articles.json", request.url)));
@@ -121,7 +114,6 @@ export default {
         }
       }
 
-      // (antes de /api/articles/:slug para que "sync" no se interprete como slug)
       if (cleanPath === "/api/articles/sync") {
         return jsonResponse({
           updates: [],
@@ -156,7 +148,6 @@ export default {
         }
       }
 
-      // ---------- Eventos de campaña ----------
       if (cleanPath === "/api/campaign-events") {
         if (request.method === "GET") {
           const res = await env.ASSETS.fetch(new Request(new URL("/data/campaign_events.json", request.url)));
@@ -170,7 +161,6 @@ export default {
         return jsonResponse({ success: true });
       }
 
-      // ---------- Timeline ----------
       if (cleanPath === "/api/timeline") {
         if (request.method === "GET") {
           const res = await env.ASSETS.fetch(new Request(new URL("/data/timeline_markers.json", request.url)));
@@ -184,7 +174,6 @@ export default {
         return jsonResponse({ success: true });
       }
 
-      // ---------- JSON estáticos ----------
       if (cleanPath === "/api/site-ui-config") {
         if (request.method === "GET") return staticJson(env, request, "/data/site_ui_config.json", {});
         return jsonResponse({ success: true });
@@ -210,7 +199,6 @@ export default {
         return staticJson(env, request, "/data/spells.json", []);
       }
 
-      // ---------- Bot ----------
       if (cleanPath === "/api/bot/status") {
         return jsonResponse({
           active: false,
@@ -220,7 +208,6 @@ export default {
         });
       }
 
-      // ---------- Proxy al backend ----------
       if (
         env.BACKEND_URL &&
         !env.BACKEND_URL.includes("ais-dev-") &&

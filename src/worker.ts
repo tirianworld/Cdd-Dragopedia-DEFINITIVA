@@ -1,8 +1,7 @@
-export interface Env {
-  ASSETS: {
-    fetch: (request: Request | string) => Promise<Response>;
-  };
+interface Env {
+  ASSETS: Fetcher;
   BACKEND_URL?: string;
+  [key: string]: unknown; // GROQ_API_KEY_2, MISTRAL_API_KEY_4, etc.
 }
 
 const CORS_HEADERS: Record<string, string> = {
@@ -11,43 +10,107 @@ const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Allow-Headers": "*",
 };
 
-function jsonResponse(data: any, status = 200): Response {
+function jsonResponse(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
     status,
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      ...CORS_HEADERS,
-    },
+    headers: { "Content-Type": "application/json; charset=utf-8", ...CORS_HEADERS },
   });
 }
 
+// Sirve un JSON estático desde /data/ o devuelve un valor por defecto
+async function staticJson(env: Env, request: Request, path: string, fallback: unknown): Promise<Response> {
+  const res = await env.ASSETS.fetch(new Request(new URL(path, request.url)));
+  if (res.ok) {
+    const body = await res.text();
+    return new Response(body, {
+      status: 200,
+      headers: { "Content-Type": "application/json; charset=utf-8", ...CORS_HEADERS },
+    });
+  }
+  return jsonResponse(fallback);
+}
+
+// ---------------------------------------------------------------------------
+// Proveedores de IA: Groq -> Cerebras -> Mistral (con rotación de claves)
+// ---------------------------------------------------------------------------
+function collectKeys(env: Env, base: string): string[] {
+  const re = new RegExp(`^${base}(_\\d+)?$`);
+  const keys = Object.entries(env)
+    .filter(([k, v]) => re.test(k) && typeof v === "string" && v)
+    .map(([, v]) => v as string);
+  const csv = env[`${base}S`];
+  if (typeof csv === "string") {
+    keys.push(...csv.split(",").map((s) => s.trim()).filter(Boolean));
+  }
+  return keys;
+}
+
+const PROVIDERS = [
+  { name: "groq", base: "GROQ_API_KEY", url: "https://api.groq.com/openai/v1/chat/completions", model: "llama-3.3-70b-versatile" },
+  { name: "cerebras", base: "CEREBRAS_API_KEY", url: "https://api.cerebras.ai/v1/chat/completions", model: "llama3.1-8b" },
+  { name: "mistral", base: "MISTRAL_API_KEY", url: "https://api.mistral.ai/v1/chat/completions", model: "mistral-small-latest" },
+];
+
+async function generate(env: Env, messages: unknown[], extra: Record<string, unknown> = {}) {
+  for (const p of PROVIDERS) {
+    const keys = collectKeys(env, p.base).sort(() => Math.random() - 0.5);
+    for (const key of keys) {
+      try {
+        const res = await fetch(p.url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
+          body: JSON.stringify({ model: p.model, messages, ...extra }),
+        });
+        if (res.ok) {
+          const data = (await res.json()) as Record<string, unknown>;
+          return { provider: p.name, ...data };
+        }
+        // 401/429/5xx: probar siguiente clave o proveedor
+      } catch (err) {
+        console.error(`[AI ${p.name}]`, err);
+      }
+    }
+  }
+  return null;
+}
+
 export default {
-  async fetch(request: Request, env: Env, ctx: any): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
-    // Handle OPTIONS preflight requests directly
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
-        headers: {
-          ...CORS_HEADERS,
-          "Access-Control-Max-Age": "86400",
-        },
+        headers: { ...CORS_HEADERS, "Access-Control-Max-Age": "86400" },
       });
     }
 
-    // 1. Edge-native API Routes (Serves data directly from static assets or mock responses)
     if (url.pathname.startsWith("/api/")) {
       const cleanPath = url.pathname.replace(/\/$/, "");
 
-      // 1.1 Articles list endpoint
+      // ---------- IA ----------
+      if (cleanPath === "/api/ai/status") {
+        return jsonResponse({
+          groq: collectKeys(env, "GROQ_API_KEY").length,
+          cerebras: collectKeys(env, "CEREBRAS_API_KEY").length,
+          mistral: collectKeys(env, "MISTRAL_API_KEY").length,
+        });
+      }
+
+      if (cleanPath === "/api/ai/generate" && request.method === "POST") {
+        const body = (await request.json().catch(() => null)) as { messages?: unknown[] } | null;
+        if (!body || !Array.isArray(body.messages)) {
+          return jsonResponse({ error: "Falta el campo 'messages'" }, 400);
+        }
+        const result = await generate(env, body.messages);
+        return result ? jsonResponse(result) : jsonResponse({ error: "Todos los proveedores fallaron" }, 502);
+      }
+
+      // ---------- Artículos ----------
       if (cleanPath === "/api/articles") {
         if (request.method === "GET") {
-          const assetReq = new Request(new URL("/data/articles.json", request.url));
-          const assetRes = await env.ASSETS.fetch(assetReq);
-          if (assetRes.ok) {
-            return assetRes;
-          }
+          const res = await env.ASSETS.fetch(new Request(new URL("/data/articles.json", request.url)));
+          if (res.ok) return res;
           return jsonResponse([]);
         }
         try {
@@ -58,23 +121,30 @@ export default {
         }
       }
 
-      // 1.1b Individual Article endpoint: /api/articles/:slug
+      // (antes de /api/articles/:slug para que "sync" no se interprete como slug)
+      if (cleanPath === "/api/articles/sync") {
+        return jsonResponse({
+          updates: [],
+          deletedIds: [],
+          timestamp: new Date().toISOString(),
+          message: "All articles in sync with edge",
+        });
+      }
+
       const articleMatch = cleanPath.match(/^\/api\/articles\/([^/]+)$/);
       if (articleMatch) {
         const targetSlug = decodeURIComponent(articleMatch[1]).toLowerCase();
         if (request.method === "GET") {
-          const assetReq = new Request(new URL("/data/articles.json", request.url));
-          const assetRes = await env.ASSETS.fetch(assetReq);
-          if (assetRes.ok) {
-            const list = await assetRes.json().catch(() => []) as any[];
-            const found = list.find((a: any) =>
-              (a.slug && a.slug.toLowerCase() === targetSlug) ||
-              (a.id && a.id.toLowerCase() === targetSlug) ||
-              (a.title && a.title.toLowerCase() === targetSlug)
+          const res = await env.ASSETS.fetch(new Request(new URL("/data/articles.json", request.url)));
+          if (res.ok) {
+            const list = ((await res.json().catch(() => [])) as any[]) || [];
+            const found = list.find(
+              (a) =>
+                (a.slug && a.slug.toLowerCase() === targetSlug) ||
+                (a.id && a.id.toLowerCase() === targetSlug) ||
+                (a.title && a.title.toLowerCase() === targetSlug)
             );
-            if (found) {
-              return jsonResponse(found);
-            }
+            if (found) return jsonResponse(found);
           }
           return jsonResponse({ error: "Artículo no encontrado" }, 404);
         }
@@ -86,24 +156,13 @@ export default {
         }
       }
 
-      // 1.2 Articles synchronization endpoint
-      if (cleanPath === "/api/articles/sync") {
-        return jsonResponse({
-          updates: [],
-          deletedIds: [],
-          timestamp: new Date().toISOString(),
-          message: "All articles in sync with edge",
-        });
-      }
-
-      // 1.3 Campaign Events endpoint
+      // ---------- Eventos de campaña ----------
       if (cleanPath === "/api/campaign-events") {
         if (request.method === "GET") {
-          const assetReq = new Request(new URL("/data/campaign_events.json", request.url));
-          const assetRes = await env.ASSETS.fetch(assetReq);
-          if (assetRes.ok) {
-            const raw = await assetRes.json().catch(() => []);
-            const events = Array.isArray(raw) ? raw : (raw?.events || []);
+          const res = await env.ASSETS.fetch(new Request(new URL("/data/campaign_events.json", request.url)));
+          if (res.ok) {
+            const raw: any = await res.json().catch(() => []);
+            const events = Array.isArray(raw) ? raw : raw?.events || [];
             return jsonResponse({ events, count: events.length });
           }
           return jsonResponse({ events: [], count: 0 });
@@ -111,14 +170,13 @@ export default {
         return jsonResponse({ success: true });
       }
 
-      // 1.3b Timeline endpoint
+      // ---------- Timeline ----------
       if (cleanPath === "/api/timeline") {
         if (request.method === "GET") {
-          const assetReq = new Request(new URL("/data/timeline_markers.json", request.url));
-          const assetRes = await env.ASSETS.fetch(assetReq);
-          if (assetRes.ok) {
-            const raw = await assetRes.json().catch(() => []);
-            const markers = Array.isArray(raw) ? raw : (raw?.markers || []);
+          const res = await env.ASSETS.fetch(new Request(new URL("/data/timeline_markers.json", request.url)));
+          if (res.ok) {
+            const raw: any = await res.json().catch(() => []);
+            const markers = Array.isArray(raw) ? raw : raw?.markers || [];
             return jsonResponse({ markers });
           }
           return jsonResponse({ markers: [] });
@@ -126,94 +184,33 @@ export default {
         return jsonResponse({ success: true });
       }
 
-      // 1.4 Site UI Config endpoint
+      // ---------- JSON estáticos ----------
       if (cleanPath === "/api/site-ui-config") {
-        if (request.method === "GET") {
-          const assetReq = new Request(new URL("/data/site_ui_config.json", request.url), request);
-          const assetRes = await env.ASSETS.fetch(assetReq);
-          if (assetRes.ok) {
-            const body = await assetRes.text();
-            return new Response(body, {
-              status: 200,
-              headers: { "Content-Type": "application/json; charset=utf-8", ...CORS_HEADERS },
-            });
-          }
-          return jsonResponse({});
-        }
+        if (request.method === "GET") return staticJson(env, request, "/data/site_ui_config.json", {});
         return jsonResponse({ success: true });
       }
-
-      // 1.5 Filter Categories endpoint
       if (cleanPath === "/api/filter-categories") {
-        const assetReq = new Request(new URL("/data/filter_categories.json", request.url), request);
-        const assetRes = await env.ASSETS.fetch(assetReq);
-        if (assetRes.ok) {
-          const body = await assetRes.text();
-          return new Response(body, {
-            status: 200,
-            headers: { "Content-Type": "application/json; charset=utf-8", ...CORS_HEADERS },
-          });
-        }
-        return jsonResponse({ campaña: [], continente: [], plano: [], criatura: [] });
+        return staticJson(env, request, "/data/filter_categories.json", {
+          campaña: [],
+          continente: [],
+          plano: [],
+          criatura: [],
+        });
       }
-
-      // 1.6 Categories endpoint
       if (cleanPath === "/api/categories") {
-        const assetReq = new Request(new URL("/data/categories.json", request.url), request);
-        const assetRes = await env.ASSETS.fetch(assetReq);
-        if (assetRes.ok) {
-          const body = await assetRes.text();
-          return new Response(body, {
-            status: 200,
-            headers: { "Content-Type": "application/json; charset=utf-8", ...CORS_HEADERS },
-          });
-        }
-        return jsonResponse([]);
+        return staticJson(env, request, "/data/categories.json", []);
       }
-
-      // 1.7 Maps endpoint
       if (cleanPath === "/api/cartocraft/maps" || cleanPath === "/api/maps") {
-        const assetReq = new Request(new URL("/data/maps.json", request.url), request);
-        const assetRes = await env.ASSETS.fetch(assetReq);
-        if (assetRes.ok) {
-          const body = await assetRes.text();
-          return new Response(body, {
-            status: 200,
-            headers: { "Content-Type": "application/json; charset=utf-8", ...CORS_HEADERS },
-          });
-        }
-        return jsonResponse({ maps: [] });
+        return staticJson(env, request, "/data/maps.json", { maps: [] });
       }
-
-      // 1.8 Genealogy Tree endpoint
       if (cleanPath === "/api/genealogy") {
-        const assetReq = new Request(new URL("/data/genealogy_tree.json", request.url), request);
-        const assetRes = await env.ASSETS.fetch(assetReq);
-        if (assetRes.ok) {
-          const body = await assetRes.text();
-          return new Response(body, {
-            status: 200,
-            headers: { "Content-Type": "application/json; charset=utf-8", ...CORS_HEADERS },
-          });
-        }
-        return jsonResponse({ nodes: [], links: [] });
+        return staticJson(env, request, "/data/genealogy_tree.json", { nodes: [], links: [] });
       }
-
-      // 1.9 Spells / Spellbook endpoint
       if (cleanPath === "/api/spells" || cleanPath === "/api/spellbook") {
-        const assetReq = new Request(new URL("/data/spells.json", request.url), request);
-        const assetRes = await env.ASSETS.fetch(assetReq);
-        if (assetRes.ok) {
-          const body = await assetRes.text();
-          return new Response(body, {
-            status: 200,
-            headers: { "Content-Type": "application/json; charset=utf-8", ...CORS_HEADERS },
-          });
-        }
-        return jsonResponse([]);
+        return staticJson(env, request, "/data/spells.json", []);
       }
 
-      // 1.10 Discord Bot status endpoint
+      // ---------- Bot ----------
       if (cleanPath === "/api/bot/status") {
         return jsonResponse({
           active: false,
@@ -223,29 +220,28 @@ export default {
         });
       }
 
-      // 1.11 Optional proxy to external backend if explicitly provided AND not a google cloud internal host
-      if (env.BACKEND_URL && !env.BACKEND_URL.includes("ais-dev-") && !env.BACKEND_URL.includes("europe-west2.run.app")) {
+      // ---------- Proxy al backend ----------
+      if (
+        env.BACKEND_URL &&
+        !env.BACKEND_URL.includes("ais-dev-") &&
+        !env.BACKEND_URL.includes("europe-west2.run.app")
+      ) {
         try {
           const targetUrl = new URL(url.pathname + url.search, env.BACKEND_URL);
           const reqHeaders = new Headers(request.headers);
           reqHeaders.set("Host", targetUrl.host);
-
           const response = await fetch(targetUrl.toString(), {
             method: request.method,
             headers: reqHeaders,
             body: ["GET", "HEAD"].includes(request.method) ? undefined : request.body,
             redirect: "follow",
           });
-
-          // Check if the backend responded with HTML instead of JSON
           const contentType = response.headers.get("content-type") || "";
           if (!contentType.includes("application/json") && !contentType.includes("text/plain")) {
             return jsonResponse({ error: "Backend returned invalid non-JSON format", path: url.pathname }, 502);
           }
-
           const resHeaders = new Headers(response.headers);
           Object.entries(CORS_HEADERS).forEach(([k, v]) => resHeaders.set(k, v));
-
           return new Response(response.body, {
             status: response.status,
             statusText: response.statusText,
@@ -257,15 +253,9 @@ export default {
         }
       }
 
-      // Default JSON fallback for unhandled /api/* paths to guarantee response.json() NEVER throws SyntaxError
-      return jsonResponse({
-        status: "ok",
-        message: "Endpoint handled by edge worker",
-        path: url.pathname,
-      });
+      return jsonResponse({ status: "ok", message: "Endpoint handled by edge worker", path: url.pathname });
     }
 
-    // 2. Serve static assets & SPA routes via ASSETS binding
     return env.ASSETS.fetch(request);
   },
 };

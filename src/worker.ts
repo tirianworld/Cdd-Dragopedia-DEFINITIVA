@@ -17,6 +17,103 @@ function jsonResponse(data: unknown, status = 200): Response {
   });
 }
 
+async function tarotInlineEdit(env: Env, body: any) {
+  const selectedText = String(body?.selectedText || "");
+  if (!selectedText.trim()) throw new Error("Debe seleccionar un fragmento de texto para transformar.");
+  if (selectedText.length > 6000) throw new Error("El fragmento seleccionado es demasiado largo (maximo 6000 caracteres).");
+  const command = String(body?.command || "custom");
+  const customPrompt = String(body?.customPrompt || "");
+  const ctxText = String(body?.fullArticleContext || "").slice(0, 1500);
+  const title = String(body?.title || "Articulo");
+  const category = String(body?.category || "General");
+
+  const directives: Record<string, string> = {
+    epic: "Reescribe el fragmento para que sea epico, heroico y solemne, con prosa de alta fantasia. Manten los nombres, relaciones y hechos reales intactos.",
+    combat: "Expande el fragmento con detalles tacticos de combate (armas, tecnicas, impacto fisico o magico, maniobras, tension de batalla).",
+    medieval_fix: "Corrige ortografia, gramatica, sintaxis y estilo para que tenga sabor de cronica medieval pulcra y noble, eliminando anacronismos y manteniendo los terminos de fantasia intactos.",
+    infobox_table: "Analiza el fragmento y extrae una tabla HTML (<table>) o bloque estructurado con los atributos clave, estadisticas, linaje o habilidades mencionadas. Usa solo datos presentes en el texto.",
+    expand: "Desarrolla y profundiza el fragmento con ambientacion sensorial y descripciones del entorno, sin inventar hechos incongruentes.",
+    summarize: "Sintetiza el fragmento en un parrafo conciso y contundente que conserve lo fundamental.",
+  };
+  const directive = directives[command] ||
+    (customPrompt ? `Aplica la siguiente instruccion especifica sobre el texto: "${customPrompt}"` : "Mejora el texto de forma solemne y elegante.");
+
+  const system = `Eres Tarot, el Copiloto y Gran Bibliotecario de Dragopedia / Caldo de Dragon.
+Tomas un fragmento seleccionado de un articulo y lo transformas segun la directiva dada.
+Contexto del articulo: titulo "${title}", categoria "${category}".
+Reglas:
+1. Devuelve UNICAMENTE el texto transformado (en HTML o texto enriquecido segun corresponda), sin notas, sin preambulos tipo "Aqui tienes" y sin bloques de codigo markdown.
+2. Si el texto contenia etiquetas HTML (<p>, <strong>, <a>...), conservalas o mejoralas limpiamente. No modifiques los href de los enlaces.
+3. Tono medieval / fantasia mistica, en espanol.
+4. CERO INVENCION: prohibido inventar lore, personajes, eventos, linajes o hechos que no esten en el texto o en la directiva.`;
+
+  const prompt = `Directiva: ${directive}
+
+Fragmento seleccionado:
+"""
+${selectedText}
+"""
+${ctxText ? `\nContexto del manuscrito circundante (solo para coherencia):\n"""\n${ctxText}\n"""\n` : ""}
+Devuelve el fragmento transformado:`;
+
+  const r: any = await generate(env, [
+    { role: "system", content: system },
+    { role: "user", content: prompt },
+  ], { temperature: 0.2 });
+  if (!r) throw new Error("Todos los proveedores de IA fallaron");
+
+  let out: string = String(r.choices?.[0]?.message?.content || "").trim();
+  out = out.replace(/^```(?:html)?\s*/i, "").replace(/\s*```$/i, "").trim();
+  return { modifiedText: out || selectedText };
+}
+
+async function tarotCrosslink(env: Env, request: Request, body: any) {
+  const content = String(body?.content || "");
+  const currentSlug = String(body?.currentArticleSlug || "");
+  if (!content.trim()) return { crossLinkedHtml: content, linksAddedCount: 0, detectedEntities: [] as string[] };
+
+  let raw: any = [];
+  try {
+    const res = await env.ASSETS.fetch(new Request(new URL("/data/articles.json", request.url)));
+    raw = await res.json();
+  } catch {}
+  const all: any[] = Array.isArray(raw) ? raw : (raw && raw.articles) || [];
+
+  const lower = content.toLowerCase();
+  const targets = all
+    .filter((a) => a && a.slug && a.slug !== currentSlug && typeof a.title === "string" && a.title.trim().length >= 3 && lower.includes(a.title.trim().toLowerCase()))
+    .sort((a, b) => b.title.length - a.title.length);
+
+  let text = content;
+  let linksAddedCount = 0;
+  const detectedEntities: string[] = [];
+
+  for (const target of targets) {
+    if (text.includes("/articulo/" + target.slug)) continue;
+    const esc = target.title.trim().replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+    const re = new RegExp("(?<![\\p{L}\\p{N}])(" + esc + ")(?![\\p{L}\\p{N}])", "iu");
+    const segments = text.split(/(<[^>]+>)/g);
+    let insideAnchor = false;
+    let done = false;
+    for (let i = 0; i < segments.length && !done; i++) {
+      const seg = segments[i];
+      if (i % 2 === 1) {
+        const l = seg.toLowerCase();
+        if (l.startsWith("<a ") || l === "<a>") insideAnchor = true;
+        else if (l.startsWith("</a")) insideAnchor = false;
+      } else if (!insideAnchor && re.test(seg)) {
+        segments[i] = seg.replace(re, (m: string) => `<a href="/articulo/${target.slug}" class="text-primary hover:underline font-semibold font-medium">${m}</a>`);
+        done = true;
+      }
+    }
+    if (done) {
+      text = segments.join("");
+      linksAddedCount++;
+      detectedEntities.push(target.title);
+    }
+  }
+  return { crossLinkedHtml: text, linksAddedCount, detectedEntities };
+}
 async function tarotFormat(env: Env, body: any) {
   const content = String(body?.content || "");
   const title = String(body?.title || "Sin titulo");
@@ -274,7 +371,25 @@ async function generate(env: Env, messages: unknown[], extra: Record<string, unk
     if (url.pathname.startsWith("/api/")) {
       const cleanPath = url.pathname.replace(/\/$/, "");
 
-      if (cleanPath === "/api/ai/format" && request.method === "POST") {
+      if (cleanPath === "/api/ai/inline-edit" && request.method === "POST") {
+      try {
+        const body = await request.json();
+        return jsonResponse(await tarotInlineEdit(env, body));
+      } catch (e: any) {
+        return jsonResponse({ error: e?.message || "Error al aplicar edicion con el Copiloto." }, 500);
+      }
+    }
+
+    if (cleanPath === "/api/ai/auto-crosslink-text" && request.method === "POST") {
+      try {
+        const body = await request.json();
+        return jsonResponse(await tarotCrosslink(env, request, body));
+      } catch (e: any) {
+        return jsonResponse({ error: e?.message || "Error al auto-enlazar el contenido." }, 500);
+      }
+    }
+
+    if (cleanPath === "/api/ai/format" && request.method === "POST") {
       try {
         const body = await request.json();
         return jsonResponse(await tarotFormat(env, body));

@@ -30,17 +30,19 @@ async function staticJson(env: Env, request: Request, path: string, fallback: un
 }
 
 function collectKeys(env: Env, base: string): string[] {
-  const re = new RegExp(`^${base}(_\\d+)?$`);
-  const keys = Object.entries(env)
-    .filter(([k, v]) => re.test(k) && typeof v === "string" && v)
-    .map(([, v]) => v as string);
-  const csv = env[`${base}S`];
+  const names = [base];
+  for (let i = 1; i <= 10; i++) names.push(base + "_" + i);
+  const keys: string[] = [];
+  for (const n of names) {
+    const v = env[n];
+    if (typeof v === "string" && v.trim()) keys.push(v.trim());
+  }
+  const csv = env[base + "S"];
   if (typeof csv === "string") {
     keys.push(...csv.split(",").map((s) => s.trim()).filter(Boolean));
   }
   return keys;
 }
-
 const PROVIDERS = [
   { name: "groq", base: "GROQ_API_KEY", url: "https://api.groq.com/openai/v1/chat/completions", model: "llama-3.3-70b-versatile" },
   { name: "cerebras", base: "CEREBRAS_API_KEY", url: "https://api.cerebras.ai/v1/chat/completions", model: "llama3.1-8b" },

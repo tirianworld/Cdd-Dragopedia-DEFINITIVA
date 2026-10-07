@@ -17,6 +17,74 @@ function jsonResponse(data: unknown, status = 200): Response {
   });
 }
 
+function norm(s: string): string {
+  return (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+async function tarotChat(env: Env, request: Request, body: any) {
+  const message = String(body?.message || "").trim();
+  if (!message) throw new Error("El mensaje es requerido.");
+  const history: any[] = Array.isArray(body?.history) ? body.history.slice(-10) : [];
+
+  let raw: any = [];
+  try {
+    const res = await env.ASSETS.fetch(new Request(new URL("/data/articles.json", request.url)));
+    raw = await res.json();
+  } catch {}
+  const all: any[] = (Array.isArray(raw) ? raw : (raw && raw.articles) || []).filter((a: any) => a && a.title);
+
+  const recentUser = history
+    .filter((m) => m && (m.role === "user" || m.role === "client"))
+    .slice(-3)
+    .map((m) => String(m.text || m.content || ""))
+    .join(" ");
+  const q = norm(recentUser + " " + message);
+  const stop = new Set(["que", "como", "cual", "cuales", "quien", "quienes", "donde", "cuando", "sobre", "para", "pero", "porque", "tiene", "tienen", "esta", "estan", "este", "esto", "esos", "esas", "hola", "dime", "puedes", "algo", "todo", "todos", "entre", "desde", "hasta", "unos", "unas"]);
+  const qWords = Array.from(new Set(q.split(/[^a-z0-9]+/).filter((w) => w.length > 3 && !stop.has(w))));
+
+  const scored = all.map((a) => {
+    const t = norm(String(a.title));
+    const sm = norm(String(a.summary || ""));
+    const body2 = norm(stripHtml(String(a.content || "")).slice(0, 2500));
+    let score = t.length > 2 && q.includes(t) ? 10 : 0;
+    for (const w of qWords) {
+      if (t.includes(w)) score += 3;
+      if (sm.includes(w)) score += 1;
+      if (body2.includes(w)) score += 1;
+    }
+    return { a, score };
+  }).filter((s) => s.score > 0).sort((x, y) => y.score - x.score).slice(0, 6);
+
+  const ctx = scored.map((s, i) =>
+    `=== TOMO ${i + 1}: ${s.a.title} (slug: ${s.a.slug}, categoria: ${s.a.category || "General"}) ===\nResumen: ${s.a.summary || "Sin resumen"}\n${stripHtml(String(s.a.content || "")).slice(0, 1800)}`
+  ).join("\n\n");
+
+  const used = new Set(scored.map((s) => s.a.slug));
+  const catalog = all.filter((a) => !used.has(a.slug)).slice(0, 40).map((a) => `- ${a.title} (${a.category || "General"})`).join("\n");
+
+  const system = `Eres Tarot, el asistente de consulta de la wiki "Caldo de Dragon".
+Responde en espanol, de forma concisa y directa, con el contexto justo para que se entienda. Nada de roleplay ni adornos poeticos.
+Basa tu respuesta UNICAMENTE en los tomos que aparecen abajo. Si la informacion no esta en ellos, dilo claramente y no inventes.
+Termina siempre las frases y la respuesta completa.
+
+TOMOS RELACIONADOS:
+${ctx || "No se encontraron tomos relacionados directos."}
+
+OTROS TOMOS CATALOGADOS:
+${catalog}`;
+
+  const msgs: { role: string; content: string }[] = [{ role: "system", content: system }];
+  for (const m of history) {
+    const text = String(m?.text || m?.content || "").trim();
+    if (!text) continue;
+    msgs.push({ role: m.role === "user" || m.role === "client" ? "user" : "assistant", content: text.slice(0, 1500) });
+  }
+  msgs.push({ role: "user", content: message });
+
+  const r: any = await generate(env, msgs);
+  if (!r) throw new Error("Todos los proveedores de IA fallaron");
+  return { message: r.choices?.[0]?.message?.content || "No he podido generar una respuesta." };
+}
 function stripHtml(s: string): string {
   return (s || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 }
@@ -166,7 +234,16 @@ async function generate(env: Env, messages: unknown[], extra: Record<string, unk
     if (url.pathname.startsWith("/api/")) {
       const cleanPath = url.pathname.replace(/\/$/, "");
 
-      if (cleanPath === "/api/tarot/check-consistency" && request.method === "POST") {
+      if (cleanPath === "/api/ai/chat" && request.method === "POST") {
+      try {
+        const body = await request.json();
+        return jsonResponse(await tarotChat(env, request, body));
+      } catch (e: any) {
+        return jsonResponse({ error: e?.message || "Error en el chat de Tarot." }, 500);
+      }
+    }
+
+    if (cleanPath === "/api/tarot/check-consistency" && request.method === "POST") {
       try {
         const body = await request.json();
         return jsonResponse(await tarotCheck(env, request, body));

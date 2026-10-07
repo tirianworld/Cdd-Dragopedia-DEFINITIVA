@@ -1,3 +1,5 @@
+import { handleSeoRequest } from "./seoWorker";
+
 interface Fetcher {
   fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
 }
@@ -947,6 +949,14 @@ export default {
       }
 
       return jsonResponse({ status: "ok", message: "Endpoint handled by edge worker", path: url.pathname });
+    }
+
+    // Contenido pre-renderizado para IAs/buscadores (artículos, listados, llms.txt, sitemap, robots)
+    try {
+      const seoResponse = await handleSeoRequest(request, env);
+      if (seoResponse) return seoResponse;
+    } catch (seoErr) {
+      console.error("[SEO] fallo al pre-renderizar, se sirve la SPA normal:", seoErr);
     }
 
     // Static assets

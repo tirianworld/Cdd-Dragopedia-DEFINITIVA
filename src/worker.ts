@@ -44,9 +44,9 @@ function collectKeys(env: Env, base: string): string[] {
   return keys;
 }
 const PROVIDERS = [
-  { name: "groq", base: "GROQ_API_KEY", url: "https://api.groq.com/openai/v1/chat/completions", model: "llama-3.3-70b-versatile" },
-  { name: "cerebras", base: "CEREBRAS_API_KEY", url: "https://api.cerebras.ai/v1/chat/completions", model: "llama3.1-8b" },
-  { name: "mistral", base: "MISTRAL_API_KEY", url: "https://api.mistral.ai/v1/chat/completions", model: "mistral-small-latest" },
+  { name: "groq", base: "GROQ_API_KEY", url: "https://api.groq.com/openai/v1/chat/completions", models: ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.6-27b"] },
+  { name: "cerebras", base: "CEREBRAS_API_KEY", url: "https://api.cerebras.ai/v1/chat/completions", models: ["gpt-oss-120b", "zai-glm-4.7", "llama3.1-8b"] },
+  { name: "mistral", base: "MISTRAL_API_KEY", url: "https://api.mistral.ai/v1/chat/completions", models: ["mistral-small-latest", "open-mistral-nemo"] },
 ];
 
 let lastAttempts: string[] = [];
@@ -57,26 +57,29 @@ async function generate(env: Env, messages: unknown[], extra: Record<string, unk
     const keys = collectKeys(env, p.base).sort(() => Math.random() - 0.5);
     if (!keys.length) lastAttempts.push(`${p.name}: sin claves`);
     for (let i = 0; i < keys.length; i++) {
-      try {
-        const res = await fetch(p.url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${keys[i]}` },
-          body: JSON.stringify({ model: p.model, messages, ...extra }),
-        });
-        if (res.ok) {
-          const data = (await res.json()) as Record<string, unknown>;
-          return { provider: p.name, ...data };
+      for (const model of p.models) {
+        try {
+          const res = await fetch(p.url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${keys[i]}` },
+            body: JSON.stringify({ model, messages, ...extra }),
+          });
+          if (res.ok) {
+            const data = (await res.json()) as Record<string, unknown>;
+            return { provider: p.name, ...data };
+          }
+          const txt = (await res.text()).slice(0, 200);
+          lastAttempts.push(`${p.name} #${i + 1} ${model}: HTTP ${res.status} ${txt}`);
+          if (res.status !== 404) break; // 404 = modelo no disponible: probar el siguiente modelo
+        } catch (err: any) {
+          lastAttempts.push(`${p.name} #${i + 1} ${model}: ${err?.message || err}`);
+          break;
         }
-        const txt = (await res.text()).slice(0, 200);
-        lastAttempts.push(`${p.name} #${i + 1}: HTTP ${res.status} ${txt}`);
-      } catch (err: any) {
-        lastAttempts.push(`${p.name} #${i + 1}: ${err?.message || err}`);
       }
     }
   }
   return null;
-}
-export default {
+}export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 

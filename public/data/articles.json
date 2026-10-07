@@ -10,7 +10,7 @@
     "timeline_markers": [],
     "timeline_order": [],
     "created_date": "2026-10-07T05:42:24.272Z",
-    "updated_date": "2026-10-07T06:19:40.870Z",
+    "updated_date": "2026-10-07T07:20:58.079Z",
     "extra_categories": [
       "Magias"
     ],
@@ -29,7 +29,8 @@
       "plano": [],
       "criatura": [],
       "entidad": []
-    }
+    },
+    "image_url": "/images/uploads/imagen_2026-10-07_092048272-1791357649741_tgnti.png"
   },
   {
     "id": "art-mongraal-player",

@@ -17,6 +17,46 @@ function jsonResponse(data: unknown, status = 200): Response {
   });
 }
 
+async function tarotFormat(env: Env, body: any) {
+  const content = String(body?.content || "");
+  const title = String(body?.title || "Sin titulo");
+  if (!content.trim()) throw new Error("Contenido a formatear es requerido.");
+  if (content.length > 12000) throw new Error("El texto es demasiado largo para formatearlo de una vez (maximo 12000 caracteres). Formatea por secciones.");
+
+  const system = `Eres Tarot, el Gran Bibliotecario del universo "Caldo de Dragon".
+Tu tarea es organizar el texto de un manuscrito con estilo limpio tipo Fandom Wiki, en HTML valido:
+- Secciones con <h2> y <h3> (Historia, Habilidades, Apariciones, etc.).
+- Todos los parrafos dentro de <p>.
+- Nombres importantes y reliquias en <strong>.
+- Citas con <blockquote> o <em>.
+- Listas con <ul> y <li> para propiedades, apariciones o caracteristicas.
+- Conserva los enlaces <a href="..."> y las imagenes <img> que ya existan en el texto, sin modificarlos.
+REGLAS INQUEBRANTABLES: NO inventes lore, personajes, lugares, eventos ni hechos. Conserva TODOS los datos, nombres y hechos originales y no quites informacion. Solo cambia el formato.
+Responde UNICAMENTE con el codigo HTML resultante, sin explicaciones ni bloques de codigo markdown.`;
+
+  const prompt = `Titulo del articulo (solo contexto): "${title}"
+
+Texto a formatear:
+"""
+${content}
+"""`;
+
+  const r: any = await generate(env, [
+    { role: "system", content: system },
+    { role: "user", content: prompt },
+  ], { temperature: 0 });
+  if (!r) throw new Error("Todos los proveedores de IA fallaron");
+
+  let out: string = String(r.choices?.[0]?.message?.content || "").trim();
+  out = out.replace(/^```(?:html)?\s*/i, "").replace(/\s*```$/i, "").trim();
+  if (out.startsWith("{")) {
+    try {
+      const p = JSON.parse(out);
+      out = String(p.formattedContent || p.content || out);
+    } catch {}
+  }
+  return { formattedContent: out || content };
+}
 function norm(s: string): string {
   return (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
@@ -234,7 +274,16 @@ async function generate(env: Env, messages: unknown[], extra: Record<string, unk
     if (url.pathname.startsWith("/api/")) {
       const cleanPath = url.pathname.replace(/\/$/, "");
 
-      if (cleanPath === "/api/ai/chat" && request.method === "POST") {
+      if (cleanPath === "/api/ai/format" && request.method === "POST") {
+      try {
+        const body = await request.json();
+        return jsonResponse(await tarotFormat(env, body));
+      } catch (e: any) {
+        return jsonResponse({ error: e?.message || "Ocurrio un error al formatear con Tarot AI." }, 500);
+      }
+    }
+
+    if (cleanPath === "/api/ai/chat" && request.method === "POST") {
       try {
         const body = await request.json();
         return jsonResponse(await tarotChat(env, request, body));

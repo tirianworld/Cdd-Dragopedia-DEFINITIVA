@@ -722,7 +722,7 @@
     "is_featured": false,
     "id": "art-1789848463573",
     "created_date": "2026-09-19T20:07:43.573Z",
-    "updated_date": "2026-10-02T11:52:47.443Z",
+    "updated_date": "2026-09-22T09:56:54.659Z",
     "image_url": "/images/uploads/zaratras-1790070976862_h5of0.png",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -739,8 +739,7 @@
     },
     "extra_categories": [
       "Personajes",
-      "Ascendidos",
-      "Leyendas"
+      "Ascendidos"
     ]
   },
   {
@@ -5475,7 +5474,7 @@
     "is_featured": false,
     "id": "art-1787665806676",
     "created_date": "2026-08-25T13:50:09.089Z",
-    "updated_date": "2026-08-25T13:50:09.089Z",
+    "updated_date": "2026-10-07T07:38:31.932Z",
     "related_article_ids": [
       "art-1787664919295",
       "art-1783383790419",
@@ -5483,7 +5482,8 @@
     ],
     "extra_categories": [
       "Dioses",
-      "Ascendidos"
+      "Ascendidos",
+      "Regionales"
     ]
   },
   {
@@ -10525,7 +10525,7 @@
     "timeline_markers": [],
     "timeline_order": [],
     "created_date": "2026-08-24T14:48:40.775Z",
-    "updated_date": "2026-10-02T11:43:11.929Z",
+    "updated_date": "2026-10-07T07:39:26.281Z",
     "image_url": "/images/cloud/coliseo-de-catarina-mt7cpt8n_24ec47bbed.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -11499,7 +11499,7 @@
     "summary": "Entidad divina que mantiene unida a Ávalon y otorga inmortalidad a sus habitantes mediante la absorción de energía vital y almas.",
     "content": "<h1>Árbol Áureo</h1><p>El <strong>Árbol Áureo</strong> es una entidad divina y ancestral que se erige como el corazón y el alma de <a href=\"/articulo/avalon\">Ávalon</a>. Su existencia es el pilar que mantiene unida a la isla, y su poder trasciende las leyes naturales, especialmente la muerte. Este árbol sagrado fue creado por la unión de la <a href=\"/articulo/magia-divina\" class=\"text-primary hover:underline font-semibold\">magia divina</a> y la <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a>, y con el tiempo desarrolló una conciencia propia, elevándose a un nivel cercano al de las deidades menores.</p><h2>Origen y Creación</h2><p>El Árbol Áureo nació de la fusión entre la <a href=\"/articulo/magia-divina\" class=\"text-primary hover:underline font-semibold\">magia divina</a> y la <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a>, un proceso que ocurrió en los albores de la creación de <a href=\"/articulo/avalon\">Ávalon</a>. Su formación fue un evento único, donde las fuerzas de la creación y la protección se unieron para dar vida a una entidad que trascendería el tiempo y el espacio.</p><h2>Poderes y Funciones</h2><p>El Árbol Áureo posee un poder único que desafía las leyes naturales:</p><ul><li><strong>Inmortalidad en Ávalon:</strong> Mientras el Árbol Áureo exista, la muerte en <a href=\"/articulo/avalon\">Ávalon</a> es imposible. Su presencia actúa como un escudo divino que protege a los habitantes de la isla de la muerte natural.</li><li><strong>Absorción de Energía Vital:</strong> Cuando alguien muere en <a href=\"/articulo/avalon\">Ávalon</a>, el Árbol Áureo absorbe parte de la energía vital y un fragmento del alma del difunto. Este proceso ocurre de dos formas:</li><ul><li>Si el asesino de la víctima muere, la energía vital y el alma de la víctima original son devueltos a su poseedor original.</li><li>Si la víctima no es asesinada, pero su energía vital se agota por otros medios, su alma es forzada a reencarnar.</li></ul><li><strong>Nutrición del Árbol:</strong> Ambos procesos envían \"nutrientes\" al Árbol Áureo, aumentando su poder y fortaleciéndolo. Con el tiempo, estos nutrientes han elevado al Árbol Áureo a un nivel que roza el de las deidades menores.</li></ul><h2>Interés en la Expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a></h2><p>El Árbol Áureo ha mostrado un especial interés en la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a>. Cree que los miembros de esta expedición podrían ser clave para cumplir su plan: alcanzar un poder aún mayor y trascender su estado actual. El Árbol Áureo ve en ellos la posibilidad de fortalecerse y expandir su influencia más allá de los límites de <a href=\"/articulo/avalon\">Ávalon</a>.</p><h2>Relación con <a href=\"/articulo/avalon\">Ávalon</a></h2><p>El Árbol Áureo es el corazón de <a href=\"/articulo/avalon\">Ávalon</a>. Sus raíces se extienden por toda la isla, manteniéndola unida y protegiéndola de cualquier amenaza externa. Sin el Árbol Áureo, <a href=\"/articulo/avalon\">Ávalon</a> dejaría de existir como la conocemos, y la muerte volvería a reclamar a sus habitantes.</p>",
     "created_date": "2026-07-10T18:15:16.104Z",
-    "updated_date": "2026-07-29T09:28:45.319Z",
+    "updated_date": "2026-10-07T07:38:31.932Z",
     "infobox": {
       "Nombre": "Árbol Áureo",
       "Categoría": "Dioses",
@@ -11571,7 +11571,10 @@
       "art-1787664997115",
       "art-1787664991651"
     ],
-    "extra_categories": []
+    "extra_categories": [
+      "Dioses",
+      "Regionales"
+    ]
   },
   {
     "id": "art-1783683254944",
@@ -12425,7 +12428,7 @@
     "summary": "General saurio que lideró la resistencia contra los humanos serpentinos en las Islas de Kaanil, enfrentándose a la amenaza de su expansión y buscando proteger a su pueblo.",
     "content": "<h2>Thrag</h2>\n<p><strong>Thrag</strong> es un general saurio, líder de las tribus de saurios en las <a href=\"/articulo/las-islas-de-kaanil-mrdowgts\">Islas de Kaanil</a>. Su historia está marcada por la resistencia contra la expansión de los <a href=\"/articulo/humanos-serpentinos\">humanos serpentinos</a>, quienes buscaban dominar las islas y someter a los saurios.</p>\n<h2>Historia</h2>\n<p>Tras la llegada de los <a href=\"/articulo/humanos-serpentinos\">humanos serpentinos</a> a las <a href=\"/articulo/las-islas-de-kaanil-mrdowgts\">Islas de Kaanil</a>, Thrag lideró a su pueblo en una guerra contra estos invasores. Los <a href=\"/articulo/humanos-serpentinos\">humanos serpentinos</a>, con su <a href=\"/articulo/magia\">magia</a> y alquimia, intentaban imponer su dominio sobre las tribus saurias, pero Thrag se negó a rendirse. Su resistencia fue feroz, y aunque inicialmente logró contener el avance enemigo, finalmente fue derrotado debido a la intervención de un viajero del futuro y la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a>.</p>\n<p>Tras su derrota, Thrag fue ejecutado, y su pueblo fue erradicado. Sin embargo, su legado perdura como un símbolo de la lucha por la libertad y la resistencia contra la opresión.</p>\n<p>Thrag es un apasionado del combate y respeta profundamente a <a href=\"/articulo/eyegore-mrdrh1ob\">Eyegore</a>, miembro de la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a>, por su fuerza y habilidad en la batalla. Cada vez que lo ve, se emociona y lo reta a duelo. Aunque su inteligencia no es elevada —solo ligeramente superior a la de un cavernícola—, Thrag demuestra ser un gran estratega en el campo de batalla.</p>",
     "created_date": "2026-07-09T17:05:13.545Z",
-    "updated_date": "2026-10-02T11:58:52.985Z",
+    "updated_date": "2026-09-17T10:56:17.306Z",
     "infobox": {},
     "timeline_markers": [
       {
@@ -12480,9 +12483,8 @@
       ]
     },
     "extra_categories": [
-      "Ascendidos",
       "Personajes",
-      "Leyendas"
+      "Ascendidos"
     ],
     "spells": [],
     "spell_images": {}
@@ -12628,7 +12630,7 @@
     "summary": "<i>El Coliseo Onírico es un lugar de combate eterno dentro del Reino de los Sueños, donde Varianthel, el Príncipe Feérico, obligaba a los soñadores a luchar en torneos interminables. Tras su derrota, el grupo Caldo de Dragón tomó el control del coliseo, convirtiéndolo en un punto de poder y estrategia.</i>",
     "content": "<p><a href=\"/articulo/coliseo-onirico\">Coliseo Onírico</a></p>\n<p>El <strong><a href=\"/articulo/coliseo-onirico\">Coliseo Onírico</a></strong> es un lugar de combate eterno dentro del <a href=\"/articulo/reino-de-los-suenos-mrdbnam8\">Reino de los Sueños</a>, un territorio luminoso y cambiante del <a href=\"/articulo/plano-onirico\">Plano Onírico</a>. Este coliseo fue el escenario donde <a href=\"/articulo/varianthel\">Varianthel</a>, el Príncipe Feérico, obligaba a los soñadores a competir en torneos interminables, diseñados para satisfacer su capricho y crueldad.</p>\n<h2>Características</h2>\n<ul>\n<li><strong>Combates sin fin:</strong> Los participantes no podían morir permanentemente, ya que los derrotados simplemente reaparecían en las gradas del coliseo, transformando los combates en una lucha de resistencia y estrategia.</li>\n</ul>\n<ul>\n<li><strong>Paisajes cambiantes:</strong> El coliseo se transformaba constantemente, reflejando los deseos y emociones de quienes lo habitaban o visitaban, creando un entorno surrealista y desafiante.</li>\n</ul>\n<ul>\n<li><strong>Reglas arbitrarias:</strong> <a href=\"/articulo/varianthel\">Varianthel</a> manipulaba las reglas del torneo según su voluntad, asegurándose de que los participantes nunca escaparan de su control.</li>\n</ul>\n<ul>\n<li><strong>Ambiente onírico:</strong> El coliseo estaba impregnado de una atmósfera mágica, donde la realidad se distorsionaba y los sueños cobraban vida.</li>\n</ul>\n<h2>Historia</h2>\n<p>El Coliseo Onírico fue creado por <a href=\"/articulo/varianthel\">Varianthel</a> como un lugar de entretenimiento sádico, donde los soñadores eran secuestrados y obligados a luchar en su arena. Los participantes, que creían que ganarían su libertad, descubrían demasiado tarde que <a href=\"/articulo/varianthel\">Varianthel</a> rara vez cumplía sus promesas. Su capricho y crueldad lo convirtieron en un tirano dentro del <a href=\"/articulo/reino-de-los-suenos-mrdbnam8\">Reino de los Sueños</a>.</p>\n<p>Sin embargo, su arrogancia lo llevó a cometer un error fatal: secuestrar a <a href=\"/articulo/chispo-deez\">Chispo Deez</a>, un <a href=\"/articulo/paladin\" class=\"text-primary hover:underline font-semibold\">paladín</a> de <a href=\"/articulo/marduk\">Marduk</a> y miembro del grupo <a href=\"/tarot-el-gran-bibliotecario-8300f5\">Caldo de Dragón</a>. Cuando el grupo descubrió la desaparición de su compañero, se adentró en el <a href=\"/articulo/reino-de-los-suenos-mrdbnam8\">Reino de los Sueños</a> y llegó al Coliseo Onírico para rescatarlo. Tras participar en el torneo y ganar la competición, <a href=\"/articulo/varianthel\">Varianthel</a> se negó a liberar a <a href=\"/articulo/chispo-deez\">Chispo Deez</a>, desencadenando la furia del grupo.</p>\n<p>En un enfrentamiento épico, <a href=\"/tarot-el-gran-bibliotecario-8300f5\">Caldo de Dragón</a> logró derrotar a <a href=\"/articulo/varianthel\">Varianthel</a>, desterrándolo al <a href=\"/articulo/reino-de-las-pesadillas-mrc2mkc6\">Reino de las Pesadillas</a>. Con <a href=\"/articulo/varianthel\">Varianthel</a> derrotado, el grupo tomó el control del Coliseo Onírico, convirtiéndolo en un punto de poder y estrategia para futuras aventuras.</p>\n<h2>Consecuencias</h2>\n<p>Tras la victoria de <a href=\"/tarot-el-gran-bibliotecario-8300f5\">Caldo de Dragón</a>, el Coliseo Onírico quedó bajo su control. Esto les permitió decidir qué hacer con el lugar y sus poderes, abriendo nuevas posibilidades para el grupo. Además, el control del coliseo les dio acceso a recursos y aliados que antes eran inalcanzables.</p>\n<h2>Curiosidades</h2>\n<ul>\n<li>El Coliseo Onírico es uno de los pocos lugares dentro del <a href=\"/articulo/plano-onirico\">Plano Onírico</a> donde los combates no tienen consecuencias permanentes, ya que los derrotados siempre reaparecen.</li>\n</ul>\n<ul>\n<li><a href=\"/articulo/varianthel\">Varianthel</a> disfrutaba especialmente de los torneos donde los participantes creían que podían ganar su libertad, solo para descubrir que su victoria no significaba nada.</li>\n</ul>\n<ul>\n<li>Tras la derrota de <a href=\"/articulo/varianthel\">Varianthel</a>, el Coliseo Onírico se convirtió en un lugar de poder, donde los soñadores podían entrenar y prepararse para futuras batallas.</li>\n</ul>",
     "created_date": "2026-07-09T09:50:24.034Z",
-    "updated_date": "2026-10-02T11:43:15.034Z",
+    "updated_date": "2026-10-07T07:39:29.603Z",
     "timeline_markers": [
       {
         "id": "tl-coliseo-onirico-creation-1785317365527-1",
@@ -16673,7 +16675,7 @@
     "is_featured": false,
     "id": "art-1783383790419",
     "created_date": "2026-07-07T00:23:18.006Z",
-    "updated_date": "2026-07-20T16:39:47.177Z",
+    "updated_date": "2026-10-07T07:38:31.932Z",
     "related_article_ids": [
       "art-1787665806676",
       "art-1787665007919",
@@ -16681,7 +16683,8 @@
     ],
     "extra_categories": [
       "Dioses",
-      "Ascendidos"
+      "Ascendidos",
+      "Regionales"
     ]
   },
   {
@@ -19839,7 +19842,7 @@
     "is_featured": false,
     "id": "art-1783383293618",
     "created_date": "2026-07-07T00:14:58.926Z",
-    "updated_date": "2026-10-02T11:45:50.154Z",
+    "updated_date": "2026-07-20T23:27:35.996Z",
     "related_article_ids": [
       "art-1783509789811",
       "art-1783383634680",
@@ -19928,7 +19931,7 @@
     "is_featured": false,
     "id": "art-1783383283975",
     "created_date": "2026-07-07T00:14:50.425Z",
-    "updated_date": "2026-10-02T11:45:47.126Z",
+    "updated_date": "2026-07-20T23:27:39.953Z",
     "related_article_ids": [
       "art-1783383634680",
       "art-1787665090919",
@@ -22223,7 +22226,7 @@
   {
     "summary": "",
     "image_url": "/images/cloud/la-antigua-capital-72cd6a_38d060765f.png",
-    "map_url": "https://cartocraft.ai.studio/#/map/6a201116d15c4d51f3b81ff5/no-ui?markers=false&lights=true&helpers=false&root=6a201116d15c4d51f3b81ff5",
+    "map_url": "https://preview--carto-craft-copy-25de56d5.base44.app/view/6a201116d15c4d51f3b81ff5",
     "infobox": {},
     "filters": {
       "continente": [
@@ -22793,21 +22796,24 @@
       "art-1787666796733",
       "art-1787666801376"
     ],
-    "category": "Antiguos",
+    "category": "Personajes",
     "slug": "gran-arana-acorazada-ea7987",
     "gallery": [],
     "is_featured": false,
     "id": "6a1f41e3e1d1e6e926ea7987",
     "created_date": "2026-06-02T20:49:39.434000",
-    "updated_date": "2026-08-23T16:05:36.970Z",
+    "updated_date": "2026-10-05T17:52:07.105Z",
     "created_by_id": "6a1582a600c89abf9b79b92a",
     "is_sample": false,
     "image_position_x": 50,
     "image_position_y": 20,
     "extra_categories": [
-      "Personajes",
-      "Antiguos"
-    ]
+      "Personajes"
+    ],
+    "timeline_markers": [],
+    "timeline_order": [],
+    "monsters": [],
+    "spells": []
   },
   {
     "summary": "",
@@ -23029,7 +23035,7 @@
   {
     "summary": "",
     "image_url": "/images/cloud/ivan-del-valle-boreal-326760_39bedca101.webp",
-    "map_url": "https://cartocraft.ai.studio/#/map/6a1574173b910e6da1ad0b96/no-ui?markers=false&lights=true&helpers=false&root=6a1574173b910e6da1ad0b96",
+    "map_url": "https://preview--carto-craft-copy-25de56d5.base44.app/view/6a1574173b910e6da1ad0b96",
     "infobox": {
       "Nombre": "Arthorius",
       "Actor": "",
@@ -23087,5 +23093,38 @@
     "image_position_x": 50,
     "image_position_y": 20,
     "extra_categories": []
+  },
+  {
+    "id": "art-1791351732056",
+    "slug": "magia-aurea",
+    "title": "Magia Áurea",
+    "category": "Magias",
+    "summary": "La Magia Áurea es una manifestación única de la fusión entre la magia divina y la magia natural en Ávalon, centrada en la curación, regeneración, resurrección y creación de leyendas. Esta magia es el corazón y alma del Árbol Áureo, otorgando poderes extraordinarios que trascienden las leyes naturales.",
+    "content": "<p>Magia Áurea</p>\n<p>La <strong>Magia Áurea</strong> es una manifestación única y poderosa que surge de la fusión entre la <a href=\"/articulo/magia-divina\">magia divina</a> y la <a href=\"/articulo/magia-natural\">magia natural</a> en el contexto de <a href=\"/articulo/avalon\">Ávalon</a>. Esta magia se centra en la curación, regeneración, resurrección y creación de leyendas, otorgando un poder que trasciende las leyes naturales y se convierte en un elemento esencial del <a href=\"/articulo/arbol-aureo-mrf9a5jc\">Árbol Áureo</a>.</p>\n<h2>Origen y Naturaleza</h2>\n<p>El origen de la <strong>Magia Áurea</strong> está profundamente ligado al <a href=\"/articulo/arbol-aureo-mrf9a5jc\">Árbol Áureo</a>, una entidad divina y ancestral que actúa como el corazón de <a href=\"/articulo/avalon\">Ávalon</a>. Este árbol fue creado por la unión de la <a href=\"/articulo/magia-divina\">magia divina</a> y la <a href=\"/articulo/magia-natural\">magia natural</a>, lo que le otorgó una esencia única y poderosa. La <strong>Magia Áurea</strong> es la expresión de esta fusión, manifestándose como una energía que promueve la curación, la regeneración y la resurrección de seres vivos.</p>\n<h2>Características Principales</h2>\n<ul>\n<li><strong>Curación:</strong> La <strong>Magia Áurea</strong> tiene la capacidad de sanar heridas físicas y espirituales, restaurando la salud y el equilibrio en los seres que la reciben.</li>\n</ul>\n<ul>\n<li><strong>Regeneración:</strong> Esta magia puede acelerar la regeneración de tejidos y órganos, permitiendo la recuperación de daños incluso graves.</li>\n</ul>\n<ul>\n<li><strong>Resurrección:</strong> En casos excepcionales, la <strong>Magia Áurea</strong> puede revivir a los muertos, aunque esto suele estar ligado a condiciones específicas y a la absorción de energía vital y almas.</li>\n</ul>\n<ul>\n<li><strong>Creación de Leyendas:</strong> La <strong>Magia Áurea</strong> no solo tiene un impacto físico, sino también un efecto en la narrativa y la memoria colectiva, permitiendo la creación de leyendas y mitos que perduran a través del tiempo.</li>\n</ul>\n<h2>Relación con el Árbol Áureo</h2>\n<p>El <a href=\"/articulo/arbol-aureo-mrf9a5jc\">Árbol Áureo</a> es el epicentro de la <strong>Magia Áurea</strong>. Cada vez que alguien muere en <a href=\"/articulo/avalon\">Ávalon</a>, el Árbol Áureo absorbe parte de su energía vital y un fragmento de su alma. Este proceso tiene dos posibles resultados:</p>\n<ul>\n<li>Si el asesino de la víctima muere, la energía vital y el alma de la víctima son devueltos a su poseedor original.</li>\n</ul>\n<ul>\n<li>Si la víctima no es asesinada, pero su energía vital se agota por otros medios, su alma es forzada a reencarnar.</li>\n</ul>\n<p>Ambos procesos envían nutrientes al <a href=\"/articulo/arbol-aureo-mrf9a5jc\">Árbol Áureo</a>, aumentando su poder y fortaleciéndolo. Con el tiempo, estos nutrientes han elevado al Árbol Áureo a un nivel cercano al de las deidades menores, consolidando su papel como guardián y fuente de la <strong>Magia Áurea</strong>.</p>\n<h2>Importancia en el Lore</h2>\n<p>La <strong>Magia Áurea</strong> es crucial en el lore de <a href=\"/articulo/avalon\">Ávalon</a>, ya que no solo permite la supervivencia y regeneración de sus habitantes, sino que también influye en la creación de leyendas y mitos que definen la identidad de la isla. Esta magia es un símbolo de la conexión entre lo divino y lo natural, y su presencia asegura que Ávalon permanezca como un lugar de inmortalidad y renacimiento.</p>\n<h2>Curiosidades</h2>\n<p>La <strong>Magia Áurea</strong> es única en su capacidad para fusionar dos tipos de magia tan distintos como la divina y la natural. Este equilibrio es lo que permite que <a href=\"/articulo/avalon\">Ávalon</a> sea un lugar donde la muerte no es el final, sino una transición hacia nuevas formas de existencia. Además, la <strong>Magia Áurea</strong> también tiene un papel en la protección de la isla, asegurando que su esencia y su magia sigan siendo inquebrantables.</p>",
+    "infobox": {},
+    "timeline_markers": [],
+    "timeline_order": [],
+    "created_date": "2026-10-07T05:42:24.272Z",
+    "updated_date": "2026-10-07T07:23:27.032Z",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_position_x": 50,
+    "image_position_y": 50,
+    "gallery": [],
+    "tags": [],
+    "related_article_ids": [],
+    "monsters": [],
+    "monster_images": {},
+    "spells": [],
+    "spell_images": {},
+    "filters": {
+      "campaña": [],
+      "continente": [],
+      "plano": [],
+      "criatura": [],
+      "entidad": []
+    },
+    "image_url": "/images/uploads/imagen_2026-10-07_092314068-1791357795595_wy2z6.png"
   }
 ]

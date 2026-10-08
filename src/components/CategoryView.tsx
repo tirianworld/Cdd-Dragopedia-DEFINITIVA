@@ -24,6 +24,7 @@ import { AntiguosSilhouettesBanner } from "./AntiguosSilhouettesBanner";
 import { JugadoresBanner } from "./JugadoresBanner";
 import { PortadoresBanner } from "./PortadoresBanner";
 import { EditableBannerWrapper } from "./EditableBannerWrapper";
+import { getSafeImageUrl, handleImageErrorWithFallback } from "../utils/imageUrl";
 
 export function CategoryView() {
   const { slug } = useParams<{ slug: string }>();
@@ -965,8 +966,9 @@ export function CategoryView() {
                           <div className="flex items-center gap-3 min-w-0">
                             {art.image_url ? (
                               <img
-                                src={art.image_url}
+                                src={getSafeImageUrl(art.image_url)}
                                 alt={art.title}
+                                onError={(e) => handleImageErrorWithFallback(e, art.image_url)}
                                 className="h-10 w-10 rounded-lg object-cover border border-border/60 shrink-0 bg-secondary"
                               />
                             ) : (

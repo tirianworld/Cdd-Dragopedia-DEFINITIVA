@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { WikiArticle } from "../types";
 import { getCategoryIcon, getCategoryColor } from "./Layout";
 import { Clock, Eye } from "lucide-react";
-import { getSafeImageUrl, getProxiedFallbackUrl } from "../utils/imageUrl";
+import { getSafeImageUrl, getProxiedFallbackUrl, getGitHubRawFallbackUrl } from "../utils/imageUrl";
 import { getRootCategoryForArticle } from "../utils/categoryHelper";
 import { useCategories } from "../context/CategoryContext";
 
@@ -17,6 +17,7 @@ interface ArticleCardProps {
 
 export function ArticleCard({ article, compact = false, useRootCategory = false, displayCategory }: ArticleCardProps) {
   const [proxyAttempted, setProxyAttempted] = useState(false);
+  const [githubAttempted, setGithubAttempted] = useState(false);
   const [imgFailed, setImgFailed] = useState(false);
   const { mergedCategories } = useCategories();
 
@@ -33,14 +34,19 @@ export function ArticleCard({ article, compact = false, useRootCategory = false,
 
   const safeImageUrl = useMemo(() => {
     if (imgFailed || !baseSafeUrl) return null;
+    if (githubAttempted && article.image_url) {
+      return getGitHubRawFallbackUrl(article.image_url);
+    }
     if (proxyAttempted && article.image_url && !baseSafeUrl.includes("/api/proxy-image") && article.image_url.startsWith("http")) {
       return getProxiedFallbackUrl(article.image_url);
     }
     return baseSafeUrl;
-  }, [imgFailed, baseSafeUrl, proxyAttempted, article.image_url]);
+  }, [imgFailed, baseSafeUrl, githubAttempted, proxyAttempted, article.image_url]);
 
   const handleImageError = () => {
-    if (!proxyAttempted && article.image_url?.startsWith("http") && safeImageUrl && !safeImageUrl.includes("/api/proxy-image")) {
+    if (!githubAttempted && article.image_url && (article.image_url.startsWith("/images/") || article.image_url.startsWith("images/"))) {
+      setGithubAttempted(true);
+    } else if (!proxyAttempted && article.image_url?.startsWith("http") && safeImageUrl && !safeImageUrl.includes("/api/proxy-image")) {
       setProxyAttempted(true);
     } else {
       setImgFailed(true);

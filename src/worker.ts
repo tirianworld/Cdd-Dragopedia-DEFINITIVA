@@ -904,6 +904,41 @@ export default {
         return staticJson(env, request, "/data/spells.json", []);
       }
 
+      if (cleanPath === "/api/proxy-image") {
+        const targetUrl = url.searchParams.get("url");
+        if (!targetUrl) return jsonResponse({ error: "Missing url parameter" }, 400);
+        try {
+          const parsed = new URL(targetUrl);
+          let referer = "https://caldo-de-dragon.fandom.com/";
+          if (parsed.hostname.includes("artstation.com")) referer = "https://www.artstation.com/";
+          else if (parsed.hostname.includes("deviantart.com") || parsed.hostname.includes("wixmp.com")) referer = "https://www.deviantart.com/";
+          else referer = `${parsed.protocol}//${parsed.hostname}/`;
+
+          const res = await fetch(targetUrl, {
+            headers: {
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+              "Referer": referer,
+              "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8"
+            }
+          });
+          if (res.ok) {
+            const contentType = res.headers.get("content-type") || "image/jpeg";
+            const body = await res.arrayBuffer();
+            return new Response(body, {
+              status: 200,
+              headers: {
+                "Content-Type": contentType,
+                "Cache-Control": "public, max-age=31536000, immutable",
+                ...CORS_HEADERS
+              }
+            });
+          }
+          return jsonResponse({ error: "Upstream image error", status: res.status }, res.status);
+        } catch (e: any) {
+          return jsonResponse({ error: e?.message || "Image proxy error" }, 500);
+        }
+      }
+
       if (cleanPath === "/api/bot/status") {
         return jsonResponse({
           active: false,
@@ -950,6 +985,35 @@ export default {
     }
 
     // Static assets
+    if (url.pathname.startsWith("/images/")) {
+      try {
+        const assetRes = await env.ASSETS.fetch(request);
+        const contentType = assetRes.headers.get("content-type") || "";
+        // If asset was found and is not the SPA fallback index.html
+        if (assetRes.ok && !contentType.includes("text/html")) {
+          return assetRes;
+        }
+      } catch {}
+
+      // Fallback: Fetch directly from GitHub repository raw content
+      try {
+        const githubUrl = `https://raw.githubusercontent.com/tirianworld/Cdd-Dragopedia-DEFINITIVA/main/public${url.pathname}`;
+        const ghRes = await fetch(githubUrl);
+        if (ghRes.ok) {
+          const contentType = ghRes.headers.get("content-type") || (url.pathname.endsWith(".png") ? "image/png" : "image/jpeg");
+          const body = await ghRes.arrayBuffer();
+          return new Response(body, {
+            status: 200,
+            headers: {
+              "Content-Type": contentType,
+              "Cache-Control": "public, max-age=31536000, immutable",
+              ...CORS_HEADERS
+            }
+          });
+        }
+      } catch {}
+    }
+
     return env.ASSETS.fetch(request);
   },
 };

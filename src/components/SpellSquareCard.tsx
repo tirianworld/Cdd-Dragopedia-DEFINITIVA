@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Spell } from "../types";
 import { getSpellColor, getSpellIconUrl, formatSpellLevel } from "../utils/spellUtils";
+import { getSafeImageUrl, handleImageErrorWithFallback } from "../utils/imageUrl";
 import { Sparkles, X, Eye } from "lucide-react";
 
 export interface SpellSquareCardProps {
@@ -88,11 +89,14 @@ export function SpellSquareCard({
         />
 
         <img
-          src={imgError ? fallbackIcon : iconUrl}
+          src={getSafeImageUrl(imgError ? fallbackIcon : iconUrl)}
           alt={spell.name || "Hechizo"}
           loading="lazy"
           referrerPolicy="no-referrer"
-          onError={() => setImgError(true)}
+          onError={(e) => {
+            handleImageErrorWithFallback(e, iconUrl, fallbackIcon);
+            setImgError(true);
+          }}
           className="relative z-10 w-full h-full object-contain filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] transition-transform duration-300 group-hover:scale-110"
         />
       </div>

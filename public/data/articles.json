@@ -54,7 +54,7 @@
     ],
     "author": "Tarot",
     "created_date": "2026-10-03T11:58:00Z",
-    "updated_date": "2026-10-05T11:22:49.138Z",
+    "updated_date": "2026-10-04T18:25:32.693Z",
     "infobox": {
       "Raza": "Tiefling / Demonio",
       "Clase": "Brawler / Bárbaro / Guerrero",
@@ -11523,7 +11523,7 @@
     "summary": "Entidad divina que mantiene unida a Ávalon y otorga inmortalidad a sus habitantes mediante la absorción de energía vital y almas.",
     "content": "<h1>Árbol Áureo</h1><p>El <strong>Árbol Áureo</strong> es una entidad divina y ancestral que se erige como el corazón y el alma de <a href=\"/articulo/avalon\">Ávalon</a>. Su existencia es el pilar que mantiene unida a la isla, y su poder trasciende las leyes naturales, especialmente la muerte. Este árbol sagrado fue creado por la unión de la <a href=\"/articulo/magia-divina\" class=\"text-primary hover:underline font-semibold\">magia divina</a> y la <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a>, y con el tiempo desarrolló una conciencia propia, elevándose a un nivel cercano al de las deidades menores.</p><h2>Origen y Creación</h2><p>El Árbol Áureo nació de la fusión entre la <a href=\"/articulo/magia-divina\" class=\"text-primary hover:underline font-semibold\">magia divina</a> y la <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a>, un proceso que ocurrió en los albores de la creación de <a href=\"/articulo/avalon\">Ávalon</a>. Su formación fue un evento único, donde las fuerzas de la creación y la protección se unieron para dar vida a una entidad que trascendería el tiempo y el espacio.</p><h2>Poderes y Funciones</h2><p>El Árbol Áureo posee un poder único que desafía las leyes naturales:</p><ul><li><strong>Inmortalidad en Ávalon:</strong> Mientras el Árbol Áureo exista, la muerte en <a href=\"/articulo/avalon\">Ávalon</a> es imposible. Su presencia actúa como un escudo divino que protege a los habitantes de la isla de la muerte natural.</li><li><strong>Absorción de Energía Vital:</strong> Cuando alguien muere en <a href=\"/articulo/avalon\">Ávalon</a>, el Árbol Áureo absorbe parte de la energía vital y un fragmento del alma del difunto. Este proceso ocurre de dos formas:</li><ul><li>Si el asesino de la víctima muere, la energía vital y el alma de la víctima original son devueltos a su poseedor original.</li><li>Si la víctima no es asesinada, pero su energía vital se agota por otros medios, su alma es forzada a reencarnar.</li></ul><li><strong>Nutrición del Árbol:</strong> Ambos procesos envían \"nutrientes\" al Árbol Áureo, aumentando su poder y fortaleciéndolo. Con el tiempo, estos nutrientes han elevado al Árbol Áureo a un nivel que roza el de las deidades menores.</li></ul><h2>Interés en la Expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a></h2><p>El Árbol Áureo ha mostrado un especial interés en la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a>. Cree que los miembros de esta expedición podrían ser clave para cumplir su plan: alcanzar un poder aún mayor y trascender su estado actual. El Árbol Áureo ve en ellos la posibilidad de fortalecerse y expandir su influencia más allá de los límites de <a href=\"/articulo/avalon\">Ávalon</a>.</p><h2>Relación con <a href=\"/articulo/avalon\">Ávalon</a></h2><p>El Árbol Áureo es el corazón de <a href=\"/articulo/avalon\">Ávalon</a>. Sus raíces se extienden por toda la isla, manteniéndola unida y protegiéndola de cualquier amenaza externa. Sin el Árbol Áureo, <a href=\"/articulo/avalon\">Ávalon</a> dejaría de existir como la conocemos, y la muerte volvería a reclamar a sus habitantes.</p>",
     "created_date": "2026-07-10T18:15:16.104Z",
-    "updated_date": "2026-10-07T07:38:31.932Z",
+    "updated_date": "2026-10-07T08:38:03.783Z",
     "infobox": {
       "Nombre": "Árbol Áureo",
       "Categoría": "Dioses",
@@ -22250,7 +22250,7 @@
   {
     "summary": "",
     "image_url": "/images/covers/la-antigua-capital-72cd6a.png",
-    "map_url": "https://cartocraft.ai.studio/#/map/6a201116d15c4d51f3b81ff5/no-ui?markers=false&lights=true&helpers=false&root=6a201116d15c4d51f3b81ff5",
+    "map_url": "https://preview--carto-craft-copy-25de56d5.base44.app/view/6a201116d15c4d51f3b81ff5",
     "infobox": {},
     "filters": {
       "continente": [
@@ -23061,7 +23061,7 @@
   {
     "summary": "",
     "image_url": "/images/covers/ivan-del-valle-boreal-326760.webp",
-    "map_url": "https://cartocraft.ai.studio/#/map/6a1574173b910e6da1ad0b96/no-ui?markers=false&lights=true&helpers=false&root=6a1574173b910e6da1ad0b96",
+    "map_url": "https://preview--carto-craft-copy-25de56d5.base44.app/view/6a1574173b910e6da1ad0b96",
     "infobox": {
       "Nombre": "Arthorius",
       "Actor": "",

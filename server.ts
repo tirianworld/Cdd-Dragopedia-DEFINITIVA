@@ -69,9 +69,6 @@ import {
 } from "./server/seoAndProxy.ts";
 
 dotenv.config();
-if (fs.existsSync(path.join(__dirname, "dev.vars"))) {
-  dotenv.config({ path: path.join(__dirname, "dev.vars"), override: false });
-}
 
 const app = express();
 const PORT = 3000;
@@ -1263,86 +1260,6 @@ function extractBase64CoverImage(slugOrId: string, imageUrl: string): string {
   return persistBase64Image(slugOrId, imageUrl, "covers");
 }
 
-async function persistCloudImage(slugOrId: string, imageUrl: string, subfolder = "cloud"): Promise<string> {
-  if (!imageUrl || typeof imageUrl !== "string") return imageUrl;
-  const trimmed = imageUrl.trim();
-  if (!trimmed.startsWith("http://") && !trimmed.startsWith("https://")) {
-    return imageUrl;
-  }
-  // Ignore local URLs or data URLs
-  if (trimmed.startsWith("/images/") || trimmed.includes("/images/cloud/") || trimmed.includes("/images/covers/")) {
-    return imageUrl;
-  }
-  try {
-    const hash = crypto.createHash("md5").update(trimmed).digest("hex").slice(0, 10);
-    const safeSlug = (slugOrId || "img").replace(/[^a-zA-Z0-9_-]/g, "_").slice(0, 35);
-    let ext = "jpg";
-    const urlWithoutQuery = trimmed.split("?")[0];
-    const match = urlWithoutQuery.match(/\.([a-zA-Z0-9]{3,4})$/);
-    if (match) {
-      const candidate = match[1].toLowerCase();
-      if (["jpg", "jpeg", "png", "webp", "gif", "svg"].includes(candidate)) {
-        ext = candidate === "jpeg" ? "jpg" : candidate;
-      }
-    }
-    const targetDir = path.join(process.cwd(), "public", "images", subfolder);
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir, { recursive: true });
-    }
-    let fileName = `${safeSlug}_${hash}.${ext}`;
-    let localFilePath = path.join(targetDir, fileName);
-
-    // Reuse existing file if already downloaded
-    if (fs.existsSync(localFilePath) && fs.statSync(localFilePath).size > 100) {
-      return `/images/${subfolder}/${fileName}`;
-    }
-
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 12000);
-    const headers: Record<string, string> = {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-      "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-      "Referer": "https://www.google.com/"
-    };
-    if (trimmed.includes("deviantart") || trimmed.includes("wixmp")) headers["Referer"] = "https://www.deviantart.com/";
-    else if (trimmed.includes("artstation")) headers["Referer"] = "https://www.artstation.com/";
-    else if (trimmed.includes("fandom") || trimmed.includes("wikia")) headers["Referer"] = "https://www.fandom.com/";
-    else if (trimmed.includes("pinterest") || trimmed.includes("pinimg")) headers["Referer"] = "https://www.pinterest.com/";
-
-    const res = await fetch(trimmed, { headers, signal: controller.signal });
-    clearTimeout(timeout);
-    if (res.ok) {
-      const arrayBuffer = await res.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-      if (buffer.length > 50) {
-        const contentType = res.headers.get("content-type") || "";
-        if (contentType.includes("image/png")) ext = "png";
-        else if (contentType.includes("image/webp")) ext = "webp";
-        else if (contentType.includes("image/jpeg")) ext = "jpg";
-        else if (contentType.includes("image/gif")) ext = "gif";
-        else if (contentType.includes("image/svg")) ext = "svg";
-
-        fileName = `${safeSlug}_${hash}.${ext}`;
-        localFilePath = path.join(targetDir, fileName);
-        fs.writeFileSync(localFilePath, buffer);
-
-        const webPath = `/images/${subfolder}/${fileName}`;
-        const repoPath = `public/images/${subfolder}/${fileName}`;
-        console.log(`[Cloud Image Storage] Downloaded & persisted cloud image ${trimmed} -> ${webPath}`);
-        if (GITHUB_TOKEN) {
-          writeBinaryToGitHub(repoPath, buffer, `Add downloaded cloud image ${fileName} to repo`).catch((err) => {
-            console.warn(`[GitHub Image Write Warning] Failed for ${repoPath}:`, err);
-          });
-        }
-        return webPath;
-      }
-    }
-  } catch (err) {
-    console.warn(`[Cloud Image Storage] Could not download cloud image ${imageUrl}:`, err);
-  }
-  return imageUrl;
-}
-
 function sanitizeAndPersistArticleImages(article: WikiArticle): { article: WikiArticle; modified: boolean } {
   if (!article) return { article, modified: false };
   let modified = false;
@@ -1392,71 +1309,6 @@ function sanitizeAndPersistArticleImages(article: WikiArticle): { article: WikiA
         return `${prefix}${newUrl}${suffix}`;
       }
     );
-  }
-
-  return { article, modified };
-}
-
-async function sanitizeAndPersistArticleImagesAsync(article: WikiArticle): Promise<{ article: WikiArticle; modified: boolean }> {
-  if (!article) return { article, modified: false };
-  let { modified } = sanitizeAndPersistArticleImages(article);
-  const slugOrId = article.slug || article.id || "article";
-
-  // 1. Cover image from cloud link
-  if (article.image_url && typeof article.image_url === "string" && (article.image_url.startsWith("http://") || article.image_url.startsWith("https://"))) {
-    const localUrl = await persistCloudImage(slugOrId, article.image_url, "cloud");
-    if (localUrl !== article.image_url) {
-      article.image_url = localUrl;
-      modified = true;
-    }
-  }
-  if (article.cover_image && typeof article.cover_image === "string" && (article.cover_image.startsWith("http://") || article.cover_image.startsWith("https://"))) {
-    const localUrl = await persistCloudImage(`${slugOrId}-cover`, article.cover_image, "cloud");
-    if (localUrl !== article.cover_image) {
-      article.cover_image = localUrl;
-      modified = true;
-    }
-  }
-
-  // 2. Gallery images from cloud links
-  if (Array.isArray(article.gallery)) {
-    for (let idx = 0; idx < article.gallery.length; idx++) {
-      const item = article.gallery[idx];
-      if (item && item.url && typeof item.url === "string" && (item.url.startsWith("http://") || item.url.startsWith("https://"))) {
-        const localUrl = await persistCloudImage(`${slugOrId}-gal-${idx}`, item.url, "cloud");
-        if (localUrl !== item.url) {
-          item.url = localUrl;
-          modified = true;
-        }
-      }
-    }
-  }
-
-  // 3. Monster images from cloud links
-  if (article.monster_images && typeof article.monster_images === "object") {
-    for (const [key, val] of Object.entries(article.monster_images)) {
-      if (typeof val === "string" && (val.startsWith("http://") || val.startsWith("https://"))) {
-        const localUrl = await persistCloudImage(`${slugOrId}-mon-${key}`, val, "cloud");
-        if (localUrl !== val) {
-          article.monster_images[key] = localUrl;
-          modified = true;
-        }
-      }
-    }
-  }
-
-  // 4. Content embedded cloud images
-  if (article.content && typeof article.content === "string") {
-    const regex = /https?:\/\/[^\s"'<>\)]+\.(?:jpg|jpeg|png|webp|gif|svg)(?:\?[^\s"'<>\)]*)?/gi;
-    const matches = Array.from(new Set(article.content.match(regex) || []));
-    for (let i = 0; i < matches.length; i++) {
-      const remoteUrl = matches[i];
-      const localUrl = await persistCloudImage(`${slugOrId}-content-${i}`, remoteUrl, "cloud");
-      if (localUrl !== remoteUrl) {
-        article.content = article.content.split(remoteUrl).join(localUrl);
-        modified = true;
-      }
-    }
   }
 
   return { article, modified };
@@ -2529,6 +2381,7 @@ async function generateContentWithGroqRetry(
         model: modelToUse,
         messages: messagesToSend as any,
         temperature: temperature !== undefined ? temperature : 0.7,
+        max_tokens: 4096,
         response_format: wantsJson ? { type: "json_object" } : undefined,
       });
 
@@ -2637,37 +2490,42 @@ const CEREBRAS_MODEL = CEREBRAS_MODELS[0];
 const MISTRAL_MODEL = MISTRAL_MODELS[0];
 
 interface SimpleAiAccount {
+  index: number;
   keyHash: string;
+  apiKey: string;
   cooldownUntil: number;
-  consecutiveFailures?: number;
-  lastStatus?: string;
-  lastError?: any;
+  lastStatus?: number | string;
+  lastError?: string;
+  consecutiveFailures: number;
   call: (messages: any[], wantsJson: boolean, temperature?: number) => Promise<string>;
 }
 
 function loadApiKeys(envPrefix: string): string[] {
   const keys: string[] = [];
-  const bulk = process.env[`${envPrefix}S`];
-  if (bulk) {
-    bulk.split(",").map((k) => k.trim()).filter(Boolean).forEach((k) => keys.push(k));
-  }
-  if (process.env[envPrefix]) {
-    keys.push(process.env[envPrefix]!.trim());
-  }
-  for (let i = 1; i <= 15; i++) {
-    const val = process.env[`${envPrefix}_${i}`];
-    if (val) keys.push(val.trim());
-  }
-  for (let i = 1; i <= 15; i++) {
-    const val = process.env[`${envPrefix}${i}`];
-    if (val) keys.push(val.trim());
-  }
+  const base = envPrefix.replace(/_API_KEY$/, "").replace(/_KEY$/, "");
+  const prefixes = Array.from(new Set([envPrefix, `${base}_API_KEY`, `${base}_KEY`, base]));
+
+  prefixes.forEach((pref) => {
+    const bulk = process.env[`${pref}S`];
+    if (bulk) {
+      bulk.split(",").map((k) => k.trim()).filter(Boolean).forEach((k) => keys.push(k));
+    }
+    if (process.env[pref]) {
+      keys.push(process.env[pref]!.trim());
+    }
+    for (let i = 1; i <= 20; i++) {
+      const val = process.env[`${pref}_${i}`] || process.env[`${pref}${i}`];
+      if (val) keys.push(val.trim());
+    }
+  });
+
   const uniqueKeys = Array.from(new Set(keys.filter(Boolean)));
   console.log(`[KEYS] loadApiKeys("${envPrefix}") cargó exitosamente ${uniqueKeys.length} clave(s) única(s).`);
   return uniqueKeys;
 }
 
 async function callOpenAICompatibleChat(
+  providerLabel: string,
   baseUrl: string,
   apiKey: string,
   modelList: string[],
@@ -2680,8 +2538,12 @@ async function callOpenAICompatibleChat(
 
   for (const model of modelList) {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 50000); // 50s timeout
+
       const res = await fetch(`${baseUrl}/chat/completions`, {
         method: "POST",
+        signal: controller.signal,
         headers: {
           "Authorization": `Bearer ${apiKey}`,
           "Content-Type": "application/json",
@@ -2690,9 +2552,11 @@ async function callOpenAICompatibleChat(
           model,
           messages: messagesToSend,
           temperature,
+          max_tokens: 4096,
           ...(wantsJson ? { response_format: { type: "json_object" } } : {}),
         }),
       });
+      clearTimeout(timeoutId);
 
       if (!res.ok) {
         const bodyText = await res.text().catch(() => "");
@@ -2700,8 +2564,18 @@ async function callOpenAICompatibleChat(
         err.status = res.status;
         err.headers = Object.fromEntries(res.headers.entries());
 
-        if (res.status === 402 || /payment_required|billing/i.test(bodyText)) {
+        // Fast-fail: si el error es de cuota, pago, permisos o rate limit,
+        // reintentar otros modelos con la misma clave es inútil y añade latencia.
+        if (res.status === 402 || /payment_required|billing|quota|insufficient_quota|quota_exceeded/i.test(bodyText)) {
           err.isPaymentRequired = true;
+          throw err;
+        }
+        if (res.status === 401 || res.status === 403) {
+          err.isAuthError = true;
+          throw err;
+        }
+        if (res.status === 429) {
+          err.isRateLimit = true;
           throw err;
         }
 
@@ -2710,7 +2584,7 @@ async function callOpenAICompatibleChat(
           /model.*(decommissioned|deprecated|not found|does not exist|unsupported|no longer supported|invalid)/i.test(bodyText);
 
         if (isModelProblem) {
-          console.warn(`[OpenAI-Compat] Modelo '${model}' devolvió error de disponibilidad (${res.status}) en ${baseUrl}. Probando siguiente modelo...`);
+          console.warn(`[${providerLabel}] Modelo '${model}' devolvió error de disponibilidad (${res.status}) en ${baseUrl}. Probando siguiente modelo...`);
           lastError = err;
           continue;
         }
@@ -2721,7 +2595,8 @@ async function callOpenAICompatibleChat(
       return data.choices?.[0]?.message?.content || "";
     } catch (err: any) {
       lastError = err;
-      if (err.isPaymentRequired || err.status === 402) {
+      // Errores a nivel de clave/cuenta: romper el ciclo de modelos para rotar de clave de inmediato
+      if (err.isPaymentRequired || err.status === 402 || err.isAuthError || err.status === 401 || err.status === 403 || err.isRateLimit || err.status === 429) {
         throw err;
       }
       const errMsg = `${err.status || ""} ${err?.message || ""}`;
@@ -2739,18 +2614,21 @@ let cerebrasAccounts: SimpleAiAccount[] | null = null;
 function getCerebrasAccounts(): SimpleAiAccount[] {
   if (!cerebrasAccounts) {
     const keys = loadApiKeys("CEREBRAS_API_KEY");
-    cerebrasAccounts = keys.map((apiKey) => {
-      const hash = crypto.createHash("sha256").update(apiKey).digest("hex").slice(0, 12);
-      console.log(`[CEREBRAS] Cuenta cargada. keyHash: ${hash} (length: ${apiKey.length})`);
+    cerebrasAccounts = keys.map((apiKey, idx) => {
+      const hash = crypto.createHash("sha256").update(apiKey).digest("hex").slice(0, 10);
+      console.log(`[CEREBRAS] Cuenta #${idx + 1} cargada. keyHash: ${hash} (length: ${apiKey.length})`);
       return {
+        index: idx + 1,
         keyHash: hash,
+        apiKey,
         cooldownUntil: 0,
+        consecutiveFailures: 0,
         call: (messages: any[], wantsJson: boolean, temperature?: number) =>
-          callOpenAICompatibleChat("https://api.cerebras.ai/v1", apiKey, CEREBRAS_MODELS, messages, wantsJson, temperature),
+          callOpenAICompatibleChat("CEREBRAS", "https://api.cerebras.ai/v1", apiKey, CEREBRAS_MODELS, messages, wantsJson, temperature),
       };
     });
     if (cerebrasAccounts.length > 0) {
-      console.log(`[CEREBRAS] ${cerebrasAccounts.length} cuenta(s) disponible(s) como respaldo de Groq.`);
+      console.log(`[CEREBRAS] ${cerebrasAccounts.length} cuenta(s) disponible(s) en el pool.`);
     }
   }
   return cerebrasAccounts;
@@ -2760,18 +2638,21 @@ let mistralAccounts: SimpleAiAccount[] | null = null;
 function getMistralAccounts(): SimpleAiAccount[] {
   if (!mistralAccounts) {
     const keys = loadApiKeys("MISTRAL_API_KEY");
-    mistralAccounts = keys.map((apiKey) => {
-      const hash = crypto.createHash("sha256").update(apiKey).digest("hex").slice(0, 12);
-      console.log(`[MISTRAL] Cuenta cargada. keyHash: ${hash} (length: ${apiKey.length})`);
+    mistralAccounts = keys.map((apiKey, idx) => {
+      const hash = crypto.createHash("sha256").update(apiKey).digest("hex").slice(0, 10);
+      console.log(`[MISTRAL] Cuenta #${idx + 1} cargada. keyHash: ${hash} (length: ${apiKey.length})`);
       return {
+        index: idx + 1,
         keyHash: hash,
+        apiKey,
         cooldownUntil: 0,
+        consecutiveFailures: 0,
         call: (messages: any[], wantsJson: boolean, temperature?: number) =>
-          callOpenAICompatibleChat("https://api.mistral.ai/v1", apiKey, MISTRAL_MODELS, messages, wantsJson, temperature),
+          callOpenAICompatibleChat("MISTRAL", "https://api.mistral.ai/v1", apiKey, MISTRAL_MODELS, messages, wantsJson, temperature),
       };
     });
     if (mistralAccounts.length > 0) {
-      console.log(`[MISTRAL] ${mistralAccounts.length} cuenta(s) disponible(s) como respaldo de Groq.`);
+      console.log(`[MISTRAL] ${mistralAccounts.length} cuenta(s) disponible(s) en el pool.`);
     }
   }
   return mistralAccounts;
@@ -2779,20 +2660,7 @@ function getMistralAccounts(): SimpleAiAccount[] {
 
 const cerebrasRoundRobin = { i: 0 };
 const mistralRoundRobin = { i: 0 };
-
-function pickFromPool(pool: SimpleAiAccount[], indexRef: { i: number }): SimpleAiAccount {
-  const now = Date.now();
-  for (let k = 0; k < pool.length; k++) {
-    const idx = (indexRef.i + k) % pool.length;
-    if (pool[idx].cooldownUntil <= now) {
-      indexRef.i = (idx + 1) % pool.length;
-      return pool[idx];
-    }
-  }
-  const idx = indexRef.i % pool.length;
-  indexRef.i = (idx + 1) % pool.length;
-  return pool[idx];
-}
+let primaryProviderCounter = 0;
 
 async function callProviderPoolWithRetry(
   providerLabel: string,
@@ -2800,144 +2668,165 @@ async function callProviderPoolWithRetry(
   indexRef: { i: number },
   messages: any[],
   wantsJson: boolean,
-  maxRetries = 3,
   temperature?: number
 ): Promise<string> {
-  const now = Date.now();
-  const activeAccounts = pool.filter(a => a.cooldownUntil <= now);
-  if (activeAccounts.length === 0 && pool.length > 0) {
-    const minWait = Math.ceil((Math.min(...pool.map(a => a.cooldownUntil)) - now) / 1000);
-    throw new Error(`[${providerLabel}] Todas las cuentas están en enfriamiento (${minWait}s restantes).`);
+  if (!pool || pool.length === 0) {
+    throw new Error(`[${providerLabel}] No hay cuentas configuradas.`);
   }
 
-  let attempt = 0;
-  while (true) {
-    const account = pickFromPool(pool, indexRef);
-    try {
-      console.log(`[${providerLabel}] Probando cuenta ${account.keyHash} (intento ${attempt + 1})`);
-      return await account.call(messages, wantsJson, temperature);
-    } catch (err: any) {
-      attempt++;
-      if (attempt > maxRetries) throw err;
+  const now = Date.now();
+  const available = pool.filter((a) => a.cooldownUntil <= now);
 
-      let delay = 500 * Math.pow(2, attempt - 1);
+  if (available.length === 0) {
+    const minCooldown = Math.min(...pool.map((a) => a.cooldownUntil));
+    const waitSec = Math.max(0, Math.round((minCooldown - now) / 1000));
+    console.warn(`[${providerLabel}] Todas las cuentas (${pool.length}) están agotadas o en cooldown (espera: ${waitSec}s).`);
+    throw new Error(`[${providerLabel}] Todas las cuentas agotadas o en cooldown (${waitSec}s restantes)`);
+  }
+
+  const poolSize = pool.length;
+  const triedHashes = new Set<string>();
+  let lastErr: any = null;
+
+  for (let step = 0; step < poolSize; step++) {
+    const currentIdx = (indexRef.i + step) % poolSize;
+    const account = pool[currentIdx];
+
+    if (account.cooldownUntil > Date.now()) {
+      continue;
+    }
+    if (triedHashes.has(account.keyHash)) {
+      continue;
+    }
+    triedHashes.add(account.keyHash);
+
+    try {
+      console.log(`[${providerLabel}] Usando cuenta #${account.index} (${account.keyHash})...`);
+      const result = await account.call(messages, wantsJson, temperature);
+      if (typeof result === "string" && result.trim()) {
+        indexRef.i = (currentIdx + 1) % poolSize;
+        account.consecutiveFailures = 0;
+        account.cooldownUntil = 0;
+        account.lastStatus = 200;
+        account.lastError = undefined;
+        return result;
+      }
+    } catch (err: any) {
+      lastErr = err;
+      account.consecutiveFailures++;
+      const status = err.status || (err.message && err.message.match(/HTTP (\d+)/)?.[1]) || "ERR";
+      account.lastStatus = status;
+      account.lastError = err.message || String(err);
+
       if (err.status === 402 || err.isPaymentRequired) {
-        console.warn(`[${providerLabel}] Cuenta ${account.keyHash} requiere saldo o pago (402). Enfriamiento de 1h.`);
-        account.cooldownUntil = Date.now() + 60 * 60 * 1000;
-        delay = 50;
-      } else if (err.status === 429) {
-        let cooldownMs = 60000;
-        const retryAfter = err.headers?.["retry-after"];
-        if (retryAfter) {
-          const parsedSeconds = parseFloat(retryAfter);
-          if (!isNaN(parsedSeconds)) cooldownMs = parsedSeconds * 1000 + 200;
-        } else if (err.headers?.["x-ratelimit-limit-req-minute"] === "0") {
-          cooldownMs = 10 * 60 * 1000;
-        }
-        account.cooldownUntil = Date.now() + cooldownMs;
-        delay = (pool.length > 1 && attempt < pool.length) ? 100 : Math.min(delay, 2000);
-      } else if (err.status === 401 || err.status === 403) {
-        console.warn(`[${providerLabel}] Clave inválida en cuenta ${account.keyHash}, se descarta por 1h.`);
-        account.cooldownUntil = Date.now() + 60 * 60 * 1000;
-        delay = 50;
-      } else if (![500, 502, 503, 504].includes(err.status)) {
-        throw err;
+        // 10 minutos de enfriamiento por cuota/saldo agotado
+        account.cooldownUntil = Date.now() + 10 * 60 * 1000;
+        console.warn(`[${providerLabel}] Clave #${account.index} (${account.keyHash}) ha agotado su cuota o saldo (HTTP 402). Rotando inmediatamente a la siguiente clave...`);
+      } else if (err.status === 401 || err.status === 403 || err.isAuthError) {
+        // 20 minutos por clave no autorizada/errónea
+        account.cooldownUntil = Date.now() + 20 * 60 * 1000;
+        console.warn(`[${providerLabel}] Clave #${account.index} (${account.keyHash}) no válida o no autorizada (${status}). Rotando a la siguiente clave...`);
+      } else if (err.status === 429 || err.isRateLimit) {
+        // 30 segundos por rate limit temporal
+        account.cooldownUntil = Date.now() + 30 * 1000;
+        console.warn(`[${providerLabel}] Clave #${account.index} (${account.keyHash}) rate limit alcanzado (HTTP 429). Rotando a la siguiente clave...`);
+      } else {
+        // 5 segundos por error transitorio de red
+        account.cooldownUntil = Date.now() + 5 * 1000;
+        console.warn(`[${providerLabel}] Clave #${account.index} (${account.keyHash}) error transitorio (${status}). Rotando a la siguiente clave...`);
       }
 
-      console.warn(`[${providerLabel}] Error (${err.status || "desconocido"}) en cuenta ${account.keyHash}. Reintentando en ${delay.toFixed(0)}ms...`);
-      await new Promise((resolve) => setTimeout(resolve, delay));
+      // Avanzar el índice de round-robin a la siguiente cuenta
+      indexRef.i = (currentIdx + 1) % poolSize;
     }
   }
+
+  throw lastErr || new Error(`Todas las claves disponibles de ${providerLabel} fallaron.`);
 }
 
 async function generateContentWithRetry(messages: any[], wantsJson: boolean, temperature?: number): Promise<any> {
-  let groqAvailable = true;
-  try {
-    getGroqAccounts();
-  } catch {
-    groqAvailable = false;
+  const cerebrasPool = getCerebrasAccounts();
+  const mistralPool = getMistralAccounts();
+
+  const now = Date.now();
+  const cerebrasAvailable = cerebrasPool.filter((a) => a.cooldownUntil <= now).length;
+  const mistralAvailable = mistralPool.filter((a) => a.cooldownUntil <= now).length;
+
+  const currentTurn = primaryProviderCounter++;
+
+  // Alterna entre Mistral y Cerebras en cada llamada:
+  // Turno par: prefiere MISTRAL
+  // Turno impar: prefiere CEREBRAS
+  let preferred: "MISTRAL" | "CEREBRAS" = (currentTurn % 2 === 0) ? "MISTRAL" : "CEREBRAS";
+
+  // Comprobación de salud inteligente:
+  // Si el proveedor preferido tiene 0 claves disponibles (por cuota agotada o cooldown)
+  // pero el otro proveedor sí tiene claves activas, conmuta directamente al activo
+  // sin incurrir en latencias innecesarias.
+  if (preferred === "CEREBRAS" && cerebrasAvailable === 0 && mistralAvailable > 0) {
+    preferred = "MISTRAL";
+  } else if (preferred === "MISTRAL" && mistralAvailable === 0 && cerebrasAvailable > 0) {
+    preferred = "CEREBRAS";
   }
 
-  if (groqAvailable) {
+  const secondary: "MISTRAL" | "CEREBRAS" = (preferred === "MISTRAL") ? "CEREBRAS" : "MISTRAL";
+
+  // Cadena de resolución:
+  // 1. Proveedor preferido (alternando entre Mistral y Cerebras)
+  // 2. Proveedor secundario (si el primero falla o agota sus claves)
+  // 3. Respaldo Groq (con sus 6 claves en rotación para máxima disponibilidad)
+  const providerOrder: Array<"MISTRAL" | "CEREBRAS" | "GROQ"> = [preferred, secondary, "GROQ"];
+
+  let lastError: any = null;
+
+  for (const provider of providerOrder) {
     try {
-      return await generateContentWithGroqRetry(messages, wantsJson, 5, 1000, temperature);
-    } catch (groqErr: any) {
-      console.warn(`[AI] Groq agotó sus reintentos (${groqErr.message}). Probando proveedores de respaldo...`);
-      const text = await tryFallbackProviders(messages, wantsJson, groqErr, temperature);
-      return { choices: [{ message: { content: text } }] };
+      if (provider === "MISTRAL") {
+        const pool = getMistralAccounts();
+        if (pool.length > 0) {
+          const avail = pool.filter((a) => a.cooldownUntil <= Date.now()).length;
+          if (avail === 0 && (cerebrasAvailable > 0 || getGroqAccounts().length > 0)) {
+            continue;
+          }
+          console.log(`[AI Orchestrator] Turno #${currentTurn}: Ejecutando MISTRAL (${avail}/${pool.length} clave(s) activas)...`);
+          const text = await callProviderPoolWithRetry("MISTRAL", pool, mistralRoundRobin, messages, wantsJson, temperature);
+          if (text) return { choices: [{ message: { content: text } }] };
+        }
+      } else if (provider === "CEREBRAS") {
+        const pool = getCerebrasAccounts();
+        if (pool.length > 0) {
+          const avail = pool.filter((a) => a.cooldownUntil <= Date.now()).length;
+          if (avail === 0 && (mistralAvailable > 0 || getGroqAccounts().length > 0)) {
+            continue;
+          }
+          console.log(`[AI Orchestrator] Turno #${currentTurn}: Ejecutando CEREBRAS (${avail}/${pool.length} clave(s) activas)...`);
+          const text = await callProviderPoolWithRetry("CEREBRAS", pool, cerebrasRoundRobin, messages, wantsJson, temperature);
+          if (text) return { choices: [{ message: { content: text } }] };
+        }
+      } else if (provider === "GROQ") {
+        let hasGroq = false;
+        try { hasGroq = getGroqAccounts().length > 0; } catch { hasGroq = false; }
+        if (hasGroq) {
+          console.log(`[AI Orchestrator] Activando respaldo de seguridad GROQ (${getGroqAccounts().length} clave(s) en rotación)...`);
+          return await generateContentWithGroqRetry(messages, wantsJson, 6, 800, temperature);
+        }
+      }
+    } catch (providerErr: any) {
+      console.warn(`[AI Orchestrator] Proveedor ${provider} no pudo completar la solicitud (${providerErr.message}). Alternando al siguiente proveedor de la cadena...`);
+      lastError = providerErr;
     }
-  } else {
-    const text = await tryFallbackProviders(messages, wantsJson, new Error("No hay ninguna GROQ_API_KEY configurada."), temperature);
-    return { choices: [{ message: { content: text } }] };
   }
+
+  throw lastError || new Error("Todos los proveedores de IA y claves configuradas (Mistral, Cerebras, Groq) fallaron o están agotados.");
 }
 
 async function callGemini(messages: any[], wantsJson: boolean, temperature?: number): Promise<string> {
-  // 1. Intentamos Groq primero (6 cuentas activas y rápidas)
-  try {
-    let hasGroq = false;
-    try {
-      hasGroq = getGroqAccounts().length > 0;
-    } catch {
-      hasGroq = false;
-    }
-
-    if (hasGroq) {
-      const completion = await generateContentWithGroqRetry(messages, wantsJson, 5, 800, temperature);
-      const content = completion.choices?.[0]?.message?.content || "";
-      if (content) return content;
-    }
-  } catch (groqErr: any) {
-    console.warn(`[AI] Groq falló: ${groqErr.message}. Probando proveedores de respaldo...`);
-  }
-
-  // 2. Intentamos Mistral como respaldo prioritario (4 cuentas activas)
-  const mistral = getMistralAccounts();
-  if (mistral.length > 0) {
-    try {
-      console.log(`[AI] Intentando Mistral (${mistral.length} cuenta(s))...`);
-      return await callProviderPoolWithRetry("MISTRAL", mistral, mistralRoundRobin, messages, wantsJson, 2, temperature);
-    } catch (err: any) {
-      console.warn(`[AI] Mistral falló: ${err.message}. Probando Cerebras...`);
-    }
-  }
-
-  // 3. Intentamos Cerebras como respaldo
-  const cerebras = getCerebrasAccounts();
-  if (cerebras.length > 0) {
-    try {
-      console.log(`[AI] Intentando Cerebras (${cerebras.length} cuenta(s))...`);
-      return await callProviderPoolWithRetry("CEREBRAS", cerebras, cerebrasRoundRobin, messages, wantsJson, 2, temperature);
-    } catch (err: any) {
-      console.warn(`[AI] Cerebras también falló: ${err.message}`);
-    }
-  }
-
-  throw new Error("Todos los proveedores de IA (Groq, Mistral, Cerebras) fallaron o alcanzaron límites.");
+  const completion = await generateContentWithRetry(messages, wantsJson, temperature);
+  return completion.choices?.[0]?.message?.content || "";
 }
 
 async function tryFallbackProviders(messages: any[], wantsJson: boolean, originalErr: Error, temperature?: number): Promise<string> {
-  const mistral = getMistralAccounts();
-  if (mistral.length > 0) {
-    try {
-      console.log(`[AI] Usando Mistral como respaldo (${mistral.length} cuenta(s)).`);
-      return await callProviderPoolWithRetry("MISTRAL", mistral, mistralRoundRobin, messages, wantsJson, 2, temperature);
-    } catch (err: any) {
-      console.warn(`[AI] Mistral falló: ${err.message}. Probando Cerebras...`);
-    }
-  }
-
-  const cerebras = getCerebrasAccounts();
-  if (cerebras.length > 0) {
-    try {
-      console.log(`[AI] Usando Cerebras como respaldo (${cerebras.length} cuenta(s)).`);
-      return await callProviderPoolWithRetry("CEREBRAS", cerebras, cerebrasRoundRobin, messages, wantsJson, 2, temperature);
-    } catch (err: any) {
-      console.warn(`[AI] Cerebras también falló: ${err.message}`);
-    }
-  }
-
-  throw originalErr;
+  return await callGemini(messages, wantsJson, temperature);
 }
 
 // DIAGNOSTIC: estado combinado de los 3 proveedores (sin exponer claves).
@@ -2952,17 +2841,37 @@ app.get("/api/debug/ai-providers", (req: Request, res: Response) => {
     const cerebras = getCerebrasAccounts();
     const mistral = getMistralAccounts();
     const now = Date.now();
-    const summarize = (pool: { keyHash: string; cooldownUntil: number }[]) =>
+    const summarize = (pool: SimpleAiAccount[]) =>
       pool.map((a) => ({
+        index: a.index,
         keyHash: a.keyHash,
         inCooldown: a.cooldownUntil > now,
         cooldownRemainingMs: a.cooldownUntil > now ? a.cooldownUntil - now : 0,
+        lastStatus: a.lastStatus || "UNTESTED",
+        lastError: a.lastError || null,
+        consecutiveFailures: a.consecutiveFailures,
       }));
 
     res.status(200).json({
-      groq: { total: groq.length, accounts: summarize(groq) },
-      cerebras: { total: cerebras.length, accounts: summarize(cerebras) },
-      mistral: { total: mistral.length, accounts: summarize(mistral) },
+      currentTurn: primaryProviderCounter,
+      cerebras: {
+        total: cerebras.length,
+        active: cerebras.filter((a) => a.cooldownUntil <= now).length,
+        accounts: summarize(cerebras),
+      },
+      mistral: {
+        total: mistral.length,
+        active: mistral.filter((a) => a.cooldownUntil <= now).length,
+        accounts: summarize(mistral),
+      },
+      groq: {
+        total: groq.length,
+        accounts: groq.map((g) => ({
+          keyHash: g.keyHash,
+          inCooldown: g.cooldownUntil > now,
+          cooldownRemainingMs: g.cooldownUntil > now ? g.cooldownUntil - now : 0,
+        })),
+      },
     });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
@@ -4105,7 +4014,7 @@ app.post("/api/articles", async (req: Request, res: Response) => {
       newArticle.id = `art-${Date.now()}`;
     }
 
-    await sanitizeAndPersistArticleImagesAsync(newArticle);
+    sanitizeAndPersistArticleImages(newArticle);
 
     newArticle.created_date = newArticle.created_date || new Date().toISOString();
     newArticle.updated_date = new Date().toISOString();
@@ -4149,7 +4058,7 @@ app.put("/api/articles/:id", async (req: Request, res: Response) => {
         if (oldArticle.timeline_markers && !updatedData.timeline_markers) updatedData.timeline_markers = oldArticle.timeline_markers;
       }
       
-      await sanitizeAndPersistArticleImagesAsync(updatedData as any);
+      sanitizeAndPersistArticleImages(updatedData as any);
 
       // Check if content is modified and create backup in background
       const isContentModified = updatedData.content !== undefined && updatedData.content !== oldArticle.content;
@@ -4168,7 +4077,7 @@ app.put("/api/articles/:id", async (req: Request, res: Response) => {
     } else {
       // If not found in index, create/insert it to avoid losing user work
       const fallbackData = { ...req.body };
-      await sanitizeAndPersistArticleImagesAsync(fallbackData as any);
+      sanitizeAndPersistArticleImages(fallbackData as any);
       const fallbackArticle: WikiArticle = {
         ...fallbackData,
         id,
@@ -4281,60 +4190,7 @@ app.post("/api/upload-image", async (req: Request, res: Response) => {
   }
 });
 
-// 5d. Save a single remote cloud image to local disk and GitHub
-app.post("/api/save-cloud-image", async (req: Request, res: Response) => {
-  try {
-    const { url, articleSlug, subfolder = "cloud" } = req.body || {};
-    if (!url || typeof url !== "string") {
-      res.status(400).json({ error: "Se requiere la URL de la imagen." });
-      return;
-    }
-    const localUrl = await persistCloudImage(articleSlug || "img", url, subfolder);
-    res.json({
-      success: true,
-      url: localUrl,
-      originalUrl: url,
-      isLocal: localUrl.startsWith("/images/")
-    });
-  } catch (err: any) {
-    console.error("Save Cloud Image Error:", err);
-    res.status(500).json({ error: err?.message || "Error al descargar imagen de la nube." });
-  }
-});
-
-// 5e. Full batch sync of all cloud image URLs in articles and maps
-app.post("/api/sync-cloud-images", async (req: Request, res: Response) => {
-  try {
-    const articles = await readArticles();
-    let modifiedArticles = 0;
-    let downloadedCount = 0;
-
-    for (let i = 0; i < articles.length; i++) {
-      const art = articles[i];
-      const { modified } = await sanitizeAndPersistArticleImagesAsync(art);
-      if (modified) {
-        modifiedArticles++;
-        downloadedCount++;
-      }
-    }
-
-    if (modifiedArticles > 0) {
-      await writeArticles(articles);
-    }
-
-    res.json({
-      success: true,
-      modifiedArticles,
-      downloadedCount,
-      message: `Se han procesado y guardado localmente las imágenes de ${modifiedArticles} artículos.`
-    });
-  } catch (err: any) {
-    console.error("Batch Sync Cloud Images Error:", err);
-    res.status(500).json({ error: err?.message || "Error al sincronizar imágenes de la nube." });
-  }
-});
-
-// 5f. Sync all local images to GitHub
+// 5d. Sync all local images to GitHub
 app.post("/api/sync-images-to-github", async (req: Request, res: Response) => {
   try {
     if (!GITHUB_TOKEN) {
@@ -4344,7 +4200,7 @@ app.post("/api/sync-images-to-github", async (req: Request, res: Response) => {
     const publicPath = path.join(process.cwd(), "public", "images");
     let syncedCount = 0;
     if (fs.existsSync(publicPath)) {
-      const subdirs = ["covers", "uploads", "gallery", "monsters", "cloud", "banners"];
+      const subdirs = ["covers", "uploads", "gallery", "monsters"];
       for (const sub of subdirs) {
         const fullSub = path.join(publicPath, sub);
         if (fs.existsSync(fullSub)) {
@@ -5045,35 +4901,6 @@ app.post("/api/github-config", async (req: Request, res: Response) => {
   }
 });
 
-app.post("/api/github-push-all", async (req: Request, res: Response) => {
-  try {
-    const token = (req.body?.token as string) || (req.headers["x-github-token"] as string) || getEffectiveGitHubToken();
-    if (!token) {
-      return res.status(400).json({
-        error: "Se requiere un Personal Access Token (PAT) de GitHub con permiso 'repo' para subir los cambios a https://github.com/tirianworld/Cdd-Dragopedia-DEFINITIVA."
-      });
-    }
-
-    const scriptPath = path.join(process.cwd(), "scripts", "push_to_github.sh");
-    const output = execSync(`bash "${scriptPath}" "${token}"`, {
-      encoding: "utf8",
-      timeout: 120000
-    });
-
-    res.json({
-      success: true,
-      message: "¡Actualización completa (código, 510 imágenes y artículos) subida con éxito a GitHub!",
-      output
-    });
-  } catch (err: any) {
-    console.error("Error in /api/github-push-all:", err);
-    res.status(500).json({
-      error: err?.message || "Error al subir cambios a GitHub",
-      stderr: String(err?.stderr || "")
-    });
-  }
-});
-
 app.post("/api/github-sync", async (req: Request, res: Response) => {
   try {
     const { target = "all" } = req.body || {};
@@ -5623,8 +5450,6 @@ const STATIC_BANNER_FILES: Record<string, string> = {
   dragones: "caldo_dragones_combate_solid.png",
   ascendidos: "caldo_ascendidos_silhouettes_solid.png",
   antiguos: "caldo_antiguos_silhouettes_solid.png",
-  portadores_de_marca: "banners/banner_portadores_de_marca.jpg",
-  portadores: "banners/banner_portadores_de_marca.jpg",
 };
 
 app.post("/api/banner-image", async (req: Request, res: Response) => {
@@ -6241,325 +6066,6 @@ app.post("/api/hunter-journal/sync", handleSyncHunterMonsters);
 app.get("/api/spellbook/spells", handleGetSpellbookSpells);
 app.get("/api/spellbook/spells/:id", handleGetSpellbookSpellById);
 app.post("/api/spellbook/sync", handleSyncSpellbookSpells);
-
-// Persisted Custom & Edited Spells Storage
-const CUSTOM_SPELLS_FILE = path.join(process.cwd(), "src", "data", "custom_spells.json");
-let customSpellsData: any[] = [];
-
-try {
-  if (fs.existsSync(CUSTOM_SPELLS_FILE)) {
-    const raw = fs.readFileSync(CUSTOM_SPELLS_FILE, "utf8");
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) {
-      customSpellsData = parsed;
-    }
-  }
-} catch (e) {
-  console.warn("Could not read custom_spells.json:", e);
-}
-
-function saveCustomSpellsData() {
-  try {
-    fs.writeFileSync(CUSTOM_SPELLS_FILE, JSON.stringify(customSpellsData, null, 2), "utf8");
-  } catch (e) {
-    console.warn("Could not save custom_spells.json", e);
-  }
-}
-
-app.get("/api/spellbook/custom-spells", (req: Request, res: Response) => {
-  res.json({ success: true, spells: customSpellsData });
-});
-
-app.post("/api/spellbook/save-spell", (req: Request, res: Response) => {
-  try {
-    const spell = req.body;
-    if (!spell || !spell.id || !spell.name) {
-      res.status(400).json({ error: "Datos del conjuro incompletos." });
-      return;
-    }
-    const existingIndex = customSpellsData.findIndex((s) => s.id === spell.id);
-    const updatedSpell = {
-      ...spell,
-      updatedAt: new Date().toISOString(),
-    };
-    if (existingIndex >= 0) {
-      customSpellsData[existingIndex] = updatedSpell;
-    } else {
-      customSpellsData.unshift(updatedSpell);
-    }
-    saveCustomSpellsData();
-    res.json({ success: true, spell: updatedSpell });
-  } catch (err: any) {
-    res.status(500).json({ error: "Error al guardar el conjuro en el servidor", details: err.message });
-  }
-});
-
-app.delete("/api/spellbook/spells/:id", (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    customSpellsData = customSpellsData.filter((s) => s.id !== id);
-    saveCustomSpellsData();
-    res.json({ success: true, deletedId: id });
-  } catch (err: any) {
-    res.status(500).json({ error: "Error al eliminar el conjuro", details: err.message });
-  }
-});
-
-app.post("/api/spellbook/delete-spell", (req: Request, res: Response) => {
-  try {
-    const { id } = req.body;
-    if (!id) {
-      res.status(400).json({ error: "Falta id del conjuro." });
-      return;
-    }
-    customSpellsData = customSpellsData.filter((s) => s.id !== id);
-    saveCustomSpellsData();
-    res.json({ success: true, deletedId: id });
-  } catch (err: any) {
-    res.status(500).json({ error: "Error al eliminar el conjuro", details: err.message });
-  }
-});
-
-// --- Cdd-Spells-V2 Native Spellbook Endpoints ---
-const PUBLIC_SPELL_LISTS_FILE = path.join(process.cwd(), "public_spell_lists.json");
-let publicSpellListsData: any[] = [];
-
-try {
-  if (fs.existsSync(PUBLIC_SPELL_LISTS_FILE)) {
-    const raw = fs.readFileSync(PUBLIC_SPELL_LISTS_FILE, "utf8");
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) {
-      publicSpellListsData = parsed;
-    }
-  }
-} catch (e) {
-  console.warn("Could not read public_spell_lists.json:", e);
-}
-
-function savePublicSpellListsData() {
-  try {
-    fs.writeFileSync(PUBLIC_SPELL_LISTS_FILE, JSON.stringify(publicSpellListsData, null, 2), "utf8");
-  } catch (e) {
-    console.warn("Could not save public_spell_lists.json", e);
-  }
-}
-
-app.get("/api/public-lists", (req: Request, res: Response) => {
-  res.json({ lists: publicSpellListsData });
-});
-
-app.get("/api/public-lists/:id", (req: Request, res: Response) => {
-  const found = publicSpellListsData.find((l) => l.id === req.params.id);
-  if (!found) {
-    res.status(404).json({ error: "Lista de conjuros no encontrada" });
-    return;
-  }
-  res.json({ list: found });
-});
-
-app.post("/api/public-lists", (req: Request, res: Response) => {
-  try {
-    const { id, name, description, icon, color, spellIds, author, tags } = req.body;
-    if (!name || typeof name !== "string" || !name.trim()) {
-      res.status(400).json({ error: "El nombre de la lista es requerido" });
-      return;
-    }
-    const listId = id || `pub-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-    const existingIndex = publicSpellListsData.findIndex((l) => l.id === listId);
-    const newList = {
-      id: listId,
-      name: name.trim(),
-      description: (description || "").trim(),
-      icon: icon || "📖",
-      color: color || "#bafafd",
-      spellIds: Array.isArray(spellIds) ? spellIds : [],
-      author: (author || "Archimago Viajero").trim(),
-      isPublic: true,
-      likes: existingIndex >= 0 ? (publicSpellListsData[existingIndex].likes || 0) : 0,
-      createdAt: existingIndex >= 0 ? publicSpellListsData[existingIndex].createdAt : new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      tags: Array.isArray(tags) && tags.length > 0 ? tags : ["Comunidad"],
-    };
-
-    if (existingIndex >= 0) {
-      publicSpellListsData[existingIndex] = newList;
-    } else {
-      publicSpellListsData.unshift(newList);
-    }
-    savePublicSpellListsData();
-    res.json({ success: true, list: newList });
-  } catch (err: any) {
-    res.status(500).json({ error: "Error guardando lista", details: err.message });
-  }
-});
-
-app.post("/api/public-lists/:id/like", (req: Request, res: Response) => {
-  const found = publicSpellListsData.find((l) => l.id === req.params.id);
-  if (!found) {
-    res.status(404).json({ error: "Lista no encontrada" });
-    return;
-  }
-  found.likes = (found.likes || 0) + 1;
-  savePublicSpellListsData();
-  res.json({ success: true, likes: found.likes });
-});
-
-app.get("/api/ai/status", (req: Request, res: Response) => {
-  res.json({
-    cerebrasAvailable: !!process.env.CEREBRAS_API_KEY,
-    mistralAvailable: !!process.env.MISTRAL_API_KEY,
-    geminiAvailable: true,
-    providers: ["auto", "gemini", "cerebras", "mistral"],
-  });
-});
-
-const SPELL_GEN_SYSTEM_PROMPT = `Eres un diseñador senior de D&D 5e / 2024 y archimago arcano de Dragopedia.
-Tu objetivo es diseñar un conjuro de D&D perfectamente balanceado y evocador a partir de la idea del usuario.
-Debes responder ÚNICAMENTE con un objeto JSON válido (sin comentarios ni texto introductorio).
-Esquema JSON requerido:
-{
-  "name": "Nombre evocador en Español (ej. Abrazo de la Reina Cuervo)",
-  "nameEn": "Nombre en Inglés (ej. Raven Queen's Embrace)",
-  "level": 0-9,
-  "school": "Abjuración" | "Adivinación" | "Conjuración" | "Encantamiento" | "Evocación" | "Ilusión" | "Nigromancia" | "Transmutación" | "Reflexión",
-  "castingTime": "1 acción" | "1 acción adicional" | "1 reacción" | "1 minuto" | "10 minutos",
-  "range": "Personal" | "Toque" | "9 metros (30 pies)" | "18 metros (60 pies)" | "36 metros (120 pies)",
-  "duration": "Instantáneo" | "Concentración, hasta 1 minuto" | "Concentración, hasta 10 minutos" | "1 hora" | "24 horas",
-  "concentration": true | false,
-  "ritual": true | false,
-  "verbal": true | false,
-  "somatic": true | false,
-  "material": true | false,
-  "materialDesc": "Descripción breve del componente material si material es true, o dejar vacío",
-  "classes": ["Mago", "Brujo"],
-  "damageType": "Fuego" | "Frío" | "Relámpago" | "Fuerza" | "Necrótico" | "Radiante" | "Psíquico" | "Ácido" | "Veneno" | "Trueno" | "Contundente" | "Perforante" | "Cortante" | "Ninguno",
-  "origin": "Infernal" | "Elemental" | "Feérico" | "Celestial" | "Mortal" | "Shadowfell" | "Astral" | "Onírico",
-  "description": "Texto detallado del conjuro. Usa formato Markdown (**negrita** para tiradas como **1d8**, *cursiva* para nombres).",
-  "higherLevels": "Descripción de lo que ocurre al lanzarlo usando una ranura de nivel superior.",
-  "suggestedIcon": "Palabra clave en inglés para sugerir un icono de BG3 (ej. fireball, ice, raven, shadow, blade, lightning)"
-}`;
-
-function extractSpellJson(rawText: string) {
-  let cleaned = (rawText || "").trim();
-  if (cleaned.startsWith("```json")) {
-    cleaned = cleaned.replace(/^```json\s*/, "").replace(/```\s*$/, "");
-  } else if (cleaned.startsWith("```")) {
-    cleaned = cleaned.replace(/^```\s*/, "").replace(/```\s*$/, "");
-  }
-  const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
-  if (jsonMatch) {
-    return JSON.parse(jsonMatch[0]);
-  }
-  return JSON.parse(cleaned);
-}
-
-app.post("/api/ai/generate-spell", async (req: Request, res: Response) => {
-  try {
-    const { prompt, level, school, provider = "auto", language = "es" } = req.body;
-    if (!prompt || typeof prompt !== "string" || !prompt.trim()) {
-      res.status(400).json({ error: "El prompt descriptivo es requerido." });
-      return;
-    }
-    const userMessage = `Idea para el conjuro: "${prompt.trim()}".${level !== undefined && level !== null ? ` Nivel deseado: ${level}.` : ""}${school ? ` Escuela deseada: ${school}.` : ""} Idioma de salida: ${language === "en" ? "Inglés" : "Español"}.`;
-    const cerebrasKey = process.env.CEREBRAS_API_KEY || "";
-    const mistralKey = process.env.MISTRAL_API_KEY || "";
-    let lastError: any = null;
-
-    if ((provider === "cerebras" || provider === "auto") && cerebrasKey) {
-      try {
-        const cerebrasResp = await fetch("https://api.cerebras.ai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${cerebrasKey}`,
-          },
-          body: JSON.stringify({
-            model: "gpt-oss-120b",
-            messages: [
-              { role: "system", content: SPELL_GEN_SYSTEM_PROMPT },
-              { role: "user", content: userMessage },
-            ],
-            response_format: { type: "json_object" },
-            temperature: 0.7,
-          }),
-        });
-        if (cerebrasResp.ok) {
-          const data = (await cerebrasResp.json()) as any;
-          const content = data?.choices?.[0]?.message?.content;
-          if (content) {
-            const parsed = extractSpellJson(content);
-            res.json({ spell: parsed, providerUsed: "Cerebras AI (gpt-oss-120b)" });
-            return;
-          }
-        }
-      } catch (err: any) {
-        lastError = err;
-      }
-    }
-
-    if ((provider === "mistral" || provider === "auto" || lastError) && mistralKey) {
-      try {
-        const mistralResp = await fetch("https://api.mistral.ai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${mistralKey}`,
-          },
-          body: JSON.stringify({
-            model: "open-mistral-7b",
-            messages: [
-              { role: "system", content: SPELL_GEN_SYSTEM_PROMPT },
-              { role: "user", content: userMessage },
-            ],
-            response_format: { type: "json_object" },
-            temperature: 0.7,
-          }),
-        });
-        if (mistralResp.ok) {
-          const data = (await mistralResp.json()) as any;
-          const content = data?.choices?.[0]?.message?.content;
-          if (content) {
-            const parsed = extractSpellJson(content);
-            res.json({ spell: parsed, providerUsed: "Mistral AI (open-mistral-7b)" });
-            return;
-          }
-        }
-      } catch (err: any) {
-        lastError = err;
-      }
-    }
-
-    // Fallback to Gemini
-    try {
-      const ai = getGeminiClient();
-      const geminiResp = await ai.models.generateContent({
-        contents: [
-          { role: "user", parts: [{ text: `${SPELL_GEN_SYSTEM_PROMPT}\n\n${userMessage}` }] }
-        ],
-        config: {
-          responseMimeType: "application/json",
-          temperature: 0.7,
-        }
-      });
-      const parsed = extractSpellJson(geminiResp.text);
-      res.json({ spell: parsed, providerUsed: "Gemini AI" });
-      return;
-    } catch (err: any) {
-      lastError = err;
-    }
-
-    res.status(500).json({
-      error: "No se pudo generar el conjuro.",
-      details: lastError?.message || "Error desconocido",
-    });
-  } catch (error: any) {
-    res.status(500).json({
-      error: "Error interno al generar conjuro.",
-      details: error.message,
-    });
-  }
-});
-
 
 // Endpoint para ESCANEAR en tiempo real el listado de Diario del Cazador
 app.get("/api/diario-cazador/scan", async (req: Request, res: Response) => {
@@ -11710,11 +11216,12 @@ Y aquí hay otros tomos catalogados en la biblioteca para tu referencia de conte
 ${articlesSummary}
 
 REGLAS DE ORO DE VERACIDAD Y CONOCIMIENTO TAXONÓMICO DEL LORE:
-1. PRIORIDAD ABSOLUTA DE LA TAXONOMÍA Y LECTURA DE CATEGORÍAS/SUBCATEGORÍAS:
-   - Las categorías y subcategorías oficiales de la wiki no son simples carpetas técnicas: son la clave cosmológica, histórica y genealógica del lore ("=== ESTRUCTURA DE CATEGORÍAS Y SUBCATEGORÍAS DEL LORE ===").
+1. PRIORIDAD ABSOLUTA DE LA TAXONOMÍA Y FINALIZACIÓN COMPLETA DE RESPUESTAS:
+   - Termina SIEMPRE tus respuestas completas con punto final, sin cortarte nunca a la mitad ni dejar oraciones incompletas.
+   - Las categorías y subcategorías oficiales de la wiki son la clave cosmológica, histórica y genealógica del lore (=== ESTRUCTURA DE CATEGORÍAS Y SUBCATEGORÍAS DEL LORE ===).
    - Siempre que se te pregunte por "categoría", "subcategoría", "dónde está clasificado", "a qué categoría pertenece", un grupo, facción o campaña:
-     * DEBES citar la ruta jerárquica exacta de la wiki (ejemplo: "Inicio / Personajes / Jugadores / Caldo de Dragón C1").
-     * NUNCA confundas ni sustituyas esta ruta oficial con etiquetas internas de la ficha técnica infobox (como "Facciones" o "Aliado estratégico").
+     * DEBES citar la ruta jerárquica exacta de la wiki usando comillas angulares o simples (ejemplo: «Inicio / Personajes / Jugadores / Caldo de Dragón C1»). NUNCA uses comillas dobles rectas (") dentro de tus textos.
+     * NUNCA confundas ni sustituyas esta ruta oficial con etiquetas internas de la ficha técnica infobox (como «Facciones» o «Aliado estratégico»).
      * Responde siempre en lenguaje natural, claro y elegante en el campo "message", NUNCA devuelvas objetos JSON crudos en message.
 2. CASO FUNDAMENTAL DE LORE: "CALDO DE DRAGÓN EN AEROS", "C1", "C2" Y LAS REENCARNACIONES:
    - La subcategoría "Caldo de Dragón C1" tiene la ruta oficial:
@@ -11934,12 +11441,14 @@ DIRECTIVAS INQUEBRANTABLES DE SEGURIDAD, CONFIDENCIALIDAD Y BLINDAJE ANTI-INYECC
     if (isSearchOrQuery && !isExplicitBatchEditPhrase) {
       textSupplement += `\n\n[INSTRUCCIÓN CRÍTICA DE BÚSQUEDA Y CONSULTA]:
 El usuario está realizando una CONSULTA O PREGUNTA DE LORE sobre la enciclopedia.
-1. Si la pregunta involucra una categoría, subcategoría, grupo, era o campaña (por ejemplo, "Caldo de Dragón en Aeros", "Héroes de Aeros", etc.):
-   - Comienza SIEMPRE explicando el contexto taxonómico y de lore: indica la ruta jerárquica exacta de la wiki (ej: "Inicio / Personajes / Jugadores / Caldo de Dragón C1"), cita su descripción oficial (ej: "Héroes de Aeros"), y explica lo que significa en el lore (ej: que son los miembros originales de Caldo de Dragón durante la primera campaña en Aeros, antes de su posterior reencarnación en C2 "Latentes de Kaliria").
+1. Si la pregunta involucra una categoría, subcategoría, grupo, era o campaña (por ejemplo, «Caldo de Dragón en Aeros», «Héroes de Aeros», etc.):
+   - Comienza SIEMPRE explicando el contexto taxonómico y de lore: indica la ruta jerárquica exacta de la wiki (ej: «Inicio / Personajes / Jugadores / Caldo de Dragón C1»), cita su descripción oficial (ej: «Héroes de Aeros»), y explica lo que significa en el lore (ej: que son los miembros originales de Caldo de Dragón durante la primera campaña en Aeros, antes de su posterior reencarnación en C2 «Latentes de Kaliria»).
 2. A continuación, presenta y describe a los personajes o artículos correspondientes en lenguaje natural (con párrafos o viñetas Markdown) explicando su papel según sus manuscritos reales.
 3. Para cada artículo o personaje mencionado, incluye OBLIGATORIAMENTE su enlace HTML real: <a href="/articulo/slug">Título</a>.
-4. Responde SIEMPRE en lenguaje natural fluido en español. ESTÁ TERMINANTEMENTE PROHIBIDO responder con objetos JSON crudos como {"nombre": ...} o llaves dentro de tu texto.
-5. Mantén executionCommand y pendingEdit estrictamente como null.`;
+4. Responde SIEMPRE en lenguaje natural fluido en español de forma completa, sin recortar frases ni dejar nada a medias. Termina SIEMPRE hasta el punto final.
+5. Para evitar roturas de formato, NUNCA uses comillas dobles rectas (") dentro de tu mensaje: usa comillas angulares (« ») o comillas simples (' ') para citar rutas, nombres o ejemplos.
+6. ESTÁ TERMINANTEMENTE PROHIBIDO responder con objetos JSON crudos como {"nombre": ...} o llaves dentro de tu texto.
+7. Mantén executionCommand y pendingEdit estrictamente como null.`;
     } else if (isBatchEditIntent) {
       textSupplement += `\n\n[INSTRUCCIÓN CRÍTICA DE EDICIÓN MASIVA DE ARTÍCULOS]:
 El usuario ha solicitado realizar una EDICIÓN MASIVA O EN LOTE sobre múltiples artículos a la vez.
@@ -12205,12 +11714,14 @@ El usuario ha solicitado EDITAR el artículo existente "${targetEditArticle.titl
         } else {
           inner = inner.replace(/["']\s*\}?\s*$/, "");
         }
+
         inner = inner
           .replace(/\\"/g, '"')
           .replace(/\\n/g, '\n')
           .replace(/\\r/g, '')
           .replace(/\\t/g, '\t')
           .replace(/\\\\/g, '\\');
+
         text = inner.trim();
       }
 
@@ -12226,15 +11737,11 @@ El usuario ha solicitado EDITAR el artículo existente "${targetEditArticle.titl
     };
 
     let parsed: any = null;
-
     try {
       parsed = JSON.parse(rawResponseText);
     } catch {
       try {
-        const cleaned = rawResponseText
-          .replace(/^```(?:json)?\s*/i, "")
-          .replace(/\s*```$/i, "")
-          .trim();
+        const cleaned = rawResponseText.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
         parsed = JSON.parse(cleaned);
       } catch {
         const firstBrace = rawResponseText.indexOf("{");
@@ -13978,6 +13485,10 @@ async function startServer() {
     app.use(express.static(publicPath));
     app.use("/images", express.static(path.join(publicPath, "images")));
     app.use("/data", express.static(path.join(publicPath, "data")));
+    const distAssetsPath = path.join(process.cwd(), "dist", "assets");
+    if (fs.existsSync(distAssetsPath)) {
+      app.use("/assets", express.static(distAssetsPath));
+    }
   }
 
     // Helper to construct OpenGraph metadata for graphs (Discord, Twitter, Telegram, WhatsApp)
@@ -14308,13 +13819,9 @@ async function startServer() {
       });
     } else {
       const distPath = path.join(process.cwd(), "dist");
-      const distAssetsPath = path.join(process.cwd(), "dist", "assets");
       const distIndex = path.join(distPath, "index.html");
       const rootIndex = path.join(process.cwd(), "index.html");
 
-      if (fs.existsSync(distAssetsPath)) {
-        app.use("/assets", express.static(distAssetsPath));
-      }
       if (fs.existsSync(distPath)) {
         app.use(express.static(distPath));
       }

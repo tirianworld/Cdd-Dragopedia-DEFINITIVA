@@ -48,14 +48,7 @@ export function getSafeImageUrl(url?: string | null): string {
 
     // If running in a GitHub Pages environment (username.github.io):
     if (typeof window !== "undefined" && window.location?.hostname?.endsWith("github.io")) {
-      // Direct raw GitHub URL is 100% reliable on GitHub Pages and never 404s
       return `${GITHUB_RAW_BASE}${cleanPath}`;
-    }
-
-    // If a custom base URL is configured in Vite/environment
-    const base = (typeof import.meta !== "undefined" && import.meta.env?.BASE_URL ? import.meta.env.BASE_URL : "/").replace(/\/$/, "");
-    if (base && base !== "/" && base !== "." && !cleanPath.startsWith(base)) {
-      return `${base}${cleanPath}`;
     }
 
     return cleanPath;

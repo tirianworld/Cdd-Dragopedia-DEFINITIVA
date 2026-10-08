@@ -8,7 +8,6 @@ import {
   Github
 } from "lucide-react";
 import { TarotLogo } from "./TarotLogo";
-import { CarriageLoader } from "./CarriageLoader";
 import { SyncEntitiesTool } from "./SyncEntitiesTool";
 import { useCategories } from "../context/CategoryContext";
 import { AVAILABLE_ICONS } from "../utils/categoryHelper";
@@ -977,12 +976,9 @@ export function FilterManager() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center h-[calc(100vh-3.5rem)] p-6 bg-background">
-        <CarriageLoader
-          size="lg"
-          text="Cargando filtros de lore..."
-          className="text-[#cbf7f5]"
-        />
+      <div className="flex flex-col items-center justify-center h-[calc(100vh-3.5rem)] gap-3 text-muted-foreground bg-background">
+        <Loader2 className="h-7 w-7 animate-spin text-primary" />
+        <span className="text-sm font-heading tracking-wider">Cargando filtros de lore...</span>
       </div>
     );
   }
@@ -1023,7 +1019,7 @@ export function FilterManager() {
             title="Configurar repositorio de GitHub y token de sincronización"
           >
             <Github className="h-4 w-4 text-purple-400" />
-            <span>GitHub Sync: {githubConfig?.repo || "Cdd-wiki-V5"}</span>
+            <span>GitHub Sync: {githubConfig?.repo || "tirianworld/Cdd-Dragopedia-DEFINITIVA"}</span>
             {githubConfig?.configured && (
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" title="Conectado" />
             )}

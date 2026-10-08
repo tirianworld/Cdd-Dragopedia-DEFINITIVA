@@ -1,12 +1,13 @@
 import { SpellList } from '../types';
 import { DEFAULT_PUBLIC_LISTS } from '../data/defaultPublicLists';
+import { safeLocalStorageGet, safeLocalStorageSet } from './storageHelper';
 
 const LOCAL_STORAGE_KEY = 'dragopedia_spell_lists_v1';
 
 // Get all local personal spell lists
 export function getLocalSpellLists(): SpellList[] {
   try {
-    const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const raw = safeLocalStorageGet(LOCAL_STORAGE_KEY);
     if (!raw) {
       return [];
     }
@@ -23,7 +24,7 @@ export function getLocalSpellLists(): SpellList[] {
 // Save all local personal spell lists
 export function saveLocalSpellLists(lists: SpellList[]): void {
   try {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(lists));
+    safeLocalStorageSet(LOCAL_STORAGE_KEY, JSON.stringify(lists));
   } catch (err) {
     console.error('Error saving local spell lists:', err);
   }

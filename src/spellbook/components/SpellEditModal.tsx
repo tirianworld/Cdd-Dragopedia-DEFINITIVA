@@ -26,6 +26,7 @@ import {
   SpellOrigin,
 } from '../types';
 import { ALL_CLASSES, ALL_SCHOOLS } from '../data/spells';
+import { ALL_SPELLS } from '../data/allSpells';
 import { PRIMORDIAL_MAGICS } from '../data/primordialMagic';
 import { SPELL_ORIGINS } from '../data/spellOrigins';
 import { DAMAGE_TYPES } from '../data/damageTypes';
@@ -34,9 +35,10 @@ import officialSpellbookIcons from '../data/officialSpellbookIcons.json';
 import { getSchoolTheme } from '../data/schools';
 import { githubService, GitHubSaveResult } from '../services/githubService';
 import { SpellIcon } from './SpellIcon';
+import { OfficialSpellLineIcon } from './OfficialSpellLineIcon';
 import { MarkdownText } from './MarkdownText';
 import { saveLocalCustomImage, removeLocalCustomImage, getCachedImageUrl } from '../services/imageService';
-import { ArtGalleryPickerModal } from '../../components/ArtGalleryPickerModal';
+import { compressImageIcon } from '../services/storageHelper';
 
 interface SpellEditModalProps {
   spell: Spell;
@@ -154,7 +156,6 @@ export const SpellEditModal: React.FC<SpellEditModalProps> = ({
   const [bg3ErrorKeys, setBg3ErrorKeys] = useState<Record<string, boolean>>({});
 
   const [externalUrlInput, setExternalUrlInput] = useState('');
-  const [showGalleryModal, setShowGalleryModal] = useState(false);
   const [uploadedBase64, setUploadedBase64] = useState<string | null>(initialCached || null);
 
   // Active Tab
@@ -303,17 +304,27 @@ export const SpellEditModal: React.FC<SpellEditModalProps> = ({
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = reader.result as string;
-      setUploadedBase64(result);
-      setCurrentIconUrl(result);
-      setBg3IconUrl(result);
-      setBg3IconName(file.name);
-      // Immediately cache in local storage
-      saveLocalCustomImage(spell.id, result);
-    };
-    reader.readAsDataURL(file);
+    // Automatically compress to icon resolution to keep storage under quota limits
+    compressImageIcon(file, 256, 256, 0.85)
+      .then((compressed) => {
+        setUploadedBase64(compressed);
+        setCurrentIconUrl(compressed);
+        setBg3IconUrl(compressed);
+        setBg3IconName(file.name);
+        saveLocalCustomImage(spell.id, compressed);
+      })
+      .catch(() => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = reader.result as string;
+          setUploadedBase64(result);
+          setCurrentIconUrl(result);
+          setBg3IconUrl(result);
+          setBg3IconName(file.name);
+          saveLocalCustomImage(spell.id, result);
+        };
+        reader.readAsDataURL(file);
+      });
   };
 
   // Apply External Image URL
@@ -827,6 +838,30 @@ export const SpellEditModal: React.FC<SpellEditModalProps> = ({
                     <span className="text-[10px] px-2 py-0.5 rounded-md bg-cyan-950/60 text-cyan-300 border border-cyan-500/30">
                       Sincronizado
                     </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const original = ALL_SPELLS.find((s) => s.id === spell.id);
+                        if (original) {
+                          setCurrentIcon(original.icon || 'bendicion_astraea');
+                          setCurrentIconUrl(original.iconUrl || original.bg3IconUrl || '');
+                          setBg3IconUrl(original.bg3IconUrl || original.iconUrl || '');
+                          setBg3IconName(original.bg3IconName || original.name);
+                        } else {
+                          setCurrentIcon('bendicion_astraea');
+                          setCurrentIconUrl('');
+                          setBg3IconUrl('');
+                          setBg3IconName('');
+                        }
+                        setUploadedBase64(null);
+                        removeLocalCustomImage(spell.id);
+                      }}
+                      className="text-[10px] px-2.5 py-0.5 rounded-md bg-[#14232c] hover:bg-rose-950/40 text-slate-300 hover:text-rose-300 border border-[#213744] hover:border-rose-500/40 transition-colors cursor-pointer flex items-center gap-1"
+                      title="Restablecer el icono original no modificado"
+                    >
+                      <RefreshCw className="w-3 h-3" />
+                      <span>Restaurar icono original</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -939,12 +974,11 @@ export const SpellEditModal: React.FC<SpellEditModalProps> = ({
                           title={`${item.name} (${item.school})`}
                         >
                           <div className="w-12 h-12 rounded-lg overflow-hidden bg-black/40 flex items-center justify-center">
-                            <img
-                              src={item.iconUrl}
-                              alt={item.name}
-                              loading="lazy"
-                              referrerPolicy="no-referrer"
-                              className="w-full h-full object-contain group-hover:scale-110 transition-transform"
+                            <OfficialSpellLineIcon
+                              iconUrl={item.iconUrl}
+                              name={item.name}
+                              school={item.school}
+                              className="w-full h-full group-hover:scale-110 transition-transform"
                             />
                           </div>
                           <span className="text-[9px] font-medium text-slate-300 truncate w-full text-center">
@@ -1098,15 +1132,6 @@ export const SpellEditModal: React.FC<SpellEditModalProps> = ({
                       placeholder="https://ejemplo.com/icono_hechizo.png"
                       className="flex-1 px-3 py-2 rounded-lg bg-[#14232c] border border-[#213744] text-slate-100 focus:outline-hidden focus:border-[#bafafd]"
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowGalleryModal(true)}
-                      className="px-3.5 py-2 rounded-lg bg-[#182a35] hover:bg-[#1e3442] text-primary border border-primary/40 font-semibold cursor-pointer flex items-center gap-1.5"
-                      title="Seleccionar de la galería de arte de la wiki"
-                    >
-                      <ImageIcon className="w-4 h-4" />
-                      <span>Galería</span>
-                    </button>
                     <button
                       type="button"
                       onClick={handleApplyUrl}
@@ -1422,22 +1447,6 @@ export const SpellEditModal: React.FC<SpellEditModalProps> = ({
           </div>
         </div>
       </div>
-
-      {/* Art Gallery Picker Modal */}
-      {showGalleryModal && (
-        <ArtGalleryPickerModal
-          isOpen={showGalleryModal}
-          onClose={() => setShowGalleryModal(false)}
-          onSelectImage={(imageUrl) => {
-            setCurrentIconUrl(imageUrl);
-            setBg3IconUrl(imageUrl);
-            setBg3IconName('Wiki Art Gallery');
-            setExternalUrlInput(imageUrl);
-            setUploadedBase64(null);
-            setShowGalleryModal(false);
-          }}
-        />
-      )}
     </div>
   );
 };

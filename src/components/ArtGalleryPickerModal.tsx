@@ -15,8 +15,7 @@ import {
   readFileAsDataURL, 
   formatBytes,
   uploadImageToServerAndGitHub,
-  syncLocalImagesToGitHub,
-  saveCloudImageToServer
+  syncLocalImagesToGitHub
 } from "../utils/localImageStorage";
 import { getSafeImageUrl } from "../utils/imageUrl";
 
@@ -89,7 +88,6 @@ export function ArtGalleryPickerModal({
   const [posX, setPosX] = useState<number>(currentPosX || 50);
   const [posY, setPosY] = useState<number>(currentPosY || 50);
   const [assignedId, setAssignedId] = useState<string | null>(null);
-  const [persistingId, setPersistingId] = useState<string | null>(null);
 
   // Local PC / Downloads tab states
   const [localImages, setLocalImages] = useState<StoredLocalImage[]>([]);
@@ -434,27 +432,9 @@ export function ArtGalleryPickerModal({
     }
   };
 
-  const handleAssign = async (item: ArtworkItem) => {
+  const handleAssign = (item: ArtworkItem) => {
     setAssignedId(item.id);
-    let finalUrl = item.imageUrl;
-
-    // Auto-download and hardcode cloud artworks into project /images/cloud/
-    if (finalUrl.startsWith("http://") || finalUrl.startsWith("https://")) {
-      setPersistingId(item.id);
-      try {
-        const slug = (articleTitle || item.title || "artwork").toLowerCase().replace(/[^a-z0-9_-]/g, "_");
-        const res = await saveCloudImageToServer(finalUrl, slug, "cloud");
-        if (res.success && res.url) {
-          finalUrl = res.url;
-        }
-      } catch (err) {
-        console.warn("Could not persist artwork locally, using original URL:", err);
-      } finally {
-        setPersistingId(null);
-      }
-    }
-
-    onSelectImage(finalUrl, {
+    onSelectImage(item.imageUrl, {
       posX: 50,
       posY: 50,
       title: item.title,
@@ -463,12 +443,11 @@ export function ArtGalleryPickerModal({
     });
     setTimeout(() => {
       onClose();
-    }, 500);
+    }, 400);
   };
 
   const renderArtworkCard = (art: ArtworkItem) => {
     const isAssigned = assignedId === art.id;
-    const isPersisting = persistingId === art.id;
     return (
       <div
         key={art.id}
@@ -531,24 +510,16 @@ export function ArtGalleryPickerModal({
           <button
             type="button"
             onClick={() => handleAssign(art)}
-            disabled={isPersisting}
             className={`w-full py-2.5 px-3 rounded-lg font-heading font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all shadow-md ${
               isAssigned
-                ? "bg-emerald-600 text-white font-bold"
-                : isPersisting
-                ? "bg-purple-600 text-white font-bold animate-pulse"
+                ? "bg-green-500 text-white font-bold"
                 : "bg-[#cbf7f5] hover:bg-white text-stone-950 active:scale-98 cursor-pointer"
             }`}
           >
-            {isPersisting ? (
-              <>
-                <Loader2 className="h-3.5 w-3.5 animate-spin text-white" />
-                <span>GUARDANDO EN LOCAL...</span>
-              </>
-            ) : isAssigned ? (
+            {isAssigned ? (
               <>
                 <Check className="h-4 w-4" />
-                <span>¡GUARDADA EN LOCAL Y ASIGNADA!</span>
+                <span>¡ASIGNADA CON ÉXITO!</span>
               </>
             ) : (
               <>
@@ -582,20 +553,12 @@ export function ArtGalleryPickerModal({
             {onAddToGallery && targetType !== "gallery" && (
               <button
                 type="button"
-                onClick={async () => {
-                  let finalUrl = art.imageUrl;
-                  if (finalUrl.startsWith("http://") || finalUrl.startsWith("https://")) {
-                    try {
-                      const slug = (articleTitle || art.title || "artwork").toLowerCase().replace(/[^a-z0-9_-]/g, "_");
-                      const res = await saveCloudImageToServer(finalUrl, slug, "cloud");
-                      if (res.success && res.url) finalUrl = res.url;
-                    } catch {}
-                  }
-                  onAddToGallery(finalUrl, art.title);
+                onClick={() => {
+                  onAddToGallery(art.imageUrl, art.title);
                   onClose();
                 }}
                 className="flex-1 py-1 px-2 rounded bg-secondary/40 hover:bg-secondary border border-border/40 text-[10px] font-semibold text-muted-foreground hover:text-foreground transition-all flex items-center justify-center gap-1 truncate cursor-pointer"
-                title="Añadir y guardar en local en la galería de fotos del artículo"
+                title="Añadir a la galería de fotos del artículo"
               >
                 <Layers className="h-3 w-3 shrink-0" />
                 <span className="truncate">A Galería</span>
@@ -1877,22 +1840,14 @@ export function ArtGalleryPickerModal({
 
                   <button
                     type="button"
-                    onClick={async () => {
-                      let finalUrl = directUrl;
-                      if (finalUrl.startsWith("http://") || finalUrl.startsWith("https://")) {
-                        try {
-                          const slug = (articleTitle || "direct").toLowerCase().replace(/[^a-z0-9_-]/g, "_");
-                          const res = await saveCloudImageToServer(finalUrl, slug, "cloud");
-                          if (res.success && res.url) finalUrl = res.url;
-                        } catch {}
-                      }
-                      onSelectImage(finalUrl, { posX, posY, sourceName: "URL Directa" });
+                    onClick={() => {
+                      onSelectImage(directUrl, { posX, posY, sourceName: "URL Directa" });
                       onClose();
                     }}
                     className="w-full py-3 bg-[#cbf7f5] hover:bg-white text-stone-950 font-heading font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2 mt-4 cursor-pointer"
                   >
                     <Check className="h-4 w-4" />
-                    <span>ASIGNAR ESTA ILUSTRACIÓN (GUARDAR EN LOCAL)</span>
+                    <span>ASIGNAR ESTA ILUSTRACIÓN</span>
                   </button>
                 </div>
               ) : (

@@ -13,6 +13,7 @@ import Groq from "groq-sdk";
 import type { WikiArticle, WikiCategory } from "./src/types.ts";
 import mammoth from "mammoth";
 import { PDFParse } from "pdf-parse";
+import { GoogleGenAI } from "@google/genai";
 import admin from "firebase-admin";
 import { AsyncLocalStorage } from "async_hooks";
 import { 
@@ -69,6 +70,27 @@ import {
 } from "./server/seoAndProxy.ts";
 
 dotenv.config();
+
+// Auto-load all environment secrets from /app/.dev.env.json or root .dev.env.json if available
+try {
+  const devEnvPaths = [
+    "/app/.dev.env.json",
+    path.join(process.cwd(), ".dev.env.json"),
+    path.join(process.cwd(), "..", ".dev.env.json")
+  ];
+  for (const p of devEnvPaths) {
+    if (fs.existsSync(p)) {
+      const parsed = JSON.parse(fs.readFileSync(p, "utf8"));
+      for (const [k, v] of Object.entries(parsed)) {
+        if (!process.env[k] && typeof v === "string" && v.trim()) {
+          process.env[k] = v.trim();
+        }
+      }
+    }
+  }
+} catch (e) {
+  console.warn("Notice: Non-critical dev env load error:", e);
+}
 
 const app = express();
 const PORT = 3000;
@@ -256,7 +278,23 @@ function loadGitHubConfig(): GitHubRuntimeConfig {
     console.warn("Could not load github_config.json:", e);
   }
 
-  return { token, repo, branch, user };
+  // Auto-resolve user if token is present
+  if (token && (!user || user === "undefined")) {
+    if (repo.startsWith("tirianworld/")) {
+      user = "tirianworld";
+    }
+  }
+
+  // Auto-persist config file if token is present
+  if (token) {
+    try {
+      const dir = path.dirname(GITHUB_CONFIG_FILE);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(GITHUB_CONFIG_FILE, JSON.stringify({ token, repo, branch, user: user || "tirianworld" }, null, 2), "utf8");
+    } catch (e) {}
+  }
+
+  return { token, repo, branch, user: user || (token ? "tirianworld" : undefined) };
 }
 
 let activeGitHubConfig: GitHubRuntimeConfig = loadGitHubConfig();
@@ -2744,6 +2782,21 @@ async function callProviderPoolWithRetry(
   throw lastErr || new Error(`Todas las claves disponibles de ${providerLabel} fallaron.`);
 }
 
+let genAIInstance: GoogleGenAI | null = null;
+function getGenAI(): GoogleGenAI | null {
+  const geminiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENAI_API_KEY || process.env.GOOGLE_API_KEY;
+  if (!geminiKey || !geminiKey.trim()) return null;
+  if (!genAIInstance) {
+    try {
+      genAIInstance = new GoogleGenAI({ apiKey: geminiKey.trim() });
+    } catch (e) {
+      console.warn("Notice: Could not initialize GoogleGenAI instance:", e);
+      return null;
+    }
+  }
+  return genAIInstance;
+}
+
 async function generateContentWithRetry(messages: any[], wantsJson: boolean, temperature?: number): Promise<any> {
   const cerebrasPool = getCerebrasAccounts();
   const mistralPool = getMistralAccounts();
@@ -2771,17 +2824,50 @@ async function generateContentWithRetry(messages: any[], wantsJson: boolean, tem
 
   const secondary: "MISTRAL" | "CEREBRAS" = (preferred === "MISTRAL") ? "CEREBRAS" : "MISTRAL";
 
+  const hasGemini = !!(process.env.GEMINI_API_KEY || process.env.GOOGLE_GENAI_API_KEY || process.env.GOOGLE_API_KEY);
+
   // Cadena de resolución:
-  // 1. Proveedor preferido (alternando entre Mistral y Cerebras)
-  // 2. Proveedor secundario (si el primero falla o agota sus claves)
-  // 3. Respaldo Groq (con sus 6 claves en rotación para máxima disponibilidad)
-  const providerOrder: Array<"MISTRAL" | "CEREBRAS" | "GROQ"> = [preferred, secondary, "GROQ"];
+  // 1. Gemini (si GEMINI_API_KEY está configurada en el entorno)
+  // 2. Proveedor preferido (alternando entre Mistral y Cerebras con rotación de claves)
+  // 3. Proveedor secundario (si el primero falla o agota sus claves)
+  // 4. Respaldo Groq (con sus 6 claves en rotación para máxima disponibilidad)
+  const providerOrder: Array<"GEMINI" | "MISTRAL" | "CEREBRAS" | "GROQ"> = [
+    ...(hasGemini ? ["GEMINI" as const] : []),
+    preferred,
+    secondary,
+    "GROQ"
+  ];
 
   let lastError: any = null;
 
   for (const provider of providerOrder) {
     try {
-      if (provider === "MISTRAL") {
+      if (provider === "GEMINI") {
+        const genAI = getGenAI();
+        if (genAI) {
+          console.log(`[AI Orchestrator] Ejecutando GEMINI oficial (gemini-2.5-flash)...`);
+          const sysMsg = messages.find(m => m.role === "system")?.content || "";
+          const userMsgs = messages.filter(m => m.role !== "system");
+          const contents = userMsgs.length > 0 
+            ? userMsgs.map(m => ({
+                role: m.role === "assistant" ? "model" : "user",
+                parts: [{ text: m.content || "" }]
+              }))
+            : [{ role: "user", parts: [{ text: "Hola" }] }];
+
+          const response = await genAI.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents,
+            config: {
+              systemInstruction: sysMsg || undefined,
+              temperature: temperature ?? 0.7,
+              ...(wantsJson ? { responseMimeType: "application/json" } : {})
+            }
+          });
+          const text = response.text || "";
+          if (text) return { choices: [{ message: { content: text } }] };
+        }
+      } else if (provider === "MISTRAL") {
         const pool = getMistralAccounts();
         if (pool.length > 0) {
           const avail = pool.filter((a) => a.cooldownUntil <= Date.now()).length;
@@ -2817,7 +2903,7 @@ async function generateContentWithRetry(messages: any[], wantsJson: boolean, tem
     }
   }
 
-  throw lastError || new Error("Todos los proveedores de IA y claves configuradas (Mistral, Cerebras, Groq) fallaron o están agotados.");
+  throw lastError || new Error("Todos los proveedores de IA y claves configuradas (Gemini, Mistral, Cerebras, Groq) fallaron o están agotados.");
 }
 
 async function callGemini(messages: any[], wantsJson: boolean, temperature?: number): Promise<string> {
@@ -6066,6 +6152,153 @@ app.post("/api/hunter-journal/sync", handleSyncHunterMonsters);
 app.get("/api/spellbook/spells", handleGetSpellbookSpells);
 app.get("/api/spellbook/spells/:id", handleGetSpellbookSpellById);
 app.post("/api/spellbook/sync", handleSyncSpellbookSpells);
+
+// -------------------------------------------------------------
+// ENDPOINTS NATIVOS DE SPELLBOOK (Listas públicas y Generación IA)
+// -------------------------------------------------------------
+const PUBLIC_SPELL_LISTS_PATH = path.join(process.cwd(), "public_spell_lists.json");
+
+function loadPublicSpellLists(): any[] {
+  try {
+    if (fs.existsSync(PUBLIC_SPELL_LISTS_PATH)) {
+      const parsed = JSON.parse(fs.readFileSync(PUBLIC_SPELL_LISTS_PATH, "utf8"));
+      if (Array.isArray(parsed)) return parsed;
+      if (parsed && Array.isArray(parsed.lists)) return parsed.lists;
+    }
+  } catch (e) {
+    console.warn("Could not load public_spell_lists.json:", e);
+  }
+  return [];
+}
+
+let publicSpellLists: any[] = loadPublicSpellLists();
+
+function savePublicSpellLists() {
+  try {
+    fs.writeFileSync(PUBLIC_SPELL_LISTS_PATH, JSON.stringify(publicSpellLists, null, 2), "utf8");
+    if (getEffectiveGitHubToken()) {
+      writeToGitHub("public_spell_lists.json", JSON.stringify(publicSpellLists, null, 2)).catch(() => {});
+    }
+  } catch (e) {
+    console.warn("Could not save public_spell_lists.json:", e);
+  }
+}
+
+app.get("/api/ai/status", (req: Request, res: Response) => {
+  res.json({
+    cerebrasAvailable: !!process.env.CEREBRAS_API_KEY,
+    mistralAvailable: !!process.env.MISTRAL_API_KEY,
+    geminiAvailable: !!(process.env.GEMINI_API_KEY || process.env.GOOGLE_GENAI_API_KEY),
+    groqAvailable: !!process.env.GROQ_API_KEY,
+    providers: ["auto", "cerebras", "mistral", "groq", "gemini"],
+  });
+});
+
+const SPELL_SYSTEM_PROMPT = `Eres un diseñador senior de D&D 5e / 2024 y archimago arcano de Dragopedia.
+Tu objetivo es diseñar un conjuro de D&D perfectamente balanceado y evocador a partir de la idea del usuario.
+Debes responder ÚNICAMENTE con un objeto JSON válido (sin comentarios ni texto introductorio).
+Esquema JSON requerido:
+{
+  "name": "Nombre evocador en Español",
+  "nameEn": "Nombre en Inglés",
+  "level": 0-9,
+  "school": "Abjuración" | "Adivinación" | "Conjuración" | "Encantamiento" | "Evocación" | "Ilusión" | "Nigromancia" | "Transmutación" | "Reflexión",
+  "castingTime": "1 acción" | "1 acción adicional" | "1 reacción" | "1 minuto" | "10 minutos",
+  "range": "Personal" | "Toque" | "9 metros (30 pies)" | "18 metros (60 pies)" | "36 metros (120 pies)",
+  "duration": "Instantáneo" | "Concentración, hasta 1 minuto" | "Concentración, hasta 10 minutos" | "1 hora" | "24 horas",
+  "concentration": true,
+  "ritual": false,
+  "verbal": true,
+  "somatic": true,
+  "material": false,
+  "materialDesc": "",
+  "classes": ["Mago", "Hechicero"],
+  "damageType": "Fuego",
+  "origin": "Elemental",
+  "description": "Texto detallado del conjuro.",
+  "higherLevels": "Al lanzarlo con ranura superior...",
+  "suggestedIcon": "fireball"
+}`;
+
+app.post("/api/ai/generate-spell", async (req: Request, res: Response) => {
+  try {
+    const { prompt, level, school, language = "es" } = req.body;
+    if (!prompt || typeof prompt !== "string" || !prompt.trim()) {
+      return res.status(400).json({ error: "El prompt descriptivo es requerido." });
+    }
+    const userMessage = `Idea para el conjuro: "${prompt.trim()}".${level !== undefined && level !== null ? ` Nivel deseado: ${level}.` : ""}${school ? ` Escuela deseada: ${school}.` : ""} Idioma de salida: ${language === "en" ? "Inglés" : "Español"}.`;
+
+    const completion = await generateContentWithRetry([
+      { role: "system", content: SPELL_SYSTEM_PROMPT },
+      { role: "user", content: userMessage }
+    ], true);
+
+    const rawText = completion.choices?.[0]?.message?.content || "";
+    let cleaned = rawText.trim().replace(/^```json\s*/i, "").replace(/```\s*$/, "");
+    const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+    const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : cleaned);
+    res.json({ spell: parsed, providerUsed: "Dragopedia AI Orchestrator" });
+  } catch (err: any) {
+    console.error("Error in generate-spell:", err);
+    res.status(500).json({ error: "Error al generar el conjuro con IA.", details: err.message });
+  }
+});
+
+app.get("/api/public-lists", (req: Request, res: Response) => {
+  res.json({ lists: publicSpellLists });
+});
+
+app.get("/api/public-lists/:id", (req: Request, res: Response) => {
+  const found = publicSpellLists.find((l) => l.id === req.params.id);
+  if (!found) {
+    return res.status(404).json({ error: "Lista de conjuros no encontrada" });
+  }
+  res.json({ list: found });
+});
+
+app.post("/api/public-lists", (req: Request, res: Response) => {
+  try {
+    const { id, name, description, icon, color, spellIds, author, tags } = req.body;
+    if (!name || typeof name !== "string" || !name.trim()) {
+      return res.status(400).json({ error: "El nombre de la lista es requerido" });
+    }
+    const listId = id || `pub-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    const existingIndex = publicSpellLists.findIndex((l) => l.id === listId);
+    const newList = {
+      id: listId,
+      name: name.trim(),
+      description: (description || "").trim(),
+      icon: icon || "📖",
+      color: color || "#bafafd",
+      spellIds: Array.isArray(spellIds) ? spellIds : [],
+      author: (author || "Archimago Viajero").trim(),
+      isPublic: true,
+      likes: existingIndex >= 0 ? (publicSpellLists[existingIndex].likes || 0) : 0,
+      createdAt: existingIndex >= 0 ? publicSpellLists[existingIndex].createdAt : new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      tags: Array.isArray(tags) && tags.length > 0 ? tags : ["Comunidad"],
+    };
+    if (existingIndex >= 0) {
+      publicSpellLists[existingIndex] = newList;
+    } else {
+      publicSpellLists.unshift(newList);
+    }
+    savePublicSpellLists();
+    res.json({ success: true, list: newList });
+  } catch (err: any) {
+    res.status(500).json({ error: "Error guardando lista", details: err.message });
+  }
+});
+
+app.post("/api/public-lists/:id/like", (req: Request, res: Response) => {
+  const found = publicSpellLists.find((l) => l.id === req.params.id);
+  if (!found) {
+    return res.status(404).json({ error: "Lista no encontrada" });
+  }
+  found.likes = (found.likes || 0) + 1;
+  savePublicSpellLists();
+  res.json({ success: true, likes: found.likes });
+});
 
 // Endpoint para ESCANEAR en tiempo real el listado de Diario del Cazador
 app.get("/api/diario-cazador/scan", async (req: Request, res: Response) => {
@@ -13485,10 +13718,6 @@ async function startServer() {
     app.use(express.static(publicPath));
     app.use("/images", express.static(path.join(publicPath, "images")));
     app.use("/data", express.static(path.join(publicPath, "data")));
-    const distAssetsPath = path.join(process.cwd(), "dist", "assets");
-    if (fs.existsSync(distAssetsPath)) {
-      app.use("/assets", express.static(distAssetsPath));
-    }
   }
 
     // Helper to construct OpenGraph metadata for graphs (Discord, Twitter, Telegram, WhatsApp)

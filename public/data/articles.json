@@ -10952,8 +10952,8 @@
     "is_featured": false,
     "id": "art-1784457896936",
     "created_date": "2026-07-19T10:44:57.832Z",
-    "updated_date": "2026-10-02T11:32:40.192Z",
-    "image_url": "/images/cloud/limeyr_a77d4b7640.png",
+    "updated_date": "2026-10-09T09:35:29.979Z",
+    "image_url": "/images/uploads/Limeyr_Gestas_Mago_Aarakocra_2-1791538375635_edxqr.png",
     "gallery": [],
     "related_article_ids": [],
     "monsters": [],
@@ -10972,12 +10972,14 @@
       "entidad": []
     },
     "image_position_x": 50,
-    "image_position_y": 20,
+    "image_position_y": 50,
     "extra_categories": [
       "Personajes",
       "Jugadores",
       "Expedición de Moonhaven"
-    ]
+    ],
+    "spells": [],
+    "spell_images": {}
   },
   {
     "title": "Grimorios de Faustus",

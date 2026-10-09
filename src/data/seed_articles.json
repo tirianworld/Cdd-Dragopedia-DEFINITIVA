@@ -53,7 +53,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://i.imgur.com/ZkPxZuA.png"
+    "image_url": "/images/covers/cid.png"
   },
   {
     "id": "art-1789858601576",
@@ -86,7 +86,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/010/818/999/20180515105645/smaller_square/dimitri-jakubowski-wip14.jpg?1526399805"
+    "image_url": "/images/covers/morgana.jpg"
   },
   {
     "id": "art-1789856784089",
@@ -114,7 +114,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/4/4d/Winter_wolf-5e.png/revision/latest?cb=20171012153220"
+    "image_url": "/images/covers/firulais.webp"
   },
   {
     "id": "art-1789849716994",
@@ -128,7 +128,7 @@
     "timeline_order": [],
     "created_date": "2026-09-19T20:29:48.276Z",
     "updated_date": "2026-09-19T20:45:25.419Z",
-    "image_url": "https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/bestiary/MM/Hawk.webp",
+    "image_url": "/images/covers/biden.webp",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -156,7 +156,7 @@
     "timeline_order": [],
     "created_date": "2026-09-19T20:25:24.176Z",
     "updated_date": "2026-09-19T20:25:57.377Z",
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/063/925/735/20230613162001/smaller_square/sergey-avtushenko-baby-triceratops2.jpg?1686691201",
+    "image_url": "/images/covers/teri.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -199,7 +199,7 @@
     "id": "art-1789848465205",
     "created_date": "2026-09-19T20:07:45.205Z",
     "updated_date": "2026-09-20T19:23:57.161Z",
-    "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bb742333-f86c-48f0-a01c-c89a22ec5a29/d10iv37-b41a753b-f54f-42e1-9e2d-1e5bca0380b1.jpg/v1/fill/w_600,h_450,q_75,strp/mirror_labyrinth_3_by_szandordubois_stock_d10iv37-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NDUwIiwicGF0aCI6IlwvZlwvYmI3NDIzMzMtZjg2Yy00OGYwLWEwMWMtYzg5YTIyZWM1YTI5XC9kMTBpdjM3LWI0MWE3NTNiLWY1NGYtNDJlMS05ZTJkLTFlNWJjYTAzODBiMS5qcGciLCJ3aWR0aCI6Ijw9NjAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.wloinEEtM1JoXwRdcitDXTV-L9ku-b_D8Bh7HbM5IFg",
+    "image_url": "/images/covers/laberinto-de-cristales.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -362,7 +362,7 @@
         "Humano"
       ]
     },
-    "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9ef5ff6c-3d8d-408c-a00c-c7e796b34934/d39g52u-1db2c53f-58ae-4018-8255-daf5101b36f1.jpg/v1/fill/w_434,h_576,q_75,strp/hello_my_name_is_inigo_montoya_by_brucewhite_d39g52u-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvOWVmNWZmNmMtM2Q4ZC00MDhjLWEwMGMtYzdlNzk2YjM0OTM0XC9kMzlnNTJ1LTFkYjJjNTNmLTU4YWUtNDAxOC04MjU1LWRhZjUxMDFiMzZmMS5qcGciLCJ3aWR0aCI6Ijw9NDM0In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.DnnQmJJsgIRWcjodj9nCZeqDVjNaGMf93n3fXJz6JBo"
+    "image_url": "/images/covers/inigo.jpg"
   },
   {
     "id": "gravatax-el-dragon-de-amatista",
@@ -383,7 +383,7 @@
       "Habilidades": "Aliento de gravedad",
       "Eventos clave": "Derrota en tormentas de gravedad, muerte de Limeyr, forjado de armas en Zhivago"
     },
-    "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cd2b924c-80a7-4b79-982b-87d8f947b16e/dl18igh-41c8d046-b9d5-4cbd-88d6-07fda2d4f583.png/v1/fill/w_1196,h_668,q_70,strp/black_amethyst_dragon_by_starlyssskye_dl18igh-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9jZDJiOTI0Yy04MGE3LTRiNzktOTgyYi04N2Q4Zjk0N2IxNmUvZGwxOGlnaC00MWM4ZDA0Ni1iOWQ1LTRjYmQtODhkNi0wN2ZkYTJkNGY1ODMucG5nIiwiaGVpZ2h0IjoiPD03MTUiLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS53YXRlcm1hcmsiXSwid21rIjp7InBhdGgiOiIvd20vY2QyYjkyNGMtODBhNy00Yjc5LTk4MmItODdkOGY5NDdiMTZlL3N0YXJseXNzc2t5ZS00LnBuZyIsIm9wYWNpdHkiOjk1LCJwcm9wb3J0aW9ucyI6MC40NSwiZ3Jhdml0eSI6ImNlbnRlciJ9fQ.Z1V751X_veeeTY_Nba0cpPmTz8-nmWqpj3KTX-_f8ag",
+    "image_url": "/images/covers/gravatax-el-dragon-de-amatista.jpg",
     "timeline_markers": [],
     "tags": [
       "dragón",
@@ -429,7 +429,7 @@
     "id": "art-1787828469751",
     "created_date": "2026-08-27T11:01:11.838Z",
     "updated_date": "2026-09-03T08:35:31.139Z",
-    "image_url": "https://i.pinimg.com/originals/24/c1/5b/24c15b569682eba12c5603f4771c9970.png",
+    "image_url": "/images/covers/semiplano-del-hielo.png",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -465,7 +465,7 @@
     "id": "art-1787828465657",
     "created_date": "2026-08-27T11:01:07.714Z",
     "updated_date": "2026-09-02T15:37:20.375Z",
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/056/483/153/medium/fu-chuan-.jpg?1669346696",
+    "image_url": "/images/covers/semiplano-del-vapor.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -524,7 +524,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://i.pinimg.com/736x/b2/5a/2d/b25a2db92bfc54dbb02cadf1d2eeff25.jpg"
+    "image_url": "/images/covers/plano-de-la-tierra.jpg"
   },
   {
     "title": "Plano del Aire",
@@ -547,7 +547,7 @@
     "id": "art-1787828444403",
     "created_date": "2026-08-27T11:00:46.825Z",
     "updated_date": "2026-09-03T08:44:30.048Z",
-    "image_url": "https://i.pinimg.com/originals/c1/fa/bf/c1fabfbc75ceda34de1aa9d1633e6a8e.jpg",
+    "image_url": "/images/covers/plano-del-aire.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -600,7 +600,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://i.pinimg.com/736x/43/de/6d/43de6d855705d0e7e544f85e7c6f6063.jpg"
+    "image_url": "/images/covers/plano-del-agua.jpg"
   },
   {
     "title": "Heaven",
@@ -622,7 +622,7 @@
     "id": "art-1787828422153",
     "created_date": "2026-08-27T11:00:23.814Z",
     "updated_date": "2026-09-12T21:19:41.773Z",
-    "image_url": "https://i.etsystatic.com/26056260/r/il/5ee588/4885614715/il_fullxfull.4885614715_kol9.jpg",
+    "image_url": "/images/covers/heaven.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -658,7 +658,7 @@
     "id": "art-1787828418510",
     "created_date": "2026-08-27T11:00:19.951Z",
     "updated_date": "2026-08-28T10:37:05.744Z",
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/031/768/741/large/cullen-cole-gh1-bg-olympus-ext-ext-day-view1-color-v01.jpg?1604536883",
+    "image_url": "/images/covers/monte-olimp.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -708,7 +708,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://i.pinimg.com/originals/77/a9/85/77a9855deb1ce65a2b1a8155b8536430.jpg"
+    "image_url": "/images/covers/eliseo.jpg"
   },
   {
     "title": "Paraíso",
@@ -735,7 +735,7 @@
       "art-1787828422153",
       "art-1787828401970"
     ],
-    "image_url": "https://pre00.deviantart.net/f642/th/pre/i/2015/154/c/5/fantasy_forest_grotto_by_wwsketch-d8vwarl.jpg",
+    "image_url": "/images/covers/paraiso.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -822,7 +822,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://i.pinimg.com/736x/86/bf/2c/86bf2cd5a717bf82556f165a6c0f71e9.jpg"
+    "image_url": "/images/covers/plano-etereo.jpg"
   },
   {
     "title": "Energía oscura del Shadowfell",
@@ -873,7 +873,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://i.pinimg.com/originals/32/3c/9d/323c9d2a3246d5c706ca6051f4e070ef.jpg",
+    "image_url": "/images/covers/energia-oscura-shadowfell.jpg",
     "embedded_graph": {
       "type": "magias",
       "subgraphType": "submagia",
@@ -925,7 +925,7 @@
     "id": "art-1787667723389",
     "created_date": "2026-08-25T14:22:06.810Z",
     "updated_date": "2026-09-12T22:54:54.559Z",
-    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/0/0e/DMG5e_-_Shadowfell_-_Mark_Molnar_-_p51.jpg/revision/latest?cb=20150505095216",
+    "image_url": "/images/covers/shadowfell.webp",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -979,7 +979,8 @@
       "plano": [],
       "criatura": [],
       "entidad": []
-    }
+    },
+    "image_url": "/images/covers/refugiados-del-feywild.png"
   },
   {
     "title": "Corte Feérica",
@@ -1007,7 +1008,7 @@
     "id": "art-1787667677980",
     "created_date": "2026-08-25T14:21:21.902Z",
     "updated_date": "2026-08-27T10:44:18.646Z",
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/009/097/004/large/srikanth-m-the-glorious-court-of-royalty.jpg?1517133024",
+    "image_url": "/images/covers/corte-feerica.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -1078,7 +1079,7 @@
     "id": "art-1787667632755",
     "created_date": "2026-08-25T14:20:39.692Z",
     "updated_date": "2026-09-24T10:15:53.729Z",
-    "image_url": "https://i.imgur.com/igB9IsL.png",
+    "image_url": "/images/covers/seis-magias-primordiales.png",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -1293,7 +1294,7 @@
     "id": "art-1787667625234",
     "created_date": "2026-08-25T14:20:32.111Z",
     "updated_date": "2026-08-26T10:49:51.624Z",
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/054/049/201/large/ashkan-ghanbari-golem-adamantine1re2.jpg?1663657676",
+    "image_url": "/images/covers/adamantita.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -1365,7 +1366,8 @@
     "is_featured": false,
     "id": "art-1787667220867",
     "created_date": "2026-08-25T14:13:49.232Z",
-    "updated_date": "2026-08-25T14:13:49.232Z"
+    "updated_date": "2026-08-25T14:13:49.232Z",
+    "image_url": "/images/covers/familias-de-herreros-malditos.png"
   },
   {
     "title": "Diablos",
@@ -1433,7 +1435,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://cdna.artstation.com/p/assets/covers/images/001/070/528/large/dmitry-prozorov-diablo.jpg?1439397102"
+    "image_url": "/images/covers/diablos.jpg"
   },
   {
     "title": "Averno",
@@ -1561,7 +1563,7 @@
     "id": "art-1787667199350",
     "created_date": "2026-08-25T14:13:26.378Z",
     "updated_date": "2026-08-26T10:46:18.712Z",
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/019/306/907/large/clint-cearley-descent-into-avernus.jpg?1562886085",
+    "image_url": "/images/covers/acero-infernal.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -1634,7 +1636,7 @@
     "id": "art-1787667127703",
     "created_date": "2026-08-25T14:12:14.035Z",
     "updated_date": "2026-08-26T10:25:35.698Z",
-    "image_url": "https://i.pinimg.com/originals/86/0b/37/860b37e1981ed83d2aa6cddfab73f188.jpg",
+    "image_url": "/images/covers/mithril.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -1699,7 +1701,8 @@
     "updated_date": "2026-08-25T14:12:07.235Z",
     "related_article_ids": [
       "art-1787667127703"
-    ]
+    ],
+    "image_url": "/images/covers/la-casa-loux.png"
   },
   {
     "title": "Acero Negro",
@@ -1750,7 +1753,7 @@
     "id": "art-1787667030822",
     "created_date": "2026-08-25T14:10:38.161Z",
     "updated_date": "2026-08-26T11:00:49.989Z",
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/064/922/496/large/miva-dokyeom-gwon-9.jpg?1689083204",
+    "image_url": "/images/covers/acero-negro.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -1814,7 +1817,7 @@
     "id": "art-1787666886596",
     "created_date": "2026-08-25T14:08:15.478Z",
     "updated_date": "2026-09-24T10:15:56.905Z",
-    "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/0e7c85c7-e287-412e-bd53-a461a830a701/dclmhh3-81d6031d-e295-495c-ad1d-7afed6878a30.jpg/v1/fill/w_1043,h_766,q_70,strp/mtg___aurelia__the_warleader_by_abigbat_dclmhh3-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTQxIiwicGF0aCI6IlwvZlwvMGU3Yzg1YzctZTI4Ny00MTJlLWJkNTMtYTQ2MWE4MzBhNzAxXC9kY2xtaGgzLTgxZDYwMzFkLWUyOTUtNDk1Yy1hZDFkLTdhZmVkNjg3OGEzMC5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.xHObbHS26xW8SM1tWpHs-qNophJwREON4mQYkBlV-eM",
+    "image_url": "/images/covers/magia-sagrada.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -2059,7 +2062,7 @@
       "art-1787666807809",
       "art-1787664906161"
     ],
-    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/e/ec/Astral_plane.png/revision/latest?cb=20230317191034",
+    "image_url": "/images/covers/planos.webp",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -2175,7 +2178,7 @@
     "id": "art-1787666796733",
     "created_date": "2026-08-25T14:06:40.897Z",
     "updated_date": "2026-08-26T10:39:20.867Z",
-    "image_url": "https://i.pinimg.com/originals/fe/4f/0b/fe4f0bacd0bb94da84d73241f5102489.jpg",
+    "image_url": "/images/covers/hierro.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -2246,7 +2249,7 @@
     "id": "art-1787666648124",
     "created_date": "2026-08-25T14:04:16.731Z",
     "updated_date": "2026-09-24T10:15:59.965Z",
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/049/874/420/large/david-ortiz-edge-of-the-world-1-3.jpg?1653512937",
+    "image_url": "/images/covers/elementos.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -2466,7 +2469,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/070/726/780/4k/von-milano-as-vonmilano-ph-myth-bato-bato-01.jpg?1703283860"
+    "image_url": "/images/covers/guerreros-totemicos.jpg"
   },
   {
     "title": "Tótems",
@@ -2517,7 +2520,7 @@
     "id": "art-1787666631493",
     "created_date": "2026-08-25T14:03:58.935Z",
     "updated_date": "2026-08-26T10:39:58.288Z",
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/018/552/181/large/dominika-kozarska-asset.jpg?1559801408",
+    "image_url": "/images/covers/totems.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -2581,7 +2584,7 @@
     "id": "art-1787666625565",
     "created_date": "2026-08-25T14:03:51.038Z",
     "updated_date": "2026-08-26T09:55:35.762Z",
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/078/223/473/large/ferial-concept-portfolio-3.jpg?1721544346",
+    "image_url": "/images/covers/espiritus.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -2664,7 +2667,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/079/091/853/large/emanuel-gaggino-chaman-full.jpg?1723957305"
+    "image_url": "/images/covers/chaman.jpg"
   },
   {
     "title": "Minos, el Chamán Minotauro",
@@ -2802,7 +2805,7 @@
     "id": "art-1787666224521",
     "created_date": "2026-08-25T13:57:12.429Z",
     "updated_date": "2026-09-24T10:16:03.178Z",
-    "image_url": "https://i.pinimg.com/originals/aa/d9/7c/aad97cfda4755c9935cc657f10880af8.jpg",
+    "image_url": "/images/covers/magia-negra.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -3029,7 +3032,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/005/950/928/large/zy-hwang-ranger.jpg?1494941954",
+    "image_url": "/images/covers/exploradores-maestros-del-terreno.jpg",
     "spells": [
       "xphb-thorn-whip",
       "alarm",
@@ -3162,7 +3165,8 @@
     "is_featured": false,
     "id": "art-1787666129928",
     "created_date": "2026-08-25T13:55:33.488Z",
-    "updated_date": "2026-08-25T13:55:33.488Z"
+    "updated_date": "2026-08-25T13:55:33.488Z",
+    "image_url": "/images/covers/reloj-astral.webp"
   },
   {
     "title": "Clérigos",
@@ -3207,7 +3211,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/000/206/266/large/joshua-calloway-cleric-portfolio.jpg?1410797158",
+    "image_url": "/images/covers/clerigos.jpg",
     "spells": [
       "xphb-blade-ward",
       "guidance",
@@ -3496,7 +3500,7 @@
     "id": "art-1787666048796",
     "created_date": "2026-08-25T13:54:12.849Z",
     "updated_date": "2026-08-26T09:56:59.336Z",
-    "image_url": "https://i.pinimg.com/736x/75/33/30/75333035acb7a8aecdd4d3aed3cebf17.jpg",
+    "image_url": "/images/covers/metamagia.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -3562,7 +3566,7 @@
       "6a1f398e93629684bf7e36fa",
       "art-1787664906161"
     ],
-    "image_url": "https://i.pinimg.com/736x/ad/dc/54/addc54550232cea62702a1254d42bf27.jpg",
+    "image_url": "/images/covers/el-nexo.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -3688,7 +3692,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/032/713/957/large/mikhail-palamarchuk-ritual.jpg?1607265893",
+    "image_url": "/images/covers/hechicero.jpg",
     "spells": [
       "shocking-grasp",
       "egw-sapping-sting",
@@ -4327,7 +4331,7 @@
     "id": "art-1787665981588",
     "created_date": "2026-08-25T13:53:05.678Z",
     "updated_date": "2026-09-15T10:05:31.477Z",
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/056/587/981/large/quang-ho-unnamed.jpg?1669639706",
+    "image_url": "/images/covers/maldiciones-de-sangre.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -4386,7 +4390,8 @@
     "is_featured": false,
     "id": "art-1787665974094",
     "created_date": "2026-08-25T13:52:57.466Z",
-    "updated_date": "2026-08-25T13:52:57.466Z"
+    "updated_date": "2026-08-25T13:52:57.466Z",
+    "image_url": "/images/covers/segadores.png"
   },
   {
     "title": "Aulladores",
@@ -4427,7 +4432,8 @@
     "related_article_ids": [
       "art-1787665974094",
       "art-1783384032020"
-    ]
+    ],
+    "image_url": "/images/covers/aulladores.png"
   },
   {
     "title": "Ludwig",
@@ -4485,7 +4491,8 @@
       ],
       "criatura": [],
       "entidad": []
-    }
+    },
+    "image_url": "/images/covers/ludwig.png"
   },
   {
     "title": "Bloodhunters",
@@ -4557,7 +4564,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/060/763/595/large/shannon-brocas-desert-hunter-02.jpg?1679287819"
+    "image_url": "/images/covers/bloodhunters.jpg"
   },
   {
     "title": "Blanca Vía",
@@ -4605,7 +4612,8 @@
     "updated_date": "2026-08-25T13:51:31.075Z",
     "related_article_ids": [
       "art-1783384032020"
-    ]
+    ],
+    "image_url": "/images/covers/blanca-via.png"
   },
   {
     "title": "Paladín",
@@ -4666,7 +4674,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/002/637/127/large/simon-dubuc-sunveilpaladin-2048.jpg?1463948315",
+    "image_url": "/images/covers/paladin.jpg",
     "spells": [
       "searing-smite",
       "bless",
@@ -4833,7 +4841,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://i.pinimg.com/736x/9d/c6/9d/9dc69dc1219badbf98b8e898167b21c6.jpg"
+    "image_url": "/images/covers/picaro.jpg"
   },
   {
     "title": "Chemos, el Dios Oscuro de la Nigromancia",
@@ -4887,7 +4895,8 @@
     "is_featured": false,
     "id": "art-1787665809460",
     "created_date": "2026-08-25T13:50:12.219Z",
-    "updated_date": "2026-08-25T13:50:12.219Z"
+    "updated_date": "2026-08-25T13:50:12.219Z",
+    "image_url": "/images/covers/chemos-el-dios-oscuro.jpg"
   },
   {
     "title": "Fafnir, el Dios Dragón",
@@ -4941,7 +4950,8 @@
       "art-1787664919295",
       "art-1783383790419",
       "art-1783383607565"
-    ]
+    ],
+    "image_url": "/images/covers/fafnir-el-dios-dragon.jpg"
   },
   {
     "title": "Casa Vindland",
@@ -5006,7 +5016,7 @@
     "id": "art-1787665738452",
     "created_date": "2026-08-25T13:49:02.984Z",
     "updated_date": "2026-09-15T10:09:13.224Z",
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/060/711/106/4k/rayven-studios-monk-loe-1.jpg?1679152704",
+    "image_url": "/images/covers/ki-energia-vital.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -5156,7 +5166,8 @@
       "plano": [],
       "criatura": [],
       "entidad": []
-    }
+    },
+    "image_url": "/images/covers/santuario-de-la-mano-abierta.webp"
   },
   {
     "title": "Monjes de la Mano Abierta",
@@ -5186,7 +5197,8 @@
     "updated_date": "2026-08-25T13:48:45.490Z",
     "related_article_ids": [
       "art-1787665738452"
-    ]
+    ],
+    "image_url": "/images/covers/monjes-de-la-mano-abierta.png"
   },
   {
     "title": "Nigromancia",
@@ -5217,7 +5229,7 @@
     "id": "art-1787665654504",
     "created_date": "2026-08-25T13:47:39.847Z",
     "updated_date": "2026-09-24T10:16:17.887Z",
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/000/977/384/large/roman-tishenin-37-2v.jpg?1437412479",
+    "image_url": "/images/covers/nigromancia.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -5349,7 +5361,7 @@
     "id": "art-1787665642246",
     "created_date": "2026-08-25T13:47:28.807Z",
     "updated_date": "2026-09-24T10:16:20.832Z",
-    "image_url": "https://i.pinimg.com/originals/54/33/96/5433963d86e8f1bba55ce613c3415c0d.jpg",
+    "image_url": "/images/covers/magos.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -6217,7 +6229,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/004/972/423/large/harang-warrior.jpg?1487590807"
+    "image_url": "/images/covers/guerrero.jpg"
   },
   {
     "title": "Wild Shape",
@@ -6246,7 +6258,7 @@
     "id": "art-1787665519962",
     "created_date": "2026-08-25T13:45:22.457Z",
     "updated_date": "2026-08-26T10:01:18.244Z",
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/011/282/624/large/svetlin-velinov-bristling-boar.jpg?1528791623",
+    "image_url": "/images/covers/wild-shape.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -6298,7 +6310,7 @@
     "id": "art-1787665511485",
     "created_date": "2026-08-25T13:45:13.982Z",
     "updated_date": "2026-08-26T09:42:18.711Z",
-    "image_url": "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/07/new-phb-druid-art-1.jpg",
+    "image_url": "/images/covers/druida.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -6351,7 +6363,7 @@
     "id": "art-1787665469294",
     "created_date": "2026-08-25T13:44:35.110Z",
     "updated_date": "2026-08-26T09:43:47.936Z",
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/036/469/404/large/chris-ibarra-ba99a7e8-2126-47f7-ba9c-bd8469ebd3e5.jpg?1617758455",
+    "image_url": "/images/covers/hexblade.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -6424,7 +6436,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/003/968/066/large/anthony-star-soul-slaver.jpg?1479038309"
+    "image_url": "/images/covers/brujo.jpg"
   },
   {
     "title": "Bárbaro",
@@ -6474,7 +6486,7 @@
     "id": "art-1787665344156",
     "created_date": "2026-08-25T13:42:30.923Z",
     "updated_date": "2026-08-26T09:44:48.376Z",
-    "image_url": "https://www.dndbeyond.com/attachments/10/350/barbarian-class-features.jpg",
+    "image_url": "/images/covers/barbaro.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -6541,7 +6553,7 @@
     "id": "art-1787665333562",
     "created_date": "2026-08-25T13:42:19.010Z",
     "updated_date": "2026-08-26T11:09:12.384Z",
-    "image_url": "https://www.wargamer.com/wp-content/sites/wargamer/2023/03/dnd-goliath-5e-warrior.jpeg",
+    "image_url": "/images/covers/goliats.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -6583,7 +6595,7 @@
     "id": "art-1787665270474",
     "created_date": "2026-08-25T13:41:14.438Z",
     "updated_date": "2026-08-26T09:48:48.843Z",
-    "image_url": "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/07/bard-5e-dnd.jpg",
+    "image_url": "/images/covers/la-clase-de-bardo.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -6667,7 +6679,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://images.dungeonnexus.com/1024x1024/races/vulpin.jpg"
+    "image_url": "/images/covers/los-vulpins.jpg"
   },
   {
     "title": "El Tribunal",
@@ -6776,7 +6788,8 @@
       "art-1787665007919",
       "art-1783384032020",
       "art-1787666875758"
-    ]
+    ],
+    "image_url": "/images/covers/los-latentes.png"
   },
   {
     "title": "El Plano Material",
@@ -6937,7 +6950,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/006/544/781/large/thanh-tu-n-necro-retouch-rs.jpg?1499399902",
+    "image_url": "/images/covers/nigromantes.jpg",
     "embedded_graph": {
       "type": "magias",
       "subgraphType": "submagia",
@@ -7040,7 +7053,7 @@
     "id": "art-1787665020601",
     "created_date": "2026-08-25T13:37:05.805Z",
     "updated_date": "2026-09-15T10:10:15.219Z",
-    "image_url": "https://i.pinimg.com/originals/29/53/c5/2953c5d41c50f3632b16e0466269c20a.jpg",
+    "image_url": "/images/covers/magia-salvaje.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -7094,7 +7107,7 @@
     "id": "art-1787665014090",
     "created_date": "2026-08-25T13:36:58.360Z",
     "updated_date": "2026-09-15T09:35:13.294Z",
-    "image_url": "https://cdnb.artstation.com/p/assets/covers/images/082/942/407/large/victor-maury-victor-maury-vikthumbnail.jpg?1734357334",
+    "image_url": "/images/covers/magia-arcana.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -7159,7 +7172,7 @@
     "id": "art-1787665007919",
     "created_date": "2026-08-25T13:36:52.012Z",
     "updated_date": "2026-09-24T09:49:13.422Z",
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/016/396/265/large/tara-spruit-fairyloot-april8.jpg?1551992010",
+    "image_url": "/images/covers/magia-oscura.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -7222,7 +7235,7 @@
     "id": "art-1787665002090",
     "created_date": "2026-08-25T13:36:45.633Z",
     "updated_date": "2026-09-15T09:48:30.242Z",
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/006/578/604/large/nordeus-games-art-station-environment-tower.jpg?1499686046",
+    "image_url": "/images/covers/magia-extraplanar.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -7276,7 +7289,7 @@
     "id": "art-1787664997115",
     "created_date": "2026-08-25T13:36:40.048Z",
     "updated_date": "2026-09-15T09:51:04.377Z",
-    "image_url": "https://i.pinimg.com/736x/de/08/8f/de088f6ff7327de602a94aafd0c869e4.jpg",
+    "image_url": "/images/covers/magia-natural.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -7329,7 +7342,7 @@
     "id": "art-1787664991651",
     "created_date": "2026-08-25T13:36:35.142Z",
     "updated_date": "2026-09-15T10:13:29.756Z",
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/044/087/841/large/marta-nael-moon-blessed-martanael.jpg?1639056024",
+    "image_url": "/images/covers/magia-divina.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -7390,7 +7403,7 @@
       "art-1787666875758",
       "art-1787664906161"
     ],
-    "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/e437098d-0bcc-41b6-b7f9-7dd4630269e1/d5ditq6-7ed44050-340d-4cca-a9d8-e194abe24f2f.jpg/v1/fill/w_900,h_600,q_75,strp/colourful_cosmos__by_maspix_d5ditq6-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2U0MzcwOThkLTBiY2MtNDFiNi1iN2Y5LTdkZDQ2MzAyNjllMVwvZDVkaXRxNi03ZWQ0NDA1MC0zNDBkLTRjY2EtYTlkOC1lMTk0YWJlMjRmMmYuanBnIiwiaGVpZ2h0IjoiPD02MDAiLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLndhdGVybWFyayJdLCJ3bWsiOnsicGF0aCI6Ilwvd21cL2U0MzcwOThkLTBiY2MtNDFiNi1iN2Y5LTdkZDQ2MzAyNjllMVwvbWFzcGl4LTQucG5nIiwib3BhY2l0eSI6OTUsInByb3BvcnRpb25zIjowLjQ1LCJncmF2aXR5IjoiY2VudGVyIn19.FK4HNWzl9hnFYLgASosYoYtn-2Iuz_s8DnZ-V5VgEII",
+    "image_url": "/images/covers/universo-caldo-de-dragon.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -7435,7 +7448,8 @@
       "art-1787664913096",
       "art-1787665642246",
       "art-1787664906161"
-    ]
+    ],
+    "image_url": "/images/covers/primordiales.webp"
   },
   {
     "title": "Poder Cósmico",
@@ -7463,7 +7477,7 @@
     "id": "art-1787664913096",
     "created_date": "2026-08-25T13:35:17.079Z",
     "updated_date": "2026-08-26T10:08:56.647Z",
-    "image_url": "https://i.pinimg.com/originals/78/39/0d/78390d564d0480161bc8f6448ff74dd2.jpg",
+    "image_url": "/images/covers/poder-cosmico.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -7506,7 +7520,7 @@
     "id": "art-1787664906161",
     "created_date": "2026-08-25T13:35:11.144Z",
     "updated_date": "2026-09-22T08:31:20.636Z",
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/002/255/440/large/james-paick-epic-10122015-orion-final-copy.jpg?1459377343",
+    "image_url": "/images/covers/magia.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -7568,7 +7582,8 @@
       "art-1787665587156",
       "art-1787665642246",
       "art-1787664906161"
-    ]
+    ],
+    "image_url": "/images/covers/culto-a-los-dragones.png"
   },
   {
     "title": "Seguidores de la Luna Oscura",
@@ -7664,7 +7679,8 @@
     "updated_date": "2026-08-25T13:33:02.948Z",
     "related_article_ids": [
       "art-1787665007919"
-    ]
+    ],
+    "image_url": "/images/covers/plaga-de-las-bestias.jpg"
   },
   {
     "title": "Logario",
@@ -7768,7 +7784,8 @@
     "updated_date": "2026-08-25T13:32:46.485Z",
     "related_article_ids": [
       "6a1f4dc1fd1a6f15209d7ed1"
-    ]
+    ],
+    "image_url": "/images/covers/la-blanca-inquisicion.webp"
   },
   {
     "title": "La Blanca Vía",
@@ -7818,7 +7835,8 @@
     "related_article_ids": [
       "art-1787664778919",
       "art-1787665886484"
-    ]
+    ],
+    "image_url": "/images/covers/la-blanca-via.jpg"
   },
   {
     "title": "Guerreros de la Luz Solar",
@@ -7918,7 +7936,8 @@
     "related_article_ids": [
       "art-1787664785063",
       "art-1787664592459"
-    ]
+    ],
+    "image_url": "/images/covers/devotos-de-la-reina.png"
   },
   {
     "title": "La Luna Oscura",
@@ -7970,7 +7989,8 @@
       "art-1787664677442",
       "art-1787664598469",
       "art-1787666807809"
-    ]
+    ],
+    "image_url": "/images/covers/la-luna-oscura.png"
   },
   {
     "title": "Blackguard",
@@ -8022,7 +8042,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://i.pinimg.com/736x/8c/56/c1/8c56c1aedf78e03138c7af7a0e7e8bab.jpg"
+    "image_url": "/images/covers/blackguard.jpg"
   },
   {
     "title": "Los Nueve Infiernos",
@@ -8055,7 +8075,7 @@
       "art-1787666875758",
       "art-1787666796733"
     ],
-    "image_url": "https://i.pinimg.com/736x/60/9d/94/609d94db1cac87869dc759efae523e6a.jpg",
+    "image_url": "/images/covers/los-nueve-infiernos.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -8100,7 +8120,7 @@
       "art-1787666625565",
       "art-1787666875758"
     ],
-    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/d/d1/Astral_ships-4e.jpg/revision/latest?cb=20200627164413",
+    "image_url": "/images/covers/plano-astral.webp",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -8156,7 +8176,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/2/24/CityOfBrass4e.jpg/revision/latest?cb=20150906150034",
+    "image_url": "/images/covers/plano-del-fuego.webp",
     "map_url": "https://cartocraft-v2.ai.studio/#/map/map-1yn70y0/no-ui?markers=false&lights=true&helpers=false&root=map-1yn70y0"
   },
   {
@@ -8230,7 +8250,7 @@
     "id": "art-1787664340909",
     "created_date": "2026-08-25T13:25:48.076Z",
     "updated_date": "2026-08-26T09:46:21.847Z",
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/066/919/162/large/sam-ee-spb-concept-final-colour2.jpg?1716899999",
+    "image_url": "/images/covers/planeshifter.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -8286,7 +8306,7 @@
     "id": "art-1787664178463",
     "created_date": "2026-08-25T13:23:03.499Z",
     "updated_date": "2026-08-26T10:19:59.085Z",
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/024/241/652/large/lily-morran-belousova10-fixed-1200.jpg?1581778587",
+    "image_url": "/images/covers/conocimiento-arcano.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -8360,7 +8380,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://i1.wp.com/dmdave.com/wp-content/uploads/2018/10/pistolero.jpg?fit=800%2C450&ssl=1"
+    "image_url": "/images/covers/pistolero.jpg"
   },
   {
     "title": "Armas de Fuego",
@@ -8396,7 +8416,7 @@
     "id": "art-1787664152333",
     "created_date": "2026-08-25T13:22:44.169Z",
     "updated_date": "2026-08-26T10:43:18.095Z",
-    "image_url": "https://cdnb.artstation.com/p/assets/images/images/012/844/651/large/guillaume-sinou-screenshot000-2.jpg?1536796181",
+    "image_url": "/images/covers/armas-de-fuego.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -8447,7 +8467,7 @@
     "id": "art-1787664028334",
     "created_date": "2026-08-25T13:20:35.814Z",
     "updated_date": "2026-08-26T09:49:43.610Z",
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/065/657/886/large/dani-delgado-eddie.jpg?1690907054",
+    "image_url": "/images/covers/armero.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -8486,7 +8506,8 @@
       "art-1787665014090",
       "art-1787665642246"
     ],
-    "map_url": "https://cartocraft-v2.ai.studio/#/map/6a33c6fb7fcb71b00f8684d7/no-ui?markers=false&lights=true&helpers=false&root=6a33c6fb7fcb71b00f8684d7"
+    "map_url": "https://cartocraft-v2.ai.studio/#/map/6a33c6fb7fcb71b00f8684d7/no-ui?markers=false&lights=true&helpers=false&root=6a33c6fb7fcb71b00f8684d7",
+    "image_url": "/images/covers/la-gran-biblioteca-de-kaliria-mt7cxkz1.jpg"
   },
   {
     "id": "art-1787582919040",
@@ -8500,7 +8521,7 @@
     "timeline_order": [],
     "created_date": "2026-08-24T14:48:40.775Z",
     "updated_date": "2026-09-03T08:25:08.300Z",
-    "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/5bb775e1-8bda-4773-880a-34894f3f5257/depe61q-4b19a8f2-8b06-48bf-b770-d66de9868bbd.png/v1/fill/w_622,h_350,q_70,strp/coliseo_concept_by_halemartist_depe61q-350t.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6Ii9mLzViYjc3NWUxLThiZGEtNDc3My04ODBhLTM0ODk0ZjNmNTI1Ny9kZXBlNjFxLTRiMTlhOGYyLThiMDYtNDhiZi1iNzcwLWQ2NmRlOTg2OGJiZC5wbmciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.8puxmsE6JWcnXpgMseesRptfAfq3-lKfiI7q16RS2YI",
+    "image_url": "/images/covers/coliseo-de-catarina-mt7cpt8n.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -8578,7 +8599,7 @@
     ],
     "created_date": "2026-08-12T14:48:49.565Z",
     "updated_date": "2026-09-24T10:10:09.256Z",
-    "image_url": "https://i.imgur.com/sw5OzfP.png",
+    "image_url": "/images/covers/drangleic-alternativo-msq7fs0t.png",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -8736,7 +8757,8 @@
       "entidad": [
         "Elfo"
       ]
-    }
+    },
+    "image_url": "/images/covers/faustus.png"
   },
   {
     "title": "Fara",
@@ -8813,7 +8835,8 @@
       "entidad": [
         "Elfo"
       ]
-    }
+    },
+    "image_url": "/images/covers/fara.png"
   },
   {
     "title": "Limeyr",
@@ -8875,7 +8898,7 @@
     "id": "art-1784457896936",
     "created_date": "2026-07-19T10:44:57.832Z",
     "updated_date": "2026-09-17T10:50:15.164Z",
-    "image_url": "https://i.imgur.com/K1xvoFz.png",
+    "image_url": "/images/covers/limeyr.png",
     "gallery": [],
     "related_article_ids": [],
     "monsters": [],
@@ -8935,7 +8958,8 @@
     "updated_date": "2026-07-19T10:44:47.836Z",
     "related_article_ids": [
       "art-1784457936358"
-    ]
+    ],
+    "image_url": "/images/covers/grimorios-de-faustus.png"
   },
   {
     "id": "art-1783715624151",
@@ -9005,7 +9029,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/061/996/574/large/mael-jaouen-ep2-pm-firstportal.jpg?1682093343",
+    "image_url": "/images/covers/magia-de-los-espejos-mrfe8ahx.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "monsters": [],
@@ -9102,7 +9126,8 @@
         "Demonio"
       ]
     },
-    "map_url": "https://cartocraft-v2.ai.studio/#/map/6a3421b268196ec66c7119aa/no-ui?markers=false&lights=true&helpers=false&root=6a3421b268196ec66c7119aa"
+    "map_url": "https://cartocraft-v2.ai.studio/#/map/6a3421b268196ec66c7119aa/no-ui?markers=false&lights=true&helpers=false&root=6a3421b268196ec66c7119aa",
+    "image_url": "/images/covers/academia-de-los-espejos-de-drangleic-mrfddq1b.png"
   },
   {
     "id": "art-1783713825197",
@@ -9176,7 +9201,7 @@
     "monster_images": {
       "imp": "https://www.dndbeyond.com/avatars/thumbnails/30782/21/1000/1000/638061948417487055.png"
     },
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/032/345/906/large/arvin-villapando-avillapando-boleteriavista-01.jpg?1606176511",
+    "image_url": "/images/covers/glacio-mrfd5pzs.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "cozy_fx": {
@@ -9266,7 +9291,8 @@
         "Demonio"
       ]
     },
-    "map_url": "https://cartocraft-v2.ai.studio/#/map/6a33e9f9fe22112fec81abab/no-ui?markers=false&lights=true&helpers=false&root=6a33e9f9fe22112fec81abab"
+    "map_url": "https://cartocraft-v2.ai.studio/#/map/6a33e9f9fe22112fec81abab/no-ui?markers=false&lights=true&helpers=false&root=6a33e9f9fe22112fec81abab",
+    "image_url": "/images/covers/mehetia-mrfciyvp.png"
   },
   {
     "id": "art-1783712480274",
@@ -9333,7 +9359,7 @@
       "tl-torre-de-latria-mrfccvm3-1785317321540-4",
       "tl-torre-de-latria-mrfccvm3-1785317321541-5"
     ],
-    "image_url": "https://cloudfront-eu-central-1.images.arcpublishing.com/diarioas/LOJEEGFVIZOOPN3EMATR6SYNZQ.jpg",
+    "image_url": "/images/covers/torre-de-latria-mrfccvm3.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -9434,7 +9460,8 @@
     "related_article_ids": [
       "art-1787664997115",
       "art-1787664991651"
-    ]
+    ],
+    "image_url": "/images/covers/arbol-aureo-mrf9a5jc.png"
   },
   {
     "id": "art-1783683254944",
@@ -9486,7 +9513,7 @@
         "Elfo"
       ]
     },
-    "image_url": "https://i.imgur.com/ToFeTOJ.png",
+    "image_url": "/images/covers/palacio-de-los-elfos-de-siramar-mreuygo8.png",
     "animation_frames": "{\"elements\":[{\"type\":\"waterfall_flow\",\"color\":\"rgba(100, 200, 255, 0.4)\",\"base_x\":50,\"base_y\":30,\"width\":80,\"height\":30,\"frames\":[{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0,\"offset_y\":0.416,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":3.45},{\"offset_x\":0,\"offset_y\":0.813,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":6.9},{\"offset_x\":0,\"offset_y\":1.176,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":10.34},{\"offset_x\":0,\"offset_y\":1.486,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":13.79},{\"offset_x\":0,\"offset_y\":1.732,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":17.24},{\"offset_x\":0,\"offset_y\":1.902,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":20.69},{\"offset_x\":0,\"offset_y\":1.989,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":24.14},{\"offset_x\":0,\"offset_y\":1.989,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":27.59},{\"offset_x\":0,\"offset_y\":1.902,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":31.03},{\"offset_x\":0,\"offset_y\":1.732,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":34.48},{\"offset_x\":0,\"offset_y\":1.486,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":37.93},{\"offset_x\":0,\"offset_y\":1.176,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":41.38},{\"offset_x\":0,\"offset_y\":0.813,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":44.83},{\"offset_x\":0,\"offset_y\":0.416,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":48.28},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":51.72},{\"offset_x\":0,\"offset_y\":-0.416,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":55.17},{\"offset_x\":0,\"offset_y\":-0.813,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":58.62},{\"offset_x\":0,\"offset_y\":-1.176,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":62.07},{\"offset_x\":0,\"offset_y\":-1.486,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":65.52},{\"offset_x\":0,\"offset_y\":-1.732,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":68.97},{\"offset_x\":0,\"offset_y\":-1.902,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":72.41},{\"offset_x\":0,\"offset_y\":-1.989,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":75.86},{\"offset_x\":0,\"offset_y\":-1.989,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":79.31},{\"offset_x\":0,\"offset_y\":-1.902,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":82.76},{\"offset_x\":0,\"offset_y\":-1.732,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":86.21},{\"offset_x\":0,\"offset_y\":-1.486,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":89.66},{\"offset_x\":0,\"offset_y\":-1.176,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":93.1},{\"offset_x\":0,\"offset_y\":-0.813,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":96.55},{\"offset_x\":0,\"offset_y\":-0.416,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":100}]},{\"type\":\"ambient_particles\",\"color\":\"rgba(255, 200, 50, 0.3)\",\"base_x\":50,\"base_y\":50,\"width\":100,\"height\":100,\"frames\":[{\"offset_x\":0,\"offset_y\":1,\"opacity\":0.6,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0.208,\"offset_y\":0.978,\"opacity\":0.681,\"scale\":1,\"rotate\":0,\"custom_value\":3.45},{\"offset_x\":0.407,\"offset_y\":0.914,\"opacity\":0.749,\"scale\":1,\"rotate\":0,\"custom_value\":6.9},{\"offset_x\":0.588,\"offset_y\":0.809,\"opacity\":0.79,\"scale\":1,\"rotate\":0,\"custom_value\":10.34},{\"offset_x\":0.743,\"offset_y\":0.669,\"opacity\":0.799,\"scale\":1,\"rotate\":0,\"custom_value\":13.79},{\"offset_x\":0.866,\"offset_y\":0.5,\"opacity\":0.773,\"scale\":1,\"rotate\":0,\"custom_value\":17.24},{\"offset_x\":0.951,\"offset_y\":0.309,\"opacity\":0.718,\"scale\":1,\"rotate\":0,\"custom_value\":20.69},{\"offset_x\":0.995,\"offset_y\":0.105,\"opacity\":0.642,\"scale\":1,\"rotate\":0,\"custom_value\":24.14},{\"offset_x\":0.995,\"offset_y\":-0.105,\"opacity\":0.558,\"scale\":1,\"rotate\":0,\"custom_value\":27.59},{\"offset_x\":0.951,\"offset_y\":-0.309,\"opacity\":0.482,\"scale\":1,\"rotate\":0,\"custom_value\":31.03},{\"offset_x\":0.866,\"offset_y\":-0.5,\"opacity\":0.427,\"scale\":1,\"rotate\":0,\"custom_value\":34.48},{\"offset_x\":0.743,\"offset_y\":-0.669,\"opacity\":0.401,\"scale\":1,\"rotate\":0,\"custom_value\":37.93},{\"offset_x\":0.588,\"offset_y\":-0.809,\"opacity\":0.41,\"scale\":1,\"rotate\":0,\"custom_value\":41.38},{\"offset_x\":0.407,\"offset_y\":-0.914,\"opacity\":0.451,\"scale\":1,\"rotate\":0,\"custom_value\":44.83},{\"offset_x\":0.208,\"offset_y\":-0.978,\"opacity\":0.519,\"scale\":1,\"rotate\":0,\"custom_value\":48.28},{\"offset_x\":0,\"offset_y\":-1,\"opacity\":0.6,\"scale\":1,\"rotate\":0,\"custom_value\":51.72},{\"offset_x\":-0.208,\"offset_y\":-0.978,\"opacity\":0.681,\"scale\":1,\"rotate\":0,\"custom_value\":55.17},{\"offset_x\":-0.407,\"offset_y\":-0.914,\"opacity\":0.749,\"scale\":1,\"rotate\":0,\"custom_value\":58.62},{\"offset_x\":-0.588,\"offset_y\":-0.809,\"opacity\":0.79,\"scale\":1,\"rotate\":0,\"custom_value\":62.07},{\"offset_x\":-0.743,\"offset_y\":-0.669,\"opacity\":0.799,\"scale\":1,\"rotate\":0,\"custom_value\":65.52},{\"offset_x\":-0.866,\"offset_y\":-0.5,\"opacity\":0.773,\"scale\":1,\"rotate\":0,\"custom_value\":68.97},{\"offset_x\":-0.951,\"offset_y\":-0.309,\"opacity\":0.718,\"scale\":1,\"rotate\":0,\"custom_value\":72.41},{\"offset_x\":-0.995,\"offset_y\":-0.105,\"opacity\":0.642,\"scale\":1,\"rotate\":0,\"custom_value\":75.86},{\"offset_x\":-0.995,\"offset_y\":0.105,\"opacity\":0.558,\"scale\":1,\"rotate\":0,\"custom_value\":79.31},{\"offset_x\":-0.951,\"offset_y\":0.309,\"opacity\":0.482,\"scale\":1,\"rotate\":0,\"custom_value\":82.76},{\"offset_x\":-0.866,\"offset_y\":0.5,\"opacity\":0.427,\"scale\":1,\"rotate\":0,\"custom_value\":86.21},{\"offset_x\":-0.743,\"offset_y\":0.669,\"opacity\":0.401,\"scale\":1,\"rotate\":0,\"custom_value\":89.66},{\"offset_x\":-0.588,\"offset_y\":0.809,\"opacity\":0.41,\"scale\":1,\"rotate\":0,\"custom_value\":93.1},{\"offset_x\":-0.407,\"offset_y\":0.914,\"opacity\":0.451,\"scale\":1,\"rotate\":0,\"custom_value\":96.55},{\"offset_x\":-0.208,\"offset_y\":0.978,\"opacity\":0.519,\"scale\":1,\"rotate\":0,\"custom_value\":100}]},{\"type\":\"glow_pulse\",\"color\":\"rgba(200, 100, 255, 0.5)\",\"base_x\":70,\"base_y\":70,\"width\":20,\"height\":20,\"frames\":[{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.604,\"scale\":1.042,\"rotate\":1.04,\"custom_value\":3.45},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.703,\"scale\":1.081,\"rotate\":2.034,\"custom_value\":6.9},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.794,\"scale\":1.118,\"rotate\":2.939,\"custom_value\":10.34},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.872,\"scale\":1.149,\"rotate\":3.716,\"custom_value\":13.79},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.933,\"scale\":1.173,\"rotate\":4.33,\"custom_value\":17.24},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.976,\"scale\":1.19,\"rotate\":4.756,\"custom_value\":20.69},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.997,\"scale\":1.199,\"rotate\":4.973,\"custom_value\":24.14},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.997,\"scale\":1.199,\"rotate\":4.973,\"custom_value\":27.59},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.976,\"scale\":1.19,\"rotate\":4.756,\"custom_value\":31.03},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.933,\"scale\":1.173,\"rotate\":4.33,\"custom_value\":34.48},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.872,\"scale\":1.149,\"rotate\":3.716,\"custom_value\":37.93},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.794,\"scale\":1.118,\"rotate\":2.939,\"custom_value\":41.38},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.703,\"scale\":1.081,\"rotate\":2.034,\"custom_value\":44.83},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.604,\"scale\":1.042,\"rotate\":1.04,\"custom_value\":48.28},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":1,\"rotate\":0,\"custom_value\":51.72},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.396,\"scale\":0.958,\"rotate\":-1.04,\"custom_value\":55.17},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.297,\"scale\":0.919,\"rotate\":-2.034,\"custom_value\":58.62},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.206,\"scale\":0.882,\"rotate\":-2.939,\"custom_value\":62.07},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.129,\"scale\":0.851,\"rotate\":-3.716,\"custom_value\":65.52},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.067,\"scale\":0.827,\"rotate\":-4.33,\"custom_value\":68.97},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.025,\"scale\":0.81,\"rotate\":-4.756,\"custom_value\":72.41},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.003,\"scale\":0.801,\"rotate\":-4.973,\"custom_value\":75.86},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.003,\"scale\":0.801,\"rotate\":-4.973,\"custom_value\":79.31},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.025,\"scale\":0.81,\"rotate\":-4.756,\"custom_value\":82.76},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.067,\"scale\":0.827,\"rotate\":-4.33,\"custom_value\":86.21},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.129,\"scale\":0.851,\"rotate\":-3.716,\"custom_value\":89.66},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.206,\"scale\":0.882,\"rotate\":-2.939,\"custom_value\":93.1},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.297,\"scale\":0.919,\"rotate\":-2.034,\"custom_value\":96.55},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.396,\"scale\":0.958,\"rotate\":-1.04,\"custom_value\":100}]}]}",
     "animate_illustration": true,
     "image_position_x": 77,
@@ -9598,7 +9625,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://i.imgur.com/Y7ebSA7.png",
+    "image_url": "/images/covers/avalon.png",
     "image_position_x": 50,
     "image_position_y": 50,
     "monsters": [],
@@ -9693,7 +9720,7 @@
         "Humano"
       ]
     },
-    "image_url": "https://i.imgur.com/TEvOTDh.png",
+    "image_url": "/images/covers/camelot.png",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -9743,7 +9770,8 @@
       "plano": [],
       "criatura": [],
       "entidad": []
-    }
+    },
+    "image_url": "/images/covers/la-capital.png"
   },
   {
     "title": "Máscara de Purga",
@@ -9815,7 +9843,8 @@
     "is_featured": false,
     "id": "art-1783680216668",
     "created_date": "2026-07-10T10:43:37.451Z",
-    "updated_date": "2026-07-29T09:28:56.960Z"
+    "updated_date": "2026-07-29T09:28:56.960Z",
+    "image_url": "/images/covers/parasito-de-cobre.png"
   },
   {
     "id": "art-1783643834135",
@@ -9826,7 +9855,7 @@
     "content": "<p><iframe src=\"https://cartocraft-v2.ai.studio/#/map/map-p8aeafz/no-ui?root=map-p8aeafz&markers=false&lights=true&helpers=false\" width=\"100%\" height=\"600\" class=\"w-full rounded-xl border border-primary/30 my-4\" allow=\"geolocation; fullscreen\"></iframe></p>\n<p>textotextotexto<strong><a href=\"/articulo/svarta\">Svartal</a></strong> es <a href=\"/articulo/la-capital\" class=\"text-primary hover:underline font-semibold\">la capital</a> del <a href=\"/articulo/gran-reino-enano-de-thorin-mrdtvqcc\">Gran Reino Enano de Thorin</a>, una ciudad dividida en dos niveles: la <strong>superficie</strong> y las <strong>profundidades subterráneas</strong>.</p>\n<h2>Estructura y División</h2>\n<p>La ciudad se estructura en dos niveles claramente diferenciados:</p>\n<ul>\n<li><strong>Nivel Superior (Superficie):</strong> Destinado principalmente a actividades turísticas, comercio y vida pública. Es la parte más accesible y visible de la ciudad.</li>\n</ul>\n<ul>\n<li><strong>Nivel Inferior (Subterráneo):</strong> Reserva exclusiva para la élite enana. Aquí se concentran los palacios, salones de poder y zonas de extracción de recursos. El acceso a este nivel está estrictamente controlado.</li>\n</ul>\n<h2>Acceso al Nivel Inferior</h2>\n<p>Para ganar el derecho a descender al nivel subterráneo, los enanos deben participar y ganar el <strong>torneo anual de <a href=\"/articulo/svarta\">Svartal</a></strong>. La arena donde se celebra el torneo funciona también como un ascensor, permitiendo el descenso de los ganadores a las profundidades de la ciudad.</p>\n<h2>Época de <a href=\"/articulo/kaelgor-loux\">Kaelgor Loux</a></h2>\n<p>Durante el tiránico reinado de <a href=\"/articulo/kaelgor-loux\">Kaelgor Loux</a>, el torneo perdió su propósito original y se convirtió en un mecanismo de explotación. Los participantes eran obligados a competir no solo por el honor, sino también para ser seleccionados como mano de obra esclava. Bajo su dictadura, la ciudad subterránea se dedicó a la extracción de <strong><a href=\"/articulo/magia-profana\" class=\"text-primary hover:underline font-semibold\">magia profana</a> cristalizada</strong>, un recurso que alimentaba su poder y control sobre el reino. La vida en el nivel inferior se caracterizó por una <strong>dictadura férrea</strong>, donde la opresión y el miedo eran moneda corriente.</p>\n<h2>Restauración bajo <a href=\"/articulo/familia-loux\">Utric Loux II</a></h2>\n<p>Tras el asesinato de <a href=\"/articulo/kaelgor-loux\">Kaelgor Loux</a>, su hijo <a href=\"/articulo/familia-loux\">Utric Loux II</a> asumió el trono y restauró el esplendor de <a href=\"/articulo/svarta\">Svartal</a>. Bajo su liderazgo, la ciudad recuperó su antigua gloria, y el torneo volvió a ser un símbolo de honor y competencia, no de explotación. La extracción de <a href=\"/articulo/magia-profana\" class=\"text-primary hover:underline font-semibold\">magia profana</a> cesó, y la ciudad subterránea recuperó su función como centro de poder y élite enana.</p>",
     "created_date": "2026-07-10T00:37:15.534Z",
     "updated_date": "2026-09-24T10:10:37.410Z",
-    "image_url": "https://i.imgur.com/jr08E4K.png",
+    "image_url": "/images/covers/svartal-mre7hjm6.png",
     "gallery": [],
     "infobox": {},
     "tags": [],
@@ -9885,7 +9914,7 @@
     "content": "<p>SiramarLos elfos llegaron a <a href=\"/articulo/avalon\">Avalon</a> desde el Plano de la Foresta, expandiéndose luego por <a href=\"/articulo/aeros\">Aeros</a>. Fundaron <strong><a href=\"/articulo/palacio-de-los-elfos-de-siramar-mreuygo8\">Siramar</a></strong>, la Joya del Mar, un reino que aprovechaba la potente <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a> de <a href=\"/articulo/avalon\">Avalon</a> para obtener energía.</p><p>Durante siglos, el rey de <a href=\"/articulo/palacio-de-los-elfos-de-siramar-mreuygo8\">Siramar</a>, primero <strong>Elyndar</strong> y luego su sucesor y mano derecha <strong>Thranduin</strong>, gobernaron con compasión. Colaboraron con humanos y enanos para crear las espadas de los Caballeros de la Mesa Redonda.</p><p>Cuando <a href=\"/articulo/arturo\">Arturo</a> cayó en la locura, las fuerzas mágicas se descontrolaron, haciendo que Elyndar cayera presa de la Primordial de la Vida. Su rey cayó, presa de una maldición, y su príncipe, <strong>Bedivere</strong>, hermano adoptivo del rey <a href=\"/articulo/arturo\">Arturo</a>, se dio a la bebida y el juego.</p><p>El rey de los elfos adoptó a <a href=\"/articulo/arturo\">Arturo</a> cuando este era un niño y aún no gobernaba <a href=\"/articulo/camelot\">Camelot</a>.</p>",
     "created_date": "2026-07-09T23:53:35.939Z",
     "updated_date": "2026-09-24T10:10:40.281Z",
-    "image_url": "https://i.imgur.com/KLCNYeW.png",
+    "image_url": "/images/covers/siramar-mre5xebn.png",
     "gallery": [],
     "infobox": {},
     "tags": [],
@@ -9973,7 +10002,7 @@
     "content": "<h2>Stariax</h2>\n<p>Stariax es una figura esbelta y ágil, con una presencia que irradia letalidad y frialdad.</p>\n<h2>Apariencia</h2>\n<p>Stariax es una figura esbelta y ágil, con una presencia que irradia letalidad y frialdad. Su cuerpo está marcado por cicatrices de pruebas y rituales, pero también por una agilidad sobrenatural. Sus movimientos son precisos y rápidos, como si el tiempo mismo se ralentizara a su alrededor. Sus ojos, fríos y vacíos, reflejan la ausencia de humanidad que alguna vez tuvo. Su piel, pálida y sin vida, contrasta con la oscuridad de su entorno. Viste ropas desgarradas y funcionales, diseñadas para el movimiento y la supervivencia, pero sin ningún adorno que delate su pasado.</p>\n<h2>Personalidad</h2>\n<p>Stariax es un ser consumido por el odio y la sed de venganza. Su mente está dominada por una voz que le susurra \"Todos deben morir\", una obsesión que la impulsa a eliminar cualquier amenaza o obstáculo en su camino. No siente remordimiento ni empatía, solo una frialdad calculadora y una determinación implacable. Su único propósito es destruir a quienes considera responsables de su sufrimiento, sin importar el costo. Aunque alguna vez tuvo amor por su hermano y esperanza de escapar, ahora solo existe el vacío y la necesidad de matar.</p>\n<h2>Historia</h2>\n<p>Stariax nació en una familia humilde, pero su vida dio un giro oscuro cuando, a una edad temprana, sus padres, ahogados en deudas y miedo, la vendieron junto a su hermano a un <a href=\"/articulo/hechicero\">hechicero</a> ligado a una poderosa <a href=\"/articulo/secta-oscura\">secta oscura</a>. El <a href=\"/articulo/hechicero\">hechicero</a> no veía en ellos a niños, sino en material en potencia para crear una criatura perfecta: rápida, letal y sin emociones. Los llevó a un castillo, donde el sol no entraba y solo reinaba el polvo y la humedad. Allí, Stariax y su hermano fueron sometidos a pruebas, rituales y castigos interminables. Stariax siempre se levantó más fuerte, más rápida y más fría, pero su hermano, de constitución más frágil, no resistía igual. Stariax lo protegía, asegurándole que algún día escaparían.</p>\n<p>Un día, el <a href=\"/articulo/hechicero\">hechicero</a> decidió que el hermano de Stariax había fallado y ya no le servía. Obligada a mirar, encadenada e inmóvil, Stariax vio cómo el <a href=\"/articulo/hechicero\">hechicero</a> iniciaba un conjuro que terminó con la vida de su hermano. Pero el hechizo, aún incompleto, se desbordó, y una parte de esa magia entró en Stariax. Ese fue el momento en que algo dentro de ella murió y algo más nació. Un vacío se llenó completamente de odio, odio sin forma ni razón, dirigido no solo hacia el <a href=\"/articulo/hechicero\">hechicero</a>, sino hacia todo lo que la rodeaba. Rompió sus cadenas y, por primera vez, el <a href=\"/articulo/hechicero\">hechicero</a> sintió miedo. Fue ejecutado en un instante. El dolor la había convertido en algo inhumano.</p>\n<p>Desde entonces, Stariax solo siente odio y sed de venganza. Su cuerpo es ligero, rápido y letal, y sus sentidos están afilados como cuchillas. Pero su mente está consumida por la voz que le susurra \"Todos deben morir\". Pronto descubrió que el <a href=\"/articulo/hechicero\">hechicero</a> no estaba solo; formaba parte de una <a href=\"/articulo/secta-oscura\">secta oscura</a> que seguía creando monstruos. Su objetivo se volvió claro: matar a todos hasta que no quedara ni uno en pie, cueste lo que cueste.</p>\n<p>Tras su transformación en una criatura letal y consumida por el odio, Stariax vagó por el mundo hasta que, durante la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a> a <a href=\"#\">Ávalon</a>, llegó a <a href=\"#\">Svartal</a>, en el <a href=\"/articulo/gran-reino-enano-de-thorin-mrdtvqcc\">Gran Reino Enano de Thorin</a>. Al enterarse de que el grupo carecía de un miembro para competir en el  torndeo se unió a ellos. Su habilidad en combate y su sed de venganza resultaron clave para derrotar a <a href=\"/articulo/kaelgor-loux\">Kaelgor Loux</a>. Tras la victoria, Stariax se unió oficialmente a la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a>, consolidando su lugar como parte del grupo.</p>\n<h2>Habilidades y poderes</h2>\n<ul>\n<li><strong>Agilidad sobrenatural:</strong> Su cuerpo es increíblemente ágil, capaz de moverse a velocidades inhumanas y esquivar ataques con facilidad.</li>\n<li><strong>Sentidos afilados:</strong> Sus sentidos están tan desarrollados que puede detectar presencias, olores y sonidos a distancias imposibles para un humano normal.</li>\n<li><strong>Resistencia extrema:</strong> Ha sido sometida a pruebas brutales que la han hecho resistente al dolor y a la fatiga, permitiéndole continuar incluso en condiciones extremas.</li>\n<li><strong>Frialdad mental:</strong> Su mente está tan consumida por el odio que no siente miedo ni remordimiento, lo que la hace un enemigo implacable.</li>\n<li><strong>Armas naturales:</strong> Sus manos y pies están adaptados para el combate, con garras y golpes letales que pueden matar instantáneamente.</li>\n</ul>\n<h2>Curiosidades</h2>\n<ul>\n<li>Stariax no recuerda su nombre de nacimiento ni el de su hermano, ya que todo su pasado fue borrado por los experimentos de la <a href=\"/articulo/secta-oscura\">secta oscura</a>.</li>\n<li>Su odio no está dirigido solo a quienes la dañaron, sino a todo lo que existe, incluyendo a los inocentes.</li>\n<li>Aunque su cuerpo es humanoide, su fisiología ha sido alterada por la <a href=\"/articulo/magia-oscura\">magia oscura</a>, dándole habilidades sobrehumanas.</li>\n<li>La <a href=\"/articulo/secta-oscura\">secta oscura</a> que la creó sigue activa, y Stariax busca destruirla como parte de su venganza.</li>\n</ul>",
     "created_date": "2026-07-09T23:25:05.482Z",
     "updated_date": "2026-09-17T10:50:33.912Z",
-    "image_url": "https://i.imgur.com/Ze5uD25.png",
+    "image_url": "/images/covers/stariax-mre4wqiy.png",
     "gallery": [],
     "infobox": {
       "Nombre real": "Desconocido",
@@ -10147,7 +10176,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://i.imgur.com/HbwnO2N.png",
+    "image_url": "/images/covers/gran-reino-enano-de-thorin-mrdtvqcc.png",
     "animation_frames": "{\"elements\":[{\"type\":\"ambient_particles\",\"color\":\"rgba(255, 200, 50, 0.3)\",\"base_x\":50,\"base_y\":30,\"width\":20,\"height\":20,\"frames\":[{\"offset_x\":0,\"offset_y\":2,\"opacity\":0.5,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0.42,\"offset_y\":1.96,\"opacity\":0.6,\"scale\":1.02,\"rotate\":1.04,\"custom_value\":3.33},{\"offset_x\":0.81,\"offset_y\":1.83,\"opacity\":0.7,\"scale\":1.04,\"rotate\":2.03,\"custom_value\":6.67},{\"offset_x\":1.18,\"offset_y\":1.62,\"opacity\":0.79,\"scale\":1.06,\"rotate\":2.94,\"custom_value\":10},{\"offset_x\":1.49,\"offset_y\":1.34,\"opacity\":0.87,\"scale\":1.07,\"rotate\":3.72,\"custom_value\":13.33},{\"offset_x\":1.73,\"offset_y\":1,\"opacity\":0.93,\"scale\":1.09,\"rotate\":4.33,\"custom_value\":16.67},{\"offset_x\":1.9,\"offset_y\":0.62,\"opacity\":0.98,\"scale\":1.1,\"rotate\":4.76,\"custom_value\":20},{\"offset_x\":1.99,\"offset_y\":0.21,\"opacity\":1,\"scale\":1.1,\"rotate\":4.97,\"custom_value\":23.33},{\"offset_x\":1.99,\"offset_y\":-0.21,\"opacity\":1,\"scale\":1.1,\"rotate\":4.97,\"custom_value\":26.67},{\"offset_x\":1.9,\"offset_y\":-0.62,\"opacity\":0.98,\"scale\":1.1,\"rotate\":4.76,\"custom_value\":30},{\"offset_x\":1.73,\"offset_y\":-1,\"opacity\":0.93,\"scale\":1.09,\"rotate\":4.33,\"custom_value\":33.33},{\"offset_x\":1.49,\"offset_y\":-1.34,\"opacity\":0.87,\"scale\":1.07,\"rotate\":3.72,\"custom_value\":36.67},{\"offset_x\":1.18,\"offset_y\":-1.62,\"opacity\":0.79,\"scale\":1.06,\"rotate\":2.94,\"custom_value\":40},{\"offset_x\":0.81,\"offset_y\":-1.83,\"opacity\":0.7,\"scale\":1.04,\"rotate\":2.03,\"custom_value\":43.33},{\"offset_x\":0.42,\"offset_y\":-1.96,\"opacity\":0.6,\"scale\":1.02,\"rotate\":1.04,\"custom_value\":46.67},{\"offset_x\":0,\"offset_y\":-2,\"opacity\":0.5,\"scale\":1,\"rotate\":0,\"custom_value\":50},{\"offset_x\":-0.42,\"offset_y\":-1.96,\"opacity\":0.4,\"scale\":0.98,\"rotate\":-1.04,\"custom_value\":53.33},{\"offset_x\":-0.81,\"offset_y\":-1.83,\"opacity\":0.3,\"scale\":0.96,\"rotate\":-2.03,\"custom_value\":56.67},{\"offset_x\":-1.18,\"offset_y\":-1.62,\"opacity\":0.21,\"scale\":0.94,\"rotate\":-2.94,\"custom_value\":60},{\"offset_x\":-1.49,\"offset_y\":-1.34,\"opacity\":0.13,\"scale\":0.93,\"rotate\":-3.72,\"custom_value\":63.33},{\"offset_x\":-1.73,\"offset_y\":-1,\"opacity\":0.07,\"scale\":0.91,\"rotate\":-4.33,\"custom_value\":66.67},{\"offset_x\":-1.9,\"offset_y\":-0.62,\"opacity\":0.02,\"scale\":0.9,\"rotate\":-4.76,\"custom_value\":70},{\"offset_x\":-1.99,\"offset_y\":-0.21,\"opacity\":0,\"scale\":0.9,\"rotate\":-4.97,\"custom_value\":73.33},{\"offset_x\":-1.99,\"offset_y\":0.21,\"opacity\":0,\"scale\":0.9,\"rotate\":-4.97,\"custom_value\":76.67},{\"offset_x\":-1.9,\"offset_y\":0.62,\"opacity\":0.02,\"scale\":0.9,\"rotate\":-4.76,\"custom_value\":80},{\"offset_x\":-1.73,\"offset_y\":1,\"opacity\":0.07,\"scale\":0.91,\"rotate\":-4.33,\"custom_value\":83.33},{\"offset_x\":-1.49,\"offset_y\":1.34,\"opacity\":0.13,\"scale\":0.93,\"rotate\":-3.72,\"custom_value\":86.67},{\"offset_x\":-1.18,\"offset_y\":1.62,\"opacity\":0.21,\"scale\":0.94,\"rotate\":-2.94,\"custom_value\":90},{\"offset_x\":-0.81,\"offset_y\":1.83,\"opacity\":0.3,\"scale\":0.96,\"rotate\":-2.03,\"custom_value\":93.33},{\"offset_x\":-0.42,\"offset_y\":1.96,\"opacity\":0.4,\"scale\":0.98,\"rotate\":-1.04,\"custom_value\":96.67}]},{\"type\":\"glow_pulse\",\"color\":\"rgba(100, 200, 255, 0.4)\",\"base_x\":50,\"base_y\":40,\"width\":30,\"height\":30,\"frames\":[{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.76,\"scale\":1.04,\"rotate\":0,\"custom_value\":3.33},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.82,\"scale\":1.08,\"rotate\":0,\"custom_value\":6.67},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.88,\"scale\":1.12,\"rotate\":0,\"custom_value\":10},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.92,\"scale\":1.15,\"rotate\":0,\"custom_value\":13.33},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.96,\"scale\":1.17,\"rotate\":0,\"custom_value\":16.67},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.99,\"scale\":1.19,\"rotate\":0,\"custom_value\":20},{\"offset_x\":0,\"offset_y\":0,\"opacity\":1,\"scale\":1.2,\"rotate\":0,\"custom_value\":23.33},{\"offset_x\":0,\"offset_y\":0,\"opacity\":1,\"scale\":1.2,\"rotate\":0,\"custom_value\":26.67},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.99,\"scale\":1.19,\"rotate\":0,\"custom_value\":30},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.96,\"scale\":1.17,\"rotate\":0,\"custom_value\":33.33},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.92,\"scale\":1.15,\"rotate\":0,\"custom_value\":36.67},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.88,\"scale\":1.12,\"rotate\":0,\"custom_value\":40},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.82,\"scale\":1.08,\"rotate\":0,\"custom_value\":43.33},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.76,\"scale\":1.04,\"rotate\":0,\"custom_value\":46.67},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":50},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.64,\"scale\":0.96,\"rotate\":0,\"custom_value\":53.33},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.58,\"scale\":0.92,\"rotate\":0,\"custom_value\":56.67},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.52,\"scale\":0.88,\"rotate\":0,\"custom_value\":60},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.48,\"scale\":0.85,\"rotate\":0,\"custom_value\":63.33},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.44,\"scale\":0.83,\"rotate\":0,\"custom_value\":66.67},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.41,\"scale\":0.81,\"rotate\":0,\"custom_value\":70},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.4,\"scale\":0.8,\"rotate\":0,\"custom_value\":73.33},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.4,\"scale\":0.8,\"rotate\":0,\"custom_value\":76.67},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.41,\"scale\":0.81,\"rotate\":0,\"custom_value\":80},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.44,\"scale\":0.83,\"rotate\":0,\"custom_value\":83.33},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.48,\"scale\":0.85,\"rotate\":0,\"custom_value\":86.67},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.52,\"scale\":0.88,\"rotate\":0,\"custom_value\":90},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.58,\"scale\":0.92,\"rotate\":0,\"custom_value\":93.33},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.64,\"scale\":0.96,\"rotate\":0,\"custom_value\":96.67}]},{\"type\":\"flying_animal\",\"color\":\"rgba(200, 100, 255, 0.5)\",\"base_x\":20,\"base_y\":20,\"width\":60,\"height\":30,\"frames\":[{\"offset_x\":0,\"offset_y\":1,\"opacity\":0.9,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0.62,\"offset_y\":0.98,\"opacity\":0.92,\"scale\":1.01,\"rotate\":2.08,\"custom_value\":3.33},{\"offset_x\":1.22,\"offset_y\":0.91,\"opacity\":0.94,\"scale\":1.02,\"rotate\":4.07,\"custom_value\":6.67},{\"offset_x\":1.76,\"offset_y\":0.81,\"opacity\":0.96,\"scale\":1.03,\"rotate\":5.88,\"custom_value\":10},{\"offset_x\":2.23,\"offset_y\":0.67,\"opacity\":0.97,\"scale\":1.04,\"rotate\":7.43,\"custom_value\":13.33},{\"offset_x\":2.6,\"offset_y\":0.5,\"opacity\":0.99,\"scale\":1.04,\"rotate\":8.66,\"custom_value\":16.67},{\"offset_x\":2.85,\"offset_y\":0.31,\"opacity\":1,\"scale\":1.05,\"rotate\":9.51,\"custom_value\":20},{\"offset_x\":2.98,\"offset_y\":0.1,\"opacity\":1,\"scale\":1.05,\"rotate\":9.95,\"custom_value\":23.33},{\"offset_x\":2.98,\"offset_y\":-0.1,\"opacity\":1,\"scale\":1.05,\"rotate\":9.95,\"custom_value\":26.67},{\"offset_x\":2.85,\"offset_y\":-0.31,\"opacity\":0.99,\"scale\":1.05,\"rotate\":9.51,\"custom_value\":30},{\"offset_x\":2.6,\"offset_y\":-0.5,\"opacity\":0.99,\"scale\":1.04,\"rotate\":8.66,\"custom_value\":33.33},{\"offset_x\":2.23,\"offset_y\":-0.67,\"opacity\":0.97,\"scale\":1.04,\"rotate\":7.43,\"custom_value\":36.67},{\"offset_x\":1.76,\"offset_y\":-0.81,\"opacity\":0.96,\"scale\":1.03,\"rotate\":5.88,\"custom_value\":40},{\"offset_x\":1.22,\"offset_y\":-0.91,\"opacity\":0.94,\"scale\":1.02,\"rotate\":4.07,\"custom_value\":43.33},{\"offset_x\":0.62,\"offset_y\":-0.98,\"opacity\":0.92,\"scale\":1.01,\"rotate\":2.08,\"custom_value\":46.67},{\"offset_x\":0,\"offset_y\":-1,\"opacity\":0.9,\"scale\":1,\"rotate\":0,\"custom_value\":50},{\"offset_x\":-0.62,\"offset_y\":-0.98,\"opacity\":0.88,\"scale\":0.99,\"rotate\":-2.08,\"custom_value\":53.33},{\"offset_x\":-1.22,\"offset_y\":-0.91,\"opacity\":0.86,\"scale\":0.98,\"rotate\":-4.07,\"custom_value\":56.67},{\"offset_x\":-1.76,\"offset_y\":-0.81,\"opacity\":0.84,\"scale\":0.97,\"rotate\":-5.88,\"custom_value\":60},{\"offset_x\":-2.23,\"offset_y\":-0.67,\"opacity\":0.83,\"scale\":0.96,\"rotate\":-7.43,\"custom_value\":63.33},{\"offset_x\":-2.6,\"offset_y\":-0.5,\"opacity\":0.81,\"scale\":0.96,\"rotate\":-8.66,\"custom_value\":66.67},{\"offset_x\":-2.85,\"offset_y\":-0.31,\"opacity\":0.8,\"scale\":0.95,\"rotate\":-9.51,\"custom_value\":70},{\"offset_x\":-2.98,\"offset_y\":-0.1,\"opacity\":0.8,\"scale\":0.95,\"rotate\":-9.95,\"custom_value\":73.33},{\"offset_x\":-2.98,\"offset_y\":0.1,\"opacity\":0.8,\"scale\":0.95,\"rotate\":-9.95,\"custom_value\":76.67},{\"offset_x\":-2.85,\"offset_y\":0.31,\"opacity\":0.8,\"scale\":0.95,\"rotate\":-9.51,\"custom_value\":80},{\"offset_x\":-2.6,\"offset_y\":0.5,\"opacity\":0.81,\"scale\":0.96,\"rotate\":-8.66,\"custom_value\":83.33},{\"offset_x\":-2.23,\"offset_y\":0.67,\"opacity\":0.83,\"scale\":0.96,\"rotate\":-7.43,\"custom_value\":86.67},{\"offset_x\":-1.76,\"offset_y\":0.81,\"opacity\":0.84,\"scale\":0.97,\"rotate\":-5.88,\"custom_value\":90},{\"offset_x\":-1.22,\"offset_y\":0.91,\"opacity\":0.86,\"scale\":0.98,\"rotate\":-4.07,\"custom_value\":93.33},{\"offset_x\":-0.62,\"offset_y\":0.98,\"opacity\":0.88,\"scale\":0.99,\"rotate\":-2.08,\"custom_value\":96.67}]}]}",
     "animate_illustration": true,
     "image_position_x": 50,
@@ -10316,7 +10345,7 @@
     "content": "<h2>Las Islas de Kaanil</h2><p>En la edad prehistórica del mundo, los <a href=\"/articulo/dragones\">dragones</a> tenían esclavos creados con magia, dragonoides y bestias dracónicas. Algunos de estos esclavos lograron escapar a unas islas lejanas, donde fundaron <a href=\"/articulo/kaanil-nah\">Kaanil</a>. Con el tiempo, evolucionaron por la <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a> del lugar a saurios, y se convirtieron en criaturas dinosaurio que vagaban por las islas.</p><p>Con el tiempo, los <a href=\"/articulo/dragones\">dragones</a> perdieron su dominio sobre las islas, sin embargo, <a href=\"/articulo/kaanil-nah\">Kaanil</a> seguía floreciendo.</p><p>Hasta que unos humanos llegaron e hicieron rituales para convertirse en seres serpentinos, aclamando que eran superiores. Arrastaron a las tribus saurias hasta que el general saurio <strong><a href=\"/articulo/thrag-mrdrc85l\" class=\"text-primary hover:underline font-semibold\">Thrag</a></strong> (un hombre triceratops) se hartó y les declaró la guerra. Perdieron debido a un extraño viajero del futuro y los saurios fueron erradicados.</p><p>Los humanos serpentinos, con el tiempo, se mudaron a la península de <a href=\"/articulo/kaanil-nah\">Kaanil</a> en <a href=\"/articulo/aeros\">Aeros</a> y fundaron <a href=\"/articulo/kaanil-nah\">Kaanil Nah</a>.</p><p>Sin embargo, la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a> a <a href=\"#\">Avalon</a>, tras derrotar a la leyenda de <strong><a href=\"/articulo/thrag-mrdrc85l\" class=\"text-primary hover:underline font-semibold\">Thrag</a></strong>, llegaron a la época del conflicto y vencieron a los humanos serpentinos, cambiando el futuro y haciendo que, en el presente, los saurios fueran los que fundaron <a href=\"/articulo/kaanil-nah\">Kaanil Nah</a>.</p>",
     "created_date": "2026-07-09T15:56:59.056Z",
     "updated_date": "2026-09-24T10:10:45.757Z",
-    "image_url": "https://i.imgur.com/pl8bxcO.png",
+    "image_url": "/images/covers/las-islas-de-kaanil-mrdowgts.png",
     "gallery": [],
     "infobox": {
       "Nombre": "Las Islas de Kaanil",
@@ -10434,7 +10463,8 @@
     ],
     "related_article_ids": [
       "art-1787666807809"
-    ]
+    ],
+    "image_url": "/images/covers/gripe-de-la-plata-mrdhl7vn.png"
   },
   {
     "id": "art-1783590621561",
@@ -10477,7 +10507,7 @@
       "tl-coliseo-onirico-rescate-1785317365527-3",
       "tl-coliseo-onirico-nuevo-control-1785317365527-4"
     ],
-    "image_url": "https://cdna.artstation.com/p/assets/images/images/054/005/446/large/xh-.jpg?1663556065",
+    "image_url": "/images/covers/coliseo-onirico-mrdbt1cy.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -10704,7 +10734,8 @@
       "plano": [],
       "criatura": [],
       "entidad": []
-    }
+    },
+    "image_url": "/images/covers/la-compania-mrc0in6q.png"
   },
   {
     "id": "art-1783510714533",
@@ -10886,7 +10917,7 @@
     "content": "<p>La Gran Nada es una vasta extensión de tierras arrasadas por un evento catastrófico que transformó el territorio en un desierto de cenizas y ruinas. Esta región, antes habitada por diversas razas, quedó reducida a un páramo desolado, donde la vida es casi inexistente y la esperanza de recuperación parece lejana.</p><p>El nombre \"La Gran Nada\" refleja la ausencia de vida, civilización y recursos en este lugar, que ahora sirve como un recordatorio de la fragilidad de los reinos y la fuerza destructiva de los cataclismos.</p>",
     "created_date": "2026-07-08T11:17:57.819Z",
     "updated_date": "2026-07-29T09:29:45.542Z",
-    "image_url": "https://i.imgur.com/rwAVkcr.png",
+    "image_url": "/images/covers/la-gran-nada-mrbzhsjf.png",
     "gallery": [],
     "infobox": {},
     "tags": [],
@@ -10981,7 +11012,7 @@
     "id": "art-1783384268210",
     "created_date": "2026-07-07T00:31:16.987Z",
     "updated_date": "2026-07-29T09:29:48.205Z",
-    "image_url": "https://i.imgur.com/QTrDHKA.png",
+    "image_url": "/images/covers/mercado-negro-de-icespear.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787664906161"
@@ -11070,7 +11101,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://i.imgur.com/alepF6P.png",
+    "image_url": "/images/covers/mansion-de-zaltar.png",
     "animation_frames": "{\"elements\":[{\"type\":\"ambient_particles\",\"color\":\"rgba(150, 50, 200, 0.4)\",\"base_x\":50,\"base_y\":70,\"width\":100,\"height\":30,\"frames\":[{\"offset_x\":0,\"offset_y\":3,\"opacity\":0.6,\"scale\":0.9,\"rotate\":0,\"custom_value\":0},{\"offset_x\":1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":1},{\"offset_x\":2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":2},{\"offset_x\":3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":3},{\"offset_x\":2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":4},{\"offset_x\":1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":5},{\"offset_x\":0,\"offset_y\":-3,\"opacity\":0.9,\"scale\":1.2,\"rotate\":0,\"custom_value\":6},{\"offset_x\":-1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":7},{\"offset_x\":-2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":8},{\"offset_x\":-3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":9},{\"offset_x\":-2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":10},{\"offset_x\":-1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":11},{\"offset_x\":0,\"offset_y\":3,\"opacity\":0.6,\"scale\":0.9,\"rotate\":0,\"custom_value\":12},{\"offset_x\":1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":13},{\"offset_x\":2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":14},{\"offset_x\":3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":15},{\"offset_x\":2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":16},{\"offset_x\":1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":17},{\"offset_x\":0,\"offset_y\":-3,\"opacity\":0.9,\"scale\":1.2,\"rotate\":0,\"custom_value\":18},{\"offset_x\":-1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":19},{\"offset_x\":-2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":20},{\"offset_x\":-3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":21},{\"offset_x\":-2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":22},{\"offset_x\":-1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":23},{\"offset_x\":0,\"offset_y\":3,\"opacity\":0.6,\"scale\":0.9,\"rotate\":0,\"custom_value\":24},{\"offset_x\":1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":25},{\"offset_x\":2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":26},{\"offset_x\":3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":27},{\"offset_x\":2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":28},{\"offset_x\":1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":29}]},{\"type\":\"glow_pulse\",\"color\":\"rgba(255, 100, 0, 0.3)\",\"base_x\":50,\"base_y\":30,\"width\":20,\"height\":40,\"frames\":[{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":0.9,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.55,\"scale\":0.92,\"rotate\":0,\"custom_value\":5},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.6,\"scale\":0.94,\"rotate\":0,\"custom_value\":10},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.65,\"scale\":0.96,\"rotate\":0,\"custom_value\":15},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.7,\"scale\":0.98,\"rotate\":0,\"custom_value\":20},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.75,\"scale\":1,\"rotate\":0,\"custom_value\":25},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1.02,\"rotate\":0,\"custom_value\":30},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.85,\"scale\":1.04,\"rotate\":0,\"custom_value\":35},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.9,\"scale\":1.06,\"rotate\":0,\"custom_value\":40},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.95,\"scale\":1.08,\"rotate\":0,\"custom_value\":45},{\"offset_x\":0,\"offset_y\":0,\"opacity\":1,\"scale\":1.1,\"rotate\":0,\"custom_value\":50},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.95,\"scale\":1.08,\"rotate\":0,\"custom_value\":55},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.9,\"scale\":1.06,\"rotate\":0,\"custom_value\":60},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.85,\"scale\":1.04,\"rotate\":0,\"custom_value\":65},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1.02,\"rotate\":0,\"custom_value\":70},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.75,\"scale\":1,\"rotate\":0,\"custom_value\":75},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.7,\"scale\":0.98,\"rotate\":0,\"custom_value\":80},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.65,\"scale\":0.96,\"rotate\":0,\"custom_value\":85},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.6,\"scale\":0.94,\"rotate\":0,\"custom_value\":90},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.55,\"scale\":0.92,\"rotate\":0,\"custom_value\":95},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":0.9,\"rotate\":0,\"custom_value\":100},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.55,\"scale\":0.92,\"rotate\":0,\"custom_value\":5},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.6,\"scale\":0.94,\"rotate\":0,\"custom_value\":10},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.65,\"scale\":0.96,\"rotate\":0,\"custom_value\":15},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.7,\"scale\":0.98,\"rotate\":0,\"custom_value\":20},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.75,\"scale\":1,\"rotate\":0,\"custom_value\":25},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1.02,\"rotate\":0,\"custom_value\":30},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.85,\"scale\":1.04,\"rotate\":0,\"custom_value\":35},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.9,\"scale\":1.06,\"rotate\":0,\"custom_value\":40},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.95,\"scale\":1.08,\"rotate\":0,\"custom_value\":45},{\"offset_x\":0,\"offset_y\":0,\"opacity\":1,\"scale\":1.1,\"rotate\":0,\"custom_value\":50},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.95,\"scale\":1.08,\"rotate\":0,\"custom_value\":55}]},{\"type\":\"flying_animal\",\"color\":\"rgba(30, 30, 30, 0.6)\",\"base_x\":55,\"base_y\":25,\"width\":15,\"height\":10,\"frames\":[{\"offset_x\":0,\"offset_y\":1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":12},{\"offset_x\":1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":24},{\"offset_x\":1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":3,\"custom_value\":36},{\"offset_x\":1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":48},{\"offset_x\":0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":60},{\"offset_x\":0,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":72},{\"offset_x\":-0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":-1,\"custom_value\":84},{\"offset_x\":-1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":-2,\"custom_value\":96},{\"offset_x\":-1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":-3,\"custom_value\":108},{\"offset_x\":-1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":-2,\"custom_value\":120},{\"offset_x\":-0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":-1,\"custom_value\":132},{\"offset_x\":0,\"offset_y\":1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":144},{\"offset_x\":0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":156},{\"offset_x\":1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":168},{\"offset_x\":1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":3,\"custom_value\":180},{\"offset_x\":1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":192},{\"offset_x\":0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":204},{\"offset_x\":0,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":216},{\"offset_x\":-0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":-1,\"custom_value\":228},{\"offset_x\":-1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":-2,\"custom_value\":240},{\"offset_x\":-1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":-3,\"custom_value\":252},{\"offset_x\":-1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":-2,\"custom_value\":264},{\"offset_x\":-0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":-1,\"custom_value\":276},{\"offset_x\":0,\"offset_y\":1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":288},{\"offset_x\":0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":300},{\"offset_x\":1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":312},{\"offset_x\":1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":3,\"custom_value\":324},{\"offset_x\":1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":336},{\"offset_x\":0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":348},{\"offset_x\":0,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":0}]}]}",
     "animate_illustration": true,
     "image_position_x": 50,
@@ -11172,7 +11203,7 @@
     "id": "art-1783384228862",
     "created_date": "2026-07-07T00:30:37.021Z",
     "updated_date": "2026-07-29T09:29:54.949Z",
-    "image_url": "https://i.imgur.com/gBvmZQ0.png",
+    "image_url": "/images/covers/mansion-loux.png",
     "gallery": [],
     "related_article_ids": [
       "art-1783384096482",
@@ -11265,7 +11296,7 @@
     "id": "art-1783384220963",
     "created_date": "2026-07-07T00:30:25.494Z",
     "updated_date": "2026-07-29T09:29:58.396Z",
-    "image_url": "https://i.imgur.com/feUiJp7.png",
+    "image_url": "/images/covers/mansion-ferton.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787665587156",
@@ -11344,7 +11375,7 @@
     "id": "art-1783384206423",
     "created_date": "2026-07-07T00:30:17.437Z",
     "updated_date": "2026-07-29T09:30:01.996Z",
-    "image_url": "https://i.imgur.com/DVfq6h8.png",
+    "image_url": "/images/covers/manantial-del-feywild.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787664906161"
@@ -11449,7 +11480,7 @@
     "id": "art-1783384186757",
     "created_date": "2026-07-07T00:29:56.476Z",
     "updated_date": "2026-09-17T10:56:45.932Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/d8/Magordito_webpng.png/revision/latest/scale-to-width-down/1000?cb=20250721184246&path-prefix=es",
+    "image_url": "/images/covers/magordito.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787666875758",
@@ -11587,7 +11618,7 @@
     "id": "art-1783384171137",
     "created_date": "2026-07-07T00:29:44.006Z",
     "updated_date": "2026-08-23T16:40:30.134Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/f/f0/MagorElnegro.png/revision/latest/scale-to-width-down/1000?cb=20250904171354&path-prefix=es",
+    "image_url": "/images/covers/magor.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665007919",
@@ -11692,7 +11723,7 @@
     "id": "art-1783384153266",
     "created_date": "2026-07-07T00:29:19.323Z",
     "updated_date": "2026-09-17T10:57:23.291Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/b0/Luna_L%C3%ADaz.png/revision/latest/scale-to-width-down/1000?cb=20250716103848&path-prefix=es",
+    "image_url": "/images/covers/luna-diaz.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665014090",
@@ -11835,7 +11866,8 @@
     "updated_date": "2026-07-29T09:30:16.862Z",
     "related_article_ids": [
       "art-1787664906161"
-    ]
+    ],
+    "image_url": "/images/covers/llamas-en-la-noche.png"
   },
   {
     "title": "Leonard Loux",
@@ -11950,7 +11982,7 @@
     "id": "art-1783384140253",
     "created_date": "2026-07-07T00:29:03.877Z",
     "updated_date": "2026-09-17T10:57:46.815Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/f/f0/Leonard_loux.png/revision/latest/scale-to-width-down/1000?cb=20250706193332&path-prefix=es",
+    "image_url": "/images/covers/leonard-loux.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787664381669",
@@ -12080,7 +12112,7 @@
     "id": "art-1783384123569",
     "created_date": "2026-07-07T00:28:57.221Z",
     "updated_date": "2026-09-17T10:58:15.597Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/a/ae/Laila_d%C3%ADaz.png/revision/latest/scale-to-width-down/1000?cb=20250716101854&path-prefix=es",
+    "image_url": "/images/covers/laila-diaz.webp",
     "gallery": [],
     "related_article_ids": [],
     "filters": {
@@ -12187,7 +12219,7 @@
     "id": "art-1783384114296",
     "created_date": "2026-07-07T00:28:40.414Z",
     "updated_date": "2026-09-17T10:58:57.560Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/4/46/Laprofeciaviviente.png/revision/latest/scale-to-width-down/1000?cb=20250320162920&path-prefix=es",
+    "image_url": "/images/covers/la-profecia-viviente.webp",
     "gallery": [],
     "related_article_ids": [],
     "filters": {
@@ -12280,7 +12312,7 @@
     "id": "art-1783384103424",
     "created_date": "2026-07-07T00:28:28.346Z",
     "updated_date": "2026-07-29T09:30:32.632Z",
-    "image_url": "https://i.imgur.com/zIfiy7w.png",
+    "image_url": "/images/covers/la-tienda-23.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787664919295"
@@ -12411,7 +12443,8 @@
       "art-1787667206844",
       "art-1787665642246",
       "art-1787664906161"
-    ]
+    ],
+    "image_url": "/images/covers/la-guerra-del-averno.webp"
   },
   {
     "title": "La Familia Elegida",
@@ -12500,7 +12533,8 @@
     "updated_date": "2026-07-29T09:30:40.219Z",
     "related_article_ids": [
       "art-1787665587156"
-    ]
+    ],
+    "image_url": "/images/covers/la-familia-elegida.png"
   },
   {
     "title": "La Era de Los Dioses",
@@ -12603,7 +12637,8 @@
     "related_article_ids": [
       "art-1787665020601",
       "art-1787664370722"
-    ]
+    ],
+    "image_url": "/images/covers/la-era-de-los-dioses.jpg"
   },
   {
     "title": "Kōryū no Kame",
@@ -12689,7 +12724,7 @@
     "related_article_ids": [
       "art-1787666625565"
     ],
-    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/4/4f/Dragon_Turtle_AFR.jpg/revision/latest?cb=20210704122513",
+    "image_url": "/images/covers/koryu-no-kame.webp",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -12794,7 +12829,7 @@
     "id": "art-1783384037994",
     "created_date": "2026-07-07T00:27:38.339Z",
     "updated_date": "2026-09-17T10:59:27.837Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/6/63/Kurogame.png/revision/latest/scale-to-width-down/1000?cb=20250904155546&path-prefix=es",
+    "image_url": "/images/covers/kurogame.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665210283",
@@ -12872,7 +12907,7 @@
     "id": "art-1783384032020",
     "created_date": "2026-07-07T00:27:14.910Z",
     "updated_date": "2026-09-24T10:10:49.067Z",
-    "image_url": "https://i.imgur.com/glZMHQn.png",
+    "image_url": "/images/covers/kaliria.png",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -13013,7 +13048,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/a/a7/Kairon.png/revision/latest/scale-to-width-down/1000?cb=20250904083407&path-prefix=es",
+    "image_url": "/images/covers/kairon.webp",
     "image_position_x": 50,
     "image_position_y": 25,
     "monsters": [],
@@ -13110,7 +13145,7 @@
     "id": "art-1783384007092",
     "created_date": "2026-07-07T00:26:58.924Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/3/3d/Kaelgor.png/revision/latest/scale-to-width-down/1000?cb=20250704180349&path-prefix=es",
+    "image_url": "/images/covers/kaelgor-loux.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665014090",
@@ -13183,7 +13218,7 @@
     "id": "art-1783383999658",
     "created_date": "2026-07-07T00:26:43.437Z",
     "updated_date": "2026-09-24T10:10:52.371Z",
-    "image_url": "https://i.imgur.com/U9IJ1fe.png",
+    "image_url": "/images/covers/kaanil-nah.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787664906161"
@@ -13275,7 +13310,8 @@
       "art-1783509789811",
       "art-1787666801376",
       "art-1787664906161"
-    ]
+    ],
+    "image_url": "/images/covers/herald-i-de-moonhaven.png"
   },
   {
     "title": "Havrik Deez",
@@ -13316,7 +13352,7 @@
     "id": "art-1783383985437",
     "created_date": "2026-07-07T00:26:28.767Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/1/1a/Havrik_Deez.png/revision/latest/scale-to-width-down/1000?cb=20250707104708&path-prefix=es",
+    "image_url": "/images/covers/havrik-deez.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665587156"
@@ -13377,7 +13413,8 @@
       "art-1783509789811",
       "art-1783383652919",
       "art-1787664906161"
-    ]
+    ],
+    "image_url": "/images/covers/hagamos-caldo-de-dragon.webp"
   },
   {
     "title": "Gungnir",
@@ -13405,7 +13442,8 @@
     "related_article_ids": [
       "art-1783509789811",
       "art-1787665103836"
-    ]
+    ],
+    "image_url": "/images/covers/gungnir.webp"
   },
   {
     "title": "Gromock",
@@ -13488,7 +13526,7 @@
     "id": "art-1783383954035",
     "created_date": "2026-07-07T00:25:58.722Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/c/c6/Gromock.png/revision/latest/scale-to-width-down/250?cb=20250904183612&path-prefix=es",
+    "image_url": "/images/covers/gromock.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665587156",
@@ -13557,7 +13595,7 @@
     "id": "art-1783383947548",
     "created_date": "2026-07-07T00:25:51.027Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/3/31/Greta_diaz.png/revision/latest/scale-to-width-down/1000?cb=20250716100138&path-prefix=es",
+    "image_url": "/images/covers/greta-diaz.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787666807809"
@@ -13650,7 +13688,7 @@
     "id": "art-1783383928932",
     "created_date": "2026-07-07T00:25:44.460Z",
     "updated_date": "2026-08-23T16:44:24.916Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/78/Greg_D%C3%ADaz.png/revision/latest/scale-to-width-down/250?cb=20250707090241&path-prefix=es",
+    "image_url": "/images/covers/greg-diaz.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787667212189",
@@ -13727,7 +13765,7 @@
     "id": "art-1783383921777",
     "created_date": "2026-07-07T00:25:25.488Z",
     "updated_date": "2026-07-09T15:59:57.589Z",
-    "image_url": "https://i.imgur.com/qiO2SRs.png",
+    "image_url": "/images/covers/gran-torre-arcana-de-cryostar.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787664919295",
@@ -13820,7 +13858,7 @@
     "id": "art-1783383906169",
     "created_date": "2026-07-07T00:25:18.848Z",
     "updated_date": "2026-07-20T16:38:38.126Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/db/Dios_Gorm.png/revision/latest/scale-to-width-down/1000?cb=20250328101402&path-prefix=es",
+    "image_url": "/images/covers/gorm.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665210283",
@@ -13884,7 +13922,8 @@
       "art-1783383018110",
       "art-1787665881215",
       "art-1787667206844"
-    ]
+    ],
+    "image_url": "/images/covers/gobernante-de-moonhaven.png"
   },
   {
     "title": "Gildemar, el Rey Mago",
@@ -13948,7 +13987,7 @@
     "id": "art-1783383876676",
     "created_date": "2026-07-07T00:24:49.000Z",
     "updated_date": "2026-08-24T12:16:23.883Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/1/1c/Gildemar.png/revision/latest/scale-to-width-down/250?cb=20250709104812&path-prefix=es",
+    "image_url": "/images/covers/gildemar-el-rey-mago.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787666224521",
@@ -14028,7 +14067,8 @@
       "art-1787666875758",
       "art-1787664906161",
       "art-1787666836984"
-    ]
+    ],
+    "image_url": "/images/covers/freya.webp"
   },
   {
     "title": "Fit Fitson",
@@ -14141,7 +14181,7 @@
     "id": "art-1783383848489",
     "created_date": "2026-07-07T00:24:11.508Z",
     "updated_date": "2026-07-09T16:59:32.896Z",
-    "image_url": "https://i.imgur.com/7y5AzYb.png",
+    "image_url": "/images/covers/feywild.png",
     "gallery": [],
     "related_article_ids": [],
     "filters": {
@@ -14202,7 +14242,7 @@
     "id": "art-1783383842297",
     "created_date": "2026-07-07T00:24:06.455Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/86/Ferton.webp/revision/latest/scale-to-width-down/250?cb=20250908112540&path-prefix=es",
+    "image_url": "/images/covers/ferton.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787666836984"
@@ -14272,7 +14312,8 @@
       "art-1787667127703",
       "art-1787664906161",
       "6a2191de386a7048e8d7e6b8"
-    ]
+    ],
+    "image_url": "/images/covers/feria-de-makai.webp"
   },
   {
     "title": "Familia Loux",
@@ -14392,7 +14433,8 @@
       "art-1783383947548",
       "art-1787665881215",
       "art-1787664906161"
-    ]
+    ],
+    "image_url": "/images/covers/familia-diaz.png"
   },
   {
     "title": "Familia Deez",
@@ -14486,7 +14528,8 @@
       "art-1787665881215",
       "art-1787665511485",
       "art-1783383871252"
-    ]
+    ],
+    "image_url": "/images/covers/familia-deez.png"
   },
   {
     "title": "Fafnir",
@@ -14574,7 +14617,8 @@
       "art-1787665806676",
       "art-1787665007919",
       "art-1787666875758"
-    ]
+    ],
+    "image_url": "/images/covers/fafnir.png"
   },
   {
     "title": "Emboscada",
@@ -14629,7 +14673,8 @@
     "related_article_ids": [
       "art-1783383954035",
       "art-1787664906161"
-    ]
+    ],
+    "image_url": "/images/covers/emboscada.png"
   },
   {
     "title": "El barón",
@@ -14778,7 +14823,7 @@
     "id": "art-1783383757681",
     "created_date": "2026-07-07T00:22:42.384Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/6/6f/Se%C3%B1or_de_la_ceniza.png/revision/latest/scale-to-width-down/250?cb=20250715081526&path-prefix=es",
+    "image_url": "/images/covers/el-senor-de-la-ceniza-bestia-del-apocalipsis.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787664919295",
@@ -14874,7 +14919,8 @@
       "art-1787665881215",
       "art-1787666796733",
       "art-1787664906161"
-    ]
+    ],
+    "image_url": "/images/covers/el-reino-de-los-suenos.webp"
   },
   {
     "title": "El Oni del Cerezo",
@@ -14929,7 +14975,7 @@
     "id": "art-1783383735154",
     "created_date": "2026-07-07T00:22:26.773Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/bc/Oni.png/revision/latest/scale-to-width-down/250?cb=20250905102132&path-prefix=es",
+    "image_url": "/images/covers/el-oni-del-cerezo.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787828387217",
@@ -15027,7 +15073,8 @@
       "art-1787665007919",
       "art-1787665090919",
       "art-1787666648124"
-    ]
+    ],
+    "image_url": "/images/covers/el-loa-tigre.png"
   },
   {
     "title": "El Ciervo Celeste",
@@ -15067,7 +15114,7 @@
     "id": "art-1783383723477",
     "created_date": "2026-07-07T00:22:05.747Z",
     "updated_date": "2026-07-09T16:00:23.484Z",
-    "image_url": "https://i.imgur.com/tDfiS8a.png",
+    "image_url": "/images/covers/el-ciervo-celeste.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787665270474"
@@ -15151,7 +15198,7 @@
     "id": "art-1783383696074",
     "created_date": "2026-07-07T00:21:47.653Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/85/Edacorn_wiki.png/revision/latest/scale-to-width-down/1000?cb=20250716084500&path-prefix=es",
+    "image_url": "/images/covers/edacorn.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665818655"
@@ -15219,7 +15266,7 @@
     "id": "art-1783383681399",
     "created_date": "2026-07-07T00:21:32.994Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/db/Durnik.webp/revision/latest/scale-to-width-down/250?cb=20250908113624&path-prefix=es",
+    "image_url": "/images/covers/durnik.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665587156",
@@ -15304,7 +15351,7 @@
     "id": "art-1783383676063",
     "created_date": "2026-07-07T00:21:18.655Z",
     "updated_date": "2026-08-23T16:48:22.821Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/02/Druina_deez.png/revision/latest/scale-to-width-down/250?cb=20250707103332&path-prefix=es",
+    "image_url": "/images/covers/druunia-deez.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1783383801004",
@@ -15362,7 +15409,7 @@
     "id": "art-1783383662033",
     "created_date": "2026-07-07T00:21:12.724Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/72/Drakaris.png/revision/latest/scale-to-width-down/1000?cb=20250328180328&path-prefix=es",
+    "image_url": "/images/covers/drakaris.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665587156",
@@ -15443,7 +15490,7 @@
       "art-1787666801376",
       "art-1787666836984"
     ],
-    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/9/90/White_Dragon_AFR.jpg/revision/latest?cb=20210901150509",
+    "image_url": "/images/covers/cryovain.webp",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -15504,7 +15551,7 @@
     "id": "art-1783383645366",
     "created_date": "2026-07-07T00:20:50.283Z",
     "updated_date": "2026-07-09T15:12:49.791Z",
-    "image_url": "https://i.imgur.com/dX1XMCx.png",
+    "image_url": "/images/covers/cryostar.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787664178463",
@@ -15583,7 +15630,8 @@
     "updated_date": "2026-07-08T13:53:22.655Z",
     "related_article_ids": [
       "art-1787664906161"
-    ]
+    ],
+    "image_url": "/images/covers/consejo-omega.png"
   },
   {
     "title": "Chispo Deez",
@@ -15668,7 +15716,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/83/Chispo_deez_web_%282%29.png/revision/latest/scale-to-width-down/250?cb=20250904112604&path-prefix=es",
+    "image_url": "/images/covers/chispo-deez.webp",
     "image_position_x": 50,
     "image_position_y": 20
   },
@@ -15737,7 +15785,8 @@
       "art-1787666224521",
       "art-1783383696074",
       "art-1783383790419"
-    ]
+    ],
+    "image_url": "/images/covers/chemos.png"
   },
   {
     "title": "Bestias del Apocalipsis",
@@ -15800,7 +15849,8 @@
       "plano": [],
       "criatura": [],
       "entidad": []
-    }
+    },
+    "image_url": "/images/covers/bestias-del-apocalipsis.webp"
   },
   {
     "title": "Bellmoth",
@@ -15830,7 +15880,8 @@
       "art-1787666625565",
       "art-1783383696074",
       "art-1787664906161"
-    ]
+    ],
+    "image_url": "/images/covers/bellmoth.png"
   },
   {
     "title": "Belcebú",
@@ -15968,7 +16019,7 @@
     "id": "art-1783383570297",
     "created_date": "2026-07-07T00:19:35.398Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/2/27/Barled_web.png/revision/latest/scale-to-width-down/250?cb=20250924155207&path-prefix=es",
+    "image_url": "/images/covers/barled.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787664906161"
@@ -16044,7 +16095,7 @@
     "id": "art-1783383562265",
     "created_date": "2026-07-07T00:19:25.466Z",
     "updated_date": "2026-08-23T16:49:54.155Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/0e/Auros_D%C3%ADaz.png/revision/latest/scale-to-width-down/250?cb=20250328184714&path-prefix=es",
+    "image_url": "/images/covers/auros-diaz.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787664926180",
@@ -16122,7 +16173,7 @@
     "id": "art-1783383546933",
     "created_date": "2026-07-07T00:19:10.340Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/d4/Asmodeo.png/revision/latest/scale-to-width-down/250?cb=20250329202142&path-prefix=es",
+    "image_url": "/images/covers/asmodeo.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787664381669",
@@ -16223,7 +16274,7 @@
     "id": "art-1783383523286",
     "created_date": "2026-07-07T00:19:04.000Z",
     "updated_date": "2026-08-23T16:50:32.844Z",
-    "image_url": "https://i.imgur.com/vuaAXPh.png",
+    "image_url": "/images/covers/arthorius.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787665020601",
@@ -16272,7 +16323,8 @@
     "updated_date": "2026-07-07T00:18:36.558Z",
     "related_article_ids": [
       "art-1787665020601"
-    ]
+    ],
+    "image_url": "/images/covers/armagedon.png"
   },
   {
     "title": "Arlem Díaz",
@@ -16320,7 +16372,7 @@
     "id": "art-1783383487225",
     "created_date": "2026-07-07T00:18:11.912Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/0c/Arlem_diaz_web.png/revision/latest/scale-to-width-down/250?cb=20250716175521&path-prefix=es",
+    "image_url": "/images/covers/arlem-diaz.webp",
     "gallery": [],
     "related_article_ids": [],
     "filters": {
@@ -16407,7 +16459,7 @@
     "id": "art-1783383478434",
     "created_date": "2026-07-07T00:18:04.266Z",
     "updated_date": "2026-08-23T16:50:58.383Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/3/38/Arkalon.png/revision/latest?cb=20250329103135&path-prefix=es",
+    "image_url": "/images/covers/arkalon-diaz.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665090919",
@@ -16499,7 +16551,7 @@
     "id": "art-1783383462870",
     "created_date": "2026-07-07T00:17:55.584Z",
     "updated_date": "2026-08-24T12:16:11.948Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/e/e2/Arkadis.png/revision/latest/scale-to-width-down/250?cb=20250328125458&path-prefix=es",
+    "image_url": "/images/covers/arkadis.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665020601",
@@ -16573,7 +16625,8 @@
       "art-1787665090919",
       "art-1783383696074",
       "art-1783383906169"
-    ]
+    ],
+    "image_url": "/images/covers/arashi.webp"
   },
   {
     "title": "Aeros",
@@ -16620,7 +16673,7 @@
     "id": "art-1783383445659",
     "created_date": "2026-07-07T00:17:29.308Z",
     "updated_date": "2026-09-24T10:11:00.338Z",
-    "image_url": "https://i.imgur.com/Kd8XtUi.jpeg",
+    "image_url": "/images/covers/aeros.png",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -16751,7 +16804,7 @@
     "id": "art-1783383434816",
     "created_date": "2026-07-07T00:17:23.017Z",
     "updated_date": "2026-08-23T16:51:45.270Z",
-    "image_url": "https://i.imgur.com/4ob6yxn.png",
+    "image_url": "/images/covers/aeliana.png",
     "gallery": [],
     "related_article_ids": [
       "art-1783383775188",
@@ -16843,7 +16896,7 @@
     "id": "art-1783383418932",
     "created_date": "2026-07-07T00:17:03.442Z",
     "updated_date": "2026-07-09T15:04:46.421Z",
-    "image_url": "https://i.imgur.com/slpc8WW.png",
+    "image_url": "/images/covers/exodus-umbral.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787665654504",
@@ -16946,7 +16999,7 @@
     "id": "art-1783383400497",
     "created_date": "2026-07-07T00:16:55.997Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/bd/ZALTAR_WIKI.png/revision/latest/scale-to-width-down/1000?cb=20250904173049&path-prefix=es",
+    "image_url": "/images/covers/zaltar.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787664381669",
@@ -17022,7 +17075,7 @@
     "id": "art-1783383392277",
     "created_date": "2026-07-07T00:16:37.649Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/08/Varianthelwiki.webp/revision/latest/scale-to-width-down/250?cb=20250904175937&path-prefix=es",
+    "image_url": "/images/covers/varianthel.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1783383749793",
@@ -17066,7 +17119,8 @@
       "art-1783383954035",
       "art-1783383696074",
       "art-1783383842297"
-    ]
+    ],
+    "image_url": "/images/covers/una-carta-inesperada.png"
   },
   {
     "title": "Una Leyenda se Forja",
@@ -17092,7 +17146,8 @@
       "art-1783383652919",
       "art-1783383696074",
       "art-1787665818655"
-    ]
+    ],
+    "image_url": "/images/covers/una-leyenda-se-forja.png"
   },
   {
     "title": "Umberlee",
@@ -17150,7 +17205,8 @@
     "updated_date": "2026-08-23T16:52:56.244Z",
     "related_article_ids": [
       "art-1783509789811"
-    ]
+    ],
+    "image_url": "/images/covers/umberlee.png"
   },
   {
     "title": "Tumba de Chemos",
@@ -17199,7 +17255,7 @@
     "id": "art-1783383350433",
     "created_date": "2026-07-07T00:15:52.633Z",
     "updated_date": "2026-07-09T15:03:14.625Z",
-    "image_url": "https://i.imgur.com/oPJOmmw.png",
+    "image_url": "/images/covers/tumba-de-chemos.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787665654504"
@@ -17276,7 +17332,7 @@
     "id": "art-1783383337454",
     "created_date": "2026-07-07T00:15:47.991Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://i.imgur.com/FEcw0cV.png",
+    "image_url": "/images/covers/thravir-el-loxodon.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787665587156",
@@ -17350,7 +17406,7 @@
     "id": "art-1783383328490",
     "created_date": "2026-07-07T00:15:31.266Z",
     "updated_date": "2026-08-23T16:53:24.945Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/3/37/Thorin.webp/revision/latest/scale-to-width-down/1000?cb=20250703154130&path-prefix=es",
+    "image_url": "/images/covers/thorin-loux.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665587156",
@@ -17436,7 +17492,7 @@
     "id": "art-1783383320579",
     "created_date": "2026-07-07T00:15:23.332Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/8c/Thorfin.png/revision/latest/scale-to-width-down/1000?cb=20250703155141&path-prefix=es",
+    "image_url": "/images/covers/thorfin-loux.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665007919",
@@ -17499,7 +17555,7 @@
     "id": "art-1783383308745",
     "created_date": "2026-07-07T00:15:17.894Z",
     "updated_date": "2026-07-09T14:55:24.990Z",
-    "image_url": "https://i.imgur.com/H96QfKy.png",
+    "image_url": "/images/covers/templo-de-makai.png",
     "gallery": [],
     "related_article_ids": [
       "art-1783509789811",
@@ -17566,7 +17622,7 @@
     "id": "art-1783383301469",
     "created_date": "2026-07-07T00:15:03.105Z",
     "updated_date": "2026-07-09T14:50:00.279Z",
-    "image_url": "https://i.imgur.com/Z1lF8fn.png",
+    "image_url": "/images/covers/taverna-de-caldo-de-dragon.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787666836984"
@@ -17645,7 +17701,8 @@
       "art-1787666796733",
       "art-1787666801376",
       "art-1787665642246"
-    ]
+    ],
+    "image_url": "/images/covers/tauron.png"
   },
   {
     "title": "Takhisis",
@@ -17729,7 +17786,8 @@
       "art-1787667206844",
       "art-1787666875758",
       "art-1787664906161"
-    ]
+    ],
+    "image_url": "/images/covers/takhisis.webp"
   },
   {
     "title": "Syndragosa",
@@ -17807,7 +17865,7 @@
       "art-1787664906161",
       "art-1787666836984"
     ],
-    "image_url": "https://static.wikia.nocookie.net/forgottenrealms/images/2/21/Ancient_Gold_Dragon_CLB.jpg/revision/latest?cb=20220530172853",
+    "image_url": "/images/covers/syndragosa.webp",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -17858,7 +17916,7 @@
     "id": "art-1783383256643",
     "created_date": "2026-07-07T00:14:33.380Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/d9/Sir_percival.png/revision/latest/scale-to-width-down/1000?cb=20250329193332&path-prefix=es",
+    "image_url": "/images/covers/stitch.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1783383018110"
@@ -17938,7 +17996,7 @@
     "id": "art-1783383245721",
     "created_date": "2026-07-07T00:14:11.905Z",
     "updated_date": "2026-07-19T10:45:47.896Z",
-    "image_url": "https://i.imgur.com/gsN7AqH.png",
+    "image_url": "/images/covers/spellforge.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787665020601",
@@ -18019,7 +18077,7 @@
     "id": "art-1783383234589",
     "created_date": "2026-07-07T00:14:02.428Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/f/fe/Roxanne_web.png/revision/latest/scale-to-width-down/1000?cb=20250914120642&path-prefix=es",
+    "image_url": "/images/covers/roxanne.webp",
     "gallery": [],
     "related_article_ids": [],
     "filters": {
@@ -18086,7 +18144,7 @@
     "id": "art-1783383230017",
     "created_date": "2026-07-07T00:13:51.802Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://i.imgur.com/pTX0dMJ.png",
+    "image_url": "/images/covers/rey-redcap.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787665729589",
@@ -18291,7 +18349,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/f/f1/Raxxar_Web.png/revision/latest/scale-to-width-down/1000?cb=20250904084238&path-prefix=es",
+    "image_url": "/images/covers/raxxar.webp",
     "image_position_x": 50,
     "image_position_y": 30
   },
@@ -18352,7 +18410,7 @@
     "id": "art-1783383205089",
     "created_date": "2026-07-07T00:13:27.518Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://i.imgur.com/FPSNBBo.png",
+    "image_url": "/images/covers/ragnavaldr.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787666648124",
@@ -18448,7 +18506,7 @@
     "id": "art-1783383197350",
     "created_date": "2026-07-07T00:13:22.236Z",
     "updated_date": "2026-08-23T16:55:59.427Z",
-    "image_url": "https://i.imgur.com/b2peZiC.png",
+    "image_url": "/images/covers/ragnarok.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787665090919",
@@ -18517,7 +18575,7 @@
     "id": "art-1783383175324",
     "created_date": "2026-07-07T00:13:14.465Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/75/Pythor.png/revision/latest/scale-to-width-down/250?cb=20250328120529&path-prefix=es",
+    "image_url": "/images/covers/pythor.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1783509789811",
@@ -18569,7 +18627,7 @@
     "id": "art-1783383170809",
     "created_date": "2026-07-07T00:12:52.431Z",
     "updated_date": "2026-08-23T16:05:36.970Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/09/Prometeo_web.png/revision/latest?cb=20250904083848&path-prefix=es",
+    "image_url": "/images/covers/prometeo.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665970429",
@@ -18611,7 +18669,7 @@
     "id": "art-1783383166992",
     "created_date": "2026-07-07T00:12:48.538Z",
     "updated_date": "2026-09-24T10:11:08.331Z",
-    "image_url": "https://i.imgur.com/zCWkO7B.png",
+    "image_url": "/images/covers/plano-del-polvo.png",
     "gallery": [],
     "related_article_ids": [],
     "filters": {
@@ -18649,7 +18707,7 @@
     "id": "art-1783383107977",
     "created_date": "2026-07-07T00:11:55.120Z",
     "updated_date": "2026-07-09T16:58:44.262Z",
-    "image_url": "https://i.imgur.com/dpF6AW4.png",
+    "image_url": "/images/covers/plano-onirico.png",
     "gallery": [],
     "related_article_ids": [],
     "filters": {
@@ -18730,7 +18788,7 @@
     "id": "art-1783383102129",
     "created_date": "2026-07-07T00:11:45.210Z",
     "updated_date": "2026-07-10T18:00:22.358Z",
-    "image_url": "https://i.imgur.com/ZKLG3HD.png",
+    "image_url": "/images/covers/pico-de-icespear.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787666796733",
@@ -18844,7 +18902,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/e/ef/Pepe_loux_wiki2.png/revision/latest?cb=20250904083106&path-prefix=es",
+    "image_url": "/images/covers/pepe-loux.webp",
     "image_position_x": 50,
     "image_position_y": 20
   },
@@ -18916,7 +18974,8 @@
       "art-1787666224521",
       "art-1787665587156",
       "art-1783384171137"
-    ]
+    ],
+    "image_url": "/images/covers/nuitari.png"
   },
   {
     "title": "Nidhog",
@@ -18964,7 +19023,8 @@
     "is_featured": false,
     "id": "art-1783383061996",
     "created_date": "2026-07-07T00:11:09.252Z",
-    "updated_date": "2026-07-07T00:11:09.252Z"
+    "updated_date": "2026-07-07T00:11:09.252Z",
+    "image_url": "/images/covers/nidhog.png"
   },
   {
     "title": "Nemuina",
@@ -19032,7 +19092,8 @@
       "art-1787664370722",
       "art-1787665090919",
       "art-1783383848489"
-    ]
+    ],
+    "image_url": "/images/covers/nemuina.png"
   },
   {
     "title": "Mushusu",
@@ -19091,7 +19152,8 @@
       "art-1783383097223",
       "art-1783383652919",
       "art-1787666801376"
-    ]
+    ],
+    "image_url": "/images/covers/mushusu.png"
   },
   {
     "title": "Morgion",
@@ -19155,7 +19217,8 @@
     "related_article_ids": [
       "art-1783383623438",
       "art-1787664906161"
-    ]
+    ],
+    "image_url": "/images/covers/morgion.webp"
   },
   {
     "title": "Moonhaven",
@@ -19218,7 +19281,7 @@
     "id": "art-1783383018110",
     "created_date": "2026-07-07T00:10:22.648Z",
     "updated_date": "2026-07-09T14:11:46.501Z",
-    "image_url": "https://i.imgur.com/s3nFTJd.png",
+    "image_url": "/images/covers/moonhaven.png",
     "gallery": [],
     "related_article_ids": [
       "art-1783680242263",
@@ -19260,7 +19323,7 @@
     "id": "art-1783383007677",
     "created_date": "2026-07-07T00:10:14.125Z",
     "updated_date": "2026-07-09T14:04:20.756Z",
-    "image_url": "https://i.imgur.com/RGQRB1b.png",
+    "image_url": "/images/covers/minas-de-icespear.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787667030822",
@@ -19319,7 +19382,7 @@
     "id": "art-1783382996827",
     "created_date": "2026-07-07T00:10:05.142Z",
     "updated_date": "2026-08-23T16:58:48.354Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/b6/Mimir.png/revision/latest/scale-to-width-down/1000?cb=20250705190231&path-prefix=es",
+    "image_url": "/images/covers/mimir.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787665020601",
@@ -19469,7 +19532,8 @@
       "art-1787664906161",
       "art-1783383871252",
       "art-1787666836984"
-    ]
+    ],
+    "image_url": "/images/covers/marduk.webp"
   },
   {
     "title": "Mamon",
@@ -19538,7 +19602,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "https://i.imgur.com/qWGQjt7.png",
+    "image_url": "/images/covers/mamon.png",
     "image_position_x": 50,
     "image_position_y": 30
   },
@@ -19571,7 +19635,8 @@
       "art-1787664919295",
       "art-1783383276390",
       "art-1783383645366"
-    ]
+    ],
+    "image_url": "/images/covers/la-corona-del-apocalipsis.png"
   },
   {
     "title": "Auros",
@@ -19657,7 +19722,7 @@
       "art-1787666801376",
       "art-1787666836984"
     ],
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/2/28/Auros-.png/revision/latest?cb=20250319170442&path-prefix=es",
+    "image_url": "/images/covers/auros.webp",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -19721,7 +19786,7 @@
     "id": "art-1783382458947",
     "created_date": "2026-07-07T00:01:08.069Z",
     "updated_date": "2026-08-23T17:00:07.044Z",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/87/Arlon.png/revision/latest/scale-to-width-down/250?cb=20250329104958&path-prefix=es",
+    "image_url": "/images/covers/arlon-diaz.webp",
     "gallery": [],
     "related_article_ids": [
       "art-1787664906161"
@@ -19752,7 +19817,7 @@
         "image_url": ""
       }
     ],
-    "image_url": "https://i.imgur.com/r49saMf.png",
+    "image_url": "/images/covers/glimmerstone-aa54d9.png",
     "map_url": "https://cartocraft-v2.ai.studio/#/map/6a47858a0c31775a5efcdc0e/no-ui?markers=false&lights=true&helpers=false&root=6a47858a0c31775a5efcdc0e",
     "infobox": {},
     "filters": {
@@ -19801,7 +19866,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://i.imgur.com/kbtgdpB.png",
+    "image_url": "/images/covers/makai-d7e6b8.png",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -19844,7 +19909,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://i.imgur.com/lK84OjE.png",
+    "image_url": "/images/covers/ravenholm-075d82.png",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -19884,7 +19949,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://i.imgur.com/eWibqjZ.png",
+    "image_url": "/images/covers/icespear-9a1e7c.png",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -19924,7 +19989,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://i.imgur.com/5xcULFK.png",
+    "image_url": "/images/covers/la-antigua-capital-72cd6a.png",
     "map_url": "https://cartocraft.ai.studio/#/map/6a201116d15c4d51f3b81ff5/no-ui?markers=false&lights=true&helpers=false&root=6a201116d15c4d51f3b81ff5",
     "infobox": {},
     "filters": {
@@ -19962,7 +20027,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://i.imgur.com/AfG8TZP.png",
+    "image_url": "/images/covers/el-abismo-96325e.png",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -19999,7 +20064,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://i.imgur.com/PKTZRLn.png",
+    "image_url": "/images/covers/el-cierre-del-reloj-astral-36732c.png",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -20033,7 +20098,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/ba/El_maestro.png/revision/latest/scale-to-width-down/250?cb=20250717093543&path-prefix=es",
+    "image_url": "/images/covers/el-maestro-db608e.webp",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -20071,7 +20136,7 @@
   {
     "summary": "",
     "timeline_markers": [],
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/7b/Tarot_wiki.png/revision/latest/scale-to-width-down/250?cb=20250716115501&path-prefix=es",
+    "image_url": "/images/covers/tarot-el-gran-bibliotecario-8300f5.webp",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -20108,7 +20173,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/c/c7/Borroko_app.png/revision/latest/scale-to-width-down/250?cb=20250717095340&path-prefix=es",
+    "image_url": "/images/covers/borroko-65d44d.webp",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -20145,7 +20210,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/c/ce/Caballero_del_espejo_web.png/revision/latest/scale-to-width-down/250?cb=20250924151237&path-prefix=es",
+    "image_url": "/images/covers/el-caballero-del-espejo-95b1cd.webp",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -20181,7 +20246,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/4/48/Viejo_rey_Allant.png/revision/latest/scale-to-width-down/250?cb=20250711202007&path-prefix=es",
+    "image_url": "/images/covers/rey-allant-fb4cad.webp",
     "map_url": null,
     "infobox": {
       "Nombre": "Rey Allant",
@@ -20245,7 +20310,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/9/9d/Ostraba.png/revision/latest/scale-to-width-down/250?cb=20250711195551&path-prefix=es",
+    "image_url": "/images/covers/ostrava-c9fdb2.webp",
     "map_url": null,
     "infobox": {
       "Padre": "Rey Allant"
@@ -20286,7 +20351,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/89/Zamos_Vinland.png/revision/latest?cb=20250712130240&path-prefix=es",
+    "image_url": "/images/covers/zamos-vinland-9d7ed1.webp",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -20326,7 +20391,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/1/19/Gar_vindland_y_dama_astraea.png/revision/latest/scale-to-width-down/250?cb=20250711194519&path-prefix=es",
+    "image_url": "/images/covers/garl-vinland-y-la-dama-astraea-ffd99b.webp",
     "map_url": null,
     "infobox": {
       "Pareja": "Astraea"
@@ -20368,7 +20433,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/04/Padre_gabriel_2.png/revision/latest/scale-to-width-down/1000?cb=20250712122101&path-prefix=es",
+    "image_url": "/images/covers/padre-gabriel-cd1d8e.webp",
     "map_url": null,
     "infobox": {
       "Parientes": "Sacerdote y arzobispo de la Blanca Vía, aliado de Caldo de Dragón",
@@ -20413,7 +20478,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://i.imgur.com/tCueEd5.png",
+    "image_url": "/images/covers/el-santuario-d45cdc.png",
     "map_url": "https://cartocraft-v2.ai.studio/#/map/6a36c300d27abeefcaa93fb8/no-ui?markers=false&lights=true&helpers=false&root=6a36c300d27abeefcaa93fb8",
     "infobox": {},
     "filters": {
@@ -20448,7 +20513,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/77/Araña_acorazada.png/revision/latest?cb=20250711190614&path-prefix=es",
+    "image_url": "/images/covers/gran-arana-acorazada-ea7987.webp",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -20484,7 +20549,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://i.imgur.com/hB1mT3O.png",
+    "image_url": "/images/covers/lothric-a1d86b.png",
     "map_url": "https://cartocraft-v2.ai.studio/#/map/6a33c1d0255f836cf606171e/no-ui?markers=false&lights=true&helpers=false&root=6a33c1d0255f836cf606171e",
     "infobox": {},
     "filters": {
@@ -20524,7 +20589,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/9/91/El_caballero_de_la_torre.png/revision/latest?cb=20250711193133&path-prefix=es",
+    "image_url": "/images/covers/el-caballero-de-la-torre-30a91b.webp",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -20562,7 +20627,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://i.imgur.com/QEThPRQ.png",
+    "image_url": "/images/covers/drangleic-869efe.png",
     "map_url": "https://cartocraft-v2.ai.studio/#/map/6a341f5b734bd6279387d003/no-ui?markers=false&lights=true&helpers=false&root=6a341f5b734bd6279387d003",
     "infobox": {},
     "filters": {
@@ -20616,7 +20681,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://i.imgur.com/hbR3CWs.png",
+    "image_url": "/images/covers/boletaria-7e36fa.png",
     "map_url": "https://cartocraft-v2.ai.studio/#/map/6a33e687527f4e300694295d/no-ui?markers=false&lights=true&helpers=false&root=6a33e687527f4e300694295d",
     "infobox": {
       "Región": "Glacio",
@@ -20687,7 +20752,7 @@
   },
   {
     "summary": "",
-    "image_url": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/bd/Iván_del_Valle_Boreal.png/revision/latest/scale-to-width-down/250?cb=20250711203122&path-prefix=es",
+    "image_url": "/images/covers/ivan-del-valle-boreal-326760.webp",
     "map_url": "https://cartocraft.ai.studio/#/map/6a1574173b910e6da1ad0b96/no-ui?markers=false&lights=true&helpers=false&root=6a1574173b910e6da1ad0b96",
     "infobox": {
       "Nombre": "Arthorius",

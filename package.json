@@ -8,7 +8,9 @@
         "build": "vite build",
         "start": "node server.ts",
         "clean": "rm -rf dist",
-        "lint": "tsc --noEmit"
+        "lint": "tsc --noEmit",
+        "images:localize": "node scripts/localize_article_images.mjs",
+        "images:check": "node scripts/localize_article_images.mjs --check"
     },
     "dependencies": {
         "@google/genai": "^2.11.0",

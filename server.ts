@@ -237,7 +237,10 @@ export interface GitHubRuntimeConfig {
   user?: string;
 }
 
-const GITHUB_CONFIG_FILE = "/tmp/dragopedia_github_config.json";
+const GITHUB_CONFIG_FILES = [
+  path.join(process.cwd(), "data", "github_config.json"),
+  "/tmp/dragopedia_github_config.json"
+];
 
 function loadGitHubConfig(): GitHubRuntimeConfig {
   let token = process.env.GITHUB_TOKEN || "";
@@ -245,18 +248,18 @@ function loadGitHubConfig(): GitHubRuntimeConfig {
   let branch = process.env.GITHUB_BRANCH || "main";
   let user: string | undefined = undefined;
 
-  try {
-    if (fs.existsSync(GITHUB_CONFIG_FILE)) {
-      const parsed = JSON.parse(fs.readFileSync(GITHUB_CONFIG_FILE, "utf8"));
-      if (parsed.token) token = parsed.token;
-      if (parsed.repo) {
-        repo = parsed.repo;
+  for (const cfgFile of GITHUB_CONFIG_FILES) {
+    try {
+      if (fs.existsSync(cfgFile)) {
+        const parsed = JSON.parse(fs.readFileSync(cfgFile, "utf8"));
+        if (parsed.token && !token) token = parsed.token;
+        if (parsed.repo) repo = parsed.repo;
+        if (parsed.branch && !process.env.GITHUB_BRANCH) branch = parsed.branch;
+        if (parsed.user) user = parsed.user;
       }
-      if (parsed.branch && !process.env.GITHUB_BRANCH) branch = parsed.branch;
-      if (parsed.user) user = parsed.user;
+    } catch (e) {
+      console.warn("Could not load github config from " + cfgFile + ":", e);
     }
-  } catch (e) {
-    console.warn("Could not load github_config.json:", e);
   }
 
   return { token, repo, branch, user };
@@ -13910,9 +13913,23 @@ async function startServer() {
       const subPath = path.join("images", folder, file);
       const directPath = path.join(publicPath, subPath);
 
+      // 0. Direct check if file exists directly under public/images/:file
+      const rootDirect = path.join(publicPath, "images", file);
+      if (fs.existsSync(rootDirect) && fs.statSync(rootDirect).isFile()) {
+        return res.sendFile(rootDirect);
+      }
+
       // 1. Direct local file match
       if (fs.existsSync(directPath)) {
         return res.sendFile(directPath);
+      }
+
+      // 1b. Check across common subdirectories
+      for (const sub of ["uploads", "covers", "cloud", "maps", "banners", "damage", "functionality", "schools", "targets", "primordial", "og"]) {
+        const candidate = path.join(publicPath, "images", sub, file);
+        if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) {
+          return res.sendFile(candidate);
+        }
       }
 
       // 2. Fallback matching by base name in covers folder
@@ -13962,9 +13979,21 @@ async function startServer() {
               fs.mkdirSync(targetDir, { recursive: true });
             }
             fs.writeFileSync(directPath, buffer);
-            const contentType = ghRes.headers.get("content-type") || (file.endsWith(".png") ? "image/png" : "image/jpeg");
+            const ext = path.extname(file).toLowerCase();
+            const mimeMap: Record<string, string> = {
+              ".png": "image/png",
+              ".jpg": "image/jpeg",
+              ".jpeg": "image/jpeg",
+              ".webp": "image/webp",
+              ".svg": "image/svg+xml",
+              ".gif": "image/gif",
+              ".avif": "image/avif"
+            };
+            const headerType = ghRes.headers.get("content-type");
+            const contentType = mimeMap[ext] || (headerType && !headerType.includes("octet-stream") ? headerType : (file.endsWith(".png") ? "image/png" : "image/jpeg"));
             res.setHeader("Content-Type", contentType);
             res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+            res.setHeader("Access-Control-Allow-Origin", "*");
             return res.send(buffer);
           }
         } catch (fetchErr) {
@@ -14370,44 +14399,46 @@ async function startServer() {
 
 async function syncUploadsFromGitHub() {
   if (!GITHUB_TOKEN) return;
-  try {
-    const targetDir = path.join(process.cwd(), "public", "images", "uploads");
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir, { recursive: true });
-    }
-    const listUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/public/images/uploads?ref=${GITHUB_BRANCH}`;
-    const res = await fetch(listUrl, {
-      headers: {
-        "Authorization": `Bearer ${GITHUB_TOKEN}`,
-        "User-Agent": "Dragopedia-Server"
-      },
-      signal: AbortSignal.timeout(15000)
-    });
-    if (!res.ok) return;
-    const files = await res.json() as any[];
-    if (Array.isArray(files)) {
-      for (const f of files) {
-        if (f.type === "file" && f.download_url) {
-          const dest = path.join(targetDir, f.name);
-          if (!fs.existsSync(dest) || fs.statSync(dest).size === 0) {
-            const fileRes = await fetch(f.download_url, {
-              headers: {
-                "Authorization": `Bearer ${GITHUB_TOKEN}`,
-                "User-Agent": "Dragopedia-Server"
-              },
-              signal: AbortSignal.timeout(45000)
-            });
-            if (fileRes.ok) {
-              const buf = Buffer.from(await fileRes.arrayBuffer());
-              fs.writeFileSync(dest, buf);
-              console.log(`[Startup Precache] Cached ${f.name} locally (${buf.length} bytes).`);
+  for (const sub of ["uploads", "covers"]) {
+    try {
+      const targetDir = path.join(process.cwd(), "public", "images", sub);
+      if (!fs.existsSync(targetDir)) {
+        fs.mkdirSync(targetDir, { recursive: true });
+      }
+      const listUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/public/images/${sub}?ref=${GITHUB_BRANCH}`;
+      const res = await fetch(listUrl, {
+        headers: {
+          "Authorization": `Bearer ${GITHUB_TOKEN}`,
+          "User-Agent": "Dragopedia-Server"
+        },
+        signal: AbortSignal.timeout(15000)
+      });
+      if (!res.ok) continue;
+      const files = await res.json() as any[];
+      if (Array.isArray(files)) {
+        for (const f of files) {
+          if (f.type === "file" && f.download_url) {
+            const dest = path.join(targetDir, f.name);
+            if (!fs.existsSync(dest) || fs.statSync(dest).size === 0) {
+              const fileRes = await fetch(f.download_url, {
+                headers: {
+                  "Authorization": `Bearer ${GITHUB_TOKEN}`,
+                  "User-Agent": "Dragopedia-Server"
+                },
+                signal: AbortSignal.timeout(45000)
+              });
+              if (fileRes.ok) {
+                const buf = Buffer.from(await fileRes.arrayBuffer());
+                fs.writeFileSync(dest, buf);
+                console.log(`[Startup Precache] Cached ${sub}/${f.name} locally (${buf.length} bytes).`);
+              }
             }
           }
         }
       }
+    } catch (err) {
+      console.warn(`[Startup Precache] ${sub} background sync notice:`, (err as any)?.message || err);
     }
-  } catch (err) {
-    console.warn("[Startup Precache] Uploads background sync error:", (err as any)?.message || err);
   }
 }
 

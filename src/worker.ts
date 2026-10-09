@@ -1000,7 +1000,18 @@ export default {
         const githubUrl = `https://raw.githubusercontent.com/tirianworld/Cdd-Dragopedia-DEFINITIVA/main/public${url.pathname}`;
         const ghRes = await fetch(githubUrl);
         if (ghRes.ok) {
-          const contentType = ghRes.headers.get("content-type") || (url.pathname.endsWith(".png") ? "image/png" : "image/jpeg");
+          const ext = url.pathname.slice(url.pathname.lastIndexOf(".")).toLowerCase();
+          const mimeMap: Record<string, string> = {
+            ".png": "image/png",
+            ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
+            ".webp": "image/webp",
+            ".svg": "image/svg+xml",
+            ".gif": "image/gif",
+            ".avif": "image/avif"
+          };
+          const rawType = ghRes.headers.get("content-type");
+          const contentType = mimeMap[ext] || (rawType && !rawType.includes("octet-stream") ? rawType : (url.pathname.endsWith(".png") ? "image/png" : "image/jpeg"));
           const body = await ghRes.arrayBuffer();
           return new Response(body, {
             status: 200,

@@ -2,63 +2,22 @@
  * Utility to process and sanitize image URLs throughout Dragopedia.
  * Bypasses hotlink protection (e.g. Fandom/Wikia Cloudflare 403 blocks)
  * by proxying through our server-side image proxy, and provides reliable fallbacks.
+ * Matches exact logic from Cdd-wiki-V4.
  */
-
-/**
- * Utility to process and sanitize image URLs throughout Dragopedia.
- * Bypasses hotlink protection (e.g. Fandom/Wikia Cloudflare 403 blocks)
- * by proxying through our server-side image proxy, and provides reliable fallbacks
- * using GitHub Raw content for all local/cloud assets.
- */
-
-export const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/tirianworld/Cdd-Dragopedia-DEFINITIVA/main/public";
-
-/**
- * Converts any local image path (/images/...) into a direct GitHub raw content URL.
- */
-export function getGitHubRawFallbackUrl(path?: string | null): string {
-  if (!path || typeof path !== "string") return "";
-  const trimmed = path.trim();
-  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
-    return trimmed;
-  }
-  const cleanPath = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
-  return `${GITHUB_RAW_BASE}${cleanPath}`;
-}
 
 export function getSafeImageUrl(url?: string | null): string {
   if (!url || typeof url !== "string") return "";
-
   const trimmed = url.trim();
   if (!trimmed) return "";
 
-  // Data URLs and blob URLs are safe to use directly
-  if (trimmed.startsWith("data:") || trimmed.startsWith("blob:")) {
+  // Data URLs, local blob URLs, or local absolute paths are safe to use directly
+  if (trimmed.startsWith("data:") || trimmed.startsWith("blob:") || trimmed.startsWith("/")) {
     return trimmed;
   }
 
-  // Already a raw github URL
-  if (trimmed.includes("raw.githubusercontent.com")) {
+  // Already proxied
+  if (trimmed.startsWith("/api/proxy-image")) {
     return trimmed;
-  }
-
-  // Local images (/images/...)
-  if (trimmed.startsWith("/images/") || trimmed.startsWith("images/")) {
-    const cleanPath = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
-
-    // If running in a GitHub Pages environment (username.github.io):
-    if (typeof window !== "undefined" && window.location?.hostname?.endsWith("github.io")) {
-      // Direct raw GitHub URL is 100% reliable on GitHub Pages and never 404s
-      return `${GITHUB_RAW_BASE}${cleanPath}`;
-    }
-
-    // If a custom base URL is configured in Vite/environment
-    const base = (typeof import.meta !== "undefined" && import.meta.env?.BASE_URL ? import.meta.env.BASE_URL : "/").replace(/\/$/, "");
-    if (base && base !== "/" && base !== "." && !cleanPath.startsWith(base)) {
-      return `${base}${cleanPath}`;
-    }
-
-    return cleanPath;
   }
 
   // Known domains with strict hotlink protections / CORS policies
@@ -87,11 +46,8 @@ export function getSafeImageUrl(url?: string | null): string {
 export function getProxiedFallbackUrl(url: string): string {
   if (!url || typeof url !== "string") return "";
   const trimmed = url.trim();
-  if (trimmed.startsWith("data:") || trimmed.startsWith("blob:")) {
+  if (trimmed.startsWith("/") || trimmed.startsWith("data:") || trimmed.startsWith("blob:")) {
     return trimmed;
-  }
-  if (trimmed.startsWith("/images/") || trimmed.startsWith("images/")) {
-    return getGitHubRawFallbackUrl(trimmed);
   }
   if (trimmed.startsWith("/api/proxy-image")) {
     return trimmed;
@@ -101,11 +57,7 @@ export function getProxiedFallbackUrl(url: string): string {
 
 /**
  * Common fallback handler for <img> elements:
- * 1. If it was a local image path (/images/...) that failed on the current domain,
- *    switches seamlessly to GitHub Raw repository CDN.
- * 2. If it was an external HTTP URL, tries the proxy once.
- * 3. If fallbackSrc provided and different, switches to it.
- * 4. Only if all options fail, hides the broken icon.
+ * Tries the proxy once; if that also fails, hides or falls back gracefully.
  */
 export function handleImageErrorWithFallback(
   event: React.SyntheticEvent<HTMLImageElement, Event>,
@@ -117,36 +69,19 @@ export function handleImageErrorWithFallback(
 
   const currentSrc = target.src || "";
 
-  // 1. If it's a local image that failed locally or on a subpath, fall back to GitHub raw CDN
-  const isLocalImage = (originalUrl && (originalUrl.startsWith("/images/") || originalUrl.startsWith("images/"))) ||
-                       currentSrc.includes("/images/");
-
-  if (isLocalImage && !currentSrc.includes("raw.githubusercontent.com")) {
-    let subpath = "";
-    if (originalUrl && (originalUrl.startsWith("/images/") || originalUrl.startsWith("images/"))) {
-      subpath = originalUrl.startsWith("/") ? originalUrl : `/${originalUrl}`;
-    } else if (currentSrc.includes("/images/")) {
-      subpath = `/images/${currentSrc.split("/images/")[1].split("?")[0]}`;
-    }
-
-    if (subpath) {
-      target.src = `${GITHUB_RAW_BASE}${subpath}`;
-      return;
-    }
-  }
-
-  // 2. If not yet proxied and original URL was external HTTP, try server proxy
-  if (originalUrl && !currentSrc.includes("/api/proxy-image") && originalUrl.startsWith("http") && !originalUrl.includes("raw.githubusercontent.com")) {
+  // If not yet proxied and original URL was external, try proxying
+  if (originalUrl && !currentSrc.includes("/api/proxy-image") && originalUrl.startsWith("http")) {
     target.src = getProxiedFallbackUrl(originalUrl);
     return;
   }
 
-  // 3. If fallbackSrc provided and different, switch to it
+  // If fallbackSrc provided and different, switch to it
   if (fallbackSrc && target.src !== fallbackSrc) {
     target.src = fallbackSrc;
     return;
   }
 
-  // 4. If all fails, hide image so broken icon doesn't show
-  target.style.display = "none";
+  // If all fails, gracefully dim rather than abrupt destruction
+  target.style.opacity = "0.5";
 }
+

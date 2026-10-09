@@ -13408,7 +13408,7 @@ async function startServer() {
   // Always serve public static assets (images, data fallbacks, etc.)
   const publicPath = path.join(process.cwd(), "public");
   if (fs.existsSync(publicPath)) {
-    // Smart image serving & recovery: serve local disk, match slugs across folders, or fetch from GitHub repo if missing
+    // Smart image serving & recovery: serve local disk or fetch from GitHub repo if missing
     app.get(["/images/:folder/:file", "/images/covers/:file", "/images/:file"], async (req: Request, res: Response, next) => {
       const folder = req.params.folder || "covers";
       const file = req.params.file || req.params.folder;
@@ -13422,87 +13422,56 @@ async function startServer() {
         return res.sendFile(directPath);
       }
 
-      // 2. Fallback matching by base name in covers, uploads, and cloud folders
-      const searchFolders = Array.from(new Set([folder, "covers", "uploads", "cloud", "cache", "monsters", "banners", "maps"]));
-      const baseName = file
-        .replace(/-[0-9]{10,}.*$/, "")
-        .replace(/_[a-f0-9]{10}.*$/, "")
-        .replace(/\.[a-zA-Z0-9]+$/, "")
-        .toLowerCase();
-
-      for (const fld of searchFolders) {
-        const targetDir = path.join(publicPath, "images", fld);
-        if (fs.existsSync(targetDir)) {
-          const files = fs.readdirSync(targetDir);
-          // 2a. Exact file match in sibling folder
-          if (files.includes(file)) {
-            return res.sendFile(path.join(targetDir, file));
-          }
-          // 2b. Base name match (e.g., "belcebu" matching "belcebu-1789305546288.png" or "cid" matching "cid-1791537864394_ovtha.png")
-          const match = files.find(f => {
-            const fLower = f.toLowerCase();
-            const fBase = fLower.replace(/\.[a-zA-Z0-9]+$/, "");
-            return (
-              fBase === baseName ||
-              fBase.startsWith(baseName + "-") ||
-              fBase.startsWith(baseName + "_") ||
-              fLower === `${baseName}.png` ||
-              fLower === `${baseName}.jpg` ||
-              fLower === `${baseName}.webp`
-            );
-          });
-          if (match) {
-            return res.sendFile(path.join(targetDir, match));
-          }
+      // 2. Exact timestamp / extension fallback ONLY within the same folder
+      const targetDir = path.join(publicPath, "images", folder);
+      if (fs.existsSync(targetDir)) {
+        const baseName = file.replace(/-[0-9]{10,}\.[a-zA-Z0-9]+$/, "").replace(/\.[a-zA-Z0-9]+$/, "");
+        const files = fs.readdirSync(targetDir);
+        const match = files.find(f => {
+          const fBase = f.replace(/\.[a-zA-Z0-9]+$/, "");
+          return fBase === baseName || f.startsWith(baseName + ".");
+        });
+        if (match) {
+          return res.sendFile(path.join(targetDir, match));
         }
       }
 
-      // 3. Fallback recovery from GitHub repository
+      // 3. Fallback recovery from GitHub repository for the specific file
       if (GITHUB_REPO) {
-        const candidatePaths = [
-          `public/images/${folder}/${file}`,
-          `public/images/covers/${file}`,
-          `public/images/uploads/${file}`,
-          `public/images/cloud/${file}`
-        ];
-
-        for (const repoRelativePath of candidatePaths) {
-          try {
-            const headers: Record<string, string> = { "User-Agent": "Dragopedia-Server" };
-            if (GITHUB_TOKEN) {
-              headers["Authorization"] = `Bearer ${GITHUB_TOKEN}`;
-            }
-            // Try raw.githubusercontent.com first
-            const rawGithubUrl = `https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/${repoRelativePath}`;
-            let ghRes = await fetch(rawGithubUrl, { headers, signal: AbortSignal.timeout(15000) });
-            
-            // If raw endpoint fails, try api.github.com contents raw endpoint
-            if (!ghRes.ok && GITHUB_TOKEN) {
-              const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${repoRelativePath}?ref=${GITHUB_BRANCH}`;
-              ghRes = await fetch(apiUrl, {
-                headers: {
-                  ...headers,
-                  "Accept": "application/vnd.github.v3.raw"
-                },
-                signal: AbortSignal.timeout(15000)
-              });
-            }
-
-            if (ghRes.ok) {
-              const buffer = Buffer.from(await ghRes.arrayBuffer());
-              const targetDir = path.dirname(directPath);
-              if (!fs.existsSync(targetDir)) {
-                fs.mkdirSync(targetDir, { recursive: true });
-              }
-              fs.writeFileSync(directPath, buffer);
-              const contentType = ghRes.headers.get("content-type") || (file.endsWith(".png") ? "image/png" : "image/jpeg");
-              res.setHeader("Content-Type", contentType);
-              res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-              return res.send(buffer);
-            }
-          } catch (fetchErr) {
-            // continue candidate loop
+        const repoRelativePath = `public/images/${folder}/${file}`;
+        try {
+          const headers: Record<string, string> = { "User-Agent": "Dragopedia-Server" };
+          if (GITHUB_TOKEN) {
+            headers["Authorization"] = `Bearer ${GITHUB_TOKEN}`;
           }
+          const rawGithubUrl = `https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/${repoRelativePath}`;
+          let ghRes = await fetch(rawGithubUrl, { headers, signal: AbortSignal.timeout(15000) });
+          
+          if (!ghRes.ok && GITHUB_TOKEN) {
+            const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${repoRelativePath}?ref=${GITHUB_BRANCH}`;
+            ghRes = await fetch(apiUrl, {
+              headers: {
+                ...headers,
+                "Accept": "application/vnd.github.v3.raw"
+              },
+              signal: AbortSignal.timeout(15000)
+            });
+          }
+
+          if (ghRes.ok) {
+            const buffer = Buffer.from(await ghRes.arrayBuffer());
+            const targetParent = path.dirname(directPath);
+            if (!fs.existsSync(targetParent)) {
+              fs.mkdirSync(targetParent, { recursive: true });
+            }
+            fs.writeFileSync(directPath, buffer);
+            const contentType = ghRes.headers.get("content-type") || (file.endsWith(".png") ? "image/png" : "image/jpeg");
+            res.setHeader("Content-Type", contentType);
+            res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+            return res.send(buffer);
+          }
+        } catch (fetchErr) {
+          // ignore
         }
       }
 

@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { createRoot } from "react-dom/client";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import { WikiArticle, ArticleEmbeddedGraph } from "../types";
 import { getCategoryIcon, getCategoryColor } from "./Layout";
 import { useCategories } from "../context/CategoryContext";
+import { getAllArticleCategories } from "../utils/categoryHelper";
 import { syncFetch, getCachedArticles, getCachedArticleBySlugOrId } from "../utils/syncArticles";
 import { getCleanMapUrl } from "../utils/mapHelper";
 import { getSafeImageUrl, handleImageErrorWithFallback } from "../utils/imageUrl";
@@ -25,9 +26,6 @@ import { ArticleTarotScribeModal } from "./ArticleTarotScribeModal";
 import { WebBuilderCanvas } from "./webbuilder/WebBuilderCanvas";
 import { SpellbookSpell } from "../types";
 import { getSpellIconUrl, SCHOOL_COLORS } from "./SpellbookSpellPickerModal";
-import { HeroForgeViewer } from "./HeroForgeViewer";
-import { HeroForgeEmbedData } from "../types";
-import { processHeroForgeShortcodes } from "../utils/heroForgeHelper";
 
 function splitIntoShortPhrases(text: string): string[] {
   const sentences = text.split(/(?<=[.!?¿¡;])\s+/);
@@ -90,11 +88,53 @@ export function ArticleView() {
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
   const [formatting, setFormatting] = useState(false);
   const [mapZoomLevel, setMapZoomLevel] = useState<number>(1.28); // Default 1.28 (128%) zoom eliminates letterboxing and black borders completely
+  const [isTimelineMinimized, setIsTimelineMinimized] = useState<boolean>(() => {
+    try {
+      const savedPref = localStorage.getItem("articleview_timeline_minimized_pref");
+      if (savedPref !== null) {
+        return savedPref === "true";
+      }
+    } catch {}
+    return true;
+  });
+
+  // Sincronizar y guardar en caché la preferencia de línea temporal desplegada o minimizada
+  useEffect(() => {
+    try {
+      const savedPref = localStorage.getItem("articleview_timeline_minimized_pref");
+      if (savedPref !== null) {
+        setIsTimelineMinimized(savedPref === "true");
+      }
+    } catch {}
+  }, [slug]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("articleview_timeline_minimized_pref", String(isTimelineMinimized));
+      if (article?.id) {
+        localStorage.setItem(`articleview_timeline_minimized_${article.id}`, String(isTimelineMinimized));
+      }
+    } catch {}
+  }, [isTimelineMinimized, article?.id]);
+
+  const toggleTimelineMinimized = () => {
+    setIsTimelineMinimized((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("articleview_timeline_minimized_pref", String(next));
+        if (article?.id) {
+          localStorage.setItem(`articleview_timeline_minimized_${article.id}`, String(next));
+        }
+      } catch {}
+      return next;
+    });
+  };
 
   // Floating Map Window Hook ("pestaña flotante dentro de la wiki")
   const { openFloatingMap } = useFloatingMap();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Podcast / Narrator AI States
   const [playerMode, setPlayerMode] = useState<"narrator" | "podcast" | null>(null);
@@ -141,6 +181,7 @@ export function ArticleView() {
   const [editTitle, setEditTitle] = useState("");
   const [editSummary, setEditSummary] = useState("");
   const [editCategory, setEditCategory] = useState("");
+  const [editExtraCategories, setEditExtraCategories] = useState<string[]>([]);
   const [editCoverImage, setEditCoverImage] = useState("");
   const [editInfobox, setEditInfobox] = useState<Record<string, string>>({});
   const [editTimelineMarkers, setEditTimelineMarkers] = useState<any[]>([]);
@@ -157,6 +198,8 @@ export function ArticleView() {
       setEditTitle(article.title || "");
       setEditSummary(article.summary || "");
       setEditCategory(article.category || "");
+      const allCats = getAllArticleCategories(article);
+      setEditExtraCategories(allCats.length > 0 ? allCats : [article.category || "Personajes"]);
       setEditCoverImage(article.image_url || "");
       setEditInfobox(article.infobox ? { ...article.infobox } : {});
       setEditTimelineMarkers(Array.isArray(article.timeline_markers) ? [...article.timeline_markers] : []);
@@ -171,11 +214,15 @@ export function ArticleView() {
       return;
     }
     setIsSavingArticle(true);
+    const finalExtras = Array.from(
+      new Set([editCategory.trim(), ...editExtraCategories].map((c) => (c || "").trim()).filter(Boolean))
+    );
     const updated: WikiArticle = {
       ...article,
       title: editTitle.trim(),
       summary: editSummary.trim(),
       category: editCategory.trim(),
+      extra_categories: finalExtras,
       image_url: editCoverImage.trim(),
       infobox: editInfobox,
       timeline_markers: editTimelineMarkers,
@@ -820,19 +867,13 @@ export function ArticleView() {
   }, []);
 
   useEffect(() => {
-    if (!slug) {
-      setArticle(null);
-      setLoading(false);
-      return;
-    }
-
     // Instant cache check first
-    const cachedArt = getCachedArticleBySlugOrId(slug);
+    const cachedArt = slug ? getCachedArticleBySlugOrId(slug) : null;
     const cachedList = getCachedArticles();
     if (cachedList.length > 0) {
       setAllArticles(cachedList);
     }
-    if (cachedArt && cachedArt.title) {
+    if (cachedArt) {
       setArticle(cachedArt);
       setLoading(false);
       if (Array.isArray(cachedArt.timeline_markers) && cachedArt.timeline_markers.length > 0) {
@@ -849,45 +890,21 @@ export function ArticleView() {
       syncFetch(`/api/articles/${slug}`).then((res) => {
         if (!res.ok) throw new Error("Article not found");
         return res.json();
-      }).catch(() => null),
+      }),
       fetch("/api/dnd5e-monsters").then((res) => res.json()).catch(() => []),
       fetch("/api/spellbook/spells").then((res) => res.json()).catch(() => ({ spells: [] }))
     ])
       .then(([articlesList, activeArticle, monstersList, spellsData]) => {
         const safeArticles = Array.isArray(articlesList) ? articlesList : [];
         setAllArticles(safeArticles);
-
-        // Ensure activeArticle is a valid single article with id and title
-        const isValid = Boolean(activeArticle && !Array.isArray(activeArticle) && activeArticle.id && activeArticle.title);
-        let resolvedArticle: WikiArticle | null = isValid ? activeArticle : null;
-
-        // Fallback: look up in full safeArticles if activeArticle is missing or lacking content
-        if ((!resolvedArticle || !resolvedArticle.content) && slug) {
-          const norm = (s: string) => (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-          const targetNorm = norm(slug);
-          const found = safeArticles.find((a: any) => 
-            Boolean(a && a.id && a.title && (
-              a.slug === slug || 
-              a.id === slug || 
-              norm(a.slug || "") === targetNorm || 
-              norm(a.id || "") === targetNorm ||
-              norm(a.title || "") === targetNorm
-            ))
-          );
-          if (found) {
-            resolvedArticle = found;
+        if (activeArticle && activeArticle.title) {
+          setArticle(activeArticle);
+          // Default select first timeline milestone if available, or restore from localStorage if it exists for this article
+          if (Array.isArray(activeArticle.timeline_markers) && activeArticle.timeline_markers.length > 0) {
+            const savedTimelineId = localStorage.getItem(`articleview_selected_timeline_id_${activeArticle.id}`);
+            const foundTimeline = activeArticle.timeline_markers.find((m: any) => m && m.id === savedTimelineId);
+            setSelectedTimelineId(foundTimeline ? foundTimeline.id : activeArticle.timeline_markers[0]?.id || null);
           }
-        }
-
-        if (resolvedArticle && resolvedArticle.title) {
-          setArticle(resolvedArticle);
-          if (Array.isArray(resolvedArticle.timeline_markers) && resolvedArticle.timeline_markers.length > 0) {
-            const savedTimelineId = localStorage.getItem(`articleview_selected_timeline_id_${resolvedArticle.id}`);
-            const foundTimeline = resolvedArticle.timeline_markers.find((m: any) => m && m.id === savedTimelineId);
-            setSelectedTimelineId(foundTimeline ? foundTimeline.id : resolvedArticle.timeline_markers[0]?.id || null);
-          }
-        } else if (!cachedArt) {
-          setArticle(null);
         }
         
         const uniqueMonsters: any[] = [];
@@ -909,7 +926,10 @@ export function ArticleView() {
         setLoading(false);
       })
       .catch((err) => {
-        console.warn("Background loading article details:", err);
+        if (err?.message !== "Article not found") {
+          console.warn("Background loading article details:", err);
+        }
+        // Only clear article if we didn't already have one from cache
         if (!cachedArt) {
           setArticle(null);
         }
@@ -942,7 +962,17 @@ export function ArticleView() {
     }
   };
 
-  const currentCategory = mergedCategories.find((c) => c.name === article?.category);
+  const activeDisplayCategoryName = useMemo(() => {
+    const fromCat = (location.state as any)?.fromCategory;
+    if (fromCat && typeof fromCat === "string" && fromCat.trim()) {
+      return fromCat.trim();
+    }
+    return article?.category || "Personajes";
+  }, [location.state, article?.category]);
+
+  const currentCategory = mergedCategories.find(
+    (c) => c.name.toLowerCase().trim() === activeDisplayCategoryName.toLowerCase().trim()
+  ) || mergedCategories.find((c) => c.name === article?.category);
   const themeColor = currentCategory ? currentCategory.color : "#a0a0a0";
 
   // Build lookup dictionary for related articles safely
@@ -974,10 +1004,10 @@ export function ArticleView() {
   })) : [];
   const currentGalleryItem = safeGallery[activeGalleryIndex] || safeGallery[0] || null;
 
-  // Process HTML body and timeline content to safely proxy external blocked images and parse graph/heroforge shortcodes
+  // Process HTML body and timeline content to safely proxy external blocked images and parse graph shortcodes
   const processedContent = useMemo(() => {
     if (!article?.content) return "<p>No hay descripción para este manuscrito místico.</p>";
-    let result = article.content.replace(/src=["'](https?:\/\/[^"']+)["']/g, (_match, url) => {
+    let result = article.content.replace(/src=["']([^"']+)["']/g, (_match, url) => {
       return `src="${getSafeImageUrl(url)}"`;
     });
     // Parse markdown shortcodes like [grafo type="magias"] or [grafo]
@@ -989,29 +1019,24 @@ export function ArticleView() {
       };
       return `<div class="dragopedia-graph-embed my-6" data-graph="${encodeURIComponent(JSON.stringify(cfg))}"></div>`;
     });
-    // Parse Hero Forge shortcodes like [heroforge url="..." name="..."]
-    result = processHeroForgeShortcodes(result);
     return result;
   }, [article?.content]);
 
   const processedTimelineContent = useMemo(() => {
     if (!activeTimelineMarker?.content) return "";
-    let res = activeTimelineMarker.content.replace(/src=["'](https?:\/\/[^"']+)["']/g, (_match, url) => {
+    return activeTimelineMarker.content.replace(/src=["']([^"']+)["']/g, (_match, url) => {
       return `src="${getSafeImageUrl(url)}"`;
     });
-    res = processHeroForgeShortcodes(res);
-    return res;
   }, [activeTimelineMarker?.content]);
 
-  // Mount interactive EmbeddedGraphViewer & HeroForgeViewer into placeholders inside the article content
+  // Mount interactive EmbeddedGraphViewer into any embedded graph placeholders inside the article content
   useEffect(() => {
     const container = wikiContentRef.current;
     if (!container) return;
 
+    const embedEls = container.querySelectorAll<HTMLElement>(".dragopedia-graph-embed");
     const roots: Array<{ unmount: () => void }> = [];
 
-    // 1. Mount Embedded Graphs
-    const embedEls = container.querySelectorAll<HTMLElement>(".dragopedia-graph-embed");
     embedEls.forEach((el) => {
       if (el.getAttribute("data-react-mounted") === "true") return;
       el.setAttribute("data-react-mounted", "true");
@@ -1052,36 +1077,6 @@ export function ArticleView() {
       );
     });
 
-    // 2. Mount Hero Forge 3D Miniature Viewers
-    const heroForgeEls = container.querySelectorAll<HTMLElement>(".heroforge-embed-container");
-    heroForgeEls.forEach((el) => {
-      if (el.getAttribute("data-react-mounted") === "true") return;
-      el.setAttribute("data-react-mounted", "true");
-
-      let hfData: HeroForgeEmbedData = {
-        url: "https://www.heroforge.com",
-        name: "Miniatura Hero Forge",
-      };
-
-      const rawData = el.getAttribute("data-heroforge");
-      if (rawData) {
-        try {
-          hfData = JSON.parse(decodeURIComponent(rawData));
-        } catch {
-          try {
-            hfData = JSON.parse(rawData);
-          } catch (e) {
-            console.warn("Could not parse data-heroforge on element:", e);
-          }
-        }
-      }
-
-      el.innerHTML = "";
-      const root = createRoot(el);
-      roots.push(root);
-      root.render(<HeroForgeViewer data={hfData} />);
-    });
-
     return () => {
       roots.forEach((r) => {
         try {
@@ -1089,7 +1084,7 @@ export function ArticleView() {
         } catch {}
       });
     };
-  }, [processedContent, processedTimelineContent, allArticles]);
+  }, [processedContent, allArticles]);
 
   // Resolve embedded graph for the article: explicitly configured or smart detection for schools of magic / pillars
   const resolvedEmbeddedGraph = useMemo(() => {
@@ -1113,13 +1108,12 @@ export function ArticleView() {
       }
       const subs = getSubmagiasForPillar(p.id);
       for (const s of subs) {
-        const hasMatch = 
-          (titleNorm.length > 0 && titleNorm === norm(s.title)) || 
-          (slugNorm.length > 0 && Boolean(s.slug) && slugNorm === norm(s.slug || "")) || 
+        if (
+          titleNorm === norm(s.title) || 
+          slugNorm === norm(s.slug || "") || 
           (titleNorm.length > 3 && norm(s.title).includes(titleNorm)) ||
-          (norm(s.title).length > 3 && titleNorm.includes(norm(s.title)));
-
-        if (hasMatch) {
+          (norm(s.title).length > 3 && titleNorm.includes(norm(s.title)))
+        ) {
           return {
             type: "magias" as const,
             subgraphType: "submagia" as const,
@@ -1178,10 +1172,10 @@ export function ArticleView() {
           <span>/</span>
           {currentCategory ? (
             <Link to={`/categoria/${currentCategory.slug}`} className="hover:text-foreground transition-colors">
-              {article.category}
+              {currentCategory.name}
             </Link>
           ) : (
-            <span>{article.category}</span>
+            <span>{activeDisplayCategoryName}</span>
           )}
           <span>/</span>
           <span className="text-foreground font-medium">{article.title}</span>
@@ -1265,15 +1259,87 @@ export function ArticleView() {
           {/* Main Title Banner */}
           <div>
             {isVisualEditMode ? (
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] uppercase font-bold text-muted-foreground">Categoría:</span>
-                  <input
-                    type="text"
-                    value={editCategory}
-                    onChange={(e) => setEditCategory(e.target.value)}
-                    className="px-2 py-0.5 text-xs bg-secondary border border-border rounded text-foreground font-semibold"
-                  />
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-[10px] uppercase font-bold text-muted-foreground">Categorías:</span>
+                  {Array.from(new Set([editCategory, ...editExtraCategories].filter(Boolean))).map((catName) => {
+                    const matched = mergedCategories.find(
+                      (c) => c.name.toLowerCase().trim() === catName.toLowerCase().trim()
+                    );
+                    const chipColor = matched?.color || "#2dd4bf";
+                    const isPrimary = catName.toLowerCase().trim() === editCategory.toLowerCase().trim();
+                    const allSelected = Array.from(new Set([editCategory, ...editExtraCategories].filter(Boolean)));
+
+                    return (
+                      <span
+                        key={catName}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-xs font-semibold border"
+                        style={{
+                          backgroundColor: `${chipColor}20`,
+                          borderColor: isPrimary ? chipColor : `${chipColor}55`,
+                          color: chipColor
+                        }}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setEditCategory(catName)}
+                          title={isPrimary ? "Categoría principal" : "Marcar como categoría principal"}
+                          className="cursor-pointer"
+                        >
+                          {catName}
+                        </button>
+                        {allSelected.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const remaining = allSelected.filter(
+                                (c) => c.toLowerCase().trim() !== catName.toLowerCase().trim()
+                              );
+                              setEditExtraCategories(remaining);
+                              if (isPrimary && remaining.length > 0) {
+                                setEditCategory(remaining[0]);
+                              }
+                            }}
+                            title={`Quitar ${catName}`}
+                            className="hover:opacity-75 cursor-pointer"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        )}
+                      </span>
+                    );
+                  })}
+
+                  <select
+                    value=""
+                    onChange={(e) => {
+                      const added = e.target.value;
+                      if (!added) return;
+                      if (!editCategory) setEditCategory(added);
+                      setEditExtraCategories((prev) => {
+                        const current = Array.from(new Set([editCategory, ...prev].filter(Boolean)));
+                        if (current.some((c) => c.toLowerCase().trim() === added.toLowerCase().trim())) {
+                          return current;
+                        }
+                        return [...current, added];
+                      });
+                    }}
+                    className="px-2.5 py-1 text-xs bg-secondary border border-dashed border-primary/45 rounded-lg text-foreground font-semibold cursor-pointer"
+                  >
+                    <option value="">+ Añadir categoría...</option>
+                    {mergedCategories
+                      .filter(
+                        (c) =>
+                          !Array.from(new Set([editCategory, ...editExtraCategories].filter(Boolean))).some(
+                            (sel) => sel.toLowerCase().trim() === c.name.toLowerCase().trim()
+                          )
+                      )
+                      .map((c) => (
+                        <option key={c.slug || c.name} value={c.name}>
+                          {c.parentId || c.parentSlug ? `↳ ${c.name}` : c.name}
+                        </option>
+                      ))}
+                  </select>
                 </div>
                 <div className="space-y-1">
                   <span className="text-[10px] uppercase font-bold text-primary tracking-wider">Título del Artículo:</span>
@@ -1288,29 +1354,9 @@ export function ArticleView() {
             ) : (
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-widest" style={{ color: themeColor }}>
-                  {article.category}
+                  {activeDisplayCategoryName}
                 </span>
                 <div className="flex items-center gap-3 mt-1.5">
-                  <button
-                    onClick={() => {
-                      if (playerMode) {
-                        handleTogglePlay();
-                      } else {
-                        loadPodcastScript();
-                      }
-                    }}
-                    disabled={loadingScript}
-                    className="flex-shrink-0 p-2.5 rounded-full bg-primary/15 text-primary border border-primary/30 hover:bg-primary/25 hover:scale-110 active:scale-95 transition-all shadow-md focus:outline-none"
-                    title="Escuchar Narración AI (NotebookLM / Podcast)"
-                  >
-                    {loadingScript ? (
-                      <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                    ) : playerMode && isPlaying ? (
-                      <Pause className="h-5 w-5 fill-current text-primary animate-pulse" />
-                    ) : (
-                      <Play className="h-5 w-5 fill-current text-primary ml-0.5" />
-                    )}
-                  </button>
                   <h1 className="font-heading text-2.5xl lg:text-3.5xl font-extrabold text-foreground tracking-wide">
                     {article.title}
                   </h1>
@@ -1361,78 +1407,122 @@ export function ArticleView() {
 
           {/* Interactive Timeline with Dots */}
           {article.timeline_markers && article.timeline_markers.length > 0 && (
-            <div className="bg-card/45 border border-border/50 rounded-xl p-5 md:p-6 mb-2">
-              <div className="flex items-center gap-2 mb-6">
-                <Calendar className="h-4.5 w-4.5 text-primary" />
-                <span className="font-heading font-bold text-xs uppercase tracking-widest text-foreground">
-                  Línea Temporal (Puntos de Interés)
-                </span>
-              </div>
-
-              <div className="relative flex items-center justify-between px-6 md:px-12 py-3">
-                {/* Horizontal progress background line */}
-                <div className="absolute top-1/2 left-8 md:left-14 right-8 md:right-14 h-0.5 bg-border -translate-y-1/2" />
-                
-                {/* Active progress color indicator */}
-                <div 
-                  className="absolute top-1/2 left-8 md:left-14 h-0.5 bg-primary -translate-y-1/2 transition-all duration-300"
-                  style={{
-                    width: `${
-                      article.timeline_markers.length > 1
-                        ? (article.timeline_markers.findIndex((m) => m.id === selectedTimelineId) / (article.timeline_markers.length - 1)) * 100
-                        : 0
-                    }%`
-                  }}
+            <div className="bg-card/45 border border-border/50 rounded-xl p-5 md:p-6 mb-2 transition-all overflow-hidden">
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={toggleTimelineMinimized}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    toggleTimelineMinimized();
+                  }
+                }}
+                className={`flex items-center justify-between cursor-pointer select-none ${
+                  isTimelineMinimized ? "" : "mb-6"
+                }`}
+                title={isTimelineMinimized ? "Desplegar Línea Temporal" : "Minimizar Línea Temporal"}
+              >
+                <div className="flex items-center gap-2.5">
+                  <Calendar className="h-4.5 w-4.5 text-primary shrink-0" />
+                  <span className="font-heading font-bold text-xs uppercase tracking-widest text-foreground">
+                    Línea Temporal (Puntos de Interés)
+                  </span>
+                </div>
+                <ChevronDown
+                  className={`h-5 w-5 text-primary shrink-0 transition-transform duration-200 ${
+                    isTimelineMinimized ? "rotate-0" : "rotate-180"
+                  }`}
+                  strokeWidth={2.5}
                 />
-
-                {article.timeline_markers.map((marker, index) => {
-                  const isSelected = selectedTimelineId === marker.id;
-                  return (
-                    <div key={marker.id} className="relative flex flex-col items-center z-10">
-                      {/* Interactive Point Button */}
-                      <button
-                        onClick={() => setSelectedTimelineId(marker.id)}
-                        className={`w-6 h-6 rounded-full flex items-center justify-center border-2 transition-all duration-300 relative focus:outline-none ${
-                          isSelected
-                            ? "bg-background border-primary scale-125 shadow-[0_0_12px_rgba(var(--primary-rgb),0.6)]"
-                            : "bg-secondary border-border hover:border-primary/60 hover:scale-110"
-                        }`}
-                        title={marker.label}
-                      >
-                        <div 
-                          className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                            isSelected ? "bg-primary" : "bg-transparent"
-                          }`}
-                        />
-                      </button>
-
-                      {/* Floating Text Label */}
-                      <div className="absolute top-8 whitespace-nowrap text-center">
-                        <span 
-                          className={`text-[10px] md:text-[11px] font-heading font-bold uppercase tracking-wider transition-colors duration-200 ${
-                            isSelected ? "text-primary" : "text-muted-foreground hover:text-foreground"
-                          }`}
-                        >
-                          {marker.label}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
               </div>
-              {/* Extra spacing for absolute label text height */}
-              <div className="h-6" />
 
-              {/* Contenido del hito seleccionado en la línea temporal */}
-              {activeTimelineMarker && activeTimelineMarker.content && (
-                <div className="mt-4 p-4 rounded-lg bg-primary/5 border border-primary/10">
-                  <h4 className="font-heading font-bold text-xs text-primary uppercase tracking-wider mb-1.5">
-                    Hito: {activeTimelineMarker.label}
-                  </h4>
-                  <div 
-                    className="text-xs md:text-sm text-muted-foreground/95 leading-relaxed prose prose-invert max-w-none"
-                    dangerouslySetInnerHTML={{ __html: processedTimelineContent }}
-                  />
+              {!isTimelineMinimized && (
+                <div className="w-full overflow-hidden">
+                  <div className="px-4 sm:px-8 pt-2 pb-9">
+                    <div className="relative flex items-center justify-between w-full">
+                      {/* Track container strictly between first and last dot centers */}
+                      <div className="absolute left-3 right-3 top-1/2 -translate-y-1/2 h-0.5 bg-border rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-primary transition-all duration-300"
+                          style={{
+                            width: `${
+                              article.timeline_markers.length > 1
+                                ? Math.min(
+                                    100,
+                                    Math.max(
+                                      0,
+                                      (Math.max(0, article.timeline_markers.findIndex((m) => m.id === selectedTimelineId)) /
+                                        (article.timeline_markers.length - 1)) *
+                                        100
+                                    )
+                                  )
+                                : 0
+                            }%`
+                          }}
+                        />
+                      </div>
+
+                      {article.timeline_markers.map((marker, idx) => {
+                        const isSelected = selectedTimelineId === marker.id;
+                        const total = article.timeline_markers!.length;
+                        const isFirst = idx === 0;
+                        const isLast = idx === total - 1 && total > 1;
+
+                        return (
+                          <div key={marker.id} className="relative flex flex-col items-center z-10">
+                            {/* Interactive Point Button */}
+                            <button
+                              type="button"
+                              onClick={() => setSelectedTimelineId(marker.id)}
+                              className={`w-6 h-6 rounded-full flex items-center justify-center border-2 transition-all duration-300 relative focus:outline-none cursor-pointer ${
+                                isSelected
+                                  ? "bg-background border-primary scale-125 shadow-[0_0_12px_rgba(var(--primary-rgb),0.6)]"
+                                  : "bg-secondary border-border hover:border-primary/60 hover:scale-110"
+                              }`}
+                              title={marker.label}
+                            >
+                              <div
+                                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                                  isSelected ? "bg-primary" : "bg-transparent"
+                                }`}
+                              />
+                            </button>
+
+                            {/* Solo mostrar el texto del punto seleccionado, alineado para no salirse de la cajetilla */}
+                            {isSelected && (
+                              <div
+                                className={`absolute top-8 whitespace-nowrap max-w-[220px] sm:max-w-[280px] truncate ${
+                                  isFirst
+                                    ? "left-0 text-left"
+                                    : isLast
+                                    ? "right-0 text-right"
+                                    : "left-1/2 -translate-x-1/2 text-center"
+                                }`}
+                              >
+                                <span className="text-[10px] md:text-[11px] font-heading font-bold uppercase tracking-wider text-primary">
+                                  {marker.label}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Contenido del hito seleccionado en la línea temporal */}
+                  {activeTimelineMarker && activeTimelineMarker.content && (
+                    <div className="mt-2 p-4 rounded-lg bg-primary/5 border border-primary/10">
+                      <h4 className="font-heading font-bold text-xs text-primary uppercase tracking-wider mb-1.5">
+                        Hito: {activeTimelineMarker.label}
+                      </h4>
+                      <div 
+                        className="text-xs md:text-sm text-muted-foreground/95 leading-relaxed prose prose-invert max-w-none break-words"
+                        dangerouslySetInnerHTML={{ __html: processedTimelineContent }}
+                      />
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -1570,9 +1660,10 @@ export function ArticleView() {
                   title="Haz clic para ampliar la imagen"
                 >
                   <img 
-                    src={currentGalleryItem.url} 
+                    src={getSafeImageUrl(currentGalleryItem.url)} 
                     alt="Gallery item" 
                     referrerPolicy="no-referrer"
+                    onError={(e) => handleImageErrorWithFallback(e, currentGalleryItem.url)}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1600,9 +1691,10 @@ export function ArticleView() {
                         }`}
                       >
                         <img 
-                          src={img.url} 
+                          src={getSafeImageUrl(img.url)} 
                           alt="Thumbnail" 
                           referrerPolicy="no-referrer"
+                          onError={(e) => handleImageErrorWithFallback(e, img.url)}
                           className="w-full h-full object-cover"
                         />
                       </button>
@@ -1787,8 +1879,9 @@ export function ArticleView() {
                       <div className="h-10 w-10 shrink-0 rounded-md overflow-hidden border border-border bg-secondary/30 flex items-center justify-center relative">
                         {monsterImg ? (
                           <img 
-                            src={monsterImg} 
+                            src={getSafeImageUrl(monsterImg)} 
                             alt={monsterIndex} 
+                            onError={(e) => handleImageErrorWithFallback(e, monsterImg)}
                             className="h-full w-full object-cover transition-transform group-hover:scale-110 duration-300"
                             referrerPolicy="no-referrer"
                           />
@@ -2446,8 +2539,9 @@ export function ArticleView() {
                         <div className="md:col-span-5 flex flex-col items-center justify-start">
                           <div className="border-4 border-[#b89a47] rounded-xl overflow-hidden shadow-xl bg-[#58180d]/5 w-full">
                             <img 
-                              src={selectedMonsterImg} 
+                              src={getSafeImageUrl(selectedMonsterImg)} 
                               alt={selectedMonster.name_es || selectedMonster.name} 
+                              onError={(e) => handleImageErrorWithFallback(e, selectedMonsterImg)}
                               className="w-full h-60 object-cover hover:scale-105 transition-transform duration-300"
                               referrerPolicy="no-referrer"
                             />

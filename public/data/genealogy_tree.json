@@ -20,7 +20,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -36,7 +40,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://cdnb.artstation.com/p/assets/images/images/010/818/999/20180515105645/smaller_square/dimitri-jakubowski-wip14.jpg?1526399805",
+      "imageUrl": "/images/cloud/morgana_a8fd9004dc.jpg",
       "summary": "Morgana, misteriosa guía de la expedición de Moonhaven al Drangleic alternativo, aparenta ser una niña de 13 años siempre cubierta por ropajes y velo, devota de la Triple Diosa y vinculada a la magia primordial; sus intenciones permanecen desconocidas.",
       "relations": {
         "parents": [],
@@ -61,7 +65,7 @@
       "status": "fallecido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://i.pinimg.com/736x/f7/47/be/f747becbd529aee5886855eff4cc25de.jpg",
+      "imageUrl": "/images/cloud/f747becbd529aee5886855eff4cc25_405284554b.jpg",
       "summary": "*Antiguo caballero del reino en ruinas, cayó defendiéndolo hasta la muerte; su alma fue arrebatada por la Primordial Reflejo y encadenada al Laberinto de Cristales, hasta que la Expedición de Moonhaven le ofreció una chispa de esperanza y le entregó su espada.*",
       "relations": {
         "parents": [],
@@ -86,7 +90,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9ef5ff6c-3d8d-408c-a00c-c7e796b34934/d39g52u-1db2c53f-58ae-4018-8255-daf5101b36f1.jpg/v1/fill/w_434,h_576,q_75,strp/hello_my_name_is_inigo_montoya_by_brucewhite_d39g52u-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvOWVmNWZmNmMtM2Q4ZC00MDhjLWEwMGMtYzdlNzk2YjM0OTM0XC9kMzlnNTJ1LTFkYjJjNTNmLTU4YWUtNDAxOC04MjU1LWRhZjUxMDFiMzZmMS5qcGciLCJ3aWR0aCI6Ijw9NDM0In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.DnnQmJJsgIRWcjodj9nCZeqDVjNaGMf93n3fXJz6JBo",
+      "imageUrl": "/images/cloud/inigo_cc7bfe0011.jpg",
       "summary": "<i>Iñigo, viajero de Kaliria, busca vengar la muerte de su padre asesinado por un desconocido; recorre tierras, recupera su espada y enfrenta al Santo de la Espada antes de pedir la muerte para evitar convertirse en un vacío.</i>",
       "relations": {
         "parents": [],
@@ -95,7 +99,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -112,7 +120,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Panteón & Dragones",
       "raceOrSpecies": "Dragón de amatista",
-      "imageUrl": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cd2b924c-80a7-4b79-982b-87d8f947b16e/dl18igh-41c8d046-b9d5-4cbd-88d6-07fda2d4f583.png/v1/fill/w_1196,h_668,q_70,strp/black_amethyst_dragon_by_starlyssskye_dl18igh-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9jZDJiOTI0Yy04MGE3LTRiNzktOTgyYi04N2Q4Zjk0N2IxNmUvZGwxOGlnaC00MWM4ZDA0Ni1iOWQ1LTRjYmQtODhkNi0wN2ZkYTJkNGY1ODMucG5nIiwiaGVpZ2h0IjoiPD03MTUiLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS53YXRlcm1hcmsiXSwid21rIjp7InBhdGgiOiIvd20vY2QyYjkyNGMtODBhNy00Yjc5LTk4MmItODdkOGY5NDdiMTZlL3N0YXJseXNzc2t5ZS00LnBuZyIsIm9wYWNpdHkiOjk1LCJwcm9wb3J0aW9ucyI6MC40NSwiZ3Jhdml0eSI6ImNlbnRlciJ9fQ.Z1V751X_veeeTY_Nba0cpPmTz8-nmWqpj3KTX-_f8ag",
+      "imageUrl": "/images/cloud/gravatax-el-dragon-de-amatista_7c8008adaa.jpg",
       "summary": "Gravatax, el dragón de amatista, custodió el Palacio de la Drangleic alternativa en la bruma de Avalon y fue vencido por la Expedición de Moonhaven bajo tormentas de gravedad; su linaje noble, el duelo con Limeyr y su destino final en Zhivago amplían su leyenda.",
       "relations": {
         "parents": [],
@@ -145,7 +153,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -170,7 +182,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -220,7 +236,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -244,7 +264,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -269,7 +293,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -343,7 +371,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -443,7 +475,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -467,7 +503,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -492,7 +532,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -517,7 +561,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -544,7 +592,11 @@
         ],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -574,7 +626,11 @@
         ],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -590,7 +646,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://i.imgur.com/K1xvoFz.png",
+      "imageUrl": "/images/cloud/limeyr_a77d4b7640.png",
       "summary": "_Un joven ser mágico criado por Fara y Kartus Gestas en Spellforge._",
       "relations": {
         "parents": [
@@ -602,7 +658,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -627,7 +687,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -646,7 +710,7 @@
       "gender": "femenino",
       "houseOrFamily": "Desconocida",
       "raceOrSpecies": "Humano (antes), Criatura mejorada (después)",
-      "imageUrl": "https://i.imgur.com/Ze5uD25.png",
+      "imageUrl": "/images/cloud/stariax-mre4wqiy_48c58c534d.png",
       "summary": "",
       "relations": {
         "parents": [],
@@ -655,7 +719,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -682,7 +750,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -726,7 +798,7 @@
       "gender": "masculino",
       "houseOrFamily": "No",
       "raceOrSpecies": "Dios Oscuro (antes), Humano (antes), Semidios",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/d8/Magordito_webpng.png/revision/latest/scale-to-width-down/1000?cb=20250721184246&path-prefix=es",
+      "imageUrl": "/images/cloud/magordito_8152dc8e78.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -754,7 +826,7 @@
       "gender": "masculino",
       "houseOrFamily": "Panteón de Aeros",
       "raceOrSpecies": "Dios (antes), Humano (antes), Semidiós",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/f/f0/MagorElnegro.png/revision/latest/scale-to-width-down/1000?cb=20250904171354&path-prefix=es",
+      "imageUrl": "/images/cloud/magor_0dabc935c4.webp",
       "summary": "<i>Magor, el Mago Negro, es el dios oscuro del destino en Caldo de Dragón, antaño divinidad del panteón de Aeros y ahora semidiós que camina entre mortales. Su imponente figura de 2,10 m, mirada fría y ambición de venganza lo convierten en el villano central de la trilogía.</i>",
       "relations": {
         "parents": [],
@@ -765,7 +837,11 @@
         "siblings": [],
         "relatives": [
           "Dioses (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -784,7 +860,7 @@
       "gender": "femenino",
       "houseOrFamily": "Familia Díaz",
       "raceOrSpecies": "Semielfa",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/b0/Luna_L%C3%ADaz.png/revision/latest/scale-to-width-down/1000?cb=20250716103848&path-prefix=es",
+      "imageUrl": "/images/cloud/luna-diaz_56b947822b.webp",
       "summary": "*Luna Díaz, semielfa alquimista del Este, nació en Cryostar y, a sus treinta y dos años, sucumbió a una enfermedad tras el parto, dejando una huella de amor y curación en su esposo Arlon y su hijo Arlem.*",
       "relations": {
         "parents": [],
@@ -795,7 +871,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -812,7 +892,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Casa Loux",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/f/f0/Leonard_loux.png/revision/latest/scale-to-width-down/1000?cb=20250706193332&path-prefix=es",
+      "imageUrl": "/images/cloud/leonard-loux_ea2984b0f8.webp",
       "summary": "*Leonard Loux, el último gran rey del Imperio Enano, gobernó con puño de hierro y martillo de forja, guiando a su pueblo a una Era de Plata mediante viajes extraplanares, pero su ambición abrió portales que colapsaron, sumiendo al reino bajo aguas y dejando su legado de ruina y esperanza.*",
       "relations": {
         "parents": [],
@@ -821,7 +901,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -840,7 +924,7 @@
       "gender": "femenino",
       "houseOrFamily": "Familia Díaz",
       "raceOrSpecies": "Humana",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/a/ae/Laila_d%C3%ADaz.png/revision/latest/scale-to-width-down/1000?cb=20250716101854&path-prefix=es",
+      "imageUrl": "/images/cloud/laila-diaz_614401609b.webp",
       "summary": "*Laila Díaz, conocida como La extranjera, fue una humana campesina de 61 años nacida en 1.499 DDD en Aeros. Su vida estuvo marcada por la pérdida de su esposo Arkalon, la dureza con su hijo Arlon y el amor doloroso por su nieto Arlem, hasta su fallecimiento tras la muerte de éste.*",
       "relations": {
         "parents": [],
@@ -854,7 +938,11 @@
         "siblings": [],
         "relatives": [
           "Auros Díaz (Nieto / Descendiente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -873,7 +961,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Desconocida",
       "raceOrSpecies": "Bestia del Apocalipsis",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/4/46/Laprofeciaviviente.png/revision/latest/scale-to-width-down/1000?cb=20250320162920&path-prefix=es",
+      "imageUrl": "/images/cloud/la-profecia-viviente_fb73de30ba.webp",
       "summary": "*La Profecía Viviente es la encarnación de todas las predicciones apocalípticas: una sombra envuelta en oscuridad, con alas de fuego profético y una boca espectral que susurra el fin. Su existencia, sin voluntad propia, representa el destino inevitable y el eco de los augurios olvidados.*",
       "relations": {
         "parents": [],
@@ -882,7 +970,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -906,7 +998,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -925,7 +1021,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Makai",
       "raceOrSpecies": "Dragón Tortuga Divino",
-      "imageUrl": "https://static.wikia.nocookie.net/forgottenrealms/images/4/4f/Dragon_Turtle_AFR.jpg/revision/latest?cb=20210704122513",
+      "imageUrl": "/images/cloud/koryu-no-kame_61f24086aa.webp",
       "summary": "<i>Kōryū no Kame, la colosal tortuga‑dragón de Makai, custodia un portal infernal en su caparazón. Creado por Gorm hace milenios, su presencia sella la grieta que conecta la isla con los abismos, manteniendo el equilibrio entre los vivos y los condenados.</i>",
       "relations": {
         "parents": [],
@@ -934,7 +1030,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -953,7 +1053,7 @@
       "gender": "masculino",
       "houseOrFamily": "Makai",
       "raceOrSpecies": "Leonin",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/6/63/Kurogame.png/revision/latest/scale-to-width-down/1000?cb=20250904155546&path-prefix=es",
+      "imageUrl": "/images/cloud/kurogame_66e548bae4.webp",
       "summary": "<i>Kurogame, el legendario leonin de 67 años, es un guerrero veterano y protector de Makai que, tras perder la vista en un duelo contra un demonio, selló las Puertas del Infierno y ahora lidera la Resistencia de Moonhaven contra la oscuridad.</i> _Kurogame es el capitán del Santa María, apodado el León Negro._",
       "relations": {
         "parents": [],
@@ -962,7 +1062,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -981,7 +1085,7 @@
       "gender": "masculino",
       "houseOrFamily": "Familia de Herreros",
       "raceOrSpecies": "Tiefling",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/a/a7/Kairon.png/revision/latest/scale-to-width-down/1000?cb=20250904083407&path-prefix=es",
+      "imageUrl": "/images/cloud/kairon_0d830eb31e.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -993,7 +1097,11 @@
         "relatives": [
           "Padre (Pariente)",
           "Madre (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1012,7 +1120,7 @@
       "gender": "masculino",
       "houseOrFamily": "Casa Duergar Loux",
       "raceOrSpecies": "Duergar",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/3/3d/Kaelgor.png/revision/latest/scale-to-width-down/1000?cb=20250704180349&path-prefix=es",
+      "imageUrl": "/images/cloud/kaelgor-loux_46a4963c54.webp",
       "summary": "*Kaelgor Loux, conocido como El Tirano, es el rey negro de los duergars del Imperio Loux en el Underdark. Nacido en el Año 0 de la Edad Dorada Duergar, gobierna con miedo, fuerza y magia oscura, buscando la inmortalidad y dejando un legado de terror.*",
       "relations": {
         "parents": [
@@ -1026,7 +1134,11 @@
         ],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1055,7 +1167,11 @@
         "siblings": [],
         "relatives": [
           "[object Object] (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1074,7 +1190,7 @@
       "gender": "masculino",
       "houseOrFamily": "Casa Deez",
       "raceOrSpecies": "Enano",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/1/1a/Havrik_Deez.png/revision/latest/scale-to-width-down/1000?cb=20250707104708&path-prefix=es",
+      "imageUrl": "/images/cloud/havrik-deez_b49c3d20bc.webp",
       "summary": "<i>Havrik Deez, conocido como El Patriarca, es un enano de 221 años, herrero y sacerdote de Marduk, cuyo legado combina la panadería sagrada y la fe, ofreciendo pan curativo y bendiciones de cosechas, y cuyo amor con la sacerdotisa Druunia marcó su historia.</i>",
       "relations": {
         "parents": [],
@@ -1085,7 +1201,11 @@
         ],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1104,7 +1224,7 @@
       "gender": "masculino",
       "houseOrFamily": "Clan Bonecrusher",
       "raceOrSpecies": "Orco",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/c/c6/Gromock.png/revision/latest/scale-to-width-down/250?cb=20250904183612&path-prefix=es",
+      "imageUrl": "/images/cloud/gromock_4f0dfe757d.webp",
       "summary": "*Gromock, conocido como Bonecrusher, es un orco berserker del Clan Bonecrusher cuyo único propósito es la sangre y la venganza. Tras ser emboscado y humillado por Arlem en una mina de Aeros, dedica años a perseguirlo, solo para ser perdonado y luego ejecutado por la magia del Consejo Omega, desapareciendo en el olvido.*",
       "relations": {
         "parents": [],
@@ -1113,7 +1233,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1132,7 +1256,7 @@
       "gender": "femenino",
       "houseOrFamily": "Familia Díaz",
       "raceOrSpecies": "Humana",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/3/31/Greta_diaz.png/revision/latest/scale-to-width-down/1000?cb=20250716100138&path-prefix=es",
+      "imageUrl": "/images/cloud/greta-diaz_d00de6867c.webp",
       "summary": "*Greta Díaz, la enfermera de la Guerra del Averno, nació en 1462 en los valles de Aeros. Con su mirada ámbar y su corazón compasivo, curó a innumerables soldados, abrazó al huérfano Arkalon y, al fin, entregó su vida en paz rodeada de su familia.*",
       "relations": {
         "parents": [],
@@ -1141,7 +1265,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1160,7 +1288,7 @@
       "gender": "masculino",
       "houseOrFamily": "Familia Díaz",
       "raceOrSpecies": "Humano",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/78/Greg_D%C3%ADaz.png/revision/latest/scale-to-width-down/250?cb=20250707090241&path-prefix=es",
+      "imageUrl": "/images/cloud/greg-diaz_a7242d24cc.webp",
       "summary": "*Greg Díaz, hombre robusto de 65 años nacido en 1463 en Aeros, sirvió como sargento en la sangrienta Guerra del Averno. Tras retirarse, adoptó al huérfano Arkalon, guiándolo con lealtad hasta que el niño cayó muerto a manos de Gromok, dejando al veterano marcado por la pérdida y la determinación.*",
       "relations": {
         "parents": [],
@@ -1173,7 +1301,11 @@
         "siblings": [],
         "relatives": [
           "Arlon Díaz (Nieto / Descendiente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1192,7 +1324,7 @@
       "gender": "masculino",
       "houseOrFamily": "Dioses de Aeros",
       "raceOrSpecies": "Dios",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/db/Dios_Gorm.png/revision/latest/scale-to-width-down/1000?cb=20250328101402&path-prefix=es",
+      "imageUrl": "/images/cloud/gorm_d5bf7fbdcf.webp",
       "summary": "<i>Gorm, dios de la Naturaleza Salvaje en Aeros, es una colosal entidad elemental de roca, musgo y raíces, protector de bosques y creador de los Vestigios. Desterrado al Edén por el Consejo Omega, sigue influyendo en el mundo a través de lluvias, tormentas y señales a druidas.</i>",
       "relations": {
         "parents": [],
@@ -1222,7 +1354,7 @@
       "gender": "masculino",
       "houseOrFamily": "Syndragosa (Mujer), Arkadis (Hija), Drakara (Hija), Arlem (Tataranieto)",
       "raceOrSpecies": "Humano Inmortal",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/1/1c/Gildemar.png/revision/latest/scale-to-width-down/250?cb=20250709104812&path-prefix=es",
+      "imageUrl": "/images/cloud/gildemar-el-rey-mago_5e0e864f14.webp",
       "summary": "*Gildemar, el Rey Mago, es un humano inmortal de 1425 años, gobernante de Cryostar y portador de la temible Corona del Apocalipsis. Su vida, marcada por el amor perdido con la dragona Sindragosa y la tragedia de la Guerra del Averno, lo obliga a equilibrar poder y sacrificio.*",
       "relations": {
         "parents": [],
@@ -1266,7 +1398,11 @@
         "siblings": [],
         "relatives": [
           "Dioses Nordicos (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1292,7 +1428,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1311,7 +1451,7 @@
       "gender": "masculino",
       "houseOrFamily": "Casa Lyrian",
       "raceOrSpecies": "Humano",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/86/Ferton.webp/revision/latest/scale-to-width-down/250?cb=20250908112540&path-prefix=es",
+      "imageUrl": "/images/cloud/ferton_7832058bc0.webp",
       "summary": "*Ferton Lyrian, el príncipe mercante de la Casa Lyrian, es un humano de 27 años cuya ambición lo llevó a dominar el mercado negro de Aeros, traficando esclavos, órganos y drogas, hasta que el barón de Icespear lo persiguió y su mansión ardió en llamas nocturnas.*",
       "relations": {
         "parents": [
@@ -1323,7 +1463,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1373,7 +1517,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1398,7 +1546,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1455,7 +1607,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1474,7 +1630,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Desconocida",
       "raceOrSpecies": "Bestia del Apocalipsis",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/6/6f/Se%C3%B1or_de_la_ceniza.png/revision/latest/scale-to-width-down/250?cb=20250715081526&path-prefix=es",
+      "imageUrl": "/images/cloud/el-senor-de-la-ceniza-bestia-d_396adfc6ef.webp",
       "summary": "*El Señor de la Ceniza, manifestación viviente de furia volcánica y desolación infernal, es una Bestia del Apocalipsis de 12 m, envuelta en obsidiana y fuego, portadora de la espada Fauce Ígnea y el látigo de llamas negras, cuyo propósito es reducir todo a cenizas para reiniciar el ciclo del mundo.*",
       "relations": {
         "parents": [],
@@ -1483,7 +1639,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1502,7 +1662,7 @@
       "gender": "masculino",
       "houseOrFamily": "Desconocido",
       "raceOrSpecies": "Tiefling (antes), Oni (después), Tiefling (alma)",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/bc/Oni.png/revision/latest/scale-to-width-down/250?cb=20250905102132&path-prefix=es",
+      "imageUrl": "/images/cloud/el-oni-del-cerezo_25d03480cd.webp",
       "summary": "*El Oni del Cerezo, otrora un tiefling, fue corrompido por el dios oscuro Morgion, convirtiéndose en un temible Oni de seis metros, ojos rojos y cuernos de obsidiana. Su tragedia radica en la pérdida de su amada, transformada en un cerezo sagrado, y su eventual derrota a manos del Caldo de Dragón.*",
       "relations": {
         "parents": [],
@@ -1542,7 +1702,11 @@
         ],
         "relatives": [
           "Gorm (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1561,7 +1725,7 @@
       "gender": "masculino",
       "houseOrFamily": "Esmeralizadores",
       "raceOrSpecies": "Aasimar (Antes), Erkan (Homúnculo)",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/85/Edacorn_wiki.png/revision/latest/scale-to-width-down/1000?cb=20250716084500&path-prefix=es",
+      "imageUrl": "/images/cloud/edacorn_fec4f2e36d.webp",
       "summary": "",
       "relations": {
         "parents": [
@@ -1574,7 +1738,11 @@
         "siblings": [],
         "relatives": [
           "Esmeralizadores (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1593,7 +1761,7 @@
       "gender": "masculino",
       "houseOrFamily": "Tribu MartilloSalvaje",
       "raceOrSpecies": "Enano de las Montañas",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/db/Durnik.webp/revision/latest/scale-to-width-down/250?cb=20250908113624&path-prefix=es",
+      "imageUrl": "/images/cloud/durnik_3f42cdbe1e.webp",
       "summary": "*Durnik MartilloSalvaje, el enano de 148 años conocido como El Lobo, sirvió como guardaespaldas leal del mercader Ferton. De complexión robusta, barba negra y dos martillos rúnicos, su disciplina y sacrificio lo convirtieron en una figura temida, hasta su trágica caída en la noche del asalto del Caldo de Dragón.*",
       "relations": {
         "parents": [],
@@ -1602,7 +1770,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1621,7 +1793,7 @@
       "gender": "femenino",
       "houseOrFamily": "Casa Deez",
       "raceOrSpecies": "Enana",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/02/Druina_deez.png/revision/latest/scale-to-width-down/250?cb=20250707103332&path-prefix=es",
+      "imageUrl": "/images/cloud/druunia-deez_61efd99636.webp",
       "summary": "<i>Druinia Deez, matriarca de la Casa Deez, es una enana sacerdotisa que lideró la iglesia de Freya en Glimmerstone, guió la transición al culto de Marduk y desapareció tras la Masacre de Glimmerstone, dejando su legado en medallones y talismanes.</i>",
       "relations": {
         "parents": [],
@@ -1632,7 +1804,11 @@
         "siblings": [],
         "relatives": [
           "Chispo Deez (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1651,7 +1827,7 @@
       "gender": "masculino",
       "houseOrFamily": "Familia Real de Draconia, Familia Real de Cryostar",
       "raceOrSpecies": "Dragonborn",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/72/Drakaris.png/revision/latest/scale-to-width-down/1000?cb=20250328180328&path-prefix=es",
+      "imageUrl": "/images/cloud/drakaris_92bf77b85c.webp",
       "summary": "*Drakaris, príncipe de Draconia y descendiente de los legendarios dragonborn dorados y plateados, encarna la justicia y la nobleza. Su linaje dracónico, marcado por escamas plateadas y doradas, lo convierte en un líder sabio, estratega y diplomático, cuya lealtad inquebrantable y corazón honorable lo consagran como símbolo de esperanza en Aeros.*",
       "relations": {
         "parents": [],
@@ -1668,7 +1844,11 @@
           "Auros Díaz (Primo / Prima)",
           "Drakara (Pariente)",
           "Lyrian (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1687,7 +1867,7 @@
       "gender": "masculino",
       "houseOrFamily": "Desconocida",
       "raceOrSpecies": "Dragón Blanco",
-      "imageUrl": "https://static.wikia.nocookie.net/forgottenrealms/images/9/90/White_Dragon_AFR.jpg/revision/latest?cb=20210901150509",
+      "imageUrl": "/images/cloud/cryovain_5cd43cbc53.webp",
       "summary": "*Cryovain, el dragón blanco de 150 años, encarna el invierno salvaje. Con escamas traslúcidas, aliento gélido y dominio del Pico de Icepear, actúa como agente del siniestro Consejo Omega, sembrando terror en Icespear hasta ser abatido por los aventureros de Caldo de Dragón.*",
       "relations": {
         "parents": [],
@@ -1740,7 +1920,7 @@
       "gender": "masculino",
       "houseOrFamily": "Familia Deez",
       "raceOrSpecies": "Enano (Antes), Enano Avatar Divino",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/83/Chispo_deez_web_%282%29.png/revision/latest/scale-to-width-down/250?cb=20250904112604&path-prefix=es",
+      "imageUrl": "/images/cloud/chispo-deez_3eaa707709.webp",
       "summary": "",
       "relations": {
         "parents": [
@@ -1751,7 +1931,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1780,7 +1964,11 @@
         "siblings": [],
         "relatives": [
           "Consejo Omega (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1796,7 +1984,7 @@
       "status": "cuerpo_destruido",
       "gender": "masculino",
       "raceOrSpecies": "Humano",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/2/27/Barled_web.png/revision/latest/scale-to-width-down/250?cb=20250924155207&path-prefix=es",
+      "imageUrl": "/images/cloud/barled_3a23285099.webp",
       "summary": "*Barled, un humano latente de Kaliria, fue marcado por la pérdida de su abuela y la injusticia de los Medicci. Su sed de venganza lo llevó a renacer como un espíritu impulsado por la justicia, fusionando el arte de la sanación con un destino de sombra y retribución.*",
       "relations": {
         "parents": [],
@@ -1807,7 +1995,11 @@
         "siblings": [],
         "relatives": [
           "Abuela (Abuela)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1824,7 +2016,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Familia Díaz",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/0e/Auros_D%C3%ADaz.png/revision/latest/scale-to-width-down/250?cb=20250328184714&path-prefix=es",
+      "imageUrl": "/images/cloud/auros-diaz_68a575f469.webp",
       "summary": "*Auros Díaz, príncipe de Moonhaven y erkan híbrido de sangre dracónica, destaca por su porte regio, escamas doradas y cuernos, y lleva la carga de la ausencia de su padre. Joven erudito del combate y la magia, busca alianzas y respuestas mientras protege a Aeros de la amenaza de Magor.*",
       "relations": {
         "parents": [],
@@ -1833,7 +2025,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1852,7 +2048,7 @@
       "gender": "masculino",
       "houseOrFamily": "No",
       "raceOrSpecies": "Archidiablo",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/d4/Asmodeo.png/revision/latest/scale-to-width-down/250?cb=20250329202142&path-prefix=es",
+      "imageUrl": "/images/cloud/asmodeo_160e6baefd.webp",
       "summary": "<i>Asmodeo, el archidiablo supremo, encarna la maldad refinada y la astucia infinita. Gobernante de los Nueve Infiernos, su historia se extiende desde el origen del cosmos, pasando por su derrota y destierro, hasta la creación de un reino de pactos infernales que domina la eternidad.</i>",
       "relations": {
         "parents": [],
@@ -1863,7 +2059,11 @@
         "siblings": [],
         "relatives": [
           "Los 9 Infiernos (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1880,7 +2080,7 @@
       "gender": "masculino",
       "houseOrFamily": "Serelith Moonlight (tatara-sobrina)",
       "raceOrSpecies": "Humano (antes)",
-      "imageUrl": "https://i.imgur.com/vuaAXPh.png",
+      "imageUrl": "/images/cloud/arthorius_cf9ffbf166.png",
       "summary": "*Arthorius, el archimago inmortal y guardián del mundo, es el protector de Aeros y el primer mago de magia salvaje. Su existencia, forjada en el caos y el conocimiento prohibido, lo convierte en el eterno equilibrista entre orden y destrucción, marcado por sacrificios que lo elevaron a leyenda.*",
       "relations": {
         "parents": [],
@@ -1910,7 +2110,7 @@
       "gender": "masculino",
       "houseOrFamily": "Familia Díaz",
       "raceOrSpecies": "Humano (Antes) / Dragón Dorado",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/0c/Arlem_diaz_web.png/revision/latest/scale-to-width-down/250?cb=20250716175521&path-prefix=es",
+      "imageUrl": "/images/cloud/arlem-diaz_c1547818c8.webp",
       "summary": null,
       "relations": {
         "parents": [
@@ -1944,7 +2144,7 @@
       "gender": "masculino",
       "houseOrFamily": "Casa Real de Cryostar (Antes); Familia Díaz",
       "raceOrSpecies": "Dragón Dorado (Antes); Humano",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/3/38/Arkalon.png/revision/latest?cb=20250329103135&path-prefix=es",
+      "imageUrl": "/images/cloud/arkalon-diaz_8162ef6c02.webp",
       "summary": "_Arkalon Díaz, nacido en 1463 DDD como dragón dorado, fue transformado en humano y criado por la familia campesina Díaz. Agricultor de corazón, su vida se entrelaza con misterios dracónicos, un matrimonio y un hijo, hasta su trágica muerte a manos de Gromok._",
       "relations": {
         "parents": [
@@ -1962,7 +2162,11 @@
         "siblings": [],
         "relatives": [
           "Arlem Díaz (Nieto / Descendiente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -1981,7 +2185,7 @@
       "gender": "femenino",
       "houseOrFamily": "Guidermar",
       "raceOrSpecies": "Dragona Dorada",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/e/e2/Arkadis.png/revision/latest/scale-to-width-down/250?cb=20250328125458&path-prefix=es",
+      "imageUrl": "/images/cloud/arkadis_c5570e76fb.webp",
       "summary": "*Arkadis, la legendaria dragona dorada y asesina de diablos, fue una guerrera de corazón noble y ferocidad inquebrantable. Hija del Rey Mago de Cryostar, su legado perdura como símbolo de sacrificio y resistencia contra las fuerzas del Averno, dejando tras de sí un linaje que desafía al olvido.*",
       "relations": {
         "parents": [
@@ -2019,7 +2223,7 @@
       "gender": "femenino",
       "houseOrFamily": "Familia Díaz",
       "raceOrSpecies": "Humano",
-      "imageUrl": "https://i.imgur.com/4ob6yxn.png",
+      "imageUrl": "/images/cloud/aeliana_41d59ea62b.png",
       "summary": "*Aeliana Díaz, antaño paladín de Freya, pasó de la devoción a la traición, la corrupción y la redención. Su vida, marcada por la pérdida y la violencia, la llevó a convertirse en la reina de Moonhaven, un faro de esperanza en un mundo sumido en sombras, donde lucha por sanar su alma y encontrar al desaparecido Caldo de Dragón.*",
       "relations": {
         "parents": [],
@@ -2032,7 +2236,11 @@
         "siblings": [],
         "relatives": [
           "Auros Díaz (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2051,7 +2259,7 @@
       "gender": "masculino",
       "houseOrFamily": "Desconocida",
       "raceOrSpecies": "Rākṣasa Lich",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/bd/ZALTAR_WIKI.png/revision/latest/scale-to-width-down/1000?cb=20250904173049&path-prefix=es",
+      "imageUrl": "/images/cloud/zaltar_5824738826.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -2079,7 +2287,7 @@
       "gender": "masculino",
       "houseOrFamily": "Realeza Élfica",
       "raceOrSpecies": "Elfo (Antes), Feerico (Antes), Pesadilla Viviente",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/08/Varianthelwiki.webp/revision/latest/scale-to-width-down/250?cb=20250904175937&path-prefix=es",
+      "imageUrl": "/images/cloud/varianthel_f0dfdecda4.webp",
       "summary": "*Varianthel, príncipe del Reino de los Sueños, cayó en desgracia tras ser vencido por Caldo de Dragón. Convertido en el Señor de las Pesadillas, su presencia perversa y su mente manipuladora acechan a mortales, transformando sueños en tormentos eternos.*",
       "relations": {
         "parents": [
@@ -2125,7 +2333,11 @@
         "siblings": [],
         "relatives": [
           "Consejo Omega (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2144,7 +2356,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Desconocida",
       "raceOrSpecies": "Loxodon",
-      "imageUrl": "https://i.imgur.com/FEcw0cV.png",
+      "imageUrl": "/images/cloud/thravir-el-loxodon_7e670b7e5b.png",
       "summary": "*Thravir, el Loxodon, es un ser imponente de rasgos elefantinos y mirada cargada de secretos ancestrales. Dueño de la Tienda 23 y antiguo miembro del Consejo Omega, su naturaleza pragmática y su conexión con lo arcano lo convierten en un manipulador sutil pero peligroso, cuyo verdadero poder yace en los hilos oscuros de la magia y el comercio.*",
       "relations": {
         "parents": [],
@@ -2153,7 +2365,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2172,7 +2388,7 @@
       "gender": "masculino",
       "houseOrFamily": "Casa Loux",
       "raceOrSpecies": "Enano",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/3/37/Thorin.webp/revision/latest/scale-to-width-down/1000?cb=20250703154130&path-prefix=es",
+      "imageUrl": "/images/cloud/thorin-loux_cdedbb7b95.webp",
       "summary": "*Thorin Loux, primer rey enano de linaje real, forjó una era dorada para su pueblo con su sabiduría y valor. Su liderazgo, marcado por lealtad y ambición, unificó a los enanos bajo su cetro, aunque su legado quedó ensombrecido por las decisiones que corrompieron a su descendencia.*",
       "relations": {
         "parents": [],
@@ -2189,7 +2405,11 @@
           "Thorfin Loux (Pariente)",
           "Leonard Loux (Pariente)",
           "Brynhildr Piedranegra (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2208,7 +2428,7 @@
       "gender": "masculino",
       "houseOrFamily": "Casa Loux",
       "raceOrSpecies": "Enano(Antes), Duergar",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/8c/Thorfin.png/revision/latest/scale-to-width-down/1000?cb=20250703155141&path-prefix=es",
+      "imageUrl": "/images/cloud/thorfin-loux_31d8ca91eb.webp",
       "summary": "*Thorfin Loux, hijo de Thorin y Gilda, ascende como el primer rey duergar del Gran Imperio Enano. Consumido por la codicia y los susurros de los azotamentes, su reinado se torna oscuro, convirtiendo a su pueblo en Duergars y dejando una sombra de corrupción sobre su linaje.*",
       "relations": {
         "parents": [
@@ -2221,7 +2441,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2298,7 +2522,7 @@
       "gender": "femenino",
       "houseOrFamily": "Marygold",
       "raceOrSpecies": "Dragona Dorada Primordial",
-      "imageUrl": "https://static.wikia.nocookie.net/forgottenrealms/images/2/21/Ancient_Gold_Dragon_CLB.jpg/revision/latest?cb=20220530172853",
+      "imageUrl": "/images/cloud/syndragosa_183a9a0f46.webp",
       "summary": "*Syndragosa, dragona dorada primordial de inmenso poder, guardiana del equilibrio mágico, lideró el contraataque aéreo en la Guerra del Averno y sacrificó su vida para sellar una brecha infernal. Su amor inmortalizó a Gildemar y su legado persiste en la Corona del Apocalipsis.*",
       "relations": {
         "parents": [],
@@ -2335,7 +2559,7 @@
       "gender": "masculino",
       "houseOrFamily": "Los aventureros del II Brezo",
       "raceOrSpecies": "ChinchillaFolk",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/d/d9/Sir_percival.png/revision/latest/scale-to-width-down/1000?cb=20250329193332&path-prefix=es",
+      "imageUrl": "/images/cloud/stitch_6cd421d4a0.webp",
       "summary": "*Stitch, alias El Relámpago Negro, es un capitán de espías de la Resistencia de Moonhaven, una chinchilla de pelaje gris y mirada penetrante. Astuto, incansable y de energía arrolladora, lidera con pasión y sigilo, inspirando lealtad en su escuadrón mientras navega entre sombras y secretos con ingenio implacable.*",
       "relations": {
         "parents": [],
@@ -2344,7 +2568,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2360,7 +2588,7 @@
       "status": "cuerpo_destruido",
       "gender": "femenino",
       "raceOrSpecies": "Vulpin, Latente",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/f/fe/Roxanne_web.png/revision/latest/scale-to-width-down/1000?cb=20250914120642&path-prefix=es",
+      "imageUrl": "/images/cloud/roxanne_543d962dc1.webp",
       "summary": "*Roxanne, vulpin de 22 años, nació en una familia de sabios poetas y abandonó su hogar a los dieciocho para seguir su pasión musical. Tras caer en la esclavitud de un proxeneta, fue asesinada, pero resucitó como Latente y ahora lucha con su voz y habilidades en Caldo de Dragón.*",
       "relations": {
         "parents": [],
@@ -2369,7 +2597,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2386,7 +2618,7 @@
       "gender": "masculino",
       "houseOrFamily": "Redcaps del Bosque Azul",
       "raceOrSpecies": "Redcap(Antes); Redcap Mutante",
-      "imageUrl": "https://i.imgur.com/pTX0dMJ.png",
+      "imageUrl": "/images/cloud/rey-redcap_19f13f5690.png",
       "summary": "<i>El Rey Redcap, una entidad fey colosal surgida de un redcap que bebió de un portal al Feywild, gobierna con una corona dorada, hacha sangrienta y aura de miedo. Su sed de sangre lo impulsa, pero su fin llega a manos de héroes que sellan su caída.</i>",
       "relations": {
         "parents": [],
@@ -2397,7 +2629,11 @@
         "siblings": [],
         "relatives": [
           "Pecados Capitales (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2446,7 +2682,7 @@
       "gender": "masculino",
       "houseOrFamily": "Su Madre",
       "raceOrSpecies": "Leonin/Tiefeling",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/f/f1/Raxxar_Web.png/revision/latest/scale-to-width-down/1000?cb=20250904084238&path-prefix=es",
+      "imageUrl": "/images/cloud/raxxar_2bac81fb4d.webp",
       "summary": "Sin resumen",
       "relations": {
         "parents": [],
@@ -2458,7 +2694,11 @@
         "relatives": [
           "Auros (Abuelo)",
           "Arkadis (Abuela)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2475,7 +2715,7 @@
       "gender": "masculino",
       "houseOrFamily": "Tribu de Goliats de La Gran Nada",
       "raceOrSpecies": "Goliat",
-      "imageUrl": "https://i.imgur.com/FPSNBBo.png",
+      "imageUrl": "/images/cloud/ragnavaldr_f2a5aca03a.png",
       "summary": "*Ragnavaldr es un Goliat druidobárbaro cuya fuerza titánica y vínculo con la naturaleza lo convierten en un guerrero temible. Tras una juventud en la Gran Nada, su hogar fue destruido, muere en una emboscada y resurge impulsado por una venganza inexorable.*",
       "relations": {
         "parents": [],
@@ -2486,7 +2726,11 @@
         "siblings": [],
         "relatives": [
           "Tribu de Goliats de La Gran Nada (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2505,7 +2749,7 @@
       "gender": "masculino",
       "houseOrFamily": "Bestias del Apocalipsis",
       "raceOrSpecies": "Bestia del Apocalipsis",
-      "imageUrl": "https://i.imgur.com/b2peZiC.png",
+      "imageUrl": "/images/cloud/ragnarok_d183701688.png",
       "summary": "*Ragnarok es la tercera Bestia del Apocalipsis, una colosal entidad de sombras y fuego creada por la furia del dios desterrado Belial. Sin mente ni voluntad, encarna la destrucción absoluta, portando una espada de Phlegethos que consume la existencia y anuncia el fin del mundo.*",
       "relations": {
         "parents": [],
@@ -2517,7 +2761,11 @@
         "relatives": [
           "Bestias del Apocalipsis (Tío / Tía)",
           "Belial (Creador / Progenitor Místico)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2536,7 +2784,7 @@
       "gender": "masculino",
       "houseOrFamily": "Casa Real Yuan ti",
       "raceOrSpecies": "Humano (Antes), Yuan ti (Antes), Semidios Yuan ti",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/75/Pythor.png/revision/latest/scale-to-width-down/250?cb=20250328120529&path-prefix=es",
+      "imageUrl": "/images/cloud/pythor_dcbd85e1e1.webp",
       "summary": "*Pythor, sumo sacerdote y señor supremo de la oculta ciudad yuan‑ti Kaanil Nah, combina la astucia humana con la majestad serpentina. Gobernante milenario de 1200 años, manipula alianzas y rituales para transformar a su pueblo y expandir su dominio sobre los bosques prehistóricos.*",
       "relations": {
         "parents": [],
@@ -2545,7 +2793,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2561,7 +2813,7 @@
       "status": "cuerpo_destruido",
       "gender": "masculino",
       "raceOrSpecies": "Genashi de Fuego/Tiefeling",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/09/Prometeo_web.png/revision/latest?cb=20250904083848&path-prefix=es",
+      "imageUrl": "/images/cloud/prometeo_65becb1090.webp",
       "summary": "*Prometeo, Bloodhunter genashi de fuego de Kaliria, es una creación artificial de 23 años destinada a combatir la plaga de bestias. Con cuernos, piel morada y ojos llameantes, combina fuerza bestial y una emergente humanidad, aunque su torpeza social le persigue.*",
       "relations": {
         "parents": [],
@@ -2570,7 +2822,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2589,7 +2845,7 @@
       "gender": "masculino",
       "houseOrFamily": "Familia Loux",
       "raceOrSpecies": "Enano",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/e/ef/Pepe_loux_wiki2.png/revision/latest?cb=20250904083106&path-prefix=es",
+      "imageUrl": "/images/cloud/pepe-loux_4871b4f8b8.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -2600,7 +2856,11 @@
         "siblings": [],
         "relatives": [
           "Familia Loux (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2629,7 +2889,11 @@
         "siblings": [],
         "relatives": [
           "Consejo Omega (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2687,7 +2951,11 @@
         "siblings": [],
         "relatives": [
           "Consejo Omega (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2706,7 +2974,7 @@
       "gender": "masculino",
       "houseOrFamily": "Desconocido",
       "raceOrSpecies": "Humano",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/b6/Mimir.png/revision/latest/scale-to-width-down/1000?cb=20250705190231&path-prefix=es",
+      "imageUrl": "/images/cloud/mimir_9e962d8774.webp",
       "summary": "*Mimir, el Guardián de los Secretos, es un dijin ancestral atrapado en la corteza de un árbol milenario; su cuerpo fusionado con raíces y cuernos arcanos alberga un ojo dorado que contempla los hilos del destino, ofreciendo sabiduría a cambio de un precio.*",
       "relations": {
         "parents": [],
@@ -2717,7 +2985,11 @@
         "siblings": [],
         "relatives": [
           "Desconocidos (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2750,7 +3022,11 @@
         "relatives": [
           "Midas (Pariente)",
           "Eurythia (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2779,7 +3055,11 @@
         "siblings": [],
         "relatives": [
           "Dioses Babilónicos (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2798,7 +3078,7 @@
       "gender": "masculino",
       "houseOrFamily": "Pecados Capitales",
       "raceOrSpecies": "Archi Diablo",
-      "imageUrl": "https://i.imgur.com/qWGQjt7.png",
+      "imageUrl": "/images/cloud/mamon_da070e2838.png",
       "summary": "*Mamón, la encarnación viviente de la codicia absoluta, es un archidiablo de cuatro metros, cubierto de oro y joyas, señor de Pandemonium. Manipula contratos, compra lealtades y corrompe almas, guiando una red de deudas y deseos que devora reinos y mortales por igual.*",
       "relations": {
         "parents": [],
@@ -2809,7 +3089,11 @@
         "siblings": [],
         "relatives": [
           "Desconocidos (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2828,7 +3112,7 @@
       "gender": "masculino",
       "houseOrFamily": "Familia Díaz",
       "raceOrSpecies": "Dragón Dorado",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/2/28/Auros-.png/revision/latest?cb=20250319170442&path-prefix=es",
+      "imageUrl": "/images/cloud/auros_d741a75473.webp",
       "summary": "*Un dragón dorado de gran antigüedad, guardián de Spellforge y abuelo de Arlem Díaz, conocido por su honor, valentía y sabiduría.*",
       "relations": {
         "parents": [],
@@ -2864,7 +3148,7 @@
       "gender": "masculino",
       "houseOrFamily": "Familia Díaz",
       "raceOrSpecies": "Humano",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/87/Arlon.png/revision/latest/scale-to-width-down/250?cb=20250329104958&path-prefix=es",
+      "imageUrl": "/images/cloud/arlon-diaz_6ae5af69c4.webp",
       "summary": "_Arlon Díaz, un hombre marcado por el resentimiento y el peso del pasado, lucha con su herencia dracónica y su relación con su hijo Arlem._",
       "relations": {
         "parents": [
@@ -2886,7 +3170,11 @@
           "Greg Díaz (Abuelo Adoptivo)",
           "Greta Díaz (Abuela Adoptivo)",
           "Auros Díaz (Nieto / Descendiente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2902,7 +3190,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/ba/El_maestro.png/revision/latest/scale-to-width-down/250?cb=20250717093543&path-prefix=es",
+      "imageUrl": "/images/cloud/el-maestro-db608e_d2e6b7806a.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -2927,7 +3215,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/7b/Tarot_wiki.png/revision/latest/scale-to-width-down/250?cb=20250716115501&path-prefix=es",
+      "imageUrl": "/images/cloud/tarot-el-gran-bibliotecario-83_f477ab0558.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -2952,7 +3240,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/c/c7/Borroko_app.png/revision/latest/scale-to-width-down/250?cb=20250717095340&path-prefix=es",
+      "imageUrl": "/images/cloud/borroko-65d44d_144f0769e5.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -2961,7 +3249,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -2977,7 +3269,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/c/ce/Caballero_del_espejo_web.png/revision/latest/scale-to-width-down/250?cb=20250924151237&path-prefix=es",
+      "imageUrl": "/images/cloud/el-caballero-del-espejo-95b1cd_9093427155.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -2986,7 +3278,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -3003,7 +3299,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Ostrava",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/4/48/Viejo_rey_Allant.png/revision/latest/scale-to-width-down/250?cb=20250711202007&path-prefix=es",
+      "imageUrl": "/images/cloud/rey-allant-fb4cad_3cb80d6281.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -3030,7 +3326,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/9/9d/Ostraba.png/revision/latest/scale-to-width-down/250?cb=20250711195551&path-prefix=es",
+      "imageUrl": "/images/cloud/ostrava-c9fdb2_4774516d0c.webp",
       "summary": "",
       "relations": {
         "parents": [
@@ -3041,7 +3337,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -3057,7 +3357,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/8/89/Zamos_Vinland.png/revision/latest?cb=20250712130240&path-prefix=es",
+      "imageUrl": "/images/cloud/zamos-vinland-9d7ed1_cf558a883b.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -3066,7 +3366,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -3082,7 +3386,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/1/19/Gar_vindland_y_dama_astraea.png/revision/latest/scale-to-width-down/250?cb=20250711194519&path-prefix=es",
+      "imageUrl": "/images/cloud/garl-vinland-y-la-dama-astraea_57788f6545.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -3093,7 +3397,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -3109,7 +3417,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/0/04/Padre_gabriel_2.png/revision/latest/scale-to-width-down/1000?cb=20250712122101&path-prefix=es",
+      "imageUrl": "/images/cloud/padre-gabriel-cd1d8e_31c792fd4f.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -3121,7 +3429,11 @@
         "relatives": [
           "Sacerdote y arzobispo de la Blanca Vía (Pariente)",
           "aliado de Caldo de Dragón (Pariente)"
-        ]
+        ],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -3137,7 +3449,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/7/77/Araña_acorazada.png/revision/latest?cb=20250711190614&path-prefix=es",
+      "imageUrl": "/images/cloud/gran-arana-acorazada-ea7987_18972ac636.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -3146,7 +3458,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -3162,7 +3478,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/9/91/El_caballero_de_la_torre.png/revision/latest?cb=20250711193133&path-prefix=es",
+      "imageUrl": "/images/cloud/el-caballero-de-la-torre-30a91_f1d85c05cb.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -3171,7 +3487,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -3188,7 +3508,7 @@
       "gender": "masculino",
       "houseOrFamily": "Serelith Moonlight",
       "raceOrSpecies": "Humano (antes)",
-      "imageUrl": "https://static.wikia.nocookie.net/caldo-de-dragon/images/b/bd/Iván_del_Valle_Boreal.png/revision/latest/scale-to-width-down/250?cb=20250711203122&path-prefix=es",
+      "imageUrl": "/images/cloud/ivan-del-valle-boreal-326760_39bedca101.webp",
       "summary": "",
       "relations": {
         "parents": [],
@@ -3197,7 +3517,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": false
     },
@@ -3222,7 +3546,11 @@
         ],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Faustus como hijo."
@@ -3244,7 +3572,11 @@
         ],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Eyegore como padre."
@@ -3266,7 +3598,11 @@
         ],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Eyegore como madre."
@@ -3286,7 +3622,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Magor como pariente.",
@@ -3307,7 +3647,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Kairon como pariente."
@@ -3327,7 +3671,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Kairon como pariente."
@@ -3349,7 +3697,11 @@
         ],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Kaelgor Loux como padre."
@@ -3371,7 +3723,11 @@
         ],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Kaelgor Loux como madre."
@@ -3391,7 +3747,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Herald I de Moonhaven como pariente."
@@ -3413,7 +3773,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Greg Díaz como pareja / cónyuge.",
@@ -3455,7 +3819,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Freya como pariente.",
@@ -3478,7 +3846,11 @@
         ],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Ferton como padre."
@@ -3500,7 +3872,11 @@
         ],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Ferton como madre."
@@ -3562,7 +3938,11 @@
         "siblings": [
           "El Loa Tigre"
         ],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de El Loa Tigre como hermano.",
@@ -3585,7 +3965,11 @@
         ],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Edacorn como padre."
@@ -3605,7 +3989,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Edacorn como pariente."
@@ -3627,7 +4015,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Drakaris como pareja / cónyuge."
@@ -3649,7 +4041,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Drakaris como pariente.",
@@ -3670,7 +4066,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Drakaris como pariente."
@@ -3690,7 +4090,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Barled como abuela."
@@ -3710,7 +4114,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Asmodeo como pariente."
@@ -3910,7 +4318,11 @@
         ],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Thorin Loux como pareja.",
@@ -3931,7 +4343,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Thorin Loux como pariente.",
@@ -3973,7 +4389,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Rey Redcap como pariente."
@@ -3993,7 +4413,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Rexyrian como pariente."
@@ -4013,7 +4437,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Ragnavaldr como pariente."
@@ -4033,7 +4461,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Ragnarok como tío / tía."
@@ -4053,7 +4485,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Ragnarok como creador / progenitor místico."
@@ -4096,7 +4532,11 @@
         "siblings": [
           "Midas, Diosa del comercio"
         ],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Midas, Diosa del comercio como hermano."
@@ -4116,7 +4556,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Midas, Diosa del comercio como pariente."
@@ -4136,7 +4580,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Midas, Diosa del comercio como pariente."
@@ -4156,7 +4604,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Marduk como pariente.",
@@ -4177,7 +4629,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Arlon Díaz como abuela.",
@@ -4200,7 +4656,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Garl Vinland y la dama Astraea como pareja / cónyuge."
@@ -4220,7 +4680,11 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Padre Gabriel como pariente."
@@ -4240,11 +4704,266 @@
         "children": [],
         "adoptiveChildren": [],
         "siblings": [],
-        "relatives": []
+        "relatives": [],
+        "mentors": [],
+        "students": [],
+        "allies": [],
+        "enemies": []
       },
       "isAnonymousOrMentionedOnly": true,
       "summary": "Personaje mencionado en las crónicas de Padre Gabriel como pariente.",
       "houseOrFamily": "Panteón & Dragones"
+    },
+    {
+      "id": "mongraal",
+      "name": "Mongraal",
+      "canonicalName": "Mongraal",
+      "aliases": [],
+      "articleSlug": "mongraal",
+      "articleId": "art-mongraal-player",
+      "hasArticle": true,
+      "category": "Personajes",
+      "status": "desconocido",
+      "gender": "desconocido",
+      "raceOrSpecies": "Tiefling / Demonio",
+      "summary": "Guerrero y brawler tiefling de piel roja carmesí, grandes cuernos negros y fuerza colosal, célebre por sus pulsos épicos en la taberna y su bravura en combate.",
+      "relations": {
+        "parents": [],
+        "adoptiveParents": [],
+        "spouses": [],
+        "children": [],
+        "adoptiveChildren": [],
+        "siblings": [],
+        "relatives": []
+      },
+      "isAnonymousOrMentionedOnly": false
+    },
+    {
+      "id": "oceiros",
+      "name": "Oceiros",
+      "canonicalName": "Oceiros",
+      "aliases": [],
+      "articleSlug": "oceiros",
+      "articleId": "art-1790263137743",
+      "hasArticle": true,
+      "category": "Personajes",
+      "status": "desconocido",
+      "gender": "desconocido",
+      "raceOrSpecies": "Personajes",
+      "summary": "*Oceiros es otro de los grandes exponentes de la doctrina solar, venerado por su incansable defensa de la luz contra la oscuridad.*",
+      "relations": {
+        "parents": [],
+        "adoptiveParents": [],
+        "spouses": [],
+        "children": [],
+        "adoptiveChildren": [],
+        "siblings": [],
+        "relatives": []
+      },
+      "isAnonymousOrMentionedOnly": false
+    },
+    {
+      "id": "faram-senor-del-sol",
+      "name": "Faram, señor del Sol",
+      "canonicalName": "Faram, señor del Sol",
+      "aliases": [],
+      "articleSlug": "faram-senor-del-sol",
+      "articleId": "art-1790263133673",
+      "hasArticle": true,
+      "category": "Dioses",
+      "status": "desconocido",
+      "gender": "desconocido",
+      "houseOrFamily": "Panteón & Dragones",
+      "raceOrSpecies": "Dioses",
+      "summary": "*Faram es la deidad solar venerada por los Guerreros de la Luz Solar, descrito como el propio Sol, ardiente, generoso y temible en la batalla, fuente de esperanza y justicia en Kaliria.*",
+      "relations": {
+        "parents": [],
+        "adoptiveParents": [],
+        "spouses": [],
+        "children": [],
+        "adoptiveChildren": [],
+        "siblings": [],
+        "relatives": []
+      },
+      "isAnonymousOrMentionedOnly": false
+    },
+    {
+      "id": "char-mention-gorm",
+      "name": "Gorm",
+      "canonicalName": "Gorm",
+      "hasArticle": false,
+      "category": "Personajes",
+      "status": "desconocido",
+      "gender": "desconocido",
+      "relations": {
+        "parents": [],
+        "adoptiveParents": [],
+        "spouses": [],
+        "children": [],
+        "adoptiveChildren": [],
+        "siblings": [],
+        "relatives": []
+      },
+      "isAnonymousOrMentionedOnly": true,
+      "summary": "Personaje mencionado en las crónicas de El Loa Tigre como pariente.",
+      "houseOrFamily": "Panteón & Dragones"
+    },
+    {
+      "id": "char-mention-fafnir",
+      "name": "Fafnir",
+      "canonicalName": "Fafnir",
+      "hasArticle": false,
+      "category": "Personajes",
+      "status": "desconocido",
+      "gender": "desconocido",
+      "relations": {
+        "parents": [],
+        "adoptiveParents": [],
+        "spouses": [],
+        "children": [],
+        "adoptiveChildren": [],
+        "siblings": [],
+        "relatives": []
+      },
+      "isAnonymousOrMentionedOnly": true,
+      "summary": "Personaje mencionado en las crónicas de Edacorn como pariente.",
+      "houseOrFamily": "Panteón & Dragones"
+    },
+    {
+      "id": "char-mention-auros",
+      "name": "Auros",
+      "canonicalName": "Auros",
+      "hasArticle": false,
+      "category": "Personajes",
+      "status": "desconocido",
+      "gender": "masculino",
+      "relations": {
+        "parents": [],
+        "adoptiveParents": [],
+        "spouses": [],
+        "children": [
+          "Arkalon Díaz"
+        ],
+        "adoptiveChildren": [],
+        "siblings": [],
+        "relatives": []
+      },
+      "isAnonymousOrMentionedOnly": true,
+      "summary": "Personaje mencionado en las crónicas de Drakaris como abuelo.",
+      "houseOrFamily": "Familia Díaz"
+    },
+    {
+      "id": "char-mention-arkadis",
+      "name": "Arkadis",
+      "canonicalName": "Arkadis",
+      "hasArticle": false,
+      "category": "Personajes",
+      "status": "desconocido",
+      "gender": "femenino",
+      "relations": {
+        "parents": [],
+        "adoptiveParents": [],
+        "spouses": [
+          "Arkalon Díaz"
+        ],
+        "children": [],
+        "adoptiveChildren": [],
+        "siblings": [],
+        "relatives": []
+      },
+      "isAnonymousOrMentionedOnly": true,
+      "summary": "Personaje mencionado en las crónicas de Drakaris como abuela.",
+      "houseOrFamily": "Familia Díaz"
+    },
+    {
+      "id": "char-mention-consejo-omega",
+      "name": "Consejo Omega",
+      "canonicalName": "Consejo Omega",
+      "hasArticle": false,
+      "category": "Personajes",
+      "status": "desconocido",
+      "gender": "desconocido",
+      "relations": {
+        "parents": [],
+        "adoptiveParents": [],
+        "spouses": [],
+        "children": [],
+        "adoptiveChildren": [],
+        "siblings": [],
+        "relatives": []
+      },
+      "isAnonymousOrMentionedOnly": true,
+      "summary": "Personaje mencionado en las crónicas de Chemos como pariente."
+    },
+    {
+      "id": "char-mention-arlem-diaz",
+      "name": "Arlem Díaz",
+      "canonicalName": "Arlem Díaz",
+      "hasArticle": false,
+      "category": "Personajes",
+      "status": "desconocido",
+      "gender": "desconocido",
+      "relations": {
+        "parents": [
+          "Arlon Díaz"
+        ],
+        "adoptiveParents": [],
+        "spouses": [
+          "Aeliana"
+        ],
+        "children": [],
+        "adoptiveChildren": [],
+        "siblings": [
+          "Midas, Diosa del comercio"
+        ],
+        "relatives": []
+      },
+      "isAnonymousOrMentionedOnly": true,
+      "summary": "Personaje mencionado en las crónicas de Arkalon Díaz como nieto / descendiente.",
+      "houseOrFamily": "Familia Díaz"
+    },
+    {
+      "id": "char-mention-familia-loux",
+      "name": "Familia Loux",
+      "canonicalName": "Familia Loux",
+      "hasArticle": false,
+      "category": "Personajes",
+      "status": "desconocido",
+      "gender": "desconocido",
+      "relations": {
+        "parents": [],
+        "adoptiveParents": [],
+        "spouses": [],
+        "children": [],
+        "adoptiveChildren": [],
+        "siblings": [],
+        "relatives": []
+      },
+      "isAnonymousOrMentionedOnly": true,
+      "summary": "Personaje mencionado en las crónicas de Pepe Loux como pariente.",
+      "houseOrFamily": "Casa Loux"
+    },
+    {
+      "id": "char-mention-rey-allant",
+      "name": "Rey Allant",
+      "canonicalName": "Rey Allant",
+      "hasArticle": false,
+      "category": "Personajes",
+      "status": "desconocido",
+      "gender": "masculino",
+      "relations": {
+        "parents": [],
+        "adoptiveParents": [],
+        "spouses": [],
+        "children": [
+          "Ostrava"
+        ],
+        "adoptiveChildren": [],
+        "siblings": [],
+        "relatives": []
+      },
+      "isAnonymousOrMentionedOnly": true,
+      "summary": "Personaje mencionado en las crónicas de Ostrava como padre."
     }
   ],
   "edges": [
@@ -5862,7 +6581,7 @@
       ]
     }
   ],
-  "lastUpdated": "2026-09-20T19:31:24.594Z",
+  "lastUpdated": "2026-09-20T19:15:09.757Z",
   "stats": {
     "totalCharacters": 162,
     "withArticleCount": 113,

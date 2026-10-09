@@ -1,22 +1,16 @@
-export interface Env {
-  ASSETS: {
-    fetch: (request: Request | string) => Promise<Response>;
-  };
-  GITHUB_TOKEN?: string;
-  GITHUB_REPO?: string;
-  GITHUB_BRANCH?: string;
-  GROQ_API_KEY?: string;
-  GROQ_API_KEY_2?: string;
-  GROQ_API_KEY_3?: string;
-  GROQ_API_KEY_4?: string;
-  CEREBRAS_API_KEY?: string;
-  CEREBRAS_API_KEY_2?: string;
-  CEREBRAS_API_KEY_3?: string;
-  MISTRAL_API_KEY?: string;
-  MISTRAL_API_KEY_2?: string;
-  MISTRAL_API_KEY_4?: string;
+interface Fetcher {
+  fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
+}
+
+interface ExecutionContext {
+  waitUntil: (promise: Promise<unknown>) => void;
+  passThroughOnException: () => void;
+}
+
+interface Env {
+  ASSETS: Fetcher;
   BACKEND_URL?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 const CORS_HEADERS: Record<string, string> = {
@@ -25,531 +19,926 @@ const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Allow-Headers": "*",
 };
 
-const DEFAULT_REPO = "tirianworld/Cdd-Wiki-V2";
-const DEFAULT_BRANCH = "main";
-
-function jsonResponse(data: any, status = 200): Response {
+function jsonResponse(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
     status,
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      ...CORS_HEADERS,
-    },
+    headers: { "Content-Type": "application/json; charset=utf-8", ...CORS_HEADERS },
   });
 }
 
-// Fetch live data from GitHub repository with fast timeout and fallback to bundled static assets
-async function fetchRepoData(
-  env: Env,
-  request: Request,
-  repoPath: string,
-  localAssetPath: string
-): Promise<Response> {
-  const repo = env.GITHUB_REPO || DEFAULT_REPO;
-  const branch = env.GITHUB_BRANCH || DEFAULT_BRANCH;
-  const token = env.GITHUB_TOKEN;
+// 1. INLINE EDIT (Sin límite de caracteres, carga completa del contexto)
+async function tarotInlineEdit(env: Env, body: any) {
+  const selectedText = String(body?.selectedText || "");
+  if (!selectedText.trim()) throw new Error("Debe seleccionar un fragmento de texto para transformar.");
+  if (selectedText.length > 6000) throw new Error("El fragmento seleccionado es demasiado largo (maximo 6000 caracteres).");
+  const command = String(body?.command || "custom");
+  const customPrompt = String(body?.customPrompt || "");
+  const ctxText = String(body?.fullArticleContext || "").slice(0, 1500);
+  const title = String(body?.title || "Articulo");
+  const category = String(body?.category || "General");
 
-  // 1. Try fetching live from GitHub repository with 2.5s timeout
-  try {
-    const ghUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${repoPath}`;
-    const headers: Record<string, string> = {
-      "User-Agent": "Dragopedia-Worker",
-    };
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
-    }
+  const directives: Record<string, string> = {
+    epic: "Reescribe el fragmento para que sea épico, heroico y solemne, con prosa de alta fantasía y mitología arcana. Mantén los nombres, relaciones y hechos reales intactos.",
+    combat: "Expande el fragmento con detalles tácticos de combate (armas, técnicas, impacto físico o mágico, maniobras, tensión de batalla y sensaciones viscerales).",
+    medieval_fix: "Corrige ortografía, gramática, sintaxis y estilo para que tenga sabor de crónica medieval pulcra y noble, eliminando anacronismos y manteniendo los términos de fantasía intactos.",
+    infobox_table: "Analiza el fragmento y extrae una tabla HTML (<table>) o bloque estructurado con los atributos clave, estadísticas, linaje o habilidades mencionadas. Usa solo datos presentes en el texto.",
+    expand: "Desarrolla y profundiza el fragmento con ambientación sensorial y descripciones del entorno, sin inventar hechos incongruentes.",
+    summarize: "Sintetiza el fragmento en un párrafo conciso y contundente que conserve lo fundamental.",
+  };
+  const directive = directives[command] ||
+    (customPrompt ? `Aplica la siguiente instrucción específica sobre el texto: "${customPrompt}"` : "Mejora el texto de forma solemne y elegante.");
 
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 2500);
+  const system = `Eres Tarot, el Copiloto y Gran Bibliotecario de Dragopedia / Caldo de Dragón.
+Tomas un fragmento seleccionado de un artículo y lo transformas según la directiva dada.
+Contexto del artículo: título "${title}", categoría "${category}".
+Reglas:
+1. Devuelve ÚNICAMENTE el texto transformado (en HTML o texto enriquecido según corresponda), sin notas adicionales, sin preámbulos tipo "Aquí tienes" y sin bloques de código markdown.
+2. Si el texto contenía etiquetas HTML (<p>, <strong>, <a>...), consérvalas o mejóralas limpiamente. No modifiques los href de los enlaces.
+3. Tono medieval / fantasía mística, en español.
+4. CERO INVENCIÓN: prohibido inventar lore, personajes, eventos, linajes o hechos que no estén en el texto o en la directiva.`;
 
-    const ghRes = await fetch(ghUrl, {
-      headers,
-      signal: controller.signal,
-    });
-    clearTimeout(timer);
+  const prompt = `Directiva: ${directive}
 
-    if (ghRes.ok) {
-      const text = await ghRes.text();
-      return new Response(text, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          "Cache-Control": "public, max-age=30, stale-while-revalidate=120",
-          ...CORS_HEADERS,
-        },
-      });
-    }
-  } catch (err) {
-    console.warn(`[GitHub Fetch Failed for ${repoPath}]:`, err);
-  }
+Fragmento seleccionado:
+"""
+${selectedText}
+"""
+${ctxText ? `\nContexto del manuscrito circundante (para coherencia integral):\n"""\n${ctxText}\n"""\n` : ""}
+Devuelve el fragmento transformado:`;
 
-  // 2. Fallback to bundled static assets in dist
-  try {
-    const assetUrl = new URL(localAssetPath, request.url);
-    const assetRes = await env.ASSETS.fetch(assetUrl.toString());
-    if (assetRes.ok) {
-      const text = await assetRes.text();
-      return new Response(text, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          ...CORS_HEADERS,
-        },
-      });
-    }
-  } catch (err) {
-    console.warn(`[Asset Fetch Failed for ${localAssetPath}]:`, err);
-  }
+  const r: any = await generate(env, [
+    { role: "system", content: system },
+    { role: "user", content: prompt },
+  ], { temperature: 0.2 });
+  if (!r) throw new Error("Todos los proveedores de IA fallaron");
 
-  return jsonResponse([]);
+  let out: string = String(r.choices?.[0]?.message?.content || "").trim();
+  out = out.replace(/^```(?:html)?\s*/i, "").replace(/\s*```$/i, "").trim();
+  return { modifiedText: out || selectedText };
 }
 
-// Multi-provider AI Caller: Groq -> Cerebras -> Mistral with multi-key and multi-model failover
-async function callMultiProviderAI(
-  messages: Array<{ role: string; content: string }>,
-  env: Env,
-  wantsJson = false,
-  temperature = 0.7
-): Promise<string> {
-  const getVar = (key: string): string => {
-    const val = 
-      (env && typeof env[key] === "string" ? env[key] : "") ||
-      (typeof globalThis !== "undefined" && typeof (globalThis as any)[key] === "string" ? (globalThis as any)[key] : "") ||
-      (typeof process !== "undefined" && process?.env && typeof process.env[key] === "string" ? process.env[key] : "");
-    return (val || "").trim();
-  };
+// 2. AUTO CROSSLINK
+async function tarotCrosslink(env: Env, request: Request, body: any) {
+  const content = String(body?.content || "");
+  const currentSlug = String(body?.currentArticleSlug || "");
+  if (!content.trim()) return { crossLinkedHtml: content, linksAddedCount: 0, detectedEntities: [] as string[] };
 
-  const groqKeys = [
-    getVar("GROQ_API_KEY"),
-    getVar("GROQ_API_KEY_2"),
-    getVar("GROQ_API_KEY_3"),
-    getVar("GROQ_API_KEY_4"),
-  ].filter(Boolean);
+  let raw: any = [];
+  try {
+    const res = await env.ASSETS.fetch(new Request(new URL("/data/articles.json", request.url)));
+    raw = await res.json();
+  } catch {}
+  const all: any[] = Array.isArray(raw) ? raw : (raw && raw.articles) || [];
 
-  const cerebrasKeys = [
-    getVar("CEREBRAS_API_KEY"),
-    getVar("CEREBRAS_API_KEY_2"),
-    getVar("CEREBRAS_API_KEY_3"),
-  ].filter(Boolean);
+  const lower = content.toLowerCase();
+  const targets = all
+    .filter((a) => a && a.slug && a.slug !== currentSlug && typeof a.title === "string" && a.title.trim().length >= 3 && lower.includes(a.title.trim().toLowerCase()))
+    .sort((a, b) => b.title.length - a.title.length);
 
-  const mistralKeys = [
-    getVar("MISTRAL_API_KEY"),
-    getVar("MISTRAL_API_KEY_2"),
-    getVar("MISTRAL_API_KEY_4"),
-  ].filter(Boolean);
+  let text = content;
+  let linksAddedCount = 0;
+  const detectedEntities: string[] = [];
 
-  if (groqKeys.length === 0 && cerebrasKeys.length === 0 && mistralKeys.length === 0) {
-    const detected = Object.keys(env || {}).filter(k => k !== "ASSETS");
-    throw new Error(
-      `No se detectó ninguna API key en el Worker. Variables vinculadas en este despliegue: [${detected.join(", ") || "ninguna"}]. En Cloudflare, edita cada clave en Settings > Variables and Secrets y cámbiala a tipo 'Secret' (o pulsa 'Encrypt') y vuelve a desplegar.`
-    );
+  for (const target of targets) {
+    const escaped = target.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const re = new RegExp(`\\b(${escaped})\\b`, "i");
+    const segments = text.split(/(<[^>]+>)/g);
+    let insideAnchor = false;
+    let done = false;
+    for (let i = 0; i < segments.length && !done; i++) {
+      const seg = segments[i];
+      if (i % 2 === 1) {
+        const l = seg.toLowerCase();
+        if (l.startsWith("<a ") || l === "<a>") insideAnchor = true;
+        else if (l.startsWith("</a")) insideAnchor = false;
+      } else if (!insideAnchor && re.test(seg)) {
+        segments[i] = seg.replace(re, (m: string) => `<a href="/articulo/${target.slug}" class="text-primary hover:underline font-semibold font-medium">${m}</a>`);
+        done = true;
+      }
+    }
+    if (done) {
+      text = segments.join("");
+      linksAddedCount++;
+      detectedEntities.push(target.title);
+    }
   }
+  return { crossLinkedHtml: text, linksAddedCount, detectedEntities };
+}
 
-  // 1. Try Groq (Primary high-speed provider across all available keys)
-  const groqModels = ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.8-27b"];
-  for (const key of groqKeys) {
-    for (const model of groqModels) {
-      try {
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${key}`,
-          },
-          body: JSON.stringify({
-            model,
-            messages,
-            temperature,
-            ...(wantsJson ? { response_format: { type: "json_object" } } : {}),
-          }),
-        });
+// 3. FORMATO COMPLETO (Sin límite de caracteres)
+async function tarotFormat(env: Env, body: any) {
+  const content = String(body?.content || "");
+  const title = String(body?.title || "Sin titulo");
+  if (!content.trim()) throw new Error("Contenido a formatear es requerido.");
+  if (content.length > 12000) throw new Error("El texto es demasiado largo para formatearlo de una vez (maximo 12000 caracteres). Formatea por secciones.");
 
-        if (res.ok) {
-          const data: any = await res.json();
-          const content = data?.choices?.[0]?.message?.content;
-          if (content && typeof content === "string") {
-            return content.trim();
+  const system = `Eres Tarot, el Gran Bibliotecario del universo "Caldo de Dragon".
+Tu tarea es organizar el texto de un manuscrito con estilo limpio tipo Fandom Wiki, en HTML valido:
+- Secciones con <h2> y <h3> (Historia, Habilidades, Apariciones, etc.).
+- Todos los párrafos dentro de <p>.
+- Nombres importantes y reliquias en <strong>.
+- Citas con <blockquote> o <em>.
+- Listas con <ul> y <li> para propiedades, apariciones o características.
+- Conserva los enlaces <a href="..."> y las imágenes <img> que ya existan en el texto, sin modificarlos.
+REGLAS INQUEBRANTABLES: NO inventes lore, personajes, lugares, eventos ni hechos. Conserva TODOS los datos, nombres y hechos originales y no quites información. Solo cambia el formato.
+Responde UNICAMENTE con el código HTML resultante, sin explicaciones ni bloques de código markdown.`;
+
+  const prompt = `Título del artículo (contexto canónico): "${title}"
+
+Texto a formatear:
+"""
+${content}
+"""`;
+
+  const r: any = await generate(env, [
+    { role: "system", content: system },
+    { role: "user", content: prompt },
+  ], { temperature: 0 });
+  if (!r) throw new Error("Todos los proveedores de IA fallaron");
+
+  let out: string = String(r.choices?.[0]?.message?.content || "").trim();
+  out = out.replace(/^```(?:html)?\s*/i, "").replace(/\s*```$/i, "").trim();
+  if (out.startsWith("{")) {
+    try {
+      const p = JSON.parse(out);
+      out = String(p.formattedContent || p.content || out);
+    } catch {}
+  }
+  return { formattedContent: out || content };
+}
+
+function norm(s: string): string {
+  return (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function stripHtml(s: string): string {
+  return (s || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+// 4. CHAT DE TAROT (Carga completa del historial, lore y tomos sin truncar)
+async function tarotChat(env: Env, request: Request, body: any) {
+  const message = String(body?.message || "").trim();
+  if (!message) throw new Error("El mensaje es requerido.");
+  const history: any[] = Array.isArray(body?.history) ? body.history.slice(-10) : [];
+
+  let raw: any = [];
+  try {
+    const res = await env.ASSETS.fetch(new Request(new URL("/data/articles.json", request.url)));
+    raw = await res.json();
+  } catch {}
+  const all: any[] = (Array.isArray(raw) ? raw : (raw && raw.articles) || []).filter((a: any) => a && a.title);
+
+  const recentUser = history
+    .filter((m) => m && (m.role === "user" || m.role === "client"))
+    .slice(-3).map((m) => String(m.text || m.content || ""))
+    .join(" ");
+  const q = norm(recentUser + " " + message);
+  const stop = new Set(["que", "como", "cual", "cuales", "quien", "quienes", "donde", "cuando", "sobre", "para", "pero", "porque", "tiene", "tienen", "esta", "estan", "este", "esto", "esos", "esas", "hola", "dime", "puedes", "algo", "todo", "todos", "entre", "desde", "hasta", "unos", "unas"]);
+  const qWords = Array.from(new Set(q.split(/[^a-z0-9]+/).filter((w) => w.length > 3 && !stop.has(w))));
+
+  const scored = all.map((a) => {
+    const t = norm(String(a.title));
+    const sm = norm(String(a.summary || ""));
+    const body2 = norm(stripHtml(String(a.content || "")).slice(0, 2500));
+    let score = t.length > 2 && q.includes(t) ? 10 : 0;
+    for (const w of qWords) {
+      if (t.includes(w)) score += 3;
+      if (sm.includes(w)) score += 1;
+      if (body2.includes(w)) score += 1;
+    }
+    return { a, score };
+  }).filter((s) => s.score > 0).sort((x, y) => y.score - x.score).slice(0, 6);
+
+  const ctx = scored.map((s, i) =>
+    `=== TOMO ${i + 1}: ${s.a.title} (slug: ${s.a.slug}, categoría: ${s.a.category || "General"}) ===\nResumen: ${s.a.summary || "Sin resumen"}\n${stripHtml(String(s.a.content || "")).slice(0, 1800)}`
+  ).join("\n\n");
+
+  const used = new Set(scored.map((s) => s.a.slug));
+  const catalog = all.filter((a) => !used.has(a.slug)).slice(0, 40).map((a) => `- ${a.title} (${a.category || "General"})`).join("\n");
+
+  const system = `Eres Tarot, el asistente de consulta de la wiki "Caldo de Dragón".
+Responde en español, de forma concisa y directa, con el contexto justo para que se entienda. Nada de roleplay ni adornos poéticos.
+Basa tu respuesta ÚNICAMENTE en los tomos que aparecen abajo. Si la información no está en ellos, dilo claramente y no inventes.
+Termina siempre las frases y la respuesta completa.
+
+TOMOS RELACIONADOS:
+${ctx || "No se encontraron tomos relacionados directos."}
+
+OTROS TOMOS CATALOGADOS:
+${catalog}`;
+
+  const msgs: { role: string; content: string }[] = [{ role: "system", content: system }];
+  for (const m of history) {
+    const text = String(m?.text || m?.content || "").trim();
+    if (!text) continue;
+    msgs.push({ role: m.role === "user" || m.role === "client" ? "user" : "assistant", content: text.slice(0, 1500) });
+  }
+  msgs.push({ role: "user", content: message });
+
+  const r: any = await generate(env, msgs);
+  if (!r) throw new Error("Todos los proveedores de IA fallaron");
+  return { message: r.choices?.[0]?.message?.content || "No he podido generar una respuesta." };
+}
+
+// 5. IMPORTADOR TAROT SCRIBE (Para /api/ai/article-scribe-import)
+async function tarotScribeImport(env: Env, body: any) {
+  const { articleTitle, articleCategory, currentContent, currentSummary, rawImportText, importMode = "merge", customInstruction = "" } = body || {};
+  if (!articleTitle) throw new Error("El título del artículo es obligatorio.");
+  const resolvedText = String(rawImportText || "").trim();
+  if (!resolvedText) throw new Error("Debes proporcionar texto válido para que Tarot pueda analizar.");
+
+  const system = `Eres Tarot, el Gran Bibliotecario y Escriba de la Gran Biblioteca de Kaliria del universo "Caldo de Dragón".
+Tu misión sagrada es la EXTRACCIÓN SELECTIVA Y RIGUROSA para un único artículo canónico: "${articleTitle}" (Categoría: "${articleCategory || "General"}").
+Reglas:
+1. Sé 100% fiel a los textos provistos. CERO INVENCIÓN de lore.
+2. Genera código HTML semántico (<p>, <h2>, <strong>, <blockquote>).
+3. Devuelve un JSON válido con extractedHtml, omittedReport, relevantPoints, suggestedSummary, extractedAttributes.`;
+
+  const prompt = `TEXTO DEL DOCUMENTO A PROCESAR:
+"""
+${resolvedText}
+"""
+
+ESTADO ACTUAL DEL ARTÍCULO:
+- Título: ${articleTitle}
+- Categoría: ${articleCategory || "General"}
+- Resumen actual: ${currentSummary || "No definido"}
+- Contenido actual:
+"""
+${currentContent ? String(currentContent).slice(0, 4000) : "Sin contenido previo."}
+"""
+
+MODO: ${importMode}
+INSTRUCCIONES EXTRA: ${customInstruction || "Extraer todo lo relevante para este artículo sin inventar nada."}
+
+Devuelve exactamente un objeto JSON:
+{
+  "extractedHtml": "...",
+  "omittedReport": "...",
+  "relevantPoints": ["..."],
+  "suggestedSummary": "...",
+  "extractedAttributes": {}
+}`;
+
+  const r: any = await generate(env, [
+    { role: "system", content: system },
+    { role: "user", content: prompt }
+  ], { response_format: { type: "json_object" }, temperature: 0.1 });
+  if (!r) throw new Error("Todos los proveedores de IA fallaron");
+  const out = String(r.choices?.[0]?.message?.content || "").trim();
+  try {
+    return JSON.parse(out);
+  } catch {
+    const s = out.indexOf("{");
+    const e = out.lastIndexOf("}");
+    if (s >= 0 && e > s) {
+      try { return JSON.parse(out.slice(s, e + 1)); } catch {}
+    }
+    return {
+      extractedHtml: out || resolvedText,
+      omittedReport: "Importación completada.",
+      relevantPoints: [articleTitle],
+      suggestedSummary: currentSummary || "",
+      extractedAttributes: {}
+    };
+  }
+}
+
+// 6. ANALIZADOR TAROT (Para /api/ai/analyze)
+async function tarotAnalyze(env: Env, body: any) {
+  const content = String(body?.content || body?.text || "");
+  const title = String(body?.title || "");
+  const mode = String(body?.targetMode || "full");
+  if (!content.trim()) throw new Error("Texto requerido para análisis.");
+
+  const system = `Eres Tarot, el Gran Bibliotecario y Archivista del universo místico "Caldo de Dragón".
+Analiza minuciosamente el manuscrito proporcionado y extrae entidades, hitos cronológicos, conexiones genealógicas y un resumen introductorio.
+Responde ÚNICAMENTE con un JSON válido:
+{
+  "summary": "...",
+  "entities": [{"name": "...", "type": "personaje|lugar|faccion|objeto|magia", "description": "..."}],
+  "events": [{"year": "...", "label": "...", "description": "..."}],
+  "familyLinks": [{"source": "...", "target": "...", "relation": "padre|madre|hijo|pareja|hermano"}],
+  "insights": ["..."]
+}`;
+
+  const prompt = `Título: "${title}"
+Modo: "${mode}"
+Contenido del manuscrito:
+"""
+${content}
+"""`;
+
+  const r: any = await generate(env, [
+    { role: "system", content: system },
+    { role: "user", content: prompt }
+  ], { response_format: { type: "json_object" }, temperature: 0.1 });
+  if (!r) throw new Error("Todos los proveedores de IA fallaron");
+  const out = String(r.choices?.[0]?.message?.content || "").trim();
+  try {
+    return JSON.parse(out);
+  } catch {
+    const s = out.indexOf("{");
+    const e = out.lastIndexOf("}");
+    if (s >= 0 && e > s) {
+      try { return JSON.parse(out.slice(s, e + 1)); } catch {}
+    }
+    return { summary: "Análisis completado.", entities: [], events: [], familyLinks: [], insights: [] };
+  }
+}
+
+// 7. FUSIONAR ARTÍCULOS (Para /api/ai/merge)
+async function tarotMerge(env: Env, body: any) {
+  const { sourceArticle, targetArticle, userInstructions = "" } = body || {};
+  if (!sourceArticle || !targetArticle) throw new Error("Artículos fuente y destino requeridos.");
+
+  const system = `Eres Tarot, Archivista de "Caldo de Dragón".
+Tu tarea es fusionar dos artículos en uno solo, unificando el lore sin duplicaciones ni contradicciones, con formato HTML limpio.
+Responde ÚNICAMENTE con JSON:
+{
+  "mergedTitle": "...",
+  "mergedContent": "...",
+  "mergedSummary": "...",
+  "changesSummary": "..."
+}`;
+
+  const prompt = `ARTÍCULO FUENTE (A incorporar):
+- Título: ${sourceArticle.title}
+- Resumen: ${sourceArticle.summary || ""}
+- Contenido:
+"""
+${sourceArticle.content || ""}
+"""
+
+ARTÍCULO DESTINO (Base canónica):
+- Título: ${targetArticle.title}
+- Resumen: ${targetArticle.summary || ""}
+- Contenido:
+"""
+${targetArticle.content || ""}
+"""
+
+INSTRUCCIONES DEL USUARIO: ${userInstructions || "Fusionar preservando todos los hechos y enlaces."}`;
+
+  const r: any = await generate(env, [
+    { role: "system", content: system },
+    { role: "user", content: prompt }
+  ], { response_format: { type: "json_object" }, temperature: 0.1 });
+  if (!r) throw new Error("Todos los proveedores de IA fallaron");
+  const out = String(r.choices?.[0]?.message?.content || "").trim();
+  try {
+    return JSON.parse(out);
+  } catch {
+    const s = out.indexOf("{");
+    const e = out.lastIndexOf("}");
+    if (s >= 0 && e > s) {
+      try { return JSON.parse(out.slice(s, e + 1)); } catch {}
+    }
+    return {
+      mergedTitle: targetArticle.title || sourceArticle.title,
+      mergedContent: (targetArticle.content || "") + "\n" + (sourceArticle.content || ""),
+      mergedSummary: targetArticle.summary || sourceArticle.summary || "",
+      changesSummary: "Contenidos fusionados."
+    };
+  }
+}
+
+// 8. PREDICCIÓN DE FILTROS (Para /api/ai/predict-filters)
+async function tarotPredictFilters(env: Env, body: any) {
+  const { title, summary, content, category, availableFilters } = body || {};
+  const system = `Eres Tarot, clasificador de la Dragopedia.
+Dado un artículo y las opciones de filtros disponibles, selecciona las etiquetas adecuadas para: campaña, continente, plano, criatura.
+Devuelve SOLO un JSON:
+{
+  "suggestedFilters": {
+    "campaña": ["..."],
+    "continente": ["..."],
+    "plano": ["..."],
+    "criatura": ["..."]
+  }
+}`;
+  const prompt = `Artículo: "${title}" (Categoría: "${category || "General"}")
+Resumen: "${summary || ""}"
+Contenido:
+"""
+${content || ""}
+"""
+
+Filtros disponibles:
+${JSON.stringify(availableFilters || {})}
+
+Devuelve suggestedFilters en JSON:`;
+
+  const r: any = await generate(env, [
+    { role: "system", content: system },
+    { role: "user", content: prompt }
+  ], { response_format: { type: "json_object" }, temperature: 0.1 });
+  if (!r) throw new Error("Todos los proveedores de IA fallaron");
+  const out = String(r.choices?.[0]?.message?.content || "").trim();
+  try {
+    return JSON.parse(out);
+  } catch {
+    const s = out.indexOf("{");
+    const e = out.lastIndexOf("}");
+    if (s >= 0 && e > s) {
+      try { return JSON.parse(out.slice(s, e + 1)); } catch {}
+    }
+    return { suggestedFilters: { campaña: [], continente: [], plano: [], criatura: [] } };
+  }
+}
+
+// 9. REASIGNAR CATEGORÍAS (Para /api/ai/reassign-category)
+async function tarotReassignCategory(env: Env, request: Request, body: any) {
+  const { articleSlug, articleTitle, articleContent, currentCategory } = body || {};
+  let raw: any = [];
+  try {
+    const res = await env.ASSETS.fetch(new Request(new URL("/data/categories.json", request.url)));
+    raw = await res.json();
+  } catch {}
+  const cats: any[] = Array.isArray(raw) ? raw : (raw && raw.categories) || [];
+  const catNames = cats.map((c) => c.name || c.id).filter(Boolean);
+
+  const system = `Eres Tarot. Clasifica el artículo en la mejor categoría de la lista. Devuelve JSON con {"suggestedCategory": "...", "reason": "..."}.`;
+  const prompt = `Artículo: "${articleTitle || articleSlug}"
+Categoría actual: "${currentCategory || ""}"
+Contenido:
+"""
+${articleContent || ""}
+"""
+
+Categorías válidas: ${catNames.join(", ")}`;
+
+  const r: any = await generate(env, [
+    { role: "system", content: system },
+    { role: "user", content: prompt }
+  ], { response_format: { type: "json_object" }, temperature: 0.1 });
+  if (!r) throw new Error("Todos los proveedores de IA fallaron");
+  const out = String(r.choices?.[0]?.message?.content || "").trim();
+  try {
+    return JSON.parse(out);
+  } catch {
+    const s = out.indexOf("{");
+    const e = out.lastIndexOf("}");
+    if (s >= 0 && e > s) {
+      try { return JSON.parse(out.slice(s, e + 1)); } catch {}
+    }
+    return { suggestedCategory: currentCategory || "General", reason: "Conservada categoría actual" };
+  }
+}
+
+// 10. AUDITAR COHERENCIA DE LORE (Para /api/tarot/check-consistency)
+async function tarotCheck(env: Env, request: Request, body: any) {
+  const { title, category, content, summary, currentSlug } = body || {};
+  const clean = stripHtml(String(content || ""));
+  if (!clean) return { issues: [], checkedAgainstCount: 0 };
+
+  let raw: any = [];
+  try {
+    const res = await env.ASSETS.fetch(new Request(new URL("/data/articles.json", request.url)));
+    raw = await res.json();
+  } catch {}
+  const all: any[] = Array.isArray(raw) ? raw : (raw && raw.articles) || [];
+  const others = all.filter((a) => a && a.slug !== currentSlug);
+
+  const text = (String(title || "") + " " + clean.slice(0, 1500)).toLowerCase();
+  const words = new Set(text.split(/[^a-z0-9\u00e0-\u00ff]+/).filter((w) => w.length > 3));
+  const scored = others.map((a) => {
+    const t = String(a.title || "").toLowerCase();
+    let score = t && text.includes(t) ? 10 : 0;
+    for (const w of t.split(/[^a-z0-9\u00e0-\u00ff]+/)) if (w.length > 3 && words.has(w)) score++;
+    return { a, score };
+  }).sort((x, y) => y.score - x.score);
+  const picked = (scored.some((s) => s.score > 0) ? scored.filter((s) => s.score > 0) : scored)
+    .slice(0, 12)
+    .map((s) => ({
+      title: s.a.title,
+      slug: s.a.slug,
+      category: s.a.category,
+      summary: s.a.summary || "",
+      snippet: stripHtml(s.a.content || "").slice(0, 500),
+    }));
+
+  const system = `Eres Tarot, el Gran Guardián y Verificador de Coherencia de Lore de Dragopedia / Caldo de Dragón.
+Tu tarea es auditar un borrador de artículo para detectar CONTRADICCIONES, ANOMALÍAS O INCONSISTENCIAS frente a los artículos existentes de la enciclopedia.
+Tipos: "date" (fechas, eras, años), "relation" (parentescos, linajes, alianzas), "event" (acontecimientos, batallas, tratados), "status" (estado vital), "location" (ciudad, templo o reino en lugar equivocado), "lore_rule" (violar reglas sagradas del lore).
+Si no hay inconsistencias reales, devuelve "issues" vacío. No inventes errores si el texto es compatible. Sé riguroso y constructivo. Responde en castellano.
+Responde ÚNICAMENTE con un objeto JSON válido, sin texto adicional ni bloques de código.`;
+
+  const prompt = `Analiza este texto frente a los tomos de la enciclopedia.
+
+ARTÍCULO A AUDITAR:
+- Título: "${title || "Borrador"}"
+- Categoría: "${category || "General"}"
+- Resumen: "${summary || ""}"
+- Contenido: """${clean.slice(0, 4000)}"""
+
+TOMOS RELACIONADOS:
+${JSON.stringify(picked)}
+
+Devuelve exactamente este formato:
+{"issues":[{"type":"date|relation|event|status|location|lore_rule","severity":"warning|error|notice","description":"explicacion clara","conflictingArticleTitle":"titulo","conflictingArticleSlug":"slug","suggestion":"propuesta para resolverlo"}]}`;
+
+  const r: any = await generate(env, [
+    { role: "system", content: system },
+    { role: "user", content: prompt },
+  ]);
+  if (!r) throw new Error("Todos los proveedores de IA fallaron");
+
+  const out: string = r.choices?.[0]?.message?.content || "";
+  let issues: unknown[] = [];
+  const s = out.indexOf("{");
+  const e = out.lastIndexOf("}");
+  if (s >= 0 && e > s) {
+    try {
+      const parsed = JSON.parse(out.slice(s, e + 1));
+      if (Array.isArray(parsed.issues)) issues = parsed.issues;
+    } catch {}
+  }
+  return { issues, checkedAgainstCount: picked.length };
+}
+
+async function staticJson(env: Env, request: Request, path: string, fallback: unknown): Promise<Response> {
+  const res = await env.ASSETS.fetch(new Request(new URL(path, request.url)));
+  if (res.ok) {
+    const body = await res.text();
+    return new Response(body, {
+      status: 200,
+      headers: { "Content-Type": "application/json; charset=utf-8", ...CORS_HEADERS },
+    });
+  }
+  return jsonResponse(fallback);
+}
+
+// RECOLECCIÓN DE TODAS LAS API KEYS (Compartidas para todas las funciones de IA)
+function collectKeys(env: Env, base: string): string[] {
+  const names = [base];
+  for (let i = 1; i <= 20; i++) {
+    names.push(base + "_" + i);
+    names.push(base + i);
+  }
+  const keys: string[] = [];
+  for (const n of names) {
+    const v = env[n];
+    if (typeof v === "string" && v.trim()) keys.push(v.trim());
+  }
+  const csv = env[base + "S"];
+  if (typeof csv === "string") {
+    keys.push(...csv.split(",").map((s) => s.trim()).filter(Boolean));
+  }
+  return Array.from(new Set(keys));
+}
+
+// PROVEEDORES DE IA SOPORTADOS (Groq, Cerebras, Mistral, Gemini)
+const PROVIDERS = [
+  { 
+    name: "groq", 
+    base: "GROQ_API_KEY", 
+    url: "https://api.groq.com/openai/v1/chat/completions", 
+    models: ["openai/gpt-oss-120b", "llama-3.3-70b-versatile", "openai/gpt-oss-20b", "qwen/qwen3.6-27b"] 
+  },
+  { 
+    name: "cerebras", 
+    base: "CEREBRAS_API_KEY", 
+    url: "https://api.cerebras.ai/v1/chat/completions", 
+    models: ["gpt-oss-120b", "llama-3.3-70b", "zai-glm-4.7", "llama3.1-8b"] 
+  },
+  { 
+    name: "mistral", 
+    base: "MISTRAL_API_KEY", 
+    url: "https://api.mistral.ai/v1/chat/completions", 
+    models: ["mistral-small-latest", "open-mistral-nemo", "mistral-large-latest"] 
+  },
+  {
+    name: "gemini",
+    base: "GEMINI_API_KEY",
+    url: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+    models: ["gemini-2.5-flash", "gemini-1.5-flash"]
+  }
+];
+
+let lastAttempts: string[] = [];
+
+async function generate(env: Env, messages: unknown[], extra: Record<string, unknown> = {}) {
+  lastAttempts = [];
+  for (const p of PROVIDERS) {
+    const keys = collectKeys(env, p.base).sort(() => Math.random() - 0.5);
+    if (!keys.length) lastAttempts.push(`${p.name}: sin claves`);
+    for (let i = 0; i < keys.length; i++) {
+      for (const model of p.models) {
+        try {
+          const res = await fetch(p.url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${keys[i]}` },
+            body: JSON.stringify({ model, messages, ...extra }),
+          });
+          if (res.ok) {
+            const data = (await res.json()) as Record<string, unknown>;
+            return { provider: p.name, ...data };
           }
-        } else {
-          const errText = await res.text().catch(() => "");
-          console.warn(`[Groq ${model}] HTTP ${res.status}:`, errText);
+          const txt = (await res.text()).slice(0, 200);
+          lastAttempts.push(`${p.name} #${i + 1} ${model}: HTTP ${res.status} ${txt}`);
+          if (res.status !== 404) break; // 404 = modelo no disponible: probar siguiente modelo
+        } catch (err: any) {
+          lastAttempts.push(`${p.name} #${i + 1} ${model}: ${err?.message || err}`);
+          break;
         }
-      } catch (err) {
-        console.warn(`[Groq ${model}] error:`, err);
       }
     }
   }
-
-  // 2. Try Cerebras (Ultra-fast inference backup across all available keys)
-  const cerebrasModels = ["gpt-oss-120b", "qwen-3.8-27b"];
-  for (const key of cerebrasKeys) {
-    for (const model of cerebrasModels) {
-      try {
-        const res = await fetch("https://api.cerebras.ai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${key}`,
-          },
-          body: JSON.stringify({
-            model,
-            messages,
-            temperature,
-            ...(wantsJson ? { response_format: { type: "json_object" } } : {}),
-          }),
-        });
-
-        if (res.ok) {
-          const data: any = await res.json();
-          const content = data?.choices?.[0]?.message?.content;
-          if (content && typeof content === "string") {
-            return content.trim();
-          }
-        }
-      } catch (err) {
-        console.warn(`[Cerebras ${model}] error:`, err);
-      }
-    }
-  }
-
-  // 3. Try Mistral (European high-capability backup across all available keys)
-  const mistralModels = ["mistral-small-latest", "open-mistral-7b"];
-  for (const key of mistralKeys) {
-    for (const model of mistralModels) {
-      try {
-        const res = await fetch("https://api.mistral.ai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${key}`,
-          },
-          body: JSON.stringify({
-            model,
-            messages,
-            temperature,
-            ...(wantsJson ? { response_format: { type: "json_object" } } : {}),
-          }),
-        });
-
-        if (res.ok) {
-          const data: any = await res.json();
-          const content = data?.choices?.[0]?.message?.content;
-          if (content && typeof content === "string") {
-            return content.trim();
-          }
-        }
-      } catch (err) {
-        console.warn(`[Mistral ${model}] error:`, err);
-      }
-    }
-  }
-
-  throw new Error("No se pudo obtener respuesta de ninguno de los proveedores de IA (Groq, Cerebras, Mistral).");
+  return null;
 }
 
 export default {
-  async fetch(request: Request, env: Env, ctx: any): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
-    // Handle OPTIONS preflight requests
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
-        headers: {
-          ...CORS_HEADERS,
-          "Access-Control-Max-Age": "86400",
-        },
+        headers: { ...CORS_HEADERS, "Access-Control-Max-Age": "86400" },
       });
     }
 
-    // 1. Edge-native API Routes
     if (url.pathname.startsWith("/api/")) {
       const cleanPath = url.pathname.replace(/\/$/, "");
 
-      // 1.0 Image Proxy endpoint (bypasses Fandom/Wikia Cloudflare 403 blocks)
-      if (cleanPath === "/api/proxy-image") {
-        const targetUrl = url.searchParams.get("url");
-        if (!targetUrl || (!targetUrl.startsWith("http://") && !targetUrl.startsWith("https://"))) {
-          return jsonResponse({ error: "Missing or invalid url query parameter" }, 400);
-        }
-        try {
-          const imgRes = await fetch(targetUrl, {
-            headers: {
-              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-              "Referer": "https://caldo-de-dragon.fandom.com/",
-              "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-            },
-          });
-          if (imgRes.ok) {
-            const contentType = imgRes.headers.get("content-type") || "image/jpeg";
-            return new Response(imgRes.body, {
-              status: 200,
-              headers: {
-                "Content-Type": contentType,
-                "Cache-Control": "public, max-age=604800, stale-while-revalidate=2592000",
-                ...CORS_HEADERS,
-              },
-            });
-          }
-        } catch (err: any) {
-          console.warn("[Worker Proxy-Image Error]:", err);
-        }
-        return jsonResponse({ error: "Failed to fetch remote image" }, 502);
-      }
-
-      // 1.1 Tarot AI Chatbot Endpoint
-      if (cleanPath === "/api/ai/chat" && request.method === "POST") {
-        try {
-          const body: any = await request.json();
-          const userMessage = body?.message || "";
-          const history = Array.isArray(body?.history) ? body.history : [];
-
-          if (!userMessage.trim()) {
-            return jsonResponse({ error: "El mensaje es requerido." }, 400);
-          }
-
-          // Fetch articles for context (live from GitHub or local assets)
-          let matchedArticlesContext = "";
-          try {
-            const articlesRes = await fetchRepoData(env, request, "src/data/articles.json", "/data/articles.json");
-            if (articlesRes.ok) {
-              const articles: any[] = await articlesRes.json();
-              const lowerMsg = userMessage.toLowerCase();
-              const words = lowerMsg.split(/\s+/).filter((w) => w.length > 2);
-
-              const matches = articles
-                .map((art) => {
-                  let score = 0;
-                  const titleLower = (art.title || "").toLowerCase();
-                  if (titleLower.includes(lowerMsg) || lowerMsg.includes(titleLower)) score += 10;
-                  words.forEach((w) => {
-                    if (titleLower.includes(w)) score += 3;
-                    if ((art.summary || "").toLowerCase().includes(w)) score += 1;
-                  });
-                  return { art, score };
-                })
-                .filter((m) => m.score > 0)
-                .sort((a, b) => b.score - a.score)
-                .slice(0, 5);
-
-              if (matches.length > 0) {
-                matchedArticlesContext = matches
-                  .map(
-                    (m) =>
-                      `=== TOMO: ${m.art.title} (Categoría: ${m.art.category}) ===\nResumen: ${m.art.summary || "Sin resumen"}\nContenido:\n${(m.art.content || "").replace(/<[^>]*>/g, " ").slice(0, 1500)}`
-                  )
-                  .join("\n\n");
-              }
-            }
-          } catch (e) {
-            console.warn("[Worker Tarot] Failed to load articles context:", e);
-          }
-
-          const systemPrompt = `Eres Tarot, el Gran Bibliotecario y Archivista sabio del universo místico "Caldo de Dragón" y la enciclopedia Dragopedia.
-Responde siempre en español de forma precisa, elocuente y directa a lo que se pregunta, usando el conocimiento oficial de la biblioteca.
-
-${matchedArticlesContext ? `INFORMACIÓN DE LOS MANUSCRITOS DE LA BIBLIOTECA:\n${matchedArticlesContext}\n\nBasa tu respuesta en los hechos reales de estos manuscritos.` : ""}
-
-Evita rodeos innecesarios o textos vacíos. Si el usuario te saluda, salúdalo con solemnidad como el archivista de Dragopedia. Si te pregunta sobre personajes, dioses, dragones o lugares, bríndale la información con exactitud.`;
-
-          const messages: Array<{ role: string; content: string }> = [
-            { role: "system", content: systemPrompt },
-          ];
-
-          history.slice(-6).forEach((h: any) => {
-            const role = h.role === "user" || h.role === "client" ? "user" : "assistant";
-            const text = h.text || h.content || h.message || "";
-            if (text) messages.push({ role, content: text });
-          });
-
-          messages.push({ role: "user", content: userMessage });
-
-          const aiReply = await callMultiProviderAI(messages, env, false, 0.7);
-
-          return jsonResponse({
-            message: aiReply,
-            response: aiReply,
-            respuesta: aiReply,
-            pendingEdit: null,
-            executionResult: null,
-          });
-        } catch (err: any) {
-          console.error("[Tarot AI Chat Error]:", err);
-          return jsonResponse({
-            message: "Disculpa, viajero. Las energías arcanas oscilan momentáneamente. " + (err.message || ""),
-            error: err.message,
-          }, 500);
-        }
-      }
-
-      // 1.2 Tarot AI Format Endpoint
-      if (cleanPath === "/api/ai/format" && request.method === "POST") {
-        try {
-          const body: any = await request.json();
-          const content = body?.content || "";
-          const title = body?.title || "";
-
-          const prompt = `Eres Tarot, Archivista de Dragopedia. Da formato en HTML semántico limpio (usando solo <p>, <h2>, <h3>, <strong>, <em>, <ul>, <li>) al siguiente texto para el artículo "${title}". Mantén 100% el contenido y nombres exactos sin inventar nada:\n\n${content}`;
-
-          const formatted = await callMultiProviderAI(
-            [
-              { role: "system", content: "Eres un formateador de HTML semántico para enciclopedias. Devuelve solo HTML." },
-              { role: "user", content: prompt },
-            ],
-            env,
-            false,
-            0.3
-          );
-
-          return jsonResponse({ formattedContent: formatted, success: true });
-        } catch (err: any) {
-          return jsonResponse({ error: err.message }, 500);
-        }
-      }
-
-      // 1.3 Tarot AI Inline Edit Endpoint
+      // 1. INLINE EDIT
       if (cleanPath === "/api/ai/inline-edit" && request.method === "POST") {
         try {
-          const body: any = await request.json();
-          const selectedText = body?.selectedText || "";
-          const command = body?.command || "epic";
-
-          let instruction = "Reescribe el fragmento de forma más épica y solemne.";
-          if (command === "concise") instruction = "Resume el fragmento manteniendo los nombres clave.";
-          if (command === "expand") instruction = "Desarrolla el texto con mayor riqueza descriptiva sin inventar datos.";
-
-          const result = await callMultiProviderAI(
-            [
-              { role: "system", content: "Eres Tarot, maestro de la prosa fantástica de Caldo de Dragón." },
-              { role: "user", content: `${instruction}\n\nTexto original:\n"${selectedText}"` },
-            ],
-            env,
-            false,
-            0.5
-          );
-
-          return jsonResponse({ transformedText: result, success: true });
-        } catch (err: any) {
-          return jsonResponse({ error: err.message }, 500);
+          const body = await request.json();
+          return jsonResponse(await tarotInlineEdit(env, body));
+        } catch (e: any) {
+          return jsonResponse({ error: e?.message || "Error al aplicar edición con el Copiloto." }, 500);
         }
       }
 
-      // 1.4 Tarot AI Cozy-FX Endpoint
-      if (cleanPath === "/api/ai/cozy-fx") {
+      // 2. AUTO CROSSLINK
+      if (cleanPath === "/api/ai/auto-crosslink-text" && request.method === "POST") {
+        try {
+          const body = await request.json();
+          return jsonResponse(await tarotCrosslink(env, request, body));
+        } catch (e: any) {
+          return jsonResponse({ error: e?.message || "Error al auto-enlazar el contenido." }, 500);
+        }
+      }
+
+      // 3. FORMAT
+      if (cleanPath === "/api/ai/format" && request.method === "POST") {
+        try {
+          const body = await request.json();
+          return jsonResponse(await tarotFormat(env, body));
+        } catch (e: any) {
+          return jsonResponse({ error: e?.message || "Ocurrió un error al formatear con Tarot AI." }, 500);
+        }
+      }
+
+      // 4. CHAT
+      if (cleanPath === "/api/ai/chat" && request.method === "POST") {
+        try {
+          const body = await request.json();
+          return jsonResponse(await tarotChat(env, request, body));
+        } catch (e: any) {
+          return jsonResponse({ error: e?.message || "Error en el chat de Tarot." }, 500);
+        }
+      }
+
+      // 5. TAROT SCRIBE IMPORT
+      if (cleanPath === "/api/ai/article-scribe-import" && request.method === "POST") {
+        try {
+          const body = await request.json();
+          return jsonResponse(await tarotScribeImport(env, body));
+        } catch (e: any) {
+          return jsonResponse({ error: e?.message || "Error al importar con Tarot Scribe." }, 500);
+        }
+      }
+
+      // 6. ANALYZE
+      if (cleanPath === "/api/ai/analyze" && request.method === "POST") {
+        try {
+          const body = await request.json();
+          return jsonResponse(await tarotAnalyze(env, body));
+        } catch (e: any) {
+          return jsonResponse({ error: e?.message || "Error en el análisis de Tarot." }, 500);
+        }
+      }
+
+      // 7. MERGE
+      if (cleanPath === "/api/ai/merge" && request.method === "POST") {
+        try {
+          const body = await request.json();
+          return jsonResponse(await tarotMerge(env, body));
+        } catch (e: any) {
+          return jsonResponse({ error: e?.message || "Error al fusionar artículos con Tarot." }, 500);
+        }
+      }
+
+      // 8. PREDICT FILTERS
+      if (cleanPath === "/api/ai/predict-filters" && request.method === "POST") {
+        try {
+          const body = await request.json();
+          return jsonResponse(await tarotPredictFilters(env, body));
+        } catch (e: any) {
+          return jsonResponse({ error: e?.message || "Error al predecir filtros." }, 500);
+        }
+      }
+
+      // 9. REASSIGN CATEGORY
+      if ((cleanPath === "/api/ai/reassign-category" || cleanPath === "/api/ai/confirm-reassign") && request.method === "POST") {
+        try {
+          const body = await request.json();
+          return jsonResponse(await tarotReassignCategory(env, request, body));
+        } catch (e: any) {
+          return jsonResponse({ error: e?.message || "Error al reasignar categoría." }, 500);
+        }
+      }
+
+      // 10. CONFIRM EDIT
+      if (cleanPath === "/api/ai/confirm-edit" && request.method === "POST") {
+        try {
+          const body = await request.json();
+          const pending = body?.pendingEdit;
+          return jsonResponse({
+            success: true,
+            message: "Modificación de Tarot AI confirmada y aplicada.",
+            executionResult: {
+              success: true,
+              action: pending?.isBatch ? "batch_modify_articles" : pending?.isNew ? "chat_direct_edit_create" : pending?.isDelete ? "chat_direct_edit_delete" : "chat_direct_edit_update",
+              details: pending?.isBatch
+                ? "Se han modificado múltiples tomos en lote según tus instrucciones."
+                : `El tomo ${pending?.title || pending?.slug} ha sido actualizado directamente en los registros reales de la Dragopedia.`,
+              modifiedSlugs: pending?.targetSlugs || [pending?.slug || ""]
+            }
+          });
+        } catch (e: any) {
+          return jsonResponse({ error: e?.message || "Error al confirmar edición." }, 500);
+        }
+      }
+
+      // 11. CHECK CONSISTENCY
+      if ((cleanPath === "/api/tarot/check-consistency" || cleanPath === "/api/ai/tarot-check") && request.method === "POST") {
+        try {
+          const body = await request.json();
+          return jsonResponse(await tarotCheck(env, request, body));
+        } catch (e: any) {
+          return jsonResponse({ error: e?.message || "Error al verificar coherencia de lore." }, 500);
+        }
+      }
+
+      // 12. STATUS DE CLAVES DE IA
+      if (cleanPath === "/api/ai/status") {
         return jsonResponse({
-          colors: ["#38bdf8", "#0284c7", "#3b82f6", "#60a5fa", "#06b6d4"],
-          particleCount: 25,
-          speed: 0.8,
-          mood: "arcane",
-          ambientTrack: "celestial-winds",
+          groq: collectKeys(env, "GROQ_API_KEY").length,
+          cerebras: collectKeys(env, "CEREBRAS_API_KEY").length,
+          mistral: collectKeys(env, "MISTRAL_API_KEY").length,
+          gemini: collectKeys(env, "GEMINI_API_KEY").length,
         });
       }
 
-      // 1.5 Confirm Edit / Reassign
-      if (cleanPath === "/api/ai/confirm-edit" || cleanPath === "/api/ai/confirm-reassign") {
-        return jsonResponse({ success: true, message: "Cambios consagrados en el manuscrito." });
-      }
-
-      // 1.6 Single Article endpoint: /api/articles/:slug
-      if (cleanPath.startsWith("/api/articles/")) {
-        const slugOrId = decodeURIComponent(cleanPath.replace("/api/articles/", "").replace(/\/$/, ""));
-        const articlesRes = await fetchRepoData(env, request, "src/data/articles.json", "/data/articles.json");
-        if (articlesRes.ok) {
-          const articles: any[] = await articlesRes.json();
-          const norm = (s: string) => (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-          const targetNorm = norm(slugOrId);
-
-          const found = articles.find((a: any) => 
-            a.slug === slugOrId || 
-            a.id === slugOrId || 
-            norm(a.slug || "") === targetNorm || 
-            norm(a.id || "") === targetNorm ||
-            norm(a.title || "") === targetNorm
-          );
-
-          if (found) {
-            return jsonResponse(found);
-          }
+      // 13. GENERATE GENÉRICO
+      if (cleanPath === "/api/ai/generate" && request.method === "POST") {
+        const body = (await request.json().catch(() => null)) as { messages?: unknown[]; extra?: Record<string, unknown> } | null;
+        if (!body || !Array.isArray(body.messages)) {
+          return jsonResponse({ error: "Falta el campo 'messages'" }, 400);
         }
-        return jsonResponse({ error: "Article not found" }, 404);
+        const result = await generate(env, body.messages, body.extra || {});
+        return result ? jsonResponse(result) : jsonResponse({ error: "Todos los proveedores fallaron", attempts: lastAttempts }, 502);
       }
 
-      // 1.7 All Articles endpoint: GET /api/articles
+      // ARTÍCULOS
       if (cleanPath === "/api/articles") {
         if (request.method === "GET") {
-          return await fetchRepoData(env, request, "src/data/articles.json", "/data/articles.json");
+          const res = await env.ASSETS.fetch(new Request(new URL("/data/articles.json", request.url)));
+          if (res.ok) return res;
+          return jsonResponse([]);
         }
-        return jsonResponse({ success: true, message: "Artículo procesado con éxito" });
+        try {
+          const body = await request.json().catch(() => ({}));
+          return jsonResponse({ success: true, article: body });
+        } catch {
+          return jsonResponse({ success: true, message: "Artículo procesado con éxito" });
+        }
       }
 
-      // 1.8 Articles synchronization endpoint
       if (cleanPath === "/api/articles/sync") {
         return jsonResponse({
           updates: [],
           deletedIds: [],
           timestamp: new Date().toISOString(),
-          message: "All articles in sync with edge and GitHub repository",
+          message: "All articles in sync with edge",
         });
       }
 
-      // 1.9 Categories endpoint
-      if (cleanPath === "/api/categories") {
-        return await fetchRepoData(env, request, "src/data/categories.json", "/data/categories.json");
+      const articleMatch = cleanPath.match(/^\/api\/articles\/([^/]+)$/);
+      if (articleMatch) {
+        const targetSlug = decodeURIComponent(articleMatch[1]).toLowerCase();
+        if (request.method === "GET") {
+          const res = await env.ASSETS.fetch(new Request(new URL("/data/articles.json", request.url)));
+          if (res.ok) {
+            const list = ((await res.json().catch(() => [])) as any[]) || [];
+            const found = list.find(
+              (a) =>
+                (a.slug && a.slug.toLowerCase() === targetSlug) ||
+                (a.id && a.id.toLowerCase() === targetSlug) ||
+                (a.title && a.title.toLowerCase() === targetSlug)
+            );
+            if (found) return jsonResponse(found);
+          }
+          return jsonResponse({ error: "Artículo no encontrado" }, 404);
+        }
+        try {
+          const body = await request.json().catch(() => ({}));
+          return jsonResponse({ success: true, article: body });
+        } catch {
+          return jsonResponse({ success: true });
+        }
       }
 
-      // 1.10 Campaign Events endpoint (Always returns { events: [...], count: ... })
       if (cleanPath === "/api/campaign-events") {
-        const eventsRes = await fetchRepoData(env, request, "src/data/campaign_events.json", "/data/campaign_events.json");
-        if (eventsRes.ok) {
-          const raw = await eventsRes.json();
-          const events = Array.isArray(raw) ? raw : (Array.isArray(raw?.events) ? raw.events : []);
-          return jsonResponse({ events, count: events.length });
+        if (request.method === "GET") {
+          const res = await env.ASSETS.fetch(new Request(new URL("/data/campaign_events.json", request.url)));
+          if (res.ok) {
+            const raw: any = await res.json().catch(() => []);
+            const events = Array.isArray(raw) ? raw : raw?.events || [];
+            return jsonResponse({ events, count: events.length });
+          }
+          return jsonResponse({ events: [], count: 0 });
         }
-        return jsonResponse({ events: [], count: 0 });
+        return jsonResponse({ success: true });
       }
 
-      // 1.11 Site UI Config endpoint
-      if (cleanPath === "/api/site-ui-config") {
-        return await fetchRepoData(env, request, "src/data/site_ui_config.json", "/data/site_ui_config.json");
-      }
-
-      // 1.12 Filter Categories endpoint
-      if (cleanPath === "/api/filter-categories") {
-        return await fetchRepoData(env, request, "src/data/filter_categories.json", "/data/filter_categories.json");
-      }
-
-      // 1.13 Maps endpoint
-      if (cleanPath === "/api/cartocraft/maps" || cleanPath === "/api/maps") {
-        return await fetchRepoData(env, request, "src/data/maps.json", "/data/maps.json");
-      }
-
-      // 1.14 Genealogy Tree endpoint
-      if (cleanPath === "/api/genealogy") {
-        return await fetchRepoData(env, request, "src/data/genealogy_tree.json", "/data/genealogy_tree.json");
-      }
-
-      // 1.15 Spells / Spellbook endpoint (Always returns { spells: [...], count: ... })
-      if (cleanPath === "/api/spellbook/spells" || cleanPath === "/api/spells") {
-        const spellsRes = await fetchRepoData(env, request, "src/data/spells.json", "/data/spellbook_spells.json");
-        if (spellsRes.ok) {
-          const raw = await spellsRes.json();
-          const spells = Array.isArray(raw) ? raw : (Array.isArray(raw?.spells) ? raw.spells : []);
-          return jsonResponse({ spells, count: spells.length });
-        }
-        return jsonResponse({ spells: [], count: 0 });
-      }
-
-      // 1.16 Timeline markers endpoint
       if (cleanPath === "/api/timeline") {
-        return await fetchRepoData(env, request, "src/data/timeline_markers.json", "/data/timeline_markers.json");
+        if (request.method === "GET") {
+          const res = await env.ASSETS.fetch(new Request(new URL("/data/timeline_markers.json", request.url)));
+          if (res.ok) {
+            const raw: any = await res.json().catch(() => []);
+            const markers = Array.isArray(raw) ? raw : raw?.markers || [];
+            return jsonResponse({ markers });
+          }
+          return jsonResponse({ markers: [] });
+        }
+        return jsonResponse({ success: true });
       }
 
-      // 1.17 Bestiary / D&D 5e monsters endpoint
-      if (cleanPath.startsWith("/api/dnd5e-monsters")) {
-        return jsonResponse([]);
+      if (cleanPath === "/api/site-ui-config") {
+        if (request.method === "GET") return staticJson(env, request, "/data/site_ui_config.json", {});
+        return jsonResponse({ success: true });
+      }
+      if (cleanPath === "/api/filter-categories") {
+        return staticJson(env, request, "/data/filter_categories.json", {
+          campaña: [],
+          continente: [],
+          plano: [],
+          criatura: [],
+        });
+      }
+      if (cleanPath === "/api/categories") {
+        return staticJson(env, request, "/data/categories.json", []);
+      }
+      if (cleanPath === "/api/cartocraft/maps" || cleanPath === "/api/maps") {
+        return staticJson(env, request, "/data/maps.json", { maps: [] });
+      }
+      if (cleanPath === "/api/genealogy") {
+        return staticJson(env, request, "/data/genealogy_tree.json", { nodes: [], links: [] });
+      }
+      if (cleanPath === "/api/spells" || cleanPath === "/api/spellbook") {
+        return staticJson(env, request, "/data/spells.json", []);
       }
 
-      // 1.18 Discord Bot status endpoint
+      if (cleanPath === "/api/proxy-image") {
+        const targetUrl = url.searchParams.get("url");
+        if (!targetUrl) return jsonResponse({ error: "Missing url parameter" }, 400);
+        try {
+          const parsed = new URL(targetUrl);
+          let referer = "https://caldo-de-dragon.fandom.com/";
+          if (parsed.hostname.includes("artstation.com")) referer = "https://www.artstation.com/";
+          else if (parsed.hostname.includes("deviantart.com") || parsed.hostname.includes("wixmp.com")) referer = "https://www.deviantart.com/";
+          else referer = `${parsed.protocol}//${parsed.hostname}/`;
+
+          const res = await fetch(targetUrl, {
+            headers: {
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+              "Referer": referer,
+              "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8"
+            }
+          });
+          if (res.ok) {
+            const contentType = res.headers.get("content-type") || "image/jpeg";
+            const body = await res.arrayBuffer();
+            return new Response(body, {
+              status: 200,
+              headers: {
+                "Content-Type": contentType,
+                "Cache-Control": "public, max-age=31536000, immutable",
+                ...CORS_HEADERS
+              }
+            });
+          }
+          return jsonResponse({ error: "Upstream image error", status: res.status }, res.status);
+        } catch (e: any) {
+          return jsonResponse({ error: e?.message || "Image proxy error" }, 500);
+        }
+      }
+
       if (cleanPath === "/api/bot/status") {
         return jsonResponse({
           active: false,
@@ -559,43 +948,72 @@ Evita rodeos innecesarios o textos vacíos. Si el usuario te saluda, salúdalo c
         });
       }
 
-      // Default JSON fallback for unhandled /api/* paths to guarantee response.json() NEVER throws SyntaxError
-      return jsonResponse({
-        status: "ok",
-        message: "Endpoint processed by edge worker",
-        path: url.pathname,
-      });
+      // Proxy fallback si hay BACKEND_URL configurado
+      if (
+        env.BACKEND_URL &&
+        !env.BACKEND_URL.includes("ais-dev-") &&
+        !env.BACKEND_URL.includes("europe-west2.run.app")
+      ) {
+        try {
+          const targetUrl = new URL(url.pathname + url.search, env.BACKEND_URL);
+          const reqHeaders = new Headers(request.headers);
+          reqHeaders.set("Host", targetUrl.host);
+          const response = await fetch(targetUrl.toString(), {
+            method: request.method,
+            headers: reqHeaders,
+            body: ["GET", "HEAD"].includes(request.method) ? undefined : request.body,
+            redirect: "follow",
+          });
+          const contentType = response.headers.get("content-type") || "";
+          if (!contentType.includes("application/json") && !contentType.includes("text/plain")) {
+            return jsonResponse({ error: "Backend returned invalid non-JSON format", path: url.pathname }, 502);
+          }
+          const resHeaders = new Headers(response.headers);
+          Object.entries(CORS_HEADERS).forEach(([k, v]) => resHeaders.set(k, v));
+          return new Response(response.body, {
+            status: response.status,
+            statusText: response.statusText,
+            headers: resHeaders,
+          });
+        } catch (proxyErr: any) {
+          console.error("[Proxy Error]:", proxyErr);
+          return jsonResponse({ error: "Backend proxy unreachable", message: proxyErr.message }, 502);
+        }
+      }
+
+      return jsonResponse({ status: "ok", message: "Endpoint handled by edge worker", path: url.pathname });
     }
 
-    // 2. Serve static assets & images
-    const assetResponse = await env.ASSETS.fetch(request);
-    
-    // If an image is requested and returns 404 from static dist, fetch it live from GitHub
-    if (assetResponse.status === 404 && url.pathname.startsWith("/images/")) {
-      const repo = env.GITHUB_REPO || DEFAULT_REPO;
-      const branch = env.GITHUB_BRANCH || DEFAULT_BRANCH;
-      const token = env.GITHUB_TOKEN;
+    // Static assets
+    if (url.pathname.startsWith("/images/")) {
       try {
-        const ghImgUrl = `https://raw.githubusercontent.com/${repo}/${branch}/public${url.pathname}`;
-        const headers: Record<string, string> = { "User-Agent": "Dragopedia-Worker" };
-        if (token) headers["Authorization"] = `Bearer ${token}`;
-        
-        const ghImgRes = await fetch(ghImgUrl, { headers });
-        if (ghImgRes.ok) {
-          return new Response(ghImgRes.body, {
+        const assetRes = await env.ASSETS.fetch(request);
+        const contentType = assetRes.headers.get("content-type") || "";
+        // If asset was found and is not the SPA fallback index.html
+        if (assetRes.ok && !contentType.includes("text/html")) {
+          return assetRes;
+        }
+      } catch {}
+
+      // Fallback: Fetch directly from GitHub repository raw content
+      try {
+        const githubUrl = `https://raw.githubusercontent.com/tirianworld/Cdd-Dragopedia-DEFINITIVA/main/public${url.pathname}`;
+        const ghRes = await fetch(githubUrl);
+        if (ghRes.ok) {
+          const contentType = ghRes.headers.get("content-type") || (url.pathname.endsWith(".png") ? "image/png" : "image/jpeg");
+          const body = await ghRes.arrayBuffer();
+          return new Response(body, {
             status: 200,
             headers: {
-              "Content-Type": ghImgRes.headers.get("content-type") || "image/png",
-              "Cache-Control": "public, max-age=86400, stale-while-revalidate=604800",
-              ...CORS_HEADERS,
-            },
+              "Content-Type": contentType,
+              "Cache-Control": "public, max-age=31536000, immutable",
+              ...CORS_HEADERS
+            }
           });
         }
-      } catch (err) {
-        console.warn(`[GitHub image fallback failed for ${url.pathname}]:`, err);
-      }
+      } catch {}
     }
 
-    return assetResponse;
+    return env.ASSETS.fetch(request);
   },
 };

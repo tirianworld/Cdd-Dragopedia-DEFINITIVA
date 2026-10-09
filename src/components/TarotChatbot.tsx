@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from "motion/react";
 import { X, Send, BookOpen, FilePlus, Loader2, Minimize2, Maximize2, Edit2, Paperclip, FileText, Check, History, Plus, MessageSquare, Trash2, ArrowLeft, ExternalLink, Menu, Orbit, Sparkles, Compass } from "lucide-react";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { TarotLogo, TarotAISeal } from "./TarotLogo";
-import { renderTarotContent } from "../utils/tarotFormatter";
+import { renderTarotContent, extractCleanChatMessage } from "../utils/tarotFormatter";
+import { useCategories } from "../context/CategoryContext";
 
 interface SuggestedAction {
   type: "create_article" | "view_article" | "view_dm" | "view_graph";
@@ -67,6 +68,7 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
       setInternalIsOpen(val);
     }
   };
+  const { mergedCategories } = useCategories();
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -256,6 +258,18 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
     return () => window.removeEventListener("open-tarot-chat", handleOpenChat);
   }, []);
 
+  const getSerializableCategories = () => {
+    return (mergedCategories || []).map(c => ({
+      id: c.id,
+      name: c.name,
+      slug: c.slug,
+      description: c.description || "",
+      color: c.color,
+      parentId: c.parentId || null,
+      parentSlug: c.parentSlug || null
+    }));
+  };
+
   // Handlers for managing multiple sessions
   const handleCreateNewThread = () => {
     const newId = `thread-${Date.now()}`;
@@ -354,13 +368,14 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: updatedText,
-          history: truncatedHistory.slice(-10) // Context of previous messages
+          history: truncatedHistory.slice(-10), // Context of previous messages
+          clientCategories: getSerializableCategories()
         })
       });
 
       if (response.ok) {
         const data = await response.json();
-        const extractedText =
+        const rawExtracted =
           (typeof data?.message === "string" && data.message.trim())
             ? data.message
             : (typeof data?.respuesta === "string" && data.respuesta.trim())
@@ -376,6 +391,8 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
                       : (typeof data?.content === "string" && data.content.trim())
                         ? data.content
                         : (typeof data === "string" ? data : "<p>Tarot no ha devuelto un texto legible.</p>");
+
+        const extractedText = extractCleanChatMessage(rawExtracted);
 
         setHistory((prev) => [
           ...prev,
@@ -568,13 +585,14 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
         body: JSON.stringify({
           message: userMessage,
           history: history.slice(-10), // Limit history context
-          attachment: payloadAttachment
+          attachment: payloadAttachment,
+          clientCategories: getSerializableCategories()
         })
       });
 
       if (response.ok) {
         const data = await response.json();
-        const extractedText =
+        const rawExtracted =
           (typeof data?.message === "string" && data.message.trim())
             ? data.message
             : (typeof data?.respuesta === "string" && data.respuesta.trim())
@@ -590,6 +608,8 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
                       : (typeof data?.content === "string" && data.content.trim())
                         ? data.content
                         : (typeof data === "string" ? data : "<p>Tarot no ha devuelto un texto legible.</p>");
+
+        const extractedText = extractCleanChatMessage(rawExtracted);
 
         setHistory((prev) => [
           ...prev,
@@ -1465,6 +1485,27 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
                     <p className="text-xs text-muted-foreground mt-1 max-w-md mx-auto leading-relaxed">
                       El Gran Bibliotecario de la Dragopedia de Kaliria está a tu disposición para desvelar mitos, organizar conocimientos y registrar códices místicas.
                     </p>
+                  </div>
+
+                  {/* Sugerencias Rápidas de Lore y Taxonomía */}
+                  <div className="pt-2 flex flex-wrap gap-2 justify-center max-w-xl">
+                    {[
+                      "¿Quiénes son Caldo de Dragón en Aeros?",
+                      "¿A qué categoría y subcategoría pertenece Caldo de Dragón C1?",
+                      "¿Quiénes son los héroes de Aeros antes de reencarnar?",
+                      "¿Qué subcategorías componen a los Jugadores?"
+                    ].map((promptText) => (
+                      <button
+                        key={promptText}
+                        type="button"
+                        onClick={() => {
+                          setMessage(promptText);
+                        }}
+                        className="text-[11px] px-3 py-1.5 rounded-full bg-card/80 border border-border/70 hover:border-primary/50 hover:bg-primary/10 text-muted-foreground hover:text-foreground transition-all cursor-pointer shadow-sm text-left"
+                      >
+                        {promptText}
+                      </button>
+                    ))}
                   </div>
                 </motion.div>
               </div>

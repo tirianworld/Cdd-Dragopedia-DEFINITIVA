@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   Compass, ChevronLeft, ChevronRight, Maximize2, Minimize2, 
   MapPin, Globe, Sparkles, Pause, Play, ZoomIn, ZoomOut, RotateCcw, X, 
   Upload, Image as ImageIcon, Link as LinkIcon, Settings, Check, RefreshCw,
-  Info, Sparkle, AlertCircle
+  Info, Sparkle, AlertCircle, Loader2
 } from "lucide-react";
+import { useVisualEditor } from "../context/VisualEditorContext";
+import { getGitHubAuthHeaders } from "../context/CategoryContext";
 
 // Import generated default map assets
 import kaliriaImg from "../assets/images/mapa_kaliria_1790076776369.jpg";
@@ -81,6 +84,10 @@ const LOCAL_STORAGE_KEY = "dragopedia_custom_banner_maps";
 const AUTOPLAY_INTERVAL = 8000; // 8 seconds per slide
 
 export function WorldMapsBanner() {
+  const { isVisualEditMode, showToast } = useVisualEditor();
+  const quickFileInputRef = useRef<HTMLInputElement | null>(null);
+  const [isQuickUploading, setIsQuickUploading] = useState(false);
+
   const [maps, setMaps] = useState<MapData[]>(() => {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -213,27 +220,22 @@ export function WorldMapsBanner() {
     setCurrentIndex((prev) => (prev - 1 + maps.length) % maps.length);
   };
 
-  // Reset zoom when opening/closing lightbox or changing maps
+  // Reset zoom when opening/closing lightbox or changing maps, and close on Escape key
   useEffect(() => {
     setZoom(1);
     setPan({ x: 0, y: 0 });
   }, [isLightboxOpen, currentIndex]);
 
-  // Escape key and arrow keys listener when lightbox is open
   useEffect(() => {
     if (!isLightboxOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setIsLightboxOpen(false);
-      } else if (e.key === "ArrowLeft") {
-        handlePrev();
-      } else if (e.key === "ArrowRight") {
-        handleNext();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isLightboxOpen, currentIndex]);
+  }, [isLightboxOpen]);
 
   const handleZoomIn = () => setZoom((z) => Math.min(z + 0.35, 3.5));
   const handleZoomOut = () => setZoom((z) => Math.max(z - 0.35, 0.7));
@@ -273,13 +275,19 @@ export function WorldMapsBanner() {
       // 1. Primary dedicated sync to /api/banner-maps (writes local & pushes to GitHub)
       await fetch("/api/banner-maps", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...getGitHubAuthHeaders(),
+        },
         body: JSON.stringify({ maps: updatedMaps })
       });
       // 2. Also update site-ui-config for unified configuration
       await fetch("/api/site-ui-config", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...getGitHubAuthHeaders(),
+        },
         body: JSON.stringify({ banner_maps_custom: updatedMaps })
       });
     } catch (e) {
@@ -287,16 +295,121 @@ export function WorldMapsBanner() {
     }
   };
 
+  // Direct 1-click PC image upload for the currently displayed map in Edit Mode
+  const handleQuickMapFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !currentMap) return;
+
+    if (!file.type.startsWith("image/")) {
+      showToast("Selecciona un archivo de imagen válido desde tu PC (PNG, JPG, WEBP, etc.).", "warning");
+      return;
+    }
+
+    setIsQuickUploading(true);
+    showToast(`Subiendo y guardando nueva imagen para "${currentMap.name}"...`, "info", 2500);
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const dataUrl = reader.result as string;
+      try {
+        const res = await fetch("/api/upload-image", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...getGitHubAuthHeaders(),
+          },
+          body: JSON.stringify({
+            dataUrl,
+            name: `mapa_${currentMap.id}`,
+            subfolder: "banners",
+          }),
+        });
+
+        const data = await res.json();
+        const newImageUrl = data.success && data.url ? `${data.url}?t=${Date.now()}` : dataUrl;
+
+        const updatedMaps = maps.map((m, idx) =>
+          idx === currentIndex ? { ...m, image: newImageUrl, isCustom: true } : m
+        );
+        await handleSaveCustomMaps(updatedMaps);
+        showToast(`✨ Imagen del banner "${currentMap.name}" reemplazada y guardada permanentemente.`, "success", 4000);
+      } catch (err: any) {
+        showToast("Error al guardar la imagen del banner: " + (err?.message || err), "error");
+      } finally {
+        setIsQuickUploading(false);
+        if (quickFileInputRef.current) quickFileInputRef.current.value = "";
+      }
+    };
+
+    reader.onerror = () => {
+      setIsQuickUploading(false);
+      showToast("Error al leer el archivo de imagen.", "error");
+    };
+
+    reader.readAsDataURL(file);
+  };
+
   return (
     <section 
       id="world-maps-showcase"
-      className="group relative rounded-xl overflow-hidden border border-border bg-card transition-all select-none"
+      className={`group relative rounded-xl overflow-hidden border bg-card transition-all select-none ${
+        isVisualEditMode ? "border-primary/50 hover:border-primary" : "border-border"
+      }`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       aria-label="Banner de Cartografía y Mapas del Mundo"
     >
+      {/* Hidden PC file input for quick replacement in Edit Mode */}
+      <input
+        ref={quickFileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleQuickMapFileChange}
+        className="hidden"
+      />
+
+      {/* Edit Mode Floating Toolbar */}
+      {isVisualEditMode && (
+        <div className="absolute top-3 right-3 z-40 flex items-center gap-2 flex-wrap justify-end pointer-events-auto">
+          <button
+            type="button"
+            disabled={isQuickUploading}
+            onClick={(e) => {
+              e.stopPropagation();
+              quickFileInputRef.current?.click();
+            }}
+            className="px-3 py-1.5 rounded-xl bg-card/95 hover:bg-primary text-foreground hover:text-primary-foreground border border-primary/50 shadow-lg backdrop-blur-md text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-60"
+            title={`Reemplazar imagen de ${currentMap.name} desde tu PC`}
+          >
+            {isQuickUploading ? (
+              <>
+                <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
+                <span>Guardando...</span>
+              </>
+            ) : (
+              <>
+                <Upload className="h-3.5 w-3.5 text-primary group-hover:text-current" />
+                <span>Reemplazar "{currentMap.name}" desde PC</span>
+              </>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsAssignModalOpen(true);
+            }}
+            className="px-3 py-1.5 rounded-xl bg-card/95 hover:bg-secondary text-foreground border border-border/80 shadow-lg backdrop-blur-md text-xs font-medium flex items-center gap-1.5 transition-all cursor-pointer"
+            title="Abrir gestor completo de imágenes y textos de los mapas del banner"
+          >
+            <Settings className="h-3.5 w-3.5 text-primary" />
+            <span className="hidden sm:inline">Gestionar Mapas</span>
+          </button>
+        </div>
+      )}
       {/* Main Map Viewer Stage (Full-bleed, clean & flat, NO aura or gradient glow) */}
-      <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] md:aspect-[2.4/1] max-h-[460px] min-h-[300px] overflow-hidden bg-black flex items-center justify-center">
+      <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] md:aspect-[2.4/1] max-h-[460px] min-h-[300px] overflow-hidden bg-transparent flex items-center justify-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentMap.id}
@@ -431,162 +544,90 @@ export function WorldMapsBanner() {
       </AnimatePresence>
 
       {/* Fullscreen Lightbox / Zoom Modal */}
-      <AnimatePresence>
-        {isLightboxOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed top-14 inset-x-0 bottom-0 z-40 bg-black/95 backdrop-blur-md flex flex-col overflow-hidden"
-            onClick={() => setIsLightboxOpen(false)}
-          >
-            {/* Modal Canvas with full viewport */}
-            <div 
-              className="flex-1 relative overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing p-4 select-none"
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Floating Map Info in Top-Left */}
-              <div 
-                className="absolute top-4 left-4 sm:top-5 sm:left-6 z-30 flex items-center gap-2.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-card/85 hover:bg-card border border-border/80 backdrop-blur-md shadow-xl transition-all"
-                onClick={(e) => e.stopPropagation()}
+      {typeof document !== "undefined" &&
+        createPortal(
+          <AnimatePresence>
+            {isLightboxOpen && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col"
+                onClick={() => setIsLightboxOpen(false)}
               >
-                <Compass className="h-4 w-4 text-primary shrink-0" />
-                <div className="flex items-center gap-1.5">
-                  <span className="font-heading text-xs sm:text-sm font-bold text-foreground tracking-wide">
-                    {currentMap.name}
-                  </span>
-                  <span className="text-[11px] text-muted-foreground hidden sm:inline">
-                    • {currentMap.subtitle}
-                  </span>
-                </div>
-              </div>
-
-              {/* Floating Controls & Close Button (X) in Top-Right */}
-              <div 
-                className="absolute top-4 right-4 sm:top-5 sm:right-6 z-40 flex items-center gap-2"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {/* Zoom controls */}
-                <div className="hidden sm:flex items-center bg-card/85 border border-border/80 rounded-xl p-1 gap-0.5 backdrop-blur-md shadow-xl">
-                  <button
-                    onClick={handleZoomOut}
-                    title="Reducir zoom"
-                    className="p-1.5 rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-                  >
-                    <ZoomOut className="h-4 w-4" />
-                  </button>
-                  <span className="text-xs font-mono px-1.5 text-foreground/80 min-w-[42px] text-center select-none">
-                    {Math.round(zoom * 100)}%
-                  </span>
-                  <button
-                    onClick={handleZoomIn}
-                    title="Aumentar zoom"
-                    className="p-1.5 rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-                  >
-                    <ZoomIn className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={handleResetZoom}
-                    title="Restablecer"
-                    className="p-1.5 rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-                  >
-                    <RotateCcw className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-
-                {/* Change image modal trigger */}
-                <button
-                  onClick={() => setIsAssignModalOpen(true)}
-                  className="hidden md:flex px-3 py-1.5 rounded-xl bg-card/85 hover:bg-card border border-border/80 text-xs font-semibold text-foreground items-center gap-1.5 backdrop-blur-md shadow-xl transition-colors cursor-pointer"
-                >
-                  <ImageIcon className="h-3.5 w-3.5 text-primary" />
-                  <span>Cambiar Imagen</span>
-                </button>
-
-                {/* Prominent Close Button (X) */}
-                <button
-                  onClick={() => setIsLightboxOpen(false)}
-                  aria-label="Cerrar mapa"
-                  title="Cerrar mapa (Esc)"
-                  className="h-10 w-10 sm:h-11 sm:w-11 rounded-full bg-card/90 hover:bg-card border border-border/80 text-foreground hover:text-red-400 hover:border-red-500/40 shadow-2xl flex items-center justify-center backdrop-blur-md transition-all hover:scale-110 cursor-pointer group"
-                >
-                  <X className="h-5 w-5 sm:h-6 sm:w-6 group-hover:rotate-90 transition-transform duration-200" />
-                </button>
-              </div>
-              <div
-                style={{
-                  transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
-                  transition: isDragging ? "none" : "transform 0.2s ease-out"
-                }}
-                className="max-w-[95vw] max-h-[82vh] flex items-center justify-center"
-              >
-                <img
-                  src={currentMap.image}
-                  alt={`Mapa de ${currentMap.name}`}
-                  referrerPolicy="no-referrer"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    if (currentMap.fallbackImage && target.src !== window.location.origin + currentMap.fallbackImage) {
-                      target.src = currentMap.fallbackImage;
-                    }
+                {/* Modal Canvas */}
+                <div 
+                  className="flex-1 relative overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing p-4 select-none"
+                  onMouseDown={handleMouseDown}
+                  onMouseMove={handleMouseMove}
+                  onMouseUp={handleMouseUp}
+                  onClick={() => {
+                    if (zoom <= 1) setIsLightboxOpen(false);
                   }}
-                  className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl border border-border/40 pointer-events-none"
-                />
-              </div>
-
-              {/* Prev / Next controls inside modal */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handlePrev();
-                }}
-                className="absolute left-6 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-card/85 hover:bg-card border border-border/80 text-foreground hover:text-primary shadow-2xl flex items-center justify-center backdrop-blur-md transition-all hover:scale-105"
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
-
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleNext();
-                }}
-                className="absolute right-6 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-card/85 hover:bg-card border border-border/80 text-foreground hover:text-primary shadow-2xl flex items-center justify-center backdrop-blur-md transition-all hover:scale-105"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
-            </div>
-
-            {/* Modal Footer with quick map switchers */}
-            <div 
-              className="px-6 py-3 border-t border-border/60 bg-card/60 backdrop-blur-md flex items-center justify-between flex-wrap gap-3 z-20"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center gap-2">
-                {maps.map((map, idx) => (
+                >
+                  {/* Floating Cerrar Button in Top-Right of Canvas */}
                   <button
-                    key={map.id}
-                    onClick={() => handleSelectMap(idx)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-heading font-medium transition-all ${
-                      idx === currentIndex
-                        ? "bg-primary/20 text-primary border border-primary/40"
-                        : "bg-secondary/40 text-muted-foreground hover:text-foreground border border-border/50"
-                    }`}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsLightboxOpen(false);
+                    }}
+                    title="Cerrar vista de mapa (Esc)"
+                    className="absolute top-5 right-6 z-30 h-11 w-11 rounded-full bg-card/90 hover:bg-rose-500/25 border border-border/80 hover:border-rose-500/50 text-foreground hover:text-rose-200 shadow-2xl flex items-center justify-center backdrop-blur-md transition-all hover:scale-105 cursor-pointer"
                   >
-                    {map.name}
+                    <X className="h-5 w-5" />
                   </button>
-                ))}
-              </div>
 
-              <div className="text-xs text-muted-foreground flex items-center gap-2">
-                <span>{currentMap.landmarks.join(" • ")}</span>
-              </div>
-            </div>
-          </motion.div>
+                  <div
+                    style={{
+                      transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+                      transition: isDragging ? "none" : "transform 0.2s ease-out"
+                    }}
+                    className="max-w-[95vw] max-h-[90vh] flex items-center justify-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <img
+                      src={currentMap.image}
+                      alt={`Mapa de ${currentMap.name}`}
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (currentMap.fallbackImage && target.src !== window.location.origin + currentMap.fallbackImage) {
+                          target.src = currentMap.fallbackImage;
+                        }
+                      }}
+                      className="max-w-full max-h-[88vh] object-contain rounded-lg shadow-2xl border border-border/40 pointer-events-none"
+                    />
+                  </div>
+
+                  {/* Prev / Next controls inside modal */}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePrev();
+                    }}
+                    className="absolute left-6 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-card/85 hover:bg-card border border-border/80 text-foreground hover:text-primary shadow-2xl flex items-center justify-center backdrop-blur-md transition-all hover:scale-105 cursor-pointer"
+                  >
+                    <ChevronLeft className="h-6 w-6" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleNext();
+                    }}
+                    className="absolute right-6 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-card/85 hover:bg-card border border-border/80 text-foreground hover:text-primary shadow-2xl flex items-center justify-center backdrop-blur-md transition-all hover:scale-105 cursor-pointer"
+                  >
+                    <ChevronRight className="h-6 w-6" />
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
     </section>
   );
 }
@@ -638,11 +679,14 @@ function AssignMapImagesModal({ maps, onClose, onSave }: AssignMapImagesModalPro
       try {
         const res = await fetch("/api/upload-image", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            ...getGitHubAuthHeaders(),
+          },
           body: JSON.stringify({
             dataUrl,
             name: `mapa_${activeMap.id}`,
-            subfolder: "uploads"
+            subfolder: "banners"
           })
         });
 

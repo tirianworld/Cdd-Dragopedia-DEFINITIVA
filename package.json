@@ -6,11 +6,11 @@
     "scripts": {
         "dev": "tsx server.ts",
         "build": "vite build",
+        "predeploy": "npm run build",
+        "deploy": "npm run build && wrangler deploy",
         "start": "node server.ts",
         "clean": "rm -rf dist",
-        "lint": "tsc --noEmit",
-        "images:localize": "node scripts/localize_article_images.mjs",
-        "images:check": "node scripts/localize_article_images.mjs --check"
+        "lint": "tsc --noEmit"
     },
     "dependencies": {
         "@google/genai": "^2.11.0",

@@ -35,11 +35,13 @@ interface VisualEditorContextType {
   }) => Promise<boolean>;
   removeGenealogyRelation: (rel: { edgeId?: string; fromId?: string; toId?: string; relationType?: string }) => Promise<boolean>;
   saveFullGenealogyTree: (tree: GlobalGenealogyData) => Promise<boolean>;
+  saveSpellDirectly: (spell: any) => Promise<boolean>;
+  deleteSpellDirectly: (spellId: string) => Promise<boolean>;
   quickEditModal: {
-    type: "new_article" | "new_character" | "connect_relation" | "edit_character" | "edit_category" | "quick_media";
+    type: "new_article" | "new_character" | "connect_relation" | "edit_character" | "edit_category" | "quick_media" | "new_spell";
     data?: any;
   } | null;
-  openQuickEditModal: (type: "new_article" | "new_character" | "connect_relation" | "edit_character" | "edit_category" | "quick_media", data?: any) => void;
+  openQuickEditModal: (type: "new_article" | "new_character" | "connect_relation" | "edit_character" | "edit_category" | "quick_media" | "new_spell", data?: any) => void;
   closeQuickEditModal: () => void;
 }
 
@@ -100,17 +102,16 @@ function playSecretActivationChime(active: boolean) {
 export function VisualEditorProvider({ children }: { children: React.ReactNode }) {
   const [isVisualEditMode, setIsVisualEditModeState] = useState<boolean>(() => {
     try {
-      return localStorage.getItem("wiki_visual_edit_mode") === "true";
-    } catch {
-      return false;
-    }
+      localStorage.removeItem("wiki_visual_edit_mode");
+    } catch {}
+    return false;
   });
 
   const [activeTool, setActiveTool] = useState<VisualEditTool>("select");
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [toasts, setToasts] = useState<VisualToast[]>([]);
   const [quickEditModal, setQuickEditModal] = useState<{
-    type: "new_article" | "new_character" | "connect_relation" | "edit_character" | "edit_category" | "quick_media";
+    type: "new_article" | "new_character" | "connect_relation" | "edit_character" | "edit_category" | "quick_media" | "new_spell";
     data?: any;
   } | null>(null);
 
@@ -379,7 +380,55 @@ export function VisualEditorProvider({ children }: { children: React.ReactNode }
     }
   }, [showToast]);
 
-  const openQuickEditModal = useCallback((type: "new_article" | "new_character" | "connect_relation" | "edit_character" | "edit_category" | "quick_media", data?: any) => {
+  // Spell direct save helper for Visual Editor
+  const saveSpellDirectly = useCallback(async (spell: any): Promise<boolean> => {
+    try {
+      showToast(`Guardando conjuro "${spell.name}"...`, "info", 1500);
+      const res = await fetch("/api/spellbook/save-spell", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(spell),
+      });
+
+      if (!res.ok) {
+        throw new Error("No se pudo guardar el conjuro en el servidor.");
+      }
+
+      window.dispatchEvent(new CustomEvent("spellbook_spell_saved", { detail: spell }));
+      showToast(`✨ Conjuro "${spell.name}" guardado y sincronizado con éxito.`, "success", 3000);
+      return true;
+    } catch (err: any) {
+      console.error(err);
+      showToast(err.message || "Error al guardar el conjuro.", "error", 4000);
+      return false;
+    }
+  }, [showToast]);
+
+  // Spell direct delete helper for Visual Editor
+  const deleteSpellDirectly = useCallback(async (spellId: string): Promise<boolean> => {
+    try {
+      showToast(`Eliminando conjuro...`, "info", 1500);
+      const res = await fetch("/api/spellbook/delete-spell", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: spellId }),
+      });
+
+      if (!res.ok) {
+        throw new Error("No se pudo eliminar el conjuro del servidor.");
+      }
+
+      window.dispatchEvent(new CustomEvent("spellbook_spell_deleted", { detail: { id: spellId } }));
+      showToast(`Conjuro eliminado con éxito.`, "info", 3000);
+      return true;
+    } catch (err: any) {
+      console.error(err);
+      showToast(err.message || "Error al eliminar el conjuro.", "error", 4000);
+      return false;
+    }
+  }, [showToast]);
+
+  const openQuickEditModal = useCallback((type: "new_article" | "new_character" | "connect_relation" | "edit_character" | "edit_category" | "quick_media" | "new_spell", data?: any) => {
     setQuickEditModal({ type, data });
   }, []);
 
@@ -406,6 +455,8 @@ export function VisualEditorProvider({ children }: { children: React.ReactNode }
         addGenealogyRelation,
         removeGenealogyRelation,
         saveFullGenealogyTree,
+        saveSpellDirectly,
+        deleteSpellDirectly,
         quickEditModal,
         openQuickEditModal,
         closeQuickEditModal

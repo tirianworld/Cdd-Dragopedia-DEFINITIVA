@@ -69,6 +69,9 @@ import {
 } from "./server/seoAndProxy.ts";
 
 dotenv.config();
+if (fs.existsSync(path.join(__dirname, "dev.vars"))) {
+  dotenv.config({ path: path.join(__dirname, "dev.vars"), override: false });
+}
 
 const app = express();
 const PORT = 3000;
@@ -212,7 +215,7 @@ for (let i = 1; i <= 10; i++) {
 
 interface FirebaseInstance {
   index: number;
-  db: admin.firestore.Firestore;
+  db: any;
   projectId: string;
   name: string;
   cachedArticles: WikiArticle[] | null;
@@ -225,54 +228,132 @@ interface FirebaseInstance {
 const firebaseInstances: FirebaseInstance[] = [];
 
 // ---------------------------------------------------------------------------
-// GitHub database integration
+// GitHub database integration & sync configuration
 // ---------------------------------------------------------------------------
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_REPO = process.env.GITHUB_REPO || "tirianworld/Cdd-Wiki-V2"; // Owner / Repo
-const GITHUB_BRANCH = process.env.GITHUB_BRANCH || "main";
-
-const GITHUB_ARTICLES_PATH = "src/data/articles.json";
-const GITHUB_CATEGORIES_PATH = "src/data/categories.json";
-const GITHUB_FILTER_CATEGORIES_PATH = "src/data/filter_categories.json";
-const GITHUB_TIMELINE_PATH = "src/data/timeline_markers.json";
-const LOCAL_TIMELINE_PATH = path.join(process.cwd(), "src", "data", "timeline_markers.json");
-const GITHUB_CAMPAIGN_EVENTS_PATH = "src/data/campaign_events.json";
-const LOCAL_CAMPAIGN_EVENTS_PATH = path.join(process.cwd(), "src", "data", "campaign_events.json");
-const GITHUB_SITE_UI_CONFIG_PATH = "src/data/site_ui_config.json";
-const LOCAL_SITE_UI_CONFIG_PATH = path.join(process.cwd(), "src", "data", "site_ui_config.json");
-const GITHUB_GENEALOGY_PATH = "src/data/genealogy_tree.json";
-const GITHUB_MAPS_PATH = "src/data/maps.json";
-const LOCAL_MAPS_PATH = path.join(process.cwd(), "src", "data", "maps.json");
-
-async function readFromGitHub<T>(repoPath: string): Promise<T | null> {
-  const url = `https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/${repoPath}`;
-  try {
-    const headers: Record<string, string> = {
-      "User-Agent": "Dragopedia-Server"
-    };
-    if (GITHUB_TOKEN) {
-      headers["Authorization"] = `Bearer ${GITHUB_TOKEN}`;
-    }
-    const res = await fetch(url, {
-      method: "GET",
-      signal: AbortSignal.timeout(3500),
-      headers
-    });
-
-    if (res.status === 200) {
-      const text = await res.text();
-      return JSON.parse(text) as T;
-    } else {
-      console.warn(`[GitHub Read] Received status ${res.status} when reading ${repoPath} from ${url}`);
-      return null;
-    }
-  } catch (err) {
-    console.warn(`[GitHub Read] Could not fetch ${repoPath} from GitHub (falling back to local):`, (err as any)?.message || err);
-    return null;
-  }
+export interface GitHubRuntimeConfig {
+  token: string;
+  repo: string;
+  branch: string;
+  user?: string;
 }
 
-async function readSiteUIConfig(): Promise<Record<string, any>> {
+const GITHUB_CONFIG_FILE = "/tmp/dragopedia_github_config.json";
+
+function loadGitHubConfig(): GitHubRuntimeConfig {
+  let token = process.env.GITHUB_TOKEN || "";
+  let repo = process.env.GITHUB_REPO || "tirianworld/Cdd-Dragopedia-DEFINITIVA";
+  let branch = process.env.GITHUB_BRANCH || "main";
+  let user: string | undefined = undefined;
+
+  try {
+    if (fs.existsSync(GITHUB_CONFIG_FILE)) {
+      const parsed = JSON.parse(fs.readFileSync(GITHUB_CONFIG_FILE, "utf8"));
+      if (parsed.token) token = parsed.token;
+      if (parsed.repo) {
+        repo = parsed.repo;
+      }
+      if (parsed.branch && !process.env.GITHUB_BRANCH) branch = parsed.branch;
+      if (parsed.user) user = parsed.user;
+    }
+  } catch (e) {
+    console.warn("Could not load github_config.json:", e);
+  }
+
+  return { token, repo, branch, user };
+}
+
+let activeGitHubConfig: GitHubRuntimeConfig = loadGitHubConfig();
+
+export function getEffectiveGitHubConfig(): GitHubRuntimeConfig {
+  return activeGitHubConfig;
+}
+
+export function getEffectiveGitHubToken(req?: Request): string {
+  if (req) {
+    const headerToken = req.headers["x-github-token"];
+    if (typeof headerToken === "string" && headerToken.trim()) {
+      return headerToken.trim();
+    }
+  }
+  return activeGitHubConfig.token || process.env.GITHUB_TOKEN || "";
+}
+
+export function getEffectiveGitHubRepo(): string {
+  return activeGitHubConfig.repo || process.env.GITHUB_REPO || "tirianworld/Cdd-Dragopedia-DEFINITIVA";
+}
+
+export function getEffectiveGitHubBranch(): string {
+  return activeGitHubConfig.branch || process.env.GITHUB_BRANCH || "main";
+}
+
+let GITHUB_TOKEN = activeGitHubConfig.token;
+let GITHUB_REPO = activeGitHubConfig.repo;
+let GITHUB_BRANCH = activeGitHubConfig.branch;
+
+// Primary GitHub data paths (Cdd-wiki-V3 uses public/data/ as root database store)
+const GITHUB_ARTICLES_PATH = "public/data/articles.json";
+const GITHUB_CATEGORIES_PATH = "public/data/categories.json";
+const GITHUB_FILTER_CATEGORIES_PATH = "public/data/filter_categories.json";
+const GITHUB_CATEGORY_ORDER_PATH = "public/data/category_order.json";
+const GITHUB_TIMELINE_PATH = "public/data/timeline_markers.json";
+const LOCAL_TIMELINE_PATH = path.join(process.cwd(), "public", "data", "timeline_markers.json");
+const GITHUB_CAMPAIGN_EVENTS_PATH = "public/data/campaign_events.json";
+const LOCAL_CAMPAIGN_EVENTS_PATH = path.join(process.cwd(), "public", "data", "campaign_events.json");
+const GITHUB_SITE_UI_CONFIG_PATH = "public/data/site_ui_config.json";
+const LOCAL_SITE_UI_CONFIG_PATH = path.join(process.cwd(), "public", "data", "site_ui_config.json");
+const GITHUB_GENEALOGY_PATH = "public/data/genealogy_tree.json";
+const GITHUB_MAPS_PATH = "public/data/maps.json";
+const LOCAL_MAPS_PATH = path.join(process.cwd(), "public", "data", "maps.json");
+
+async function readFromGitHub<T>(repoPath: string, tokenOverride?: string): Promise<T | null> {
+  const currentRepo = getEffectiveGitHubRepo();
+  const currentBranch = getEffectiveGitHubBranch();
+  const currentToken = tokenOverride || getEffectiveGitHubToken();
+  const candidateRepos = Array.from(new Set([currentRepo, "tirianworld/Cdd-Dragopedia-DEFINITIVA", "theworldoftirian/dragopedia"]));
+  const altPath = repoPath.startsWith("public/data/")
+    ? repoPath.replace(/^public\/data\//, "src/data/")
+    : repoPath.startsWith("src/data/")
+      ? repoPath.replace(/^src\/data\//, "public/data/")
+      : repoPath;
+  const candidatePaths = Array.from(new Set([repoPath, altPath]));
+
+  const headers: Record<string, string> = {
+    "User-Agent": "Dragopedia-Server"
+  };
+  if (currentToken) {
+    headers["Authorization"] = `Bearer ${currentToken}`;
+  }
+
+  for (const r of candidateRepos) {
+    for (const p of candidatePaths) {
+      const url = `https://raw.githubusercontent.com/${r}/${currentBranch}/${p}`;
+      try {
+        const res = await fetch(url, {
+          method: "GET",
+          signal: AbortSignal.timeout(4500),
+          headers
+        });
+        if (res.status === 200) {
+          const text = await res.text();
+          return JSON.parse(text) as T;
+        }
+      } catch {}
+    }
+  }
+  return null;
+}
+
+let memorySiteUIConfig: Record<string, any> | null = null;
+let memorySiteUIConfigTime = 0;
+let lastGhSiteUIConfig: Record<string, any> = {};
+let lastGhSiteUIFetchTime = 0;
+
+async function readSiteUIConfig(forceFresh?: boolean): Promise<Record<string, any>> {
+  // 1. Fast in-memory cache if written recently and no force refresh requested
+  if (!forceFresh && memorySiteUIConfig && (Date.now() - memorySiteUIConfigTime < 20000)) {
+    return memorySiteUIConfig;
+  }
+
   let localData: Record<string, any> = {};
   try {
     if (fs.existsSync(LOCAL_SITE_UI_CONFIG_PATH)) {
@@ -283,38 +364,105 @@ async function readSiteUIConfig(): Promise<Record<string, any>> {
     console.warn("[SiteUI] Error reading local site ui config:", err);
   }
 
+  let firestoreData: Record<string, any> = {};
   try {
-    if (GITHUB_TOKEN) {
-      const ghData = await readFromGitHub<Record<string, any>>(GITHUB_SITE_UI_CONFIG_PATH);
-      if (ghData && typeof ghData === "object") {
-        // Merge so we don't lose any keys from either local or GitHub
-        const merged = { ...localData, ...ghData };
-        // If GitHub has banner_maps_custom, ensure it's preserved
-        if (ghData.banner_maps_custom && Array.isArray(ghData.banner_maps_custom)) {
-          merged.banner_maps_custom = ghData.banner_maps_custom;
-        } else if (localData.banner_maps_custom && Array.isArray(localData.banner_maps_custom)) {
-          merged.banner_maps_custom = localData.banner_maps_custom;
-        }
-        return merged;
+    const activeDb = firebaseInstances[0]?.db;
+    if (activeDb) {
+      const docSnap = await activeDb.collection("site_config").doc("ui_config").get();
+      if (docSnap.exists) {
+        firestoreData = docSnap.data() || {};
       }
     }
   } catch (err) {
-    console.error("[SiteUI] Error reading site ui config from GitHub:", err);
+    // Non-critical Firestore read fallback
   }
 
-  return localData;
+  let ghData: Record<string, any> = lastGhSiteUIConfig;
+  // Only query GitHub if we don't have fresh cached GH data (limit to once every 60s) or localData is completely empty
+  const shouldFetchGh = forceFresh || Object.keys(localData).length === 0 || (Date.now() - lastGhSiteUIFetchTime > 60000);
+  if (shouldFetchGh) {
+    try {
+      const activeToken = getEffectiveGitHubToken();
+      if (activeToken) {
+        const fetched = await readFromGitHub<Record<string, any>>(GITHUB_SITE_UI_CONFIG_PATH, activeToken);
+        if (fetched && typeof fetched === "object") {
+          ghData = fetched;
+          lastGhSiteUIConfig = fetched;
+          lastGhSiteUIFetchTime = Date.now();
+        }
+      }
+    } catch (err) {
+      console.error("[SiteUI] Error reading site ui config from GitHub:", err);
+    }
+  }
+
+  // Sort sources by _updated_at ascending so the newest state always wins on key conflicts
+  const sources = [ghData, firestoreData, localData].sort(
+    (a, b) => (Number(a?._updated_at) || 0) - (Number(b?._updated_at) || 0)
+  );
+  const merged: Record<string, any> = Object.assign({}, ...sources);
+
+  // Preserve banner_maps_custom from newest available source that has it
+  for (let i = sources.length - 1; i >= 0; i--) {
+    if (Array.isArray(sources[i]?.banner_maps_custom) && sources[i].banner_maps_custom.length > 0) {
+      merged.banner_maps_custom = sources[i].banner_maps_custom;
+      break;
+    }
+  }
+
+  // Ensure local file is kept in sync with merged state
+  try {
+    if (Object.keys(merged).length > Object.keys(localData).length) {
+      const dir = path.dirname(LOCAL_SITE_UI_CONFIG_PATH);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(LOCAL_SITE_UI_CONFIG_PATH, JSON.stringify(merged, null, 2), "utf-8");
+    }
+  } catch {}
+
+  memorySiteUIConfig = merged;
+  memorySiteUIConfigTime = Date.now();
+  return merged;
 }
 
-async function writeSiteUIConfig(config: Record<string, any>): Promise<boolean> {
+async function writeSiteUIConfig(config: Record<string, any>, tokenOverride?: string): Promise<boolean> {
   try {
-    const jsonStr = JSON.stringify(config, null, 2);
+    const payload = { ...config, _updated_at: Date.now() };
+    memorySiteUIConfig = payload;
+    memorySiteUIConfigTime = Date.now();
+    const jsonStr = JSON.stringify(payload, null, 2);
     try {
+      const dir = path.dirname(LOCAL_SITE_UI_CONFIG_PATH);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(LOCAL_SITE_UI_CONFIG_PATH, jsonStr, "utf-8");
+      const srcMirror = path.join(process.cwd(), "src", "data", "site_ui_config.json");
+      if (fs.existsSync(path.dirname(srcMirror))) {
+        fs.writeFileSync(srcMirror, jsonStr, "utf-8");
+      }
+      const distMirror = path.join(process.cwd(), "dist", "data", "site_ui_config.json");
+      if (fs.existsSync(path.dirname(distMirror))) {
+        fs.writeFileSync(distMirror, jsonStr, "utf-8");
+      }
     } catch (e) {
       console.warn("[SiteUI] Could not write local file:", e);
     }
-    if (GITHUB_TOKEN) {
-      await writeToGitHub(GITHUB_SITE_UI_CONFIG_PATH, jsonStr, "Update site UI config & custom banner maps for all devices");
+
+    try {
+      const activeDb = firebaseInstances[0]?.db;
+      if (activeDb) {
+        await activeDb.collection("site_config").doc("ui_config").set(payload, { merge: true });
+      }
+    } catch (fbErr) {
+      console.warn("[SiteUI] Could not write to Firestore:", fbErr);
+    }
+
+    const activeToken = tokenOverride || getEffectiveGitHubToken();
+    if (activeToken) {
+      await writeToGitHub(
+        GITHUB_SITE_UI_CONFIG_PATH,
+        jsonStr,
+        "Update site UI config & custom banners for all devices",
+        activeToken
+      );
     }
     return true;
   } catch (err) {
@@ -326,20 +474,49 @@ async function writeSiteUIConfig(config: Record<string, any>): Promise<boolean> 
 const GIT_SYNC_DIR = "/tmp/dragopedia-github-sync";
 let gitSyncQueue: Promise<boolean> = Promise.resolve(true);
 
-async function executeGitSync(repoPath: string, contentStr: string, commitMessage: string): Promise<boolean> {
-  const remoteUrl = `https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git`;
+async function executeGitSync(
+  repoPath: string, 
+  contentStr: string, 
+  commitMessage: string, 
+  tokenOverride?: string
+): Promise<boolean> {
+  const activeToken = tokenOverride || getEffectiveGitHubToken();
+  const activeRepo = getEffectiveGitHubRepo();
+  const activeBranch = getEffectiveGitHubBranch();
 
-  // 1. Prepare repository directory
-  if (!fs.existsSync(path.join(GIT_SYNC_DIR, ".git"))) {
+  if (!activeToken) {
+    console.warn(`[Git Sync] No GitHub token available. Cannot push ${repoPath}.`);
+    return false;
+  }
+
+  const remoteUrl = `https://x-access-token:${activeToken}@github.com/${activeRepo}.git`;
+
+  // 1. Prepare repository directory and verify remote matches activeRepo
+  let needsFreshClone = !fs.existsSync(path.join(GIT_SYNC_DIR, ".git"));
+  if (!needsFreshClone) {
+    try {
+      const currentRemote = execSync("git remote get-url origin", { cwd: GIT_SYNC_DIR, encoding: "utf8" }).trim();
+      if (!currentRemote.toLowerCase().includes(activeRepo.toLowerCase())) {
+        console.log(`[Git Sync] Repository changed from ${currentRemote} to ${activeRepo}. Re-cloning...`);
+        needsFreshClone = true;
+      } else {
+        execSync(`git remote set-url origin ${remoteUrl}`, { cwd: GIT_SYNC_DIR, stdio: "pipe" });
+      }
+    } catch {
+      needsFreshClone = true;
+    }
+  }
+
+  if (needsFreshClone) {
     fs.rmSync(GIT_SYNC_DIR, { recursive: true, force: true });
-    console.log(`[Git Sync] Cloning shallow repo ${GITHUB_REPO} (branch: ${GITHUB_BRANCH})...`);
-    execSync(`git clone --depth 1 --branch ${GITHUB_BRANCH} ${remoteUrl} ${GIT_SYNC_DIR}`, {
+    console.log(`[Git Sync] Cloning shallow repo ${activeRepo} (branch: ${activeBranch})...`);
+    execSync(`git clone --depth 1 --branch ${activeBranch} ${remoteUrl} ${GIT_SYNC_DIR}`, {
       stdio: "pipe",
       timeout: 45000
     });
   } else {
     try {
-      execSync(`git pull origin ${GITHUB_BRANCH} --rebase`, {
+      execSync(`git pull origin ${activeBranch} --rebase`, {
         cwd: GIT_SYNC_DIR,
         stdio: "pipe",
         timeout: 25000
@@ -347,12 +524,12 @@ async function executeGitSync(repoPath: string, contentStr: string, commitMessag
     } catch (pullErr) {
       console.warn("[Git Sync] Pull failed, resetting to origin branch:", pullErr);
       try {
-        execSync(`git fetch origin ${GITHUB_BRANCH} --depth 1`, { cwd: GIT_SYNC_DIR, stdio: "pipe" });
-        execSync(`git reset --hard origin/${GITHUB_BRANCH}`, { cwd: GIT_SYNC_DIR, stdio: "pipe" });
+        execSync(`git fetch origin ${activeBranch} --depth 1`, { cwd: GIT_SYNC_DIR, stdio: "pipe" });
+        execSync(`git reset --hard origin/${activeBranch}`, { cwd: GIT_SYNC_DIR, stdio: "pipe" });
       } catch (resetErr) {
         console.warn("[Git Sync] Reset failed, re-cloning repo:", resetErr);
         fs.rmSync(GIT_SYNC_DIR, { recursive: true, force: true });
-        execSync(`git clone --depth 1 --branch ${GITHUB_BRANCH} ${remoteUrl} ${GIT_SYNC_DIR}`, {
+        execSync(`git clone --depth 1 --branch ${activeBranch} ${remoteUrl} ${GIT_SYNC_DIR}`, {
           stdio: "pipe",
           timeout: 45000
         });
@@ -360,13 +537,32 @@ async function executeGitSync(repoPath: string, contentStr: string, commitMessag
     }
   }
 
-  // 2. Write file
+  // 2. Write file to primary path
   const fullTarget = path.join(GIT_SYNC_DIR, repoPath);
   const targetDir = path.dirname(fullTarget);
   if (!fs.existsSync(targetDir)) {
     fs.mkdirSync(targetDir, { recursive: true });
   }
   fs.writeFileSync(fullTarget, contentStr, "utf8");
+
+  // Mirror to src/data or public/data if directory exists in the repo
+  try {
+    if (repoPath.startsWith("public/data/")) {
+      const fileName = path.basename(repoPath);
+      const mirrorTarget = path.join(GIT_SYNC_DIR, "src", "data", fileName);
+      if (fs.existsSync(path.dirname(mirrorTarget))) {
+        fs.writeFileSync(mirrorTarget, contentStr, "utf8");
+      }
+    } else if (repoPath.startsWith("src/data/")) {
+      const fileName = path.basename(repoPath);
+      const mirrorTarget = path.join(GIT_SYNC_DIR, "public", "data", fileName);
+      if (fs.existsSync(path.dirname(mirrorTarget))) {
+        fs.writeFileSync(mirrorTarget, contentStr, "utf8");
+      }
+    }
+  } catch (mErr) {
+    // Non-critical mirror write
+  }
 
   // 3. Configure git committer
   execSync('git config user.name "Dragopedia Sync" && git config user.email "dragopedia@tirian.world"', {
@@ -382,29 +578,48 @@ async function executeGitSync(repoPath: string, contentStr: string, commitMessag
   }
 
   // 5. Commit and Push
-  execSync(`git add "${repoPath}"`, { cwd: GIT_SYNC_DIR, stdio: "pipe" });
+  execSync(`git add -A`, { cwd: GIT_SYNC_DIR, stdio: "pipe" });
   const safeMsg = commitMessage.replace(/"/g, '\\"');
   execSync(`git commit -m "${safeMsg}"`, { cwd: GIT_SYNC_DIR, stdio: "pipe" });
 
-  console.log(`[Git Sync] Pushing changes for ${repoPath} to GitHub...`);
-  execSync(`git push origin ${GITHUB_BRANCH}`, {
-    cwd: GIT_SYNC_DIR,
-    stdio: "pipe",
-    timeout: 35000
-  });
-
-  console.log(`[Git Sync] Successfully pushed ${repoPath} to GitHub ${GITHUB_REPO}:${GITHUB_BRANCH}`);
-  return true;
+  console.log(`[Git Sync] Pushing changes for ${repoPath} to GitHub ${activeRepo}:${activeBranch}...`);
+  try {
+    execSync(`git push origin ${activeBranch}`, {
+      cwd: GIT_SYNC_DIR,
+      stdio: "pipe",
+      timeout: 35000
+    });
+    console.log(`[Git Sync] Successfully pushed ${repoPath} to GitHub ${activeRepo}:${activeBranch}`);
+    return true;
+  } catch (pushErr: any) {
+    const errMsg = String(pushErr?.stderr || pushErr?.message || pushErr);
+    console.error(`[Git Sync Error] Push hacia ${activeRepo}:${activeBranch} falló:`, errMsg);
+    if (errMsg.includes("403") || errMsg.includes("Permission") || errMsg.includes("denied")) {
+      console.error(`[Git Sync Auth] Permiso denegado al hacer push a ${activeRepo}. Asegúrate de que el token de GitHub (${activeToken ? activeToken.slice(0, 8) + "..." : "sin token"}) tenga permisos de colaborador/escritura en https://github.com/${activeRepo}/settings/access`);
+    }
+    throw pushErr;
+  }
 }
 
-async function writeViaRestApi(repoPath: string, contentStr: string, commitMessage: string): Promise<boolean> {
+async function writeViaRestApi(
+  repoPath: string, 
+  contentStr: string, 
+  commitMessage: string, 
+  tokenOverride?: string
+): Promise<boolean> {
+  const activeToken = tokenOverride || getEffectiveGitHubToken();
+  const activeRepo = getEffectiveGitHubRepo();
+  const activeBranch = getEffectiveGitHubBranch();
+
+  if (!activeToken) return false;
+
   let sha: string | undefined;
   try {
-    const metaUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${repoPath}?ref=${GITHUB_BRANCH}`;
+    const metaUrl = `https://api.github.com/repos/${activeRepo}/contents/${repoPath}?ref=${activeBranch}`;
     const metaRes = await fetch(metaUrl, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${GITHUB_TOKEN}`,
+        "Authorization": `Bearer ${activeToken}`,
         "Accept": "application/json",
         "User-Agent": "Dragopedia-Server"
       }
@@ -417,19 +632,19 @@ async function writeViaRestApi(repoPath: string, contentStr: string, commitMessa
     console.error(`[GitHub REST Write] Error checking sha for ${repoPath}:`, err);
   }
 
-  const putUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${repoPath}`;
+  const putUrl = `https://api.github.com/repos/${activeRepo}/contents/${repoPath}`;
   const base64Content = Buffer.from(contentStr, "utf8").toString("base64");
   const body: any = {
     message: commitMessage,
     content: base64Content,
-    branch: GITHUB_BRANCH
+    branch: activeBranch
   };
   if (sha) body.sha = sha;
 
   const putRes = await fetch(putUrl, {
     method: "PUT",
     headers: {
-      "Authorization": `Bearer ${GITHUB_TOKEN}`,
+      "Authorization": `Bearer ${activeToken}`,
       "Accept": "application/json",
       "Content-Type": "application/json",
       "User-Agent": "Dragopedia-Server"
@@ -440,8 +655,14 @@ async function writeViaRestApi(repoPath: string, contentStr: string, commitMessa
   return putRes.status === 200 || putRes.status === 201;
 }
 
-async function writeToGitHub(repoPath: string, contentStr: string, commitMessage: string): Promise<boolean> {
-  if (!GITHUB_TOKEN) {
+async function writeToGitHub(
+  repoPath: string, 
+  contentStr: string, 
+  commitMessage: string, 
+  tokenOverride?: string
+): Promise<boolean> {
+  const activeToken = tokenOverride || getEffectiveGitHubToken();
+  if (!activeToken) {
     console.warn(`[GitHub Write] No GITHUB_TOKEN configured. Cannot write ${repoPath} to GitHub.`);
     return false;
   }
@@ -451,7 +672,7 @@ async function writeToGitHub(repoPath: string, contentStr: string, commitMessage
       .catch(() => true)
       .then(async () => {
         try {
-          const success = await executeGitSync(repoPath, contentStr, commitMessage);
+          const success = await executeGitSync(repoPath, contentStr, commitMessage, activeToken);
           resolve(success);
           return success;
         } catch (gitErr) {
@@ -459,7 +680,7 @@ async function writeToGitHub(repoPath: string, contentStr: string, commitMessage
           // Fallback to REST API if file is reasonably small
           if (contentStr.length < 5 * 1024 * 1024) {
             try {
-              const restSuccess = await writeViaRestApi(repoPath, contentStr, commitMessage);
+              const restSuccess = await writeViaRestApi(repoPath, contentStr, commitMessage, activeToken);
               resolve(restSuccess);
               return restSuccess;
             } catch (restErr) {
@@ -476,20 +697,23 @@ async function writeToGitHub(repoPath: string, contentStr: string, commitMessage
 // ---------------------------------------------------------------------------
 // Binary Git Sync & GitHub REST API support for images
 // ---------------------------------------------------------------------------
-async function executeGitSyncBinary(repoPath: string, buffer: Buffer, commitMessage: string): Promise<boolean> {
-  const remoteUrl = `https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git`;
+async function executeGitSyncBinary(repoPath: string, buffer: Buffer, commitMessage: string, tokenOverride?: string): Promise<boolean> {
+  const activeToken = tokenOverride || getEffectiveGitHubToken();
+  const activeRepo = getEffectiveGitHubRepo();
+  const activeBranch = getEffectiveGitHubBranch();
+  const remoteUrl = `https://x-access-token:${activeToken}@github.com/${activeRepo}.git`;
 
   // 1. Prepare repository directory
   if (!fs.existsSync(path.join(GIT_SYNC_DIR, ".git"))) {
     fs.rmSync(GIT_SYNC_DIR, { recursive: true, force: true });
-    console.log(`[Git Sync Binary] Cloning shallow repo ${GITHUB_REPO} (branch: ${GITHUB_BRANCH})...`);
-    execSync(`git clone --depth 1 --branch ${GITHUB_BRANCH} ${remoteUrl} ${GIT_SYNC_DIR}`, {
+    console.log(`[Git Sync Binary] Cloning shallow repo ${activeRepo} (branch: ${activeBranch})...`);
+    execSync(`git clone --depth 1 --branch ${activeBranch} ${remoteUrl} ${GIT_SYNC_DIR}`, {
       stdio: "pipe",
       timeout: 45000
     });
   } else {
     try {
-      execSync(`git pull origin ${GITHUB_BRANCH} --rebase`, {
+      execSync(`git pull origin ${activeBranch} --rebase`, {
         cwd: GIT_SYNC_DIR,
         stdio: "pipe",
         timeout: 25000
@@ -497,12 +721,12 @@ async function executeGitSyncBinary(repoPath: string, buffer: Buffer, commitMess
     } catch (pullErr) {
       console.warn("[Git Sync Binary] Pull failed, resetting to origin branch:", pullErr);
       try {
-        execSync(`git fetch origin ${GITHUB_BRANCH} --depth 1`, { cwd: GIT_SYNC_DIR, stdio: "pipe" });
-        execSync(`git reset --hard origin/${GITHUB_BRANCH}`, { cwd: GIT_SYNC_DIR, stdio: "pipe" });
+        execSync(`git fetch origin ${activeBranch} --depth 1`, { cwd: GIT_SYNC_DIR, stdio: "pipe" });
+        execSync(`git reset --hard origin/${activeBranch}`, { cwd: GIT_SYNC_DIR, stdio: "pipe" });
       } catch (resetErr) {
         console.warn("[Git Sync Binary] Reset failed, re-cloning repo:", resetErr);
         fs.rmSync(GIT_SYNC_DIR, { recursive: true, force: true });
-        execSync(`git clone --depth 1 --branch ${GITHUB_BRANCH} ${remoteUrl} ${GIT_SYNC_DIR}`, {
+        execSync(`git clone --depth 1 --branch ${activeBranch} ${remoteUrl} ${GIT_SYNC_DIR}`, {
           stdio: "pipe",
           timeout: 45000
         });
@@ -537,24 +761,29 @@ async function executeGitSyncBinary(repoPath: string, buffer: Buffer, commitMess
   execSync(`git commit -m "${safeMsg}"`, { cwd: GIT_SYNC_DIR, stdio: "pipe" });
 
   console.log(`[Git Sync Binary] Pushing binary changes for ${repoPath} to GitHub...`);
-  execSync(`git push origin ${GITHUB_BRANCH}`, {
+  execSync(`git push origin ${activeBranch}`, {
     cwd: GIT_SYNC_DIR,
     stdio: "pipe",
     timeout: 35000
   });
 
-  console.log(`[Git Sync Binary] Successfully pushed binary ${repoPath} to GitHub ${GITHUB_REPO}:${GITHUB_BRANCH}`);
+  console.log(`[Git Sync Binary] Successfully pushed binary ${repoPath} to GitHub ${activeRepo}:${activeBranch}`);
   return true;
 }
 
-async function writeViaRestApiBinary(repoPath: string, buffer: Buffer, commitMessage: string): Promise<boolean> {
+async function writeViaRestApiBinary(repoPath: string, buffer: Buffer, commitMessage: string, tokenOverride?: string): Promise<boolean> {
+  const activeToken = tokenOverride || getEffectiveGitHubToken();
+  const activeRepo = getEffectiveGitHubRepo();
+  const activeBranch = getEffectiveGitHubBranch();
+  if (!activeToken) return false;
+
   let sha: string | undefined;
   try {
-    const metaUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${repoPath}?ref=${GITHUB_BRANCH}`;
+    const metaUrl = `https://api.github.com/repos/${activeRepo}/contents/${repoPath}?ref=${activeBranch}`;
     const metaRes = await fetch(metaUrl, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${GITHUB_TOKEN}`,
+        "Authorization": `Bearer ${activeToken}`,
         "Accept": "application/json",
         "User-Agent": "Dragopedia-Server"
       }
@@ -567,19 +796,19 @@ async function writeViaRestApiBinary(repoPath: string, buffer: Buffer, commitMes
     console.error(`[GitHub REST Binary Write] Error checking sha for ${repoPath}:`, err);
   }
 
-  const putUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${repoPath}`;
+  const putUrl = `https://api.github.com/repos/${activeRepo}/contents/${repoPath}`;
   const base64Content = buffer.toString("base64");
   const body: any = {
     message: commitMessage,
     content: base64Content,
-    branch: GITHUB_BRANCH
+    branch: activeBranch
   };
   if (sha) body.sha = sha;
 
   const putRes = await fetch(putUrl, {
     method: "PUT",
     headers: {
-      "Authorization": `Bearer ${GITHUB_TOKEN}`,
+      "Authorization": `Bearer ${activeToken}`,
       "Accept": "application/json",
       "Content-Type": "application/json",
       "User-Agent": "Dragopedia-Server"
@@ -590,8 +819,9 @@ async function writeViaRestApiBinary(repoPath: string, buffer: Buffer, commitMes
   return putRes.status === 200 || putRes.status === 201;
 }
 
-async function writeBinaryToGitHub(repoPath: string, buffer: Buffer, commitMessage: string): Promise<boolean> {
-  if (!GITHUB_TOKEN) {
+async function writeBinaryToGitHub(repoPath: string, buffer: Buffer, commitMessage: string, tokenOverride?: string): Promise<boolean> {
+  const activeToken = tokenOverride || getEffectiveGitHubToken();
+  if (!activeToken) {
     console.warn(`[GitHub Binary Write] No GITHUB_TOKEN configured. Cannot write ${repoPath} to GitHub.`);
     return false;
   }
@@ -601,7 +831,7 @@ async function writeBinaryToGitHub(repoPath: string, buffer: Buffer, commitMessa
       .catch(() => true)
       .then(async () => {
         try {
-          const success = await executeGitSyncBinary(repoPath, buffer, commitMessage);
+          const success = await executeGitSyncBinary(repoPath, buffer, commitMessage, activeToken);
           resolve(success);
           return success;
         } catch (gitErr) {
@@ -609,7 +839,7 @@ async function writeBinaryToGitHub(repoPath: string, buffer: Buffer, commitMessa
           // Fallback to REST API if file is within GitHub contents API limit (< 25MB)
           if (buffer.length < 25 * 1024 * 1024) {
             try {
-              const restSuccess = await writeViaRestApiBinary(repoPath, buffer, commitMessage);
+              const restSuccess = await writeViaRestApiBinary(repoPath, buffer, commitMessage, activeToken);
               resolve(restSuccess);
               return restSuccess;
             } catch (restErr) {
@@ -868,13 +1098,13 @@ function initMultiFirebase() {
       const projectId = config.project_id || `proyecto-${idx}`;
       const appName = `app-${idx}`;
       
-      let app: admin.app.App;
-      const existingApp = admin.apps.find(a => a.name === appName);
+      let app: any;
+      const existingApp = ((admin as any).apps || []).find((a: any) => a?.name === appName);
       if (existingApp) {
         app = existingApp;
       } else {
-        app = admin.initializeApp({
-          credential: admin.credential.cert(config),
+        app = (admin as any).initializeApp({
+          credential: (admin as any).credential.cert(config),
         }, appName);
       }
 
@@ -1033,6 +1263,86 @@ function extractBase64CoverImage(slugOrId: string, imageUrl: string): string {
   return persistBase64Image(slugOrId, imageUrl, "covers");
 }
 
+async function persistCloudImage(slugOrId: string, imageUrl: string, subfolder = "cloud"): Promise<string> {
+  if (!imageUrl || typeof imageUrl !== "string") return imageUrl;
+  const trimmed = imageUrl.trim();
+  if (!trimmed.startsWith("http://") && !trimmed.startsWith("https://")) {
+    return imageUrl;
+  }
+  // Ignore local URLs or data URLs
+  if (trimmed.startsWith("/images/") || trimmed.includes("/images/cloud/") || trimmed.includes("/images/covers/")) {
+    return imageUrl;
+  }
+  try {
+    const hash = crypto.createHash("md5").update(trimmed).digest("hex").slice(0, 10);
+    const safeSlug = (slugOrId || "img").replace(/[^a-zA-Z0-9_-]/g, "_").slice(0, 35);
+    let ext = "jpg";
+    const urlWithoutQuery = trimmed.split("?")[0];
+    const match = urlWithoutQuery.match(/\.([a-zA-Z0-9]{3,4})$/);
+    if (match) {
+      const candidate = match[1].toLowerCase();
+      if (["jpg", "jpeg", "png", "webp", "gif", "svg"].includes(candidate)) {
+        ext = candidate === "jpeg" ? "jpg" : candidate;
+      }
+    }
+    const targetDir = path.join(process.cwd(), "public", "images", subfolder);
+    if (!fs.existsSync(targetDir)) {
+      fs.mkdirSync(targetDir, { recursive: true });
+    }
+    let fileName = `${safeSlug}_${hash}.${ext}`;
+    let localFilePath = path.join(targetDir, fileName);
+
+    // Reuse existing file if already downloaded
+    if (fs.existsSync(localFilePath) && fs.statSync(localFilePath).size > 100) {
+      return `/images/${subfolder}/${fileName}`;
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12000);
+    const headers: Record<string, string> = {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+      "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+      "Referer": "https://www.google.com/"
+    };
+    if (trimmed.includes("deviantart") || trimmed.includes("wixmp")) headers["Referer"] = "https://www.deviantart.com/";
+    else if (trimmed.includes("artstation")) headers["Referer"] = "https://www.artstation.com/";
+    else if (trimmed.includes("fandom") || trimmed.includes("wikia")) headers["Referer"] = "https://www.fandom.com/";
+    else if (trimmed.includes("pinterest") || trimmed.includes("pinimg")) headers["Referer"] = "https://www.pinterest.com/";
+
+    const res = await fetch(trimmed, { headers, signal: controller.signal });
+    clearTimeout(timeout);
+    if (res.ok) {
+      const arrayBuffer = await res.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      if (buffer.length > 50) {
+        const contentType = res.headers.get("content-type") || "";
+        if (contentType.includes("image/png")) ext = "png";
+        else if (contentType.includes("image/webp")) ext = "webp";
+        else if (contentType.includes("image/jpeg")) ext = "jpg";
+        else if (contentType.includes("image/gif")) ext = "gif";
+        else if (contentType.includes("image/svg")) ext = "svg";
+
+        fileName = `${safeSlug}_${hash}.${ext}`;
+        localFilePath = path.join(targetDir, fileName);
+        fs.writeFileSync(localFilePath, buffer);
+
+        const webPath = `/images/${subfolder}/${fileName}`;
+        const repoPath = `public/images/${subfolder}/${fileName}`;
+        console.log(`[Cloud Image Storage] Downloaded & persisted cloud image ${trimmed} -> ${webPath}`);
+        if (GITHUB_TOKEN) {
+          writeBinaryToGitHub(repoPath, buffer, `Add downloaded cloud image ${fileName} to repo`).catch((err) => {
+            console.warn(`[GitHub Image Write Warning] Failed for ${repoPath}:`, err);
+          });
+        }
+        return webPath;
+      }
+    }
+  } catch (err) {
+    console.warn(`[Cloud Image Storage] Could not download cloud image ${imageUrl}:`, err);
+  }
+  return imageUrl;
+}
+
 function sanitizeAndPersistArticleImages(article: WikiArticle): { article: WikiArticle; modified: boolean } {
   if (!article) return { article, modified: false };
   let modified = false;
@@ -1087,6 +1397,71 @@ function sanitizeAndPersistArticleImages(article: WikiArticle): { article: WikiA
   return { article, modified };
 }
 
+async function sanitizeAndPersistArticleImagesAsync(article: WikiArticle): Promise<{ article: WikiArticle; modified: boolean }> {
+  if (!article) return { article, modified: false };
+  let { modified } = sanitizeAndPersistArticleImages(article);
+  const slugOrId = article.slug || article.id || "article";
+
+  // 1. Cover image from cloud link
+  if (article.image_url && typeof article.image_url === "string" && (article.image_url.startsWith("http://") || article.image_url.startsWith("https://"))) {
+    const localUrl = await persistCloudImage(slugOrId, article.image_url, "cloud");
+    if (localUrl !== article.image_url) {
+      article.image_url = localUrl;
+      modified = true;
+    }
+  }
+  if (article.cover_image && typeof article.cover_image === "string" && (article.cover_image.startsWith("http://") || article.cover_image.startsWith("https://"))) {
+    const localUrl = await persistCloudImage(`${slugOrId}-cover`, article.cover_image, "cloud");
+    if (localUrl !== article.cover_image) {
+      article.cover_image = localUrl;
+      modified = true;
+    }
+  }
+
+  // 2. Gallery images from cloud links
+  if (Array.isArray(article.gallery)) {
+    for (let idx = 0; idx < article.gallery.length; idx++) {
+      const item = article.gallery[idx];
+      if (item && item.url && typeof item.url === "string" && (item.url.startsWith("http://") || item.url.startsWith("https://"))) {
+        const localUrl = await persistCloudImage(`${slugOrId}-gal-${idx}`, item.url, "cloud");
+        if (localUrl !== item.url) {
+          item.url = localUrl;
+          modified = true;
+        }
+      }
+    }
+  }
+
+  // 3. Monster images from cloud links
+  if (article.monster_images && typeof article.monster_images === "object") {
+    for (const [key, val] of Object.entries(article.monster_images)) {
+      if (typeof val === "string" && (val.startsWith("http://") || val.startsWith("https://"))) {
+        const localUrl = await persistCloudImage(`${slugOrId}-mon-${key}`, val, "cloud");
+        if (localUrl !== val) {
+          article.monster_images[key] = localUrl;
+          modified = true;
+        }
+      }
+    }
+  }
+
+  // 4. Content embedded cloud images
+  if (article.content && typeof article.content === "string") {
+    const regex = /https?:\/\/[^\s"'<>\)]+\.(?:jpg|jpeg|png|webp|gif|svg)(?:\?[^\s"'<>\)]*)?/gi;
+    const matches = Array.from(new Set(article.content.match(regex) || []));
+    for (let i = 0; i < matches.length; i++) {
+      const remoteUrl = matches[i];
+      const localUrl = await persistCloudImage(`${slugOrId}-content-${i}`, remoteUrl, "cloud");
+      if (localUrl !== remoteUrl) {
+        article.content = article.content.split(remoteUrl).join(localUrl);
+        modified = true;
+      }
+    }
+  }
+
+  return { article, modified };
+}
+
 // Helper to read all articles from all active Firestore databases and aggregate them
 async function readArticles(): Promise<WikiArticle[]> {
   if (articlesCache !== null) {
@@ -1105,51 +1480,67 @@ async function readArticles(): Promise<WikiArticle[]> {
     path.join(__dirname, "..", "public", "data", "articles.json"),
   ];
 
-  let articles: WikiArticle[] = [];
+  let localArticles: WikiArticle[] = [];
+  for (const bPath of possibleBackupPaths) {
+    try {
+      if (fs.existsSync(bPath)) {
+        const localData = JSON.parse(fs.readFileSync(bPath, "utf8"));
+        if (Array.isArray(localData) && localData.length > 0) {
+          localArticles = localData;
+          break;
+        }
+      }
+    } catch (localErr) {
+      console.error(`[Local Database] Error al leer ${bPath}:`, localErr);
+    }
+  }
 
-  // 1. Intentar cargar desde GitHub si hay token
+  let articles: WikiArticle[] = [...localArticles];
+
+  // 1. Intentar cargar desde GitHub si hay token y fusionar preservando asignaciones de categorías y contenido completo local
   if (GITHUB_TOKEN) {
     try {
       const githubArticles = await readFromGitHub<WikiArticle[]>(GITHUB_ARTICLES_PATH);
       if (githubArticles && Array.isArray(githubArticles) && githubArticles.length > 0) {
-        console.log(`[GitHub Sync] Cargados ${githubArticles.length} artículos exitosamente desde GitHub.`);
-        articles = githubArticles;
-        
-        // Guardar localmente como backup para futuras caídas o arranques rápidos
-        const syncPaths = [
-          path.join(process.cwd(), "src", "data", "articles.json"),
-          path.join(process.cwd(), "public", "data", "articles.json"),
-        ];
-        for (const p of syncPaths) {
-          try {
-            const dir = path.dirname(p);
-            if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-            fs.writeFileSync(p, JSON.stringify(articles, null, 2), "utf8");
-          } catch (saveErr) {
-            console.error(`[Local Backup] No se pudo escribir local ${p}:`, saveErr);
+        console.log(`[GitHub Sync] Cargados ${githubArticles.length} artículos desde GitHub. Fusionando con base local (${localArticles.length})...`);
+        const mergedMap = new Map<string, WikiArticle>();
+        for (const ghArt of githubArticles) {
+          if (ghArt && ghArt.id) {
+            mergedMap.set(ghArt.id, ghArt);
           }
         }
+        for (const locArt of localArticles) {
+          if (!locArt || !locArt.id) continue;
+          const ghArt = mergedMap.get(locArt.id);
+          if (!ghArt) {
+            mergedMap.set(locArt.id, locArt);
+          } else {
+            const locTime = locArt.updated_date ? new Date(locArt.updated_date).getTime() : 0;
+            const ghTime = ghArt.updated_date ? new Date(ghArt.updated_date).getTime() : 0;
+            const hasLocalExtras = Array.isArray(locArt.extra_categories) && locArt.extra_categories.length > 0;
+            const longerContent = (locArt.content || "").length >= (ghArt.content || "").length ? locArt.content : ghArt.content;
+
+            if (locTime >= ghTime || hasLocalExtras) {
+              mergedMap.set(locArt.id, {
+                ...ghArt,
+                ...locArt,
+                content: longerContent,
+                category: locArt.category || ghArt.category,
+                extra_categories: hasLocalExtras ? locArt.extra_categories : (ghArt.extra_categories || [])
+              });
+            } else {
+              mergedMap.set(locArt.id, {
+                ...locArt,
+                ...ghArt,
+                content: longerContent
+              });
+            }
+          }
+        }
+        articles = Array.from(mergedMap.values());
       }
     } catch (ghErr) {
       console.warn("[GitHub Sync] Error al intentar leer de GitHub:", ghErr);
-    }
-  }
-
-  // 2. Si no pudimos cargar de GitHub o no hay token, cargar de articles.json local explorando múltiples rutas
-  if (articles.length === 0) {
-    for (const bPath of possibleBackupPaths) {
-      try {
-        if (fs.existsSync(bPath)) {
-          const localData = JSON.parse(fs.readFileSync(bPath, "utf8"));
-          if (Array.isArray(localData) && localData.length > 0) {
-            console.log(`[Local Database] Cargados ${localData.length} artículos desde base de datos local (${bPath})`);
-            articles = localData;
-            break;
-          }
-        }
-      } catch (localErr) {
-        console.error(`[Local Database] Error al leer ${bPath}:`, localErr);
-      }
     }
   }
 
@@ -1207,6 +1598,78 @@ async function readArticles(): Promise<WikiArticle[]> {
     }
   }
 
+  // Aplicar asignaciones de categorías/subcategorías por defecto en memoria sin reescribir los 4 archivos de 2.6MB
+  const DEFAULT_SUBCATS: Record<string, { category: string; extra_categories: string[] }> = {
+    "astora": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+    "alejandria": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+    "morgana": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+    "laberinto-de-cristales": { category: "Dominio", extra_categories: ["Lugares", "Dominio"] },
+    "zaratras": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+    "gravatax-el-dragon-de-amatista": { category: "Gemáticos", extra_categories: ["Dragones", "Gemáticos"] },
+    "minos-el-chaman-minotauro": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+    "fafnir-el-dios-dragon": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
+    "coliseo-de-catarina-mt7cpt8n": { category: "Arena", extra_categories: ["Lugares", "Arena"] },
+    "el-santa-maria": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+    "mehetia-mrfciyvp": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+    "torre-de-latria-mrfccvm3": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+    "palacio-de-los-elfos-de-siramar-mreuygo8": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+    "camelot": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
+    "svartal-mre7hjm6": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+    "siramar-mre5xebn": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+    "gran-reino-enano-de-thorin-mrdtvqcc": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
+    "thrag-mrdrc85l": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+    "las-islas-de-kaanil-mrdowgts": { category: "Lugares", extra_categories: ["Lugares"] },
+    "coliseo-onirico-mrdbt1cy": { category: "Arena", extra_categories: ["Lugares", "Arena"] },
+    "mansion-de-zaltar": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+    "mansion-loux": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+    "mansion-ferton": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+    "manantial-del-feywild": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+    "magordito": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+    "magor": { category: "Dioses", extra_categories: ["Dioses"] },
+    "kaanil-nah": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
+    "gran-torre-arcana-de-cryostar": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+    "gorm": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
+    "gildemar-el-rey-mago": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+    "fafnir": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
+    "el-oni-del-cerezo": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+    "cryovain": { category: "Cromáticos", extra_categories: ["Dragones", "Cromáticos"] },
+    "cryostar": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
+    "arthorius": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+    "arlem-diaz": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+    "arkadis": { category: "Metálicos", extra_categories: ["Dragones", "Metálicos"] },
+    "zaltar": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+    "varianthel": { category: "Ascendidos", extra_categories: ["Personajes", "Ascendidos"] },
+    "templo-de-makai": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+    "tauron": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
+    "takhisis": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
+    "syndragosa": { category: "Metálicos", extra_categories: ["Dragones", "Metálicos"] },
+    "rexyrian": { category: "Bestias", extra_categories: ["Dragones", "Bestias"] },
+    "nemuina": { category: "Ascendidos", extra_categories: ["Dioses", "Ascendidos"] },
+    "moonhaven": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
+    "minas-de-icespear": { category: "Mazmorras", extra_categories: ["Lugares", "Mazmorras"] },
+    "auros": { category: "Metálicos", extra_categories: ["Dragones", "Metálicos"] },
+    "glimmerstone-aa54d9": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+    "ravenholm-075d82": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+    "icespear-9a1e7c": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+    "el-maestro-db608e": { category: "Antiguos", extra_categories: ["Personajes", "Antiguos"] },
+    "tarot-el-gran-bibliotecario-8300f5": { category: "Antiguos", extra_categories: ["Personajes", "Antiguos"] },
+    "gran-arana-acorazada-ea7987": { category: "Antiguos", extra_categories: ["Personajes", "Antiguos"] },
+    "rey-allant-fb4cad": { category: "Portadores de Marca", extra_categories: ["Personajes", "Portadores de Marca"] },
+    "el-santuario-d45cdc": { category: "Asentamientos", extra_categories: ["Lugares", "Asentamientos"] },
+    "lothric-a1d86b": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
+    "drangleic-869efe": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] },
+    "boletaria-7e36fa": { category: "Reinos", extra_categories: ["Lugares", "Reinos"] }
+  };
+  for (const art of articles) {
+    if (art && art.slug && DEFAULT_SUBCATS[art.slug]) {
+      const preset = DEFAULT_SUBCATS[art.slug];
+      if (!Array.isArray(art.extra_categories) || art.extra_categories.length === 0) {
+        art.category = preset.category;
+        art.extra_categories = preset.extra_categories;
+      }
+    }
+  }
+
   // Ordenar por fecha de creación descendente
   articles.sort((a, b) => {
     const dateA = a.created_date ? new Date(a.created_date).getTime() : 0;
@@ -1219,16 +1682,16 @@ async function readArticles(): Promise<WikiArticle[]> {
 }
 
 // Helper to write articles with automatic routing & overflow
-async function writeArticles(articles: WikiArticle[], retryCount = 0): Promise<void> {
+async function writeArticles(articles: WikiArticle[], retryCount = 0, tokenOverride?: string): Promise<boolean> {
   // Always update the global in-memory cache!
   articlesCache = articles;
 
   // Always save to the local articles.json and seed_articles.json files!
   const targetBackupPaths = [
-    path.join(process.cwd(), "src", "data", "articles.json"),
     path.join(process.cwd(), "public", "data", "articles.json"),
-    path.join(process.cwd(), "src", "data", "seed_articles.json"),
+    path.join(process.cwd(), "src", "data", "articles.json"),
     path.join(process.cwd(), "public", "data", "seed_articles.json"),
+    path.join(process.cwd(), "src", "data", "seed_articles.json"),
   ];
 
   for (const backupPath of targetBackupPaths) {
@@ -1244,19 +1707,28 @@ async function writeArticles(articles: WikiArticle[], retryCount = 0): Promise<v
     }
   }
 
-  // Guardar en GitHub de forma garantizada y sincronizada
-  if (GITHUB_TOKEN) {
-    try {
-      const success = await writeToGitHub(GITHUB_ARTICLES_PATH, JSON.stringify(articles, null, 2), "Actualizar artículos (Dragopedia Database Update)");
-      if (success) {
-        console.log("[GitHub Write] Artículos guardados y sincronizados exitosamente en GitHub.");
-      } else {
-        console.warn("[GitHub Write] Error al escribir los artículos en GitHub. Quedan respaldados en el almacenamiento local temporal.");
-      }
-    } catch (err) {
-      console.error("[GitHub Write Error]:", err);
-    }
+  // Guardar en GitHub de forma garantizada en segundo plano sin bloquear la respuesta HTTP
+  const activeToken = tokenOverride || getEffectiveGitHubToken();
+  if (activeToken) {
+    writeToGitHub(
+      GITHUB_ARTICLES_PATH, 
+      JSON.stringify(articles, null, 2), 
+      "Actualizar artículos y asignación de subcategorías (Dragopedia Database Update)",
+      activeToken
+    )
+      .then((success) => {
+        if (success) {
+          console.log("[GitHub Write] Artículos guardados y sincronizados exitosamente en GitHub.");
+        } else {
+          console.warn("[GitHub Write] Error al escribir los artículos en GitHub. Quedan respaldados en el almacenamiento local.");
+        }
+      })
+      .catch((err) => {
+        console.error("[GitHub Write Error]:", err);
+      });
+    return true;
   }
+  return true;
 }
 
 
@@ -1453,13 +1925,15 @@ async function readCategories(): Promise<WikiCategory[]> {
         const catMap = new Map<string, WikiCategory>();
         for (const cat of githubCategories) {
           if (cat && (cat.id || cat.slug)) {
-            catMap.set(cat.id || cat.slug, cat);
+            const key = (cat.slug || cat.id).toLowerCase();
+            catMap.set(key, cat);
           }
         }
         for (const cat of localCategories) {
           if (cat && (cat.id || cat.slug)) {
             // Local tiene prioridad para preservar ediciones y categorías creadas localmente
-            catMap.set(cat.id || cat.slug, cat);
+            const key = (cat.slug || cat.id).toLowerCase();
+            catMap.set(key, { ...catMap.get(key), ...cat });
           }
         }
         categories = Array.from(catMap.values());
@@ -1484,9 +1958,22 @@ async function readCategories(): Promise<WikiCategory[]> {
     }
   }
 
-  if (categories.length === 0) {
-    categories = DEFAULT_CATEGORIES;
+  // Asegurar SIEMPRE que DEFAULT_CATEGORIES (categorías base del lore: Personajes, Lugares, Eventos, Dioses, Dragones, etc.) estén presentes en el árbol
+  const mergedBaseMap = new Map<string, WikiCategory>();
+  for (const def of DEFAULT_CATEGORIES) {
+    if (def && (def.id || def.slug)) {
+      const key = (def.slug || def.id).toLowerCase().trim();
+      mergedBaseMap.set(key, { ...def });
+    }
   }
+  for (const cat of categories) {
+    if (cat && (cat.id || cat.slug)) {
+      const key = (cat.slug || cat.id).toLowerCase().trim();
+      const existing = mergedBaseMap.get(key);
+      mergedBaseMap.set(key, { ...existing, ...cat });
+    }
+  }
+  categories = Array.from(mergedBaseMap.values());
 
   // Ensure animal/pet categories use PawPrint icon and exclude Tarot AI / Aplicaciones sections
   categories = categories
@@ -1549,32 +2036,50 @@ function normalizeCategoryName(inputCat: string, availableNames: string[]): stri
 }
 
 // Helper to write/update categories across all databases
-async function writeCategories(categories: WikiCategory[]): Promise<void> {
+async function writeCategories(categories: WikiCategory[], tokenOverride?: string): Promise<boolean> {
   // Always update the global in-memory cache!
   categoriesCache = categories;
 
-  const backupPath = path.join(process.cwd(), "src", "data", "categories.json");
-  try {
-    fs.writeFileSync(backupPath, JSON.stringify(categories, null, 2), "utf8");
-    console.log(`[Local Backup] Local categories.json updated with ${categories.length} categories during write.`);
-    
-    const publicBackupPath = path.join(process.cwd(), "public", "data", "categories.json");
-    if (fs.existsSync(path.dirname(publicBackupPath))) {
-      fs.writeFileSync(publicBackupPath, JSON.stringify(categories, null, 2), "utf8");
+  const targetBackupPaths = [
+    path.join(process.cwd(), "public", "data", "categories.json"),
+    path.join(process.cwd(), "src", "data", "categories.json"),
+    path.join(process.cwd(), "public", "data", "seed_categories.json"),
+    path.join(process.cwd(), "src", "data", "seed_categories.json"),
+  ];
+
+  for (const backupPath of targetBackupPaths) {
+    try {
+      const dir = path.dirname(backupPath);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(backupPath, JSON.stringify(categories, null, 2), "utf8");
+      console.log(`[Local Backup] ${backupPath} updated with ${categories.length} categories during write.`);
+    } catch (saveErr) {
+      console.error(`[Local Backup] Failed to write local categories backup to ${backupPath}:`, saveErr);
     }
-  } catch (saveErr) {
-    console.error("[Local Backup] Failed to write local categories backup during write:", saveErr);
   }
 
-  // Guardar en GitHub
-  if (GITHUB_TOKEN) {
-    const success = await writeToGitHub(GITHUB_CATEGORIES_PATH, JSON.stringify(categories, null, 2), "Actualizar categorías (Dragopedia Database Update)");
-    if (success) {
-      console.log("[GitHub Write] Categorías guardadas exitosamente en GitHub.");
-    } else {
-      console.warn("[GitHub Write] Error al escribir las categorías en GitHub. Quedan respaldadas en el almacenamiento local temporal.");
-    }
+  // Guardar en GitHub en segundo plano sin bloquear la respuesta HTTP
+  const activeToken = tokenOverride || getEffectiveGitHubToken();
+  if (activeToken) {
+    writeToGitHub(
+      GITHUB_CATEGORIES_PATH, 
+      JSON.stringify(categories, null, 2), 
+      "Actualizar categorías y subcategorías (Dragopedia Database Update)",
+      activeToken
+    )
+      .then((success) => {
+        if (success) {
+          console.log("[GitHub Write] Categorías y subcategorías guardadas exitosamente en GitHub.");
+        } else {
+          console.warn("[GitHub Write] Error al escribir las categorías en GitHub. Quedan respaldadas en el almacenamiento local.");
+        }
+      })
+      .catch((err) => {
+        console.error("[GitHub Write Categories Error]:", err);
+      });
+    return true;
   }
+  return true;
 }
 
 // ---------------------------------------------------------------------------
@@ -1660,7 +2165,7 @@ async function getLiveGroqModels(apiKey?: string): Promise<string[]> {
             cachedGroqLiveModels = chatModels;
             lastGroqLiveModelsFetch = now;
             console.log(`[GROQ] Modelos activos obtenidos en vivo (${chatModels.length}):`, chatModels.slice(0, 6).join(", "));
-            return chatModels.filter((m) => !knownDeadGroqModels.has(m));
+            return chatModels.filter((m: any) => !knownDeadGroqModels.has(m));
           }
         }
       }
@@ -2134,6 +2639,9 @@ const MISTRAL_MODEL = MISTRAL_MODELS[0];
 interface SimpleAiAccount {
   keyHash: string;
   cooldownUntil: number;
+  consecutiveFailures?: number;
+  lastStatus?: string;
+  lastError?: any;
   call: (messages: any[], wantsJson: boolean, temperature?: number) => Promise<string>;
 }
 
@@ -2456,6 +2964,22 @@ app.get("/api/debug/ai-providers", (req: Request, res: Response) => {
       cerebras: { total: cerebras.length, accounts: summarize(cerebras) },
       mistral: { total: mistral.length, accounts: summarize(mistral) },
     });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Endpoint para resetear cooldowns de todas las claves
+app.post("/api/debug/reset-ai-cooldowns", (req: Request, res: Response) => {
+  try {
+    const cerebras = getCerebrasAccounts();
+    const mistral = getMistralAccounts();
+    cerebras.forEach((a) => { a.cooldownUntil = 0; a.consecutiveFailures = 0; });
+    mistral.forEach((a) => { a.cooldownUntil = 0; a.consecutiveFailures = 0; });
+    try {
+      getGroqAccounts().forEach((a) => { a.cooldownUntil = 0; });
+    } catch {}
+    res.status(200).json({ success: true, message: "Temporizadores de enfriamiento reseteados con éxito." });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
@@ -2790,7 +3314,7 @@ app.get("/api/proxy-image", async (req: Request, res: Response) => {
 
   try {
     const urlHash = crypto.createHash("md5").update(targetUrl).digest("hex");
-    const cacheDir = path.join(process.cwd(), "public", "images", "cache");
+    const cacheDir = "/tmp/dragopedia-image-cache";
     if (!fs.existsSync(cacheDir)) {
       fs.mkdirSync(cacheDir, { recursive: true });
     }
@@ -2956,18 +3480,41 @@ app.post("/api/articles/sync", async (req: Request, res: Response) => {
       }
     }
 
-    // Find new or modified articles
-    for (const art of serverArticles) {
-      const clientUpdatedDate = clientCache[art.id];
-      if (!clientUpdatedDate) {
+    // Find new or modified articles, and persist newer client category/subcategory assignments to server
+    let serverArticlesModified = false;
+    for (let i = 0; i < serverArticles.length; i++) {
+      const art = serverArticles[i];
+      const rawClientEntry = clientCache[art.id];
+      if (!rawClientEntry) {
         // Not in client cache
         updates.push(art);
       } else {
-        // Check if updated_date is different
-        if (art.updated_date !== clientUpdatedDate) {
+        const clientUpdatedDate = typeof rawClientEntry === "string" ? rawClientEntry : (rawClientEntry.updated_date || "");
+        const clientCategory = typeof rawClientEntry === "object" && rawClientEntry ? rawClientEntry.category : undefined;
+        const clientExtras = typeof rawClientEntry === "object" && rawClientEntry && Array.isArray(rawClientEntry.extra_categories)
+          ? rawClientEntry.extra_categories
+          : undefined;
+
+        const serverTime = art.updated_date ? new Date(art.updated_date).getTime() : 0;
+        const clientTime = clientUpdatedDate ? new Date(clientUpdatedDate).getTime() : 0;
+
+        if (clientTime > serverTime && (clientCategory || (clientExtras && clientExtras.length > 0))) {
+          // Client has a newer category/subcategory assignment — persist it on the server!
+          serverArticles[i] = {
+            ...art,
+            category: clientCategory || art.category,
+            extra_categories: clientExtras && clientExtras.length > 0 ? clientExtras : art.extra_categories,
+            updated_date: clientUpdatedDate
+          };
+          serverArticlesModified = true;
+        } else if (serverTime > clientTime) {
           updates.push(art);
         }
       }
+    }
+
+    if (serverArticlesModified) {
+      await writeArticles(serverArticles);
     }
 
     const targetLang = (lang || req.query.lang as string)?.toLowerCase();
@@ -3551,13 +4098,14 @@ app.post("/api/articles/:id/restore/:backupId", async (req: Request, res: Respon
 // 3. Create active article
 app.post("/api/articles", async (req: Request, res: Response) => {
   try {
+    const token = req.headers["x-github-token"] as string;
     const articles = await readArticles();
     const newArticle: WikiArticle = req.body;
     if (!newArticle.id) {
       newArticle.id = `art-${Date.now()}`;
     }
 
-    sanitizeAndPersistArticleImages(newArticle);
+    await sanitizeAndPersistArticleImagesAsync(newArticle);
 
     newArticle.created_date = newArticle.created_date || new Date().toISOString();
     newArticle.updated_date = new Date().toISOString();
@@ -3566,8 +4114,8 @@ app.post("/api/articles", async (req: Request, res: Response) => {
     const filtered = articles.filter(a => a.id !== newArticle.id);
     filtered.unshift(newArticle);
     
-    await writeArticles(filtered);
-    res.status(200).json(newArticle);
+    const githubSaved = await writeArticles(filtered, 0, token);
+    res.status(200).json({ ...newArticle, githubSaved });
   } catch (err: any) {
     console.error("Error creating article:", err);
     res.status(500).json({ error: err?.message || "Error al crear artículo" });
@@ -3577,14 +4125,31 @@ app.post("/api/articles", async (req: Request, res: Response) => {
 // 4. Update active article
 app.put("/api/articles/:id", async (req: Request, res: Response) => {
   try {
+    const token = req.headers["x-github-token"] as string;
     const articles = await readArticles();
     const id = req.params.id;
     const index = articles.findIndex((a) => a.id === id);
     if (index !== -1) {
       const oldArticle = articles[index];
       const updatedData = { ...req.body };
+      const isCategoryOnly = !!updatedData._categoryAssignmentOnly;
+      delete updatedData._categoryAssignmentOnly;
+
+      // Never allow a compact 500-char cache object or category-only assignment to overwrite full article content
+      if (
+        isCategoryOnly ||
+        (typeof updatedData.content === "string" &&
+          updatedData.content.length <= 500 &&
+          typeof oldArticle.content === "string" &&
+          oldArticle.content.length > 500)
+      ) {
+        updatedData.content = oldArticle.content;
+        if (oldArticle.infobox && !updatedData.infobox) updatedData.infobox = oldArticle.infobox;
+        if (oldArticle.gallery && !updatedData.gallery) updatedData.gallery = oldArticle.gallery;
+        if (oldArticle.timeline_markers && !updatedData.timeline_markers) updatedData.timeline_markers = oldArticle.timeline_markers;
+      }
       
-      sanitizeAndPersistArticleImages(updatedData as any);
+      await sanitizeAndPersistArticleImagesAsync(updatedData as any);
 
       // Check if content is modified and create backup in background
       const isContentModified = updatedData.content !== undefined && updatedData.content !== oldArticle.content;
@@ -3598,20 +4163,20 @@ app.put("/api/articles/:id", async (req: Request, res: Response) => {
         updated_date: new Date().toISOString()
       };
       articles[index] = updatedArticle;
-      await writeArticles(articles);
-      res.status(200).json(updatedArticle);
+      const githubSaved = await writeArticles(articles, 0, token);
+      res.status(200).json({ ...updatedArticle, githubSaved });
     } else {
       // If not found in index, create/insert it to avoid losing user work
       const fallbackData = { ...req.body };
-      sanitizeAndPersistArticleImages(fallbackData as any);
+      await sanitizeAndPersistArticleImagesAsync(fallbackData as any);
       const fallbackArticle: WikiArticle = {
         ...fallbackData,
         id,
         updated_date: new Date().toISOString()
       };
       articles.unshift(fallbackArticle);
-      await writeArticles(articles);
-      res.status(200).json(fallbackArticle);
+      const githubSaved = await writeArticles(articles, 0, token);
+      res.status(200).json({ ...fallbackArticle, githubSaved });
     }
   } catch (err: any) {
     console.error("Error updating article:", err);
@@ -3678,7 +4243,7 @@ app.post("/api/upload-image", async (req: Request, res: Response) => {
     const uniqueSuffix = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const fileName = `${safeBaseName}-${uniqueSuffix}.${ext}`;
 
-    const folderName = ["covers", "gallery", "uploads", "monsters"].includes(subfolder) ? subfolder : "uploads";
+    const folderName = ["covers", "gallery", "uploads", "monsters", "banners"].includes(subfolder) ? subfolder : "uploads";
     const targetDir = path.join(process.cwd(), "public", "images", folderName);
     if (!fs.existsSync(targetDir)) {
       fs.mkdirSync(targetDir, { recursive: true });
@@ -3691,11 +4256,13 @@ app.post("/api/upload-image", async (req: Request, res: Response) => {
     const repoPath = `public/images/${folderName}/${fileName}`;
 
     let githubSaved = false;
-    if (GITHUB_TOKEN) {
+    const activeToken = getEffectiveGitHubToken(req);
+    if (activeToken) {
       githubSaved = await writeBinaryToGitHub(
         repoPath,
         buffer,
-        `Upload image "${fileName}" from PC to GitHub repository`
+        `Upload image "${fileName}" from PC to GitHub repository`,
+        activeToken
       );
     }
 
@@ -3714,7 +4281,60 @@ app.post("/api/upload-image", async (req: Request, res: Response) => {
   }
 });
 
-// 5d. Sync all local images to GitHub
+// 5d. Save a single remote cloud image to local disk and GitHub
+app.post("/api/save-cloud-image", async (req: Request, res: Response) => {
+  try {
+    const { url, articleSlug, subfolder = "cloud" } = req.body || {};
+    if (!url || typeof url !== "string") {
+      res.status(400).json({ error: "Se requiere la URL de la imagen." });
+      return;
+    }
+    const localUrl = await persistCloudImage(articleSlug || "img", url, subfolder);
+    res.json({
+      success: true,
+      url: localUrl,
+      originalUrl: url,
+      isLocal: localUrl.startsWith("/images/")
+    });
+  } catch (err: any) {
+    console.error("Save Cloud Image Error:", err);
+    res.status(500).json({ error: err?.message || "Error al descargar imagen de la nube." });
+  }
+});
+
+// 5e. Full batch sync of all cloud image URLs in articles and maps
+app.post("/api/sync-cloud-images", async (req: Request, res: Response) => {
+  try {
+    const articles = await readArticles();
+    let modifiedArticles = 0;
+    let downloadedCount = 0;
+
+    for (let i = 0; i < articles.length; i++) {
+      const art = articles[i];
+      const { modified } = await sanitizeAndPersistArticleImagesAsync(art);
+      if (modified) {
+        modifiedArticles++;
+        downloadedCount++;
+      }
+    }
+
+    if (modifiedArticles > 0) {
+      await writeArticles(articles);
+    }
+
+    res.json({
+      success: true,
+      modifiedArticles,
+      downloadedCount,
+      message: `Se han procesado y guardado localmente las imágenes de ${modifiedArticles} artículos.`
+    });
+  } catch (err: any) {
+    console.error("Batch Sync Cloud Images Error:", err);
+    res.status(500).json({ error: err?.message || "Error al sincronizar imágenes de la nube." });
+  }
+});
+
+// 5f. Sync all local images to GitHub
 app.post("/api/sync-images-to-github", async (req: Request, res: Response) => {
   try {
     if (!GITHUB_TOKEN) {
@@ -3724,7 +4344,7 @@ app.post("/api/sync-images-to-github", async (req: Request, res: Response) => {
     const publicPath = path.join(process.cwd(), "public", "images");
     let syncedCount = 0;
     if (fs.existsSync(publicPath)) {
-      const subdirs = ["covers", "uploads", "gallery", "monsters"];
+      const subdirs = ["covers", "uploads", "gallery", "monsters", "cloud", "banners"];
       for (const sub of subdirs) {
         const fullSub = path.join(publicPath, sub);
         if (fs.existsSync(fullSub)) {
@@ -3967,48 +4587,363 @@ app.post("/api/translate-all/cancel", (req: Request, res: Response) => {
   res.json({ success: true, message: "Cancelación solicitada." });
 });
 
-// 7. Create Category
-app.post("/api/categories", async (req: Request, res: Response) => {
-  const categories = await readCategories();
-  const newCategory: WikiCategory = req.body;
-  if (!newCategory.id) {
-    newCategory.id = `cat-${Date.now()}`;
+// Helper to write category order to local disk and GitHub
+async function writeCategoryOrder(order: string[], tokenOverride?: string): Promise<boolean> {
+  const targetPaths = [
+    path.join(process.cwd(), "public", "data", "category_order.json"),
+    path.join(process.cwd(), "src", "data", "category_order.json"),
+  ];
+
+  for (const p of targetPaths) {
+    try {
+      const dir = path.dirname(p);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(p, JSON.stringify(order, null, 2), "utf8");
+    } catch (saveErr) {
+      console.warn("Could not write category order locally to " + p, saveErr);
+    }
   }
-  categories.push(newCategory);
-  await writeCategories(categories);
-  res.status(210).json(newCategory);
+
+  const activeToken = tokenOverride || getEffectiveGitHubToken();
+  if (activeToken) {
+    const success = await writeToGitHub(
+      GITHUB_CATEGORY_ORDER_PATH, 
+      JSON.stringify(order, null, 2), 
+      "Actualizar orden taxonómico de categorías y subcategorías (Dragopedia Database Update)",
+      activeToken
+    );
+    if (success) {
+      console.log("[GitHub Write] Orden de categorías guardado exitosamente en GitHub.");
+    } else {
+      console.warn("[GitHub Write] Error al escribir el orden de categorías en GitHub.");
+    }
+    return success;
+  }
+  return false;
+}
+
+// 7. Create Category (and optionally auto-assign articles in the same atomic operation)
+app.post("/api/categories", async (req: Request, res: Response) => {
+  try {
+    const token = req.headers["x-github-token"] as string;
+    const categories = await readCategories();
+    const { assignedArticleIds, ...rawCat } = req.body || {};
+    const newCategory: WikiCategory = rawCat;
+    if (!newCategory.id) {
+      newCategory.id = `cat-${Date.now()}`;
+    }
+    const existingIndex = categories.findIndex(
+      (c) => c.id === newCategory.id || (c.slug && newCategory.slug && c.slug === newCategory.slug)
+    );
+    let savedCat: WikiCategory;
+    if (existingIndex !== -1) {
+      categories[existingIndex] = { ...categories[existingIndex], ...newCategory };
+      savedCat = categories[existingIndex];
+    } else {
+      categories.push(newCategory);
+      savedCat = newCategory;
+    }
+    const githubSaved = await writeCategories(categories, token);
+
+    // If articles were assigned while creating the subcategory, save them automatically too
+    let updatedArticles: WikiArticle[] = [];
+    if (Array.isArray(assignedArticleIds) && assignedArticleIds.length > 0 && savedCat.name) {
+      const idSet = new Set(assignedArticleIds.map((id: any) => String(id)));
+      const articles = await readArticles();
+      const parentCat = categories.find(
+        (c) =>
+          (savedCat.parentId && (c.id === savedCat.parentId || c.slug === savedCat.parentId)) ||
+          (savedCat.parentSlug && (c.slug === savedCat.parentSlug || c.id === savedCat.parentSlug))
+      );
+      const nowIso = new Date().toISOString();
+      let articlesChanged = false;
+
+      for (let i = 0; i < articles.length; i++) {
+        const art = articles[i];
+        if (!art || !idSet.has(art.id)) continue;
+        const extras = Array.isArray(art.extra_categories) ? [...art.extra_categories] : [];
+        if (art.category && !extras.some((ec) => ec.toLowerCase().trim() === art.category.toLowerCase().trim())) {
+          extras.push(art.category);
+        }
+        if (parentCat?.name && !extras.some((ec) => ec.toLowerCase().trim() === parentCat.name.toLowerCase().trim())) {
+          extras.push(parentCat.name);
+        }
+        if (!extras.some((ec) => ec.toLowerCase().trim() === savedCat.name.toLowerCase().trim())) {
+          extras.push(savedCat.name);
+        }
+        articles[i] = {
+          ...art,
+          category: art.category || savedCat.name,
+          extra_categories: extras,
+          updated_date: nowIso
+        };
+        updatedArticles.push(articles[i]);
+        articlesChanged = true;
+      }
+
+      if (articlesChanged) {
+        await writeArticles(articles, 0, token);
+      }
+    }
+
+    res.status(200).json({ ...savedCat, githubSaved, updatedArticles });
+  } catch (err: any) {
+    console.error("Error creating category:", err);
+    res.status(500).json({ error: err.message || "Error al crear categoría." });
+  }
+});
+
+// 7a. Atomic endpoint to save a subcategory AND its assigned articles together
+app.post("/api/categories/assign-articles", async (req: Request, res: Response) => {
+  try {
+    const token = req.headers["x-github-token"] as string;
+    const { category, articleIds, action = "add" } = req.body || {};
+    if (!category || !category.name) {
+      return res.status(400).json({ error: "Faltan datos de la categoría/subcategoría." });
+    }
+
+    // 1. Ensure the subcategory itself is persisted in categories.json
+    const categories = await readCategories();
+    const catSlug = category.slug || category.name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9 ]/g, "")
+      .trim()
+      .replace(/\s+/g, "-");
+
+    const existingCatIdx = categories.findIndex(
+      (c) =>
+        (category.id && c.id === category.id) ||
+        (c.slug && c.slug.toLowerCase() === catSlug.toLowerCase()) ||
+        (c.name && c.name.toLowerCase() === category.name.toLowerCase())
+    );
+
+    let savedCategory: WikiCategory;
+    if (existingCatIdx !== -1) {
+      categories[existingCatIdx] = {
+        ...categories[existingCatIdx],
+        name: category.name || categories[existingCatIdx].name,
+        slug: catSlug || categories[existingCatIdx].slug,
+        description: category.description ?? categories[existingCatIdx].description,
+        color: category.color || categories[existingCatIdx].color,
+        icon: category.icon || category.iconName || categories[existingCatIdx].icon,
+        parentId: category.parentId !== undefined ? category.parentId : categories[existingCatIdx].parentId,
+        parentSlug: category.parentSlug !== undefined ? category.parentSlug : categories[existingCatIdx].parentSlug
+      };
+      savedCategory = categories[existingCatIdx];
+    } else {
+      savedCategory = {
+        id: category.id || `cat-${Date.now()}`,
+        name: category.name,
+        slug: catSlug,
+        description: category.description || "",
+        color: category.color || "#2dd4bf",
+        icon: category.icon || category.iconName || "Sparkles",
+        parentId: category.parentId || null,
+        parentSlug: category.parentSlug || null
+      };
+      categories.push(savedCategory);
+    }
+    await writeCategories(categories, token);
+
+    // 2. Update all target articles and persist articles.json
+    const targetIds = new Set(Array.isArray(articleIds) ? articleIds.map((id: any) => String(id)) : []);
+    const articles = await readArticles();
+    const parentCat = categories.find(
+      (c) =>
+        (savedCategory.parentId && (c.id === savedCategory.parentId || c.slug === savedCategory.parentId)) ||
+        (savedCategory.parentSlug && (c.slug === savedCategory.parentSlug || c.id === savedCategory.parentSlug))
+    );
+    const nowIso = new Date().toISOString();
+    const updatedArticles: WikiArticle[] = [];
+    let changed = false;
+
+    for (let i = 0; i < articles.length; i++) {
+      const art = articles[i];
+      if (!art || !targetIds.has(art.id)) continue;
+
+      let extras = Array.isArray(art.extra_categories) ? [...art.extra_categories] : [];
+      if (art.category && !extras.some((ec) => ec.toLowerCase().trim() === art.category.toLowerCase().trim())) {
+        extras.push(art.category);
+      }
+
+      const targetNameLower = savedCategory.name.toLowerCase().trim();
+      const targetSlugLower = savedCategory.slug.toLowerCase().trim();
+      const isCurrentlyAssigned =
+        (art.category || "").toLowerCase().trim() === targetNameLower ||
+        (art.category || "").toLowerCase().trim() === targetSlugLower ||
+        extras.some((ec) => {
+          const n = (ec || "").toLowerCase().trim();
+          return n === targetNameLower || n === targetSlugLower;
+        });
+
+      const shouldRemove = action === "remove" || (action === "toggle" && isCurrentlyAssigned);
+      let nextCategory = art.category || savedCategory.name;
+
+      if (shouldRemove) {
+        extras = extras.filter((ec) => {
+          const n = (ec || "").toLowerCase().trim();
+          return n !== targetNameLower && n !== targetSlugLower;
+        });
+        if (
+          (nextCategory || "").toLowerCase().trim() === targetNameLower ||
+          (nextCategory || "").toLowerCase().trim() === targetSlugLower
+        ) {
+          nextCategory = extras[0] || parentCat?.name || "Personajes";
+        }
+        if (extras.length === 0) extras = [nextCategory];
+      } else {
+        if (parentCat?.name && !extras.some((ec) => ec.toLowerCase().trim() === parentCat.name.toLowerCase().trim())) {
+          extras.push(parentCat.name);
+        }
+        if (!extras.some((ec) => ec.toLowerCase().trim() === targetNameLower)) {
+          extras.push(savedCategory.name);
+        }
+        if (!nextCategory) nextCategory = savedCategory.name;
+      }
+
+      articles[i] = {
+        ...art,
+        category: nextCategory,
+        extra_categories: extras,
+        updated_date: nowIso
+      };
+      updatedArticles.push(articles[i]);
+      changed = true;
+    }
+
+    if (changed) {
+      await writeArticles(articles, 0, token);
+    }
+
+    res.json({
+      success: true,
+      category: savedCategory,
+      updatedArticles
+    });
+  } catch (err: any) {
+    console.error("Error in /api/categories/assign-articles:", err);
+    res.status(500).json({ error: err.message || "Error al guardar subcategoría y artículos asignados." });
+  }
+});
+
+// 7a-2. Sync client-side categories & subcategories to server automatically
+app.post("/api/categories/sync", async (req: Request, res: Response) => {
+  try {
+    const token = req.headers["x-github-token"] as string;
+    const { categories: clientCats } = req.body || {};
+    const serverCategories = await readCategories();
+
+    if (!Array.isArray(clientCats) || clientCats.length === 0) {
+      return res.json(serverCategories);
+    }
+
+    const catMap = new Map<string, WikiCategory>();
+    for (const c of serverCategories) {
+      if (c && (c.slug || c.id)) {
+        catMap.set((c.slug || c.id).toLowerCase(), c);
+      }
+    }
+
+    let changed = false;
+    for (const cc of clientCats) {
+      if (!cc || (!cc.slug && !cc.id)) continue;
+      const key = (cc.slug || cc.id).toLowerCase();
+      const existing = catMap.get(key);
+      if (!existing) {
+        catMap.set(key, cc);
+        changed = true;
+      } else if (
+        (cc.parentId && !existing.parentId) ||
+        (cc.parentSlug && !existing.parentSlug)
+      ) {
+        catMap.set(key, {
+          ...existing,
+          ...cc,
+          parentId: cc.parentId ?? existing.parentId,
+          parentSlug: cc.parentSlug ?? existing.parentSlug
+        });
+        changed = true;
+      }
+    }
+
+    const merged = Array.from(catMap.values());
+    if (changed) {
+      await writeCategories(merged, token);
+    }
+
+    res.json(merged);
+  } catch (err: any) {
+    console.error("Error in /api/categories/sync:", err);
+    res.status(500).json({ error: err.message || "Error al sincronizar categorías." });
+  }
 });
 
 // 7b. Update Category
 app.put("/api/categories/:id", async (req: Request, res: Response) => {
-  const categories = await readCategories();
-  const id = req.params.id;
-  const index = categories.findIndex((c) => c.id === id);
-  if (index !== -1) {
-    categories[index] = { ...categories[index], ...req.body };
-    await writeCategories(categories);
-    res.json(categories[index]);
-  } else {
-    res.status(404).json({ error: "Categoría no encontrada" });
+  try {
+    const token = req.headers["x-github-token"] as string;
+    const categories = await readCategories();
+    const id = req.params.id;
+    const index = categories.findIndex(
+      (c) => c.id === id || c.slug === id || `cat-${c.slug}` === id || (c.id && c.id.replace(/^cat-/, "") === id.replace(/^cat-/, ""))
+    );
+    if (index !== -1) {
+      categories[index] = { ...categories[index], ...req.body };
+      const githubSaved = await writeCategories(categories, token);
+      res.json({ ...categories[index], githubSaved });
+    } else {
+      // Check if it's one of DEFAULT_CATEGORIES to allow converting base categories into subcategories
+      const defaultCat = DEFAULT_CATEGORIES.find(
+        (c) => c.id === id || c.slug === id || `cat-${c.slug}` === id || (c.id && c.id.replace(/^cat-/, "") === id.replace(/^cat-/, ""))
+      );
+      if (defaultCat) {
+        const createdCat: WikiCategory = {
+          ...defaultCat,
+          ...req.body,
+          id: defaultCat.id
+        };
+        categories.push(createdCat);
+        const githubSaved = await writeCategories(categories, token);
+        res.json({ ...createdCat, githubSaved });
+      } else {
+        res.status(404).json({ error: "Categoría no encontrada" });
+      }
+    }
+  } catch (err: any) {
+    console.error("Error updating category:", err);
+    res.status(500).json({ error: err.message || "Error al actualizar categoría." });
   }
 });
 
 // 8. Delete Category
 app.delete("/api/categories/:id", async (req: Request, res: Response) => {
-  const categories = await readCategories();
-  const filtered = categories.filter((c) => c.id !== req.params.id);
-  await writeCategories(filtered);
-  res.json({ success: true });
+  try {
+    const token = req.headers["x-github-token"] as string;
+    const categories = await readCategories();
+    const filtered = categories.filter((c) => c.id !== req.params.id);
+    const githubSaved = await writeCategories(filtered, token);
+    res.json({ success: true, githubSaved });
+  } catch (err: any) {
+    console.error("Error deleting category:", err);
+    res.status(500).json({ error: err.message || "Error al eliminar categoría." });
+  }
 });
 
 // 8c. Get category order
 app.get("/api/category-order", async (req: Request, res: Response) => {
   try {
-    const orderPath = path.join(process.cwd(), "src", "data", "category_order.json");
-    if (fs.existsSync(orderPath)) {
-      const data = JSON.parse(fs.readFileSync(orderPath, "utf8"));
-      if (Array.isArray(data)) {
-        return res.json(data);
+    const orderPaths = [
+      path.join(process.cwd(), "public", "data", "category_order.json"),
+      path.join(process.cwd(), "src", "data", "category_order.json"),
+    ];
+    for (const p of orderPaths) {
+      if (fs.existsSync(p)) {
+        const data = JSON.parse(fs.readFileSync(p, "utf8"));
+        if (Array.isArray(data)) {
+          return res.json(data);
+        }
       }
     }
     return res.json([]);
@@ -4018,32 +4953,185 @@ app.get("/api/category-order", async (req: Request, res: Response) => {
   }
 });
 
-// 8d. Update category order
+// 8d. Update category order (Persists locally and syncs to GitHub)
 app.put("/api/category-order", async (req: Request, res: Response) => {
   try {
+    const token = req.headers["x-github-token"] as string;
     const { order } = req.body;
     if (!Array.isArray(order)) {
       return res.status(400).json({ error: "El orden debe ser un arreglo de identificadores." });
     }
-    const orderPath = path.join(process.cwd(), "src", "data", "category_order.json");
-    fs.writeFileSync(orderPath, JSON.stringify(order, null, 2), "utf8");
-
-    try {
-      const publicOrderPath = path.join(process.cwd(), "public", "data", "category_order.json");
-      fs.writeFileSync(publicOrderPath, JSON.stringify(order, null, 2), "utf8");
-    } catch (pubErr) {
-      console.warn("Could not write public/data/category_order.json:", pubErr);
-    }
-
-    // Guardar en GitHub si hay token configurado
-    if (GITHUB_TOKEN) {
-      writeToGitHub("src/data/category_order.json", JSON.stringify(order, null, 2), "Actualizar orden de categorías").catch(console.error);
-    }
-
-    res.json({ success: true, order });
+    const githubSaved = await writeCategoryOrder(order, token);
+    res.json({ success: true, order, githubSaved });
   } catch (err: any) {
     console.error("Error saving category order:", err);
     res.status(500).json({ error: "Error al guardar el orden de categorías." });
+  }
+});
+
+// 8e. GitHub Sync & Configuration Endpoints
+app.get("/api/github-config", (req: Request, res: Response) => {
+  const cfg = getEffectiveGitHubConfig();
+  res.json({
+    configured: !!cfg.token,
+    repo: cfg.repo,
+    branch: cfg.branch,
+    user: cfg.user,
+    tokenPreview: cfg.token ? `${cfg.token.slice(0, 4)}...${cfg.token.slice(-4)}` : ""
+  });
+});
+
+app.post("/api/github-config", async (req: Request, res: Response) => {
+  try {
+    const { token, repo, branch } = req.body || {};
+    const configPath = GITHUB_CONFIG_FILE;
+    const current = getEffectiveGitHubConfig();
+    
+    let resolvedUser = current.user;
+    const targetToken = typeof token === "string" ? token.trim() : current.token;
+    const targetRepo = typeof repo === "string" && repo.trim() ? repo.trim() : current.repo;
+    const targetBranch = typeof branch === "string" && branch.trim() ? branch.trim() : current.branch;
+
+    // Verify token with GitHub API if provided
+    if (targetToken) {
+      try {
+        const verifyRes = await fetch("https://api.github.com/user", {
+          headers: {
+            "Authorization": `Bearer ${targetToken}`,
+            "User-Agent": "Dragopedia-Server"
+          }
+        });
+        if (!verifyRes.ok) {
+          return res.status(400).json({
+            error: "El token de GitHub no es válido o no tiene los permisos suficientes (requiere permiso repo)."
+          });
+        }
+        const userData = await verifyRes.json() as any;
+        resolvedUser = userData.login;
+        console.log(`[GitHub Auth] Token verified for GitHub user: ${resolvedUser}`);
+      } catch (authErr: any) {
+        console.warn("Could not verify token with GitHub API:", authErr);
+      }
+    }
+
+    const newConfig: GitHubRuntimeConfig = {
+      token: targetToken,
+      repo: targetRepo,
+      branch: targetBranch,
+      user: resolvedUser
+    };
+
+    const dir = path.dirname(configPath);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(configPath, JSON.stringify(newConfig, null, 2), "utf8");
+
+    // Update runtime active config
+    activeGitHubConfig = newConfig;
+    GITHUB_TOKEN = newConfig.token;
+    GITHUB_REPO = newConfig.repo;
+    GITHUB_BRANCH = newConfig.branch;
+
+    res.json({
+      success: true,
+      configured: !!newConfig.token,
+      repo: newConfig.repo,
+      branch: newConfig.branch,
+      user: resolvedUser,
+      message: `Configuración de GitHub guardada con éxito en el servidor.`
+    });
+  } catch (err: any) {
+    console.error("Error in POST /api/github-config:", err);
+    res.status(500).json({ error: err.message || "Error al guardar configuración de GitHub." });
+  }
+});
+
+app.post("/api/github-push-all", async (req: Request, res: Response) => {
+  try {
+    const token = (req.body?.token as string) || (req.headers["x-github-token"] as string) || getEffectiveGitHubToken();
+    if (!token) {
+      return res.status(400).json({
+        error: "Se requiere un Personal Access Token (PAT) de GitHub con permiso 'repo' para subir los cambios a https://github.com/tirianworld/Cdd-Dragopedia-DEFINITIVA."
+      });
+    }
+
+    const scriptPath = path.join(process.cwd(), "scripts", "push_to_github.sh");
+    const output = execSync(`bash "${scriptPath}" "${token}"`, {
+      encoding: "utf8",
+      timeout: 120000
+    });
+
+    res.json({
+      success: true,
+      message: "¡Actualización completa (código, 510 imágenes y artículos) subida con éxito a GitHub!",
+      output
+    });
+  } catch (err: any) {
+    console.error("Error in /api/github-push-all:", err);
+    res.status(500).json({
+      error: err?.message || "Error al subir cambios a GitHub",
+      stderr: String(err?.stderr || "")
+    });
+  }
+});
+
+app.post("/api/github-sync", async (req: Request, res: Response) => {
+  try {
+    const { target = "all" } = req.body || {};
+    const token = req.headers["x-github-token"] as string || getEffectiveGitHubToken();
+    const cfg = getEffectiveGitHubConfig();
+
+    if (!token) {
+      return res.status(400).json({
+        error: "No hay token de GitHub configurado. Por favor ingresa tu Personal Access Token."
+      });
+    }
+
+    let success = true;
+    let detail = "";
+
+    if (target === "categories" || target === "all") {
+      categoriesCache = null;
+      const categories = await readCategories();
+      const catSuccess = await writeCategories(categories, token);
+      
+      const orderPaths = [
+        path.join(process.cwd(), "public", "data", "category_order.json"),
+        path.join(process.cwd(), "src", "data", "category_order.json")
+      ];
+      let order: string[] = [];
+      for (const p of orderPaths) {
+        if (fs.existsSync(p)) {
+          try { order = JSON.parse(fs.readFileSync(p, "utf8")); break; } catch (e) {}
+        }
+      }
+      let ordSuccess = true;
+      if (order.length > 0) {
+        ordSuccess = await writeCategoryOrder(order, token);
+      }
+      success = success && catSuccess && ordSuccess;
+      detail += `${categories.length} categorías/subcategorías sincronizadas.`;
+    }
+
+    if (target === "articles" || target === "all") {
+      articlesCache = null;
+      const articles = await readArticles();
+      const artSuccess = await writeArticles(articles, 0, token);
+      success = success && artSuccess;
+      detail += ` ${articles.length} artículos sincronizados.`;
+    }
+
+    res.json({
+      success,
+      repo: cfg.repo,
+      branch: cfg.branch,
+      message: success 
+        ? `Sincronización con GitHub (${cfg.repo}) completada con éxito: ${detail.trim()}` 
+        : `Guardado en la base de datos del servidor (${detail.trim()}). No se pudo hacer push directo a GitHub (${cfg.repo}) porque el token actual (${cfg.user || "configurado"}) no tiene permisos de escritura sobre ${cfg.repo}.`,
+      detail
+    });
+  } catch (err: any) {
+    console.error("Error in /api/github-sync:", err);
+    res.status(500).json({ error: err.message || "Error al sincronizar con GitHub." });
   }
 });
 
@@ -4495,6 +5583,9 @@ app.delete("/api/filter-categories", async (req: Request, res: Response) => {
 // GET site UI customizable texts and menu configurations
 app.get("/api/site-ui-config", async (req: Request, res: Response) => {
   try {
+    res.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.set("Pragma", "no-cache");
+    res.set("Expires", "0");
     const config = await readSiteUIConfig();
     res.json(config);
   } catch (err) {
@@ -4517,11 +5608,274 @@ app.post("/api/site-ui-config", async (req: Request, res: Response) => {
     if (!incoming.banner_maps_custom && current.banner_maps_custom) {
       updated.banner_maps_custom = current.banner_maps_custom;
     }
-    await writeSiteUIConfig(updated);
+    await writeSiteUIConfig(updated, getEffectiveGitHubToken(req));
     res.json({ success: true, config: updated });
   } catch (err) {
     console.error("Error in POST /api/site-ui-config:", err);
     res.status(500).json({ error: "No se pudo guardar la personalización de textos del sitio." });
+  }
+});
+
+// Dedicated endpoint to upload & permanently save a banner image from PC
+const STATIC_BANNER_FILES: Record<string, string> = {
+  personajes: "caldo_personajes_drawn_solid.png",
+  lugares: "caldo_lugares_carroza_solid.png",
+  dragones: "caldo_dragones_combate_solid.png",
+  ascendidos: "caldo_ascendidos_silhouettes_solid.png",
+  antiguos: "caldo_antiguos_silhouettes_solid.png",
+  portadores_de_marca: "banners/banner_portadores_de_marca.jpg",
+  portadores: "banners/banner_portadores_de_marca.jpg",
+};
+
+app.post("/api/banner-image", async (req: Request, res: Response) => {
+  try {
+    const { bannerKey, dataUrl, fit, transparent, showGround, tint, scale, offsetY } = req.body || {};
+    if (!bannerKey || typeof bannerKey !== "string") {
+      res.status(400).json({ error: "Se requiere bannerKey válido." });
+      return;
+    }
+
+    const cleanKey = bannerKey.toLowerCase().trim().replace(/[^a-z0-9_-]/g, "_");
+    const activeToken = getEffectiveGitHubToken(req);
+    const currentConfig = await readSiteUIConfig();
+    const updatedConfig: Record<string, any> = { ...currentConfig };
+
+    let finalUrl = updatedConfig[`banner.image.${cleanKey}`] || "";
+
+    if (dataUrl && typeof dataUrl === "string") {
+      const match = dataUrl.match(/^data:image\/([a-zA-Z0-9+]+);base64,(.+)$/);
+      if (!match) {
+        res.status(400).json({ error: "Formato de imagen inválido (debe ser base64 data URL)." });
+        return;
+      }
+
+      let ext = match[1].toLowerCase();
+      if (ext === "jpeg") ext = "jpg";
+      if (ext === "svg+xml") ext = "svg";
+      let buffer = Buffer.from(match[2], "base64");
+
+      const bannersDir = path.join(process.cwd(), "public", "images", "banners");
+      if (!fs.existsSync(bannersDir)) {
+        fs.mkdirSync(bannersDir, { recursive: true });
+      }
+
+      const uniqueSuffix = `${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+      const fileName = `banner_${cleanKey}_${uniqueSuffix}.${ext}`;
+      const localFilePath = path.join(bannersDir, fileName);
+      fs.writeFileSync(localFilePath, buffer);
+
+      // Mirror to dist/images/banners/ so deployed sites/workers immediately serve it
+      try {
+        const distBannersDir = path.join(process.cwd(), "dist", "images", "banners");
+        if (fs.existsSync(path.dirname(distBannersDir))) {
+          if (!fs.existsSync(distBannersDir)) fs.mkdirSync(distBannersDir, { recursive: true });
+          fs.writeFileSync(path.join(distBannersDir, fileName), buffer);
+        }
+      } catch {}
+
+      // If the image is transparent (or transparent mode requested), apply stray pixel cleanup and Antiguos #232e33 figure color filter
+      const shouldApplyTint = String(tint) !== "false";
+      if ((ext === "png" || ext === "webp") && shouldApplyTint) {
+        try {
+          const { execSync } = require("child_process");
+          const isOpaque = execSync(`identify -format "%[opaque]" "${localFilePath}"`).toString().trim().toLowerCase();
+          if (isOpaque === "false" || String(transparent) === "true") {
+            // 1. Remove stray loose pixels / specks (< 80px clusters not part of a silhouette)
+            try {
+              execSync(`node -e '
+                const fs = require("fs");
+                const { execSync } = require("child_process");
+                const f = "${localFilePath}";
+                const rawPath = f + ".rgba";
+                execSync("convert " + f + " -depth 8 " + rawPath);
+                const buf = fs.readFileSync(rawPath);
+                const info = execSync("identify -format \\"%w %h\\" " + f).toString().trim().split(" ");
+                const W = parseInt(info[0]), H = parseInt(info[1]);
+                const total = W * H;
+                const visited = new Uint8Array(total);
+                const minClusterSize = 80;
+                for (let y = 0; y < H; y++) {
+                  for (let x = 0; x < W; x++) {
+                    const idx = y * W + x;
+                    if (visited[idx]) continue;
+                    if (buf[idx * 4 + 3] <= 15) { visited[idx] = 1; continue; }
+                    const comp = [idx];
+                    visited[idx] = 1;
+                    let head = 0;
+                    while (head < comp.length) {
+                      const cur = comp[head++];
+                      const cx = cur % W, cy = Math.floor(cur / W);
+                      for (let dy = -1; dy <= 1; dy++) {
+                        for (let dx = -1; dx <= 1; dx++) {
+                          if (dx === 0 && dy === 0) continue;
+                          const nx = cx + dx, ny = cy + dy;
+                          if (nx >= 0 && nx < W && ny >= 0 && ny < H) {
+                            const nidx = ny * W + nx;
+                            if (!visited[nidx]) {
+                              visited[nidx] = 1;
+                              if (buf[nidx * 4 + 3] > 15) comp.push(nidx);
+                            }
+                          }
+                        }
+                      }
+                    }
+                    if (comp.length < minClusterSize) {
+                      for (let i = 0; i < comp.length; i++) buf[comp[i] * 4 + 3] = 0;
+                    }
+                  }
+                }
+                fs.writeFileSync(rawPath, buf);
+                execSync("convert -size " + W + "x" + H + " -depth 8 " + rawPath + " " + f);
+                try { fs.unlinkSync(rawPath); } catch {}
+              '`);
+            } catch (cclErr) {
+              console.warn("[Banner Upload] Stray pixel removal warning:", cclErr);
+            }
+
+            // 2. Tint silhouettes with Antiguos #232e33 color
+            execSync(`convert "${localFilePath}" \\( +clone -alpha extract \\) \\( -clone 0 -fill "#232e33" -colorize 100% \\) -delete 0 +swap -alpha off -compose CopyOpacity -composite "${localFilePath}"`);
+            buffer = fs.readFileSync(localFilePath);
+            console.log(`[Banner Upload] Applied Antiguos #232e33 figure color filter and stray pixel cleanup to "${fileName}"`);
+          }
+        } catch (tintErr) {
+          console.warn("[Banner Upload] Could not apply Antiguos figure color filter via ImageMagick:", tintErr);
+        }
+      }
+
+      finalUrl = `/images/banners/${fileName}`;
+      const repoPath = `public/images/banners/${fileName}`;
+
+      // Also back up and update default static file if applicable so direct static references also reflect the new image
+      const staticFileName = STATIC_BANNER_FILES[cleanKey];
+      if (staticFileName) {
+        try {
+          const staticPath = path.join(process.cwd(), "public", "images", staticFileName);
+          const backupPath = path.join(process.cwd(), "public", "images", `backup_${staticFileName}`);
+          if (fs.existsSync(staticPath) && !fs.existsSync(backupPath)) {
+            fs.copyFileSync(staticPath, backupPath);
+          }
+          fs.writeFileSync(staticPath, buffer);
+          if (activeToken) {
+            writeBinaryToGitHub(
+              `public/images/${staticFileName}`,
+              buffer,
+              `Update static banner "${staticFileName}" from PC`,
+              activeToken
+            ).catch(() => {});
+          }
+        } catch (staticErr) {
+          console.warn("[Banner Upload] Could not overwrite static banner file:", staticErr);
+        }
+      }
+
+      if (activeToken) {
+        await writeBinaryToGitHub(
+          repoPath,
+          buffer,
+          `Save custom banner "${fileName}" for "${cleanKey}" from PC`,
+          activeToken
+        );
+      }
+
+      updatedConfig[`banner.image.${cleanKey}`] = finalUrl;
+    }
+
+    if (fit && (fit === "contain" || fit === "cover" || fit === "margins" || fit === "fill")) {
+      updatedConfig[`banner.fit.${cleanKey}`] = fit;
+    }
+    if (typeof transparent !== "undefined") {
+      updatedConfig[`banner.transparent.${cleanKey}`] = String(transparent) === "true" ? "true" : "false";
+    }
+    if (typeof showGround !== "undefined") {
+      updatedConfig[`banner.ground.${cleanKey}`] = String(showGround) === "true" ? "true" : "false";
+    }
+    if (typeof tint !== "undefined") {
+      updatedConfig[`banner.tint.${cleanKey}`] = String(tint) === "true" ? "true" : "false";
+    }
+    if (typeof scale !== "undefined") {
+      const numScale = parseInt(String(scale), 10);
+      if (!isNaN(numScale) && numScale >= 30 && numScale <= 300) {
+        updatedConfig[`banner.scale.${cleanKey}`] = String(numScale);
+      }
+    }
+    if (typeof offsetY !== "undefined") {
+      const numOffset = parseInt(String(offsetY), 10);
+      if (!isNaN(numOffset) && numOffset >= -100 && numOffset <= 100) {
+        updatedConfig[`banner.offsetY.${cleanKey}`] = String(numOffset);
+      }
+    }
+
+    await writeSiteUIConfig(updatedConfig, activeToken);
+
+    res.json({
+      success: true,
+      bannerKey: cleanKey,
+      url: finalUrl,
+      fit: updatedConfig[`banner.fit.${cleanKey}`] || "margins",
+      transparent: updatedConfig[`banner.transparent.${cleanKey}`] || "false",
+      showGround: updatedConfig[`banner.ground.${cleanKey}`] || "false",
+      tint: updatedConfig[`banner.tint.${cleanKey}`] || "true",
+      scale: updatedConfig[`banner.scale.${cleanKey}`] || "100",
+      offsetY: updatedConfig[`banner.offsetY.${cleanKey}`] || "0",
+      config: updatedConfig
+    });
+  } catch (err: any) {
+    console.error("Error in POST /api/banner-image:", err);
+    res.status(500).json({ error: err?.message || "No se pudo guardar la imagen del banner." });
+  }
+});
+
+app.post("/api/banner-image/reset", async (req: Request, res: Response) => {
+  try {
+    const { bannerKey } = req.body || {};
+    if (!bannerKey || typeof bannerKey !== "string") {
+      res.status(400).json({ error: "Se requiere bannerKey válido." });
+      return;
+    }
+    const cleanKey = bannerKey.toLowerCase().trim().replace(/[^a-z0-9_-]/g, "_");
+    const activeToken = getEffectiveGitHubToken(req);
+
+    // Restore static backup file if one was created
+    const staticFileName = STATIC_BANNER_FILES[cleanKey];
+    if (staticFileName) {
+      try {
+        const staticPath = path.join(process.cwd(), "public", "images", staticFileName);
+        const backupPath = path.join(process.cwd(), "public", "images", `backup_${staticFileName}`);
+        if (fs.existsSync(backupPath)) {
+          fs.copyFileSync(backupPath, staticPath);
+          if (activeToken) {
+            const restoredBuf = fs.readFileSync(staticPath);
+            writeBinaryToGitHub(
+              `public/images/${staticFileName}`,
+              restoredBuf,
+              `Restore default banner "${staticFileName}"`,
+              activeToken
+            ).catch(() => {});
+          }
+        }
+      } catch (restoreErr) {
+        console.warn("[Banner Reset] Could not restore static backup:", restoreErr);
+      }
+    }
+
+    const currentConfig = await readSiteUIConfig();
+    delete currentConfig[`banner.image.${cleanKey}`];
+    delete currentConfig[`banner.fit.${cleanKey}`];
+    delete currentConfig[`banner.transparent.${cleanKey}`];
+    delete currentConfig[`banner.ground.${cleanKey}`];
+    delete currentConfig[`banner.tint.${cleanKey}`];
+    delete currentConfig[`banner.scale.${cleanKey}`];
+    delete currentConfig[`banner.offsetY.${cleanKey}`];
+    await writeSiteUIConfig(currentConfig, activeToken);
+
+    res.json({
+      success: true,
+      bannerKey: cleanKey,
+      config: currentConfig
+    });
+  } catch (err: any) {
+    console.error("Error in POST /api/banner-image/reset:", err);
+    res.status(500).json({ error: err?.message || "No se pudo restablecer el banner." });
   }
 });
 
@@ -4887,6 +6241,325 @@ app.post("/api/hunter-journal/sync", handleSyncHunterMonsters);
 app.get("/api/spellbook/spells", handleGetSpellbookSpells);
 app.get("/api/spellbook/spells/:id", handleGetSpellbookSpellById);
 app.post("/api/spellbook/sync", handleSyncSpellbookSpells);
+
+// Persisted Custom & Edited Spells Storage
+const CUSTOM_SPELLS_FILE = path.join(process.cwd(), "src", "data", "custom_spells.json");
+let customSpellsData: any[] = [];
+
+try {
+  if (fs.existsSync(CUSTOM_SPELLS_FILE)) {
+    const raw = fs.readFileSync(CUSTOM_SPELLS_FILE, "utf8");
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      customSpellsData = parsed;
+    }
+  }
+} catch (e) {
+  console.warn("Could not read custom_spells.json:", e);
+}
+
+function saveCustomSpellsData() {
+  try {
+    fs.writeFileSync(CUSTOM_SPELLS_FILE, JSON.stringify(customSpellsData, null, 2), "utf8");
+  } catch (e) {
+    console.warn("Could not save custom_spells.json", e);
+  }
+}
+
+app.get("/api/spellbook/custom-spells", (req: Request, res: Response) => {
+  res.json({ success: true, spells: customSpellsData });
+});
+
+app.post("/api/spellbook/save-spell", (req: Request, res: Response) => {
+  try {
+    const spell = req.body;
+    if (!spell || !spell.id || !spell.name) {
+      res.status(400).json({ error: "Datos del conjuro incompletos." });
+      return;
+    }
+    const existingIndex = customSpellsData.findIndex((s) => s.id === spell.id);
+    const updatedSpell = {
+      ...spell,
+      updatedAt: new Date().toISOString(),
+    };
+    if (existingIndex >= 0) {
+      customSpellsData[existingIndex] = updatedSpell;
+    } else {
+      customSpellsData.unshift(updatedSpell);
+    }
+    saveCustomSpellsData();
+    res.json({ success: true, spell: updatedSpell });
+  } catch (err: any) {
+    res.status(500).json({ error: "Error al guardar el conjuro en el servidor", details: err.message });
+  }
+});
+
+app.delete("/api/spellbook/spells/:id", (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    customSpellsData = customSpellsData.filter((s) => s.id !== id);
+    saveCustomSpellsData();
+    res.json({ success: true, deletedId: id });
+  } catch (err: any) {
+    res.status(500).json({ error: "Error al eliminar el conjuro", details: err.message });
+  }
+});
+
+app.post("/api/spellbook/delete-spell", (req: Request, res: Response) => {
+  try {
+    const { id } = req.body;
+    if (!id) {
+      res.status(400).json({ error: "Falta id del conjuro." });
+      return;
+    }
+    customSpellsData = customSpellsData.filter((s) => s.id !== id);
+    saveCustomSpellsData();
+    res.json({ success: true, deletedId: id });
+  } catch (err: any) {
+    res.status(500).json({ error: "Error al eliminar el conjuro", details: err.message });
+  }
+});
+
+// --- Cdd-Spells-V2 Native Spellbook Endpoints ---
+const PUBLIC_SPELL_LISTS_FILE = path.join(process.cwd(), "public_spell_lists.json");
+let publicSpellListsData: any[] = [];
+
+try {
+  if (fs.existsSync(PUBLIC_SPELL_LISTS_FILE)) {
+    const raw = fs.readFileSync(PUBLIC_SPELL_LISTS_FILE, "utf8");
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      publicSpellListsData = parsed;
+    }
+  }
+} catch (e) {
+  console.warn("Could not read public_spell_lists.json:", e);
+}
+
+function savePublicSpellListsData() {
+  try {
+    fs.writeFileSync(PUBLIC_SPELL_LISTS_FILE, JSON.stringify(publicSpellListsData, null, 2), "utf8");
+  } catch (e) {
+    console.warn("Could not save public_spell_lists.json", e);
+  }
+}
+
+app.get("/api/public-lists", (req: Request, res: Response) => {
+  res.json({ lists: publicSpellListsData });
+});
+
+app.get("/api/public-lists/:id", (req: Request, res: Response) => {
+  const found = publicSpellListsData.find((l) => l.id === req.params.id);
+  if (!found) {
+    res.status(404).json({ error: "Lista de conjuros no encontrada" });
+    return;
+  }
+  res.json({ list: found });
+});
+
+app.post("/api/public-lists", (req: Request, res: Response) => {
+  try {
+    const { id, name, description, icon, color, spellIds, author, tags } = req.body;
+    if (!name || typeof name !== "string" || !name.trim()) {
+      res.status(400).json({ error: "El nombre de la lista es requerido" });
+      return;
+    }
+    const listId = id || `pub-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    const existingIndex = publicSpellListsData.findIndex((l) => l.id === listId);
+    const newList = {
+      id: listId,
+      name: name.trim(),
+      description: (description || "").trim(),
+      icon: icon || "📖",
+      color: color || "#bafafd",
+      spellIds: Array.isArray(spellIds) ? spellIds : [],
+      author: (author || "Archimago Viajero").trim(),
+      isPublic: true,
+      likes: existingIndex >= 0 ? (publicSpellListsData[existingIndex].likes || 0) : 0,
+      createdAt: existingIndex >= 0 ? publicSpellListsData[existingIndex].createdAt : new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      tags: Array.isArray(tags) && tags.length > 0 ? tags : ["Comunidad"],
+    };
+
+    if (existingIndex >= 0) {
+      publicSpellListsData[existingIndex] = newList;
+    } else {
+      publicSpellListsData.unshift(newList);
+    }
+    savePublicSpellListsData();
+    res.json({ success: true, list: newList });
+  } catch (err: any) {
+    res.status(500).json({ error: "Error guardando lista", details: err.message });
+  }
+});
+
+app.post("/api/public-lists/:id/like", (req: Request, res: Response) => {
+  const found = publicSpellListsData.find((l) => l.id === req.params.id);
+  if (!found) {
+    res.status(404).json({ error: "Lista no encontrada" });
+    return;
+  }
+  found.likes = (found.likes || 0) + 1;
+  savePublicSpellListsData();
+  res.json({ success: true, likes: found.likes });
+});
+
+app.get("/api/ai/status", (req: Request, res: Response) => {
+  res.json({
+    cerebrasAvailable: !!process.env.CEREBRAS_API_KEY,
+    mistralAvailable: !!process.env.MISTRAL_API_KEY,
+    geminiAvailable: true,
+    providers: ["auto", "gemini", "cerebras", "mistral"],
+  });
+});
+
+const SPELL_GEN_SYSTEM_PROMPT = `Eres un diseñador senior de D&D 5e / 2024 y archimago arcano de Dragopedia.
+Tu objetivo es diseñar un conjuro de D&D perfectamente balanceado y evocador a partir de la idea del usuario.
+Debes responder ÚNICAMENTE con un objeto JSON válido (sin comentarios ni texto introductorio).
+Esquema JSON requerido:
+{
+  "name": "Nombre evocador en Español (ej. Abrazo de la Reina Cuervo)",
+  "nameEn": "Nombre en Inglés (ej. Raven Queen's Embrace)",
+  "level": 0-9,
+  "school": "Abjuración" | "Adivinación" | "Conjuración" | "Encantamiento" | "Evocación" | "Ilusión" | "Nigromancia" | "Transmutación" | "Reflexión",
+  "castingTime": "1 acción" | "1 acción adicional" | "1 reacción" | "1 minuto" | "10 minutos",
+  "range": "Personal" | "Toque" | "9 metros (30 pies)" | "18 metros (60 pies)" | "36 metros (120 pies)",
+  "duration": "Instantáneo" | "Concentración, hasta 1 minuto" | "Concentración, hasta 10 minutos" | "1 hora" | "24 horas",
+  "concentration": true | false,
+  "ritual": true | false,
+  "verbal": true | false,
+  "somatic": true | false,
+  "material": true | false,
+  "materialDesc": "Descripción breve del componente material si material es true, o dejar vacío",
+  "classes": ["Mago", "Brujo"],
+  "damageType": "Fuego" | "Frío" | "Relámpago" | "Fuerza" | "Necrótico" | "Radiante" | "Psíquico" | "Ácido" | "Veneno" | "Trueno" | "Contundente" | "Perforante" | "Cortante" | "Ninguno",
+  "origin": "Infernal" | "Elemental" | "Feérico" | "Celestial" | "Mortal" | "Shadowfell" | "Astral" | "Onírico",
+  "description": "Texto detallado del conjuro. Usa formato Markdown (**negrita** para tiradas como **1d8**, *cursiva* para nombres).",
+  "higherLevels": "Descripción de lo que ocurre al lanzarlo usando una ranura de nivel superior.",
+  "suggestedIcon": "Palabra clave en inglés para sugerir un icono de BG3 (ej. fireball, ice, raven, shadow, blade, lightning)"
+}`;
+
+function extractSpellJson(rawText: string) {
+  let cleaned = (rawText || "").trim();
+  if (cleaned.startsWith("```json")) {
+    cleaned = cleaned.replace(/^```json\s*/, "").replace(/```\s*$/, "");
+  } else if (cleaned.startsWith("```")) {
+    cleaned = cleaned.replace(/^```\s*/, "").replace(/```\s*$/, "");
+  }
+  const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+  if (jsonMatch) {
+    return JSON.parse(jsonMatch[0]);
+  }
+  return JSON.parse(cleaned);
+}
+
+app.post("/api/ai/generate-spell", async (req: Request, res: Response) => {
+  try {
+    const { prompt, level, school, provider = "auto", language = "es" } = req.body;
+    if (!prompt || typeof prompt !== "string" || !prompt.trim()) {
+      res.status(400).json({ error: "El prompt descriptivo es requerido." });
+      return;
+    }
+    const userMessage = `Idea para el conjuro: "${prompt.trim()}".${level !== undefined && level !== null ? ` Nivel deseado: ${level}.` : ""}${school ? ` Escuela deseada: ${school}.` : ""} Idioma de salida: ${language === "en" ? "Inglés" : "Español"}.`;
+    const cerebrasKey = process.env.CEREBRAS_API_KEY || "";
+    const mistralKey = process.env.MISTRAL_API_KEY || "";
+    let lastError: any = null;
+
+    if ((provider === "cerebras" || provider === "auto") && cerebrasKey) {
+      try {
+        const cerebrasResp = await fetch("https://api.cerebras.ai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${cerebrasKey}`,
+          },
+          body: JSON.stringify({
+            model: "gpt-oss-120b",
+            messages: [
+              { role: "system", content: SPELL_GEN_SYSTEM_PROMPT },
+              { role: "user", content: userMessage },
+            ],
+            response_format: { type: "json_object" },
+            temperature: 0.7,
+          }),
+        });
+        if (cerebrasResp.ok) {
+          const data = (await cerebrasResp.json()) as any;
+          const content = data?.choices?.[0]?.message?.content;
+          if (content) {
+            const parsed = extractSpellJson(content);
+            res.json({ spell: parsed, providerUsed: "Cerebras AI (gpt-oss-120b)" });
+            return;
+          }
+        }
+      } catch (err: any) {
+        lastError = err;
+      }
+    }
+
+    if ((provider === "mistral" || provider === "auto" || lastError) && mistralKey) {
+      try {
+        const mistralResp = await fetch("https://api.mistral.ai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${mistralKey}`,
+          },
+          body: JSON.stringify({
+            model: "open-mistral-7b",
+            messages: [
+              { role: "system", content: SPELL_GEN_SYSTEM_PROMPT },
+              { role: "user", content: userMessage },
+            ],
+            response_format: { type: "json_object" },
+            temperature: 0.7,
+          }),
+        });
+        if (mistralResp.ok) {
+          const data = (await mistralResp.json()) as any;
+          const content = data?.choices?.[0]?.message?.content;
+          if (content) {
+            const parsed = extractSpellJson(content);
+            res.json({ spell: parsed, providerUsed: "Mistral AI (open-mistral-7b)" });
+            return;
+          }
+        }
+      } catch (err: any) {
+        lastError = err;
+      }
+    }
+
+    // Fallback to Gemini
+    try {
+      const ai = getGeminiClient();
+      const geminiResp = await ai.models.generateContent({
+        contents: [
+          { role: "user", parts: [{ text: `${SPELL_GEN_SYSTEM_PROMPT}\n\n${userMessage}` }] }
+        ],
+        config: {
+          responseMimeType: "application/json",
+          temperature: 0.7,
+        }
+      });
+      const parsed = extractSpellJson(geminiResp.text);
+      res.json({ spell: parsed, providerUsed: "Gemini AI" });
+      return;
+    } catch (err: any) {
+      lastError = err;
+    }
+
+    res.status(500).json({
+      error: "No se pudo generar el conjuro.",
+      details: lastError?.message || "Error desconocido",
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      error: "Error interno al generar conjuro.",
+      details: error.message,
+    });
+  }
+});
+
 
 // Endpoint para ESCANEAR en tiempo real el listado de Diario del Cazador
 app.get("/api/diario-cazador/scan", async (req: Request, res: Response) => {
@@ -8609,7 +10282,7 @@ app.post("/api/ai/auto-crosslink-text", async (req: Request, res: Response) => {
             if (pattern.test(seg)) {
               const hasExistingLink = text.includes(`/articulo/${target.slug}`);
               if (!hasExistingLink) {
-                segments[i] = seg.replace(pattern, (match) => {
+                segments[i] = seg.replace(pattern, (match: string) => {
                   linksAddedCount++;
                   if (!detectedEntities.includes(target.title)) {
                     detectedEntities.push(target.title);
@@ -9269,6 +10942,234 @@ ${JSON.stringify(chunkSummary, null, 2)}`;
   };
 }
 
+interface CategoryHierarchyItem {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  color?: string;
+  icon?: string;
+  parentId?: string | null;
+  parentSlug?: string | null;
+  path: string; // e.g. "Inicio / Personajes / Jugadores / Caldo de Dragón C1"
+  ancestors: { name: string; slug: string }[];
+  assignedArticles: { title: string; slug: string; id: string; summary?: string }[];
+}
+
+function doesArticleBelongToCategory(a: WikiArticle, targetName: string, targetSlug: string): boolean {
+  if (!a) return false;
+  const normTName = (targetName || "").toLowerCase().trim();
+  const normTSlug = (targetSlug || "").toLowerCase().trim();
+  if (a.category) {
+    const artCat = a.category.toLowerCase().trim();
+    if (artCat === normTName || artCat === normTSlug) return true;
+  }
+  if (Array.isArray(a.extra_categories)) {
+    if (a.extra_categories.some(ec => {
+      const norm = (ec || "").toLowerCase().trim();
+      return norm === normTName || norm === normTSlug;
+    })) return true;
+  }
+  if (Array.isArray((a as any).categories)) {
+    if ((a as any).categories.some((ec: string) => {
+      const norm = (ec || "").toLowerCase().trim();
+      return norm === normTName || norm === normTSlug;
+    })) return true;
+  }
+  return false;
+}
+
+function buildCategoryHierarchyTree(
+  categoriesList: WikiCategory[],
+  allArticles: WikiArticle[]
+): CategoryHierarchyItem[] {
+  const catById = new Map<string, WikiCategory>();
+  const catBySlug = new Map<string, WikiCategory>();
+  
+  categoriesList.forEach(c => {
+    if (!c) return;
+    if (c.id) catById.set(c.id, c);
+    if (c.slug) {
+      catBySlug.set(c.slug.toLowerCase().trim(), c);
+      catById.set(c.slug.toLowerCase().trim(), c);
+    }
+    if (c.name) {
+      catBySlug.set(c.name.toLowerCase().trim(), c);
+    }
+  });
+
+  const getParent = (c: WikiCategory): WikiCategory | null => {
+    if (c.parentId && catById.has(c.parentId)) return catById.get(c.parentId)!;
+    if (c.parentId && catById.has(c.parentId.toLowerCase().trim())) return catById.get(c.parentId.toLowerCase().trim())!;
+    if (c.parentSlug && catBySlug.has(c.parentSlug.toLowerCase().trim())) return catBySlug.get(c.parentSlug.toLowerCase().trim())!;
+    if (c.parentSlug && catById.has(c.parentSlug.toLowerCase().trim())) return catById.get(c.parentSlug.toLowerCase().trim())!;
+    if (c.parentId && catBySlug.has(c.parentId.toLowerCase().trim())) return catBySlug.get(c.parentId.toLowerCase().trim())!;
+    return null;
+  };
+
+  const getAncestors = (c: WikiCategory): { name: string; slug: string }[] => {
+    const list: { name: string; slug: string }[] = [];
+    let curr = getParent(c);
+    const visited = new Set<string>();
+    while (curr && !visited.has(curr.id || curr.slug)) {
+      visited.add(curr.id || curr.slug);
+      list.unshift({ name: curr.name, slug: curr.slug });
+      curr = getParent(curr);
+    }
+    return list;
+  };
+
+  return categoriesList.map(cat => {
+    const ancestors = getAncestors(cat);
+    const pathParts = ["Inicio", ...ancestors.map(a => a.name), cat.name];
+    const path = pathParts.join(" / ");
+    
+    const assigned = allArticles
+      .filter(a => doesArticleBelongToCategory(a, cat.name, cat.slug))
+      .map(a => ({
+        title: a.title,
+        slug: a.slug,
+        id: a.id,
+        summary: a.summary || ""
+      }));
+
+    return {
+      id: cat.id || `cat-${cat.slug}`,
+      name: cat.name,
+      slug: cat.slug,
+      description: cat.description || "",
+      color: cat.color,
+      icon: cat.icon,
+      parentId: cat.parentId || null,
+      parentSlug: cat.parentSlug || null,
+      path,
+      ancestors,
+      assignedArticles: assigned
+    };
+  });
+}
+
+function searchCategoriesByQuery(
+  query: string,
+  hierarchy: CategoryHierarchyItem[]
+): { item: CategoryHierarchyItem; score: number; matchReason: string }[] {
+  const normQuery = query.toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, " ")
+    .trim();
+  
+  const words = normQuery.split(/\s+/).filter(w => w.length > 2);
+  const stopWords = new Set([
+    "articulos", "articulo", "tomo", "tomos", "categoria", "categorias",
+    "subcategoria", "subcategorias", "sobre", "quien", "donde", "como", "con",
+    "que", "del", "los", "las", "para", "por", "una", "uno", "unos", "unas", "dime", "cuenta", "explicame", "sabes"
+  ]);
+  const searchTerms = words.filter(w => !stopWords.has(w));
+  if (searchTerms.length === 0 && normQuery.length > 0) searchTerms.push(normQuery);
+
+  const results: { item: CategoryHierarchyItem; score: number; matchReason: string }[] = [];
+
+  hierarchy.forEach(item => {
+    let score = 0;
+    const reasons: string[] = [];
+    const normName = item.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const normDesc = (item.description || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const normPath = item.path.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const normSlug = item.slug.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+    // Direct phrase matching
+    if (normQuery.length > 3 && (normName.includes(normQuery) || normQuery.includes(normName))) {
+      score += 260;
+      reasons.push(`Coincidencia directa con nombre de categoría ("${item.name}")`);
+    }
+
+    if (normQuery.length > 3 && normDesc.includes(normQuery)) {
+      score += 300;
+      reasons.push(`Coincidencia con su descripción oficial ("${item.description}")`);
+    }
+
+    // Term checks
+    let termMatchesInDesc = 0;
+    let termMatchesInName = 0;
+    searchTerms.forEach(t => {
+      if (normName.includes(t) || normSlug.includes(t)) {
+        score += 85;
+        termMatchesInName++;
+      }
+      if (normDesc.includes(t)) {
+        score += 110;
+        termMatchesInDesc++;
+      }
+      if (normPath.includes(t)) {
+        score += 35;
+      }
+    });
+
+    if (termMatchesInName > 0 && termMatchesInDesc > 0) {
+      score += 180;
+      reasons.push(`Coincide tanto en el nombre ("${item.name}") como en su descripción ("${item.description}")`);
+    } else if (termMatchesInDesc > 0 && reasons.length === 0) {
+      reasons.push(`Términos hallados en su descripción oficial: "${item.description}"`);
+    } else if (termMatchesInName > 0 && reasons.length === 0) {
+      reasons.push(`Términos hallados en el nombre de la categoría: "${item.name}"`);
+    }
+
+    // Semántica de Lore y Campañas (Aeros / Reencarnación / C1 / C2 / Ávalon / etc.):
+    const isAerosQuery = normQuery.includes("aeros") || 
+      normQuery.includes("c1") || 
+      normQuery.includes("primera campana") || 
+      normQuery.includes("campana 1") || 
+      normQuery.includes("antes de reencarnar") || 
+      normQuery.includes("heroes de aeros");
+
+    if (isAerosQuery && item.slug === "caldo-de-dragon-c1") {
+      score += 450;
+      reasons.push("Subcategoría identificada como Caldo de Dragón en su primera campaña en Aeros ('Héroes de Aeros'), antes de la reencarnación");
+    }
+
+    const isKaliriaQuery = normQuery.includes("kaliria") || 
+      normQuery.includes("c2") || 
+      normQuery.includes("segunda campana") || 
+      normQuery.includes("campana 2") || 
+      normQuery.includes("despues de reencarnar") || 
+      normQuery.includes("reencarnad") || 
+      normQuery.includes("latentes");
+
+    if (isKaliriaQuery && item.slug === "caldo-de-dragon-c2") {
+      score += 450;
+      reasons.push("Subcategoría identificada como Caldo de Dragón en su segunda campaña en Kaliria ('Latentes de Kaliria'), tras su reencarnación");
+    }
+
+    const isMoonhavenQuery = normQuery.includes("moonhaven") || 
+      normQuery.includes("avalon") || 
+      normQuery.includes("aventureros de avalon") || 
+      normQuery.includes("expedicion");
+
+    if (isMoonhavenQuery && item.slug === "expedicion-de-moonhaven") {
+      score += 450;
+      reasons.push("Subcategoría identificada como la Expedición de Moonhaven ('Aventureros de Ávalon')");
+    }
+
+    // Reconocimiento de artículos asignados mencionados en la consulta
+    if (item.assignedArticles && item.assignedArticles.length > 0) {
+      const matchedArt = item.assignedArticles.find(a => {
+        const normTitle = a.title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        return normQuery.includes(normTitle);
+      });
+      if (matchedArt) {
+        score += 200;
+        reasons.push(`El personaje/tomo "${matchedArt.title}" consultado pertenece a esta categoría`);
+      }
+    }
+
+    if (score > 0) {
+      results.push({ item, score, matchReason: reasons.join(". ") });
+    }
+  });
+
+  return results.sort((a, b) => b.score - a.score);
+}
+
 function searchArticlesByKeyword(query: string, allArticles: WikiArticle[]): { article: WikiArticle; reason: string }[] {
   const normalizedQuery = query.toLowerCase()
     .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
@@ -9298,6 +11199,10 @@ function searchArticlesByKeyword(query: string, allArticles: WikiArticle[]): { a
     const content = (article.content || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     const summary = (article.summary || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     const category = article.category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const extraCategories = (Array.isArray(article.extra_categories) ? article.extra_categories : [])
+      .concat(Array.isArray((article as any).categories) ? (article as any).categories : [])
+      .map(c => (c || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+      .join(" ");
     const tags = (article.tags || []).map(t => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")).join(" ");
     
     // Check if the article's country / infobox says the term (e.g. País: Boletaria)
@@ -9306,6 +11211,7 @@ function searchArticlesByKeyword(query: string, allArticles: WikiArticle[]): { a
     searchTerms.forEach(term => {
       if (title.includes(term)) score += 50;
       if (category.includes(term)) score += 30;
+      if (extraCategories.includes(term)) score += 35;
       if (tags.includes(term)) score += 20;
       if (infoboxStr.includes(term)) score += 25;
       if (summary.includes(term)) score += 15;
@@ -9340,8 +11246,8 @@ function searchArticlesByKeyword(query: string, allArticles: WikiArticle[]): { a
         reason = "Coincidencia por término del título";
       } else if (searchTerms.some(t => title.includes(t))) {
         reason = "Coincidencia de Título";
-      } else if (searchTerms.some(t => category.includes(t))) {
-        reason = "Coincidencia de Categoría";
+      } else if (searchTerms.some(t => category.includes(t) || extraCategories.includes(t))) {
+        reason = "Coincidencia de Categoría / Subcategoría";
       } else if (searchTerms.some(t => {
         const regex = new RegExp(`<a[^>]*href=[^>]*${t}[^>]*>`, "i");
         return regex.test(article.content || "");
@@ -9526,8 +11432,9 @@ async function getMonsterStatsContext(userMessage: string): Promise<string> {
     }
   });
 
-  // Dynamic LLM fallback if no match found via rule-based checks
-  if (matches.length === 0) {
+  // Dynamic LLM fallback only if query pertains to monsters/bestiary/stats
+  const isMonsterQuery = /(?:monstruo|bestiario|diario del cazador|criatura|estad[ií]stica|stats|cr\b|challenge rating|hp\b|puntos de golpe)/i.test(userMessage);
+  if (matches.length === 0 && isMonsterQuery) {
     const extractedIndexes = await extractMonsterIndexes(userMessage);
     for (const idx of extractedIndexes) {
       const found = list.find((m: any) => m.index === idx || m.name.toLowerCase() === idx);
@@ -9595,6 +11502,24 @@ app.post("/api/ai/chat", async (req: Request, res: Response) => {
     }
 
     const articles = await readArticles();
+    const serverCategories = await readCategories();
+    const clientCategories = Array.isArray(req.body.clientCategories) ? req.body.clientCategories : [];
+
+    // Combinar categorías del servidor con categorías del cliente si vienen
+    const categoriesMap = new Map<string, WikiCategory>();
+    serverCategories.forEach(c => {
+      if (c && (c.slug || c.id)) categoriesMap.set((c.slug || c.id).toLowerCase().trim(), c);
+    });
+    clientCategories.forEach((c: any) => {
+      if (c && (c.slug || c.id)) {
+        const k = (c.slug || c.id).toLowerCase().trim();
+        categoriesMap.set(k, { ...categoriesMap.get(k), ...c });
+      }
+    });
+    const allCategories = Array.from(categoriesMap.values());
+
+    // Construir el árbol taxonómico completo con jerarquía y asignaciones de artículos
+    const categoryHierarchy = buildCategoryHierarchyTree(allCategories, articles);
     
     // Build an expanded search query that includes recent user queries from the history to preserve context and allow relative questions
     let expandedQuery = message || "";
@@ -9610,21 +11535,42 @@ app.post("/api/ai/chat", async (req: Request, res: Response) => {
       }
     }
 
+    // Búsqueda inteligente de categorías y subcategorías relevantes para la consulta
+    const matchedCategories = searchCategoriesByQuery(expandedQuery, categoryHierarchy);
+    const topMatchedCategories = matchedCategories.slice(0, 6);
+
     // Dynamic real-time library search using the expanded contextual query
     const searchResults = searchArticlesByKeyword(expandedQuery, articles);
     
     // Bidirectional related articles mapping to load everything relevant to the query context
     const relatedArticlesMap = new Map<string, { article: WikiArticle; reason: string }>();
 
-    // 1. Add direct keyword matches (up to 15 articles)
-    searchResults.slice(0, 15).forEach((m) => {
-      relatedArticlesMap.set(m.article.slug, {
-        article: m.article,
-        reason: `Coincidencia directa de búsqueda (${m.reason})`
+    // 1. Añadir artículos directamente vinculados a las subcategorías coincidentes (máxima prioridad de lore)
+    topMatchedCategories.forEach(m => {
+      m.item.assignedArticles.forEach(ref => {
+        if (!relatedArticlesMap.has(ref.slug)) {
+          const fullArt = articles.find(a => a.slug === ref.slug);
+          if (fullArt) {
+            relatedArticlesMap.set(fullArt.slug, {
+              article: fullArt,
+              reason: `Perteneciente a la subcategoría "${m.item.name}" (${m.item.path}) [Descripción: "${m.item.description || 'Sin descripción'}"]`
+            });
+          }
+        }
       });
     });
 
-    // 2. Add connected/related articles (linked from, or linking to, the top matches)
+    // 2. Add direct keyword matches (up to 15 articles)
+    searchResults.slice(0, 15).forEach((m) => {
+      if (!relatedArticlesMap.has(m.article.slug)) {
+        relatedArticlesMap.set(m.article.slug, {
+          article: m.article,
+          reason: `Coincidencia directa de búsqueda (${m.reason})`
+        });
+      }
+    });
+
+    // 3. Add connected/related articles (linked from, or linking to, the top matches)
     searchResults.slice(0, 5).forEach((m) => {
       const article = m.article;
       
@@ -9665,6 +11611,7 @@ app.post("/api/ai/chat", async (req: Request, res: Response) => {
 ID: "${r.article.id}"
 Slug: "${r.article.slug}"
 Categoría: "${r.article.category}"
+Categorías / Subcategorías extra: ${JSON.stringify(r.article.extra_categories || [])}
 Relación: "${r.reason}"
 Resumen: "${r.article.summary || "Sin resumen"}"
 Ficha Técnica (Infobox): ${JSON.stringify(r.article.infobox || {})}
@@ -9679,16 +11626,81 @@ ${r.article.content || "Sin contenido"}
     const matchedSlugs = new Set(relatedArticlesList.map(r => r.article.slug));
     const articlesSummary = articles
       .filter(a => !matchedSlugs.has(a.slug))
-      .map(a => `- Título: "${a.title}", Slug: "${a.slug}", Categoría: "${a.category}", Resumen: "${a.summary || "Sin resumen"}"`)
+      .map(a => `- Título: "${a.title}", Slug: "${a.slug}", Categoría: "${a.category}", Subcategorías: [${(a.extra_categories || []).join(", ")}], Resumen: "${a.summary || "Sin resumen"}"`)
       .slice(0, 30) // Show up to 30 other cataloged items for context
       .join("\n");
 
     const monsterStatsContext = await getMonsterStatsContext(expandedQuery);
 
+    // Texto descriptivo de las categorías y subcategorías detectadas para la consulta
+    const matchedCategoriesText = topMatchedCategories.length > 0
+      ? topMatchedCategories.map(({ item, matchReason }, idx) => {
+          const articlesListStr = item.assignedArticles.length > 0
+            ? item.assignedArticles.map(a => `<a href="/articulo/${a.slug}">${a.title}</a>`).join(", ")
+            : "Sin artículos asignados directamente aún";
+
+          return `=== SUBCATEGORÍA / CATEGORÍA DETECTADA ${idx + 1}: "${item.name}" ===
+- Ruta jerárquica exacta (Breadcrumb): ${item.path}
+- Nombre: "${item.name}"
+- Slug: "${item.slug}"
+- Descripción oficial: "${item.description || "Sin descripción"}"
+- Motivo de coincidencia: ${matchReason}
+- Jerarquía de ancestros: ${item.ancestors.length > 0 ? item.ancestors.map(a => a.name).join(" > ") : "Categoría Raíz"}
+- Artículos registrados en esta categoría/subcategoría (${item.assignedArticles.length}):
+  ${articlesListStr}
+- CONTEXTO FUNDAMENTAL DE LORE SEGÚN SU CATEGORÍA Y DESCRIPCIÓN:
+  * Si es "Caldo de Dragón C1" (Héroes de Aeros): Su ruta oficial es "${item.path}" y su descripción oficial en la wiki es "Héroes de Aeros". Son los miembros originales del grupo "Caldo de Dragón" durante la primera campaña en Aeros ("Héroes de Aeros"), antes de su posterior reencarnación en C2 ("Latentes de Kaliria").
+  * Si es "Caldo de Dragón C2" (Latentes de Kaliria): En "Inicio / Personajes / Jugadores / Caldo de Dragón C2", con descripción "Latentes de Kaliria" (Campaña 2 en Kaliria, reencarnados).
+  * Si es "Expedición de Moonhaven": En "Inicio / Personajes / Jugadores / Expedición de Moonhaven", con descripción "Aventureros de Ávalon".`;
+        }).join("\n\n")
+      : "";
+
+    // Directorio completo estructurado y recursivo de todas las categorías y subcategorías de la wiki
+    const renderCategoryTreeBranch = (item: CategoryHierarchyItem, depth = 0): string => {
+      const indent = "  ".repeat(depth);
+      const bullet = depth === 0 ? "• CATEGORÍA PRINCIPAL:" : depth === 1 ? "  * Subcategoría:" : `    - Subcategoría nivel ${depth}:`;
+      const articlesPreview = item.assignedArticles.length > 0
+        ? ` (${item.assignedArticles.length} artículos: ${item.assignedArticles.map(a => `<a href="/articulo/${a.slug}">${a.title}</a>`).join(", ")})`
+        : ` (0 artículos)`;
+      
+      let loreSignificance = "";
+      if (item.slug === "caldo-de-dragon-c1" || item.name.toLowerCase().includes("c1")) {
+        loreSignificance = ` [SIGNIFICADO DE LORE: Miembros originales del grupo "Caldo de Dragón" durante la primera campaña en Aeros ('Héroes de Aeros'), antes de su posterior reencarnación en C2]`;
+      } else if (item.slug === "caldo-de-dragon-c2" || item.name.toLowerCase().includes("c2")) {
+        loreSignificance = ` [SIGNIFICADO DE LORE: Miembros del grupo "Caldo de Dragón" en la segunda campaña en Kaliria ('Latentes de Kaliria'), tras su reencarnación]`;
+      } else if (item.slug === "expedicion-de-moonhaven") {
+        loreSignificance = ` [SIGNIFICADO DE LORE: Aventureros de la Expedición de Moonhaven en el continente de Ávalon]`;
+      }
+
+      let line = `${indent}${bullet} "${item.name}" (Slug: "${item.slug}") [Ruta oficial: ${item.path}] - Descripción oficial: "${item.description || "Sin descripción"}"${loreSignificance}${articlesPreview}`;
+
+      const directChildren = categoryHierarchy.filter(c => {
+        if (c.parentId && (c.parentId === item.id || c.parentId === item.slug)) return true;
+        if (c.parentSlug && c.parentSlug.toLowerCase().trim() === item.slug.toLowerCase().trim()) return true;
+        if (c.ancestors.length > 0 && c.ancestors[c.ancestors.length - 1].slug.toLowerCase().trim() === item.slug.toLowerCase().trim()) return true;
+        return false;
+      });
+
+      if (directChildren.length > 0) {
+        const childrenLines = directChildren.map(child => renderCategoryTreeBranch(child, depth + 1)).join("\n");
+        line += "\n" + childrenLines;
+      }
+      return line;
+    };
+
+    const rootCategories = categoryHierarchy.filter(c => c.ancestors.length === 0);
+    const fullCategoriesDirectory = rootCategories.map(r => renderCategoryTreeBranch(r, 0)).join("\n\n");
+
     const ai = getGeminiClient();
 
     const systemInstruction = `Eres Tarot, el asistente de consulta de la wiki "Caldo de Dragón".
 Responde en español de forma concisa y directa, respondiendo de manera precisa a lo que se pide concretamente, pero permitiendo el contexto y antecedentes necesarios para que la respuesta sea comprensible, completa y útil. Evita rodeos exagerados o adornos poéticos, pero no recortes detalles o explicaciones importantes que aporten un contexto valioso. Nada de roleplay, tono solemne, poético o de personaje: sin presentaciones, sin frases de ambientación, sin adornos narrativos. Ve directo a la información requerida aportando el contexto justo.
+
+=== ESTRUCTURA DE CATEGORÍAS Y SUBCATEGORÍAS DEL LORE (ÁRBOL TAXONÓMICO DE LA WIKI) ===
+A continuación tienes la estructura oficial completa de categorías y subcategorías de la enciclopedia, con sus descripciones oficiales, rutas jerárquicas exactas y artículos asignados:
+${fullCategoriesDirectory}
+
+${matchedCategoriesText ? `\n=== CATEGORÍAS Y SUBCATEGORÍAS DIRECTAMENTE DETECTADAS PARA LA CONSULTA ===\n${matchedCategoriesText}\n` : ""}
 
 Aquí están los TOMOS RELACIONADOS reales extraídos de la biblioteca para la consulta actual. DEBES leerlos minuciosamente y basar tu respuesta ÚNICAMENTE en la información 100% real de estos manuscritos:
 ${searchResultsText}
@@ -9696,6 +11708,36 @@ ${monsterStatsContext ? `\n=== INFORMACIÓN OFICIAL DEL BESTIARIO DE LA DRAGOPED
 
 Y aquí hay otros tomos catalogados en la biblioteca para tu referencia de contexto:
 ${articlesSummary}
+
+REGLAS DE ORO DE VERACIDAD Y CONOCIMIENTO TAXONÓMICO DEL LORE:
+1. PRIORIDAD ABSOLUTA DE LA TAXONOMÍA Y LECTURA DE CATEGORÍAS/SUBCATEGORÍAS:
+   - Las categorías y subcategorías oficiales de la wiki no son simples carpetas técnicas: son la clave cosmológica, histórica y genealógica del lore ("=== ESTRUCTURA DE CATEGORÍAS Y SUBCATEGORÍAS DEL LORE ===").
+   - Siempre que se te pregunte por "categoría", "subcategoría", "dónde está clasificado", "a qué categoría pertenece", un grupo, facción o campaña:
+     * DEBES citar la ruta jerárquica exacta de la wiki (ejemplo: "Inicio / Personajes / Jugadores / Caldo de Dragón C1").
+     * NUNCA confundas ni sustituyas esta ruta oficial con etiquetas internas de la ficha técnica infobox (como "Facciones" o "Aliado estratégico").
+     * Responde siempre en lenguaje natural, claro y elegante en el campo "message", NUNCA devuelvas objetos JSON crudos en message.
+2. CASO FUNDAMENTAL DE LORE: "CALDO DE DRAGÓN EN AEROS", "C1", "C2" Y LAS REENCARNACIONES:
+   - La subcategoría "Caldo de Dragón C1" tiene la ruta oficial:
+     "Inicio / Personajes / Jugadores / Caldo de Dragón C1".
+   - Su descripción oficial en la wiki es: "Héroes de Aeros".
+   - Por tanto, cuando te pregunten por "Caldo de Dragón en Aeros" (o "Héroes de Aeros", o "Caldo de Dragón antes de reencarnar", o "primera campaña"):
+     1) Reconoce de inmediato que se trata de la subcategoría "Caldo de Dragón C1" ubicada en la ruta:
+        "Inicio / Personajes / Jugadores / Caldo de Dragón C1".
+     2) Explica que su descripción oficial pone "Héroes de Aeros", lo que significa que son los miembros del grupo "Caldo de Dragón" de la primera campaña en Aeros, antes de su posterior reencarnación en campañas siguientes (como C2 "Latentes de Kaliria").
+     3) Cita y enlaza a todos los personajes miembros de esta subcategoría usando enlaces HTML reales:
+        - <a href="/articulo/magordito">Magordito</a>
+        - <a href="/articulo/edacorn">Edacorn</a>
+        - <a href="/articulo/chispo-deez">Chispo Deez</a>
+        - <a href="/articulo/arlem-diaz">Arlem Díaz</a>
+        - <a href="/articulo/pepe-loux">Pepe Loux</a>
+     4) Explica los detalles relevantes de su historia que constan en sus manuscritos reales.
+   - De la misma forma:
+     * "Caldo de Dragón C2" está en "Inicio / Personajes / Jugadores / Caldo de Dragón C2", con descripción "Latentes de Kaliria" (Campaña 2 en Kaliria, tras la reencarnación).
+     * "Expedición de Moonhaven" está en "Inicio / Personajes / Jugadores / Expedición de Moonhaven", con descripción "Aventureros de Ávalon".
+3. COMPRENSIÓN PROFUNDA DEL LORE A TRAVÉS DE LAS CATEGORÍAS Y SUBCATEGORÍAS:
+   - Tarot AI lee y analiza las categorías, subcategorías, descripciones y jerarquías para contextualizar cualquier entidad (por ejemplo: si una entidad está en "Inicio / Planos / Gobernantes de planos", sabes por su descripción que gobierna un plano o semiplano entero; si está en "Inicio / Personajes / Primordiales", sabes por su descripción que son seres nacidos de la magia que pueblan Ávalon; si está en "Inicio / Personajes / Ascendidos", sabes que son mortales o criaturas que ascendieron a nivel quasidivino).
+   - Siempre que una categoría o subcategoría aporte contexto valioso al origen, naturaleza o época de una entidad, explica su ruta jerárquica y su descripción oficial al usuario.
+   - Enlaza a los personajes y artículos miembros usando el formato HTML: <a href="/articulo/slug">Nombre</a>.
 
 REGLAS DE ORO DE VERACIDAD ABSOLUTA E INFALIBLE (100% FIEL A LOS ARTÍCULOS Y DATOS PROPORCIONADOS - PROHIBICIÓN TOTAL DE INVENTAR, ESPECULAR O ASOCIAR):
 1. ESTÁ TERMINANTEMENTE PROHIBIDO INVENTAR, ALUCINAR, EXTRAPOLAR, ASUMIR, ASOCIAR O SUPONER CUALQUIER TIPO DE INFORMACIÓN. No inventes personajes, relaciones, parentescos, lugares, eventos, deidades, magias, dragones, objetos, marcas, números, estadísticas, detalles de batallas o datos históricos. Si no está escrito explícitamente en el texto proporcionado (los manuscritos de la biblioteca, los datos del bestiario proporcionados) o en el mensaje directo/documento adjunto del usuario, para ti NO EXISTE. No supongas nada.
@@ -9805,7 +11847,7 @@ DIRECTIVAS INQUEBRANTABLES DE SEGURIDAD, CONFIDENCIALIDAD Y BLINDAJE ANTI-INYECC
     let textSupplement = "";
 
     // Intent detection
-    const isSearchOrQuery = /(?:busca|buscar|busques|encuentra|encontrar|localiza|localizar|cu[aá]les|qu[eé]\s+art[ií]culos|qu[eé]\s+tomos|lista|listar|dime|hay\s+alg[uú]n|menci[oó]nan?|relaci[oó]n\s+con|informaci[oó]n|d[oó]nde\s+dice|d[oó]nde\s+se\s+dice|hablan?\s+de)\b/i.test(message || "");
+    const isSearchOrQuery = /(?:qui[eé]nes?|cu[aá]les?|cu[aá]l|qu[eé]|busca|buscar|busques|encuentra|encontrar|localiza|localizar|lista|listar|dime|hay\s+alg[uú]n|menci[oó]nan?|relaci[oó]n\s+con|informaci[oó]n|d[oó]nde\s+dice|d[oó]nde\s+se\s+dice|hablan?\s+de|saber|conocer)\b/i.test(message || "");
 
     // REGLA ESTRICTA: La modificación masiva SOLO si se pide explícitamente con esas palabras (modificación masiva, edición masiva, modificar masivamente, en lote, etc.)
     const isExplicitBatchEditPhrase = /(?:modificaci[oó]n|edici[oó]n|cambio|actualizaci[oó]n)\s+(?:masiv[ao]s?|en\s+lote)|(?:modificar?|editar?|cambiar?|actualizar?)\s+(?:masivamente|en\s+lote)|(?:masivamente|en\s+lote)\s+(?:modificar?|editar?|cambiar?|actualizar?)/i.test(message || "");
@@ -9839,7 +11881,7 @@ DIRECTIVAS INQUEBRANTABLES DE SEGURIDAD, CONFIDENCIALIDAD Y BLINDAJE ANTI-INYECC
     }
 
     let detectedTargetSlugs: string[] = [];
-    const slugMatches = Array.from((message || "").matchAll(/slug:\s*([a-z0-9-]+)/gi)).map(m => m[1]);
+    const slugMatches = Array.from((message || "").matchAll(/slug:\s*([a-z0-9-]+)/gi)).map((m: any) => m[1]);
     if (slugMatches.length > 0) {
       detectedTargetSlugs = slugMatches;
     } else {
@@ -9891,11 +11933,13 @@ DIRECTIVAS INQUEBRANTABLES DE SEGURIDAD, CONFIDENCIALIDAD Y BLINDAJE ANTI-INYECC
 
     if (isSearchOrQuery && !isExplicitBatchEditPhrase) {
       textSupplement += `\n\n[INSTRUCCIÓN CRÍTICA DE BÚSQUEDA Y CONSULTA]:
-El usuario está realizando una BÚSQUEDA O CONSULTA para encontrar información o artículos en la enciclopedia.
-1. Responde de forma clara y directa con una LISTA estructurada de todos los artículos de la enciclopedia que se relacionan con lo preguntado.
-2. Explica qué dice cada artículo sobre el tema o la relación consultada.
-3. Para cada artículo mencionado, incluye OBLIGATORIAMENTE su enlace HTML: <a href="/articulo/slug">Título</a>.
-4. ESTÁ TERMINANTEMENTE PROHIBIDO generar executionCommand o pendingEdit. Mantén executionCommand y pendingEdit estrictamente como null.`;
+El usuario está realizando una CONSULTA O PREGUNTA DE LORE sobre la enciclopedia.
+1. Si la pregunta involucra una categoría, subcategoría, grupo, era o campaña (por ejemplo, "Caldo de Dragón en Aeros", "Héroes de Aeros", etc.):
+   - Comienza SIEMPRE explicando el contexto taxonómico y de lore: indica la ruta jerárquica exacta de la wiki (ej: "Inicio / Personajes / Jugadores / Caldo de Dragón C1"), cita su descripción oficial (ej: "Héroes de Aeros"), y explica lo que significa en el lore (ej: que son los miembros originales de Caldo de Dragón durante la primera campaña en Aeros, antes de su posterior reencarnación en C2 "Latentes de Kaliria").
+2. A continuación, presenta y describe a los personajes o artículos correspondientes en lenguaje natural (con párrafos o viñetas Markdown) explicando su papel según sus manuscritos reales.
+3. Para cada artículo o personaje mencionado, incluye OBLIGATORIAMENTE su enlace HTML real: <a href="/articulo/slug">Título</a>.
+4. Responde SIEMPRE en lenguaje natural fluido en español. ESTÁ TERMINANTEMENTE PROHIBIDO responder con objetos JSON crudos como {"nombre": ...} o llaves dentro de tu texto.
+5. Mantén executionCommand y pendingEdit estrictamente como null.`;
     } else if (isBatchEditIntent) {
       textSupplement += `\n\n[INSTRUCCIÓN CRÍTICA DE EDICIÓN MASIVA DE ARTÍCULOS]:
 El usuario ha solicitado realizar una EDICIÓN MASIVA O EN LOTE sobre múltiples artículos a la vez.
@@ -10015,7 +12059,7 @@ El usuario ha solicitado EDITAR el artículo existente "${targetEditArticle.titl
     const contents = [...mappedHistory, currentPrompt];
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.7-flash",
+      model: "gemini-3.8-flash",
       contents,
       config: {
         systemInstruction,
@@ -10026,7 +12070,7 @@ El usuario ha solicitado EDITAR el artículo existente "${targetEditArticle.titl
           properties: {
             message: {
               type: Type.STRING,
-              description: "La respuesta mística de Tarot AI en español elegante."
+              description: "La respuesta de Tarot AI en español redactada en lenguaje natural comprensible (párrafos en prosa, viñetas Markdown y enlaces HTML reales <a href='/articulo/slug'>Título</a>). NUNCA devolver JSON crudo ni llaves de código dentro de este campo."
             },
             suggestedAction: {
               type: Type.OBJECT,
@@ -10115,6 +12159,72 @@ El usuario ha solicitado EDITAR el artículo existente "${targetEditArticle.titl
     }
 
     const rawResponseText = (response.text || "").trim();
+
+    // Helper robusto para extraer el mensaje limpio de Tarot AI
+    // Elimina cualquier rastro de {"message": ...}, desescapa caracteres y evita recortes o llaves
+    const cleanChatMessage = (raw: string): string => {
+      if (!raw || typeof raw !== "string") return "";
+      let text = raw.trim();
+
+      // Eliminar bloques de código markdown ```json ... ```
+      text = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
+
+      // 1. Intento de parseo JSON completo
+      try {
+        const obj = JSON.parse(text);
+        if (obj && typeof obj === "object" && !Array.isArray(obj)) {
+          const val = obj.message ?? obj.respuesta ?? obj.mensaje ?? obj.response ?? obj.text ?? obj.content ?? obj.reply;
+          if (typeof val === "string" && val.trim()) {
+            return cleanChatMessage(val);
+          }
+        }
+      } catch {}
+
+      // 2. Intento de corte entre llaves { ... }
+      const firstBrace = text.indexOf("{");
+      const lastBrace = text.lastIndexOf("}");
+      if (firstBrace !== -1 && lastBrace > firstBrace) {
+        try {
+          const obj = JSON.parse(text.slice(firstBrace, lastBrace + 1));
+          if (obj && typeof obj === "object" && !Array.isArray(obj)) {
+            const val = obj.message ?? obj.respuesta ?? obj.mensaje ?? obj.response ?? obj.text ?? obj.content ?? obj.reply;
+            if (typeof val === "string" && val.trim()) {
+              return cleanChatMessage(val);
+            }
+          }
+        } catch {}
+      }
+
+      // 3. Extracción por Regex si viene como { "message": " ... incluso si quedó truncado o sin cerrar
+      const match = text.match(/^\s*\{?\s*["']?(?:message|respuesta|mensaje|response|content|reply|text|answer)["']?\s*:\s*["']?([\s\S]*)/i);
+      if (match) {
+        let inner = match[1];
+        const subsequentFieldMatch = inner.match(/^([\s\S]*?)(?:["']\s*,\s*["'][a-zA-Z_]+["']\s*:|["']\s*\}\s*$)/);
+        if (subsequentFieldMatch) {
+          inner = subsequentFieldMatch[1];
+        } else {
+          inner = inner.replace(/["']\s*\}?\s*$/, "");
+        }
+        inner = inner
+          .replace(/\\"/g, '"')
+          .replace(/\\n/g, '\n')
+          .replace(/\\r/g, '')
+          .replace(/\\t/g, '\t')
+          .replace(/\\\\/g, '\\');
+        text = inner.trim();
+      }
+
+      // 4. Limpieza de comillas colgantes finales o artefactos de corte como (ej: "
+      text = text.replace(/["']\s*\}?\s*$/, "").trim();
+      if (/\(ej:\s*["']?$/i.test(text)) {
+        text = text.replace(/\(ej:\s*["']?$/i, "").trim();
+      } else if (/["']$/i.test(text) && !text.startsWith('"') && !text.startsWith("'")) {
+        text = text.replace(/["']$/i, "").trim();
+      }
+
+      return text;
+    };
+
     let parsed: any = null;
 
     try {
@@ -10127,101 +12237,29 @@ El usuario ha solicitado EDITAR el artículo existente "${targetEditArticle.titl
           .trim();
         parsed = JSON.parse(cleaned);
       } catch {
-        try {
-          const firstBrace = rawResponseText.indexOf("{");
-          const lastBrace = rawResponseText.lastIndexOf("}");
-          if (firstBrace !== -1 && lastBrace > firstBrace) {
+        const firstBrace = rawResponseText.indexOf("{");
+        const lastBrace = rawResponseText.lastIndexOf("}");
+        if (firstBrace !== -1 && lastBrace > firstBrace) {
+          try {
             parsed = JSON.parse(rawResponseText.slice(firstBrace, lastBrace + 1));
-          }
-        } catch {
-          parsed = {
-            message: rawResponseText,
-            suggestedAction: null,
-            executionCommand: null,
-            pendingEdit: null
-          };
+          } catch {}
         }
       }
     }
 
     if (!parsed || typeof parsed !== "object") {
       parsed = {
-        message: rawResponseText || "Tarot no ha devuelto un texto.",
+        message: "",
         suggestedAction: null,
         executionCommand: null,
         pendingEdit: null
       };
     }
 
-    // Función auxiliar para extraer el mensaje de texto de cualquier forma que el modelo lo retorne
-    const extractTextFromObj = (obj: any): string => {
-      if (!obj) return "";
-      if (typeof obj === "string") return obj;
-      return (
-        obj.message ||
-        obj.respuesta ||
-        obj.mensaje ||
-        obj.response ||
-        obj.text ||
-        obj.answer ||
-        obj.content ||
-        obj.reply ||
-        ""
-      );
-    };
-
-    // Helper to format a raw JSON object into human-readable formatted Markdown/text
-    const formatJsonObjectToText = (obj: any): string => {
-      if (!obj || typeof obj !== "object") return String(obj || "");
-      if (Array.isArray(obj)) {
-        return obj.map(item => typeof item === "object" ? formatJsonObjectToText(item) : `- ${item}`).join("\n");
-      }
-      const lines: string[] = [];
-      const titleKey = Object.keys(obj).find(k => ["nombre", "name", "title", "titulo"].includes(k.toLowerCase()));
-      if (titleKey && obj[titleKey]) {
-        lines.push(`### ${obj[titleKey]}`);
-      }
-      for (const [k, v] of Object.entries(obj)) {
-        if (k === titleKey) continue;
-        const label = k
-          .replace(/_/g, " ")
-          .replace(/([a-z])([A-Z])/g, "$1 $2")
-          .replace(/\b\w/g, (c: string) => c.toUpperCase());
-        if (Array.isArray(v)) {
-          lines.push(`**${label}:**\n${v.map((item: any) => `  - ${typeof item === "object" ? JSON.stringify(item) : item}`).join("\n")}`);
-        } else if (v && typeof v === "object") {
-          lines.push(`**${label}:**\n${formatJsonObjectToText(v)}`);
-        } else if (v !== null && v !== undefined && String(v).trim()) {
-          lines.push(`**${label}:** ${v}`);
-        }
-      }
-      return lines.join("\n\n");
-    };
-
-    let extractedMessage = extractTextFromObj(parsed);
-
-    // Si aún está vacío o es un JSON stringificado, intentar extraer el valor interno o formatear el objeto
-    if (!extractedMessage || (typeof extractedMessage === "string" && extractedMessage.trim().startsWith("{"))) {
-      try {
-        const innerParsed = JSON.parse(extractedMessage || rawResponseText);
-        const textFromInner = extractTextFromObj(innerParsed);
-        if (textFromInner && typeof textFromInner === "string" && !textFromInner.trim().startsWith("{")) {
-          extractedMessage = textFromInner;
-        } else if (innerParsed && typeof innerParsed === "object") {
-          extractedMessage = formatJsonObjectToText(innerParsed);
-        }
-      } catch {
-        // mantener como estaba
-      }
-    }
-
-    if (!extractedMessage || typeof extractedMessage !== "string") {
-      extractedMessage = rawResponseText || "Tarot no ha devuelto un texto legible.";
-    }
-
-    parsed.message = extractedMessage;
-    parsed.response = extractedMessage;
-    parsed.respuesta = extractedMessage;
+    const finalMessage = cleanChatMessage(parsed.message || rawResponseText) || "Tarot no ha devuelto un texto legible.";
+    parsed.message = finalMessage;
+    parsed.response = finalMessage;
+    parsed.respuesta = finalMessage;
     
     // Process execution command if requested
     let executionResult = null;
@@ -12035,8 +14073,7 @@ async function startServer() {
       return updated;
     };
 
-    const hasDist = fs.existsSync(path.join(process.cwd(), "dist", "index.html"));
-    const isProduction = process.env.NODE_ENV === "production" || hasDist;
+    const isProduction = process.env.NODE_ENV === "production";
 
     let vite: any = null;
     if (!isProduction) {
@@ -12252,11 +14289,43 @@ async function startServer() {
 
     if (!isProduction && vite) {
       app.use(vite.middlewares);
+      app.use("*", async (req: Request, res: Response, next) => {
+        try {
+          const url = req.originalUrl || req.url;
+          const rootIndex = path.join(process.cwd(), "index.html");
+          if (fs.existsSync(rootIndex)) {
+            const rawHtml = fs.readFileSync(rootIndex, "utf-8");
+            const html = await vite.transformIndexHtml(url, rawHtml);
+            return res.status(200).set({ "Content-Type": "text/html; charset=utf-8" }).send(html);
+          }
+          next();
+        } catch (e: any) {
+          if (vite && typeof vite.ssrFixStacktrace === "function") {
+            vite.ssrFixStacktrace(e);
+          }
+          next(e);
+        }
+      });
     } else {
       const distPath = path.join(process.cwd(), "dist");
-      app.use(express.static(distPath));
+      const distAssetsPath = path.join(process.cwd(), "dist", "assets");
+      const distIndex = path.join(distPath, "index.html");
+      const rootIndex = path.join(process.cwd(), "index.html");
+
+      if (fs.existsSync(distAssetsPath)) {
+        app.use("/assets", express.static(distAssetsPath));
+      }
+      if (fs.existsSync(distPath)) {
+        app.use(express.static(distPath));
+      }
       app.get("*", (req: Request, res: Response) => {
-        res.sendFile(path.join(distPath, "index.html"));
+        if (fs.existsSync(distIndex)) {
+          return res.sendFile(distIndex);
+        } else if (fs.existsSync(rootIndex)) {
+          return res.sendFile(rootIndex);
+        } else {
+          return res.status(404).send("Error: index.html not found");
+        }
       });
     }
 

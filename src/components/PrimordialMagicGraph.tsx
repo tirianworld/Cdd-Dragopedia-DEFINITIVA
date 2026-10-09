@@ -2320,7 +2320,7 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
               const isPillarFocused = activePillarFilter === "all" || activePillarFilter === sub.pillarId;
               if (!isPillarFocused) return null;
 
-              const parentPillar = nodeLookup.get(sub.parentId);
+              const parentPillar = sub.parentId ? nodeLookup.get(sub.parentId) : undefined;
               if (!parentPillar) return null;
 
               const pPos = getNodePos(parentPillar);
@@ -2421,7 +2421,7 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
               const isPillarFocused = activePillarFilter === "all" || activePillarFilter === spellNode.pillarId;
               if (!isPillarFocused) return null;
 
-              const parentSub = nodeLookup.get(spellNode.parentId);
+              const parentSub = spellNode.parentId ? nodeLookup.get(spellNode.parentId) : undefined;
               if (!parentSub) return null;
 
               const sPos = getNodePos(parentSub);

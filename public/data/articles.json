@@ -1588,8 +1588,8 @@
     "is_featured": false,
     "id": "art-1787667632755",
     "created_date": "2026-08-25T14:20:39.692Z",
-    "updated_date": "2026-09-24T10:35:37.472Z",
-    "image_url": "/images/cloud/seis-magias-primordiales_4f548c88b8.png",
+    "updated_date": "2026-10-09T09:30:44.689Z",
+    "image_url": "/images/uploads/PRIMORDIALES-1791538236326_jyfw1.png",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -1746,7 +1746,9 @@
       "blink": "/images/cloud/Blink_Icon_e5e7f6d280.webp",
       "hypnotic-pattern": "/images/cloud/Hypnotic_Pattern_Icon_139a4678bf.webp"
     },
-    "extra_categories": []
+    "extra_categories": [
+      "Magias"
+    ]
   },
   {
     "title": "Adamantita",

@@ -77,7 +77,8 @@
       "plano": [],
       "criatura": [],
       "entidad": []
-    }
+    },
+    "image_url": "/images/covers/mongraal.webp"
   },
   {
     "id": "caldo-de-dragon",
@@ -173,7 +174,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/culto-a-los-dragones.png"
   },
   {
     "title": "Culto a la Piedad",
@@ -234,7 +236,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/culto-a-la-piedad.webp"
   },
   {
     "title": "Astora",
@@ -327,7 +330,8 @@
     "extra_categories": [
       "Dioses",
       "Verdaderos"
-    ]
+    ],
+    "image_url": "/images/covers/faram-senor-del-sol.jpg"
   },
   {
     "title": "Alejandría",
@@ -455,7 +459,8 @@
     "extra_categories": [
       "Dioses",
       "Verdaderos"
-    ]
+    ],
+    "image_url": "/images/covers/la-luna-oscura.png"
   },
   {
     "id": "art-1789932671503",
@@ -1476,7 +1481,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/refugiados-del-feywild.png"
   },
   {
     "title": "Corte Feérica",
@@ -1864,7 +1870,8 @@
     "id": "art-1787667220867",
     "created_date": "2026-08-25T14:13:49.232Z",
     "updated_date": "2026-08-25T14:13:49.232Z",
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/familias-de-herreros-malditos.png"
   },
   {
     "title": "Diablos",
@@ -2230,7 +2237,8 @@
     "image_position_y": 50,
     "spells": [],
     "spell_images": {},
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/la-casa-loux.png"
   },
   {
     "title": "Acero Negro",
@@ -3678,7 +3686,8 @@
     "id": "art-1787666129928",
     "created_date": "2026-08-25T13:55:33.488Z",
     "updated_date": "2026-08-25T13:55:33.488Z",
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/reloj-astral.webp"
   },
   {
     "title": "Clérigos",
@@ -4922,7 +4931,8 @@
     "id": "art-1787665974094",
     "created_date": "2026-08-25T13:52:57.466Z",
     "updated_date": "2026-08-25T13:52:57.466Z",
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/segadores.png"
   },
   {
     "title": "Aulladores",
@@ -4964,7 +4974,8 @@
       "art-1787665974094",
       "art-1783384032020"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/aulladores.png"
   },
   {
     "title": "Ludwig",
@@ -5023,7 +5034,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/ludwig.png"
   },
   {
     "title": "Bloodhunters",
@@ -5161,7 +5173,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/blanca-via.png"
   },
   {
     "title": "Paladín",
@@ -5449,7 +5462,8 @@
     "extra_categories": [
       "Dioses",
       "Consejo Omega"
-    ]
+    ],
+    "image_url": "/images/covers/chemos-el-dios-oscuro.jpg"
   },
   {
     "title": "Fafnir, el Dios Dragón",
@@ -5508,7 +5522,8 @@
       "Dioses",
       "Ascendidos",
       "Regionales"
-    ]
+    ],
+    "image_url": "/images/covers/fafnir-el-dios-dragon.jpg"
   },
   {
     "title": "ki",
@@ -5695,7 +5710,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/santuario-de-la-mano-abierta.webp"
   },
   {
     "title": "Monjes de la Mano Abierta",
@@ -5726,7 +5742,8 @@
     "related_article_ids": [
       "art-1787665738452"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/monjes-de-la-mano-abierta.png"
   },
   {
     "title": "Nigromancia",
@@ -7922,7 +7939,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/los-latentes.png"
   },
   {
     "title": "El Plano Material",
@@ -9606,7 +9624,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/primordiales.webp"
   },
   {
     "title": "Poder Cósmico",
@@ -9770,7 +9789,8 @@
     "related_article_ids": [
       "art-1787665007919"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/plaga-de-las-bestias.jpg"
   },
   {
     "title": "Logario",
@@ -9890,7 +9910,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/la-blanca-inquisicion.webp"
   },
   {
     "title": "La Blanca Vía",
@@ -9944,7 +9965,8 @@
     "extra_categories": [
       "Dioses",
       "Verdaderos"
-    ]
+    ],
+    "image_url": "/images/covers/la-blanca-via.jpg"
   },
   {
     "title": "Devotos de la Reina",
@@ -9994,7 +10016,8 @@
       "art-1787664785063",
       "art-1787664592459"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/devotos-de-la-reina.png"
   },
   {
     "title": "Blackguard",
@@ -10536,7 +10559,8 @@
       "art-1787665642246"
     ],
     "map_url": "https://cartocraft.ai.studio/#/map/6a33c6fb7fcb71b00f8684d7/no-ui?markers=false&lights=true&helpers=false&root=6a33c6fb7fcb71b00f8684d7",
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/la-gran-biblioteca-de-kaliria-mt7cxkz1.jpg"
   },
   {
     "id": "art-1787582919040",
@@ -10798,7 +10822,8 @@
         "Elfo"
       ]
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/faustus.png"
   },
   {
     "title": "Fara",
@@ -10876,7 +10901,8 @@
         "Elfo"
       ]
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/fara.png"
   },
   {
     "title": "Limeyr",
@@ -11004,7 +11030,8 @@
     "related_article_ids": [
       "art-1784457936358"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/grimorios-de-faustus.png"
   },
   {
     "id": "art-1783715624151",
@@ -11253,7 +11280,8 @@
       ]
     },
     "map_url": "https://cartocraft.ai.studio/#/map/6a3421b268196ec66c7119aa/no-ui?markers=false&lights=true&helpers=false&root=6a3421b268196ec66c7119aa",
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/academia-de-los-espejos-de-drangleic-mrfddq1b.png"
   },
   {
     "id": "art-1783713825197",
@@ -11422,7 +11450,8 @@
     "extra_categories": [
       "Lugares",
       "Mazmorras"
-    ]
+    ],
+    "image_url": "/images/covers/mehetia-mrfciyvp.png"
   },
   {
     "id": "art-1783712480274",
@@ -11523,7 +11552,7 @@
     "summary": "Entidad divina que mantiene unida a Ávalon y otorga inmortalidad a sus habitantes mediante la absorción de energía vital y almas.",
     "content": "<h1>Árbol Áureo</h1><p>El <strong>Árbol Áureo</strong> es una entidad divina y ancestral que se erige como el corazón y el alma de <a href=\"/articulo/avalon\">Ávalon</a>. Su existencia es el pilar que mantiene unida a la isla, y su poder trasciende las leyes naturales, especialmente la muerte. Este árbol sagrado fue creado por la unión de la <a href=\"/articulo/magia-divina\" class=\"text-primary hover:underline font-semibold\">magia divina</a> y la <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a>, y con el tiempo desarrolló una conciencia propia, elevándose a un nivel cercano al de las deidades menores.</p><h2>Origen y Creación</h2><p>El Árbol Áureo nació de la fusión entre la <a href=\"/articulo/magia-divina\" class=\"text-primary hover:underline font-semibold\">magia divina</a> y la <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a>, un proceso que ocurrió en los albores de la creación de <a href=\"/articulo/avalon\">Ávalon</a>. Su formación fue un evento único, donde las fuerzas de la creación y la protección se unieron para dar vida a una entidad que trascendería el tiempo y el espacio.</p><h2>Poderes y Funciones</h2><p>El Árbol Áureo posee un poder único que desafía las leyes naturales:</p><ul><li><strong>Inmortalidad en Ávalon:</strong> Mientras el Árbol Áureo exista, la muerte en <a href=\"/articulo/avalon\">Ávalon</a> es imposible. Su presencia actúa como un escudo divino que protege a los habitantes de la isla de la muerte natural.</li><li><strong>Absorción de Energía Vital:</strong> Cuando alguien muere en <a href=\"/articulo/avalon\">Ávalon</a>, el Árbol Áureo absorbe parte de la energía vital y un fragmento del alma del difunto. Este proceso ocurre de dos formas:</li><ul><li>Si el asesino de la víctima muere, la energía vital y el alma de la víctima original son devueltos a su poseedor original.</li><li>Si la víctima no es asesinada, pero su energía vital se agota por otros medios, su alma es forzada a reencarnar.</li></ul><li><strong>Nutrición del Árbol:</strong> Ambos procesos envían \"nutrientes\" al Árbol Áureo, aumentando su poder y fortaleciéndolo. Con el tiempo, estos nutrientes han elevado al Árbol Áureo a un nivel que roza el de las deidades menores.</li></ul><h2>Interés en la Expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a></h2><p>El Árbol Áureo ha mostrado un especial interés en la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a>. Cree que los miembros de esta expedición podrían ser clave para cumplir su plan: alcanzar un poder aún mayor y trascender su estado actual. El Árbol Áureo ve en ellos la posibilidad de fortalecerse y expandir su influencia más allá de los límites de <a href=\"/articulo/avalon\">Ávalon</a>.</p><h2>Relación con <a href=\"/articulo/avalon\">Ávalon</a></h2><p>El Árbol Áureo es el corazón de <a href=\"/articulo/avalon\">Ávalon</a>. Sus raíces se extienden por toda la isla, manteniéndola unida y protegiéndola de cualquier amenaza externa. Sin el Árbol Áureo, <a href=\"/articulo/avalon\">Ávalon</a> dejaría de existir como la conocemos, y la muerte volvería a reclamar a sus habitantes.</p>",
     "created_date": "2026-07-10T18:15:16.104Z",
-    "updated_date": "2026-10-07T08:38:03.783Z",
+    "updated_date": "2026-10-07T07:38:31.932Z",
     "infobox": {
       "Nombre": "Árbol Áureo",
       "Categoría": "Dioses",
@@ -11598,7 +11627,8 @@
     "extra_categories": [
       "Dioses",
       "Regionales"
-    ]
+    ],
+    "image_url": "/images/covers/arbol-aureo-mrf9a5jc.png"
   },
   {
     "id": "art-1783683254944",
@@ -11919,7 +11949,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/la-capital.png"
   },
   {
     "title": "Máscara de Purga",
@@ -11993,7 +12024,8 @@
     "id": "art-1783680216668",
     "created_date": "2026-07-10T10:43:37.451Z",
     "updated_date": "2026-07-29T09:28:56.960Z",
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/parasito-de-cobre.png"
   },
   {
     "id": "art-1783643834135",
@@ -12644,7 +12676,8 @@
     "related_article_ids": [
       "art-1787666807809"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/gripe-de-la-plata-mrdhl7vn.png"
   },
   {
     "id": "art-1783590621561",
@@ -12922,7 +12955,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/la-compania-mrc0in6q.png"
   },
   {
     "id": "art-1783510714533",
@@ -13973,7 +14007,8 @@
     "related_article_ids": [
       "art-1787664906161"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/llamas-en-la-noche.png"
   },
   {
     "title": "Leonard Loux",
@@ -14554,7 +14589,8 @@
       "art-1787665642246",
       "art-1787664906161"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/la-guerra-del-averno.webp"
   },
   {
     "title": "La Familia Elegida",
@@ -14644,7 +14680,8 @@
     "related_article_ids": [
       "art-1787665587156"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/la-familia-elegida.png"
   },
   {
     "title": "La Era de Los Dioses",
@@ -14748,7 +14785,8 @@
       "art-1787665020601",
       "art-1787664370722"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/la-era-de-los-dioses.jpg"
   },
   {
     "title": "Kōryū no Kame",
@@ -15442,7 +15480,8 @@
       "art-1787666801376",
       "art-1787664906161"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/herald-i-de-moonhaven.png"
   },
   {
     "title": "Havrik Deez",
@@ -15546,7 +15585,8 @@
       "art-1783383652919",
       "art-1787664906161"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/hagamos-caldo-de-dragon.webp"
   },
   {
     "title": "Gungnir",
@@ -15575,7 +15615,8 @@
       "art-1783509789811",
       "art-1787665103836"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/gungnir.webp"
   },
   {
     "title": "Gromock",
@@ -16066,7 +16107,8 @@
       "art-1787665881215",
       "art-1787667206844"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/gobernante-de-moonhaven.png"
   },
   {
     "title": "Gildemar, el Rey Mago",
@@ -16215,7 +16257,8 @@
       "art-1787664906161",
       "art-1787666836984"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/freya.webp"
   },
   {
     "title": "Fit Fitson",
@@ -16463,7 +16506,8 @@
       "art-1787664906161",
       "6a2191de386a7048e8d7e6b8"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/feria-de-makai.webp"
   },
   {
     "title": "Familia Díaz",
@@ -16521,7 +16565,8 @@
       "art-1787665881215",
       "art-1787664906161"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/familia-diaz.png"
   },
   {
     "title": "Familia Deez",
@@ -16616,7 +16661,8 @@
       "art-1787665511485",
       "art-1783383871252"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/familia-deez.png"
   },
   {
     "title": "Fafnir",
@@ -16709,7 +16755,8 @@
       "Dioses",
       "Ascendidos",
       "Regionales"
-    ]
+    ],
+    "image_url": "/images/covers/fafnir.png"
   },
   {
     "title": "Emboscada",
@@ -16765,7 +16812,8 @@
       "art-1783383954035",
       "art-1787664906161"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/emboscada.png"
   },
   {
     "title": "El barón",
@@ -17013,7 +17061,8 @@
       "art-1787666796733",
       "art-1787664906161"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/el-reino-de-los-suenos.webp"
   },
   {
     "title": "El Oni del Cerezo",
@@ -17171,7 +17220,8 @@
       "art-1787665090919",
       "art-1787666648124"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/el-loa-tigre.png"
   },
   {
     "title": "El Ciervo Celeste",
@@ -17752,7 +17802,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/consejo-omega.png"
   },
   {
     "title": "Chispo Deez",
@@ -17915,7 +17966,8 @@
     "extra_categories": [
       "Dioses",
       "Consejo Omega"
-    ]
+    ],
+    "image_url": "/images/covers/chemos.png"
   },
   {
     "title": "Bestias del Apocalipsis",
@@ -17979,7 +18031,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/bestias-del-apocalipsis.webp"
   },
   {
     "title": "Bellmoth",
@@ -18010,7 +18063,8 @@
       "art-1783383696074",
       "art-1787664906161"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/bellmoth.png"
   },
   {
     "title": "Belcebú",
@@ -18465,7 +18519,8 @@
     "related_article_ids": [
       "art-1787665020601"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/armagedon.png"
   },
   {
     "title": "Arlem Díaz",
@@ -18778,7 +18833,8 @@
       "art-1783383696074",
       "art-1783383906169"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/arashi.webp"
   },
   {
     "title": "Aeros",
@@ -19285,7 +19341,8 @@
       "art-1783383696074",
       "art-1783383842297"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/una-carta-inesperada.png"
   },
   {
     "title": "Una Leyenda se Forja",
@@ -19312,7 +19369,8 @@
       "art-1783383696074",
       "art-1787665818655"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/una-leyenda-se-forja.png"
   },
   {
     "title": "Umberlee",
@@ -19371,7 +19429,8 @@
     "related_article_ids": [
       "art-1783509789811"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/umberlee.png"
   },
   {
     "title": "Tumba de Chemos",
@@ -19879,7 +19938,8 @@
     "extra_categories": [
       "Dioses",
       "Ascendidos"
-    ]
+    ],
+    "image_url": "/images/covers/tauron.png"
   },
   {
     "title": "Takhisis",
@@ -19967,7 +20027,8 @@
     "extra_categories": [
       "Dioses",
       "Ascendidos"
-    ]
+    ],
+    "image_url": "/images/covers/takhisis.webp"
   },
   {
     "title": "Syndragosa",
@@ -21200,7 +21261,8 @@
     "extra_categories": [
       "Dioses",
       "Consejo Omega"
-    ]
+    ],
+    "image_url": "/images/covers/nuitari.png"
   },
   {
     "title": "Nidhog",
@@ -21249,7 +21311,8 @@
     "id": "art-1783383061996",
     "created_date": "2026-07-07T00:11:09.252Z",
     "updated_date": "2026-07-07T00:11:09.252Z",
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/nidhog.png"
   },
   {
     "title": "Nemuina",
@@ -21321,7 +21384,8 @@
     "extra_categories": [
       "Dioses",
       "Ascendidos"
-    ]
+    ],
+    "image_url": "/images/covers/nemuina.png"
   },
   {
     "title": "Mushusu",
@@ -21381,7 +21445,8 @@
       "art-1783383652919",
       "art-1787666801376"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/mushusu.png"
   },
   {
     "title": "Morgion",
@@ -21449,7 +21514,8 @@
     "extra_categories": [
       "Dioses",
       "Consejo Omega"
-    ]
+    ],
+    "image_url": "/images/covers/morgion.webp"
   },
   {
     "title": "Moonhaven",
@@ -21774,7 +21840,8 @@
       "art-1783383871252",
       "art-1787666836984"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/marduk.webp"
   },
   {
     "title": "Mamon",
@@ -21878,7 +21945,8 @@
       "art-1783383276390",
       "art-1783383645366"
     ],
-    "extra_categories": []
+    "extra_categories": [],
+    "image_url": "/images/covers/la-corona-del-apocalipsis.png"
   },
   {
     "title": "Auros",
@@ -22250,7 +22318,7 @@
   {
     "summary": "",
     "image_url": "/images/covers/la-antigua-capital-72cd6a.png",
-    "map_url": "https://preview--carto-craft-copy-25de56d5.base44.app/view/6a201116d15c4d51f3b81ff5",
+    "map_url": "https://cartocraft.ai.studio/#/map/6a201116d15c4d51f3b81ff5/no-ui?markers=false&lights=true&helpers=false&root=6a201116d15c4d51f3b81ff5",
     "infobox": {},
     "filters": {
       "continente": [
@@ -23061,7 +23129,7 @@
   {
     "summary": "",
     "image_url": "/images/covers/ivan-del-valle-boreal-326760.webp",
-    "map_url": "https://preview--carto-craft-copy-25de56d5.base44.app/view/6a1574173b910e6da1ad0b96",
+    "map_url": "https://cartocraft.ai.studio/#/map/6a1574173b910e6da1ad0b96/no-ui?markers=false&lights=true&helpers=false&root=6a1574173b910e6da1ad0b96",
     "infobox": {
       "Nombre": "Arthorius",
       "Actor": "",

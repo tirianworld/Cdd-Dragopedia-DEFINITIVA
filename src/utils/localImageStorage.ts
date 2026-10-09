@@ -242,3 +242,62 @@ export async function syncLocalImagesToGitHub(
   return { syncedCount, updatedItems };
 }
 
+/**
+ * Downloads a remote cloud image URL to the local server disk & GitHub.
+ */
+export async function saveCloudImageToServer(
+  imageUrl: string,
+  articleSlug?: string,
+  subfolder = "cloud"
+): Promise<{ success: boolean; url: string; isLocal: boolean; error?: string }> {
+  try {
+    const res = await fetch("/api/save-cloud-image", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        url: imageUrl,
+        articleSlug,
+        subfolder
+      })
+    });
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.error || `HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    return {
+      success: true,
+      url: data.url || imageUrl,
+      isLocal: !!data.isLocal
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      url: imageUrl,
+      isLocal: false,
+      error: err?.message || "Error al guardar imagen de la nube"
+    };
+  }
+}
+
+/**
+ * Initiates a full server-side scan & download of all cloud images across articles.
+ */
+export async function syncAllCloudImages(): Promise<{
+  success: boolean;
+  downloadedCount: number;
+  modifiedArticles: number;
+  message: string;
+}> {
+  const res = await fetch("/api/sync-cloud-images", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" }
+  });
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status}`);
+  }
+  return res.json();
+}
+

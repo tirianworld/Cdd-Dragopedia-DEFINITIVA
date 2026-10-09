@@ -131,7 +131,7 @@ export function CategoryReorderModal({ isOpen, onClose }: CategoryReorderModalPr
                 title="Configurar repositorio y token de GitHub"
               >
                 <Github className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">GitHub: {githubConfig?.repo || "tirianworld/Cdd-Dragopedia-DEFINITIVA"}</span>
+                <span className="hidden sm:inline">GitHub: {githubConfig?.repo || "Cdd-wiki-V5"}</span>
               </button>
               <button
                 type="button"

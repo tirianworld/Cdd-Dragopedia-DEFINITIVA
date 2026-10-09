@@ -9,9 +9,9 @@ import {
   ArrowLeft, ArrowRight, Save, Plus, Trash2, Calendar, Gem, Link2, Info, Loader2, Image, List, Check, Compass,
   Bold, Italic, HelpCircle, FileText, Layers, Settings, Eye, Code, Sparkles, Maximize2, Minimize2, RotateCcw, ExternalLink,
   Wand2, Swords, ShieldCheck, ShieldAlert, Table, Undo2, AlertTriangle, CheckCircle2, ChevronRight, X, MessageSquare, GitMerge,
-  Network, Orbit, Sliders, UploadCloud
+  Network, Orbit, Sliders, UploadCloud, Download
 } from "lucide-react";
-import { uploadImageToServerAndGitHub, readFileAsDataURL } from "../utils/localImageStorage";
+import { uploadImageToServerAndGitHub, saveCloudImageToServer, readFileAsDataURL } from "../utils/localImageStorage";
 import { CartoCraftMapPickerModal } from "./CartoCraftMapPickerModal";
 import { GraphPickerModal } from "./GraphPickerModal";
 import { EmbeddedGraphViewer } from "./EmbeddedGraphViewer";
@@ -283,16 +283,22 @@ export function ArticleEditor() {
 
   const fetchBackups = async (artId?: string) => {
     const targetId = artId || originalArticle?.id;
-    if (!targetId) return;
+    if (!targetId) {
+      setBackups([]);
+      return;
+    }
     setLoadingBackups(true);
     try {
       const res = await fetch(`/api/articles/${targetId}/backups`);
       if (res.ok) {
         const data = await res.json();
-        setBackups(data);
+        setBackups(Array.isArray(data) ? data : []);
+      } else {
+        setBackups([]);
       }
     } catch (err) {
       console.error("Error fetching backups:", err);
+      setBackups([]);
     } finally {
       setLoadingBackups(false);
     }
@@ -713,6 +719,27 @@ export function ArticleEditor() {
     }
   };
 
+  const [isDownloadingCloudCover, setIsDownloadingCloudCover] = useState(false);
+  const handleDownloadCloudCover = async () => {
+    if (!imageUrl || (!imageUrl.startsWith("http://") && !imageUrl.startsWith("https://"))) return;
+    setIsDownloadingCloudCover(true);
+    setCoverUploadNotification("Descargando imagen de la nube y guardándola en el servidor local...");
+    try {
+      const res = await saveCloudImageToServer(imageUrl, slug || title || "cover", "cloud");
+      if (res.success && res.url && res.isLocal) {
+        setImageUrl(res.url);
+        setCoverUploadNotification("¡Imagen de la nube guardada permanentemente en local!");
+      } else {
+        setCoverUploadNotification("No se pudo descargar la imagen, pero se mantendrá el enlace original.");
+      }
+    } catch (err: any) {
+      setCoverUploadNotification("Error al guardar imagen de la nube.");
+    } finally {
+      setIsDownloadingCloudCover(false);
+      setTimeout(() => setCoverUploadNotification(null), 4500);
+    }
+  };
+
   // Handler for Inline AI Copilot commands
   const handleInlineAICopilot = async (command: string, customText?: string) => {
     const currentTargetTextarea = editorTab === "code" ? textareaRef.current : plainTextareaRef.current;
@@ -921,7 +948,13 @@ export function ArticleEditor() {
         const safeArticles = Array.isArray(articlesList) ? articlesList : [];
         setAllArticles(safeArticles);
         setCategories(Array.isArray(categoriesList) ? categoriesList : []);
-        setAvailableFilters(filtersList || { campaña: [], continente: [], plano: [], criatura: [] });
+        const safeFilters = filtersList && typeof filtersList === "object" && !Array.isArray(filtersList) ? {
+          campaña: Array.isArray(filtersList.campaña) ? filtersList.campaña : [],
+          continente: Array.isArray(filtersList.continente) ? filtersList.continente : [],
+          plano: Array.isArray(filtersList.plano) ? filtersList.plano : [],
+          criatura: Array.isArray(filtersList.criatura) ? filtersList.criatura : [],
+        } : { campaña: [], continente: [], plano: [], criatura: [] };
+        setAvailableFilters(safeFilters);
         
         const uniqueMonsters: any[] = [];
         const seenIdx = new Set<string>();
@@ -2288,7 +2321,7 @@ export function ArticleEditor() {
                   }}
                   className="w-full h-10 px-3 bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-primary/50 transition-all text-xs font-medium"
                 >
-                  {(mergedCategories.length > 0 ? mergedCategories : mergeCategories(categories)).map((c) => (
+                  {(Array.isArray(mergedCategories) && mergedCategories.length > 0 ? mergedCategories : mergeCategories(Array.isArray(categories) ? categories : [])).map((c) => (
                     <option key={c.slug || c.name} value={c.name}>
                       {c.parentId || c.parentSlug ? `↳ ${c.name}` : c.name}
                     </option>
@@ -2300,7 +2333,7 @@ export function ArticleEditor() {
               <div className="space-y-2 pt-2 border-t border-border/40">
                 <div className="flex items-center justify-between">
                   <label className="text-[11px] font-bold text-muted-foreground uppercase">
-                    Categorías Asignadas ({Array.from(new Set([articleCategory, ...extraCategories].filter(Boolean))).length})
+                    Categorías Asignadas ({Array.from(new Set([articleCategory, ...(Array.isArray(extraCategories) ? extraCategories : [])].filter(Boolean))).length})
                   </label>
                   <span className="text-[10px] text-muted-foreground">
                     Aparece en cada sección con su categoría
@@ -2309,12 +2342,12 @@ export function ArticleEditor() {
 
                 {/* Selected category chips */}
                 <div className="flex flex-wrap gap-1.5">
-                  {Array.from(new Set([articleCategory, ...extraCategories].filter(Boolean))).map((catName) => {
-                    const catList = mergedCategories.length > 0 ? mergedCategories : mergeCategories(categories);
+                  {Array.from(new Set([articleCategory, ...(Array.isArray(extraCategories) ? extraCategories : [])].filter(Boolean))).map((catName) => {
+                    const catList = Array.isArray(mergedCategories) && mergedCategories.length > 0 ? mergedCategories : mergeCategories(Array.isArray(categories) ? categories : []);
                     const matched = catList.find((c) => c.name.toLowerCase().trim() === catName.toLowerCase().trim());
                     const chipColor = matched?.color || "#2dd4bf";
                     const isPrimary = catName.toLowerCase().trim() === articleCategory.toLowerCase().trim();
-                    const allSelected = Array.from(new Set([articleCategory, ...extraCategories].filter(Boolean)));
+                    const allSelected = Array.from(new Set([articleCategory, ...(Array.isArray(extraCategories) ? extraCategories : [])].filter(Boolean)));
 
                     return (
                       <div
@@ -2379,10 +2412,10 @@ export function ArticleEditor() {
                   className="w-full h-9 px-3 bg-secondary/70 border border-dashed border-primary/40 hover:border-primary rounded-lg text-foreground focus:outline-none text-xs cursor-pointer transition-all"
                 >
                   <option value="">+ Añadir otra categoría o subcategoría...</option>
-                  {(mergedCategories.length > 0 ? mergedCategories : mergeCategories(categories))
+                  {(Array.isArray(mergedCategories) && mergedCategories.length > 0 ? mergedCategories : mergeCategories(Array.isArray(categories) ? categories : []))
                     .filter(
                       (c) =>
-                        !Array.from(new Set([articleCategory, ...extraCategories].filter(Boolean))).some(
+                        !Array.from(new Set([articleCategory, ...(Array.isArray(extraCategories) ? extraCategories : [])].filter(Boolean))).some(
                           (sel) => sel.toLowerCase().trim() === c.name.toLowerCase().trim()
                         )
                     )
@@ -2407,7 +2440,7 @@ export function ArticleEditor() {
                   className="w-full h-8 px-2 bg-secondary border border-border rounded-md text-foreground focus:outline-none focus:border-primary/50 text-[11px]"
                 >
                   <option value="">-- Sin campaña --</option>
-                  {(availableFilters.campaña || []).map(v => (
+                  {(Array.isArray(availableFilters?.campaña) ? availableFilters.campaña : []).map(v => (
                     <option key={v} value={v}>{v}</option>
                   ))}
                 </select>
@@ -2421,7 +2454,7 @@ export function ArticleEditor() {
                   className="w-full h-8 px-2 bg-secondary border border-border rounded-md text-foreground focus:outline-none focus:border-primary/50 text-[11px]"
                 >
                   <option value="">-- Sin continente --</option>
-                  {(availableFilters.continente || []).map(v => (
+                  {(Array.isArray(availableFilters?.continente) ? availableFilters.continente : []).map(v => (
                     <option key={v} value={v}>{v}</option>
                   ))}
                 </select>
@@ -2435,7 +2468,7 @@ export function ArticleEditor() {
                   className="w-full h-8 px-2 bg-secondary border border-border rounded-md text-foreground focus:outline-none focus:border-primary/50 text-[11px]"
                 >
                   <option value="">-- Sin plano --</option>
-                  {(availableFilters.plano || []).map(v => (
+                  {(Array.isArray(availableFilters?.plano) ? availableFilters.plano : []).map(v => (
                     <option key={v} value={v}>{v}</option>
                   ))}
                 </select>
@@ -2449,7 +2482,7 @@ export function ArticleEditor() {
                   className="w-full h-8 px-2 bg-secondary border border-border rounded-md text-foreground focus:outline-none focus:border-primary/50 text-[11px]"
                 >
                   <option value="">-- Sin criatura --</option>
-                  {(availableFilters.criatura || []).map(v => (
+                  {(Array.isArray(availableFilters?.criatura) ? availableFilters.criatura : []).map(v => (
                     <option key={v} value={v}>{v}</option>
                   ))}
                 </select>
@@ -2487,6 +2520,22 @@ export function ArticleEditor() {
                   placeholder="https://ejemplo.com/recurso.png"
                   className="flex-1 h-10 px-3 bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-primary/50 transition-all text-xs font-mono"
                 />
+                {imageUrl && (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) && (
+                  <button
+                    type="button"
+                    onClick={handleDownloadCloudCover}
+                    disabled={isDownloadingCloudCover}
+                    className="px-3 h-10 bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-500/40 hover:border-emerald-400 rounded-lg text-emerald-200 font-bold text-xs flex items-center gap-1.5 transition-all shrink-0 cursor-pointer shadow-sm disabled:opacity-50"
+                    title="Descargar esta imagen de la nube y guardarla permanentemente en el servidor local"
+                  >
+                    {isDownloadingCloudCover ? (
+                      <Loader2 className="h-4 w-4 animate-spin text-emerald-400" />
+                    ) : (
+                      <Download className="h-4 w-4 text-emerald-400" />
+                    )}
+                    <span className="hidden sm:inline">Guardar en local</span>
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => pcCoverInputRef.current?.click()}
@@ -2511,6 +2560,13 @@ export function ArticleEditor() {
                   <span className="hidden sm:inline">Galería</span>
                 </button>
               </div>
+
+              {imageUrl && imageUrl.startsWith("/images/") && (
+                <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 font-mono">
+                  <Check className="h-3.5 w-3.5" />
+                  <span>Imagen guardada permanentemente en el servidor local ({imageUrl})</span>
+                </div>
+              )}
 
               {coverUploadNotification && (
                 <div className="p-2.5 rounded-lg bg-sky-950/70 border border-sky-500/40 text-sky-200 text-xs flex items-center gap-2 animate-in fade-in duration-200">
@@ -3277,13 +3333,13 @@ export function ArticleEditor() {
                 <div className="flex justify-center py-4">
                   <Loader2 className="h-5 w-5 animate-spin text-primary" />
                 </div>
-              ) : backups.length === 0 ? (
+              ) : !Array.isArray(backups) || backups.length === 0 ? (
                 <p className="text-[10px] text-muted-foreground/60 italic text-center py-4">
                   No hay copias de seguridad anteriores disponibles todavía.
                 </p>
               ) : (
                 <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
-                  {backups.map((bak) => {
+                  {(Array.isArray(backups) ? backups : []).map((bak) => {
                     const createdDate = new Date(bak.createdAt);
                     const expiresDate = new Date(bak.expiresAt);
                     

@@ -147,104 +147,53 @@ function sanitizeArticlesForLocalStorage(articles: WikiArticle[]): any[] {
   });
 }
 
-// Helper to save articles to IndexedDB for complete, unlimited offline persistence without truncation
-const IDB_NAME = "DragopediaOfflineDB";
-const IDB_STORE = "articles_full_v1";
-
-function saveToIndexedDB(key: string, articles: WikiArticle[]): void {
-  if (typeof window === "undefined" || !window.indexedDB) return;
-  try {
-    const req = window.indexedDB.open(IDB_NAME, 1);
-    req.onupgradeneeded = () => {
-      const db = req.result;
-      if (!db.objectStoreNames.contains(IDB_STORE)) {
-        db.createObjectStore(IDB_STORE);
-      }
-    };
-    req.onsuccess = () => {
-      const db = req.result;
-      const tx = db.transaction(IDB_STORE, "readwrite");
-      tx.objectStore(IDB_STORE).put(articles, key);
-    };
-  } catch (err) {
-    // Non-critical background IndexedDB write
-  }
+// Helper to create an ultra-compact summary index for offline storage
+function createCompactArticlesIndex(articles: any[]): any[] {
+  return articles.map((a: any) => ({
+    id: a.id,
+    slug: a.slug,
+    title: a.title,
+    category: a.category,
+    extra_categories: a.extra_categories || [],
+    summary: a.summary || "",
+    tags: a.tags || [],
+    updated_date: a.updated_date,
+    created_date: a.created_date,
+    is_featured: a.is_featured,
+    image_url: typeof a.image_url === "string" && !a.image_url.startsWith("data:") && a.image_url.length < 2048 ? a.image_url : "",
+    filters: a.filters,
+    content: typeof a.content === "string" ? a.content.slice(0, 500) : "",
+  }));
 }
 
-function tryLoadFromIndexedDB(key: string): void {
-  if (typeof window === "undefined" || !window.indexedDB) return;
-  try {
-    const req = window.indexedDB.open(IDB_NAME, 1);
-    req.onsuccess = () => {
-      const db = req.result;
-      if (!db.objectStoreNames.contains(IDB_STORE)) return;
-      const tx = db.transaction(IDB_STORE, "readonly");
-      const getReq = tx.objectStore(IDB_STORE).get(key);
-      getReq.onsuccess = () => {
-        const val = getReq.result;
-        if (Array.isArray(val) && val.length > 0) {
-          const hasFullContent = val.some((a: any) => (a.content || "").length > 500);
-          if (hasFullContent) {
-            memoryArticlesCache[key] = applyDefaultArticleSubcategories(val);
-          }
-        }
-      };
-    };
-  } catch {}
-}
-
-// Check if an articles array has been corrupted by the legacy 500-character truncation bug
-function isCorruptedTruncatedList(articles: any[]): boolean {
-  if (!Array.isArray(articles) || articles.length === 0) return false;
-  // If we have many articles but NONE of them has content longer than 500 characters, it was sliced!
-  if (articles.length >= 20) {
-    const hasAnyLong = articles.some((a) => typeof a?.content === "string" && a.content.length > 500);
-    if (!hasAnyLong) return true;
-  }
-  return false;
-}
-
-// Helper to get cached articles instantly with 100% full content
+// Helper to get cached articles instantly
 export function getCachedArticles(): WikiArticle[] {
   const key = getCacheKey();
   if (memoryArticlesCache[key] && memoryArticlesCache[key].length > 0) {
-    if (!isCorruptedTruncatedList(memoryArticlesCache[key])) {
-      return memoryArticlesCache[key];
-    }
+    return memoryArticlesCache[key];
   }
-
   if (typeof window !== "undefined" && window.localStorage) {
     try {
       const raw = localStorage.getItem(key);
       if (raw) {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // If the cached list was corrupted by the old 500-character truncation bug, purge it immediately!
-          if (isCorruptedTruncatedList(parsed)) {
-            console.warn(`[syncArticles] Detectada caché antigua truncada (${parsed.length} artículos <= 500 caracteres). Purgando caché obsoleta para recargar contenido 100% completo.`);
-            localStorage.removeItem(key);
-          } else {
-            const normalized = applyDefaultArticleSubcategories(parsed);
-            memoryArticlesCache[key] = normalized;
-            return normalized;
-          }
+          const normalized = applyDefaultArticleSubcategories(parsed);
+          memoryArticlesCache[key] = normalized;
+          return normalized;
         }
       }
     } catch (e) {
       // ignore
     }
   }
-
-  // Check background IndexedDB
-  tryLoadFromIndexedDB(key);
-
   // Initialize from bundled seed articles!
   const defaultList = applyDefaultArticleSubcategories(HARDCODED_ARTICLES);
   memoryArticlesCache[key] = defaultList;
   return defaultList;
 }
 
-// Helper to get a specific cached article by slug or id immediately (ensuring full content)
+// Helper to get a specific cached article by slug or id immediately
 export function getCachedArticleBySlugOrId(slugOrId: string): WikiArticle | null {
   if (!slugOrId) return null;
   const articles = getCachedArticles();
@@ -262,16 +211,12 @@ export function getCachedArticleBySlugOrId(slugOrId: string): WikiArticle | null
   ) || null;
 }
 
-// Helper to save articles to cache safely without cutting or truncating any article content
+// Helper to save articles to cache safely without exceeding storage quota
 export function setCachedArticles(rawArticles: WikiArticle[]): void {
   const articles = applyDefaultArticleSubcategories(rawArticles);
   const key = getCacheKey();
-  
-  // NEVER truncate in active RAM memory cache - always maintain 100% complete content
+  // Keep the complete, high-fidelity objects in active RAM memory cache
   memoryArticlesCache[key] = articles;
-
-  // Persist full fidelity in IndexedDB
-  saveToIndexedDB(key, articles);
 
   if (typeof window === "undefined" || !window.localStorage) return;
 
@@ -279,24 +224,30 @@ export function setCachedArticles(rawArticles: WikiArticle[]): void {
     const sanitized = sanitizeArticlesForLocalStorage(articles);
     const serialized = JSON.stringify(sanitized);
 
-    // Save directly to localStorage if within quota, preserving 100% full content
-    localStorage.setItem(key, serialized);
+    // If serialized payload is within a safe 2MB threshold, save directly
+    if (serialized.length < 2 * 1024 * 1024) {
+      localStorage.setItem(key, serialized);
+      return;
+    }
+
+    // Otherwise use compact index to fit easily within 5MB quota
+    const compact = createCompactArticlesIndex(sanitized);
+    localStorage.setItem(key, JSON.stringify(compact));
   } catch (e: any) {
-    // Quota exceeded: clean old language caches to free space
+    // Quota exceeded or storage restricted: purge stale keys and attempt fallback
     try {
+      // Clear other language caches or old temporary items to free space
       for (let i = localStorage.length - 1; i >= 0; i--) {
         const k = localStorage.key(i);
         if (k && k.startsWith("wiki_articles_cache_") && k !== key) {
           localStorage.removeItem(k);
         }
       }
-      // Retry once after purging stale keys
-      const sanitized = sanitizeArticlesForLocalStorage(articles);
-      localStorage.setItem(key, JSON.stringify(sanitized));
+      const compactFallback = createCompactArticlesIndex(articles.slice(0, 80));
+      localStorage.setItem(key, JSON.stringify(compactFallback));
     } catch (fallbackErr) {
-      // If still exceeding 5MB localStorage quota, rely on IndexedDB and RAM memory cache.
-      // NEVER slice or truncate article content!
-      console.warn("[syncArticles] LocalStorage quota alcanzada. Artículos completos asegurados en IndexedDB y memoria activa.");
+      // Gracefully fall back to memoryArticlesCache without throwing or polluting console.error
+      console.warn("[syncArticles] LocalStorage quota reached; relying on active in-memory cache.");
     }
   }
 }
@@ -561,23 +512,7 @@ export async function syncFetch(
     const nonArticleEndpoints = ["sync", "auto-position-images", "sync-monsters", "filter-categories", "categories"];
     if (!nonArticleEndpoints.includes(slug)) {
       const localArticle = getCachedArticleBySlugOrId(slug);
-      const isLikelyTruncated = localArticle && typeof localArticle.content === "string" && localArticle.content.length <= 500;
-      if (localArticle && localArticle.title && localArticle.content && !isLikelyTruncated) {
-        // Also trigger background revalidation to guarantee latest full content
-        setTimeout(async () => {
-          try {
-            const modifiedInput = appendLangToInput(input, selectedLang || "es");
-            const res = await originalFetch(modifiedInput, init);
-            if (res.ok) {
-              const freshArt = await res.json().catch(() => null);
-              if (freshArt && freshArt.content && freshArt.content.length > (localArticle.content?.length || 0)) {
-                updateArticleInCache(freshArt);
-                window.dispatchEvent(new CustomEvent("wiki-articles-updated"));
-              }
-            }
-          } catch {}
-        }, 100);
-
+      if (localArticle && localArticle.title && localArticle.content) {
         return new Response(JSON.stringify(localArticle), {
           status: 200,
           headers: { "Content-Type": "application/json" },

@@ -10647,8 +10647,8 @@
       "muerte-gravatax"
     ],
     "created_date": "2026-08-12T14:48:49.565Z",
-    "updated_date": "2026-09-24T10:10:09.256Z",
-    "image_url": "/images/cloud/drangleic-alternativo-msq7fs0t_ccf89cc042.png",
+    "updated_date": "2026-10-09T11:41:17.834Z",
+    "image_url": "/images/uploads/drangleic_alternativo-1791546029617_j1r58.png",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -10680,7 +10680,11 @@
       "entidad": []
     },
     "map_url": "https://cartocraft.ai.studio/#/map/map-ba6meuz/no-ui?markers=false&lights=true&helpers=false&root=map-ba6meuz",
-    "extra_categories": []
+    "extra_categories": [
+      "Lugares"
+    ],
+    "spells": [],
+    "spell_images": {}
   },
   {
     "title": "El Santa María",

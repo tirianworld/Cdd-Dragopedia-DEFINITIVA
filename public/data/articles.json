@@ -1,5 +1,38 @@
 [
   {
+    "id": "art-1791351732056",
+    "slug": "magia-aurea",
+    "title": "Magia Áurea",
+    "category": "Magias",
+    "summary": "La Magia Áurea es una manifestación única de la fusión entre la magia divina y la magia natural en Ávalon, centrada en la curación, regeneración, resurrección y creación de leyendas. Esta magia es el corazón y alma del Árbol Áureo, otorgando poderes extraordinarios que trascienden las leyes naturales.",
+    "content": "<p>Magia Áurea</p>\n<p>La <strong>Magia Áurea</strong> es una manifestación única y poderosa que surge de la fusión entre la <a href=\"/articulo/magia-divina\">magia divina</a> y la <a href=\"/articulo/magia-natural\">magia natural</a> en el contexto de <a href=\"/articulo/avalon\">Ávalon</a>. Esta magia se centra en la curación, regeneración, resurrección y creación de leyendas, otorgando un poder que trasciende las leyes naturales y se convierte en un elemento esencial del <a href=\"/articulo/arbol-aureo-mrf9a5jc\">Árbol Áureo</a>.</p>\n<h2>Origen y Naturaleza</h2>\n<p>El origen de la <strong>Magia Áurea</strong> está profundamente ligado al <a href=\"/articulo/arbol-aureo-mrf9a5jc\">Árbol Áureo</a>, una entidad divina y ancestral que actúa como el corazón de <a href=\"/articulo/avalon\">Ávalon</a>. Este árbol fue creado por la unión de la <a href=\"/articulo/magia-divina\">magia divina</a> y la <a href=\"/articulo/magia-natural\">magia natural</a>, lo que le otorgó una esencia única y poderosa. La <strong>Magia Áurea</strong> es la expresión de esta fusión, manifestándose como una energía que promueve la curación, la regeneración y la resurrección de seres vivos.</p>\n<h2>Características Principales</h2>\n<ul>\n<li><strong>Curación:</strong> La <strong>Magia Áurea</strong> tiene la capacidad de sanar heridas físicas y espirituales, restaurando la salud y el equilibrio en los seres que la reciben.</li>\n</ul>\n<ul>\n<li><strong>Regeneración:</strong> Esta magia puede acelerar la regeneración de tejidos y órganos, permitiendo la recuperación de daños incluso graves.</li>\n</ul>\n<ul>\n<li><strong>Resurrección:</strong> En casos excepcionales, la <strong>Magia Áurea</strong> puede revivir a los muertos, aunque esto suele estar ligado a condiciones específicas y a la absorción de energía vital y almas.</li>\n</ul>\n<ul>\n<li><strong>Creación de Leyendas:</strong> La <strong>Magia Áurea</strong> no solo tiene un impacto físico, sino también un efecto en la narrativa y la memoria colectiva, permitiendo la creación de leyendas y mitos que perduran a través del tiempo.</li>\n</ul>\n<h2>Relación con el Árbol Áureo</h2>\n<p>El <a href=\"/articulo/arbol-aureo-mrf9a5jc\">Árbol Áureo</a> es el epicentro de la <strong>Magia Áurea</strong>. Cada vez que alguien muere en <a href=\"/articulo/avalon\">Ávalon</a>, el Árbol Áureo absorbe parte de su energía vital y un fragmento de su alma. Este proceso tiene dos posibles resultados:</p>\n<ul>\n<li>Si el asesino de la víctima muere, la energía vital y el alma de la víctima son devueltos a su poseedor original.</li>\n</ul>\n<ul>\n<li>Si la víctima no es asesinada, pero su energía vital se agota por otros medios, su alma es forzada a reencarnar.</li>\n</ul>\n<p>Ambos procesos envían nutrientes al <a href=\"/articulo/arbol-aureo-mrf9a5jc\">Árbol Áureo</a>, aumentando su poder y fortaleciéndolo. Con el tiempo, estos nutrientes han elevado al Árbol Áureo a un nivel cercano al de las deidades menores, consolidando su papel como guardián y fuente de la <strong>Magia Áurea</strong>.</p>\n<h2>Importancia en el Lore</h2>\n<p>La <strong>Magia Áurea</strong> es crucial en el lore de <a href=\"/articulo/avalon\">Ávalon</a>, ya que no solo permite la supervivencia y regeneración de sus habitantes, sino que también influye en la creación de leyendas y mitos que definen la identidad de la isla. Esta magia es un símbolo de la conexión entre lo divino y lo natural, y su presencia asegura que Ávalon permanezca como un lugar de inmortalidad y renacimiento.</p>\n<h2>Curiosidades</h2>\n<p>La <strong>Magia Áurea</strong> es única en su capacidad para fusionar dos tipos de magia tan distintos como la divina y la natural. Este equilibrio es lo que permite que <a href=\"/articulo/avalon\">Ávalon</a> sea un lugar donde la muerte no es el final, sino una transición hacia nuevas formas de existencia. Además, la <strong>Magia Áurea</strong> también tiene un papel en la protección de la isla, asegurando que su esencia y su magia sigan siendo inquebrantables.</p>",
+    "infobox": {},
+    "timeline_markers": [],
+    "timeline_order": [],
+    "created_date": "2026-10-07T05:42:24.272Z",
+    "updated_date": "2026-10-07T07:23:27.032Z",
+    "extra_categories": [
+      "Magias"
+    ],
+    "image_position_x": 50,
+    "image_position_y": 50,
+    "gallery": [],
+    "tags": [],
+    "related_article_ids": [],
+    "monsters": [],
+    "monster_images": {},
+    "spells": [],
+    "spell_images": {},
+    "filters": {
+      "campaña": [],
+      "continente": [],
+      "plano": [],
+      "criatura": [],
+      "entidad": []
+    },
+    "image_url": "/images/uploads/imagen_2026-10-07_092314068-1791357795595_wy2z6.png"
+  },
+  {
     "id": "art-mongraal-player",
     "title": "Mongraal",
     "slug": "mongraal",
@@ -465,7 +498,7 @@
     "timeline_markers": [],
     "timeline_order": [],
     "created_date": "2026-09-20T00:23:32.648Z",
-    "updated_date": "2026-09-22T09:54:58.223Z",
+    "updated_date": "2026-10-09T09:28:38.313Z",
     "image_position_x": 48,
     "image_position_y": 8,
     "gallery": [],
@@ -481,7 +514,9 @@
       "entidad": []
     },
     "image_url": "/images/cloud/cid_21838c4fb2.png",
-    "extra_categories": []
+    "extra_categories": [
+      "Personajes"
+    ]
   },
   {
     "id": "art-1789858601576",
@@ -1552,7 +1587,7 @@
     "is_featured": false,
     "id": "art-1787667632755",
     "created_date": "2026-08-25T14:20:39.692Z",
-    "updated_date": "2026-09-24T10:35:37.472Z",
+    "updated_date": "2026-10-09T09:30:44.689Z",
     "image_url": "/images/cloud/seis-magias-primordiales_4f548c88b8.png",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -1710,7 +1745,9 @@
       "blink": "/images/cloud/Blink_Icon_e5e7f6d280.webp",
       "hypnotic-pattern": "/images/cloud/Hypnotic_Pattern_Icon_139a4678bf.webp"
     },
-    "extra_categories": []
+    "extra_categories": [
+      "Magias"
+    ]
   },
   {
     "title": "Adamantita",
@@ -10914,7 +10951,7 @@
     "is_featured": false,
     "id": "art-1784457896936",
     "created_date": "2026-07-19T10:44:57.832Z",
-    "updated_date": "2026-10-02T11:32:40.192Z",
+    "updated_date": "2026-10-09T09:35:29.979Z",
     "image_url": "/images/cloud/limeyr_a77d4b7640.png",
     "gallery": [],
     "related_article_ids": [],
@@ -12136,7 +12173,7 @@
     "summary": "",
     "content": "<h2>Stariax</h2>\n<p>Stariax es una figura esbelta y ágil, con una presencia que irradia letalidad y frialdad.</p>\n<h2>Apariencia</h2>\n<p>Stariax es una figura esbelta y ágil, con una presencia que irradia letalidad y frialdad. Su cuerpo está marcado por cicatrices de pruebas y rituales, pero también por una agilidad sobrenatural. Sus movimientos son precisos y rápidos, como si el tiempo mismo se ralentizara a su alrededor. Sus ojos, fríos y vacíos, reflejan la ausencia de humanidad que alguna vez tuvo. Su piel, pálida y sin vida, contrasta con la oscuridad de su entorno. Viste ropas desgarradas y funcionales, diseñadas para el movimiento y la supervivencia, pero sin ningún adorno que delate su pasado.</p>\n<h2>Personalidad</h2>\n<p>Stariax es un ser consumido por el odio y la sed de venganza. Su mente está dominada por una voz que le susurra \"Todos deben morir\", una obsesión que la impulsa a eliminar cualquier amenaza o obstáculo en su camino. No siente remordimiento ni empatía, solo una frialdad calculadora y una determinación implacable. Su único propósito es destruir a quienes considera responsables de su sufrimiento, sin importar el costo. Aunque alguna vez tuvo amor por su hermano y esperanza de escapar, ahora solo existe el vacío y la necesidad de matar.</p>\n<h2>Historia</h2>\n<p>Stariax nació en una familia humilde, pero su vida dio un giro oscuro cuando, a una edad temprana, sus padres, ahogados en deudas y miedo, la vendieron junto a su hermano a un <a href=\"/articulo/hechicero\">hechicero</a> ligado a una poderosa <a href=\"/articulo/secta-oscura\">secta oscura</a>. El <a href=\"/articulo/hechicero\">hechicero</a> no veía en ellos a niños, sino en material en potencia para crear una criatura perfecta: rápida, letal y sin emociones. Los llevó a un castillo, donde el sol no entraba y solo reinaba el polvo y la humedad. Allí, Stariax y su hermano fueron sometidos a pruebas, rituales y castigos interminables. Stariax siempre se levantó más fuerte, más rápida y más fría, pero su hermano, de constitución más frágil, no resistía igual. Stariax lo protegía, asegurándole que algún día escaparían.</p>\n<p>Un día, el <a href=\"/articulo/hechicero\">hechicero</a> decidió que el hermano de Stariax había fallado y ya no le servía. Obligada a mirar, encadenada e inmóvil, Stariax vio cómo el <a href=\"/articulo/hechicero\">hechicero</a> iniciaba un conjuro que terminó con la vida de su hermano. Pero el hechizo, aún incompleto, se desbordó, y una parte de esa magia entró en Stariax. Ese fue el momento en que algo dentro de ella murió y algo más nació. Un vacío se llenó completamente de odio, odio sin forma ni razón, dirigido no solo hacia el <a href=\"/articulo/hechicero\">hechicero</a>, sino hacia todo lo que la rodeaba. Rompió sus cadenas y, por primera vez, el <a href=\"/articulo/hechicero\">hechicero</a> sintió miedo. Fue ejecutado en un instante. El dolor la había convertido en algo inhumano.</p>\n<p>Desde entonces, Stariax solo siente odio y sed de venganza. Su cuerpo es ligero, rápido y letal, y sus sentidos están afilados como cuchillas. Pero su mente está consumida por la voz que le susurra \"Todos deben morir\". Pronto descubrió que el <a href=\"/articulo/hechicero\">hechicero</a> no estaba solo; formaba parte de una <a href=\"/articulo/secta-oscura\">secta oscura</a> que seguía creando monstruos. Su objetivo se volvió claro: matar a todos hasta que no quedara ni uno en pie, cueste lo que cueste.</p>\n<p>Tras su transformación en una criatura letal y consumida por el odio, Stariax vagó por el mundo hasta que, durante la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a> a <a href=\"#\">Ávalon</a>, llegó a <a href=\"#\">Svartal</a>, en el <a href=\"/articulo/gran-reino-enano-de-thorin-mrdtvqcc\">Gran Reino Enano de Thorin</a>. Al enterarse de que el grupo carecía de un miembro para competir en el  torndeo se unió a ellos. Su habilidad en combate y su sed de venganza resultaron clave para derrotar a <a href=\"/articulo/kaelgor-loux\">Kaelgor Loux</a>. Tras la victoria, Stariax se unió oficialmente a la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a>, consolidando su lugar como parte del grupo.</p>\n<h2>Habilidades y poderes</h2>\n<ul>\n<li><strong>Agilidad sobrenatural:</strong> Su cuerpo es increíblemente ágil, capaz de moverse a velocidades inhumanas y esquivar ataques con facilidad.</li>\n<li><strong>Sentidos afilados:</strong> Sus sentidos están tan desarrollados que puede detectar presencias, olores y sonidos a distancias imposibles para un humano normal.</li>\n<li><strong>Resistencia extrema:</strong> Ha sido sometida a pruebas brutales que la han hecho resistente al dolor y a la fatiga, permitiéndole continuar incluso en condiciones extremas.</li>\n<li><strong>Frialdad mental:</strong> Su mente está tan consumida por el odio que no siente miedo ni remordimiento, lo que la hace un enemigo implacable.</li>\n<li><strong>Armas naturales:</strong> Sus manos y pies están adaptados para el combate, con garras y golpes letales que pueden matar instantáneamente.</li>\n</ul>\n<h2>Curiosidades</h2>\n<ul>\n<li>Stariax no recuerda su nombre de nacimiento ni el de su hermano, ya que todo su pasado fue borrado por los experimentos de la <a href=\"/articulo/secta-oscura\">secta oscura</a>.</li>\n<li>Su odio no está dirigido solo a quienes la dañaron, sino a todo lo que existe, incluyendo a los inocentes.</li>\n<li>Aunque su cuerpo es humanoide, su fisiología ha sido alterada por la <a href=\"/articulo/magia-oscura\">magia oscura</a>, dándole habilidades sobrehumanas.</li>\n<li>La <a href=\"/articulo/secta-oscura\">secta oscura</a> que la creó sigue activa, y Stariax busca destruirla como parte de su venganza.</li>\n</ul>",
     "created_date": "2026-07-09T23:25:05.482Z",
-    "updated_date": "2026-10-02T11:32:46.319Z",
+    "updated_date": "2026-10-09T10:56:45.220Z",
     "image_url": "/images/cloud/stariax-mre4wqiy_48c58c534d.png",
     "gallery": [],
     "infobox": {
@@ -18388,7 +18425,7 @@
     "is_featured": false,
     "id": "art-1783383523286",
     "created_date": "2026-07-07T00:19:04.000Z",
-    "updated_date": "2026-08-23T16:50:32.844Z",
+    "updated_date": "2026-10-09T10:57:42.438Z",
     "image_url": "/images/cloud/arthorius_cf9ffbf166.png",
     "gallery": [],
     "related_article_ids": [
@@ -18412,8 +18449,8 @@
     "image_position_x": 50,
     "image_position_y": 20,
     "extra_categories": [
-      "Personajes",
-      "Ascendidos"
+      "Ascendidos",
+      "Personajes"
     ]
   },
   {
@@ -19475,7 +19512,7 @@
     "is_featured": false,
     "id": "art-1783383337454",
     "created_date": "2026-07-07T00:15:47.991Z",
-    "updated_date": "2026-08-23T16:05:36.970Z",
+    "updated_date": "2026-10-09T10:59:05.749Z",
     "image_url": "/images/cloud/thravir-el-loxodon_7e670b7e5b.png",
     "gallery": [],
     "related_article_ids": [
@@ -19492,7 +19529,9 @@
     },
     "image_position_x": 50,
     "image_position_y": 20,
-    "extra_categories": []
+    "extra_categories": [
+      "Personajes"
+    ]
   },
   {
     "title": "Thorin Loux",
@@ -20312,7 +20351,7 @@
     "is_featured": false,
     "id": "art-1783383230017",
     "created_date": "2026-07-07T00:13:51.802Z",
-    "updated_date": "2026-08-23T16:05:36.970Z",
+    "updated_date": "2026-10-09T10:55:10.663Z",
     "image_url": "/images/cloud/rey-redcap_19f13f5690.png",
     "gallery": [],
     "related_article_ids": [
@@ -20330,7 +20369,9 @@
     },
     "image_position_x": 50,
     "image_position_y": 30,
-    "extra_categories": []
+    "extra_categories": [
+      "Personajes"
+    ]
   },
   {
     "title": "Rexyrian",
@@ -20588,7 +20629,7 @@
     "is_featured": false,
     "id": "art-1783383205089",
     "created_date": "2026-07-07T00:13:27.518Z",
-    "updated_date": "2026-10-02T11:31:47.084Z",
+    "updated_date": "2026-10-09T11:02:15.993Z",
     "image_url": "/images/cloud/ragnavaldr_f2a5aca03a.png",
     "gallery": [],
     "related_article_ids": [
@@ -20689,7 +20730,7 @@
     "is_featured": false,
     "id": "art-1783383197350",
     "created_date": "2026-07-07T00:13:22.236Z",
-    "updated_date": "2026-08-23T16:55:59.427Z",
+    "updated_date": "2026-10-09T11:04:25.373Z",
     "image_url": "/images/cloud/ragnarok_d183701688.png",
     "gallery": [],
     "related_article_ids": [
@@ -20705,7 +20746,9 @@
     },
     "image_position_x": 50,
     "image_position_y": 40,
-    "extra_categories": []
+    "extra_categories": [
+      "Personajes"
+    ]
   },
   {
     "title": "Pythor",
@@ -21807,7 +21850,7 @@
     "is_featured": false,
     "id": "art-1783382917815",
     "created_date": "2026-07-07T00:08:41.149Z",
-    "updated_date": "2026-08-23T16:59:26.187Z",
+    "updated_date": "2026-10-09T11:02:58.258Z",
     "gallery": [],
     "related_article_ids": [
       "art-1787666875758",
@@ -21824,7 +21867,9 @@
     "image_url": "/images/cloud/mamon_da070e2838.png",
     "image_position_x": 50,
     "image_position_y": 30,
-    "extra_categories": []
+    "extra_categories": [
+      "Personajes"
+    ]
   },
   {
     "title": "La Corona del Apocalipsis",
@@ -23095,38 +23140,5 @@
     "image_position_x": 50,
     "image_position_y": 20,
     "extra_categories": []
-  },
-  {
-    "id": "art-1791351732056",
-    "slug": "magia-aurea",
-    "title": "Magia Áurea",
-    "category": "Magias",
-    "summary": "La Magia Áurea es una manifestación única de la fusión entre la magia divina y la magia natural en Ávalon, centrada en la curación, regeneración, resurrección y creación de leyendas. Esta magia es el corazón y alma del Árbol Áureo, otorgando poderes extraordinarios que trascienden las leyes naturales.",
-    "content": "<p>Magia Áurea</p>\n<p>La <strong>Magia Áurea</strong> es una manifestación única y poderosa que surge de la fusión entre la <a href=\"/articulo/magia-divina\">magia divina</a> y la <a href=\"/articulo/magia-natural\">magia natural</a> en el contexto de <a href=\"/articulo/avalon\">Ávalon</a>. Esta magia se centra en la curación, regeneración, resurrección y creación de leyendas, otorgando un poder que trasciende las leyes naturales y se convierte en un elemento esencial del <a href=\"/articulo/arbol-aureo-mrf9a5jc\">Árbol Áureo</a>.</p>\n<h2>Origen y Naturaleza</h2>\n<p>El origen de la <strong>Magia Áurea</strong> está profundamente ligado al <a href=\"/articulo/arbol-aureo-mrf9a5jc\">Árbol Áureo</a>, una entidad divina y ancestral que actúa como el corazón de <a href=\"/articulo/avalon\">Ávalon</a>. Este árbol fue creado por la unión de la <a href=\"/articulo/magia-divina\">magia divina</a> y la <a href=\"/articulo/magia-natural\">magia natural</a>, lo que le otorgó una esencia única y poderosa. La <strong>Magia Áurea</strong> es la expresión de esta fusión, manifestándose como una energía que promueve la curación, la regeneración y la resurrección de seres vivos.</p>\n<h2>Características Principales</h2>\n<ul>\n<li><strong>Curación:</strong> La <strong>Magia Áurea</strong> tiene la capacidad de sanar heridas físicas y espirituales, restaurando la salud y el equilibrio en los seres que la reciben.</li>\n</ul>\n<ul>\n<li><strong>Regeneración:</strong> Esta magia puede acelerar la regeneración de tejidos y órganos, permitiendo la recuperación de daños incluso graves.</li>\n</ul>\n<ul>\n<li><strong>Resurrección:</strong> En casos excepcionales, la <strong>Magia Áurea</strong> puede revivir a los muertos, aunque esto suele estar ligado a condiciones específicas y a la absorción de energía vital y almas.</li>\n</ul>\n<ul>\n<li><strong>Creación de Leyendas:</strong> La <strong>Magia Áurea</strong> no solo tiene un impacto físico, sino también un efecto en la narrativa y la memoria colectiva, permitiendo la creación de leyendas y mitos que perduran a través del tiempo.</li>\n</ul>\n<h2>Relación con el Árbol Áureo</h2>\n<p>El <a href=\"/articulo/arbol-aureo-mrf9a5jc\">Árbol Áureo</a> es el epicentro de la <strong>Magia Áurea</strong>. Cada vez que alguien muere en <a href=\"/articulo/avalon\">Ávalon</a>, el Árbol Áureo absorbe parte de su energía vital y un fragmento de su alma. Este proceso tiene dos posibles resultados:</p>\n<ul>\n<li>Si el asesino de la víctima muere, la energía vital y el alma de la víctima son devueltos a su poseedor original.</li>\n</ul>\n<ul>\n<li>Si la víctima no es asesinada, pero su energía vital se agota por otros medios, su alma es forzada a reencarnar.</li>\n</ul>\n<p>Ambos procesos envían nutrientes al <a href=\"/articulo/arbol-aureo-mrf9a5jc\">Árbol Áureo</a>, aumentando su poder y fortaleciéndolo. Con el tiempo, estos nutrientes han elevado al Árbol Áureo a un nivel cercano al de las deidades menores, consolidando su papel como guardián y fuente de la <strong>Magia Áurea</strong>.</p>\n<h2>Importancia en el Lore</h2>\n<p>La <strong>Magia Áurea</strong> es crucial en el lore de <a href=\"/articulo/avalon\">Ávalon</a>, ya que no solo permite la supervivencia y regeneración de sus habitantes, sino que también influye en la creación de leyendas y mitos que definen la identidad de la isla. Esta magia es un símbolo de la conexión entre lo divino y lo natural, y su presencia asegura que Ávalon permanezca como un lugar de inmortalidad y renacimiento.</p>\n<h2>Curiosidades</h2>\n<p>La <strong>Magia Áurea</strong> es única en su capacidad para fusionar dos tipos de magia tan distintos como la divina y la natural. Este equilibrio es lo que permite que <a href=\"/articulo/avalon\">Ávalon</a> sea un lugar donde la muerte no es el final, sino una transición hacia nuevas formas de existencia. Además, la <strong>Magia Áurea</strong> también tiene un papel en la protección de la isla, asegurando que su esencia y su magia sigan siendo inquebrantables.</p>",
-    "infobox": {},
-    "timeline_markers": [],
-    "timeline_order": [],
-    "created_date": "2026-10-07T05:42:24.272Z",
-    "updated_date": "2026-10-07T07:23:27.032Z",
-    "extra_categories": [
-      "Magias"
-    ],
-    "image_position_x": 50,
-    "image_position_y": 50,
-    "gallery": [],
-    "tags": [],
-    "related_article_ids": [],
-    "monsters": [],
-    "monster_images": {},
-    "spells": [],
-    "spell_images": {},
-    "filters": {
-      "campaña": [],
-      "continente": [],
-      "plano": [],
-      "criatura": [],
-      "entidad": []
-    },
-    "image_url": "/images/uploads/imagen_2026-10-07_092314068-1791357795595_wy2z6.png"
   }
 ]

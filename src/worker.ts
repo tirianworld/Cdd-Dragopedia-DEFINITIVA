@@ -200,7 +200,7 @@ export default {
       }
 
       // 1.9 Spells / Spellbook endpoint
-      if (cleanPath === "/api/spells" || cleanPath === "/api/spellbook" || cleanPath === "/api/spellbook/spells") {
+      if (cleanPath === "/api/spells" || cleanPath === "/api/spellbook") {
         const assetReq = new Request(new URL("/data/spells.json", request.url), request);
         const assetRes = await env.ASSETS.fetch(assetReq);
         if (assetRes.ok) {
@@ -211,29 +211,6 @@ export default {
           });
         }
         return jsonResponse([]);
-      }
-
-      // 1.9b Public spell lists
-      if (cleanPath === "/api/public-lists") {
-        const assetReq = new Request(new URL("/public_spell_lists.json", request.url), request);
-        const assetRes = await env.ASSETS.fetch(assetReq);
-        if (assetRes.ok) {
-          const raw = await assetRes.json().catch(() => []);
-          const lists = Array.isArray(raw) ? raw : (raw?.lists || []);
-          return jsonResponse({ lists });
-        }
-        return jsonResponse({ lists: [] });
-      }
-
-      // 1.9c AI Status
-      if (cleanPath === "/api/ai/status") {
-        return jsonResponse({
-          cerebrasAvailable: true,
-          mistralAvailable: true,
-          geminiAvailable: false,
-          groqAvailable: true,
-          providers: ["auto", "cerebras", "mistral", "groq"],
-        });
       }
 
       // 1.10 Discord Bot status endpoint
@@ -282,8 +259,8 @@ export default {
 
       // Default JSON fallback for unhandled /api/* paths to guarantee response.json() NEVER throws SyntaxError
       return jsonResponse({
-        success: true,
         status: "ok",
+        message: "Endpoint handled by edge worker",
         path: url.pathname,
       });
     }

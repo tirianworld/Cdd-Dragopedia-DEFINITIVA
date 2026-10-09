@@ -468,6 +468,7 @@
       "gender": "desconocido",
       "houseOrFamily": "No especificado",
       "raceOrSpecies": "No especificado",
+      "imageUrl": "/images/uploads/imagen_2026-10-07_103423061-1791362064887_en3hi.png",
       "summary": "Entidad divina que mantiene unida a Ávalon y otorga inmortalidad a sus habitantes mediante la absorción de energía vital y almas.",
       "relations": {
         "parents": [],
@@ -4501,7 +4502,7 @@
       ]
     }
   ],
-  "lastUpdated": "2026-10-07T05:42:24.425Z",
+  "lastUpdated": "2026-10-07T08:36:58.025Z",
   "stats": {
     "totalCharacters": 128,
     "withArticleCount": 84,

@@ -1,9 +1,4 @@
 import { WikiArticle } from "../types";
-import seedArticlesRaw from "../data/seed_articles.json";
-
-export const HARDCODED_ARTICLES: WikiArticle[] = Array.isArray(seedArticlesRaw)
-  ? (seedArticlesRaw as unknown as WikiArticle[])
-  : [];
 
 function getCacheKey(): string {
   const selectedLang = typeof window !== "undefined" ? localStorage.getItem("wiki_selected_lang") : null;
@@ -98,30 +93,6 @@ interface PendingSyncAction {
 
 let memoryArticlesCache: { [key: string]: WikiArticle[] } = {};
 
-import articleCategoryAssignments from "../data/article_category_assignments.json";
-
-export const DEFAULT_ARTICLE_SUBCATEGORY_ASSIGNMENTS: Record<string, { category: string; extra_categories: string[]; image_url?: string }> = 
-  articleCategoryAssignments as Record<string, { category: string; extra_categories: string[]; image_url?: string }>;
-
-export function applyDefaultArticleSubcategories(articles: WikiArticle[]): WikiArticle[] {
-  if (!Array.isArray(articles)) return [];
-  return articles.map((art) => {
-    if (!art || !art.slug) return art;
-    const preset = DEFAULT_ARTICLE_SUBCATEGORY_ASSIGNMENTS[art.slug];
-    if (preset) {
-      return {
-        ...art,
-        category: art.category || preset.category,
-        extra_categories: (Array.isArray(art.extra_categories) && art.extra_categories.length > 0)
-          ? art.extra_categories
-          : preset.extra_categories,
-        image_url: art.image_url || preset.image_url || ""
-      };
-    }
-    return art;
-  });
-}
-
 // Helper to strip heavy base64 and oversized assets before storing in localStorage
 function sanitizeArticlesForLocalStorage(articles: WikiArticle[]): any[] {
   return articles.map((art) => {
@@ -154,7 +125,6 @@ function createCompactArticlesIndex(articles: any[]): any[] {
     slug: a.slug,
     title: a.title,
     category: a.category,
-    extra_categories: a.extra_categories || [],
     summary: a.summary || "",
     tags: a.tags || [],
     updated_date: a.updated_date,
@@ -178,19 +148,15 @@ export function getCachedArticles(): WikiArticle[] {
       if (raw) {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          const normalized = applyDefaultArticleSubcategories(parsed);
-          memoryArticlesCache[key] = normalized;
-          return normalized;
+          memoryArticlesCache[key] = parsed;
+          return parsed;
         }
       }
     } catch (e) {
       // ignore
     }
   }
-  // Initialize from bundled seed articles!
-  const defaultList = applyDefaultArticleSubcategories(HARDCODED_ARTICLES);
-  memoryArticlesCache[key] = defaultList;
-  return defaultList;
+  return [];
 }
 
 // Helper to get a specific cached article by slug or id immediately
@@ -198,22 +164,17 @@ export function getCachedArticleBySlugOrId(slugOrId: string): WikiArticle | null
   if (!slugOrId) return null;
   const articles = getCachedArticles();
   const normalized = slugOrId.toLowerCase().trim();
-  const found = articles.find(a => 
-    (a.id && a.id.toLowerCase() === normalized) || 
-    (a.slug && a.slug.toLowerCase() === normalized) ||
-    (a.title && a.title.toLowerCase() === normalized)
-  );
-  if (found) return found;
-  return HARDCODED_ARTICLES.find(a => 
-    (a.id && a.id.toLowerCase() === normalized) || 
-    (a.slug && a.slug.toLowerCase() === normalized) ||
-    (a.title && a.title.toLowerCase() === normalized)
+  return articles.find(a => 
+    Boolean(a && a.id && a.title && (
+      (a.id && a.id.toLowerCase() === normalized) || 
+      (a.slug && a.slug.toLowerCase() === normalized) ||
+      (a.title && a.title.toLowerCase() === normalized)
+    ))
   ) || null;
 }
 
 // Helper to save articles to cache safely without exceeding storage quota
-export function setCachedArticles(rawArticles: WikiArticle[]): void {
-  const articles = applyDefaultArticleSubcategories(rawArticles);
+export function setCachedArticles(articles: WikiArticle[]): void {
   const key = getCacheKey();
   // Keep the complete, high-fidelity objects in active RAM memory cache
   memoryArticlesCache[key] = articles;
@@ -392,10 +353,14 @@ export async function syncFetch(
           }
         }
         
-        // If response is not ok (e.g. 404 on static hosting or 500 error), try fallback to /data/articles.json
+        // If response is not ok (e.g. 404 on static hosting or 500 error), try fallback to data/articles.json
         try {
-          const fallbackRes = await originalFetch("/data/articles.json");
-          if (fallbackRes.ok) {
+          const staticDataUrl = `${import.meta.env.BASE_URL}data/articles.json`;
+          let fallbackRes = await originalFetch(staticDataUrl).catch(() => null);
+          if (!fallbackRes || !fallbackRes.ok) {
+            fallbackRes = await originalFetch("https://raw.githubusercontent.com/tirianworld/Cdd-Wiki-V2/main/src/data/articles.json").catch(() => null);
+          }
+          if (fallbackRes && fallbackRes.ok) {
             const clonedFallback = fallbackRes.clone();
             const articles = await clonedFallback.json();
             if (Array.isArray(articles) && articles.length > 0) {
@@ -404,15 +369,19 @@ export async function syncFetch(
             }
           }
         } catch (fErr) {
-          console.warn("[syncArticles] Fallback to /data/articles.json failed:", fErr);
+          console.warn("[syncArticles] Fallback to data/articles.json failed:", fErr);
         }
 
         return response;
       } catch (err) {
         // Network error (e.g. backend not running in static deployment): try static fallback
         try {
-          const fallbackRes = await originalFetch("/data/articles.json");
-          if (fallbackRes.ok) {
+          const staticDataUrl = `${import.meta.env.BASE_URL}data/articles.json`;
+          let fallbackRes = await originalFetch(staticDataUrl).catch(() => null);
+          if (!fallbackRes || !fallbackRes.ok) {
+            fallbackRes = await originalFetch("https://raw.githubusercontent.com/tirianworld/Cdd-Wiki-V2/main/src/data/articles.json").catch(() => null);
+          }
+          if (fallbackRes && fallbackRes.ok) {
             const clonedFallback = fallbackRes.clone();
             const articles = await clonedFallback.json();
             if (Array.isArray(articles) && articles.length > 0) {
@@ -430,15 +399,11 @@ export async function syncFetch(
       // Background smart revalidation with server (Stale-While-Revalidate pattern)
       setTimeout(async () => {
         try {
-          const cachedMap: { [id: string]: { updated_date: string; category?: string; extra_categories?: string[] } } = {};
+          const cachedMap: { [id: string]: string } = {};
           const currentCached = getCachedArticles();
           currentCached.forEach((art) => {
             if (art.id) {
-              cachedMap[art.id] = {
-                updated_date: art.updated_date || "",
-                category: art.category || "",
-                extra_categories: Array.isArray(art.extra_categories) ? art.extra_categories : []
-              };
+              cachedMap[art.id] = art.updated_date || "";
             }
           });
 
@@ -511,22 +476,14 @@ export async function syncFetch(
     const slug = articleSlugMatch[1];
     const nonArticleEndpoints = ["sync", "auto-position-images", "sync-monsters", "filter-categories", "categories"];
     if (!nonArticleEndpoints.includes(slug)) {
-      const localArticle = getCachedArticleBySlugOrId(slug);
-      if (localArticle && localArticle.title && localArticle.content) {
-        return new Response(JSON.stringify(localArticle), {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        });
-      }
-
       try {
         const modifiedInput = appendLangToInput(input, selectedLang || "es");
         const response = await originalFetch(modifiedInput, init);
         if (response.ok) {
           const cloned = response.clone();
-          const article = await cloned.json().catch(() => null);
+          const article = await cloned.json();
           
-          if (article && (article.id || article.slug) && article.title && article.content) {
+          if (article && (article.id || article.slug)) {
             // Update the article in our local cache
             const cached = getCachedArticles();
             const index = cached.findIndex((a) => (article.id && a.id === article.id) || (article.slug && a.slug === article.slug));
@@ -536,20 +493,50 @@ export async function syncFetch(
               cached.unshift(article);
             }
             setCachedArticles(cached);
-            return response;
           }
+          return response;
         }
 
-        if (localArticle) {
-          return new Response(JSON.stringify(localArticle), {
+        // If response is not ok (e.g. 404 in static hosting), fallback to cached or static /data/articles.json
+        let cached = getCachedArticles();
+        if (cached.length === 0) {
+          try {
+            const staticRes = await originalFetch("/data/articles.json");
+            if (staticRes.ok) {
+              const staticArticles = await staticRes.json();
+              if (Array.isArray(staticArticles)) {
+                setCachedArticles(staticArticles);
+                cached = staticArticles;
+              }
+            }
+          } catch (e) {}
+        }
+        const foundArticle = cached.find((a) => a.slug === slug || a.id === slug || (a.title && a.title.toLowerCase() === slug.toLowerCase()));
+        if (foundArticle) {
+          return new Response(JSON.stringify(foundArticle), {
             status: 200,
             headers: { "Content-Type": "application/json" },
           });
         }
         return response;
       } catch (err) {
-        if (localArticle) {
-          return new Response(JSON.stringify(localArticle), {
+        // Fallback to cached version if offline or network failure
+        let cached = getCachedArticles();
+        if (cached.length === 0) {
+          try {
+            const staticRes = await originalFetch("/data/articles.json");
+            if (staticRes.ok) {
+              const staticArticles = await staticRes.json();
+              if (Array.isArray(staticArticles)) {
+                setCachedArticles(staticArticles);
+                cached = staticArticles;
+              }
+            }
+          } catch (e) {}
+        }
+        const article = cached.find((a) => a.slug === slug || a.id === slug || (a.title && a.title.toLowerCase() === slug.toLowerCase()));
+        if (article) {
+          return new Response(JSON.stringify(article), {
             status: 200,
             headers: { "Content-Type": "application/json" },
           });
@@ -575,21 +562,16 @@ export async function syncFetch(
       const response = await originalFetch(input, init);
       if (response.ok) {
         const cloned = response.clone();
-        const serverJson = await cloned.json().catch(() => ({}));
-        const newArticle: WikiArticle = (serverJson && serverJson.title && (serverJson.id || serverJson.slug))
-          ? serverJson
-          : { ...bodyData, id: bodyData.id || `art_${Date.now()}` };
-        
+        const newArticle = await cloned.json();
         const cached = getCachedArticles();
+        
         // Remove any old copy and prepend new
-        const filtered = cached.filter((a) => a.id !== newArticle.id && a.slug !== newArticle.slug);
+        const filtered = cached.filter((a) => a.id !== newArticle.id);
         setCachedArticles([newArticle, ...filtered]);
         
+        // Background replay
         triggerPendingSync();
-        return new Response(JSON.stringify(newArticle), {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        });
+        return response;
       } else {
         throw new Error("Server response not ok: " + response.status);
       }
@@ -630,14 +612,10 @@ export async function syncFetch(
       const response = await originalFetch(input, init);
       if (response.ok) {
         const cloned = response.clone();
-        const serverJson = await cloned.json().catch(() => ({}));
+        const updatedArticle = await cloned.json();
         
         const cached = getCachedArticles();
-        const index = cached.findIndex((a) => a.id === id || a.slug === id);
-        const updatedArticle: WikiArticle = (serverJson && serverJson.title && (serverJson.id || serverJson.slug))
-          ? serverJson
-          : { ...(index !== -1 ? cached[index] : {}), ...bodyData, id, updated_date: new Date().toISOString() };
-
+        const index = cached.findIndex((a) => a.id === id);
         if (index !== -1) {
           cached[index] = updatedArticle;
         } else {
@@ -646,10 +624,7 @@ export async function syncFetch(
         setCachedArticles(cached);
         
         triggerPendingSync();
-        return new Response(JSON.stringify(updatedArticle), {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        });
+        return response;
       } else {
         throw new Error("Server response not ok: " + response.status);
       }

@@ -209,77 +209,28 @@ function extractJsonBlocks(text: string): { processedText: string; cards: string
   return { processedText: result, cards };
 }
 
-// Clean chatbot raw JSON wrappers or truncated JSON artifacts
-export function extractCleanChatMessage(raw: string): string {
-  if (!raw || typeof raw !== "string") return "";
-  let text = raw.trim();
-
-  // Strip code blocks
-  text = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
-
-  // 1. Try direct parse
-  try {
-    const obj = JSON.parse(text);
-    if (obj && typeof obj === "object" && !Array.isArray(obj)) {
-      const fieldVal = obj.message ?? obj.respuesta ?? obj.mensaje ?? obj.response ?? obj.text ?? obj.content;
-      if (typeof fieldVal === "string" && fieldVal.trim()) {
-        return extractCleanChatMessage(fieldVal);
-      }
-    }
-  } catch {}
-
-  // 2. Try slicing first { to last }
-  const firstBrace = text.indexOf("{");
-  const lastBrace = text.lastIndexOf("}");
-  if (firstBrace !== -1 && lastBrace > firstBrace) {
-    try {
-      const obj = JSON.parse(text.slice(firstBrace, lastBrace + 1));
-      if (obj && typeof obj === "object" && !Array.isArray(obj)) {
-        const fieldVal = obj.message ?? obj.respuesta ?? obj.mensaje ?? obj.response ?? obj.text ?? obj.content;
-        if (typeof fieldVal === "string" && fieldVal.trim()) {
-          return extractCleanChatMessage(fieldVal);
-        }
-      }
-    } catch {}
-  }
-
-  // 3. Regex extract if it starts with { "message": " ... even if cut off or truncated
-  const match = text.match(/^\s*\{?\s*["']?(?:message|respuesta|mensaje|response|content|reply|text|answer)["']?\s*:\s*["']?([\s\S]*)/i);
-  if (match) {
-    let inner = match[1];
-    const closingMatch = inner.match(/^([\s\S]*?)(?:["']\s*,\s*["'][a-zA-Z_]+["']\s*:|["']\s*\}\s*$)/);
-    if (closingMatch) {
-      inner = closingMatch[1];
-    } else {
-      inner = inner.replace(/["']\s*\}?\s*$/, "");
-    }
-    inner = inner
-      .replace(/\\"/g, '"')
-      .replace(/\\n/g, '\n')
-      .replace(/\\r/g, '')
-      .replace(/\\t/g, '\t')
-      .replace(/\\\\/g, '\\');
-    text = inner.trim();
-  }
-
-  // Clean trailing hanging quotes or truncated sample markers
-  text = text.replace(/["']\s*\}?\s*$/, "").trim();
-  if (/\(ej:\s*["']?$/i.test(text)) {
-    text = text.replace(/\(ej:\s*["']?$/i, "").trim();
-  } else if (/["']$/i.test(text) && !text.startsWith('"') && !text.startsWith("'")) {
-    text = text.replace(/["']$/i, "").trim();
-  }
-
-  return text;
-}
-
 // Convert mixed content (Markdown, JSON blocks, HTML) to safe, styled HTML
 export function renderTarotContent(rawText: string): string {
   if (!rawText || typeof rawText !== "string") return "";
 
-  // Always sanitize and extract message from raw JSON wrappers first
-  let text = extractCleanChatMessage(rawText).trim();
-  if (!text) text = rawText.trim();
+  let text = rawText.trim();
+
+  // 1. Check if the entire text is a JSON object
+  if (text.startsWith("{") && text.endsWith("}")) {
+    try {
+      const parsed = JSON.parse(text);
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+        // If it's a wrapper like { message: "..." }, extract it or format it
+        if (parsed.message || parsed.respuesta || parsed.mensaje || parsed.text) {
+          const innerMsg = parsed.message || parsed.respuesta || parsed.mensaje || parsed.text;
+          return renderTarotContent(innerMsg);
+        }
+        return formatJsonObjectToHtml(parsed);
+      }
+    } catch {
+      // not valid json, continue normal processing
+    }
+  }
 
   // 2. Extract ```json { ... } ``` or ``` { ... } ``` codeblocks
   const codeCards: string[] = [];

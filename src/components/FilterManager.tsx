@@ -4,16 +4,13 @@ import {
   Loader2, Plus, Trash2, Calendar, Globe, Layers, Skull, PawPrint,
   ChevronRight, Info, BookOpen, Wand2, RefreshCw, AlertCircle, CheckCircle2, Edit3, GitFork,
   Heart, Users, Crown, ExternalLink, StopCircle, Lock, Sparkles,
-  ChevronUp, ChevronDown, ChevronsUp, ChevronsDown, GripVertical, RotateCcw,
-  Github
+  ChevronUp, ChevronDown, ChevronsUp, ChevronsDown, GripVertical, RotateCcw
 } from "lucide-react";
 import { TarotLogo } from "./TarotLogo";
-import { CarriageLoader } from "./CarriageLoader";
 import { SyncEntitiesTool } from "./SyncEntitiesTool";
 import { useCategories } from "../context/CategoryContext";
 import { AVAILABLE_ICONS } from "../utils/categoryHelper";
 import { useVisualEditor } from "../context/VisualEditorContext";
-import { GitHubConfigModal } from "./GitHubConfigModal";
 
 export function FilterManager() {
   const { isVisualEditMode, setIsVisualEditMode } = useVisualEditor();
@@ -24,15 +21,6 @@ export function FilterManager() {
     criatura: []
   });
   const [loading, setLoading] = useState(true);
-  const [isGitHubModalOpen, setIsGitHubModalOpen] = useState(false);
-  const [githubConfig, setGithubConfig] = useState<{ configured: boolean; repo: string } | null>(null);
-
-  useEffect(() => {
-    fetch("/api/github-config")
-      .then(r => r.json())
-      .then(data => setGithubConfig(data))
-      .catch(() => {});
-  }, []);
   const [inputs, setInputs] = useState<Record<string, string>>({
     campaña: "",
     continente: "",
@@ -57,8 +45,7 @@ export function FilterManager() {
     moveCategoryToPosition,
     resetCategoryOrder, 
     reassignCategory, 
-    confirmReassign,
-    convertCategoryToSubcategory
+    confirmReassign 
   } = useCategories();
 
   // Drag and drop state for categories
@@ -70,7 +57,6 @@ export function FilterManager() {
   const [catDesc, setCatDesc] = useState("");
   const [catColor, setCatColor] = useState("#c8a96e");
   const [catIcon, setCatIcon] = useState("BookOpen");
-  const [catParentId, setCatParentId] = useState<string | null>(null);
   const [editingCatId, setEditingCatId] = useState<string | null>(null);
   const [isAddingCat, setIsAddingCat] = useState(false);
   const [reassigningId, setReassigningId] = useState<string | null>(null);
@@ -476,16 +462,15 @@ export function FilterManager() {
     setReassignResults(null);
     setReassignError(null);
     try {
-      const parentCat = catParentId ? mergedCategories.find(c => c.id === catParentId || c.slug === catParentId) : null;
       if (editingCatId) {
-        await updateCategory(editingCatId, catName.trim(), catDesc.trim(), catColor, catIcon, catParentId || null, parentCat?.slug || null);
-        setMessage(`Categoría "${catName}" actualizada y sincronizada en GitHub con éxito.`);
+        await updateCategory(editingCatId, catName.trim(), catDesc.trim(), catColor, catIcon);
+        setMessage(`Categoría de lore "${catName}" actualizada con éxito.`);
       } else {
-        await addCategory(catName.trim(), catDesc.trim(), catColor, catIcon, catParentId || null, parentCat?.slug || null);
-        setMessage(`Categoría "${catName}" registrada y sincronizada en GitHub con éxito.`);
+        await addCategory(catName.trim(), catDesc.trim(), catColor, catIcon);
+        setMessage(`Categoría de lore "${catName}" fundada con éxito.`);
       }
       handleCancelEdit();
-      setTimeout(() => setMessage(""), 4500);
+      setTimeout(() => setMessage(""), 4000);
     } catch (err: any) {
       console.error(err);
       setMessage(`Fallo al guardar categoría: ${err.message}`);
@@ -500,10 +485,6 @@ export function FilterManager() {
     setCatDesc(cat.description || "");
     setCatColor(cat.color);
     setCatIcon(cat.iconName || "BookOpen");
-    const parentFound = mergedCategories.find(
-      c => c.id === cat.parentId || c.slug === cat.parentId || c.slug === cat.parentSlug || c.id === cat.parentSlug
-    );
-    setCatParentId(parentFound ? parentFound.id : (cat.parentId || null));
   };
 
   const handleCancelEdit = () => {
@@ -512,7 +493,6 @@ export function FilterManager() {
     setCatDesc("");
     setCatColor("#" + Math.floor(Math.random() * 16777215).toString(16));
     setCatIcon("BookOpen");
-    setCatParentId(null);
   };
 
   const handleDeleteCategory = async (catId: string, name: string) => {
@@ -977,12 +957,9 @@ export function FilterManager() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center h-[calc(100vh-3.5rem)] p-6 bg-background">
-        <CarriageLoader
-          size="lg"
-          text="Cargando filtros de lore..."
-          className="text-[#cbf7f5]"
-        />
+      <div className="flex flex-col items-center justify-center h-[calc(100vh-3.5rem)] gap-3 text-muted-foreground bg-background">
+        <Loader2 className="h-7 w-7 animate-spin text-primary" />
+        <span className="text-sm font-heading tracking-wider">Cargando filtros de lore...</span>
       </div>
     );
   }
@@ -997,9 +974,9 @@ export function FilterManager() {
   return (
     <div className="p-6 lg:p-8 space-y-10 max-w-[1200px] mx-auto">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/60 pb-5">
+      <div className="space-y-2 border-b border-border/60 pb-5">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center border border-primary/30 shrink-0">
+          <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center border border-primary/30">
             <TarotLogo className="h-5 w-5 text-primary" />
           </div>
           <div>
@@ -1007,27 +984,9 @@ export function FilterManager() {
               Gestión de Lore de la Enciclopedia
             </h1>
             <p className="text-xs text-muted-foreground">
-              Administra las categorías, subcategorías y taxonomía con guardado automático en GitHub.
+              Administra las categorías estructurales primarias y filtros taxonómicos del universo de Caldo de Dragón.
             </p>
           </div>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <button
-            type="button"
-            onClick={() => setIsGitHubModalOpen(true)}
-            className={`px-3.5 py-2 rounded-xl border text-xs font-semibold flex items-center gap-2 transition-all shadow-sm ${
-              githubConfig?.configured
-                ? "bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-purple-500/20"
-                : "bg-secondary/60 border-border text-foreground hover:bg-secondary"
-            }`}
-            title="Configurar repositorio de GitHub y token de sincronización"
-          >
-            <Github className="h-4 w-4 text-purple-400" />
-            <span>GitHub Sync: {githubConfig?.repo || "Cdd-wiki-V5"}</span>
-            {githubConfig?.configured && (
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" title="Conectado" />
-            )}
-          </button>
         </div>
       </div>
 
@@ -1379,32 +1338,6 @@ export function FilterManager() {
               </div>
             </div>
 
-            {/* Jerarquía: Categoría Padre (Para subcategorías) */}
-            <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-muted-foreground uppercase flex items-center gap-1.5">
-                <GitFork className="h-3.5 w-3.5 text-primary" />
-                <span>Jerarquía: Categoría Padre (Opcional)</span>
-              </label>
-              <select
-                value={catParentId || ""}
-                onChange={(e) => setCatParentId(e.target.value || null)}
-                className="w-full h-9 px-3 text-xs bg-card border border-border rounded-lg text-foreground focus:outline-none focus:ring-1 focus:ring-primary/45 transition-all cursor-pointer"
-              >
-                <option value="">— Ninguna (Categoría Principal Raíz) —</option>
-                {mergedCategories
-                  .filter((c) => c.id !== editingCatId && c.slug !== editingCatId && c.parentId !== editingCatId)
-                  .map((c) => (
-                    <option key={c.id} value={c.id}>
-                      ↳ Subcategoría de: {c.name}
-                    </option>
-                  ))
-                }
-              </select>
-              <p className="text-[9.5px] text-muted-foreground">
-                Si seleccionas una categoría padre, este sello se convertirá en una subcategoría de la misma.
-              </p>
-            </div>
-
             <div className="flex gap-2">
               {editingCatId && (
                 <button
@@ -1596,32 +1529,6 @@ export function FilterManager() {
                               Fija
                             </span>
                           )}
-                          {/* Badges de Jerarquía (Padre / Hijos) */}
-                          {(() => {
-                            const parentCat = cat.parentId 
-                              ? mergedCategories.find(c => c.id === cat.parentId || c.slug === cat.parentSlug || c.slug === cat.parentId) 
-                              : null;
-                            const childSubcats = mergedCategories.filter(
-                              c => (c.parentId && (c.parentId === cat.id || c.parentId === cat.slug)) ||
-                                   (c.parentSlug && c.parentSlug === cat.slug)
-                            );
-                            return (
-                              <>
-                                {parentCat && (
-                                  <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded bg-sky-500/15 text-sky-400 border border-sky-500/30 flex items-center gap-1 shrink-0" title={`Subcategoría anidada bajo ${parentCat.name}`}>
-                                    <GitFork className="h-2.5 w-2.5" />
-                                    Subcat. de {parentCat.name}
-                                  </span>
-                                )}
-                                {childSubcats.length > 0 && (
-                                  <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded bg-purple-500/15 text-purple-300 border border-purple-500/30 flex items-center gap-1 shrink-0" title={`Posee ${childSubcats.length} subcategorías anidadas`}>
-                                    <Layers className="h-2.5 w-2.5" />
-                                    {childSubcats.length} subcat{childSubcats.length > 1 ? "s" : ""}
-                                  </span>
-                                )}
-                              </>
-                            );
-                          })()}
                           <span className="text-[10px] font-mono text-muted-foreground/80 shrink-0">{cat.color}</span>
                         </div>
                         <p className="text-[10.5px] text-muted-foreground mt-0.5 line-clamp-1 leading-relaxed font-light">
@@ -1631,63 +1538,7 @@ export function FilterManager() {
                     </div>
 
                     {/* Action buttons on the right */}
-                    <div className="flex items-center gap-2 justify-end shrink-0 self-end sm:self-center flex-wrap">
-                      {/* Convertidor rápido de jerarquía (Convertir a subcategoría / Cambiar padre) */}
-                      {(() => {
-                        const currentParentVal = (() => {
-                          if (!cat.parentId && !cat.parentSlug) return "";
-                          const found = mergedCategories.find(
-                            c => c.id === cat.parentId || c.slug === cat.parentId || c.slug === cat.parentSlug || c.id === cat.parentSlug
-                          );
-                          return found ? found.id : (cat.parentId || "");
-                        })();
-                        const isSubcategory = !!currentParentVal;
-
-                        return (
-                          <div 
-                            className={`flex items-center gap-1.5 border rounded-md px-2 py-1 transition-all ${
-                              isSubcategory
-                                ? "bg-sky-500/10 border-sky-500/30 text-sky-300"
-                                : "bg-secondary/70 border-border/60 text-muted-foreground"
-                            }`} 
-                            title={isSubcategory ? "Esta es una subcategoría. Puedes cambiar su categoría padre o convertirla en principal." : "Convertir esta categoría en subcategoría de otra."}
-                          >
-                            <GitFork className={`h-3 w-3 shrink-0 ${isSubcategory ? "text-sky-400" : "text-primary"}`} />
-                            <select
-                              value={currentParentVal}
-                              onChange={async (e) => {
-                                const targetParentId = e.target.value || null;
-                                try {
-                                  await convertCategoryToSubcategory(cat.id, targetParentId);
-                                  const targetParent = targetParentId ? mergedCategories.find(c => c.id === targetParentId) : null;
-                                  setMessage(
-                                    targetParent 
-                                      ? `"${cat.name}" convertida en subcategoría de "${targetParent.name}".`
-                                      : `"${cat.name}" ahora es una categoría principal (raíz).`
-                                  );
-                                  setTimeout(() => setMessage(""), 4500);
-                                } catch (err: any) {
-                                  setMessage(`Error al convertir jerarquía: ${err.message}`);
-                                }
-                              }}
-                              className="h-6 text-[10px] bg-card border border-border/60 rounded px-1.5 py-0 text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50 cursor-pointer max-w-[155px]"
-                            >
-                              <option value="">Principal (Raíz)</option>
-                              <optgroup label="Convertir en Subcategoría de:">
-                                {mergedCategories
-                                  .filter(other => other.id !== cat.id && other.slug !== cat.slug && other.parentId !== cat.id && other.parentSlug !== cat.slug)
-                                  .map(parentOpt => (
-                                    <option key={parentOpt.id} value={parentOpt.id}>
-                                      ↳ Subcat. de {parentOpt.name}
-                                    </option>
-                                  ))
-                                }
-                              </optgroup>
-                            </select>
-                          </div>
-                        );
-                      })()}
-
+                    <div className="flex items-center gap-1.5 justify-end shrink-0 self-end sm:self-center">
                       <button
                         onClick={() => handleReassign(cat.id, cat.name)}
                         disabled={reassigningId !== null}
@@ -1707,24 +1558,25 @@ export function FilterManager() {
                         )}
                       </button>
 
-                      <button
-                        type="button"
-                        onClick={() => handleEditClick(cat)}
-                        className="h-8 w-8 rounded-md bg-secondary hover:bg-secondary-foreground/10 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground transition-all shrink-0"
-                        title="Editar esta categoría mística"
-                      >
-                        <Edit3 className="h-3.5 w-3.5" />
-                      </button>
-
                       {isDynamic && (
-                        <button
-                          type="button"
-                          onClick={() => handleDeleteCategory(cat.id, cat.name)}
-                          className="h-8 w-8 rounded-md bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-400 hover:text-red-300 transition-all shrink-0"
-                          title="Disolver esta categoría mística"
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </button>
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => handleEditClick(cat)}
+                            className="h-8 w-8 rounded-md bg-secondary hover:bg-secondary-foreground/10 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground transition-all shrink-0"
+                            title="Editar esta categoría mística"
+                          >
+                            <Edit3 className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteCategory(cat.id, cat.name)}
+                            className="h-8 w-8 rounded-md bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-400 hover:text-red-300 transition-all shrink-0"
+                            title="Disolver esta categoría mística"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </>
                       )}
                     </div>
                   </div>
@@ -2276,17 +2128,6 @@ export function FilterManager() {
           </div>
         </div>
       )}
-
-      <GitHubConfigModal
-        isOpen={isGitHubModalOpen}
-        onClose={() => setIsGitHubModalOpen(false)}
-        onSuccess={() => {
-          fetch("/api/github-config")
-            .then(r => r.json())
-            .then(data => setGithubConfig(data))
-            .catch(() => {});
-        }}
-      />
     </div>
   );
 }

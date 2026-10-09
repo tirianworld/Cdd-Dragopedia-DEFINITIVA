@@ -6,8 +6,6 @@
     "scripts": {
         "dev": "tsx server.ts",
         "build": "vite build",
-        "predeploy": "npm run build",
-        "deploy": "npm run build && wrangler deploy",
         "start": "node server.ts",
         "clean": "rm -rf dist",
         "lint": "tsc --noEmit"

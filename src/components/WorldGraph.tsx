@@ -8,7 +8,6 @@ import {
   Orbit, Layers, Compass, Star, Info, X, Edit, Plus, Link as LinkIcon, Trash2, Save,
   Share2
 } from "lucide-react";
-import { CarriageLoader } from "./CarriageLoader";
 import { useVisualEditor } from "../context/VisualEditorContext";
 import { PrimordialMagicGraph } from "./PrimordialMagicGraph";
 import { GraphsHub } from "./GraphsHub";
@@ -1178,13 +1177,19 @@ export function WorldGraph() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center h-[calc(100vh-3.5rem)] gap-4 bg-[#06080e] text-white p-6">
-        <CarriageLoader
-          size="lg"
-          text="Tejiendo Constelaciones Relacionales"
-          subtext="Trazando figuras astronómicas y separando planos estelares..."
-          className="text-[#cbf7f5]"
-        />
+      <div className="flex flex-col items-center justify-center h-[calc(100vh-3.5rem)] gap-4 bg-[#06080e] text-white">
+        <div className="relative flex items-center justify-center">
+          <div className="w-16 h-16 rounded-full border border-primary/30 animate-ping" />
+          <Loader2 className="h-8 w-8 animate-spin text-primary absolute" />
+        </div>
+        <div className="text-center space-y-1">
+          <h2 className="text-sm font-heading tracking-widest text-primary uppercase font-bold">
+            Tejiendo Constelaciones Relacionales
+          </h2>
+          <p className="text-xs text-muted-foreground">
+            Trazando figuras astronómicas y separando planos estelares...
+          </p>
+        </div>
       </div>
     );
   }

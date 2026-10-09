@@ -13,22 +13,22 @@ interface AstralClockWatermarkProps {
  * Clockwise starting from top (12 o'clock / -90 deg)
  */
 export const ASTRAL_12_DIALS = [
-  { label: "Y", angle: -90, type: "rune-12-y" },            // 12 o'clock: Upright Y
-  { label: "k", angle: -60, type: "rune-1-curved-y" },      // 1 o'clock: Curved sickle Y
-  { label: "X", angle: -30, type: "rune-2-x" },             // 2 o'clock: X cross
-  { label: "<", angle: 0,   type: "rune-3-notched-chev" },  // 3 o'clock: Notched chevron <
-  { label: "X", angle: 30,  type: "rune-4-x" },             // 4 o'clock: X cross
-  { label: "k", angle: 60,  type: "rune-5-curved-y" },      // 5 o'clock: Curved sickle Y lower
-  { label: "Y", angle: 90,  type: "rune-6-inv-y" },         // 6 o'clock: Inverted Y
-  { label: "Y", angle: 120, type: "rune-7-branch-y" },      // 7 o'clock: Branched Y lower-left
-  { label: "r", angle: 150, type: "rune-8-crescent-low" },  // 8 o'clock: Crescent with lower branch
-  { label: ">|<", angle: 180, type: "rune-9-brackets" },    // 9 o'clock: > | <
-  { label: "r", angle: 210, type: "rune-10-crescent-high" },// 10 o'clock: Crescent with upper branch
-  { label: "Y", angle: 240, type: "rune-11-branch-y" },     // 11 o'clock: Branched Y upper-left
+  { label: "Y", angle: -90, type: "rune-y-top" },          // 12 o'clock: Algiz / Tree / Trine Y
+  { label: "k", angle: -60, type: "rune-sickle-slash" },    // 1 o'clock: Sickle with slash
+  { label: "X", angle: -30, type: "rune-x" },               // 2 o'clock: Gebo X
+  { label: "<", angle: 0,   type: "rune-chevron" },         // 3 o'clock: Angle / chevron <
+  { label: "X", angle: 30,  type: "rune-x-bold" },          // 4 o'clock: Diagonal X
+  { label: "k", angle: 60,  type: "rune-y-inv-slash" },     // 5 o'clock: Inverted Y with slash
+  { label: "Y", angle: 90,  type: "rune-y-inv" },           // 6 o'clock: Inverted Y anchor
+  { label: "Y", angle: 120, type: "rune-y-inv-angled" },    // 7 o'clock: Inverted leaning Y
+  { label: "k", angle: 150, type: "rune-sickle-cross" },    // 8 o'clock: Sickle with cross
+  { label: ")(<", angle: 180, type: "rune-brackets" },      // 9 o'clock: Brackets ) ( <
+  { label: "J", angle: 210, type: "rune-hook-left" },       // 10 o'clock: Crescent hook
+  { label: "Y", angle: 240, type: "rune-y-branch" },        // 11 o'clock: Branching Y
 ];
 
 export function AstralClockLogo({
-  className = "w-4 h-4",
+  className = "w-full h-full",
   size,
   opacity = 1,
   color = "currentColor",
@@ -44,82 +44,102 @@ export function AstralClockLogo({
   return (
     <svg
       viewBox="0 0 600 600"
-      className={`${className} shrink-0 inline-block select-none`}
+      className={`${className} shrink-0 select-none pointer-events-none`}
       xmlns="http://www.w3.org/2000/svg"
       style={customStyle}
     >
       <g fill="currentColor" stroke="currentColor">
-        {/* Outer Scalloped Bridges in the crevices between adjacent medallions (12 positions) */}
-        <g strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        {/* Outermost Scalloped Solar Halo Petals (12 lobes) */}
+        <g strokeWidth="2.5" fill="none" opacity="0.85">
           {Array.from({ length: 12 }).map((_, i) => {
-            const angle = (i * 30) - 75;
+            const angle = (i * 30) - 90;
             const rad = (angle * Math.PI) / 180;
-            const cx = 300 + 266 * Math.cos(rad);
-            const cy = 300 + 266 * Math.sin(rad);
-            const perpX = -Math.sin(rad);
-            const perpY = Math.cos(rad);
+            const cx = 300 + 236 * Math.cos(rad);
+            const cy = 300 + 236 * Math.sin(rad);
             return (
-              <g key={`cusp-${i}`}>
-                <path
-                  d={`M ${cx - perpX * 18 - Math.cos(rad) * 8} ${cy - perpY * 18 - Math.sin(rad) * 8} Q ${cx + Math.cos(rad) * 6} ${cy + Math.sin(rad) * 6} ${cx + perpX * 18 - Math.cos(rad) * 8} ${cy + perpY * 18 - Math.sin(rad) * 8}`}
-                />
-                <circle cx={cx + Math.cos(rad) * 2} cy={cy + Math.sin(rad) * 2} r="3" fill="currentColor" stroke="none" />
+              <g key={`petal-${i}`}>
+                {/* Scalloped outer backing rim */}
+                <circle cx={cx} cy={cy} r="48" strokeWidth="2.5" strokeDasharray="3 3" />
+                {/* Outer tiny stippled bead ring */}
+                <circle cx={cx} cy={cy} r="51" strokeWidth="1" strokeDasharray="1.5 3" opacity="0.6" />
               </g>
             );
           })}
         </g>
 
-        {/* Interstitial Calligraphic Flourishes between Spheres and Medallions (12 positions) */}
-        <g strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        {/* Interstitial Calligraphic Flourishes between Medallions (12 positions) */}
+        <g strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9">
           {Array.from({ length: 12 }).map((_, i) => {
-            const angle = (i * 30) - 75;
+            const angle = (i * 30) - 75; // exact midpoint between dials
             const rad = (angle * Math.PI) / 180;
-            const fx = 300 + 166 * Math.cos(rad);
-            const fy = 300 + 166 * Math.sin(rad);
+            const fx = 300 + 236 * Math.cos(rad);
+            const fy = 300 + 236 * Math.sin(rad);
+
+            // Perpendicular direction unit vector for tangential curve
             const perpX = -Math.sin(rad);
             const perpY = Math.cos(rad);
 
             return (
               <g key={`flourish-between-${i}`}>
-                {/* Left curl */}
+                {/* Central bud / node */}
+                <circle cx={fx} cy={fy} r="2.5" fill="currentColor" stroke="none" />
+                {/* Outward curlicue tendril 1 */}
                 <path
-                  d={`M ${fx} ${fy + 0.01} C ${fx - perpX * 8 + Math.cos(rad) * 8} ${fy - perpY * 8 + Math.sin(rad) * 8}, ${fx - perpX * 16 + Math.cos(rad) * 4} ${fy - perpY * 16 + Math.sin(rad) * 4}, ${fx - perpX * 14 - Math.cos(rad) * 4} ${fy - perpY * 14 - Math.sin(rad) * 4}`}
+                  d={`M ${fx} ${fy} C ${fx + perpX * 10 - Math.cos(rad) * 6} ${fy + perpY * 10 - Math.sin(rad) * 6}, ${fx + perpX * 18 + Math.cos(rad) * 12} ${fy + perpY * 18 + Math.sin(rad) * 12}, ${fx + perpX * 22} ${fy + perpY * 22}`}
                 />
-                <circle cx={fx - perpX * 14 - Math.cos(rad) * 4} cy={fy - perpY * 14 - Math.sin(rad) * 4} r="2.5" fill="currentColor" stroke="none" />
-                {/* Right curl */}
+                <circle cx={fx + perpX * 22} cy={fy + perpY * 22} r="1.5" fill="currentColor" />
+                {/* Outward curlicue tendril 2 (mirror) */}
                 <path
-                  d={`M ${fx} ${fy} C ${fx + perpX * 8 + Math.cos(rad) * 8} ${fy + perpY * 8 + Math.sin(rad) * 8}, ${fx + perpX * 16 + Math.cos(rad) * 4} ${fy + perpY * 16 + Math.sin(rad) * 4}, ${fx + perpX * 14 - Math.cos(rad) * 4} ${fy + perpY * 14 - Math.sin(rad) * 4}`}
+                  d={`M ${fx} ${fy} C ${fx - perpX * 10 - Math.cos(rad) * 6} ${fy - perpY * 10 - Math.sin(rad) * 6}, ${fx - perpX * 18 + Math.cos(rad) * 12} ${fy - perpY * 18 + Math.sin(rad) * 12}, ${fx - perpX * 22} ${fy - perpY * 22}`}
                 />
-                <circle cx={fx + perpX * 14 - Math.cos(rad) * 4} cy={fy + perpY * 14 - Math.sin(rad) * 4} r="2.5" fill="currentColor" stroke="none" />
+                <circle cx={fx - perpX * 22} cy={fy - perpY * 22} r="1.5" fill="currentColor" />
+                {/* Inward small sprig */}
+                <path
+                  d={`M ${fx} ${fy} Q ${fx - Math.cos(rad) * 12} ${fy - Math.sin(rad) * 12} ${fx - Math.cos(rad) * 18} ${fy - Math.sin(rad) * 18}`}
+                />
               </g>
             );
           })}
         </g>
 
-        {/* 12 Astral Rune Medallions */}
+        {/* Outer Astral Ring Foundation Lines */}
+        <circle cx="300" cy="300" r="236" fill="none" strokeWidth="1.5" opacity="0.4" strokeDasharray="4 4" />
+        <circle cx="300" cy="300" r="190" fill="none" strokeWidth="2.5" opacity="0.8" />
+        <circle cx="300" cy="300" r="184" fill="none" strokeWidth="1" opacity="0.5" strokeDasharray="3 3" />
+
+        {/* 12 Astral Rune Dials */}
         {renderRuneDials()}
 
-        {/* 12 Solid Celestial Spheres with Outer Rings (radially aligned with the 12 Medallions) */}
+        {/* Middle Decorative Ring with 12 Solid Spheres and Orbit Rings */}
+        <circle cx="300" cy="300" r="138" fill="none" strokeWidth="1.5" opacity="0.5" strokeDasharray="2 4" />
+
         {Array.from({ length: 12 }).map((_, i) => {
-          const angle = (i * 30) - 90;
+          const angle = (i * 30) - 75; // interleaved between outer dials
           const rad = (angle * Math.PI) / 180;
           const sx = 300 + 138 * Math.cos(rad);
           const sy = 300 + 138 * Math.sin(rad);
           return (
             <g key={`mid-dot-${i}`}>
-              {/* Outer thin ring around sphere */}
-              <circle cx={sx} cy={sy} r="24" fill="none" strokeWidth="3" />
-              {/* Solid dark sphere */}
-              <circle cx={sx} cy={sy} r="18" fill="currentColor" stroke="none" />
+              {/* Outer decorative ringlet around satellite node */}
+              <circle cx={sx} cy={sy} r="18" fill="none" strokeWidth="2.5" />
+              {/* Solid celestial sphere */}
+              <circle cx={sx} cy={sy} r="12" fill="currentColor" stroke="none" />
+              {/* Inner highlight ringlet */}
+              <circle cx={sx} cy={sy} r="7" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.4" />
             </g>
           );
         })}
 
-        {/* Center Concentric Rings (Matching LOGO RELOJ ASTRAL) */}
+        {/* Center Concentric Rings & Solar Astrolabe Hub */}
         {/* Outer Core Ring */}
-        <circle cx="300" cy="300" r="96" fill="none" strokeWidth="11" />
-        {/* Inner Thick Solid Donut Ring */}
-        <circle cx="300" cy="300" r="50" fill="none" strokeWidth="28" />
+        <circle cx="300" cy="300" r="95" fill="none" strokeWidth="8" />
+        <circle cx="300" cy="300" r="88" fill="none" strokeWidth="1.5" opacity="0.7" strokeDasharray="4 3" />
+        
+        {/* Center Thick Ring (Astrolabe Pivot) */}
+        <circle cx="300" cy="300" r="54" fill="none" strokeWidth="24" />
+        {/* Center Inner Cavity */}
+        <circle cx="300" cy="300" r="38" fill="none" strokeWidth="2.5" opacity="0.9" />
+        <circle cx="300" cy="300" r="16" fill="none" strokeWidth="1.5" opacity="0.5" />
       </g>
     </svg>
   );
@@ -128,20 +148,20 @@ export function AstralClockLogo({
 function renderRuneDials() {
   return ASTRAL_12_DIALS.map((cfg, idx) => {
     const rad = (cfg.angle * Math.PI) / 180;
-    const cx = 300 + 228 * Math.cos(rad);
-    const cy = 300 + 228 * Math.sin(rad);
+    const cx = 300 + 236 * Math.cos(rad);
+    const cy = 300 + 236 * Math.sin(rad);
 
     return (
       <g key={`rune-dial-${idx}`}>
-        {/* Outer solid medallion border */}
-        <circle cx={cx} cy={cy} r="55" fill="none" strokeWidth="4.5" />
-        {/* Middle stippled bead ring */}
-        <circle cx={cx} cy={cy} r="50.5" fill="none" strokeWidth="3.5" strokeDasharray="3 3.5" />
-        {/* Inner solid boundary rim */}
-        <circle cx={cx} cy={cy} r="46" fill="none" strokeWidth="2.5" />
+        {/* Outer stippled bead ring */}
+        <circle cx={cx} cy={cy} r="45" fill="none" strokeWidth="5.5" strokeDasharray="2.5 3.5" />
+        {/* Main dial border */}
+        <circle cx={cx} cy={cy} r="42" fill="none" strokeWidth="3" />
+        {/* Inner boundary rim */}
+        <circle cx={cx} cy={cy} r="38" fill="none" strokeWidth="1.5" opacity="0.6" />
 
-        {/* Bold Rune Character Inscription */}
-        <g strokeWidth="8.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        {/* Rune Character Inscription */}
+        <g strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
           {renderRunePath(cfg.type, cx, cy)}
         </g>
       </g>
@@ -151,76 +171,82 @@ function renderRuneDials() {
 
 function renderRunePath(type: string, cx: number, cy: number) {
   switch (type) {
-    case "rune-12-y": // 12 o'clock: Upright Y
+    case "rune-y-top":
       return (
-        <path d={`M ${cx} ${cy + 28} L ${cx} ${cy + 2} M ${cx} ${cy + 2} L ${cx - 18} ${cy - 26} M ${cx} ${cy + 2} L ${cx + 18} ${cy - 26}`} />
+        <path d={`M ${cx} ${cy + 22} L ${cx} ${cy - 2} M ${cx} ${cy - 2} L ${cx - 18} ${cy - 22} M ${cx} ${cy - 2} L ${cx + 18} ${cy - 22}`} />
       );
-    case "rune-1-curved-y": // 1 o'clock: Curved sickle Y
+    case "rune-sickle-slash":
       return (
         <g>
-          <path d={`M ${cx - 24} ${cy + 16} L ${cx + 26} ${cy - 10}`} />
-          <path d={`M ${cx - 14} ${cy - 26} C ${cx - 16} ${cy + 2}, ${cx - 2} ${cy + 18}, ${cx + 20} ${cy + 24}`} />
+          <path d={`M ${cx - 14} ${cy - 20} Q ${cx - 2} ${cy - 12} ${cx + 14} ${cy + 18}`} />
+          <path d={`M ${cx - 16} ${cy + 2} Q ${cx} ${cy - 4} ${cx + 12} ${cy - 12}`} />
         </g>
       );
-    case "rune-2-x": // 2 o'clock: X cross
-    case "rune-4-x": // 4 o'clock: X cross
+    case "rune-x":
       return (
-        <path d={`M ${cx - 22} ${cy - 22} L ${cx + 22} ${cy + 22} M ${cx + 18} ${cy - 22} L ${cx - 18} ${cy + 22}`} />
+        <path d={`M ${cx - 18} ${cy - 18} L ${cx + 18} ${cy + 18} M ${cx + 18} ${cy - 18} L ${cx - 18} ${cy + 18}`} />
       );
-    case "rune-3-notched-chev": // 3 o'clock: Notched chevron <
-      return (
-        <path d={`M ${cx + 10} ${cy - 26} L ${cx - 8} ${cy - 4} L ${cx - 2} ${cy} L ${cx - 8} ${cy + 4} L ${cx + 10} ${cy + 26}`} />
-      );
-    case "rune-5-curved-y": // 5 o'clock: Curved sickle Y lower
+    case "rune-chevron":
       return (
         <g>
-          <path d={`M ${cx - 22} ${cy - 14} L ${cx + 24} ${cy + 12}`} />
-          <path d={`M ${cx - 16} ${cy + 24} C ${cx - 16} ${cy - 2}, ${cx - 2} ${cy - 18}, ${cx + 22} ${cy - 20}`} />
+          <path d={`M ${cx + 12} ${cy - 18} L ${cx - 10} ${cy} L ${cx + 12} ${cy + 18}`} />
+          <line x1={cx - 10} y1={cy} x2={cx - 18} y2={cy} />
         </g>
       );
-    case "rune-6-inv-y": // 6 o'clock: Inverted Y
-      return (
-        <path d={`M ${cx} ${cy - 28} L ${cx} ${cy - 2} M ${cx} ${cy - 2} L ${cx - 18} ${cy + 26} M ${cx} ${cy - 2} L ${cx + 18} ${cy + 26}`} />
-      );
-    case "rune-7-branch-y": // 7 o'clock: Branched Y lower-left
+    case "rune-x-bold":
       return (
         <g>
-          <path d={`M ${cx - 28} ${cy + 6} L ${cx + 4} ${cy - 4} L ${cx - 6} ${cy + 26}`} />
-          <path d={`M ${cx - 8} ${cy - 26} C ${cx + 2} ${cy - 6}, ${cx + 12} ${cy + 8}, ${cx + 26} ${cy + 14}`} />
+          <path d={`M ${cx - 17} ${cy - 17} L ${cx + 17} ${cy + 17}`} />
+          <path d={`M ${cx + 17} ${cy - 17} L ${cx - 17} ${cy + 17}`} />
         </g>
       );
-    case "rune-8-crescent-low": // 8 o'clock: Crescent with lower branch
+    case "rune-y-inv-slash":
       return (
         <g>
-          <path d={`M ${cx - 20} ${cy - 22} C ${cx + 6} ${cy - 6}, ${cx + 6} ${cy + 14}, ${cx - 16} ${cy + 26}`} />
-          <path d={`M ${cx - 2} ${cy + 12} Q ${cx + 12} ${cy + 12} ${cx + 24} ${cy + 16}`} />
+          <path d={`M ${cx - 10} ${cy - 22} L ${cx + 14} ${cy + 20}`} />
+          <path d={`M ${cx + 12} ${cy - 14} Q ${cx} ${cy - 2} ${cx - 14} ${cy + 8}`} />
         </g>
       );
-    case "rune-9-brackets": // 9 o'clock: > | <
+    case "rune-y-inv":
+      return (
+        <path d={`M ${cx} ${cy + 22} L ${cx} ${cy} M ${cx} ${cy} L ${cx - 16} ${cy - 20} M ${cx} ${cy} L ${cx + 16} ${cy - 20}`} />
+      );
+    case "rune-y-inv-angled":
       return (
         <g>
-          <path d={`M ${cx - 30} ${cy - 12} L ${cx - 18} ${cy} L ${cx - 30} ${cy + 12}`} />
-          <path d={`M ${cx - 2} ${cy - 28} Q ${cx - 6} ${cy} ${cx - 2} ${cy + 28}`} />
-          <path d={`M ${cx + 26} ${cy - 12} L ${cx + 12} ${cy} L ${cx + 26} ${cy + 12}`} />
+          <path d={`M ${cx - 6} ${cy + 22} L ${cx + 2} ${cy}`} />
+          <path d={`M ${cx + 2} ${cy} L ${cx - 16} ${cy - 20}`} />
+          <path d={`M ${cx + 2} ${cy} L ${cx + 16} ${cy - 16}`} />
         </g>
       );
-    case "rune-10-crescent-high": // 10 o'clock: Crescent with upper branch
+    case "rune-sickle-cross":
       return (
         <g>
-          <path d={`M ${cx - 16} ${cy - 26} C ${cx + 6} ${cy - 14}, ${cx + 6} ${cy + 6}, ${cx - 20} ${cy + 22}`} />
-          <path d={`M ${cx - 2} ${cy - 12} Q ${cx + 12} ${cy - 12} ${cx + 24} ${cy - 16}`} />
+          <path d={`M ${cx - 14} ${cy - 18} C ${cx + 4} ${cy - 12}, ${cx + 14} ${cy + 2}, ${cx - 8} ${cy + 20}`} />
+          <line x1={cx - 16} y1={cy} x2={cx + 12} y2={cy} />
         </g>
       );
-    case "rune-11-branch-y": // 11 o'clock: Branched Y upper-left
+    case "rune-brackets":
       return (
         <g>
-          <path d={`M ${cx - 28} ${cy - 6} L ${cx + 4} ${cy + 4} L ${cx - 6} ${cy - 26}`} />
-          <path d={`M ${cx - 8} ${cy + 26} C ${cx + 2} ${cy + 6}, ${cx + 12} ${cy - 8}, ${cx + 26} ${cy - 14}`} />
+          <path d={`M ${cx - 16} ${cy - 18} Q ${cx - 22} ${cy} ${cx - 16} ${cy + 18}`} />
+          <path d={`M ${cx - 4} ${cy - 16} Q ${cx + 2} ${cy} ${cx - 4} ${cy + 16}`} />
+          <path d={`M ${cx + 16} ${cy - 12} L ${cx + 8} ${cy} L ${cx + 16} ${cy + 12}`} />
         </g>
+      );
+    case "rune-hook-left":
+      return (
+        <g>
+          <path d={`M ${cx - 16} ${cy - 16} Q ${cx + 12} ${cy - 16} ${cx + 12} ${cy} Q ${cx + 12} ${cy + 20} ${cx - 10} ${cy + 20}`} />
+        </g>
+      );
+    case "rune-y-branch":
+      return (
+        <path d={`M ${cx - 18} ${cy + 18} L ${cx + 2} ${cy} L ${cx + 18} ${cy - 20} M ${cx + 2} ${cy} L ${cx - 12} ${cy - 16}`} />
       );
     default:
       return (
-        <path d={`M ${cx - 18} ${cy - 18} L ${cx + 18} ${cy + 18} M ${cx + 18} ${cy - 18} L ${cx - 18} ${cy + 18}`} />
+        <path d={`M ${cx - 15} ${cy - 15} L ${cx + 15} ${cy + 15} M ${cx + 15} ${cy - 15} L ${cx - 15} ${cy + 15}`} />
       );
   }
 }

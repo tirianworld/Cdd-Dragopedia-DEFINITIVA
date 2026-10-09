@@ -1,4 +1,5 @@
 {
+  "updated_at": "2026-09-27T21:50:49.699Z",
   "folders": [
     {
       "id": "6a33e548c4dce48fc040f3fe",
@@ -76,7 +77,7 @@
       "id": "6a47858a0c31775a5efcdc0e",
       "name": "Glimmerstone",
       "description": "",
-      "cover_image": "/images/cloud/KgS8D5y_ffeedeef7c.png",
+      "cover_image": "https://i.imgur.com/KgS8D5y.jpeg",
       "folder_id": "6a33c1a72439c96399c24306",
       "initial_zoom": 1.6,
       "weather_effect": "none",
@@ -94,26 +95,86 @@
       "id": "6a36d905e71eb943e5f09960",
       "name": "Tribu Mantis",
       "description": "",
-      "cover_image": "/images/cloud/7EJZpmG_5b91423c53.png",
+      "cover_image": "https://i.imgur.com/7EJZpmG.jpeg",
       "parent_map_id": "6a341b022e35151d8f3fccaa",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.8,
       "weather_effect": "none",
-      "emissive_colors": [],
-      "emissive_speed": 50,
-      "water_colors": [],
-      "water_speed": 50,
+      "emissive_colors": [
+        {
+          "color": "#ffff94",
+          "similarity": 1
+        }
+      ],
+      "emissive_speed": 66,
+      "water_colors": [
+        {
+          "color": "#1c6262",
+          "similarity": 1,
+          "wave_color": "#ffffff",
+          "blend_mode": "normal"
+        },
+        {
+          "color": "#227572",
+          "similarity": 1,
+          "wave_color": "#ffffff",
+          "blend_mode": "normal"
+        },
+        {
+          "color": "#2e878b",
+          "similarity": 1,
+          "wave_color": "#ffffff",
+          "blend_mode": "normal"
+        },
+        {
+          "color": "#257479",
+          "similarity": 1,
+          "wave_color": "#ffffff",
+          "blend_mode": "normal"
+        },
+        {
+          "color": "#1c656b",
+          "similarity": 4,
+          "wave_color": "#ffffff",
+          "blend_mode": "normal"
+        },
+        {
+          "color": "#288189",
+          "similarity": 5,
+          "wave_color": "#ffffff",
+          "blend_mode": "normal"
+        }
+      ],
+      "water_speed": 1,
       "order": 8,
       "created_date": "2026-06-20T18:16:37.117000",
       "moving_parts": [],
       "ai_animation_layers": [],
-      "ai_animation_prompt": ""
+      "ai_animation_prompt": "",
+      "wind_colors": [
+        {
+          "color": "#366964",
+          "similarity": 9
+        },
+        {
+          "color": "#519887",
+          "similarity": 7
+        }
+      ],
+      "wind_enabled": true,
+      "wind_strength": 6,
+      "wind_speed": 9,
+      "wind_gusts": 11,
+      "wind_angle": 45,
+      "water_angle": 45,
+      "water_opacity": 15,
+      "water_wave_color": "#264f48"
     },
     {
       "id": "6a36c575f64709d59d45b266",
       "name": "Arboleda de Aldriván",
       "description": "",
-      "cover_image": "/images/cloud/Na0OnWL_17d7768b68.png",
+      "cover_image": "https://i.imgur.com/Na0OnWL.jpeg",
       "parent_map_id": "6a341b022e35151d8f3fccaa",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 3,
@@ -132,7 +193,7 @@
       "id": "6a36c300d27abeefcaa93fb8",
       "name": "El Santuario",
       "description": "",
-      "cover_image": "/images/cloud/yfM4k30_f4982ddce1.png",
+      "cover_image": "https://i.imgur.com/yfM4k30.jpeg",
       "parent_map_id": "6a33c6fb7fcb71b00f8684d7",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.5,
@@ -151,7 +212,7 @@
       "id": "6a36c214a4db31bb95531143",
       "name": "Puente Tierras del Este",
       "description": "",
-      "cover_image": "/images/cloud/KheFEIz_e656b5a651.png",
+      "cover_image": "https://i.imgur.com/KheFEIz.png",
       "parent_map_id": "6a33c6fb7fcb71b00f8684d7",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.4,
@@ -170,7 +231,7 @@
       "id": "6a36c119eef2fa86dfa3f1a6",
       "name": "Siwa",
       "description": "",
-      "cover_image": "/images/cloud/AhA0m59_de362e7ef5.png",
+      "cover_image": "https://i.imgur.com/AhA0m59.png",
       "parent_map_id": "6a33c6fb7fcb71b00f8684d7",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.4,
@@ -180,25 +241,55 @@
       "water_colors": [
         {
           "color": "#00a5b0",
-          "similarity": 100
+          "similarity": 4,
+          "wave_color": "#386a6b"
+        },
+        {
+          "color": "#03b79e",
+          "similarity": 5,
+          "wave_color": "#ffffff",
+          "blend_mode": "normal"
         }
       ],
-      "water_speed": 100,
+      "water_speed": 3,
       "order": 6,
       "created_date": "2026-06-20T16:34:33.149000",
       "moving_parts": [],
       "ai_animation_layers": [],
-      "ai_animation_prompt": ""
+      "ai_animation_prompt": "",
+      "weather_effects_v2": [
+        {
+          "id": "eff_1787953171733_eex7",
+          "effect": "cherry_blossoms",
+          "quantity": 115,
+          "scale": 0.3,
+          "speed": 0.1,
+          "custom_color": "#f689a7",
+          "custom_name": "Pétalos de Sakura",
+          "custom_emoji": "🌸",
+          "label": "Pétalos de Sakura",
+          "density": 80,
+          "direction": 185,
+          "opacity": 0.9,
+          "tint": "#f689a7",
+          "occlusion": true,
+          "soundTrack": "wind",
+          "custom_vx": -1.992389396183491,
+          "custom_vy": -0.1743114854953159
+        }
+      ],
+      "water_angle": 135,
+      "water_opacity": 13
     },
     {
       "id": "6a36c045592d48fc95f39e6c",
       "name": "Ashina",
       "description": "",
-      "cover_image": "/images/cloud/Qson6a6_0e23275f18.png",
+      "cover_image": "https://i.imgur.com/Qson6a6.jpeg",
       "parent_map_id": "6a33c6fb7fcb71b00f8684d7",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.3,
-      "weather_effect": "none",
+      "weather_effect": "sunbeams",
       "emissive_colors": [],
       "emissive_speed": 50,
       "water_colors": [],
@@ -207,13 +298,33 @@
       "created_date": "2026-06-20T16:31:01.890000",
       "moving_parts": [],
       "ai_animation_layers": [],
-      "ai_animation_prompt": ""
+      "ai_animation_prompt": "",
+      "ambient_sound": "wind",
+      "weather_effects_v2": [
+        {
+          "id": "eff_1790382866222_iu1v",
+          "effect": "sunbeams",
+          "quantity": 50,
+          "scale": 0.9,
+          "speed": 0.5,
+          "custom_color": "#fef08a",
+          "custom_name": "Rayos Celestiales",
+          "custom_emoji": "☀️",
+          "label": "Rayos Celestiales",
+          "density": 50,
+          "direction": 110,
+          "opacity": 0.55,
+          "tint": "#fef08a",
+          "occlusion": false,
+          "soundTrack": "forest"
+        }
+      ]
     },
     {
       "id": "6a3652c0a4e6bb3cb729f2b4",
       "name": "Lothric/Lordran",
       "description": "",
-      "cover_image": "/images/cloud/dBNrjJn_c1595b3e7b.png",
+      "cover_image": "https://i.imgur.com/dBNrjJn.jpeg",
       "parent_map_id": "6a33c6fb7fcb71b00f8684d7",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.4,
@@ -242,19 +353,23 @@
           "blend_mode": "multiply"
         }
       ],
-      "water_speed": 24,
+      "water_speed": 1,
       "order": 3,
       "created_date": "2026-06-20T08:43:44.838000",
       "moving_parts": [],
       "ai_animation_layers": [],
       "ai_animation_prompt": "",
-      "water_wave_color": "#164f50"
+      "water_wave_color": "#164f50",
+      "wind_enabled": true,
+      "wind_speed": 34,
+      "water_angle": 45,
+      "water_opacity": 19
     },
     {
       "id": "6a3431cde96030e4ff0be4f6",
       "name": "Anor Londo",
       "description": "",
-      "cover_image": "/images/cloud/ixrZKKP_539a732ac8.png",
+      "cover_image": "https://i.imgur.com/ixrZKKP.png",
       "parent_map_id": "6a342589eca7c2a147ecf1db",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.8,
@@ -273,7 +388,7 @@
       "id": "6a342643508b897a97aa24c7",
       "name": "Lothric",
       "description": "",
-      "cover_image": "/images/cloud/ufhdpBx_8358934044.png",
+      "cover_image": "https://i.imgur.com/ufhdpBx.jpeg",
       "parent_map_id": "6a3652c0a4e6bb3cb729f2b4",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 2.4,
@@ -292,7 +407,7 @@
       "id": "6a3425cade8b14c2d27febec",
       "name": "Alcantarillas de Lothric",
       "description": "",
-      "cover_image": "/images/cloud/HQVWfj9_6506f39d70.png",
+      "cover_image": "https://i.imgur.com/HQVWfj9.jpeg",
       "parent_map_id": "6a342643508b897a97aa24c7",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.5,
@@ -442,7 +557,7 @@
       "id": "6a342589eca7c2a147ecf1db",
       "name": "Lordran",
       "description": "",
-      "cover_image": "/images/cloud/e6zWGxH_3d7a37c034.png",
+      "cover_image": "https://i.imgur.com/e6zWGxH.jpeg",
       "parent_map_id": "6a3652c0a4e6bb3cb729f2b4",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.5,
@@ -452,25 +567,31 @@
       "water_colors": [
         {
           "color": "#b2c6bc",
-          "similarity": 15
+          "similarity": 1
         },
         {
           "color": "#8b998c",
-          "similarity": 18
+          "similarity": 1
         }
       ],
-      "water_speed": 55,
+      "water_speed": 5,
       "order": 11,
       "created_date": "2026-06-18T17:06:17.881000",
       "moving_parts": [],
       "ai_animation_layers": [],
-      "ai_animation_prompt": ""
+      "ai_animation_prompt": "",
+      "wind_enabled": true,
+      "wind_speed": 30,
+      "wind_gusts": 14,
+      "water_angle": 45,
+      "water_wave_color": "#909c92",
+      "water_opacity": 17
     },
     {
       "id": "6a3424ce85e8fe1f5c60c02a",
       "name": "Palacio Dranglric 2",
       "description": "",
-      "cover_image": "/images/cloud/abMKnWN_8bf64ed360.png",
+      "cover_image": "https://i.imgur.com/abMKnWN.png",
       "parent_map_id": "6a341f5b734bd6279387d003",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.5,
@@ -489,7 +610,7 @@
       "id": "6a3422b28521f45e137be201",
       "name": "Castillo de Drangleic 1",
       "description": "",
-      "cover_image": "/images/cloud/5NTjW41_45c415c68b.png",
+      "cover_image": "https://i.imgur.com/5NTjW41.png",
       "parent_map_id": "6a341f5b734bd6279387d003",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 2.7,
@@ -508,7 +629,7 @@
       "id": "6a3421b268196ec66c7119aa",
       "name": "Academia de los Espejos",
       "description": "",
-      "cover_image": "/images/cloud/N4GBnUQ_31d7798feb.png",
+      "cover_image": "https://i.imgur.com/N4GBnUQ.png",
       "parent_map_id": "6a341f5b734bd6279387d003",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 2.8,
@@ -527,7 +648,7 @@
       "id": "6a342159513530f9698f6008",
       "name": "Bastión de la guardia de Drangleic",
       "description": "",
-      "cover_image": "/images/cloud/0Igdii4_d4fcc5e3e4.png",
+      "cover_image": "https://i.imgur.com/0Igdii4.png",
       "parent_map_id": "6a341f5b734bd6279387d003",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 2.3,
@@ -546,7 +667,7 @@
       "id": "6a341f5b734bd6279387d003",
       "name": "Drangleic",
       "description": "",
-      "cover_image": "/images/cloud/melBnUh_88a2377bbd.png",
+      "cover_image": "https://i.imgur.com/melBnUh.jpeg",
       "parent_map_id": "6a341b022e35151d8f3fccaa",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.9,
@@ -559,32 +680,57 @@
       "created_date": "2026-06-18T16:39:55.556000",
       "moving_parts": [],
       "ai_animation_layers": [],
-      "ai_animation_prompt": ""
+      "ai_animation_prompt": "",
+      "wind_colors": [
+        {
+          "color": "#5e8858",
+          "similarity": 4
+        },
+        {
+          "color": "#43675c",
+          "similarity": 8
+        }
+      ],
+      "wind_enabled": true,
+      "wind_strength": 6,
+      "wind_speed": 28,
+      "wind_gusts": 16,
+      "wind_angle": 45
     },
     {
       "id": "6a341b022e35151d8f3fccaa",
       "name": "Zona de Drangleic",
       "description": "",
-      "cover_image": "/images/cloud/2m7VCN0_0a0a377285.png",
+      "cover_image": "https://i.imgur.com/2m7VCN0.jpeg",
       "parent_map_id": "6a33c6fb7fcb71b00f8684d7",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.5,
       "weather_effect": "none",
       "emissive_colors": [],
       "emissive_speed": 50,
-      "water_colors": [],
-      "water_speed": 50,
+      "water_colors": [
+        {
+          "color": "#2e5252",
+          "similarity": 4,
+          "wave_color": "#1d4648"
+        }
+      ],
+      "water_speed": 1,
       "order": 5,
       "created_date": "2026-06-18T16:21:22.119000",
       "moving_parts": [],
       "ai_animation_layers": [],
-      "ai_animation_prompt": ""
+      "ai_animation_prompt": "",
+      "wind_enabled": true,
+      "wind_speed": 11,
+      "water_angle": 135,
+      "water_opacity": 19
     },
     {
       "id": "6a33ea2ba25bb66b92421cff",
       "name": "Sala de Boss de Astraea",
       "description": "",
-      "cover_image": "/images/cloud/KaClHEP_ede8e5cd5c.png",
+      "cover_image": "https://i.imgur.com/KaClHEP.jpeg",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1,
       "weather_effect": "none",
@@ -602,7 +748,7 @@
       "id": "6a33e9f9fe22112fec81abab",
       "name": "Mehetia",
       "description": "",
-      "cover_image": "/images/cloud/dYK7OsM_436c77e9b7.png",
+      "cover_image": "https://i.imgur.com/dYK7OsM.png",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1,
       "weather_effect": "none",
@@ -620,7 +766,7 @@
       "id": "6a33e95a7cb0980b4aa34263",
       "name": "Torre de Latria",
       "description": "",
-      "cover_image": "/images/cloud/2Mr0NfQ_26c4558927.png",
+      "cover_image": "https://i.imgur.com/2Mr0NfQ.png",
       "parent_map_id": "6a33d30084bd4bc511636167",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 3,
@@ -639,7 +785,7 @@
       "id": "6a33e9139fd65ddbccf06bc6",
       "name": "Lago Helado del Valle Boreal",
       "description": "",
-      "cover_image": "/images/cloud/i341i9T_24d8af9e69.png",
+      "cover_image": "https://i.imgur.com/i341i9T.png",
       "parent_map_id": "6a33d30084bd4bc511636167",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.5,
@@ -658,7 +804,7 @@
       "id": "6a33e8c5c53108a15865dcbc",
       "name": "Llanto Incesante",
       "description": "",
-      "cover_image": "/images/cloud/w0UPSBm_441ff55e23.png",
+      "cover_image": "https://i.imgur.com/w0UPSBm.png",
       "parent_map_id": "6a33e84250b01fbb423df137",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.8,
@@ -677,26 +823,116 @@
       "id": "6a33e84250b01fbb423df137",
       "name": "Irithyll del Valle Boreal",
       "description": "",
-      "cover_image": "/images/cloud/08RjQqX_ba364652f7.png",
+      "cover_image": "https://i.imgur.com/08RjQqX.png",
       "parent_map_id": "6a33d30084bd4bc511636167",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 2.1,
       "weather_effect": "none",
       "emissive_colors": [],
       "emissive_speed": 50,
-      "water_colors": [],
+      "water_colors": [
+        {
+          "color": "#ded4bb",
+          "similarity": 2,
+          "wave_color": "#cead88",
+          "blend_mode": "normal"
+        },
+        {
+          "color": "#d4c1a3",
+          "similarity": 1,
+          "wave_color": "#cead88",
+          "blend_mode": "normal"
+        },
+        {
+          "color": "#c9a781",
+          "similarity": 2,
+          "wave_color": "#be9d79",
+          "blend_mode": "normal"
+        },
+        {
+          "color": "#d3b996",
+          "similarity": 2,
+          "wave_color": "#675542",
+          "blend_mode": "normal"
+        },
+        {
+          "color": "#bdc0ab",
+          "similarity": 3,
+          "wave_color": "#80906a",
+          "blend_mode": "normal"
+        }
+      ],
       "water_speed": 50,
       "order": 26,
       "created_date": "2026-06-18T12:44:50.564000",
       "moving_parts": [],
       "ai_animation_layers": [],
-      "ai_animation_prompt": ""
+      "ai_animation_prompt": "",
+      "weather_effects_v2": [
+        {
+          "id": "eff_1787951675557_4n6l",
+          "effect": "blizzard",
+          "quantity": 200,
+          "scale": 0.5,
+          "speed": 1.1,
+          "custom_color": "#738cb1",
+          "custom_name": "Ventisca Ártica",
+          "custom_emoji": "🌨️",
+          "label": "Ventisca Ártica",
+          "density": 160,
+          "direction": 285,
+          "opacity": 0.85,
+          "tint": "#e0f2fe",
+          "occlusion": true,
+          "soundTrack": "wind",
+          "custom_vx": 0.5176380902050423,
+          "custom_vy": -1.9318516525781364
+        },
+        {
+          "id": "eff_1787951716276_hhvp",
+          "effect": "blizzard",
+          "quantity": 150,
+          "scale": 0.4,
+          "speed": 1.1,
+          "custom_color": "#b8daff",
+          "custom_name": "Ventisca Ártica",
+          "custom_emoji": "🌨️",
+          "label": "Ventisca Ártica",
+          "density": 160,
+          "direction": 285,
+          "opacity": 0.85,
+          "tint": "#e0f2fe",
+          "occlusion": true,
+          "soundTrack": "wind",
+          "custom_vx": 0.5176380902050423,
+          "custom_vy": -1.9318516525781364
+        },
+        {
+          "id": "eff_1788004116714_43wr",
+          "effect": "fog",
+          "quantity": 140,
+          "scale": 0.35,
+          "speed": 2.3,
+          "custom_color": "#b4c0cf",
+          "custom_name": "Niebla Densa",
+          "custom_emoji": "🌫️",
+          "label": "Niebla Densa",
+          "density": 70,
+          "direction": 360,
+          "opacity": 0.65,
+          "tint": "#cbd5e1",
+          "occlusion": true,
+          "soundTrack": "cave",
+          "custom_vx": 2,
+          "custom_vy": -4.898587196589413e-16
+        }
+      ]
     },
     {
       "id": "6a33e687527f4e300694295d",
       "name": "Boletaria",
       "description": "",
-      "cover_image": "/images/cloud/n2LnU5T_3cc03cdc95.png",
+      "cover_image": "https://i.imgur.com/n2LnU5T.jpeg",
       "parent_map_id": "6a33d30084bd4bc511636167",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 2.4,
@@ -710,13 +946,52 @@
       "moving_parts": [],
       "ai_animation_layers": [],
       "ai_animation_prompt": "",
-      "weather_effects_v2": []
+      "weather_effects_v2": [
+        {
+          "id": "eff_1787951675557_4n6l",
+          "effect": "blizzard",
+          "quantity": 200,
+          "scale": 0.15,
+          "speed": 1.1,
+          "custom_color": "#e0f2fe",
+          "custom_name": "Ventisca Ártica",
+          "custom_emoji": "🌨️",
+          "label": "Ventisca Ártica",
+          "density": 160,
+          "direction": 285,
+          "opacity": 0.85,
+          "tint": "#e0f2fe",
+          "occlusion": true,
+          "soundTrack": "wind",
+          "custom_vx": 0.5176380902050423,
+          "custom_vy": -1.9318516525781364
+        },
+        {
+          "id": "eff_1787951716276_hhvp",
+          "effect": "blizzard",
+          "quantity": 150,
+          "scale": 0.15,
+          "speed": 1.1,
+          "custom_color": "#e0f2fe",
+          "custom_name": "Ventisca Ártica",
+          "custom_emoji": "🌨️",
+          "label": "Ventisca Ártica",
+          "density": 160,
+          "direction": 285,
+          "opacity": 0.85,
+          "tint": "#e0f2fe",
+          "occlusion": true,
+          "soundTrack": "wind",
+          "custom_vx": 0.5176380902050423,
+          "custom_vy": -1.9318516525781364
+        }
+      ]
     },
     {
       "id": "6a33e5b5234266785a59195d",
       "name": "Granjas de Boletaria",
       "description": "",
-      "cover_image": "/images/cloud/Pb1Eq5H_be1638acdd.png",
+      "cover_image": "https://i.imgur.com/Pb1Eq5H.png",
       "parent_map_id": "6a33d30084bd4bc511636167",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 3,
@@ -744,26 +1019,117 @@
       "id": "6a33d30084bd4bc511636167",
       "name": "Glacio",
       "description": "",
-      "cover_image": "/images/cloud/f2CHH8j_3c74587361.png",
+      "cover_image": "https://i.imgur.com/f2CHH8j.jpeg",
       "parent_map_id": "6a33c6fb7fcb71b00f8684d7",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.8,
       "weather_effect": "none",
       "emissive_colors": [],
       "emissive_speed": 50,
-      "water_colors": [],
-      "water_speed": 50,
+      "water_colors": [
+        {
+          "color": "#ded4bb",
+          "similarity": 2,
+          "wave_color": "#cead88",
+          "blend_mode": "normal"
+        },
+        {
+          "color": "#d4c1a3",
+          "similarity": 1,
+          "wave_color": "#cead88",
+          "blend_mode": "normal"
+        },
+        {
+          "color": "#c9a781",
+          "similarity": 2,
+          "wave_color": "#be9d79",
+          "blend_mode": "normal"
+        },
+        {
+          "color": "#d3b996",
+          "similarity": 2,
+          "wave_color": "#675542",
+          "blend_mode": "normal"
+        },
+        {
+          "color": "#bdc0ab",
+          "similarity": 3,
+          "wave_color": "#80906a",
+          "blend_mode": "normal"
+        }
+      ],
+      "water_speed": 3,
       "order": 4,
       "created_date": "2026-06-18T11:14:08.426000",
       "moving_parts": [],
       "ai_animation_layers": [],
-      "ai_animation_prompt": ""
+      "ai_animation_prompt": "",
+      "weather_effects_v2": [
+        {
+          "id": "eff_1787951675557_4n6l",
+          "effect": "blizzard",
+          "quantity": 200,
+          "scale": 0.35,
+          "speed": 1.1,
+          "custom_color": "#e0f2fe",
+          "custom_name": "Ventisca Ártica",
+          "custom_emoji": "🌨️",
+          "label": "Ventisca Ártica",
+          "density": 160,
+          "direction": 285,
+          "opacity": 0.85,
+          "tint": "#e0f2fe",
+          "occlusion": true,
+          "soundTrack": "wind",
+          "custom_vx": 0.5176380902050423,
+          "custom_vy": -1.9318516525781364
+        },
+        {
+          "id": "eff_1787951716276_hhvp",
+          "effect": "blizzard",
+          "quantity": 150,
+          "scale": 0.15,
+          "speed": 1.1,
+          "custom_color": "#e0f2fe",
+          "custom_name": "Ventisca Ártica",
+          "custom_emoji": "🌨️",
+          "label": "Ventisca Ártica",
+          "density": 160,
+          "direction": 285,
+          "opacity": 0.85,
+          "tint": "#e0f2fe",
+          "occlusion": true,
+          "soundTrack": "wind",
+          "custom_vx": 0.5176380902050423,
+          "custom_vy": -1.9318516525781364
+        },
+        {
+          "id": "eff_1788004116714_43wr",
+          "effect": "fog",
+          "quantity": 140,
+          "scale": 3.45,
+          "speed": 2.3,
+          "custom_color": "#cbd5e1",
+          "custom_name": "Niebla Densa",
+          "custom_emoji": "🌫️",
+          "label": "Niebla Densa",
+          "density": 70,
+          "direction": 360,
+          "opacity": 0.65,
+          "tint": "#cbd5e1",
+          "occlusion": true,
+          "soundTrack": "cave",
+          "custom_vx": 2,
+          "custom_vy": -4.898587196589413e-16
+        }
+      ],
+      "water_angle": 45
     },
     {
       "id": "6a33c6fb7fcb71b00f8684d7",
       "name": "Kaliria",
       "description": "",
-      "cover_image": "/images/cloud/WDpm6Oj_6e58336a19.png",
+      "cover_image": "https://i.imgur.com/WDpm6Oj.png",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.5,
       "weather_effect": "none",
@@ -771,11 +1137,19 @@
       "emissive_speed": 50,
       "water_colors": [
         {
-          "color": "#cedbcd",
-          "similarity": 10
+          "color": "#f8e9cd",
+          "similarity": 1
+        },
+        {
+          "color": "#d2d4be",
+          "similarity": 1
+        },
+        {
+          "color": "#b6ae93",
+          "similarity": 1
         }
       ],
-      "water_speed": 1,
+      "water_speed": 4,
       "order": 0,
       "created_date": "2026-06-18T10:22:51.400000",
       "moving_parts": [],
@@ -783,14 +1157,17 @@
       "ai_animation_prompt": "",
       "parent_map_id": "map-agoog8k",
       "water_angle": 135,
-      "water_wave_color": "#cedbce",
-      "water_opacity": 26
+      "water_wave_color": "#ffffff",
+      "water_opacity": 100,
+      "wind_enabled": true,
+      "wind_speed": 52,
+      "wind_gusts": 75
     },
     {
       "id": "6a33c1d0255f836cf606171e",
       "name": "Castillo de Lothric",
       "description": "",
-      "cover_image": "/images/cloud/RR1ssLm_29a9e970f6.png",
+      "cover_image": "https://i.imgur.com/RR1ssLm.jpeg",
       "parent_map_id": "6a342643508b897a97aa24c7",
       "folder_id": "6a33c18d02a3e1b177210cd7",
       "initial_zoom": 1.5,
@@ -827,7 +1204,7 @@
       "id": "map-agoog8k",
       "name": "Mundo Conocido",
       "description": "",
-      "cover_image": "/images/cloud/jpoqquy_b0caf286fc.png",
+      "cover_image": "https://i.imgur.com/jpoqquy.jpeg",
       "initial_zoom": 2.1,
       "weather_effect": "none",
       "order": 29,
@@ -857,7 +1234,7 @@
       "id": "map-rid59mr",
       "name": "Aeros",
       "description": "",
-      "cover_image": "/images/cloud/aeros_643fcf7092.png",
+      "cover_image": "https://i.imgur.com/Kd8XtUi.jpeg",
       "folder_id": "6a33c1a72439c96399c24306",
       "initial_zoom": 3,
       "weather_effect": "none",
@@ -886,7 +1263,7 @@
       "id": "map-jh6kgz6",
       "name": "Avalon",
       "description": "",
-      "cover_image": "/images/cloud/fUA4qLl_28c9f16290.png",
+      "cover_image": "https://i.imgur.com/fUA4qLl.jpeg",
       "folder_id": "6a33c19ca5127ce5a31f92c6",
       "initial_zoom": 2.4,
       "weather_effect": "none",
@@ -936,7 +1313,7 @@
       "id": "map-d7izz7v",
       "name": "Kaanil",
       "description": "",
-      "cover_image": "/images/cloud/WhjXWRX_61418085b0.png",
+      "cover_image": "https://i.imgur.com/WhjXWRX.jpeg",
       "folder_id": "folder-cw8bukt",
       "initial_zoom": 2.8,
       "weather_effect": "none",
@@ -962,13 +1339,15 @@
       ],
       "wind_enabled": true,
       "wind_strength": 25,
-      "wind_speed": 21
+      "wind_speed": 21,
+      "water_angle": 135,
+      "water_opacity": 30
     },
     {
       "id": "map-0rc7f8k",
       "name": "Camelot",
       "description": "",
-      "cover_image": "/images/cloud/TCxsack_e0370847f2.png",
+      "cover_image": "https://i.imgur.com/TCxsack.jpeg",
       "folder_id": "6a33c19ca5127ce5a31f92c6",
       "initial_zoom": 2.5,
       "weather_effect": "none",
@@ -983,7 +1362,7 @@
       "id": "map-04f7s6b",
       "name": "Gran Reino Enano de Thorin",
       "description": "",
-      "cover_image": "/images/cloud/YxbVq5T_2993a7a4cc.png",
+      "cover_image": "https://i.imgur.com/YxbVq5T.jpeg",
       "folder_id": "folder-be3bqr8",
       "initial_zoom": 2.9,
       "weather_effect": "none",
@@ -998,7 +1377,7 @@
       "id": "map-p8aeafz",
       "name": "Svartal",
       "description": "",
-      "cover_image": "/images/cloud/yUwcCYT_13f73867fd.png",
+      "cover_image": "https://i.imgur.com/yUwcCYT.jpeg",
       "folder_id": "folder-be3bqr8",
       "initial_zoom": 3.4,
       "weather_effect": "none",
@@ -1013,7 +1392,7 @@
       "id": "map-063jxzq",
       "name": "Svartal Inferior",
       "description": "",
-      "cover_image": "/images/cloud/2nMAA1c_55d6374ce3.png",
+      "cover_image": "https://i.imgur.com/2nMAA1c.jpeg",
       "folder_id": "folder-be3bqr8",
       "initial_zoom": 2.4,
       "weather_effect": "none",
@@ -1028,7 +1407,7 @@
       "id": "map-ssuiqp3",
       "name": "Iglesia Luna Oscura Svartal",
       "description": "",
-      "cover_image": "/images/cloud/ijv14c0_d40cfbe4a9.png",
+      "cover_image": "https://i.imgur.com/ijv14c0.jpeg",
       "folder_id": "folder-be3bqr8",
       "initial_zoom": 1.8,
       "weather_effect": "none",
@@ -1043,7 +1422,7 @@
       "id": "map-q2ajbqm",
       "name": "Siramar",
       "description": "",
-      "cover_image": "/images/cloud/PxLBYcO_b73c5de20a.png",
+      "cover_image": "https://i.imgur.com/PxLBYcO.png",
       "folder_id": "folder-02n96ox",
       "initial_zoom": 2.4,
       "weather_effect": "none",
@@ -1083,7 +1462,7 @@
       "id": "map-9071knf",
       "name": "Palacio Élfico",
       "description": "",
-      "cover_image": "/images/cloud/kkgjRY2_17b37b0de9.png",
+      "cover_image": "https://i.imgur.com/kkgjRY2.jpeg",
       "folder_id": "folder-02n96ox",
       "initial_zoom": 2,
       "weather_effect": "none",
@@ -1098,7 +1477,7 @@
       "id": "map-ihwh9ad",
       "name": "Drangleic Alternativo",
       "description": "",
-      "cover_image": "/images/cloud/dTM5piQ_f85308be24.png",
+      "cover_image": "https://i.imgur.com/dTM5piQ.jpeg",
       "folder_id": "folder-btjrx9k",
       "initial_zoom": 2.2,
       "weather_effect": "none",
@@ -1113,7 +1492,7 @@
       "id": "map-ba6meuz",
       "name": "Ciudad Drangleic Alternativo",
       "description": "",
-      "cover_image": "/images/cloud/HibxtEY_49d7a36bb5.png",
+      "cover_image": "https://i.imgur.com/HibxtEY.jpeg",
       "folder_id": "folder-btjrx9k",
       "initial_zoom": 2.5,
       "weather_effect": "none",
@@ -1128,7 +1507,7 @@
       "id": "map-17peqxb",
       "name": "El Santa Maria",
       "description": "",
-      "cover_image": "/images/cloud/MlT9wqD_2ab1515839.png",
+      "cover_image": "https://i.imgur.com/MlT9wqD.jpeg",
       "folder_id": "6a33c19ca5127ce5a31f92c6",
       "initial_zoom": 2.3,
       "weather_effect": "none",
@@ -1157,7 +1536,7 @@
       "id": "map-pabwctf",
       "name": "Planos Interiores",
       "description": "",
-      "cover_image": "/images/cloud/mopyJCz_ec054febeb.png",
+      "cover_image": "https://i.imgur.com/mopyJCz.jpeg",
       "initial_zoom": 2.6,
       "weather_effect": "none",
       "order": 43,
@@ -1170,7 +1549,7 @@
       "id": "map-oa2vb83",
       "name": "Quasiplano Forestal",
       "description": "",
-      "cover_image": "/images/cloud/OTbLo41_62d2a3e1ff.png",
+      "cover_image": "https://i.imgur.com/OTbLo41.jpeg",
       "folder_id": "6a33e548c4dce48fc040f3fe",
       "initial_zoom": 2.7,
       "weather_effect": "none",
@@ -1188,11 +1567,11 @@
       "id": "map-iaai74g",
       "name": "Semiplano del Polvo",
       "description": "",
-      "cover_image": "/images/cloud/3sO2PIR_17678c7a51.png",
-      "folder_id": "6a33e548c4dce48fc040f3fe",
+      "cover_image": "https://i.imgur.com/3sO2PIR.jpeg",
+      "folder_id": "6a33e52fa75af5e541d2e0d3",
       "initial_zoom": 2.6,
       "weather_effect": "none",
-      "order": 45,
+      "order": 0,
       "created_date": "2026-08-26T09:21:23.450Z",
       "parent_map_id": "map-pabwctf",
       "moving_parts": [],
@@ -1203,7 +1582,7 @@
       "id": "map-1yn70y0",
       "name": "Plano del Fuego",
       "description": "",
-      "cover_image": "/images/cloud/HJVw4OA_3df4b70081.png",
+      "cover_image": "https://i.imgur.com/HJVw4OA.jpeg",
       "folder_id": "folder-q4lipt3",
       "initial_zoom": 3.4,
       "weather_effect": "none",
@@ -1213,7 +1592,1615 @@
       "moving_parts": [],
       "ai_animation_layers": [],
       "ai_animation_prompt": ""
+    },
+    {
+      "id": "map-vlndkjx",
+      "name": "Laberinto de Cristal",
+      "description": "",
+      "cover_image": "https://i.imgur.com/FhSfxbb.jpeg",
+      "folder_id": "folder-btjrx9k",
+      "initial_zoom": 1,
+      "weather_effect": "none",
+      "order": 47,
+      "created_date": "2026-09-26T00:20:21.839Z"
+    },
+    {
+      "id": "map-1khcmim",
+      "name": "Pico del Archidragón 1",
+      "description": "",
+      "cover_image": "https://i.imgur.com/5Co8Rig.png",
+      "folder_id": "6a33c18d02a3e1b177210cd7",
+      "initial_zoom": 2.5,
+      "weather_effect": "none",
+      "order": 48,
+      "created_date": "2026-09-27T20:44:41.547Z",
+      "parent_map_id": "6a33c6fb7fcb71b00f8684d7"
+    },
+    {
+      "id": "map-zukq9ad",
+      "name": "Pico del Archidragón 2",
+      "description": "",
+      "cover_image": "https://i.imgur.com/wOqhljr.jpeg",
+      "folder_id": "6a33c18d02a3e1b177210cd7",
+      "initial_zoom": 2.2,
+      "weather_effect": "none",
+      "order": 49,
+      "created_date": "2026-09-27T21:06:45.513Z",
+      "parent_map_id": "map-1khcmim"
+    },
+    {
+      "id": "map-q57msla",
+      "name": "Pico del Archidragón 3",
+      "description": "",
+      "cover_image": "https://i.imgur.com/JjpaNFb.jpeg",
+      "folder_id": "6a33c18d02a3e1b177210cd7",
+      "initial_zoom": 3.4,
+      "weather_effect": "none",
+      "order": 50,
+      "created_date": "2026-09-27T21:19:54.400Z",
+      "parent_map_id": "map-zukq9ad"
+    },
+    {
+      "id": "map-873yam0",
+      "name": "Pico del Archidragón 4",
+      "description": "",
+      "cover_image": "https://i.imgur.com/BrtRtwN.jpeg",
+      "folder_id": "6a33c18d02a3e1b177210cd7",
+      "initial_zoom": 2.7,
+      "weather_effect": "none",
+      "order": 51,
+      "created_date": "2026-09-27T21:32:47.977Z",
+      "parent_map_id": "map-q57msla"
+    },
+    {
+      "id": "map-ntrpo2h",
+      "name": "Pico del Archidragón Templo",
+      "description": "",
+      "cover_image": "https://i.imgur.com/kTSSXmn.jpeg",
+      "folder_id": "6a33c18d02a3e1b177210cd7",
+      "initial_zoom": 2.7,
+      "weather_effect": "none",
+      "order": 52,
+      "created_date": "2026-09-27T21:39:21.672Z",
+      "parent_map_id": "map-873yam0"
+    },
+    {
+      "id": "map-6krhwgg",
+      "name": "Pico del Archidragón Boss Arena",
+      "description": "",
+      "cover_image": "https://i.imgur.com/B25rYuv.jpeg",
+      "folder_id": "6a33c18d02a3e1b177210cd7",
+      "initial_zoom": 3.8,
+      "weather_effect": "none",
+      "order": 53,
+      "created_date": "2026-09-27T21:41:33.000Z",
+      "parent_map_id": "map-ntrpo2h"
     }
   ],
-  "updated_at": "2026-09-23T11:19:02.414Z"
+  "layers": [],
+  "markers": [
+    {
+      "id": "6a36d940030db7eb66df91b4",
+      "name": "Tribu Mantis",
+      "description": "",
+      "category": "general",
+      "map_id": "6a341b022e35151d8f3fccaa",
+      "x": 83.70102652912682,
+      "y": 36.151465809525824,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a36d905e71eb943e5f09960",
+      "area_radius": 5
+    },
+    {
+      "id": "6a36d823b26e1b0fed6bf6c7",
+      "name": "Alcantarillas de Lothric",
+      "description": "",
+      "category": "general",
+      "map_id": "6a342643508b897a97aa24c7",
+      "x": 50,
+      "y": 50,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a3425cade8b14c2d27febec",
+      "area_radius": 40
+    },
+    {
+      "id": "6a36d80dc7d3b78d117a4dd6",
+      "name": "Castillo de Lothric",
+      "description": "",
+      "category": "general",
+      "map_id": "6a342643508b897a97aa24c7",
+      "x": 83.14758843112175,
+      "y": 31.92778888569029,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a33c1d0255f836cf606171e",
+      "area_radius": 10
+    },
+    {
+      "id": "6a36d771eebc994de686a9f5",
+      "name": "Academia de los Espejos",
+      "description": "",
+      "category": "general",
+      "map_id": "6a341f5b734bd6279387d003",
+      "x": 51.21731890033671,
+      "y": 67.84431256436574,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a3421b268196ec66c7119aa",
+      "area_radius": 12
+    },
+    {
+      "id": "6a36d6f9673c0560c55d3b81",
+      "name": "Piso 2",
+      "description": "",
+      "category": "general",
+      "map_id": "6a3422b28521f45e137be201",
+      "x": 46.1181561227709,
+      "y": 38.798074707954356,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a3424ce85e8fe1f5c60c02a",
+      "area_radius": 40
+    },
+    {
+      "id": "6a36d67de11d9ca8b085a8e5",
+      "name": "Castillo de Drangleic",
+      "description": "",
+      "category": "general",
+      "map_id": "6a341f5b734bd6279387d003",
+      "x": 75.1489932990948,
+      "y": 25.17721663337589,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a3422b28521f45e137be201",
+      "area_radius": 15
+    },
+    {
+      "id": "6a36d6374363b9a5e9d0b69e",
+      "name": "Bastion de la guardia",
+      "description": "",
+      "category": "general",
+      "map_id": "6a341f5b734bd6279387d003",
+      "x": 31.904937132434906,
+      "y": 25.209269056582283,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a342159513530f9698f6008",
+      "area_radius": 10
+    },
+    {
+      "id": "6a36c61ce404dbe587fdee34",
+      "name": "Arboleda de aldrivan",
+      "description": "",
+      "category": "general",
+      "map_id": "6a341b022e35151d8f3fccaa",
+      "x": 83.64480586301232,
+      "y": 3.151543346937625,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a36c575f64709d59d45b266",
+      "area_radius": 20
+    },
+    {
+      "id": "6a36c5f7ad014111139218a4",
+      "name": "Arboleda de aldrivan",
+      "description": "",
+      "category": "general",
+      "map_id": "6a341b022e35151d8f3fccaa",
+      "x": 56.144868609291464,
+      "y": 7.3019095349869945,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a36c575f64709d59d45b266",
+      "area_radius": 16
+    },
+    {
+      "id": "6a36c5ae773c491005e13923",
+      "name": "Aldriván",
+      "description": "",
+      "category": "general",
+      "map_id": "6a341b022e35151d8f3fccaa",
+      "x": 25.111060914087798,
+      "y": 0,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a36c575f64709d59d45b266",
+      "area_radius": 20
+    },
+    {
+      "id": "6a36c3b36ce7c97a9d817d0f",
+      "name": "El Santuario",
+      "description": "",
+      "category": "general",
+      "map_id": "6a33c6fb7fcb71b00f8684d7",
+      "x": 60.31620277636601,
+      "y": 52.121353098324484,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a36c300d27abeefcaa93fb8",
+      "area_radius": 4
+    },
+    {
+      "id": "6a36c24ae14f2daad4bf8e27",
+      "name": "Puente de Las Tierras del este",
+      "description": "",
+      "category": "general",
+      "map_id": "6a33c6fb7fcb71b00f8684d7",
+      "x": 76.32465345251975,
+      "y": 55.09878971149034,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a36c214a4db31bb95531143",
+      "area_radius": 4
+    },
+    {
+      "id": "6a36c1566d2ade2b4e4edf6d",
+      "name": "Siwa",
+      "description": "",
+      "category": "general",
+      "map_id": "6a33c6fb7fcb71b00f8684d7",
+      "x": 74.28497485494073,
+      "y": 47.485621740896875,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a36c119eef2fa86dfa3f1a6",
+      "area_radius": 4
+    },
+    {
+      "id": "6a36c075d8fe74ec9f1c7fe1",
+      "name": "Ashina",
+      "description": "",
+      "category": "general",
+      "map_id": "6a33c6fb7fcb71b00f8684d7",
+      "x": 82.1922927441777,
+      "y": 71.1363460142246,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a36c045592d48fc95f39e6c",
+      "area_radius": 8
+    },
+    {
+      "id": "6a36bf3e773c9e4f28f4e84f",
+      "name": "Lothric/lordran",
+      "description": "",
+      "category": "general",
+      "map_id": "6a33c6fb7fcb71b00f8684d7",
+      "x": 54.19337387652624,
+      "y": 15.038461983187576,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a3652c0a4e6bb3cb729f2b4",
+      "area_radius": 17
+    },
+    {
+      "id": "6a36530b0674e255a09e3962",
+      "name": "Lordan",
+      "description": "",
+      "category": "general",
+      "map_id": "6a3652c0a4e6bb3cb729f2b4",
+      "x": 55.162026049960154,
+      "y": 80.57778301852838,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a342589eca7c2a147ecf1db",
+      "area_radius": 13
+    },
+    {
+      "id": "6a3652ef43d07ac1cbd52085",
+      "name": "Lordran",
+      "description": "",
+      "category": "general",
+      "map_id": "6a3652c0a4e6bb3cb729f2b4",
+      "x": 36.44543489725847,
+      "y": 24.54784279356998,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a342643508b897a97aa24c7",
+      "area_radius": 4
+    },
+    {
+      "id": "6a3532960762f5eb5447a2b2",
+      "name": "Torre de Latria",
+      "description": "",
+      "category": "general",
+      "map_id": "6a33d30084bd4bc511636167",
+      "x": 35.77501667639943,
+      "y": 69.03109206329103,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a33e95a7cb0980b4aa34263",
+      "area_radius": 6
+    },
+    {
+      "id": "6a35322d08cfac6d23f500ce",
+      "name": "Lago Helado del Valle Boreal",
+      "description": "",
+      "category": "general",
+      "map_id": "6a33d30084bd4bc511636167",
+      "x": 13.021682759705872,
+      "y": 70.33935698463156,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a33e9139fd65ddbccf06bc6",
+      "area_radius": 3
+    },
+    {
+      "id": "6a3531fc4f7c4f081e16d9d2",
+      "name": "Llanto Incesante",
+      "description": "",
+      "category": "general",
+      "map_id": "6a33e84250b01fbb423df137",
+      "x": 57.691576771934784,
+      "y": 74.48147584646533,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a33e8c5c53108a15865dcbc",
+      "area_radius": 6
+    },
+    {
+      "id": "6a3531b6682b6bb5cc6301e4",
+      "name": "Irithyll",
+      "description": "",
+      "category": "region",
+      "map_id": "6a33d30084bd4bc511636167",
+      "x": 19.236806105340836,
+      "y": 52.6702197609153,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a33e84250b01fbb423df137",
+      "area_radius": 5
+    },
+    {
+      "id": "6a351f648d0484af92e0a48d",
+      "name": "Anor Londo",
+      "description": "",
+      "category": "general",
+      "map_id": "6a342589eca7c2a147ecf1db",
+      "x": 49.147087543093996,
+      "y": 16.775571485969255,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a3431cde96030e4ff0be4f6",
+      "area_radius": 8
+    },
+    {
+      "id": "6a341f70d7c0fa1ef1f5ae0a",
+      "name": "Drangleic",
+      "description": "",
+      "category": "general",
+      "map_id": "6a341b022e35151d8f3fccaa",
+      "x": 63.01985292272169,
+      "y": 49.59504324472922,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a341f5b734bd6279387d003",
+      "area_radius": 15
+    },
+    {
+      "id": "6a341b2370d97d085decf0ef",
+      "name": "Zona Drangleic",
+      "description": "",
+      "category": "general",
+      "map_id": "6a33c6fb7fcb71b00f8684d7",
+      "x": 32.63625220484918,
+      "y": 28.36952920693325,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a341b022e35151d8f3fccaa",
+      "area_radius": 10
+    },
+    {
+      "id": "6a33e75a63d686394c7ecae7",
+      "name": "Glacio",
+      "description": "",
+      "category": "ambient",
+      "map_id": "6a33c6fb7fcb71b00f8684d7",
+      "x": 61.033793971819016,
+      "y": 84.85337577128166,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a33d30084bd4bc511636167",
+      "area_radius": 10
+    },
+    {
+      "id": "6a33e7280fc30bab71ea1457",
+      "name": "Boletaria",
+      "description": "",
+      "category": "general",
+      "map_id": "6a33d30084bd4bc511636167",
+      "x": 60.74389985951618,
+      "y": 83.69848701659319,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a33e687527f4e300694295d",
+      "area_radius": 29
+    },
+    {
+      "id": "6a33e5f1a474b7a9b20bbb6c",
+      "name": "Granjas_Boletaria",
+      "description": "",
+      "category": "general",
+      "map_id": "6a33d30084bd4bc511636167",
+      "x": 92.36486147400763,
+      "y": 75.96576174319368,
+      "image": "",
+      "notes": "",
+      "linked_map_id": "6a33e5b5234266785a59195d",
+      "area_radius": 36
+    },
+    {
+      "id": "marker-r1sinc9",
+      "name": "Aeros",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-rid59mr",
+      "area_radius": 13,
+      "map_id": "map-agoog8k",
+      "x": 78.38565357899387,
+      "y": 31.886478973548126
+    },
+    {
+      "id": "marker-5hpqap0",
+      "name": "Kaliria",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "6a33c6fb7fcb71b00f8684d7",
+      "area_radius": 16,
+      "map_id": "map-agoog8k",
+      "x": 27.669339226941226,
+      "y": 59.394476345503975
+    },
+    {
+      "id": "marker-lfejokq",
+      "name": "Avalon",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-jh6kgz6",
+      "area_radius": 7,
+      "map_id": "map-agoog8k",
+      "x": 48.72250377936076,
+      "y": 27.97262577535363
+    },
+    {
+      "id": "marker-6k703g9",
+      "name": "Kaanil",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-d7izz7v",
+      "area_radius": 9,
+      "map_id": "map-agoog8k",
+      "x": 80.99407234593795,
+      "y": 75.46653049588014
+    },
+    {
+      "id": "marker-o7vv9qk",
+      "name": "Camelot",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-0rc7f8k",
+      "area_radius": 7,
+      "map_id": "map-jh6kgz6",
+      "x": 35.465283103271986,
+      "y": 53.59776009713701
+    },
+    {
+      "id": "marker-9y0xesi",
+      "name": "Gran Reino Enano de Thorin",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-04f7s6b",
+      "area_radius": 7,
+      "map_id": "map-jh6kgz6",
+      "x": 42.25558020014414,
+      "y": 36.85718244953538
+    },
+    {
+      "id": "marker-jw3n782",
+      "name": "Svartal",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-p8aeafz",
+      "area_radius": 14,
+      "map_id": "map-04f7s6b",
+      "x": 60.24218021570332,
+      "y": 27.010315343601317
+    },
+    {
+      "id": "marker-6rjj5uy",
+      "name": "Svartal Inferior",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-063jxzq",
+      "area_radius": 14,
+      "map_id": "map-p8aeafz",
+      "x": 25.50825223736507,
+      "y": 60.54322072863876
+    },
+    {
+      "id": "marker-roq5mkn",
+      "name": "Iglesia Luna Oscura",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-ssuiqp3",
+      "area_radius": 9,
+      "map_id": "map-063jxzq",
+      "x": 54.13258558402032,
+      "y": 54.96123594957112
+    },
+    {
+      "id": "marker-44ns9jo",
+      "name": "Siremar",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-q2ajbqm",
+      "area_radius": 7,
+      "map_id": "map-jh6kgz6",
+      "x": 63.630535851227,
+      "y": 27.853060295245395
+    },
+    {
+      "id": "marker-06117r0",
+      "name": "Palacio de Siramar",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-9071knf",
+      "area_radius": 10,
+      "map_id": "map-q2ajbqm",
+      "x": 30.704342393734773,
+      "y": 45.772092340240015
+    },
+    {
+      "id": "marker-qtmedxo",
+      "name": "Drangleic Alternativo",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "layer",
+      "linked_map_id": "map-ihwh9ad",
+      "area_radius": 7,
+      "map_id": "map-jh6kgz6",
+      "x": 44.70574442689867,
+      "y": 21.332510350319886
+    },
+    {
+      "id": "marker-570ghp6",
+      "name": "Ciudad Drangleic",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-ba6meuz",
+      "area_radius": 8,
+      "map_id": "map-ihwh9ad",
+      "x": 15.400631447666951,
+      "y": 62.89814950585772
+    },
+    {
+      "id": "marker-ge7rogx",
+      "name": "Santa Maria",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-17peqxb",
+      "area_radius": 11,
+      "map_id": "map-jh6kgz6",
+      "x": 8.329383887150584,
+      "y": 70.17678517736131
+    },
+    {
+      "id": "marker-ip5bocg",
+      "name": "Plano Material",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-agoog8k",
+      "area_radius": 9,
+      "map_id": "map-pabwctf",
+      "x": 49.958487716590376,
+      "y": 48.18353912857932
+    },
+    {
+      "id": "marker-euq9n7q",
+      "name": "Quasiplano Forestal",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "painted_zone",
+      "linked_map_id": "map-oa2vb83",
+      "area_points": [
+        {
+          "x": 68.16,
+          "y": 55.75
+        },
+        {
+          "x": 69.68,
+          "y": 56.41
+        },
+        {
+          "x": 70.52,
+          "y": 54.83
+        },
+        {
+          "x": 71.31,
+          "y": 53.37
+        },
+        {
+          "x": 72.27,
+          "y": 51.47
+        },
+        {
+          "x": 73.23,
+          "y": 50.15
+        },
+        {
+          "x": 72.84,
+          "y": 47.66
+        },
+        {
+          "x": 72.11,
+          "y": 45.68
+        },
+        {
+          "x": 71.02,
+          "y": 44.12
+        },
+        {
+          "x": 69.95,
+          "y": 44.62
+        },
+        {
+          "x": 68.93,
+          "y": 44.39
+        },
+        {
+          "x": 69.37,
+          "y": 46.11
+        },
+        {
+          "x": 69.56,
+          "y": 48.22
+        },
+        {
+          "x": 69.24,
+          "y": 50.65
+        },
+        {
+          "x": 69.02,
+          "y": 52.56
+        },
+        {
+          "x": 68.7,
+          "y": 54.17
+        }
+      ],
+      "area_color": "#2ECC71",
+      "area_opacity": 0.25,
+      "area_type": "painted",
+      "map_id": "map-pabwctf",
+      "x": 70.37,
+      "y": 50.01
+    },
+    {
+      "id": "marker-0p7i3bx",
+      "name": "Semiplano del Polvo",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "painted_zone",
+      "linked_map_id": "map-iaai74g",
+      "area_points": [
+        {
+          "x": 70.79,
+          "y": 55.86
+        },
+        {
+          "x": 72.41,
+          "y": 55.73
+        },
+        {
+          "x": 73.38,
+          "y": 54.68
+        },
+        {
+          "x": 73.9,
+          "y": 54.01
+        },
+        {
+          "x": 74.66,
+          "y": 54.85
+        },
+        {
+          "x": 75.76,
+          "y": 55.69
+        },
+        {
+          "x": 76.52,
+          "y": 55.27
+        },
+        {
+          "x": 77.1,
+          "y": 54.1
+        },
+        {
+          "x": 77.34,
+          "y": 53.68
+        },
+        {
+          "x": 78.25,
+          "y": 54.56
+        },
+        {
+          "x": 79.44,
+          "y": 55.86
+        },
+        {
+          "x": 80.39,
+          "y": 55.48
+        },
+        {
+          "x": 81.57,
+          "y": 53.22
+        },
+        {
+          "x": 82.12,
+          "y": 51.58
+        },
+        {
+          "x": 81.27,
+          "y": 47.93
+        },
+        {
+          "x": 82.18,
+          "y": 49.44
+        },
+        {
+          "x": 81.12,
+          "y": 46.55
+        },
+        {
+          "x": 80.48,
+          "y": 44.16
+        },
+        {
+          "x": 78.47,
+          "y": 44.37
+        },
+        {
+          "x": 76.94,
+          "y": 43.9
+        },
+        {
+          "x": 74.72,
+          "y": 44.2
+        },
+        {
+          "x": 72.22,
+          "y": 45.5
+        },
+        {
+          "x": 72.86,
+          "y": 47.3
+        },
+        {
+          "x": 73.2,
+          "y": 48.64
+        },
+        {
+          "x": 73.69,
+          "y": 49.69
+        },
+        {
+          "x": 73.14,
+          "y": 50.45
+        },
+        {
+          "x": 72.32,
+          "y": 52.38
+        },
+        {
+          "x": 71.31,
+          "y": 54.06
+        }
+      ],
+      "area_color": "#2ECC71",
+      "area_opacity": 0.25,
+      "area_type": "painted",
+      "map_id": "map-pabwctf",
+      "x": 76.34,
+      "y": 51.18
+    },
+    {
+      "id": "marker-40v1e41",
+      "name": "Plano del Fuego",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "painted_zone",
+      "linked_map_id": "map-1yn70y0",
+      "area_points": [
+        {
+          "x": 36.46,
+          "y": 90.69
+        },
+        {
+          "x": 34.63,
+          "y": 89.85
+        },
+        {
+          "x": 33.2,
+          "y": 89.13
+        },
+        {
+          "x": 33.96,
+          "y": 87.12
+        },
+        {
+          "x": 35.3,
+          "y": 85.15
+        },
+        {
+          "x": 37.41,
+          "y": 83.22
+        },
+        {
+          "x": 39.45,
+          "y": 81.75
+        },
+        {
+          "x": 41.18,
+          "y": 81.04
+        },
+        {
+          "x": 42.74,
+          "y": 79.7
+        },
+        {
+          "x": 43.53,
+          "y": 78.44
+        },
+        {
+          "x": 43.25,
+          "y": 75.25
+        },
+        {
+          "x": 44.23,
+          "y": 72.61
+        },
+        {
+          "x": 45.05,
+          "y": 70.89
+        },
+        {
+          "x": 46.85,
+          "y": 70.85
+        },
+        {
+          "x": 50.96,
+          "y": 69.08
+        },
+        {
+          "x": 53.15,
+          "y": 68.79
+        },
+        {
+          "x": 55.86,
+          "y": 66.57
+        },
+        {
+          "x": 58.03,
+          "y": 65.81
+        },
+        {
+          "x": 58.39,
+          "y": 64.22
+        },
+        {
+          "x": 59.67,
+          "y": 61.03
+        },
+        {
+          "x": 62.83,
+          "y": 62.81
+        },
+        {
+          "x": 65,
+          "y": 66.06
+        },
+        {
+          "x": 66.62,
+          "y": 68.35
+        },
+        {
+          "x": 37.6,
+          "y": 89.35
+        },
+        {
+          "x": 43.14,
+          "y": 83.12
+        },
+        {
+          "x": 40,
+          "y": 85.73
+        },
+        {
+          "x": 40.93,
+          "y": 84.9
+        },
+        {
+          "x": 38.8,
+          "y": 87.64
+        },
+        {
+          "x": 45.69,
+          "y": 82.48
+        },
+        {
+          "x": 50.21,
+          "y": 82.29
+        },
+        {
+          "x": 51.74,
+          "y": 80.63
+        },
+        {
+          "x": 53.82,
+          "y": 80.7
+        },
+        {
+          "x": 55.9,
+          "y": 80.95
+        },
+        {
+          "x": 58.86,
+          "y": 81.4
+        },
+        {
+          "x": 60.8,
+          "y": 81.72
+        },
+        {
+          "x": 63.48,
+          "y": 83.63
+        },
+        {
+          "x": 65.93,
+          "y": 84.83
+        },
+        {
+          "x": 67.32,
+          "y": 85.57
+        },
+        {
+          "x": 69.08,
+          "y": 87.92
+        },
+        {
+          "x": 71.48,
+          "y": 88.62
+        },
+        {
+          "x": 72.78,
+          "y": 86.14
+        },
+        {
+          "x": 77.72,
+          "y": 84.36
+        },
+        {
+          "x": 79.89,
+          "y": 81.05
+        },
+        {
+          "x": 79.25,
+          "y": 80.41
+        },
+        {
+          "x": 77.17,
+          "y": 79.97
+        },
+        {
+          "x": 74.95,
+          "y": 77.55
+        },
+        {
+          "x": 71.81,
+          "y": 75.32
+        },
+        {
+          "x": 71.07,
+          "y": 73.54
+        },
+        {
+          "x": 68.8,
+          "y": 71.12
+        },
+        {
+          "x": 67.42,
+          "y": 69.28
+        }
+      ],
+      "area_color": "#2ECC71",
+      "area_opacity": 0.25,
+      "area_type": "painted",
+      "map_id": "map-pabwctf",
+      "x": 50.63962151782666,
+      "y": 73.16476025902797
+    },
+    {
+      "id": "marker-lhb32rj",
+      "name": "Pico del Archidragón",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "painted_zone",
+      "linked_map_id": "map-1khcmim",
+      "area_points": [
+        {
+          "x": 36.77,
+          "y": 67.78
+        },
+        {
+          "x": 39.28,
+          "y": 69.88
+        },
+        {
+          "x": 42.11,
+          "y": 69.81
+        },
+        {
+          "x": 44.78,
+          "y": 68.14
+        },
+        {
+          "x": 44.47,
+          "y": 65.16
+        },
+        {
+          "x": 42.47,
+          "y": 62.61
+        },
+        {
+          "x": 39.8,
+          "y": 62.61
+        },
+        {
+          "x": 36.66,
+          "y": 63.41
+        },
+        {
+          "x": 36.2,
+          "y": 65.96
+        }
+      ],
+      "area_color": "#E67E22",
+      "area_opacity": 0.25,
+      "area_type": "painted",
+      "map_id": "6a33c6fb7fcb71b00f8684d7",
+      "x": 39.8232178261306,
+      "y": 66.31788229947739
+    },
+    {
+      "id": "marker-ucjle6z",
+      "name": "piso 2",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-zukq9ad",
+      "area_radius": 30,
+      "area_type": "circle",
+      "map_id": "map-1khcmim",
+      "x": 55.0519725908402,
+      "y": 12.522716493170991
+    },
+    {
+      "id": "marker-yintvq5",
+      "name": "Pico del Archidragón 3",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-q57msla",
+      "area_radius": 27,
+      "area_type": "circle",
+      "map_id": "map-zukq9ad",
+      "x": 56.06165900251424,
+      "y": 7.130044488832714
+    },
+    {
+      "id": "marker-i5b79n3",
+      "name": "Pico del Archidragón 4",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-873yam0",
+      "area_radius": 28,
+      "area_type": "circle",
+      "map_id": "map-q57msla",
+      "x": 24.094739219039244,
+      "y": 1.3806002159504647
+    },
+    {
+      "id": "marker-kibf2cc",
+      "name": "Templo",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-ntrpo2h",
+      "area_radius": 19,
+      "area_type": "circle",
+      "map_id": "map-873yam0",
+      "x": 49.86642337421254,
+      "y": 11.207804503745795
+    },
+    {
+      "id": "marker-w0pd7s5",
+      "name": "Boss Arena",
+      "description": "",
+      "notes": "",
+      "image": "",
+      "category": "general",
+      "linked_map_id": "map-6krhwgg",
+      "area_radius": 17,
+      "area_type": "circle",
+      "map_id": "map-ntrpo2h",
+      "x": 49.89805060831161,
+      "y": 18.267953824669856
+    }
+  ],
+  "lights": [
+    {
+      "id": "6a452756a33c269e443b7c03",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 100,
+      "map_id": "6a33c1d0255f836cf606171e",
+      "x": 86.30647389103423,
+      "y": 49.174888295079604
+    },
+    {
+      "id": "6a452730b1e1bdad3a360db3",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 100,
+      "map_id": "6a33c1d0255f836cf606171e",
+      "x": 90.41144270962627,
+      "y": 48.554874759618706
+    },
+    {
+      "id": "6a452124a733189aed5c9242",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 0,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 20.409033093732017,
+      "y": 73.17176041405192
+    },
+    {
+      "id": "6a45211ee87b3089e1aaedb7",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 0,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 18.66435242882117,
+      "y": 83.00417245094384
+    },
+    {
+      "id": "6a4520e95943fbb3c47233d4",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 0,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 7.536118998579043,
+      "y": 68.29092278422787
+    },
+    {
+      "id": "6a4520b2a0dd69b6aecce795",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 0,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 29.52082172043254,
+      "y": 32.52615197420051
+    },
+    {
+      "id": "6a4520a347b251f3d93b584b",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 0,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 45.990411752864816,
+      "y": 37.256065926134674
+    },
+    {
+      "id": "6a452098a880c35e954b6592",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 0,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 84.84296081826372,
+      "y": 29.4635116641003
+    },
+    {
+      "id": "6a452093f41c7160a526fcba",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 0,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 87.59295916298213,
+      "y": 57.355617446544336
+    },
+    {
+      "id": "6a452089e21122f9dbf11e67",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 0,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 57.392788018705396,
+      "y": 63.894176226589984
+    },
+    {
+      "id": "6a452081ea3bad5f9c446da9",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 0,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 69.65984002787003,
+      "y": 62.14613613272082
+    },
+    {
+      "id": "6a45206e687180acee3962ad",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 0,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 46.81915417831528,
+      "y": 94.22716540506705
+    },
+    {
+      "id": "6a452064adcfed1478bdb6ca",
+      "type": "point",
+      "color": "#ff9500",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 10,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 73.73155901649412,
+      "y": 18.79504316451191,
+      "area": 10
+    },
+    {
+      "id": "6a452058b4bad4553b8a1177",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 0,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 27.023524778455467,
+      "y": 61.862417324676336
+    },
+    {
+      "id": "6a452053eefde7603f4087f5",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 0,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 18.71150596030525,
+      "y": 68.43239633871553
+    },
+    {
+      "id": "6a4520436bec9e926d3eb960",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 0,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 26.41909197972283,
+      "y": 51.49827604470497
+    },
+    {
+      "id": "6a451fef93cc70fa0275ee9d",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.8,
+      "radius": 5,
+      "falloff": 40,
+      "map_id": "6a36c300d27abeefcaa93fb8",
+      "x": 12.130695933282876,
+      "y": 19.156714669659774
+    },
+    {
+      "id": "6a451f83bba6d12f499ae94e",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.15,
+      "radius": 23,
+      "falloff": 0,
+      "map_id": "6a36c300d27abeefcaa93fb8",
+      "x": 39.87612258203199,
+      "y": 28.73465903630173
+    },
+    {
+      "id": "6a451c54ed979bfe3d2ca034",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 10,
+      "map_id": "6a341f5b734bd6279387d003",
+      "x": 41.94886814905218,
+      "y": 49.969838625365846
+    },
+    {
+      "id": "6a451bbe158db5243d313125",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 10,
+      "map_id": "6a341f5b734bd6279387d003",
+      "x": 54.093854850034006,
+      "y": 50.005542175758876
+    },
+    {
+      "id": "6a451b742d31651666bbb46c",
+      "type": "torch",
+      "color": "#ffdc2e",
+      "intensity": 0.8,
+      "radius": 6,
+      "falloff": 8,
+      "map_id": "6a36d905e71eb943e5f09960",
+      "x": 47.64275258472191,
+      "y": 85.37645263072439,
+      "core_opacity": 69
+    },
+    {
+      "id": "6a451b52d794b6e317bd995e",
+      "type": "torch",
+      "color": "#ffdc2e",
+      "intensity": 0.8,
+      "radius": 6,
+      "falloff": 8,
+      "map_id": "6a36d905e71eb943e5f09960",
+      "x": 23.626060260161996,
+      "y": 86.05548344791353,
+      "core_opacity": 0
+    },
+    {
+      "id": "6a451b063322095cc8fdb952",
+      "type": "torch",
+      "color": "#ffdc2e",
+      "intensity": 0.8,
+      "radius": 6,
+      "falloff": 8,
+      "map_id": "6a36d905e71eb943e5f09960",
+      "x": 35.72121374409699,
+      "y": 79.15849680482293
+    },
+    {
+      "id": "6a44e6ee47175c207887d921",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 1,
+      "radius": 6,
+      "falloff": 15,
+      "map_id": "6a33e8c5c53108a15865dcbc",
+      "x": 6.723870601251029,
+      "y": 74.27512851733084
+    },
+    {
+      "id": "6a44e6de0a133f17ff292d48",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 1,
+      "radius": 6,
+      "falloff": 15,
+      "map_id": "6a33e8c5c53108a15865dcbc",
+      "x": 91.84018204598375,
+      "y": 18.910960847400172
+    },
+    {
+      "id": "6a44e6d8a2f5cdbc1fd69ce7",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 1,
+      "radius": 6,
+      "falloff": 15,
+      "map_id": "6a33e8c5c53108a15865dcbc",
+      "x": 91.84018204598375,
+      "y": 30.509790265236976
+    },
+    {
+      "id": "6a44e6d5b991d007ac293a7c",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 1,
+      "radius": 6,
+      "falloff": 15,
+      "map_id": "6a33e8c5c53108a15865dcbc",
+      "x": 94.93792168090022,
+      "y": 86.39684252918096
+    },
+    {
+      "id": "6a44e6d081360e65d8183302",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 1,
+      "radius": 6,
+      "falloff": 15,
+      "map_id": "6a33e8c5c53108a15865dcbc",
+      "x": 86.33308936168783,
+      "y": 85.97760778815872
+    },
+    {
+      "id": "6a44e6c5d6f0bea913130646",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 1,
+      "radius": 6,
+      "falloff": 15,
+      "map_id": "6a33e8c5c53108a15865dcbc",
+      "x": 54.71485988996907,
+      "y": 83.1827095146771
+    },
+    {
+      "id": "6a44e6bf493c4725b524be30",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 1,
+      "radius": 6,
+      "falloff": 15,
+      "map_id": "6a33e8c5c53108a15865dcbc",
+      "x": 46.06633115663568,
+      "y": 83.25258197151415
+    },
+    {
+      "id": "6a44e6b2bf88190d979d673e",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 1,
+      "radius": 6,
+      "falloff": 15,
+      "map_id": "6a33e8c5c53108a15865dcbc",
+      "x": 6.931733527719196,
+      "y": 87.15403513416642
+    },
+    {
+      "id": "6a44e6a9af8bc0916fc59a35",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 1,
+      "radius": 6,
+      "falloff": 15,
+      "map_id": "6a33e8c5c53108a15865dcbc",
+      "x": 9.875511437116238,
+      "y": 18.883106518513404
+    },
+    {
+      "id": "6a44e6a26dc21ebdd55ac0ca",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 1,
+      "radius": 6,
+      "falloff": 15,
+      "map_id": "6a33e8c5c53108a15865dcbc",
+      "x": 18.13615046356013,
+      "y": 18.743361604839322
+    },
+    {
+      "id": "6a44e699641696095f835b50",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 1,
+      "radius": 6,
+      "falloff": 15,
+      "map_id": "6a33e8c5c53108a15865dcbc",
+      "x": 45.69861732298108,
+      "y": 16.38466880237981
+    },
+    {
+      "id": "6a44e1bd0e1785c5cb49c7d3",
+      "type": "torch",
+      "color": "#ffb030",
+      "intensity": 1,
+      "radius": 6,
+      "falloff": 15,
+      "map_id": "6a33e8c5c53108a15865dcbc",
+      "x": 54.83934910967502,
+      "y": 16.13725531827244
+    },
+    {
+      "id": "light-3l6n01w",
+      "type": "point",
+      "color": "#ffffff",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 10,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 15.129456979747966,
+      "y": 26.582464400650696,
+      "area": 80
+    },
+    {
+      "id": "light-t5zskkg",
+      "type": "point",
+      "color": "#ffffff",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 10,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 82.1687482088266,
+      "y": 89.9444488188002
+    },
+    {
+      "id": "light-cp814da",
+      "type": "directional",
+      "color": "#e0f0ff",
+      "intensity": 0.1,
+      "radius": 4,
+      "falloff": 10,
+      "angle": 90,
+      "spread": 60,
+      "map_id": "6a3425cade8b14c2d27febec",
+      "x": 75.038660639029,
+      "y": 80.79070553383794
+    }
+  ],
+  "walls": []
 }

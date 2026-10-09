@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   Flame, Users, MapPin, Calendar, Sparkles, Shield, Heart, Gem, PawPrint,
   Menu, X, Search, FilePlus, Network, Compass, HelpCircle, BookOpen, SlidersHorizontal, Database, MessageSquare, Book,
-  ChevronDown, Wand2, Layers, Home, GripVertical
+  ChevronDown, Wand2, Layers, Home
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { TarotLogo } from "./TarotLogo";
@@ -61,24 +61,13 @@ export function Layout({ children }: LayoutProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  const { mergedCategories, reorderCategories } = useCategories();
+  const { mergedCategories } = useCategories();
   const { currentLang, setLanguage, languages, t } = useLanguage();
-  const { isVisualEditMode, showToast } = useVisualEditor();
+  const { isVisualEditMode } = useVisualEditor();
   const { getText } = useUIContent();
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<any | null>(null);
-  const [draggedSidebarItem, setDraggedSidebarItem] = useState<{
-    id: string;
-    type: "root" | "sub";
-    parentId?: string;
-  } | null>(null);
-  const [dragOverSidebarItem, setDragOverSidebarItem] = useState<{
-    id: string;
-    type: "root" | "sub";
-    parentId?: string;
-    position: "before" | "after";
-  } | null>(null);
-  const isSidebarDraggingRef = React.useRef(false);
+  const [showReorderModal, setShowReorderModal] = useState(false);
 
   // Collapsible sidebar sections state
   const [homeCollapsed, setHomeCollapsed] = useState<boolean>(() => {
@@ -125,228 +114,6 @@ export function Layout({ children }: LayoutProps) {
     } catch {}
   }, [categoriesCollapsed]);
 
-  const [isReorderModalOpen, setIsReorderModalOpen] = useState(false);
-  const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
-
-  React.useEffect(() => {
-    try {
-      localStorage.removeItem("dragopedia_sidebar_expanded_cats");
-    } catch {}
-  }, []);
-
-  // Subcategorías y jerarquía para el árbol del sidebar
-  const getSubcategories = (parentCat: { id: string; slug: string }) => {
-    return mergedCategories.filter(
-      (c) =>
-        c.id !== parentCat.id &&
-        c.slug !== parentCat.slug &&
-        ((c.parentId && (c.parentId === parentCat.id || c.parentId === parentCat.slug)) ||
-         (c.parentSlug && c.parentSlug === parentCat.slug))
-    );
-  };
-
-  // Solo las categorías raíz (que no tienen categoría padre asignada o cuyo padre no existe)
-  const rootCategories = mergedCategories.filter((cat) => {
-    if (!cat.parentId && !cat.parentSlug) return true;
-    const parentExists = mergedCategories.some(
-      (p) =>
-        p.id !== cat.id &&
-        (p.id === cat.parentId || p.slug === cat.parentId || p.slug === cat.parentSlug || p.id === cat.parentSlug)
-    );
-    return !parentExists;
-  });
-
-  const handleRootDragStart = (catKey: string, e: React.DragEvent) => {
-    if (!isVisualEditMode) return;
-    e.stopPropagation();
-    isSidebarDraggingRef.current = true;
-    setDraggedSidebarItem({ id: catKey, type: "root" });
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("text/plain", catKey);
-  };
-
-  const handleRootDragOver = (catKey: string, e: React.DragEvent<HTMLElement>) => {
-    if (!isVisualEditMode || !draggedSidebarItem || draggedSidebarItem.type !== "root") return;
-    e.preventDefault();
-    e.stopPropagation();
-    e.dataTransfer.dropEffect = "move";
-    if (draggedSidebarItem.id === catKey) {
-      if (dragOverSidebarItem) setDragOverSidebarItem(null);
-      return;
-    }
-    const rect = e.currentTarget.getBoundingClientRect();
-    const position: "before" | "after" = e.clientY < rect.top + rect.height / 2 ? "before" : "after";
-    if (
-      !dragOverSidebarItem ||
-      dragOverSidebarItem.id !== catKey ||
-      dragOverSidebarItem.position !== position ||
-      dragOverSidebarItem.type !== "root"
-    ) {
-      setDragOverSidebarItem({ id: catKey, type: "root", position });
-    }
-  };
-
-  const handleRootDrop = (targetCatKey: string, e: React.DragEvent<HTMLElement>) => {
-    if (!isVisualEditMode || !draggedSidebarItem || draggedSidebarItem.type !== "root") return;
-    e.preventDefault();
-    e.stopPropagation();
-    const fromKey = draggedSidebarItem.id;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const position: "before" | "after" =
-      dragOverSidebarItem?.id === targetCatKey
-        ? dragOverSidebarItem.position
-        : e.clientY < rect.top + rect.height / 2
-        ? "before"
-        : "after";
-
-    setDraggedSidebarItem(null);
-    setDragOverSidebarItem(null);
-    setTimeout(() => {
-      isSidebarDraggingRef.current = false;
-    }, 80);
-
-    if (fromKey === targetCatKey) return;
-
-    const rootKeys = rootCategories.map((c) => c.id || c.slug);
-    const fromIdx = rootKeys.indexOf(fromKey);
-    if (fromIdx === -1) return;
-
-    const nextRootKeys = [...rootKeys];
-    const [moved] = nextRootKeys.splice(fromIdx, 1);
-    const targetIdx = nextRootKeys.indexOf(targetCatKey);
-    if (targetIdx === -1) return;
-
-    const insertIdx = position === "before" ? targetIdx : targetIdx + 1;
-    nextRootKeys.splice(insertIdx, 0, moved);
-
-    const rootSet = new Set(rootKeys);
-    const nonRootKeys = mergedCategories
-      .map((c) => c.id || c.slug)
-      .filter((k) => !rootSet.has(k));
-
-    reorderCategories([...nextRootKeys, ...nonRootKeys]);
-    showToast("Orden de categorías guardado.", "success");
-  };
-
-  const handleSubDragStart = (subKey: string, parentKey: string, e: React.DragEvent) => {
-    if (!isVisualEditMode) return;
-    e.stopPropagation();
-    isSidebarDraggingRef.current = true;
-    setDraggedSidebarItem({ id: subKey, type: "sub", parentId: parentKey });
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("text/plain", subKey);
-  };
-
-  const handleSubDragOver = (subKey: string, parentKey: string, e: React.DragEvent<HTMLElement>) => {
-    if (
-      !isVisualEditMode ||
-      !draggedSidebarItem ||
-      draggedSidebarItem.type !== "sub" ||
-      draggedSidebarItem.parentId !== parentKey
-    ) {
-      return;
-    }
-    e.preventDefault();
-    e.stopPropagation();
-    e.dataTransfer.dropEffect = "move";
-    if (draggedSidebarItem.id === subKey) {
-      if (dragOverSidebarItem) setDragOverSidebarItem(null);
-      return;
-    }
-    const rect = e.currentTarget.getBoundingClientRect();
-    const position: "before" | "after" = e.clientY < rect.top + rect.height / 2 ? "before" : "after";
-    if (
-      !dragOverSidebarItem ||
-      dragOverSidebarItem.id !== subKey ||
-      dragOverSidebarItem.position !== position ||
-      dragOverSidebarItem.type !== "sub"
-    ) {
-      setDragOverSidebarItem({ id: subKey, type: "sub", parentId: parentKey, position });
-    }
-  };
-
-  const handleSubDrop = (
-    targetSubKey: string,
-    parentCat: { id: string; slug: string; name?: string },
-    e: React.DragEvent<HTMLElement>
-  ) => {
-    const parentKey = parentCat.id || parentCat.slug;
-    if (
-      !isVisualEditMode ||
-      !draggedSidebarItem ||
-      draggedSidebarItem.type !== "sub" ||
-      draggedSidebarItem.parentId !== parentKey
-    ) {
-      return;
-    }
-    e.preventDefault();
-    e.stopPropagation();
-    const fromKey = draggedSidebarItem.id;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const position: "before" | "after" =
-      dragOverSidebarItem?.id === targetSubKey
-        ? dragOverSidebarItem.position
-        : e.clientY < rect.top + rect.height / 2
-        ? "before"
-        : "after";
-
-    setDraggedSidebarItem(null);
-    setDragOverSidebarItem(null);
-    setTimeout(() => {
-      isSidebarDraggingRef.current = false;
-    }, 80);
-
-    if (fromKey === targetSubKey) return;
-
-    const currentSubs = getSubcategories(parentCat);
-    const subKeys = currentSubs.map((s) => s.id || s.slug);
-    const fromIdx = subKeys.indexOf(fromKey);
-    if (fromIdx === -1) return;
-
-    const nextSubKeys = [...subKeys];
-    const [moved] = nextSubKeys.splice(fromIdx, 1);
-    const targetIdx = nextSubKeys.indexOf(targetSubKey);
-    if (targetIdx === -1) return;
-
-    const insertIdx = position === "before" ? targetIdx : targetIdx + 1;
-    nextSubKeys.splice(insertIdx, 0, moved);
-
-    const subSet = new Set(subKeys);
-    let subCursor = 0;
-    const newOrder = mergedCategories.map((c) => {
-      const k = c.id || c.slug;
-      if (subSet.has(k)) {
-        return nextSubKeys[subCursor++];
-      }
-      return k;
-    });
-
-    reorderCategories(newOrder);
-    showToast(`Orden de subcategorías de ${parentCat.name || "categoría"} guardado.`, "success");
-  };
-
-  const handleSidebarDragEnd = () => {
-    setDraggedSidebarItem(null);
-    setDragOverSidebarItem(null);
-    setTimeout(() => {
-      isSidebarDraggingRef.current = false;
-    }, 80);
-  };
-
-  React.useEffect(() => {
-    mergedCategories.forEach((parentCat) => {
-      const subcats = getSubcategories(parentCat);
-      const isSubActive = subcats.some((s) => location.pathname === `/categoria/${s.slug}`);
-      if (isSubActive) {
-        setExpandedCategories((prev) => ({
-          ...prev,
-          [parentCat.id]: true,
-          [parentCat.slug]: true,
-        }));
-      }
-    });
-  }, [location.pathname, mergedCategories]);
-
   React.useEffect(() => {
     try {
       localStorage.setItem("dragopedia_tarot_ai_collapsed", String(tarotAiCollapsed));
@@ -390,20 +157,30 @@ export function Layout({ children }: LayoutProps) {
         />
       )}
 
+      {/* Global Category Reorder Modal (Drag & Drop + Arrows + Positioning) */}
+      <CategoryReorderModal
+        isOpen={showReorderModal}
+        onClose={() => setShowReorderModal(false)}
+      />
+
       {/* Top sticky header */}
-      <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md w-full">
-        <div className="flex items-center h-14 px-4 sm:px-6 justify-between gap-4 w-full">
+      <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
+        <div className="flex items-center h-14 pl-2 sm:pl-3 pr-4 sm:pr-6 justify-between gap-4 w-full">
           
-          {/* Logo & Toggle */}
-          <div className="flex items-center gap-3">
+          {/* Logo & Brand at top-left edge */}
+          <div className="flex items-center gap-2">
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
+              title={mobileMenuOpen ? "Cerrar menú" : "Abrir menú lateral"}
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
 
             <Link to="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
+              <div className="h-8 w-8 rounded-lg bg-primary/20 flex items-center justify-center border border-primary/30 shrink-0">
+                <Flame className="h-4.5 w-4.5 text-primary" />
+              </div>
               <EditableText
                 textKey="nav.brand"
                 defaultValue="DRAGOPEDIA"
@@ -496,22 +273,24 @@ export function Layout({ children }: LayoutProps) {
       {/* Quick Selection Floating Tooltip */}
       <SelectionSearchTooltip />
 
-      {/* Main Container */}
+      {/* Main Container: Full width so the sidebar is ALWAYS attached to the left border on all pages */}
       <div className="flex flex-1 w-full relative">
         
-        {/* Navigation Sidebar (Desktop + Mobile overlay) */}
+        {/* Mobile Backdrop */}
         {mobileMenuOpen && (
           <div 
-            className="fixed inset-0 top-14 z-40 bg-black/60 backdrop-blur-xs lg:hidden animate-in fade-in"
+            className="fixed inset-0 top-14 z-40 bg-black/65 backdrop-blur-sm lg:hidden animate-in fade-in duration-200"
             onClick={() => setMobileMenuOpen(false)}
           />
         )}
+
+        {/* Navigation Sidebar (Desktop + Mobile drawer): Placed at the left border across all pages */}
         <aside className={`
           ${mobileMenuOpen 
-            ? "fixed top-14 left-0 bottom-0 z-50 w-72 sm:w-80 bg-card/95 border-r border-border shadow-2xl overflow-y-auto p-4 sm:p-5 block animate-in slide-in-from-left duration-200" 
+            ? "fixed top-14 left-0 bottom-0 z-50 w-64 bg-card/95 border-r border-border shadow-2xl overflow-y-auto p-4 block animate-in slide-in-from-left duration-200" 
             : "hidden"
           }
-          lg:block lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-72 shrink-0 border-r border-border overflow-y-auto p-4 sm:p-5 bg-card/45 backdrop-blur-md
+          lg:block lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-60 shrink-0 border-r border-border overflow-y-auto p-4 bg-card/45 backdrop-blur-md
         `}>
           <div className="space-y-6">
             
@@ -756,47 +535,68 @@ export function Layout({ children }: LayoutProps) {
                   </Link>
 
                   {isVisualEditMode && (
-                    <Link
-                      to="/filtros"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                        location.pathname === "/filtros" 
-                          ? "bg-primary/10 text-primary border border-primary/15" 
-                          : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
-                      }`}
-                    >
-                      <SlidersHorizontal className="h-4 w-4 shrink-0" />
-                      <EditableText
-                        textKey="nav.menu.filtros"
-                        defaultValue={t("Gestión de Filtros")}
-                        label="Menú Gestión de Filtros"
-                      />
-                    </Link>
+                    <>
+                      <Link
+                        to="/filtros"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                          location.pathname === "/filtros" 
+                            ? "bg-primary/10 text-primary border border-primary/15" 
+                            : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
+                        }`}
+                      >
+                        <SlidersHorizontal className="h-4 w-4 shrink-0" />
+                        <EditableText
+                          textKey="nav.menu.filtros"
+                          defaultValue={t("Gestión de Filtros")}
+                          label="Menú Gestión de Filtros"
+                        />
+                      </Link>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          setShowReorderModal(true);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary/40 transition-colors text-left"
+                      >
+                        <SlidersHorizontal className="h-4 w-4 shrink-0 text-accent" />
+                        <span>Reordenar Categorías</span>
+                      </button>
+                    </>
                   )}
                 </div>
               )}
             </div>
 
-            {/* Categories list with minimize functionality & tree subcategories */}
+            {/* Categories list with minimize functionality */}
             <div className="space-y-1.5 pt-1">
               <div 
-                className="px-3 py-1 flex items-center justify-between select-none group rounded-md hover:bg-secondary/35 transition-colors"
+                role="button"
+                tabIndex={0}
+                onClick={() => setCategoriesCollapsed(prev => !prev)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setCategoriesCollapsed(prev => !prev); } }}
+                className="px-3 py-1 flex items-center justify-between cursor-pointer select-none group rounded-md hover:bg-secondary/35 transition-colors"
               >
-                <div 
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setCategoriesCollapsed(prev => !prev)}
-                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setCategoriesCollapsed(prev => !prev); } }}
-                  className="flex-1 cursor-pointer flex items-center"
-                >
-                  <EditableText
-                    textKey="nav.categoriesHeader"
-                    defaultValue={t("Categorías de Lore")}
-                    label="Encabezado Categorías"
-                    className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-foreground transition-colors"
-                  />
-                </div>
-                <div className="flex items-center gap-0.5">
+                <EditableText
+                  textKey="nav.categoriesHeader"
+                  defaultValue={t("Categorías de Lore")}
+                  label="Encabezado Categorías"
+                  className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-foreground transition-colors"
+                />
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowReorderModal(true);
+                    }}
+                    title="Reordenar categorías (personalizadas y fijas)"
+                    className="p-1 rounded text-muted-foreground/60 hover:text-primary hover:bg-secondary/70 transition-colors"
+                  >
+                    <SlidersHorizontal className="h-3 w-3" />
+                  </button>
                   <button
                     type="button"
                     onClick={(e) => {
@@ -804,7 +604,7 @@ export function Layout({ children }: LayoutProps) {
                       setCategoriesCollapsed(prev => !prev);
                     }}
                     title={categoriesCollapsed ? "Expandir categorías de lore" : "Minimizar categorías de lore"}
-                    className="p-1 rounded text-muted-foreground/60 hover:text-foreground hover:bg-secondary/60 transition-colors"
+                    className="p-0.5 rounded text-muted-foreground/60 hover:text-foreground hover:bg-secondary/60 transition-colors"
                   >
                     <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${categoriesCollapsed ? "-rotate-90" : "rotate-0"}`} />
                   </button>
@@ -812,206 +612,38 @@ export function Layout({ children }: LayoutProps) {
               </div>
               
               {!categoriesCollapsed && (
-                <div className="space-y-0.5">
-                  {rootCategories.map((cat) => {
+                <div className="space-y-1">
+                  {mergedCategories.map((cat) => {
                     const Icon = cat.icon;
-                    const catKey = cat.id || cat.slug;
-                    const subcats = getSubcategories(cat);
-                    const hasSubcategories = subcats.length > 0;
-                    const isExpanded = !!expandedCategories[cat.id] || !!expandedCategories[cat.slug];
-                    const isParentActive = location.pathname === `/categoria/${cat.slug}`;
-                    const hasActiveChild = subcats.some((s) => location.pathname === `/categoria/${s.slug}`);
-                    const isDraggingRoot =
-                      isVisualEditMode &&
-                      draggedSidebarItem?.type === "root" &&
-                      draggedSidebarItem.id === catKey;
-                    const isDragOverRoot =
-                      isVisualEditMode &&
-                      dragOverSidebarItem?.type === "root" &&
-                      dragOverSidebarItem.id === catKey &&
-                      draggedSidebarItem?.id !== catKey;
-
+                    const isActive = location.pathname === `/categoria/${cat.slug}`;
                     return (
-                      <div key={cat.slug} className="space-y-0.5">
-                        <div
-                          draggable={isVisualEditMode}
-                          onDragStart={(e) => handleRootDragStart(catKey, e)}
-                          onDragOver={(e) => handleRootDragOver(catKey, e)}
-                          onDragLeave={() => {
-                            if (dragOverSidebarItem?.id === catKey) {
-                              setDragOverSidebarItem(null);
-                            }
-                          }}
-                          onDrop={(e) => handleRootDrop(catKey, e)}
-                          onDragEnd={handleSidebarDragEnd}
-                          title={isVisualEditMode ? "Mantén pulsado y arrastra para reordenar esta categoría" : undefined}
-                          className={`flex items-center group rounded-md transition-all ${
-                            isDraggingRoot ? "opacity-40 border border-dashed border-primary/60 bg-primary/5" : ""
-                          } ${
-                            isDragOverRoot && dragOverSidebarItem?.position === "before"
-                              ? "border-t-2 border-t-primary bg-primary/10"
-                              : isDragOverRoot && dragOverSidebarItem?.position === "after"
-                              ? "border-b-2 border-b-primary bg-primary/10"
-                              : ""
-                          }`}
-                        >
-                          <Link
-                            to={`/categoria/${cat.slug}`}
-                            draggable={false}
-                            onClick={(e) => {
-                              if (isSidebarDraggingRef.current) {
-                                e.preventDefault();
-                                return;
-                              }
-                              setMobileMenuOpen(false);
-                            }}
-                            className={`flex-1 flex items-center justify-between px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                              isParentActive 
-                                ? "bg-primary/10 text-primary border border-primary/20" 
-                                : hasActiveChild
-                                ? "text-foreground font-medium bg-secondary/30"
-                                : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
-                            } ${isVisualEditMode ? "hover:ring-1 hover:ring-primary/60 cursor-grab active:cursor-grabbing" : ""}`}
-                          >
-                            <span className="flex items-center gap-2.5 truncate">
-                              {isVisualEditMode && (
-                                <GripVertical className="h-3.5 w-3.5 text-muted-foreground/50 group-hover:text-primary shrink-0 -ml-1 transition-colors" />
-                              )}
-                              <Icon className="h-4 w-4 shrink-0" style={{ color: cat.color }} />
-                              <span className="truncate">{cat.name}</span>
-                            </span>
-                            {isVisualEditMode && (
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setEditingCategory(cat);
-                                }}
-                                className="text-[9px] text-primary/90 bg-primary/15 hover:bg-primary/25 px-1.5 py-0.5 rounded cursor-pointer"
-                              >
-                                Editar
-                              </button>
-                            )}
-                          </Link>
-
-                          {hasSubcategories && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setExpandedCategories((prev) => ({
-                                  ...prev,
-                                  [cat.id]: !isExpanded,
-                                  [cat.slug]: !isExpanded,
-                                }));
-                              }}
-                              title={isExpanded ? `Contraer subcategorías de ${cat.name}` : `Expandir subcategorías de ${cat.name}`}
-                              className="p-1.5 ml-0.5 rounded-md text-muted-foreground/60 hover:text-foreground hover:bg-secondary/60 transition-colors"
-                            >
-                              <ChevronDown
-                                className={`h-3 w-3 transition-transform duration-200 ${
-                                  isExpanded ? "rotate-0 text-foreground/80" : "-rotate-90"
-                                }`}
-                              />
-                            </button>
-                          )}
-                        </div>
-
-                        {/* Subcategorías anidadas con línea guía de árbol */}
-                        {hasSubcategories && isExpanded && (
-                          <div className="relative ml-4 pl-3.5 border-l border-border/40 space-y-0.5 py-0.5">
-                            {subcats.map((subcat) => {
-                              const SubIcon = subcat.icon;
-                              const subKey = subcat.id || subcat.slug;
-                              const isSubActive = location.pathname === `/categoria/${subcat.slug}`;
-                              const isDraggingSub =
-                                isVisualEditMode &&
-                                draggedSidebarItem?.type === "sub" &&
-                                draggedSidebarItem.id === subKey;
-                              const isDragOverSub =
-                                isVisualEditMode &&
-                                dragOverSidebarItem?.type === "sub" &&
-                                dragOverSidebarItem.id === subKey &&
-                                draggedSidebarItem?.id !== subKey;
-
-                              return (
-                                <div
-                                  key={subcat.slug}
-                                  draggable={isVisualEditMode}
-                                  onDragStart={(e) => handleSubDragStart(subKey, catKey, e)}
-                                  onDragOver={(e) => handleSubDragOver(subKey, catKey, e)}
-                                  onDragLeave={() => {
-                                    if (dragOverSidebarItem?.id === subKey) {
-                                      setDragOverSidebarItem(null);
-                                    }
-                                  }}
-                                  onDrop={(e) => handleSubDrop(subKey, cat, e)}
-                                  onDragEnd={handleSidebarDragEnd}
-                                  title={
-                                    isVisualEditMode
-                                      ? `Mantén pulsado y arrastra para reordenar dentro de ${cat.name}`
-                                      : undefined
-                                  }
-                                  className={`rounded-md transition-all ${
-                                    isDraggingSub
-                                      ? "opacity-40 border border-dashed border-primary/60 bg-primary/5"
-                                      : ""
-                                  } ${
-                                    isDragOverSub && dragOverSidebarItem?.position === "before"
-                                      ? "border-t-2 border-t-primary bg-primary/10"
-                                      : isDragOverSub && dragOverSidebarItem?.position === "after"
-                                      ? "border-b-2 border-b-primary bg-primary/10"
-                                      : ""
-                                  }`}
-                                >
-                                  <Link
-                                    to={`/categoria/${subcat.slug}`}
-                                    draggable={false}
-                                    onClick={(e) => {
-                                      if (isSidebarDraggingRef.current) {
-                                        e.preventDefault();
-                                        return;
-                                      }
-                                      setMobileMenuOpen(false);
-                                    }}
-                                    className={`flex items-center justify-between px-2.5 py-1 text-xs font-medium rounded-md transition-colors group ${
-                                      isSubActive
-                                        ? "bg-primary/10 text-primary border border-primary/20 font-semibold"
-                                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/35"
-                                    } ${isVisualEditMode ? "hover:ring-1 hover:ring-primary/60 cursor-grab active:cursor-grabbing" : ""}`}
-                                  >
-                                    <span className="flex items-center gap-2 truncate">
-                                      {isVisualEditMode && (
-                                        <GripVertical className="h-3 w-3 text-muted-foreground/50 group-hover:text-primary shrink-0 -ml-1 transition-colors" />
-                                      )}
-                                      <SubIcon
-                                        className="h-3.5 w-3.5 shrink-0"
-                                        style={{ color: subcat.color || cat.color }}
-                                      />
-                                      <span className="truncate">{subcat.name}</span>
-                                    </span>
-                                    {isVisualEditMode && (
-                                      <button
-                                        type="button"
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          e.stopPropagation();
-                                          setEditingCategory(subcat);
-                                        }}
-                                        className="text-[8.5px] text-primary/90 bg-primary/15 hover:bg-primary/25 px-1.5 py-0.5 rounded cursor-pointer"
-                                      >
-                                        Editar
-                                      </button>
-                                    )}
-                                  </Link>
-                                </div>
-                              );
-                            })}
-                          </div>
+                      <Link
+                        key={cat.slug}
+                        to={isVisualEditMode ? "#" : `/categoria/${cat.slug}`}
+                        onClick={(e) => {
+                          if (isVisualEditMode) {
+                            e.preventDefault();
+                            setEditingCategory(cat);
+                          } else {
+                            setMobileMenuOpen(false);
+                          }
+                        }}
+                        className={`flex items-center justify-between px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                          isActive 
+                            ? "bg-primary/10 text-primary border border-primary/15" 
+                            : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
+                        } ${isVisualEditMode ? "hover:ring-1 hover:ring-primary/60 cursor-pointer" : ""}`}
+                      >
+                        <span className="flex items-center gap-3 truncate">
+                          <Icon className="h-4 w-4 shrink-0" style={{ color: cat.color }} />
+                          <span className="truncate">{cat.name}</span>
+                        </span>
+                        {isVisualEditMode && (
+                          <span className="text-[9px] text-primary/80 bg-primary/10 px-1 rounded">
+                            Editar
+                          </span>
                         )}
-                      </div>
+                      </Link>
                     );
                   })}
                 </div>
@@ -1040,10 +672,8 @@ export function Layout({ children }: LayoutProps) {
         </aside>
 
         {/* Primary Page Content */}
-        <main className="flex-1 min-w-0 bg-transparent relative z-10 w-full">
-          <div className="w-full">
-            {children}
-          </div>
+        <main className="flex-1 min-w-0 bg-transparent relative z-10">
+          {children}
         </main>
 
         {/* Global Tarot AI Chatbot Widget */}
@@ -1055,12 +685,6 @@ export function Layout({ children }: LayoutProps) {
 
         {/* Secret Visual Editor Floating HUD */}
         <VisualEditorHUD />
-
-        {/* Category Reorder Modal */}
-        <CategoryReorderModal
-          isOpen={isReorderModalOpen}
-          onClose={() => setIsReorderModalOpen(false)}
-        />
       </div>
     </div>
   );

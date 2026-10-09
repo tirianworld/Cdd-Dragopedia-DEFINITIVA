@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useCategories } from "../../context/CategoryContext";
 import { useVisualEditor } from "../../context/VisualEditorContext";
 import { AVAILABLE_ICONS, ICON_MAP } from "../../utils/categoryHelper";
-import { X, Check, Trash2, Palette, Sparkles, AlertCircle } from "lucide-react";
+import { 
+  X, Check, Trash2, Palette, Sparkles, AlertCircle, 
+  ChevronUp, ChevronDown, ChevronsUp, ChevronsDown, SlidersHorizontal, Shield
+} from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
 interface CategoryQuickEditModalProps {
@@ -11,7 +14,13 @@ interface CategoryQuickEditModalProps {
 }
 
 export function CategoryQuickEditModal({ category, onClose }: CategoryQuickEditModalProps) {
-  const { updateCategory, deleteCategory } = useCategories();
+  const { 
+    updateCategory, 
+    deleteCategory, 
+    mergedCategories, 
+    moveCategory, 
+    moveCategoryToPosition 
+  } = useCategories();
   const { showToast } = useVisualEditor();
 
   const [name, setName] = useState("");
@@ -41,15 +50,7 @@ export function CategoryQuickEditModal({ category, onClose }: CategoryQuickEditM
     }
     setIsSaving(true);
     try {
-      await updateCategory(
-        category.id,
-        name.trim(),
-        desc.trim(),
-        color,
-        iconName,
-        category.parentId ?? null,
-        category.parentSlug ?? null
-      );
+      await updateCategory(category.id, name.trim(), desc.trim(), color, iconName);
       showToast(`Categoría "${name}" guardada con éxito.`, "success");
       onClose();
     } catch (err: any) {
@@ -178,37 +179,124 @@ export function CategoryQuickEditModal({ category, onClose }: CategoryQuickEditM
             </div>
           </div>
 
-          <div>
-            <label className="block text-[11px] font-medium text-muted-foreground mb-1.5">
-              Selección rápida de símbolo
-            </label>
-            <div className="grid grid-cols-8 gap-1.5 max-h-[116px] overflow-y-auto p-2 rounded-xl bg-background/70 border border-border">
-              {AVAILABLE_ICONS.map((ic) => {
-                const IconComp = ic.icon;
-                const isSelected = iconName === ic.name;
-                return (
-                  <button
-                    key={ic.name}
-                    type="button"
-                    onClick={() => setIconName(ic.name)}
-                    title={ic.label}
-                    className={`h-8 w-8 rounded-lg flex items-center justify-center border transition-all cursor-pointer ${
-                      isSelected
-                        ? "scale-105 shadow-xs"
-                        : "border-border/30 hover:border-primary/40 hover:bg-secondary/50 text-muted-foreground hover:text-foreground"
-                    }`}
-                    style={
-                      isSelected
-                        ? { borderColor: color, backgroundColor: `${color}22`, color }
-                        : undefined
-                    }
-                  >
-                    <IconComp className="h-4 w-4" />
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          {/* Posición cósmica y Reordenación */}
+          {(() => {
+            const currentIndex = mergedCategories.findIndex(
+              (c) =>
+                c.id === category.id ||
+                c.slug === category.slug ||
+                c.name.toLowerCase() === (category.name || "").toLowerCase()
+            );
+
+            if (currentIndex === -1) return null;
+
+            return (
+              <div className="p-3 bg-secondary/25 border border-border/70 rounded-xl space-y-2.5">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <div className="flex items-center gap-2">
+                    <SlidersHorizontal className="h-3.5 w-3.5 text-primary" />
+                    <span className="text-xs font-bold text-foreground">
+                      Posición en el Menú y Portada
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-primary/10 border border-primary/25 text-primary font-bold">
+                      #{currentIndex + 1} de {mergedCategories.length}
+                    </span>
+                    {category.isCustom ? (
+                      <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-accent/20 text-accent border border-accent/30">
+                        Personalizada
+                      </span>
+                    ) : (
+                      <span className="text-[9px] font-medium uppercase px-1.5 py-0.5 rounded bg-secondary/80 text-muted-foreground border border-border/40">
+                        Fija
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <p className="text-[10.5px] text-muted-foreground leading-relaxed">
+                  Puedes colocar libremente esta categoría personalizada antes que las fijas (ej. antes de <em>Personajes</em> o <em>Lugares</em>):
+                </p>
+
+                <div className="flex items-center justify-between gap-2 pt-1 flex-wrap">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[11px] text-muted-foreground">Ir a posición:</span>
+                    <select
+                      value={currentIndex}
+                      onChange={async (e) => {
+                        const newTarget = Number(e.target.value);
+                        await moveCategoryToPosition(category.id, newTarget);
+                        showToast(`Categoría movida a la posición #${newTarget + 1}.`, "info");
+                      }}
+                      className="h-7 text-xs font-mono px-2 rounded-md bg-background border border-border text-foreground cursor-pointer focus:outline-none focus:ring-1 focus:ring-primary"
+                    >
+                      {mergedCategories.map((_, pIdx) => (
+                        <option key={pIdx} value={pIdx}>
+                          Pos #{pIdx + 1}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="flex items-center bg-background rounded-lg p-0.5 border border-border">
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        await moveCategory(category.id, "top");
+                        showToast(`"${name}" colocada en el primer lugar absoluto.`, "success");
+                      }}
+                      disabled={currentIndex === 0}
+                      className="px-2 py-1 text-[10px] font-bold text-muted-foreground hover:text-foreground hover:bg-secondary rounded disabled:opacity-20 transition-colors flex items-center gap-1"
+                      title="Mover al primer lugar absoluto"
+                    >
+                      <ChevronsUp className="h-3 w-3" />
+                      <span>Primera</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        await moveCategory(category.id, "up");
+                        showToast(`"${name}" subida una posición.`, "info");
+                      }}
+                      disabled={currentIndex === 0}
+                      className="px-2 py-1 text-[10px] font-bold text-muted-foreground hover:text-foreground hover:bg-secondary rounded disabled:opacity-20 transition-colors flex items-center gap-1"
+                      title="Subir una posición"
+                    >
+                      <ChevronUp className="h-3 w-3" />
+                      <span>Subir</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        await moveCategory(category.id, "down");
+                        showToast(`"${name}" bajada una posición.`, "info");
+                      }}
+                      disabled={currentIndex === mergedCategories.length - 1}
+                      className="px-2 py-1 text-[10px] font-bold text-muted-foreground hover:text-foreground hover:bg-secondary rounded disabled:opacity-20 transition-colors flex items-center gap-1"
+                      title="Bajar una posición"
+                    >
+                      <ChevronDown className="h-3 w-3" />
+                      <span>Bajar</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        await moveCategory(category.id, "bottom");
+                        showToast(`"${name}" colocada en el último lugar.`, "success");
+                      }}
+                      disabled={currentIndex === mergedCategories.length - 1}
+                      className="px-2 py-1 text-[10px] font-bold text-muted-foreground hover:text-foreground hover:bg-secondary rounded disabled:opacity-20 transition-colors flex items-center gap-1"
+                      title="Mover al último lugar"
+                    >
+                      <ChevronsDown className="h-3 w-3" />
+                      <span>Última</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
 
           <div className="pt-3 border-t border-border flex items-center justify-between gap-2">
             {!showDeleteConfirm ? (

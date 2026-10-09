@@ -1,12 +1,11 @@
 import React, { useState, useRef } from "react";
 import { 
   Loader2, Wand2, Compass, Network, StopCircle, 
-  CheckCircle2, AlertCircle, RefreshCw, Sparkles, ChevronDown, ChevronUp, MapPin, BookOpen, Download
+  CheckCircle2, AlertCircle, RefreshCw, Sparkles, ChevronDown, ChevronUp, MapPin, BookOpen
 } from "lucide-react";
 import { WikiArticle } from "../types";
 import { setCachedArticles } from "../utils/syncArticles";
 import { fetchCartoCraftData } from "../utils/cartocraftService";
-import { syncAllCloudImages } from "../utils/localImageStorage";
 import { 
   syncCartoCraftMapsToPlaces, 
   syncSpellbookSpellsToMagiasAndClasses, 
@@ -56,9 +55,6 @@ export function SyncEntitiesTool() {
   // State for Process 3: Magic Graphs
   const [graphState, setGraphState] = useState<ProcessState>(initialProcessState);
   const cancelGraphRef = useRef(false);
-
-  // State for Process 4: Cloud Images
-  const [cloudImageState, setCloudImageState] = useState<ProcessState>(initialProcessState);
 
   // Global activity logs
   const [logs, setLogs] = useState<string[]>([]);
@@ -506,50 +502,7 @@ export function SyncEntitiesTool() {
     if (graphState.isRunning) handleCancelGraphSync();
   };
 
-  /**
-   * PROCESS 4: Cloud Images to Local Storage & GitHub
-   */
-  const handleStartCloudImageSync = async () => {
-    setCloudImageState({
-      ...initialProcessState,
-      isRunning: true,
-      statusText: "Escaneando y descargando imágenes de la nube a almacenamiento local..."
-    });
-    addLog("☁️ Iniciando escaneo y descarga de imágenes de la nube...");
-
-    try {
-      const res = await syncAllCloudImages();
-      addLog(`✅ ${res.message}`);
-      
-      const fresh = await fetchFreshArticles();
-      setCachedArticles(fresh);
-      window.dispatchEvent(new CustomEvent("articles-updated"));
-
-      setCloudImageState({
-        isRunning: false,
-        isComplete: true,
-        isCancelled: false,
-        progress: 100,
-        currentItem: "Completado",
-        statusText: `¡Descarga completa! Se guardaron imágenes en ${res.modifiedArticles} manuscritos.`,
-        processed: res.modifiedArticles,
-        total: res.modifiedArticles,
-        updatedCount: res.downloadedCount,
-        error: null
-      });
-    } catch (err: any) {
-      console.error("Error al sincronizar imágenes de la nube:", err);
-      setCloudImageState(prev => ({
-        ...prev,
-        isRunning: false,
-        error: err?.message || "Error al descargar imágenes de la nube",
-        statusText: "Falló la descarga de imágenes"
-      }));
-      addLog(`❌ Error: ${err?.message || "Fallo en descarga de imágenes"}`);
-    }
-  };
-
-  const isAnyRunning = mapState.isRunning || spellState.isRunning || graphState.isRunning || cloudImageState.isRunning;
+  const isAnyRunning = mapState.isRunning || spellState.isRunning || graphState.isRunning;
 
   return (
     <section className="bg-card border border-border rounded-xl p-6 space-y-6 shadow-sm relative overflow-hidden">
@@ -621,8 +574,8 @@ export function SyncEntitiesTool() {
         </div>
       </div>
 
-      {/* FOUR INDEPENDENT PROGRESS CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* THREE INDEPENDENT PROGRESS CARDS */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
         {/* ================= BARRA 1: CARTOCRAFT ================= */}
         <div className={`p-4 rounded-xl border transition-all duration-200 flex flex-col justify-between ${
@@ -935,94 +888,6 @@ export function SyncEntitiesTool() {
             >
               <Sparkles className="h-3 w-3 text-amber-400" />
               <span>Purificar Grafos (Limpiar cuerpo)</span>
-            </button>
-          </div>
-        </div>
-
-        {/* ================= BARRA 4: IMÁGENES DE LA NUBE ================= */}
-        <div className={`p-4 rounded-xl border transition-all duration-200 flex flex-col justify-between ${
-          cloudImageState.isRunning 
-            ? "bg-sky-950/20 border-sky-500/40 shadow-sm" 
-            : cloudImageState.isComplete 
-            ? "bg-card border-sky-500/30" 
-            : "bg-secondary/10 border-border/60"
-        }`}>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-sky-500/10 border border-sky-500/30 text-sky-400">
-                  <Download className="h-4 w-4" />
-                </div>
-                <div>
-                  <h3 className="font-heading text-xs font-bold text-foreground">
-                    4. Imágenes de la Nube
-                  </h3>
-                  <p className="text-[11px] text-muted-foreground">
-                    Enlaces Web a Servidor Local
-                  </p>
-                </div>
-              </div>
-
-              {cloudImageState.isComplete && !cloudImageState.isRunning && (
-                <span className="flex items-center gap-1 text-[11px] font-semibold text-sky-400">
-                  <CheckCircle2 className="h-3.5 w-3.5" />
-                  Al día
-                </span>
-              )}
-            </div>
-
-            <p className="text-[11px] text-muted-foreground line-clamp-2">
-              Descarga imágenes añadidas mediante enlaces web (Pinterest, Imgur, ArtStation, Wikia) y las aloja permanentemente en local.
-            </p>
-
-            {/* Progress status & bar */}
-            <div className="space-y-1.5 pt-1">
-              <div className="flex justify-between items-center text-[11px] font-mono">
-                <span className="text-muted-foreground truncate max-w-[70%]">
-                  {cloudImageState.isRunning ? (
-                    <span className="flex items-center gap-1 text-sky-400 animate-pulse font-medium">
-                      <Loader2 className="h-3 w-3 animate-spin shrink-0" />
-                      Descargando imágenes...
-                    </span>
-                  ) : cloudImageState.statusText ? (
-                    cloudImageState.statusText
-                  ) : (
-                    "Listo para guardar en local"
-                  )}
-                </span>
-                <span className="text-foreground font-bold shrink-0">
-                  {cloudImageState.progress}%
-                </span>
-              </div>
-
-              <div className="w-full bg-secondary/60 h-2.5 rounded-full overflow-hidden border border-border/30">
-                <div 
-                  className="bg-gradient-to-r from-sky-600 via-sky-500 to-cyan-400 h-full transition-all duration-300 rounded-full"
-                  style={{ width: `${cloudImageState.progress}%` }}
-                />
-              </div>
-
-              <div className="flex items-center justify-between text-[10px] text-muted-foreground pt-0.5">
-                <span>{cloudImageState.processed} artículos</span>
-                <span className="font-semibold text-sky-400">{cloudImageState.updatedCount} guardadas</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Action buttons */}
-          <div className="pt-4 border-t border-border/40 mt-3 space-y-2">
-            <button
-              type="button"
-              disabled={cloudImageState.isRunning}
-              onClick={handleStartCloudImageSync}
-              className="w-full py-1.5 px-3 rounded-lg text-xs font-semibold bg-sky-600/20 hover:bg-sky-600/30 text-sky-300 border border-sky-500/40 hover:border-sky-500/60 transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-sm disabled:opacity-50"
-            >
-              {cloudImageState.isRunning ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              ) : (
-                <Download className="h-3.5 w-3.5" />
-              )}
-              <span>{cloudImageState.isRunning ? "Descargando..." : "Guardar Imágenes en Local"}</span>
             </button>
           </div>
         </div>

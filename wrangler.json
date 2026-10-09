@@ -4,16 +4,13 @@
   "compatibility_date": "2024-09-23",
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/worker.ts",
-  "build": {
-    "command": "npm run build"
-  },
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application"
   },
   "vars": {
-    "GITHUB_REPO": "tirianworld/Cdd-Dragopedia-DEFINITIVA",
+    "GITHUB_REPO": "tirianworld/Cdd-Wiki-V2",
     "GITHUB_BRANCH": "main"
   }
 }

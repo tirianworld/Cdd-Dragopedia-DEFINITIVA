@@ -100,9 +100,10 @@ function playSecretActivationChime(active: boolean) {
 export function VisualEditorProvider({ children }: { children: React.ReactNode }) {
   const [isVisualEditMode, setIsVisualEditModeState] = useState<boolean>(() => {
     try {
-      localStorage.removeItem("wiki_visual_edit_mode");
-    } catch {}
-    return false;
+      return localStorage.getItem("wiki_visual_edit_mode") === "true";
+    } catch {
+      return false;
+    }
   });
 
   const [activeTool, setActiveTool] = useState<VisualEditTool>("select");

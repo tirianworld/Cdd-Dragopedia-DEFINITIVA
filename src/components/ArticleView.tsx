@@ -21,6 +21,7 @@ import { TarotLogo } from "./TarotLogo";
 import { useVisualEditor } from "../context/VisualEditorContext";
 import { useFloatingMap } from "../context/FloatingMapContext";
 import { ArtGalleryPickerModal } from "./ArtGalleryPickerModal";
+import { CarriageLoader } from "./CarriageLoader";
 import { ArticlePrintModal } from "./ArticlePrintModal";
 import { ArticleTarotScribeModal } from "./ArticleTarotScribeModal";
 import { WebBuilderCanvas } from "./webbuilder/WebBuilderCanvas";
@@ -1007,7 +1008,7 @@ export function ArticleView() {
   // Process HTML body and timeline content to safely proxy external blocked images and parse graph shortcodes
   const processedContent = useMemo(() => {
     if (!article?.content) return "<p>No hay descripción para este manuscrito místico.</p>";
-    let result = article.content.replace(/src=["']([^"']+)["']/g, (_match, url) => {
+    let result = article.content.replace(/src=["'](https?:\/\/[^"']+)["']/g, (_match, url) => {
       return `src="${getSafeImageUrl(url)}"`;
     });
     // Parse markdown shortcodes like [grafo type="magias"] or [grafo]
@@ -1024,7 +1025,7 @@ export function ArticleView() {
 
   const processedTimelineContent = useMemo(() => {
     if (!activeTimelineMarker?.content) return "";
-    return activeTimelineMarker.content.replace(/src=["']([^"']+)["']/g, (_match, url) => {
+    return activeTimelineMarker.content.replace(/src=["'](https?:\/\/[^"']+)["']/g, (_match, url) => {
       return `src="${getSafeImageUrl(url)}"`;
     });
   }, [activeTimelineMarker?.content]);
@@ -1660,10 +1661,9 @@ export function ArticleView() {
                   title="Haz clic para ampliar la imagen"
                 >
                   <img 
-                    src={getSafeImageUrl(currentGalleryItem.url)} 
+                    src={currentGalleryItem.url} 
                     alt="Gallery item" 
                     referrerPolicy="no-referrer"
-                    onError={(e) => handleImageErrorWithFallback(e, currentGalleryItem.url)}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1691,10 +1691,9 @@ export function ArticleView() {
                         }`}
                       >
                         <img 
-                          src={getSafeImageUrl(img.url)} 
+                          src={img.url} 
                           alt="Thumbnail" 
                           referrerPolicy="no-referrer"
-                          onError={(e) => handleImageErrorWithFallback(e, img.url)}
                           className="w-full h-full object-cover"
                         />
                       </button>
@@ -1879,9 +1878,8 @@ export function ArticleView() {
                       <div className="h-10 w-10 shrink-0 rounded-md overflow-hidden border border-border bg-secondary/30 flex items-center justify-center relative">
                         {monsterImg ? (
                           <img 
-                            src={getSafeImageUrl(monsterImg)} 
+                            src={monsterImg} 
                             alt={monsterIndex} 
-                            onError={(e) => handleImageErrorWithFallback(e, monsterImg)}
                             className="h-full w-full object-cover transition-transform group-hover:scale-110 duration-300"
                             referrerPolicy="no-referrer"
                           />
@@ -2450,9 +2448,13 @@ export function ArticleView() {
             {/* Content block */}
             <div className="p-6 space-y-4">
               {loadingMonsterDetails ? (
-                <div className="py-12 flex flex-col items-center justify-center gap-3">
-                  <Loader2 className="h-8 w-8 animate-spin text-[#58180d]" />
-                  <span className="text-xs font-sans text-[#58180d] uppercase tracking-wider font-semibold">Consultando Bestiario de Caldo de Dragón...</span>
+                <div className="py-8 flex flex-col items-center justify-center">
+                  <CarriageLoader
+                    size="sm"
+                    text="Consultando Bestiario..."
+                    subtext="Compendio oficial de Caldo de Dragón"
+                    className="text-[#58180d]"
+                  />
                 </div>
               ) : selectedMonster ? (
                 (() => {
@@ -2539,9 +2541,8 @@ export function ArticleView() {
                         <div className="md:col-span-5 flex flex-col items-center justify-start">
                           <div className="border-4 border-[#b89a47] rounded-xl overflow-hidden shadow-xl bg-[#58180d]/5 w-full">
                             <img 
-                              src={getSafeImageUrl(selectedMonsterImg)} 
+                              src={selectedMonsterImg} 
                               alt={selectedMonster.name_es || selectedMonster.name} 
-                              onError={(e) => handleImageErrorWithFallback(e, selectedMonsterImg)}
                               className="w-full h-60 object-cover hover:scale-105 transition-transform duration-300"
                               referrerPolicy="no-referrer"
                             />
@@ -2660,9 +2661,13 @@ export function ArticleView() {
             </div>
 
             {loadingSpellDetails && !selectedSpellDetails ? (
-              <div className="p-12 flex flex-col items-center justify-center gap-3 text-muted-foreground">
-                <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
-                <p className="text-xs">Consultando compendio del Libro de Hechizos...</p>
+              <div className="p-8 flex flex-col items-center justify-center text-muted-foreground">
+                <CarriageLoader
+                  size="sm"
+                  text="Consultando Hechizo..."
+                  subtext="Compendio del Libro de Hechizos..."
+                  className="text-purple-400"
+                />
               </div>
             ) : selectedSpellDetails ? (
               <div className="p-5 sm:p-6 space-y-5">

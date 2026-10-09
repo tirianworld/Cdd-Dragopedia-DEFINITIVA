@@ -504,23 +504,12 @@ export function TarotAnalyzer() {
     setSuccess("");
 
     try {
-      // 0. Si el articulo viene recortado del cache, traer el completo antes de fusionar
-      let fullMatchedArticle: any = matchedArticle;
-      if ((matchedArticle as any)?._compact) {
-        try {
-          const fullRes = await syncFetch(`/api/articles/${matchedArticle.id}`);
-          if (fullRes.ok) fullMatchedArticle = await fullRes.json();
-        } catch {
-          // se usa el que hay
-        }
-      }
-
       // 1. Call merge endpoint
       const mergeRes = await fetch("/api/ai/merge", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          existingArticle: fullMatchedArticle,
+          existingArticle: matchedArticle,
           newArticleInfo: entity
         }),
       });

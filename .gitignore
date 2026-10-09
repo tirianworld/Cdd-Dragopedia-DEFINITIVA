@@ -5,8 +5,3 @@ coverage/
 *.log
 .env*
 !.env.example
-.dev.vars
-dev.vars
-secrets.json
-.env
-data/github_config.json

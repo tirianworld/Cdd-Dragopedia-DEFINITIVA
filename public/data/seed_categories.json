@@ -442,15 +442,5 @@
     "icon": "Users",
     "parentId": "cat-personajes",
     "parentSlug": "personajes"
-  },
-  {
-    "id": "cat-1791358708623",
-    "name": "Regionales",
-    "slug": "regionales",
-    "description": "Subcategoría de Dioses",
-    "color": "#549c7d",
-    "icon": "Sparkles",
-    "parentId": "cat-dioses",
-    "parentSlug": "dioses"
   }
 ]

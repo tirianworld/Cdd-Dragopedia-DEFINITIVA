@@ -1,5 +1,4 @@
 import { Spell } from "../types";
-import { getSafeImageUrl } from "./imageUrl";
 
 export const SCHOOL_COLORS: Record<string, { bg: string; border: string; text: string; hex: string }> = {
   "Evocación": { bg: "bg-orange-500/10", border: "border-orange-500/60", text: "text-orange-400", hex: "#f97316" },
@@ -53,7 +52,7 @@ export function generateSpellSquareHtml(spell: Spell): string {
 
   return `<div class="spell-square-card inline-block m-2 p-3 rounded-2xl bg-[#090f15] border border-[#1b2631] hover:border-[${color}] text-stone-100 shadow-lg text-center transition-all duration-300 group align-top max-w-[150px] w-[140px] cursor-pointer" style="box-shadow: 0 4px 20px -2px rgba(0,0,0,0.6);" data-spell-id="${spell.id}">
   <div class="relative w-24 h-24 mx-auto rounded-xl flex items-center justify-center p-2 mb-2 bg-[#05080c] border-2 transition-all duration-300 group-hover:scale-105" style="border-color: ${color}; box-shadow: 0 0 16px -4px ${color}66;">
-    <img src="${getSafeImageUrl(iconUrl)}" alt="${spell.name}" class="w-full h-full object-contain filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]" loading="lazy" referrerpolicy="no-referrer" />
+    <img src="${iconUrl}" alt="${spell.name}" class="w-full h-full object-contain filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]" loading="lazy" referrerpolicy="no-referrer" />
   </div>
   <div class="font-heading font-bold text-xs text-white leading-tight line-clamp-2 px-1 mb-0.5 group-hover:text-primary transition-colors">
     ${spell.name}

@@ -43,7 +43,7 @@
       "Expedición de Moonhaven"
     ],
     "summary": "Guerrero y brawler tiefling de piel roja carmesí, grandes cuernos negros y fuerza colosal, célebre por sus pulsos épicos en la taberna y su bravura en combate.",
-    "content": "<p><strong>Mongraal</strong> es un poderoso combatiente y aventurero miembro de la compañía de <em>Caldo de Dragón</em>. De piel roja encendida, cornamenta negra azabache, bigote distintivo y musculatura formidable, Mongraal destaca por su ferocidad en la batalla y su carácter festivo en las tabernas.</p><h2>El Gran Pulso de la Taberna</h2><p>Es legendario su duelo de fuerza contra <a href=\"/articulo/pepe-loux\">Pepe Loux</a>, donde ambos contendientes hicieron temblar las mesas de roble entre jarras de hidromiel y los vítores de sus compañeros aventureros.</p><h2>Compañeros de Aventuras</h2><ul><li><a href=\"/articulo/roxanne\">Roxanne</a></li><li><a href=\"/articulo/arlem-diaz\">Arlem Díaz</a></li><li><a href=\"/articulo/barled\">Barled</a></li><li><a href=\"/articulo/pepe-loux\">Pepe Loux</a></li><li><a href=\"/articulo/kairon\">Kairon</a></li><li><a href=\"/articulo/raxxar\">Raxxar</a></li><li><a href=\"/articulo/edacorn\">Edacorn</a></li></ul>",
+    "content": "<p><strong>Mongraal</strong> es un poderoso combatiente y aventurero miembro de la compañía de <em>Caldo de Dragón</em>. De piel roja encendida, cornamenta negra azabache, bigote distintivo y musculatura formidable, Mongraal destaca por su ferocidad en la batalla.</p>\n<h2>Compañeros de Aventuras</h2>\n<ul>\n<li><a href=\"/articulo/roxanne\">Roxanne</a></li>\n<li><a href=\"/articulo/arlem-diaz\">Arlem Díaz</a></li>\n<li><a href=\"/articulo/barled\">Barled</a></li>\n<li><a href=\"/articulo/pepe-loux\">Pepe Loux</a></li>\n<li><a href=\"/articulo/kairon\">Kairon</a></li>\n<li><a href=\"/articulo/raxxar\">Raxxar</a></li>\n<li><a href=\"/articulo/edacorn\">Edacorn</a></li>\n</ul>",
     "tags": [
       "Jugadores",
       "Tiefling",
@@ -54,7 +54,7 @@
     ],
     "author": "Tarot",
     "created_date": "2026-10-03T11:58:00Z",
-    "updated_date": "2026-10-05T11:22:49.138Z",
+    "updated_date": "2026-10-10T10:53:28.579Z",
     "infobox": {
       "Raza": "Tiefling / Demonio",
       "Clase": "Brawler / Bárbaro / Guerrero",

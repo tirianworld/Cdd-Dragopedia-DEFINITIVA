@@ -1,6 +1,7 @@
 import React from "react";
 import { Spell } from "../types";
 import { getSpellColor, getSpellIconUrl, formatSpellLevel } from "../utils/spellUtils";
+import { getSafeImageUrl, handleImageErrorWithFallback } from "../utils/imageUrl";
 import { X, Wand2, Sparkles, ExternalLink, ShieldAlert, Clock, Compass, Layers } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -41,10 +42,11 @@ export function SpellDetailModal({ spell, isOpen, onClose }: SpellDetailModalPro
               style={{ borderColor: color, boxShadow: `0 0 20px -3px ${color}55` }}
             >
               <img 
-                src={iconUrl} 
+                src={getSafeImageUrl(iconUrl)} 
                 alt={spell.name} 
                 className="w-full h-full object-contain filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
                 referrerPolicy="no-referrer"
+                onError={(e) => handleImageErrorWithFallback(e, iconUrl, "https://bg3.wiki/wiki/Special:FilePath/Fireball%20Icon.webp")}
               />
             </div>
             <div>

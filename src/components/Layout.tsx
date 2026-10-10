@@ -511,7 +511,10 @@ export function Layout({ children }: LayoutProps) {
             ? "fixed top-14 left-0 bottom-0 z-50 w-72 sm:w-80 bg-card/95 border-r border-border shadow-2xl overflow-y-auto p-4 sm:p-5 block animate-in slide-in-from-left duration-200" 
             : "hidden"
           }
-          lg:block lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-72 shrink-0 border-r border-border overflow-y-auto p-4 sm:p-5 bg-card/45 backdrop-blur-md
+          ${isFullWidthPage 
+            ? "lg:hidden" 
+            : "lg:block lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] w-72 shrink-0 border-r border-border overflow-y-auto p-4 sm:p-5 bg-card/45 backdrop-blur-md"
+          }
         `}>
           <div className="space-y-6">
             

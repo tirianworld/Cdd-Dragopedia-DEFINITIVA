@@ -1,0 +1,1982 @@
+{
+  "acidsplash": {
+    "name": "Acid Splash",
+    "file": "Acid Splash Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/99/Acid_Splash_Icon.webp"
+  },
+  "activatecalllightning": {
+    "name": "Activate Call Lightning",
+    "file": "Activate Call Lightning Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/40/Activate_Call_Lightning_Icon.webp"
+  },
+  "activatewitchbolt": {
+    "name": "Activate Witch Bolt",
+    "file": "Activate Witch Bolt Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/50/Activate_Witch_Bolt_Icon.webp"
+  },
+  "aegisoftheabsolute": {
+    "name": "Aegis of the Absolute",
+    "file": "Aegis of the Absolute Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/b2/Aegis_of_the_Absolute_Icon.webp"
+  },
+  "aid": {
+    "name": "Aid",
+    "file": "Aid Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/50/Aid_Icon.webp"
+  },
+  "animalfriendship": {
+    "name": "Animal Friendship",
+    "file": "Animal Friendship Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/36/Animal_Friendship_Icon.webp"
+  },
+  "animatedeadduergar": {
+    "name": "Animate Dead Duergar",
+    "file": "Animate Dead Duergar Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/7a/Animate_Dead_Duergar_Icon.webp"
+  },
+  "animatedeadghoul": {
+    "name": "Animate Dead Ghoul",
+    "file": "Animate Dead Ghoul Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/4f/Animate_Dead_Ghoul_Icon.webp"
+  },
+  "animatedead": {
+    "name": "Animate Dead",
+    "file": "Animate Dead Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/2f/Animate_Dead_Icon.webp"
+  },
+  "animatedeadskeleton": {
+    "name": "Animate Dead Skeleton",
+    "file": "Animate Dead Skeleton Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/91/Animate_Dead_Skeleton_Icon.webp"
+  },
+  "animatedeadzombie": {
+    "name": "Animate Dead Zombie",
+    "file": "Animate Dead Zombie Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/25/Animate_Dead_Zombie_Icon.webp"
+  },
+  "arachnidcompulsion": {
+    "name": "Arachnid Compulsion",
+    "file": "Arachnid Compulsion Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/96/Arachnid_Compulsion_Icon.webp"
+  },
+  "arcaneeye": {
+    "name": "Arcane Eye",
+    "file": "Arcane Eye Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8e/Arcane_Eye_Icon.webp"
+  },
+  "arcanegate": {
+    "name": "Arcane Gate",
+    "file": "Arcane Gate Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/6e/Arcane_Gate_Icon.webp"
+  },
+  "arcanelock": {
+    "name": "Arcane Lock",
+    "file": "Arcane Lock Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/79/Arcane_Lock_Icon.webp"
+  },
+  "armourofagathys": {
+    "name": "Armour of Agathys",
+    "file": "Armour of Agathys Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/77/Armour_of_Agathys_Icon.webp"
+  },
+  "armsofhadar": {
+    "name": "Arms of Hadar",
+    "file": "Arms of Hadar Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/3e/Arms_of_Hadar_Icon.webp"
+  },
+  "banespell": {
+    "name": "Bane spell",
+    "file": "Bane spell Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/19/Bane_spell_Icon.webp"
+  },
+  "banishingsmitemelee": {
+    "name": "Banishing Smite Melee",
+    "file": "Banishing Smite Melee Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/3b/Banishing_Smite_Melee_Icon.webp"
+  },
+  "banishingsmiteranged": {
+    "name": "Banishing Smite Ranged",
+    "file": "Banishing Smite Ranged Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f3/Banishing_Smite_Ranged_Icon.webp"
+  },
+  "banishment": {
+    "name": "Banishment",
+    "file": "Banishment Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/6d/Banishment_Icon.webp"
+  },
+  "barkskin": {
+    "name": "Barkskin",
+    "file": "Barkskin Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8b/Barkskin_Icon.webp"
+  },
+  "beaconofhope": {
+    "name": "Beacon of Hope",
+    "file": "Beacon of Hope Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/5d/Beacon_of_Hope_Icon.webp"
+  },
+  "bearsendurance": {
+    "name": "Bear's Endurance",
+    "file": "Bear's Endurance Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/aa/Bear's_Endurance_Icon.webp"
+  },
+  "bestowcurseadditionaldamage": {
+    "name": "Bestow Curse Additional Damage",
+    "file": "Bestow Curse Additional Damage Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/bb/Bestow_Curse_Additional_Damage_Icon.webp"
+  },
+  "bestowcurseattackdisadvantage": {
+    "name": "Bestow Curse Attack Disadvantage",
+    "file": "Bestow Curse Attack Disadvantage Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/99/Bestow_Curse_Attack_Disadvantage_Icon.webp"
+  },
+  "bestowcursedebuffability": {
+    "name": "Bestow Curse Debuff Ability",
+    "file": "Bestow Curse Debuff Ability Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/3d/Bestow_Curse_Debuff_Ability_Icon.webp"
+  },
+  "bestowcursedread": {
+    "name": "Bestow Curse Dread",
+    "file": "Bestow Curse Dread Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/51/Bestow_Curse_Dread_Icon.webp"
+  },
+  "bestowcurse": {
+    "name": "Bestow Curse",
+    "file": "Bestow Curse Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/00/Bestow_Curse_Icon.webp"
+  },
+  "bladebarrier": {
+    "name": "Blade Barrier",
+    "file": "Blade Barrier Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/bb/Blade_Barrier_Icon.webp"
+  },
+  "bladeward": {
+    "name": "Blade Ward",
+    "file": "Blade Ward Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/04/Blade_Ward_Icon.webp"
+  },
+  "bless": {
+    "name": "Bless",
+    "file": "Bless Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c4/Bless_Icon.webp"
+  },
+  "blight": {
+    "name": "Blight",
+    "file": "Blight Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e0/Blight_Icon.webp"
+  },
+  "blindingsmite": {
+    "name": "Blinding Smite",
+    "file": "Blinding Smite Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/5e/Blinding_Smite_Icon.webp"
+  },
+  "blindness": {
+    "name": "Blindness",
+    "file": "Blindness Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/5a/Blindness_Icon.webp"
+  },
+  "blinkdismiss": {
+    "name": "Blink Dismiss",
+    "file": "Blink Dismiss Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/ef/Blink_Dismiss_Icon.webp"
+  },
+  "blink": {
+    "name": "Blink",
+    "file": "Blink Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/b3/Blink_Icon.webp"
+  },
+  "blinkteleport": {
+    "name": "Blink Teleport",
+    "file": "Blink Teleport Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/30/Blink_Teleport_Icon.webp"
+  },
+  "blur": {
+    "name": "Blur",
+    "file": "Blur Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/0d/Blur_Icon.webp"
+  },
+  "bonechill": {
+    "name": "Bone Chill",
+    "file": "Bone Chill Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/03/Bone_Chill_Icon.webp"
+  },
+  "boomingblade": {
+    "name": "Booming Blade",
+    "file": "Booming Blade Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/fd/Booming_Blade_Icon.webp"
+  },
+  "brandingsmitemelee": {
+    "name": "Branding Smite Melee",
+    "file": "Branding Smite Melee Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/5e/Branding_Smite_Melee_Icon.webp"
+  },
+  "brandingsmiteranged": {
+    "name": "Branding Smite Ranged",
+    "file": "Branding Smite Ranged Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/ed/Branding_Smite_Ranged_Icon.webp"
+  },
+  "breakofdawn": {
+    "name": "Break of Dawn",
+    "file": "Break of Dawn Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/56/Break_of_Dawn_Icon.webp"
+  },
+  "bullsstrength": {
+    "name": "Bull's Strength",
+    "file": "Bull's Strength Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c5/Bull's_Strength_Icon.webp"
+  },
+  "burninghands": {
+    "name": "Burning Hands",
+    "file": "Burning Hands Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/cf/Burning_Hands_Icon.webp"
+  },
+  "burstingsinew": {
+    "name": "Bursting Sinew",
+    "file": "Bursting Sinew Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/0f/Bursting_Sinew_Icon.webp"
+  },
+  "calllightning": {
+    "name": "Call Lightning",
+    "file": "Call Lightning Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/99/Call_Lightning_Icon.webp"
+  },
+  "calmemotions": {
+    "name": "Calm Emotions",
+    "file": "Calm Emotions Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d9/Calm_Emotions_Icon.webp"
+  },
+  "catsgrace": {
+    "name": "Cat's Grace",
+    "file": "Cat's Grace Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e9/Cat's_Grace_Icon.webp"
+  },
+  "chainlightning": {
+    "name": "Chain Lightning",
+    "file": "Chain Lightning Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c9/Chain_Lightning_Icon.webp"
+  },
+  "charmperson": {
+    "name": "Charm Person",
+    "file": "Charm Person Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/bc/Charm_Person_Icon.webp"
+  },
+  "chromaticorbacid": {
+    "name": "Chromatic Orb Acid",
+    "file": "Chromatic Orb Acid Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e0/Chromatic_Orb_Acid_Icon.webp"
+  },
+  "chromaticorbcold": {
+    "name": "Chromatic Orb Cold",
+    "file": "Chromatic Orb Cold Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e8/Chromatic_Orb_Cold_Icon.webp"
+  },
+  "chromaticorbfire": {
+    "name": "Chromatic Orb Fire",
+    "file": "Chromatic Orb Fire Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/1e/Chromatic_Orb_Fire_Icon.webp"
+  },
+  "chromaticorb": {
+    "name": "Chromatic Orb",
+    "file": "Chromatic Orb Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8e/Chromatic_Orb_Icon.webp"
+  },
+  "chromaticorblightning": {
+    "name": "Chromatic Orb Lightning",
+    "file": "Chromatic Orb Lightning Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/20/Chromatic_Orb_Lightning_Icon.webp"
+  },
+  "chromaticorbpoison": {
+    "name": "Chromatic Orb Poison",
+    "file": "Chromatic Orb Poison Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/80/Chromatic_Orb_Poison_Icon.webp"
+  },
+  "chromaticorbthunder": {
+    "name": "Chromatic Orb Thunder",
+    "file": "Chromatic Orb Thunder Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/b0/Chromatic_Orb_Thunder_Icon.webp"
+  },
+  "circleofdeath": {
+    "name": "Circle of Death",
+    "file": "Circle of Death Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f2/Circle_of_Death_Icon.webp"
+  },
+  "cloudofdaggers": {
+    "name": "Cloud of Daggers",
+    "file": "Cloud of Daggers Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/3d/Cloud_of_Daggers_Icon.webp"
+  },
+  "cloudkill": {
+    "name": "Cloudkill",
+    "file": "Cloudkill Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/74/Cloudkill_Icon.webp"
+  },
+  "colourspray": {
+    "name": "Colour Spray",
+    "file": "Colour Spray Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/24/Colour_Spray_Icon.webp"
+  },
+  "commandapproach": {
+    "name": "Command Approach",
+    "file": "Command Approach Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/24/Command_Approach_Icon.webp"
+  },
+  "commanddrop": {
+    "name": "Command Drop",
+    "file": "Command Drop Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f4/Command_Drop_Icon.webp"
+  },
+  "commandflee": {
+    "name": "Command Flee",
+    "file": "Command Flee Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/2c/Command_Flee_Icon.webp"
+  },
+  "commandgrovel": {
+    "name": "Command Grovel",
+    "file": "Command Grovel Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/34/Command_Grovel_Icon.webp"
+  },
+  "commandhalt": {
+    "name": "Command Halt",
+    "file": "Command Halt Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/7f/Command_Halt_Icon.webp"
+  },
+  "compelledduel": {
+    "name": "Compelled Duel",
+    "file": "Compelled Duel Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/73/Compelled_Duel_Icon.webp"
+  },
+  "comprehendlanguages": {
+    "name": "Comprehend Languages",
+    "file": "Comprehend Languages Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/99/Comprehend_Languages_Icon.webp"
+  },
+  "coneofcold": {
+    "name": "Cone of Cold",
+    "file": "Cone of Cold Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/ef/Cone_of_Cold_Icon.webp"
+  },
+  "confusion": {
+    "name": "Confusion",
+    "file": "Confusion Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/7b/Confusion_Icon.webp"
+  },
+  "conjureanimals": {
+    "name": "Conjure Animals",
+    "file": "Conjure Animals Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/35/Conjure_Animals_Icon.webp"
+  },
+  "conjurebarrage": {
+    "name": "Conjure Barrage",
+    "file": "Conjure Barrage Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/df/Conjure_Barrage_Icon.webp"
+  },
+  "conjureelementalairelemental": {
+    "name": "Conjure Elemental Air Elemental",
+    "file": "Conjure Elemental Air Elemental Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/a1/Conjure_Elemental_Air_Elemental_Icon.webp"
+  },
+  "conjureelementalairmyrmidon": {
+    "name": "Conjure Elemental Air Myrmidon",
+    "file": "Conjure Elemental Air Myrmidon Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/41/Conjure_Elemental_Air_Myrmidon_Icon.webp"
+  },
+  "conjureelementalearthelemental": {
+    "name": "Conjure Elemental Earth Elemental",
+    "file": "Conjure Elemental Earth Elemental Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/64/Conjure_Elemental_Earth_Elemental_Icon.webp"
+  },
+  "conjureelementalearthmyrmidon": {
+    "name": "Conjure Elemental Earth Myrmidon",
+    "file": "Conjure Elemental Earth Myrmidon Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c2/Conjure_Elemental_Earth_Myrmidon_Icon.webp"
+  },
+  "conjureelementalfireelemental": {
+    "name": "Conjure Elemental Fire Elemental",
+    "file": "Conjure Elemental Fire Elemental Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/aa/Conjure_Elemental_Fire_Elemental_Icon.webp"
+  },
+  "conjureelementalfiremyrmidon": {
+    "name": "Conjure Elemental Fire Myrmidon",
+    "file": "Conjure Elemental Fire Myrmidon Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/cc/Conjure_Elemental_Fire_Myrmidon_Icon.webp"
+  },
+  "conjureelemental": {
+    "name": "Conjure Elemental",
+    "file": "Conjure Elemental Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e6/Conjure_Elemental_Icon.webp"
+  },
+  "conjureelementalwaterelemental": {
+    "name": "Conjure Elemental Water Elemental",
+    "file": "Conjure Elemental Water Elemental Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/ac/Conjure_Elemental_Water_Elemental_Icon.webp"
+  },
+  "conjureelementalwatermyrmidon": {
+    "name": "Conjure Elemental Water Myrmidon",
+    "file": "Conjure Elemental Water Myrmidon Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/87/Conjure_Elemental_Water_Myrmidon_Icon.webp"
+  },
+  "conjureminorelementalazer": {
+    "name": "Conjure Minor Elemental Azer",
+    "file": "Conjure Minor Elemental Azer Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/08/Conjure_Minor_Elemental_Azer_Icon.webp"
+  },
+  "conjureminorelementalicemephits": {
+    "name": "Conjure Minor Elemental Ice Mephits",
+    "file": "Conjure Minor Elemental Ice Mephits Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c2/Conjure_Minor_Elemental_Ice_Mephits_Icon.webp"
+  },
+  "conjureminorelementalmudmephits": {
+    "name": "Conjure Minor Elemental Mud Mephits",
+    "file": "Conjure Minor Elemental Mud Mephits Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/5f/Conjure_Minor_Elemental_Mud_Mephits_Icon.webp"
+  },
+  "conjureshadowlanternwraith": {
+    "name": "Conjure Shadow Lantern Wraith",
+    "file": "Conjure Shadow Lantern Wraith Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d0/Conjure_Shadow_Lantern_Wraith_Icon.webp"
+  },
+  "conjureus": {
+    "name": "Conjure Us",
+    "file": "Conjure Us Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f8/Conjure_Us_Icon.webp"
+  },
+  "conjurewoodlandbeing": {
+    "name": "Conjure Woodland Being",
+    "file": "Conjure Woodland Being Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8a/Conjure_Woodland_Being_Icon.webp"
+  },
+  "contagionblindingsickness": {
+    "name": "Contagion Blinding Sickness",
+    "file": "Contagion Blinding Sickness Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/1b/Contagion_Blinding_Sickness_Icon.webp"
+  },
+  "contagionfilthfever": {
+    "name": "Contagion Filth Fever",
+    "file": "Contagion Filth Fever Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/60/Contagion_Filth_Fever_Icon.webp"
+  },
+  "contagionfleshrot": {
+    "name": "Contagion Flesh Rot",
+    "file": "Contagion Flesh Rot Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/73/Contagion_Flesh_Rot_Icon.webp"
+  },
+  "contagionmindfire": {
+    "name": "Contagion Mindfire",
+    "file": "Contagion Mindfire Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/35/Contagion_Mindfire_Icon.webp"
+  },
+  "contagionseizure": {
+    "name": "Contagion Seizure",
+    "file": "Contagion Seizure Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/54/Contagion_Seizure_Icon.webp"
+  },
+  "contagionslimydoom": {
+    "name": "Contagion Slimy Doom",
+    "file": "Contagion Slimy Doom Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/85/Contagion_Slimy_Doom_Icon.webp"
+  },
+  "counterspell": {
+    "name": "Counterspell",
+    "file": "Counterspell Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/50/Counterspell_Icon.webp"
+  },
+  "createundead": {
+    "name": "Create Undead",
+    "file": "Create Undead Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/da/Create_Undead_Icon.webp"
+  },
+  "createwater": {
+    "name": "Create Water",
+    "file": "Create Water Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d1/Create_Water_Icon.webp"
+  },
+  "crownofmadness": {
+    "name": "Crown of Madness",
+    "file": "Crown of Madness Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/48/Crown_of_Madness_Icon.webp"
+  },
+  "crusadersmantle": {
+    "name": "Crusader's Mantle",
+    "file": "Crusader's Mantle Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/4d/Crusader's_Mantle_Icon.webp"
+  },
+  "curewounds": {
+    "name": "Cure Wounds",
+    "file": "Cure Wounds Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/40/Cure_Wounds_Icon.webp"
+  },
+  "curriculumofstrategyartistryofwar": {
+    "name": "Curriculum of Strategy Artistry of War",
+    "file": "Curriculum of Strategy Artistry of War Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/b7/Curriculum_of_Strategy_Artistry_of_War_Icon.webp"
+  },
+  "curseofregret": {
+    "name": "Curse of Regret",
+    "file": "Curse of Regret Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d8/Curse_of_Regret_Icon.webp"
+  },
+  "dancinglights": {
+    "name": "Dancing Lights",
+    "file": "Dancing Lights Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/ba/Dancing_Lights_Icon.webp"
+  },
+  "dansemacabre": {
+    "name": "Danse Macabre",
+    "file": "Danse Macabre Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/92/Danse_Macabre_Icon.webp"
+  },
+  "darkness": {
+    "name": "Darkness",
+    "file": "Darkness Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/bf/Darkness_Icon.webp"
+  },
+  "darkvisionspell": {
+    "name": "Darkvision spell",
+    "file": "Darkvision spell Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/01/Darkvision_spell_Icon.webp"
+  },
+  "daylightenchantitem": {
+    "name": "Daylight Enchant Item",
+    "file": "Daylight Enchant Item Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/0b/Daylight_Enchant_Item_Icon.webp"
+  },
+  "daylight": {
+    "name": "Daylight",
+    "file": "Daylight Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/6e/Daylight_Icon.webp"
+  },
+  "daylightsphere": {
+    "name": "Daylight Sphere",
+    "file": "Daylight Sphere Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/4b/Daylight_Sphere_Icon.webp"
+  },
+  "deathward": {
+    "name": "Death Ward",
+    "file": "Death Ward Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/84/Death_Ward_Icon.webp"
+  },
+  "destroywater": {
+    "name": "Destroy Water",
+    "file": "Destroy Water Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/1f/Destroy_Water_Icon.webp"
+  },
+  "destructivewave": {
+    "name": "Destructive Wave",
+    "file": "Destructive Wave Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/fd/Destructive_Wave_Icon.webp"
+  },
+  "detectevilandgood": {
+    "name": "Detect Evil and Good",
+    "file": "Detect Evil and Good Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/ef/Detect_Evil_and_Good_Icon.webp"
+  },
+  "detectthoughts": {
+    "name": "Detect Thoughts",
+    "file": "Detect Thoughts Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/b6/Detect_Thoughts_Icon.webp"
+  },
+  "dethrone": {
+    "name": "Dethrone",
+    "file": "Dethrone Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/6e/Dethrone_Icon.webp"
+  },
+  "devourintellect": {
+    "name": "Devour Intellect",
+    "file": "Devour Intellect Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/80/Devour_Intellect_Icon.webp"
+  },
+  "dimensiondoor": {
+    "name": "Dimension Door",
+    "file": "Dimension Door Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/da/Dimension_Door_Icon.webp"
+  },
+  "disguiseselffemmedragonborn": {
+    "name": "Disguise Self Femme Dragonborn",
+    "file": "Disguise Self Femme Dragonborn Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/35/Disguise_Self_Femme_Dragonborn_Icon.webp"
+  },
+  "disguiseselffemmedrow": {
+    "name": "Disguise Self Femme Drow",
+    "file": "Disguise Self Femme Drow Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/ce/Disguise_Self_Femme_Drow_Icon.webp"
+  },
+  "disguiseselffemmedwarf": {
+    "name": "Disguise Self Femme Dwarf",
+    "file": "Disguise Self Femme Dwarf Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/35/Disguise_Self_Femme_Dwarf_Icon.webp"
+  },
+  "disguiseselffemmeelf": {
+    "name": "Disguise Self Femme Elf",
+    "file": "Disguise Self Femme Elf Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/ab/Disguise_Self_Femme_Elf_Icon.webp"
+  },
+  "disguiseselffemmegithyanki": {
+    "name": "Disguise Self Femme Githyanki",
+    "file": "Disguise Self Femme Githyanki Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/0f/Disguise_Self_Femme_Githyanki_Icon.webp"
+  },
+  "disguiseselffemmegnome": {
+    "name": "Disguise Self Femme Gnome",
+    "file": "Disguise Self Femme Gnome Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/fa/Disguise_Self_Femme_Gnome_Icon.webp"
+  },
+  "disguiseselffemmehalfelf": {
+    "name": "Disguise Self Femme Half-Elf",
+    "file": "Disguise Self Femme Half-Elf Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/6c/Disguise_Self_Femme_Half-Elf_Icon.webp"
+  },
+  "disguiseselffemmehalforc": {
+    "name": "Disguise Self Femme Half-Orc",
+    "file": "Disguise Self Femme Half-Orc Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/17/Disguise_Self_Femme_Half-Orc_Icon.webp"
+  },
+  "disguiseselffemmehalfling": {
+    "name": "Disguise Self Femme Halfling",
+    "file": "Disguise Self Femme Halfling Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/dc/Disguise_Self_Femme_Halfling_Icon.webp"
+  },
+  "disguiseselffemmehuman": {
+    "name": "Disguise Self Femme Human",
+    "file": "Disguise Self Femme Human Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/38/Disguise_Self_Femme_Human_Icon.webp"
+  },
+  "disguiseselffemmestrongdrow": {
+    "name": "Disguise Self Femme Strong Drow",
+    "file": "Disguise Self Femme Strong Drow Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e4/Disguise_Self_Femme_Strong_Drow_Icon.webp"
+  },
+  "disguiseselffemmestrongelf": {
+    "name": "Disguise Self Femme Strong Elf",
+    "file": "Disguise Self Femme Strong Elf Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/79/Disguise_Self_Femme_Strong_Elf_Icon.webp"
+  },
+  "disguiseselffemmestronghalfelf": {
+    "name": "Disguise Self Femme Strong Half-Elf",
+    "file": "Disguise Self Femme Strong Half-Elf Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/0e/Disguise_Self_Femme_Strong_Half-Elf_Icon.webp"
+  },
+  "disguiseselffemmestronghuman": {
+    "name": "Disguise Self Femme Strong Human",
+    "file": "Disguise Self Femme Strong Human Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/3e/Disguise_Self_Femme_Strong_Human_Icon.webp"
+  },
+  "disguiseselffemmestrongtiefling": {
+    "name": "Disguise Self Femme Strong Tiefling",
+    "file": "Disguise Self Femme Strong Tiefling Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/5d/Disguise_Self_Femme_Strong_Tiefling_Icon.webp"
+  },
+  "disguiseselffemmetiefling": {
+    "name": "Disguise Self Femme Tiefling",
+    "file": "Disguise Self Femme Tiefling Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/0a/Disguise_Self_Femme_Tiefling_Icon.webp"
+  },
+  "disguiseself": {
+    "name": "Disguise Self",
+    "file": "Disguise Self Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8d/Disguise_Self_Icon.webp"
+  },
+  "disguiseselfmascdragonborn": {
+    "name": "Disguise Self Masc Dragonborn",
+    "file": "Disguise Self Masc Dragonborn Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/06/Disguise_Self_Masc_Dragonborn_Icon.webp"
+  },
+  "disguiseselfmascdrow": {
+    "name": "Disguise Self Masc Drow",
+    "file": "Disguise Self Masc Drow Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/36/Disguise_Self_Masc_Drow_Icon.webp"
+  },
+  "disguiseselfmascdwarf": {
+    "name": "Disguise Self Masc Dwarf",
+    "file": "Disguise Self Masc Dwarf Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/2d/Disguise_Self_Masc_Dwarf_Icon.webp"
+  },
+  "disguiseselfmascelf": {
+    "name": "Disguise Self Masc Elf",
+    "file": "Disguise Self Masc Elf Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8d/Disguise_Self_Masc_Elf_Icon.webp"
+  },
+  "disguiseselfmascgithyanki": {
+    "name": "Disguise Self Masc Githyanki",
+    "file": "Disguise Self Masc Githyanki Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/70/Disguise_Self_Masc_Githyanki_Icon.webp"
+  },
+  "disguiseselfmascgnome": {
+    "name": "Disguise Self Masc Gnome",
+    "file": "Disguise Self Masc Gnome Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/96/Disguise_Self_Masc_Gnome_Icon.webp"
+  },
+  "disguiseselfmaschalfelf": {
+    "name": "Disguise Self Masc Half-Elf",
+    "file": "Disguise Self Masc Half-Elf Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/1b/Disguise_Self_Masc_Half-Elf_Icon.webp"
+  },
+  "disguiseselfmaschalforc": {
+    "name": "Disguise Self Masc Half-Orc",
+    "file": "Disguise Self Masc Half-Orc Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e1/Disguise_Self_Masc_Half-Orc_Icon.webp"
+  },
+  "disguiseselfmaschalfling": {
+    "name": "Disguise Self Masc Halfling",
+    "file": "Disguise Self Masc Halfling Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/eb/Disguise_Self_Masc_Halfling_Icon.webp"
+  },
+  "disguiseselfmaschuman": {
+    "name": "Disguise Self Masc Human",
+    "file": "Disguise Self Masc Human Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/38/Disguise_Self_Masc_Human_Icon.webp"
+  },
+  "disguiseselfmascstrongdrow": {
+    "name": "Disguise Self Masc Strong Drow",
+    "file": "Disguise Self Masc Strong Drow Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8f/Disguise_Self_Masc_Strong_Drow_Icon.webp"
+  },
+  "disguiseselfmascstrongelf": {
+    "name": "Disguise Self Masc Strong Elf",
+    "file": "Disguise Self Masc Strong Elf Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/7f/Disguise_Self_Masc_Strong_Elf_Icon.webp"
+  },
+  "disguiseselfmascstronghalfelf": {
+    "name": "Disguise Self Masc Strong Half-Elf",
+    "file": "Disguise Self Masc Strong Half-Elf Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/ea/Disguise_Self_Masc_Strong_Half-Elf_Icon.webp"
+  },
+  "disguiseselfmascstronghuman": {
+    "name": "Disguise Self Masc Strong Human",
+    "file": "Disguise Self Masc Strong Human Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/1e/Disguise_Self_Masc_Strong_Human_Icon.webp"
+  },
+  "disguiseselfmascstrongtiefling": {
+    "name": "Disguise Self Masc Strong Tiefling",
+    "file": "Disguise Self Masc Strong Tiefling Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/10/Disguise_Self_Masc_Strong_Tiefling_Icon.webp"
+  },
+  "disguiseselfmasctiefling": {
+    "name": "Disguise Self Masc Tiefling",
+    "file": "Disguise Self Masc Tiefling Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f2/Disguise_Self_Masc_Tiefling_Icon.webp"
+  },
+  "disintegrate": {
+    "name": "Disintegrate",
+    "file": "Disintegrate Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8a/Disintegrate_Icon.webp"
+  },
+  "dismissarcanelock": {
+    "name": "Dismiss Arcane Lock",
+    "file": "Dismiss Arcane Lock Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/04/Dismiss_Arcane_Lock_Icon.webp"
+  },
+  "dismissblink": {
+    "name": "Dismiss Blink",
+    "file": "Dismiss Blink Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/cb/Dismiss_Blink_Icon.webp"
+  },
+  "dispeldisguise": {
+    "name": "Dispel Disguise",
+    "file": "Dispel Disguise Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/40/Dispel_Disguise_Icon.webp"
+  },
+  "dispelevilandgoodbreakenchantment": {
+    "name": "Dispel Evil And Good Break Enchantment",
+    "file": "Dispel Evil And Good Break Enchantment Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f9/Dispel_Evil_And_Good_Break_Enchantment_Icon.webp"
+  },
+  "dispelevilandgooddismissal": {
+    "name": "Dispel Evil And Good Dismissal",
+    "file": "Dispel Evil And Good Dismissal Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/55/Dispel_Evil_And_Good_Dismissal_Icon.webp"
+  },
+  "dispelevilandgood": {
+    "name": "Dispel Evil And Good",
+    "file": "Dispel Evil And Good Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/a5/Dispel_Evil_And_Good_Icon.webp"
+  },
+  "dissonantwhispers": {
+    "name": "Dissonant Whispers",
+    "file": "Dissonant Whispers Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/40/Dissonant_Whispers_Icon.webp"
+  },
+  "divinefavour": {
+    "name": "Divine Favour",
+    "file": "Divine Favour Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/44/Divine_Favour_Icon.webp"
+  },
+  "divinerevelry": {
+    "name": "Divine Revelry",
+    "file": "Divine Revelry Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d7/Divine_Revelry_Icon.webp"
+  },
+  "dominatebeast": {
+    "name": "Dominate Beast",
+    "file": "Dominate Beast Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/83/Dominate_Beast_Icon.webp"
+  },
+  "dominateperson": {
+    "name": "Dominate Person",
+    "file": "Dominate Person Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/1d/Dominate_Person_Icon.webp"
+  },
+  "eaglessplendour": {
+    "name": "Eagle's Splendour",
+    "file": "Eagle's Splendour Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/b0/Eagle's_Splendour_Icon.webp"
+  },
+  "eldritchblast": {
+    "name": "Eldritch Blast",
+    "file": "Eldritch Blast Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/db/Eldritch_Blast_Icon.webp"
+  },
+  "elementalweaponacid": {
+    "name": "Elemental Weapon Acid",
+    "file": "Elemental Weapon Acid Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/57/Elemental_Weapon_Acid_Icon.webp"
+  },
+  "elementalweaponcold": {
+    "name": "Elemental Weapon Cold",
+    "file": "Elemental Weapon Cold Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/00/Elemental_Weapon_Cold_Icon.webp"
+  },
+  "elementalweaponfire": {
+    "name": "Elemental Weapon Fire",
+    "file": "Elemental Weapon Fire Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/4e/Elemental_Weapon_Fire_Icon.webp"
+  },
+  "elementalweapon": {
+    "name": "Elemental Weapon",
+    "file": "Elemental Weapon Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/06/Elemental_Weapon_Icon.webp"
+  },
+  "elementalweaponlightning": {
+    "name": "Elemental Weapon Lightning",
+    "file": "Elemental Weapon Lightning Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/4e/Elemental_Weapon_Lightning_Icon.webp"
+  },
+  "elementalweaponthunder": {
+    "name": "Elemental Weapon Thunder",
+    "file": "Elemental Weapon Thunder Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e8/Elemental_Weapon_Thunder_Icon.webp"
+  },
+  "enhanceability": {
+    "name": "Enhance Ability",
+    "file": "Enhance Ability Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/65/Enhance_Ability_Icon.webp"
+  },
+  "enhanceleap": {
+    "name": "Enhance Leap",
+    "file": "Enhance Leap Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/46/Enhance_Leap_Icon.webp"
+  },
+  "enlarge": {
+    "name": "Enlarge",
+    "file": "Enlarge Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c7/Enlarge_Icon.webp"
+  },
+  "enlargereduce": {
+    "name": "Enlarge Reduce",
+    "file": "Enlarge Reduce Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c6/Enlarge_Reduce_Icon.webp"
+  },
+  "ensnaringstrikemelee": {
+    "name": "Ensnaring Strike Melee",
+    "file": "Ensnaring Strike Melee Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/50/Ensnaring_Strike_Melee_Icon.webp"
+  },
+  "ensnaringstrikeranged": {
+    "name": "Ensnaring Strike Ranged",
+    "file": "Ensnaring Strike Ranged Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/60/Ensnaring_Strike_Ranged_Icon.webp"
+  },
+  "entangle": {
+    "name": "Entangle",
+    "file": "Entangle Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d9/Entangle_Icon.webp"
+  },
+  "enthrall": {
+    "name": "Enthrall",
+    "file": "Enthrall Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/90/Enthrall_Icon.webp"
+  },
+  "evardsblacktentacles": {
+    "name": "Evard's Black Tentacles",
+    "file": "Evard's Black Tentacles Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d6/Evard's_Black_Tentacles_Icon.webp"
+  },
+  "expeditiousretreat": {
+    "name": "Expeditious Retreat",
+    "file": "Expeditious Retreat Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d6/Expeditious_Retreat_Icon.webp"
+  },
+  "eyebiteasleep": {
+    "name": "Eyebite Asleep",
+    "file": "Eyebite Asleep Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/27/Eyebite_Asleep_Icon.webp"
+  },
+  "eyebitepanicked": {
+    "name": "Eyebite Panicked",
+    "file": "Eyebite Panicked Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f7/Eyebite_Panicked_Icon.webp"
+  },
+  "eyebitesickened": {
+    "name": "Eyebite Sickened",
+    "file": "Eyebite Sickened Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/b3/Eyebite_Sickened_Icon.webp"
+  },
+  "eyesofthedarkdarkness": {
+    "name": "Eyes of the Dark Darkness",
+    "file": "Eyes of the Dark Darkness Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/aa/Eyes_of_the_Dark_Darkness_Icon.webp"
+  },
+  "faeriefire": {
+    "name": "Faerie Fire",
+    "file": "Faerie Fire Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/a1/Faerie_Fire_Icon.webp"
+  },
+  "falselife": {
+    "name": "False Life",
+    "file": "False Life Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f2/False_Life_Icon.webp"
+  },
+  "fear": {
+    "name": "Fear",
+    "file": "Fear Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/ad/Fear_Icon.webp"
+  },
+  "featherfall": {
+    "name": "Feather Fall",
+    "file": "Feather Fall Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/00/Feather_Fall_Icon.webp"
+  },
+  "feigndeath": {
+    "name": "Feign Death",
+    "file": "Feign Death Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/fe/Feign_Death_Icon.webp"
+  },
+  "fiendishascension": {
+    "name": "Fiendish Ascension",
+    "file": "Fiendish Ascension Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/21/Fiendish_Ascension_Icon.webp"
+  },
+  "findfamiliarboo": {
+    "name": "Find Familiar Boo",
+    "file": "Find Familiar Boo Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/71/Find_Familiar_Boo_Icon.webp"
+  },
+  "findfamiliarcat": {
+    "name": "Find Familiar Cat",
+    "file": "Find Familiar Cat Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8b/Find_Familiar_Cat_Icon.webp"
+  },
+  "findfamiliarcrab": {
+    "name": "Find Familiar Crab",
+    "file": "Find Familiar Crab Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/21/Find_Familiar_Crab_Icon.webp"
+  },
+  "findfamiliarfrog": {
+    "name": "Find Familiar Frog",
+    "file": "Find Familiar Frog Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/83/Find_Familiar_Frog_Icon.webp"
+  },
+  "findfamiliarrat": {
+    "name": "Find Familiar Rat",
+    "file": "Find Familiar Rat Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f3/Find_Familiar_Rat_Icon.webp"
+  },
+  "findfamiliarraven": {
+    "name": "Find Familiar Raven",
+    "file": "Find Familiar Raven Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e7/Find_Familiar_Raven_Icon.webp"
+  },
+  "findfamiliarscratch": {
+    "name": "Find Familiar Scratch",
+    "file": "Find Familiar Scratch Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d4/Find_Familiar_Scratch_Icon.webp"
+  },
+  "findfamiliarspider": {
+    "name": "Find Familiar Spider",
+    "file": "Find Familiar Spider Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/37/Find_Familiar_Spider_Icon.webp"
+  },
+  "firebolt": {
+    "name": "Fire Bolt",
+    "file": "Fire Bolt Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/23/Fire_Bolt_Icon.webp"
+  },
+  "fireshieldchill": {
+    "name": "Fire Shield Chill",
+    "file": "Fire Shield Chill Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/4b/Fire_Shield_Chill_Icon.webp"
+  },
+  "fireshield": {
+    "name": "Fire Shield",
+    "file": "Fire Shield Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e0/Fire_Shield_Icon.webp"
+  },
+  "fireshieldwarm": {
+    "name": "Fire Shield Warm",
+    "file": "Fire Shield Warm Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/a6/Fire_Shield_Warm_Icon.webp"
+  },
+  "fireball": {
+    "name": "Fireball",
+    "file": "Fireball Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/cb/Fireball_Icon.webp"
+  },
+  "flameblade": {
+    "name": "Flame Blade",
+    "file": "Flame Blade Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c8/Flame_Blade_Icon.webp"
+  },
+  "flamestrike": {
+    "name": "Flame Strike",
+    "file": "Flame Strike Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/b8/Flame_Strike_Icon.webp"
+  },
+  "flamingsphere": {
+    "name": "Flaming Sphere",
+    "file": "Flaming Sphere Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/66/Flaming_Sphere_Icon.webp"
+  },
+  "fleshtogold": {
+    "name": "Flesh to Gold",
+    "file": "Flesh to Gold Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/67/Flesh_to_Gold_Icon.webp"
+  },
+  "fleshtostone": {
+    "name": "Flesh to Stone",
+    "file": "Flesh to Stone Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/72/Flesh_to_Stone_Icon.webp"
+  },
+  "fogcloud": {
+    "name": "Fog Cloud",
+    "file": "Fog Cloud Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c0/Fog_Cloud_Icon.webp"
+  },
+  "formsculpttressym": {
+    "name": "Formsculpt Tressym",
+    "file": "Formsculpt Tressym Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/3a/Formsculpt_Tressym_Icon.webp"
+  },
+  "foxscunning": {
+    "name": "Fox's Cunning",
+    "file": "Fox's Cunning Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/12/Fox's_Cunning_Icon.webp"
+  },
+  "freedomofmovement": {
+    "name": "Freedom of Movement",
+    "file": "Freedom of Movement Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f0/Freedom_of_Movement_Icon.webp"
+  },
+  "friends": {
+    "name": "Friends",
+    "file": "Friends Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/75/Friends_Icon.webp"
+  },
+  "gaseousform": {
+    "name": "Gaseous Form",
+    "file": "Gaseous Form Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/62/Gaseous_Form_Icon.webp"
+  },
+  "globeofinvulnerability": {
+    "name": "Globe of Invulnerability",
+    "file": "Globe of Invulnerability Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/7a/Globe_of_Invulnerability_Icon.webp"
+  },
+  "glyphofwardingacid": {
+    "name": "Glyph of Warding Acid",
+    "file": "Glyph of Warding Acid Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8c/Glyph_of_Warding_Acid_Icon.webp"
+  },
+  "glyphofwardingcold": {
+    "name": "Glyph of Warding Cold",
+    "file": "Glyph of Warding Cold Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/63/Glyph_of_Warding_Cold_Icon.webp"
+  },
+  "glyphofwardingdetonation": {
+    "name": "Glyph of Warding Detonation",
+    "file": "Glyph of Warding Detonation Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8a/Glyph_of_Warding_Detonation_Icon.webp"
+  },
+  "glyphofwardingfire": {
+    "name": "Glyph of Warding Fire",
+    "file": "Glyph of Warding Fire Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/1a/Glyph_of_Warding_Fire_Icon.webp"
+  },
+  "glyphofwarding": {
+    "name": "Glyph of Warding",
+    "file": "Glyph of Warding Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/88/Glyph_of_Warding_Icon.webp"
+  },
+  "glyphofwardinglightning": {
+    "name": "Glyph of Warding Lightning",
+    "file": "Glyph of Warding Lightning Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e6/Glyph_of_Warding_Lightning_Icon.webp"
+  },
+  "glyphofwardingsleep": {
+    "name": "Glyph of Warding Sleep",
+    "file": "Glyph of Warding Sleep Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/87/Glyph_of_Warding_Sleep_Icon.webp"
+  },
+  "glyphofwardingthunder": {
+    "name": "Glyph of Warding Thunder",
+    "file": "Glyph of Warding Thunder Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/67/Glyph_of_Warding_Thunder_Icon.webp"
+  },
+  "goodberry": {
+    "name": "Goodberry",
+    "file": "Goodberry Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/42/Goodberry_Icon.webp"
+  },
+  "grantflight": {
+    "name": "Grant Flight",
+    "file": "Grant Flight Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/45/Grant_Flight_Icon.webp"
+  },
+  "graspingappendage": {
+    "name": "Grasping Appendage",
+    "file": "Grasping Appendage Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/b2/Grasping_Appendage_Icon.webp"
+  },
+  "graspingpull": {
+    "name": "Grasping Pull",
+    "file": "Grasping Pull Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/66/Grasping_Pull_Icon.webp"
+  },
+  "graspingvine": {
+    "name": "Grasping Vine",
+    "file": "Grasping Vine Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8b/Grasping_Vine_Icon.webp"
+  },
+  "grease": {
+    "name": "Grease",
+    "file": "Grease Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/7a/Grease_Icon.webp"
+  },
+  "greaterinvisibility": {
+    "name": "Greater Invisibility",
+    "file": "Greater Invisibility Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/28/Greater_Invisibility_Icon.webp"
+  },
+  "greaterrestoration": {
+    "name": "Greater Restoration",
+    "file": "Greater Restoration Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/ee/Greater_Restoration_Icon.webp"
+  },
+  "guardianoffaith": {
+    "name": "Guardian of Faith",
+    "file": "Guardian of Faith Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/7d/Guardian_of_Faith_Icon.webp"
+  },
+  "guidance": {
+    "name": "Guidance",
+    "file": "Guidance Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/7f/Guidance_Icon.webp"
+  },
+  "guidingbolt": {
+    "name": "Guiding Bolt",
+    "file": "Guiding Bolt Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/2c/Guiding_Bolt_Icon.webp"
+  },
+  "gustofwind": {
+    "name": "Gust of Wind",
+    "file": "Gust of Wind Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/58/Gust_of_Wind_Icon.webp"
+  },
+  "hailofthorns": {
+    "name": "Hail of Thorns",
+    "file": "Hail of Thorns Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/63/Hail_of_Thorns_Icon.webp"
+  },
+  "harm": {
+    "name": "Harm",
+    "file": "Harm Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/09/Harm_Icon.webp"
+  },
+  "harmonyoffireandwater": {
+    "name": "Harmony of Fire and Water",
+    "file": "Harmony of Fire and Water Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/82/Harmony_of_Fire_and_Water_Icon.webp"
+  },
+  "haste": {
+    "name": "Haste",
+    "file": "Haste Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/11/Haste_Icon.webp"
+  },
+  "heal": {
+    "name": "Heal",
+    "file": "Heal Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d3/Heal_Icon.webp"
+  },
+  "healingword": {
+    "name": "Healing Word",
+    "file": "Healing Word Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/ef/Healing_Word_Icon.webp"
+  },
+  "heatmetal": {
+    "name": "Heat Metal",
+    "file": "Heat Metal Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/a3/Heat_Metal_Icon.webp"
+  },
+  "heatmetalreapplydamage": {
+    "name": "Heat Metal Reapply Damage",
+    "file": "Heat Metal Reapply Damage Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/6a/Heat_Metal_Reapply_Damage_Icon.webp"
+  },
+  "hellishrebuke": {
+    "name": "Hellish Rebuke",
+    "file": "Hellish Rebuke Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/82/Hellish_Rebuke_Icon.webp"
+  },
+  "heroesfeast": {
+    "name": "Heroes' Feast",
+    "file": "Heroes' Feast Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/a0/Heroes'_Feast_Icon.webp"
+  },
+  "heroism": {
+    "name": "Heroism",
+    "file": "Heroism Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/19/Heroism_Icon.webp"
+  },
+  "hexcharisma": {
+    "name": "Hex Charisma",
+    "file": "Hex Charisma Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/60/Hex_Charisma_Icon.webp"
+  },
+  "hexconstitution": {
+    "name": "Hex Constitution",
+    "file": "Hex Constitution Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/81/Hex_Constitution_Icon.webp"
+  },
+  "hexdexterity": {
+    "name": "Hex Dexterity",
+    "file": "Hex Dexterity Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/89/Hex_Dexterity_Icon.webp"
+  },
+  "hex": {
+    "name": "Hex",
+    "file": "Hex Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/9f/Hex_Icon.webp"
+  },
+  "hexintelligence": {
+    "name": "Hex Intelligence",
+    "file": "Hex Intelligence Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/17/Hex_Intelligence_Icon.webp"
+  },
+  "hexstrength": {
+    "name": "Hex Strength",
+    "file": "Hex Strength Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/bd/Hex_Strength_Icon.webp"
+  },
+  "hexwisdom": {
+    "name": "Hex Wisdom",
+    "file": "Hex Wisdom Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/fa/Hex_Wisdom_Icon.webp"
+  },
+  "holdmonster": {
+    "name": "Hold Monster",
+    "file": "Hold Monster Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/cf/Hold_Monster_Icon.webp"
+  },
+  "holdperson": {
+    "name": "Hold Person",
+    "file": "Hold Person Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/75/Hold_Person_Icon.webp"
+  },
+  "houndofillomen": {
+    "name": "Hound of Ill Omen",
+    "file": "Hound of Ill Omen Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/14/Hound_of_Ill_Omen_Icon.webp"
+  },
+  "howlofthedead": {
+    "name": "Howl of the Dead",
+    "file": "Howl of the Dead Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/51/Howl_of_the_Dead_Icon.webp"
+  },
+  "hungerofhadar": {
+    "name": "Hunger of Hadar",
+    "file": "Hunger of Hadar Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/44/Hunger_of_Hadar_Icon.webp"
+  },
+  "huntersmark": {
+    "name": "Hunter's Mark",
+    "file": "Hunter's Mark Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f6/Hunter's_Mark_Icon.webp"
+  },
+  "hypnoticpattern": {
+    "name": "Hypnotic Pattern",
+    "file": "Hypnotic Pattern Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/28/Hypnotic_Pattern_Icon.webp"
+  },
+  "iceknife": {
+    "name": "Ice Knife",
+    "file": "Ice Knife Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/17/Ice_Knife_Icon.webp"
+  },
+  "icestorm": {
+    "name": "Ice Storm",
+    "file": "Ice Storm Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/9b/Ice_Storm_Icon.webp"
+  },
+  "identify": {
+    "name": "Identify",
+    "file": "Identify Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/5e/Identify_Icon.webp"
+  },
+  "inflictwounds": {
+    "name": "Inflict Wounds",
+    "file": "Inflict Wounds Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/3d/Inflict_Wounds_Icon.webp"
+  },
+  "insectplague": {
+    "name": "Insect Plague",
+    "file": "Insect Plague Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/a2/Insect_Plague_Icon.webp"
+  },
+  "invisibilityspell": {
+    "name": "Invisibility spell",
+    "file": "Invisibility spell Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/4e/Invisibility_spell_Icon.webp"
+  },
+  "karsitegrip": {
+    "name": "Karsite Grip",
+    "file": "Karsite Grip Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d6/Karsite_Grip_Icon.webp"
+  },
+  "karsuscompulsion": {
+    "name": "Karsus' Compulsion",
+    "file": "Karsus' Compulsion Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/10/Karsus'_Compulsion_Icon.webp"
+  },
+  "knock": {
+    "name": "Knock",
+    "file": "Knock Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/a4/Knock_Icon.webp"
+  },
+  "leaveetherealplane": {
+    "name": "Leave Ethereal Plane",
+    "file": "Leave Ethereal Plane Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/bc/Leave_Ethereal_Plane_Icon.webp"
+  },
+  "lesserrestoration": {
+    "name": "Lesser Restoration",
+    "file": "Lesser Restoration Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e4/Lesser_Restoration_Icon.webp"
+  },
+  "levitate": {
+    "name": "Levitate",
+    "file": "Levitate Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/46/Levitate_Icon.webp"
+  },
+  "light": {
+    "name": "Light",
+    "file": "Light Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/5c/Light_Icon.webp"
+  },
+  "lightningarrow": {
+    "name": "Lightning Arrow",
+    "file": "Lightning Arrow Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e3/Lightning_Arrow_Icon.webp"
+  },
+  "lightningbolt": {
+    "name": "Lightning Bolt",
+    "file": "Lightning Bolt Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/cb/Lightning_Bolt_Icon.webp"
+  },
+  "longstrider": {
+    "name": "Longstrider",
+    "file": "Longstrider Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/35/Longstrider_Icon.webp"
+  },
+  "lunarsmite": {
+    "name": "Lunar Smite",
+    "file": "Lunar Smite Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/ca/Lunar_Smite_Icon.webp"
+  },
+  "magearmour": {
+    "name": "Mage Armour",
+    "file": "Mage Armour Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/0d/Mage_Armour_Icon.webp"
+  },
+  "magehand": {
+    "name": "Mage Hand",
+    "file": "Mage Hand Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f9/Mage_Hand_Icon.webp"
+  },
+  "magiccircle": {
+    "name": "Magic Circle",
+    "file": "Magic Circle Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/ce/Magic_Circle_Icon.webp"
+  },
+  "magicjar": {
+    "name": "Magic Jar",
+    "file": "Magic Jar Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c3/Magic_Jar_Icon.webp"
+  },
+  "magicmissile": {
+    "name": "Magic Missile",
+    "file": "Magic Missile Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d4/Magic_Missile_Icon.webp"
+  },
+  "magicweapon": {
+    "name": "Magic Weapon",
+    "file": "Magic Weapon Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/9c/Magic_Weapon_Icon.webp"
+  },
+  "masscurewounds": {
+    "name": "Mass Cure Wounds",
+    "file": "Mass Cure Wounds Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/32/Mass_Cure_Wounds_Icon.webp"
+  },
+  "masshealingword": {
+    "name": "Mass Healing Word",
+    "file": "Mass Healing Word Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f8/Mass_Healing_Word_Icon.webp"
+  },
+  "melfsacidarrow": {
+    "name": "Melf's Acid Arrow",
+    "file": "Melf's Acid Arrow Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/67/Melf's_Acid_Arrow_Icon.webp"
+  },
+  "mending": {
+    "name": "Mending",
+    "file": "Mending Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/ba/Mending_Icon.webp"
+  },
+  "minorillusion": {
+    "name": "Minor Illusion",
+    "file": "Minor Illusion Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/9d/Minor_Illusion_Icon.webp"
+  },
+  "mirrorimage": {
+    "name": "Mirror Image",
+    "file": "Mirror Image Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/41/Mirror_Image_Icon.webp"
+  },
+  "mistystep": {
+    "name": "Misty Step",
+    "file": "Misty Step Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/1f/Misty_Step_Icon.webp"
+  },
+  "moonbeam": {
+    "name": "Moonbeam",
+    "file": "Moonbeam Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8b/Moonbeam_Icon.webp"
+  },
+  "otilukesfreezingsphere": {
+    "name": "Otiluke's Freezing Sphere",
+    "file": "Otiluke's Freezing Sphere Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/af/Otiluke's_Freezing_Sphere_Icon.webp"
+  },
+  "otilukesfreezingspherelaunch": {
+    "name": "Otiluke's Freezing Sphere Launch",
+    "file": "Otiluke's Freezing Sphere Launch Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/97/Otiluke's_Freezing_Sphere_Launch_Icon.webp"
+  },
+  "otilukesresilientsphere": {
+    "name": "Otiluke's Resilient Sphere",
+    "file": "Otiluke's Resilient Sphere Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/82/Otiluke's_Resilient_Sphere_Icon.webp"
+  },
+  "ottosirresistibledance": {
+    "name": "Otto's Irresistible Dance",
+    "file": "Otto's Irresistible Dance Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8c/Otto's_Irresistible_Dance_Icon.webp"
+  },
+  "owlswisdom": {
+    "name": "Owl's Wisdom",
+    "file": "Owl's Wisdom Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/50/Owl's_Wisdom_Icon.webp"
+  },
+  "passwithouttrace": {
+    "name": "Pass Without Trace",
+    "file": "Pass Without Trace Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/2b/Pass_Without_Trace_Icon.webp"
+  },
+  "phantasmalforce": {
+    "name": "Phantasmal Force",
+    "file": "Phantasmal Force Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/ac/Phantasmal_Force_Icon.webp"
+  },
+  "phantasmalkiller": {
+    "name": "Phantasmal Killer",
+    "file": "Phantasmal Killer Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/da/Phantasmal_Killer_Icon.webp"
+  },
+  "planarally": {
+    "name": "Planar Ally",
+    "file": "Planar Ally Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f3/Planar_Ally_Icon.webp"
+  },
+  "planarbinding": {
+    "name": "Planar Binding",
+    "file": "Planar Binding Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/fa/Planar_Binding_Icon.webp"
+  },
+  "plantgrowth": {
+    "name": "Plant Growth",
+    "file": "Plant Growth Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/ad/Plant_Growth_Icon.webp"
+  },
+  "poisonspray": {
+    "name": "Poison Spray",
+    "file": "Poison Spray Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/1d/Poison_Spray_Icon.webp"
+  },
+  "polymorph": {
+    "name": "Polymorph",
+    "file": "Polymorph Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f6/Polymorph_Icon.webp"
+  },
+  "powerwordkill": {
+    "name": "Power Word Kill",
+    "file": "Power Word Kill Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/1e/Power_Word_Kill_Icon.webp"
+  },
+  "powerwordruin": {
+    "name": "Power Word Ruin",
+    "file": "Power Word Ruin Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/54/Power_Word_Ruin_Icon.webp"
+  },
+  "prayerofhealing": {
+    "name": "Prayer of Healing",
+    "file": "Prayer of Healing Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e0/Prayer_of_Healing_Icon.webp"
+  },
+  "produceflamedismiss": {
+    "name": "Produce Flame Dismiss",
+    "file": "Produce Flame Dismiss Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/ec/Produce_Flame_Dismiss_Icon.webp"
+  },
+  "produceflamehurl": {
+    "name": "Produce Flame Hurl",
+    "file": "Produce Flame Hurl Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/60/Produce_Flame_Hurl_Icon.webp"
+  },
+  "produceflame": {
+    "name": "Produce Flame",
+    "file": "Produce Flame Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/ec/Produce_Flame_Icon.webp"
+  },
+  "protectionfromenergyacid": {
+    "name": "Protection from Energy Acid",
+    "file": "Protection from Energy Acid Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/11/Protection_from_Energy_Acid_Icon.webp"
+  },
+  "protectionfromenergycold": {
+    "name": "Protection from Energy Cold",
+    "file": "Protection from Energy Cold Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e1/Protection_from_Energy_Cold_Icon.webp"
+  },
+  "protectionfromenergyfire": {
+    "name": "Protection from Energy Fire",
+    "file": "Protection from Energy Fire Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/49/Protection_from_Energy_Fire_Icon.webp"
+  },
+  "protectionfromenergy": {
+    "name": "Protection from Energy",
+    "file": "Protection from Energy Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/15/Protection_from_Energy_Icon.webp"
+  },
+  "protectionfromenergylightning": {
+    "name": "Protection from Energy Lightning",
+    "file": "Protection from Energy Lightning Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/6d/Protection_from_Energy_Lightning_Icon.webp"
+  },
+  "protectionfromenergythunder": {
+    "name": "Protection from Energy Thunder",
+    "file": "Protection from Energy Thunder Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/a9/Protection_from_Energy_Thunder_Icon.webp"
+  },
+  "protectionfromevilandgood": {
+    "name": "Protection from Evil and Good",
+    "file": "Protection from Evil and Good Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/35/Protection_from_Evil_and_Good_Icon.webp"
+  },
+  "protectionfrompoison": {
+    "name": "Protection from Poison",
+    "file": "Protection from Poison Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/3b/Protection_from_Poison_Icon.webp"
+  },
+  "rayofenfeeblement": {
+    "name": "Ray of Enfeeblement",
+    "file": "Ray of Enfeeblement Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/7b/Ray_of_Enfeeblement_Icon.webp"
+  },
+  "rayoffrost": {
+    "name": "Ray of Frost",
+    "file": "Ray of Frost Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f9/Ray_of_Frost_Icon.webp"
+  },
+  "rayofsickness": {
+    "name": "Ray of Sickness",
+    "file": "Ray of Sickness Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/74/Ray_of_Sickness_Icon.webp"
+  },
+  "reapplyhexcharisma": {
+    "name": "Reapply Hex Charisma",
+    "file": "Reapply Hex Charisma Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/5e/Reapply_Hex_Charisma_Icon.webp"
+  },
+  "reapplyhexconstitution": {
+    "name": "Reapply Hex Constitution",
+    "file": "Reapply Hex Constitution Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/05/Reapply_Hex_Constitution_Icon.webp"
+  },
+  "reapplyhexdexterity": {
+    "name": "Reapply Hex Dexterity",
+    "file": "Reapply Hex Dexterity Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/44/Reapply_Hex_Dexterity_Icon.webp"
+  },
+  "reapplyhex": {
+    "name": "Reapply Hex",
+    "file": "Reapply Hex Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/21/Reapply_Hex_Icon.webp"
+  },
+  "reapplyhexintelligence": {
+    "name": "Reapply Hex Intelligence",
+    "file": "Reapply Hex Intelligence Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/6e/Reapply_Hex_Intelligence_Icon.webp"
+  },
+  "reapplyhexstrength": {
+    "name": "Reapply Hex Strength",
+    "file": "Reapply Hex Strength Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c8/Reapply_Hex_Strength_Icon.webp"
+  },
+  "reapplyhexwisdom": {
+    "name": "Reapply Hex Wisdom",
+    "file": "Reapply Hex Wisdom Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e6/Reapply_Hex_Wisdom_Icon.webp"
+  },
+  "reapplyhuntersmark": {
+    "name": "Reapply Hunter's Mark",
+    "file": "Reapply Hunter's Mark Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/aa/Reapply_Hunter's_Mark_Icon.webp"
+  },
+  "recastspeakwithdead": {
+    "name": "Recast Speak with Dead",
+    "file": "Recast Speak with Dead Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/2c/Recast_Speak_with_Dead_Icon.webp"
+  },
+  "recastsunbeam": {
+    "name": "Recast Sunbeam",
+    "file": "Recast Sunbeam Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/61/Recast_Sunbeam_Icon.webp"
+  },
+  "reduce": {
+    "name": "Reduce",
+    "file": "Reduce Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/ef/Reduce_Icon.webp"
+  },
+  "removecurse": {
+    "name": "Remove Curse",
+    "file": "Remove Curse Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/7f/Remove_Curse_Icon.webp"
+  },
+  "resistancecantrip": {
+    "name": "Resistance Cantrip",
+    "file": "Resistance Cantrip Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/a1/Resistance_Cantrip_Icon.webp"
+  },
+  "restorevitality": {
+    "name": "Restore Vitality",
+    "file": "Restore Vitality Icon.webp",
+    "url": "https://bg3.wiki/w/images/9/9f/Restore_Vitality_Icon.webp"
+  },
+  "revivify": {
+    "name": "Revivify",
+    "file": "Revivify Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/59/Revivify_Icon.webp"
+  },
+  "sacredflame": {
+    "name": "Sacred Flame",
+    "file": "Sacred Flame Icon.webp",
+    "url": "https://bg3.wiki/w/images/1/16/Sacred_Flame_Icon.webp"
+  },
+  "sanctuary": {
+    "name": "Sanctuary",
+    "file": "Sanctuary Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c1/Sanctuary_Icon.webp"
+  },
+  "scorchingray": {
+    "name": "Scorching Ray",
+    "file": "Scorching Ray Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8e/Scorching_Ray_Icon.webp"
+  },
+  "searingsmite": {
+    "name": "Searing Smite",
+    "file": "Searing Smite Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/50/Searing_Smite_Icon.webp"
+  },
+  "seeinvisibility": {
+    "name": "See Invisibility",
+    "file": "See Invisibility Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c3/See_Invisibility_Icon.webp"
+  },
+  "seeming": {
+    "name": "Seeming",
+    "file": "Seeming Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f4/Seeming_Icon.webp"
+  },
+  "shadowblade": {
+    "name": "Shadow Blade",
+    "file": "Shadow Blade Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/6e/Shadow_Blade_Icon.webp"
+  },
+  "shatter": {
+    "name": "Shatter",
+    "file": "Shatter Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c5/Shatter_Icon.webp"
+  },
+  "shieldoffaith": {
+    "name": "Shield of Faith",
+    "file": "Shield of Faith Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/83/Shield_of_Faith_Icon.webp"
+  },
+  "shieldspell": {
+    "name": "Shield spell",
+    "file": "Shield spell Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/cf/Shield_spell_Icon.webp"
+  },
+  "shillelagh": {
+    "name": "Shillelagh",
+    "file": "Shillelagh Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/68/Shillelagh_Icon.webp"
+  },
+  "shockinggrasp": {
+    "name": "Shocking Grasp",
+    "file": "Shocking Grasp Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/2f/Shocking_Grasp_Icon.webp"
+  },
+  "sightsoftheseeliesummondeva": {
+    "name": "Sights of the Seelie Summon Deva",
+    "file": "Sights of the Seelie Summon Deva Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d8/Sights_of_the_Seelie_Summon_Deva_Icon.webp"
+  },
+  "silence": {
+    "name": "Silence",
+    "file": "Silence Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/78/Silence_Icon.webp"
+  },
+  "sleep": {
+    "name": "Sleep",
+    "file": "Sleep Icon.webp",
+    "url": "https://bg3.wiki/w/images/a/ae/Sleep_Icon.webp"
+  },
+  "sleetstorm": {
+    "name": "Sleet Storm",
+    "file": "Sleet Storm Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/50/Sleet_Storm_Icon.webp"
+  },
+  "slow": {
+    "name": "Slow",
+    "file": "Slow Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/be/Slow_Icon.webp"
+  },
+  "souloffering": {
+    "name": "Soul Offering",
+    "file": "Soul Offering Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f2/Soul_Offering_Icon.webp"
+  },
+  "speakwithanimals": {
+    "name": "Speak with Animals",
+    "file": "Speak with Animals Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/24/Speak_with_Animals_Icon.webp"
+  },
+  "speakwithdead": {
+    "name": "Speak with Dead",
+    "file": "Speak with Dead Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8c/Speak_with_Dead_Icon.webp"
+  },
+  "spikegrowth": {
+    "name": "Spike Growth",
+    "file": "Spike Growth Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d4/Spike_Growth_Icon.webp"
+  },
+  "spiritguardians": {
+    "name": "Spirit Guardians",
+    "file": "Spirit Guardians Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d6/Spirit_Guardians_Icon.webp"
+  },
+  "spiritualweapongreataxe": {
+    "name": "Spiritual Weapon Greataxe",
+    "file": "Spiritual Weapon Greataxe Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/fa/Spiritual_Weapon_Greataxe_Icon.webp"
+  },
+  "spiritualweapongreatsword": {
+    "name": "Spiritual Weapon Greatsword",
+    "file": "Spiritual Weapon Greatsword Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/0c/Spiritual_Weapon_Greatsword_Icon.webp"
+  },
+  "spiritualweaponhalberd": {
+    "name": "Spiritual Weapon Halberd",
+    "file": "Spiritual Weapon Halberd Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/73/Spiritual_Weapon_Halberd_Icon.webp"
+  },
+  "spiritualweaponmaul": {
+    "name": "Spiritual Weapon Maul",
+    "file": "Spiritual Weapon Maul Icon.webp",
+    "url": "https://bg3.wiki/w/images/5/58/Spiritual_Weapon_Maul_Icon.webp"
+  },
+  "spiritualweaponspear": {
+    "name": "Spiritual Weapon Spear",
+    "file": "Spiritual Weapon Spear Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/b8/Spiritual_Weapon_Spear_Icon.webp"
+  },
+  "spiritualweapontrident": {
+    "name": "Spiritual Weapon Trident",
+    "file": "Spiritual Weapon Trident Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/77/Spiritual_Weapon_Trident_Icon.webp"
+  },
+  "staggeringsmite": {
+    "name": "Staggering Smite",
+    "file": "Staggering Smite Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/03/Staggering_Smite_Icon.webp"
+  },
+  "stinkingcloud": {
+    "name": "Stinking Cloud",
+    "file": "Stinking Cloud Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/b7/Stinking_Cloud_Icon.webp"
+  },
+  "stoneskin": {
+    "name": "Stoneskin",
+    "file": "Stoneskin Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c3/Stoneskin_Icon.webp"
+  },
+  "sunbeam": {
+    "name": "Sunbeam",
+    "file": "Sunbeam Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/63/Sunbeam_Icon.webp"
+  },
+  "synapticdischarge": {
+    "name": "Synaptic Discharge",
+    "file": "Synaptic Discharge Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/7e/Synaptic_Discharge_Icon.webp"
+  },
+  "tashashideouslaughter": {
+    "name": "Tasha's Hideous Laughter",
+    "file": "Tasha's Hideous Laughter Icon.webp",
+    "url": "https://bg3.wiki/w/images/2/27/Tasha's_Hideous_Laughter_Icon.webp"
+  },
+  "telekinesis": {
+    "name": "Telekinesis",
+    "file": "Telekinesis Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c7/Telekinesis_Icon.webp"
+  },
+  "teleporttosubmersible": {
+    "name": "Teleport to Submersible",
+    "file": "Teleport to Submersible Icon.webp",
+    "url": "https://bg3.wiki/w/images/f/f4/Teleport_to_Submersible_Icon.webp"
+  },
+  "thaumaturgy": {
+    "name": "Thaumaturgy",
+    "file": "Thaumaturgy Icon.webp",
+    "url": "https://bg3.wiki/w/images/3/3f/Thaumaturgy_Icon.webp"
+  },
+  "thirdeyedarkvision": {
+    "name": "Third Eye Darkvision",
+    "file": "Third Eye Darkvision Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/b0/Third_Eye_Darkvision_Icon.webp"
+  },
+  "thirdeyeseeinvisibility": {
+    "name": "Third Eye See Invisibility",
+    "file": "Third Eye See Invisibility Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/bd/Third_Eye_See_Invisibility_Icon.webp"
+  },
+  "thornwhip": {
+    "name": "Thorn Whip",
+    "file": "Thorn Whip Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e8/Thorn_Whip_Icon.webp"
+  },
+  "thunderoussmite": {
+    "name": "Thunderous Smite",
+    "file": "Thunderous Smite Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/dd/Thunderous_Smite_Icon.webp"
+  },
+  "thunderwave": {
+    "name": "Thunderwave",
+    "file": "Thunderwave Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/04/Thunderwave_Icon.webp"
+  },
+  "tollthedead": {
+    "name": "Toll the Dead",
+    "file": "Toll the Dead Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/c0/Toll_the_Dead_Icon.webp"
+  },
+  "trueseeing": {
+    "name": "True Seeing",
+    "file": "True Seeing Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/b1/True_Seeing_Icon.webp"
+  },
+  "truestrike": {
+    "name": "True Strike",
+    "file": "True Strike Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/47/True_Strike_Icon.webp"
+  },
+  "turnundead": {
+    "name": "Turn Undead",
+    "file": "Turn Undead Icon.webp",
+    "url": "https://bg3.wiki/w/images/4/4c/Turn_Undead_Icon.webp"
+  },
+  "vampirictouch": {
+    "name": "Vampiric Touch",
+    "file": "Vampiric Touch Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/85/Vampiric_Touch_Icon.webp"
+  },
+  "viciousmockery": {
+    "name": "Vicious Mockery",
+    "file": "Vicious Mockery Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/66/Vicious_Mockery_Icon.webp"
+  },
+  "walloffire": {
+    "name": "Wall of Fire",
+    "file": "Wall of Fire Icon.webp",
+    "url": "https://bg3.wiki/w/images/c/ca/Wall_of_Fire_Icon.webp"
+  },
+  "wallofice": {
+    "name": "Wall of Ice",
+    "file": "Wall of Ice Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d2/Wall_of_Ice_Icon.webp"
+  },
+  "wallofstone": {
+    "name": "Wall of Stone",
+    "file": "Wall of Stone Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/e2/Wall_of_Stone_Icon.webp"
+  },
+  "wallofthorns": {
+    "name": "Wall of Thorns",
+    "file": "Wall of Thorns Icon.webp",
+    "url": "https://bg3.wiki/w/images/6/6e/Wall_of_Thorns_Icon.webp"
+  },
+  "wardenofvitality": {
+    "name": "Warden of Vitality",
+    "file": "Warden of Vitality Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/0b/Warden_of_Vitality_Icon.webp"
+  },
+  "wardingbond": {
+    "name": "Warding Bond",
+    "file": "Warding Bond Icon.webp",
+    "url": "https://bg3.wiki/w/images/e/ea/Warding_Bond_Icon.webp"
+  },
+  "web": {
+    "name": "Web",
+    "file": "Web Icon.webp",
+    "url": "https://bg3.wiki/w/images/8/8b/Web_Icon.webp"
+  },
+  "wildmagicteleportactivatesorcerer": {
+    "name": "Wild Magic Teleport Activate Sorcerer",
+    "file": "Wild Magic Teleport Activate Sorcerer Icon.webp",
+    "url": "https://bg3.wiki/w/images/b/b3/Wild_Magic_Teleport_Activate_Sorcerer_Icon.webp"
+  },
+  "windwalk": {
+    "name": "Wind Walk",
+    "file": "Wind Walk Icon.webp",
+    "url": "https://bg3.wiki/w/images/0/06/Wind_Walk_Icon.webp"
+  },
+  "witchbolt": {
+    "name": "Witch Bolt",
+    "file": "Witch Bolt Icon.webp",
+    "url": "https://bg3.wiki/w/images/d/d2/Witch_Bolt_Icon.webp"
+  },
+  "wrathfulsmite": {
+    "name": "Wrathful Smite",
+    "file": "Wrathful Smite Icon.webp",
+    "url": "https://bg3.wiki/w/images/7/79/Wrathful_Smite_Icon.webp"
+  }
+}

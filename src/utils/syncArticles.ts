@@ -1,16 +1,44 @@
 import { WikiArticle } from "../types";
-import seedArticlesRaw from "../data/seed_articles.json";
+// OJO: seed_articles.json esta desactualizado (le falta "Magia Aurea" y 10 articulos estan en
+// version antigua). articles.json es el que se mantiene al dia en cada actualizacion.
+import seedArticlesRaw from "../data/articles.json";
 
 export const HARDCODED_ARTICLES: WikiArticle[] = Array.isArray(seedArticlesRaw)
   ? (seedArticlesRaw as unknown as WikiArticle[])
   : [];
 
+// v2: los caches anteriores ("wiki_articles_cache*") pudieron guardarse con el texto
+// de los articulos recortado a 500 caracteres y sin infobox/cronologia. Al cambiar
+// el nombre de la clave se descartan y se vuelve a cargar el contenido completo.
+const CACHE_PREFIX = "wiki_articles_cache_v2";
+
 function getCacheKey(): string {
   const selectedLang = typeof window !== "undefined" ? localStorage.getItem("wiki_selected_lang") : null;
   if (selectedLang && selectedLang !== "es") {
-    return `wiki_articles_cache_${selectedLang}`;
+    return `${CACHE_PREFIX}_${selectedLang}`;
   }
-  return "wiki_articles_cache";
+  return CACHE_PREFIX;
+}
+
+// Claves de cache que SOLO contienen el seed compilado en la app (no la lista real del servidor)
+const seedOnlyKeys = new Set<string>();
+
+// Borra (una sola vez por sesion) los caches antiguos para liberar espacio en localStorage
+let legacyCacheCleaned = false;
+function cleanLegacyCaches(): void {
+  if (legacyCacheCleaned) return;
+  legacyCacheCleaned = true;
+  if (typeof window === "undefined" || !window.localStorage) return;
+  try {
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith("wiki_articles_cache") && !k.startsWith(CACHE_PREFIX)) {
+        localStorage.removeItem(k);
+      }
+    }
+  } catch {
+    // ignore
+  }
 }
 
 function appendLangToInput(input: any, lang: string): any {
@@ -163,11 +191,38 @@ function createCompactArticlesIndex(articles: any[]): any[] {
     image_url: typeof a.image_url === "string" && !a.image_url.startsWith("data:") && a.image_url.length < 2048 ? a.image_url : "",
     filters: a.filters,
     content: typeof a.content === "string" ? a.content.slice(0, 500) : "",
+    // Marca: este articulo NO es completo (texto recortado, sin infobox/cronologia/galeria)
+    _compact: true,
   }));
+}
+
+// Recupera la version completa (texto, infobox, cronologia, galeria...) de los articulos
+// compactos usando el seed incluido en la app, siempre que sea la misma version.
+function hydrateCompactArticles(list: any[]): any[] {
+  if (!list.some((a) => a && a._compact)) return list;
+  const seedById = new Map<string, any>();
+  HARDCODED_ARTICLES.forEach((a: any) => { if (a && a.id) seedById.set(a.id, a); });
+  return list.map((a) => {
+    if (!a || !a._compact) return a;
+    const seed = seedById.get(a.id);
+    if (seed && (seed.updated_date || "") === (a.updated_date || "")) {
+      return {
+        ...seed,
+        category: a.category ?? seed.category,
+        extra_categories: a.extra_categories ?? seed.extra_categories,
+        summary: a.summary || seed.summary,
+        tags: a.tags ?? seed.tags,
+        filters: a.filters ?? seed.filters,
+        image_url: a.image_url || seed.image_url,
+      };
+    }
+    return a;
+  });
 }
 
 // Helper to get cached articles instantly
 export function getCachedArticles(): WikiArticle[] {
+  cleanLegacyCaches();
   const key = getCacheKey();
   if (memoryArticlesCache[key] && memoryArticlesCache[key].length > 0) {
     return memoryArticlesCache[key];
@@ -178,7 +233,7 @@ export function getCachedArticles(): WikiArticle[] {
       if (raw) {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          const normalized = applyDefaultArticleSubcategories(parsed);
+          const normalized = applyDefaultArticleSubcategories(hydrateCompactArticles(parsed));
           memoryArticlesCache[key] = normalized;
           return normalized;
         }
@@ -190,6 +245,7 @@ export function getCachedArticles(): WikiArticle[] {
   // Initialize from bundled seed articles!
   const defaultList = applyDefaultArticleSubcategories(HARDCODED_ARTICLES);
   memoryArticlesCache[key] = defaultList;
+  seedOnlyKeys.add(key);
   return defaultList;
 }
 
@@ -203,6 +259,9 @@ export function getCachedArticleBySlugOrId(slugOrId: string): WikiArticle | null
     (a.slug && a.slug.toLowerCase() === normalized) ||
     (a.title && a.title.toLowerCase() === normalized)
   );
+  // Un articulo compacto (texto recortado) no sirve como articulo completo: devolver null
+  // para que quien lo pide lo cargue completo desde la API.
+  if (found && (found as any)._compact) return null;
   if (found) return found;
   return HARDCODED_ARTICLES.find(a => 
     (a.id && a.id.toLowerCase() === normalized) || 
@@ -217,6 +276,7 @@ export function setCachedArticles(rawArticles: WikiArticle[]): void {
   const key = getCacheKey();
   // Keep the complete, high-fidelity objects in active RAM memory cache
   memoryArticlesCache[key] = articles;
+  seedOnlyKeys.delete(key);
 
   if (typeof window === "undefined" || !window.localStorage) return;
 
@@ -224,8 +284,9 @@ export function setCachedArticles(rawArticles: WikiArticle[]): void {
     const sanitized = sanitizeArticlesForLocalStorage(articles);
     const serialized = JSON.stringify(sanitized);
 
-    // If serialized payload is within a safe 2MB threshold, save directly
-    if (serialized.length < 2 * 1024 * 1024) {
+    // Si el payload completo cabe (limite de localStorage ~5M caracteres), se guarda COMPLETO.
+    // Antes el umbral era 2MB: con 2.4MB de articulos se guardaba la version recortada.
+    if (serialized.length < 4 * 1024 * 1024) {
       localStorage.setItem(key, serialized);
       return;
     }
@@ -239,11 +300,11 @@ export function setCachedArticles(rawArticles: WikiArticle[]): void {
       // Clear other language caches or old temporary items to free space
       for (let i = localStorage.length - 1; i >= 0; i--) {
         const k = localStorage.key(i);
-        if (k && k.startsWith("wiki_articles_cache_") && k !== key) {
+        if (k && k.startsWith("wiki_articles_cache") && k !== key) {
           localStorage.removeItem(k);
         }
       }
-      const compactFallback = createCompactArticlesIndex(articles.slice(0, 80));
+      const compactFallback = createCompactArticlesIndex(articles);
       localStorage.setItem(key, JSON.stringify(compactFallback));
     } catch (fallbackErr) {
       // Gracefully fall back to memoryArticlesCache without throwing or polluting console.error
@@ -378,6 +439,31 @@ export async function syncFetch(
     }, 100);
 
     const cached = getCachedArticles();
+
+    // Solo tenemos el seed compilado (puede faltar algun articulo o estar desactualizado):
+    // pedir la lista real al servidor. Sin red, se usa el seed.
+    if (cached.length > 0 && seedOnlyKeys.has(getCacheKey())) {
+      try {
+        const modifiedInput = appendLangToInput(input, selectedLang || "es");
+        let res = await originalFetch(modifiedInput, init);
+        let list: any = res.ok ? await res.clone().json().catch(() => null) : null;
+        if (!Array.isArray(list) || list.length === 0) {
+          res = await originalFetch("/data/articles.json");
+          list = res.ok ? await res.clone().json().catch(() => null) : null;
+        }
+        if (Array.isArray(list) && list.length > 0) {
+          setCachedArticles(list);
+          return res;
+        }
+      } catch {
+        // sin red: se usa el seed
+      }
+      return new Response(JSON.stringify(cached), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     if (cached.length === 0) {
       // First time loading: fetch all and save
       try {
@@ -512,7 +598,7 @@ export async function syncFetch(
     const nonArticleEndpoints = ["sync", "auto-position-images", "sync-monsters", "filter-categories", "categories"];
     if (!nonArticleEndpoints.includes(slug)) {
       const localArticle = getCachedArticleBySlugOrId(slug);
-      if (localArticle && localArticle.title && localArticle.content) {
+      if (localArticle && localArticle.title && localArticle.content && !(localArticle as any)._compact) {
         return new Response(JSON.stringify(localArticle), {
           status: 200,
           headers: { "Content-Type": "application/json" },
@@ -529,13 +615,16 @@ export async function syncFetch(
           if (article && (article.id || article.slug) && article.title && article.content) {
             // Update the article in our local cache
             const cached = getCachedArticles();
-            const index = cached.findIndex((a) => (article.id && a.id === article.id) || (article.slug && a.slug === article.slug));
-            if (index !== -1) {
-              cached[index] = { ...cached[index], ...article };
-            } else {
-              cached.unshift(article);
+            // Si solo hay seed, no se guarda como cache real: la lista completa la trae /api/articles
+            if (!seedOnlyKeys.has(getCacheKey())) {
+              const index = cached.findIndex((a) => (article.id && a.id === article.id) || (article.slug && a.slug === article.slug));
+              if (index !== -1) {
+                cached[index] = { ...cached[index], ...article, _compact: undefined } as any;
+              } else {
+                cached.unshift(article);
+              }
+              setCachedArticles(cached);
             }
-            setCachedArticles(cached);
             return response;
           }
         }

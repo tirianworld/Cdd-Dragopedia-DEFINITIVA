@@ -59,9 +59,6 @@ const BANNED_PATTERNS = [
   /\bellipticals?\b/i,
   /\bworkout\b/i,
   /\bfitness\b/i,
-  /imgur\.com/i,
-  /i\.imgur\.com/i,
-  /base44\.app/i,
 ];
 
 function isGenericOrBanned(title: string, url: string): boolean {

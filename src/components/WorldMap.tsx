@@ -4,7 +4,6 @@ import {
   Loader2, ChevronDown, ChevronRight, ZoomIn, ZoomOut, Sparkles,
   Search, X, Layers, MapPin, Globe2, Eye
 } from "lucide-react";
-import { CarriageLoader } from "./CarriageLoader";
 import { getCleanMapUrl } from "../utils/mapHelper";
 import { 
   fetchCartoCraftData, 
@@ -545,13 +544,16 @@ export function WorldMap() {
       <div className="flex-1 w-full h-full relative bg-neutral-950 overflow-hidden">
         {/* Loading Overlay */}
         {isLoading && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/95 backdrop-blur-md p-6">
-            <CarriageLoader
-              size="lg"
-              text={activePreset.title}
-              subtext="Cargando mapa interactivo de CartoCraft..."
-              className="text-[#cbf7f5]"
-            />
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/90 backdrop-blur-sm gap-3">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <div className="text-center space-y-1">
+              <p className="text-xs font-heading tracking-widest text-foreground font-bold uppercase">
+                {activePreset.title}
+              </p>
+              <p className="text-[11px] text-muted-foreground">
+                Cargando mapa interactivo de CartoCraft...
+              </p>
+            </div>
           </div>
         )}
 

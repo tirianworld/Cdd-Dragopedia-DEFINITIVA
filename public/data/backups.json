@@ -1,5 +1,31 @@
 [
   {
+    "id": "bak-art-mongraal-player-1791629739185",
+    "articleId": "art-mongraal-player",
+    "title": "Mongraal",
+    "content": "<p><strong>Mongraal</strong> es un poderoso combatiente y aventurero miembro de la compañía de <em>Caldo de Dragón</em>. De piel roja encendida, cornamenta negra azabache, bigote distintivo y musculatura formidable, Mongraal destaca por su ferocidad en la batalla.</p>\n<h2>Compañeros de Aventuras</h2>\n<ul>\n<li><a href=\"/articulo/roxanne\">Roxanne</a></li>\n<li><a href=\"/articulo/arlem-diaz\">Arlem Díaz</a></li>\n<li><a href=\"/articulo/barled\">Barled</a></li>\n<li><a href=\"/articulo/pepe-loux\">Pepe Loux</a></li>\n<li><a href=\"/articulo/kairon\">Kairon</a></li>\n<li><a href=\"/articulo/raxxar\">Raxxar</a></li>\n<li><a href=\"/articulo/edacorn\">Edacorn</a></li>\n</ul>",
+    "summary": "Guerrero y brawler tiefling de piel roja carmesí, grandes cuernos negros y fuerza colosal, célebre por sus pulsos épicos en la taberna y su bravura en combate.",
+    "category": "Personajes",
+    "tags": [
+      "Jugadores",
+      "Tiefling",
+      "Guerrero",
+      "Caldo de Dragón",
+      "Taberna",
+      "Pulso"
+    ],
+    "image_url": "/images/covers/mongraal.webp",
+    "infobox": {
+      "Raza": "Tiefling / Demonio",
+      "Clase": "Brawler / Bárbaro / Guerrero",
+      "Grupo": "Jugadores de Caldo de Dragón",
+      "Compañero de Pulso": "Pepe Loux"
+    },
+    "timeline_markers": [],
+    "createdAt": 1791629739185,
+    "expiresAt": 1791756000000
+  },
+  {
     "id": "bak-art-mongraal-player-1791629608677",
     "articleId": "art-mongraal-player",
     "title": "Mongraal",

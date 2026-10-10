@@ -10,4 +10,3 @@ dev.vars
 secrets.json
 .env
 data/github_config.json
-data/github_config.json

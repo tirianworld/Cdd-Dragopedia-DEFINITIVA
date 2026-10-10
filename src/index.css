@@ -90,9 +90,14 @@ body {
   color: hsl(var(--foreground) / 0.85);
 }
 
-.wiki-content strong {
+b, strong {
+  font-weight: 700 !important;
+}
+
+.wiki-content strong,
+.wiki-content b {
   color: hsl(var(--foreground));
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .wiki-content ul, .wiki-content ol {

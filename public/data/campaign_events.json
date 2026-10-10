@@ -46,21 +46,5 @@
     "is_pinned": true,
     "created_at": "2026-09-19T19:19:44.094Z",
     "updated_at": "2026-09-19T20:34:50.577Z"
-  },
-  {
-    "id": "evt-1787927645709-8duqu",
-    "title": "El Dragón de Amatista ",
-    "campaign": "En el fin del Mundo",
-    "date": "Año 412 de la Era del Dragón",
-    "summary": "En la bruma de Avalon, la audaz expedición de Moonhaven se adentró en el temido Drangleic alternativo, donde las sombras se mezclan con la luz de la esperanza. Tras enfrentar tormentas de gravedad, los valientes aventureros lograron vencer al imponente dragón de amatista, guardián del palacio que resuena con gemas de poder ancestral. Con la victoria sellada, la luz de la gema se derrama sobre las puertas del rey de cristal, marcando el inicio de una nueva era en la que el destino del reino y los secretos de la cristalina corte se entrelazan. Ahora, a la sombra de la victoria, se ciernen preguntas sin respuesta: ¿qué misterios guardan las paredes del palacio? ¿Qué desafíos aguardan en el umbral del rey de cristal? La campaña se abre a un horizonte de intrigas y glorias por descubrir.",
-    "category": "novedad",
-    "importance": "normal",
-    "image_url": "",
-    "related_article_slug": "",
-    "related_article_title": "",
-    "author": "DM",
-    "is_pinned": false,
-    "created_at": "2026-08-28T14:34:05.709Z",
-    "updated_at": "2026-09-19T23:03:32.225Z"
   }
 ]

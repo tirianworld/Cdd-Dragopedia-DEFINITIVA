@@ -1007,7 +1007,7 @@ export function ArticleView() {
   // Process HTML body and timeline content to safely proxy external blocked images and parse graph shortcodes
   const processedContent = useMemo(() => {
     if (!article?.content) return "<p>No hay descripción para este manuscrito místico.</p>";
-    let result = article.content.replace(/src=["']([^"']+)["']/g, (_match, url) => {
+    let result = article.content.replace(/src=["'](https?:\/\/[^"']+)["']/g, (_match, url) => {
       return `src="${getSafeImageUrl(url)}"`;
     });
     // Parse markdown shortcodes like [grafo type="magias"] or [grafo]
@@ -1024,7 +1024,7 @@ export function ArticleView() {
 
   const processedTimelineContent = useMemo(() => {
     if (!activeTimelineMarker?.content) return "";
-    return activeTimelineMarker.content.replace(/src=["']([^"']+)["']/g, (_match, url) => {
+    return activeTimelineMarker.content.replace(/src=["'](https?:\/\/[^"']+)["']/g, (_match, url) => {
       return `src="${getSafeImageUrl(url)}"`;
     });
   }, [activeTimelineMarker?.content]);
@@ -1660,10 +1660,9 @@ export function ArticleView() {
                   title="Haz clic para ampliar la imagen"
                 >
                   <img 
-                    src={getSafeImageUrl(currentGalleryItem.url)} 
+                    src={currentGalleryItem.url} 
                     alt="Gallery item" 
                     referrerPolicy="no-referrer"
-                    onError={(e) => handleImageErrorWithFallback(e, currentGalleryItem.url)}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1691,10 +1690,9 @@ export function ArticleView() {
                         }`}
                       >
                         <img 
-                          src={getSafeImageUrl(img.url)} 
+                          src={img.url} 
                           alt="Thumbnail" 
                           referrerPolicy="no-referrer"
-                          onError={(e) => handleImageErrorWithFallback(e, img.url)}
                           className="w-full h-full object-cover"
                         />
                       </button>
@@ -1879,9 +1877,8 @@ export function ArticleView() {
                       <div className="h-10 w-10 shrink-0 rounded-md overflow-hidden border border-border bg-secondary/30 flex items-center justify-center relative">
                         {monsterImg ? (
                           <img 
-                            src={getSafeImageUrl(monsterImg)} 
+                            src={monsterImg} 
                             alt={monsterIndex} 
-                            onError={(e) => handleImageErrorWithFallback(e, monsterImg)}
                             className="h-full w-full object-cover transition-transform group-hover:scale-110 duration-300"
                             referrerPolicy="no-referrer"
                           />
@@ -2539,9 +2536,8 @@ export function ArticleView() {
                         <div className="md:col-span-5 flex flex-col items-center justify-start">
                           <div className="border-4 border-[#b89a47] rounded-xl overflow-hidden shadow-xl bg-[#58180d]/5 w-full">
                             <img 
-                              src={getSafeImageUrl(selectedMonsterImg)} 
+                              src={selectedMonsterImg} 
                               alt={selectedMonster.name_es || selectedMonster.name} 
-                              onError={(e) => handleImageErrorWithFallback(e, selectedMonsterImg)}
                               className="w-full h-60 object-cover hover:scale-105 transition-transform duration-300"
                               referrerPolicy="no-referrer"
                             />

@@ -97,7 +97,6 @@ export interface Spell {
   source: string;
   isCustom?: boolean;
   isEdited?: boolean;
-  createdAt?: string;
   updatedAt?: string;
   primordialMagic?: PrimordialMagic;
   origin?: SpellOrigin;

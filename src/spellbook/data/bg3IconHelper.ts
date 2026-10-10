@@ -1,4 +1,5 @@
 import bg3IconsData from './bg3Icons.json';
+import { ASTRAEA_EMBLEM_BG3_DATA_URL } from './astraeaIconData';
 
 export interface Bg3IconInfo {
   name: string;
@@ -11,9 +12,9 @@ const bg3Icons: Record<string, Bg3IconInfo> = bg3IconsData as Record<string, Bg3
 // Manual high-priority aliases for Baldur's Gate 3 spells
 const SPELL_TO_BG3_KEY: Record<string, string> = {
   // Special / Homebrew & Dragopedia Sacred Spells
-  'bendiciondeastraea': 'bless',
-  'bendicionastraea': 'bless',
-  'astraeasblessing': 'bless',
+  'bendiciondeastraea': ASTRAEA_EMBLEM_BG3_DATA_URL,
+  'bendicionastraea': ASTRAEA_EMBLEM_BG3_DATA_URL,
+  'astraeasblessing': ASTRAEA_EMBLEM_BG3_DATA_URL,
 
   // Cantrips
   'firebolt': 'firebolt',

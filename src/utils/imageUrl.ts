@@ -2,21 +2,16 @@
  * Utility to process and sanitize image URLs throughout Dragopedia.
  * Bypasses hotlink protection (e.g. Fandom/Wikia Cloudflare 403 blocks)
  * by proxying through our server-side image proxy, and provides reliable fallbacks.
- * Matches exact logic from Cdd-wiki-V4.
  */
 
 export function getSafeImageUrl(url?: string | null): string {
   if (!url || typeof url !== "string") return "";
+
   const trimmed = url.trim();
   if (!trimmed) return "";
 
   // Data URLs, local blob URLs, or local absolute paths are safe to use directly
   if (trimmed.startsWith("data:") || trimmed.startsWith("blob:") || trimmed.startsWith("/")) {
-    return trimmed;
-  }
-
-  // Already proxied
-  if (trimmed.startsWith("/api/proxy-image")) {
     return trimmed;
   }
 
@@ -32,7 +27,10 @@ export function getSafeImageUrl(url?: string | null): string {
     trimmed.includes("dndbeyond.com") ||
     trimmed.includes("wargamer.com") ||
     trimmed.includes("dungeonnexus.com") ||
-    trimmed.includes("arcpublishing.com")
+    trimmed.includes("arcpublishing.com") ||
+    trimmed.includes("pinterest.com") ||
+    trimmed.includes("pinimg.com") ||
+    trimmed.includes("imgur.com")
   ) {
     return `/api/proxy-image?url=${encodeURIComponent(trimmed)}`;
   }
@@ -67,8 +65,8 @@ export function handleImageErrorWithFallback(
   const target = event.currentTarget;
   if (!target) return;
 
-  const currentSrc = target.src || "";
-
+  const currentSrc = target.src;
+  
   // If not yet proxied and original URL was external, try proxying
   if (originalUrl && !currentSrc.includes("/api/proxy-image") && originalUrl.startsWith("http")) {
     target.src = getProxiedFallbackUrl(originalUrl);
@@ -81,7 +79,6 @@ export function handleImageErrorWithFallback(
     return;
   }
 
-  // If all fails, gracefully dim rather than abrupt destruction
-  target.style.opacity = "0.5";
+  // If all fails, hide image so broken icon doesn't show
+  target.style.display = "none";
 }
-

@@ -262,12 +262,27 @@ export function extractCleanChatMessage(raw: string): string {
     text = inner.trim();
   }
 
-  // Clean trailing hanging quotes or truncated sample markers
+  // 4. Repeated check: If text still starts with { "message": " or similar
+  text = text.replace(/^\s*\{?\s*["']?(?:message|respuesta|mensaje|response|content|reply|text|answer)["']?\s*:\s*["']?/i, "").trim();
+
+  // 5. Clean trailing hanging quotes or truncated sample markers
   text = text.replace(/["']\s*\}?\s*$/, "").trim();
   if (/\(ej:\s*["']?$/i.test(text)) {
     text = text.replace(/\(ej:\s*["']?$/i, "").trim();
-  } else if (/["']$/i.test(text) && !text.startsWith('"') && !text.startsWith("'")) {
+  }
+  if (/:\s*$/i.test(text) && text.includes("preguntar por:")) {
+    text = text.replace(/preguntar por:\s*$/i, "preguntar por personajes, lugares, eventos o el lore general de Caldo de Dragón.").trim();
+  }
+  if (text.endsWith("(") || text.endsWith("(ej:") || text.endsWith("(ej")) {
+    text = text.replace(/\s*\(ej:?$/i, "").trim();
+  }
+  if (/["']$/i.test(text) && !text.startsWith('"') && !text.startsWith("'")) {
     text = text.replace(/["']$/i, "").trim();
+  }
+
+  // Ensure completed punctuation if text ended abruptly without closing punctuation
+  if (text.length > 0 && !/[.!?:]$/.test(text) && !text.endsWith(">") && !text.endsWith("»")) {
+    text += ".";
   }
 
   return text;

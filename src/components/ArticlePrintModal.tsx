@@ -4,7 +4,6 @@ import {
   Scissors, Maximize2, Layers, CheckCircle2
 } from "lucide-react";
 import { AstralClockLogo, getAstralClockSvgString } from "./AstralClockWatermark";
-import { getSafeImageUrl, handleImageErrorWithFallback } from "../utils/imageUrl";
 
 export type PrintSizeFormat = "fit" | "a6" | "a5" | "a4";
 
@@ -328,7 +327,7 @@ export function ArticlePrintModal({ isOpen, onClose, article }: ArticlePrintModa
         </div>
 
         <div class="content">
-          ${article.image_url ? `<img src="${getSafeImageUrl(article.image_url)}" class="article-image" alt="${article.title}" />` : ''}
+          ${article.image_url ? `<img src="${article.image_url}" class="article-image" alt="${article.title}" />` : ''}
           ${article.content || '<p>Sin contenido registrado.</p>'}
           <div style="clear: both;"></div>
         </div>
@@ -773,9 +772,8 @@ export function ArticlePrintModal({ isOpen, onClose, article }: ArticlePrintModa
                       sizeFormat === "a6" ? "max-w-[120px]" : "max-w-[170px]"
                     } ${sheetTheme === "parchment" ? "border-[#d6c4a5]" : "border-zinc-300"}`}>
                       <img
-                        src={getSafeImageUrl(article.image_url)}
+                        src={article.image_url}
                         alt={article.title}
-                        onError={(e) => handleImageErrorWithFallback(e, article.image_url)}
                         className="w-full h-auto object-cover"
                       />
                     </div>

@@ -1019,7 +1019,7 @@ export function FilterManager() {
             title="Configurar repositorio de GitHub y token de sincronización"
           >
             <Github className="h-4 w-4 text-purple-400" />
-            <span>GitHub Sync: {githubConfig?.repo || "Cdd-wiki-V5"}</span>
+            <span>GitHub Sync: {githubConfig?.repo || "tirianworld/Cdd-Dragopedia-DEFINITIVA"}</span>
             {githubConfig?.configured && (
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" title="Conectado" />
             )}

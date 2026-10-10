@@ -13,14 +13,13 @@ interface GitHubConfigModalProps {
 
 export function GitHubConfigModal({ isOpen, onClose, onSuccess }: GitHubConfigModalProps) {
   const [token, setToken] = useState("");
-  const [repo, setRepo] = useState("tirianworld/Cdd-wiki-V3");
+  const [repo, setRepo] = useState("tirianworld/Cdd-Dragopedia-DEFINITIVA");
   const [branch, setBranch] = useState("main");
   const [isConfigured, setIsConfigured] = useState(false);
   const [userLogin, setUserLogin] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [syncing, setSyncing] = useState(false);
-  const [pushingAll, setPushingAll] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error" | "info"; text: string } | null>(null);
 
   useEffect(() => {
@@ -102,7 +101,7 @@ export function GitHubConfigModal({ isOpen, onClose, onSuccess }: GitHubConfigMo
 
   const handleSyncNow = async () => {
     setSyncing(true);
-    setMessage({ type: "info", text: "Sincronizando categorías, subcategorías y orden con GitHub..." });
+    setMessage({ type: "info", text: "Sincronizando todas las categorías, subcategorías y artículos con GitHub..." });
 
     try {
       const activeToken = token.trim() || localStorage.getItem("dragopedia_github_token") || "";
@@ -112,55 +111,23 @@ export function GitHubConfigModal({ isOpen, onClose, onSuccess }: GitHubConfigMo
           "Content-Type": "application/json",
           ...(activeToken ? { "x-github-token": activeToken } : {})
         },
-        body: JSON.stringify({ target: "categories" })
+        body: JSON.stringify({ target: "all" })
       });
 
       const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Error en la sincronización.");
+      if (!res.ok || data.success === false) {
+        throw new Error(data.error || data.message || "Error en la sincronización.");
       }
 
       setMessage({ 
         type: "success", 
-        text: `✓ ${data.message || "Subcategorías y orden sincronizados en GitHub exitosamente."}` 
+        text: `✓ ${data.message || "Categorías, subcategorías y artículos sincronizados en GitHub exitosamente."}` 
       });
       if (onSuccess) onSuccess();
     } catch (err: any) {
       setMessage({ type: "error", text: err.message || "Error al sincronizar con GitHub." });
     } finally {
       setSyncing(false);
-    }
-  };
-
-  const handlePushAllNow = async () => {
-    setPushingAll(true);
-    setMessage({ type: "info", text: "Subiendo todo el repositorio (código, 510 imágenes y artículos) a GitHub..." });
-
-    try {
-      const activeToken = token.trim() || localStorage.getItem("dragopedia_github_token") || "";
-      const res = await fetch("/api/github-push-all", {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          ...(activeToken ? { "x-github-token": activeToken } : {})
-        },
-        body: JSON.stringify({ token: activeToken })
-      });
-
-      const data = await res.json();
-      if (!res.ok || data.success === false) {
-        throw new Error(data.error || "Error al subir todo a GitHub.");
-      }
-
-      setMessage({ 
-        type: "success", 
-        text: `✓ ${data.message || "¡Todo el repositorio fue subido a GitHub exitosamente!"}` 
-      });
-      if (onSuccess) onSuccess();
-    } catch (err: any) {
-      setMessage({ type: "error", text: err.message || "Error al subir a GitHub." });
-    } finally {
-      setPushingAll(false);
     }
   };
 
@@ -251,7 +218,7 @@ export function GitHubConfigModal({ isOpen, onClose, onSuccess }: GitHubConfigMo
                     GitHub Personal Access Token (PAT)
                   </label>
                   <a
-                    href="https://github.com/settings/tokens/new?scopes=repo&description=Dragopedia%20Cdd-wiki-V3%20Sync"
+                    href="https://github.com/settings/tokens/new?scopes=repo&description=Dragopedia%20Cdd-Dragopedia-DEFINITIVA%20Sync"
                     target="_blank"
                     rel="noreferrer"
                     className="text-[10px] text-primary hover:underline flex items-center gap-1"
@@ -308,46 +275,24 @@ export function GitHubConfigModal({ isOpen, onClose, onSuccess }: GitHubConfigMo
                 </button>
 
                 {isConfigured && (
-                  <>
-                    <button
-                      type="button"
-                      onClick={handlePushAllNow}
-                      disabled={saving || syncing || pushingAll}
-                      className="py-2.5 px-4 bg-purple-600/25 hover:bg-purple-600/35 text-purple-200 border border-purple-500/40 hover:border-purple-500/60 font-semibold rounded-xl text-xs flex items-center justify-center gap-2 transition-all disabled:opacity-50 shadow-sm"
-                      title="Sube todo el código fuente, las 510 imágenes descargadas y los artículos actualizados a GitHub"
-                    >
-                      {pushingAll ? (
-                        <>
-                          <Loader2 className="h-3.5 w-3.5 animate-spin text-purple-400" />
-                          <span>Subiendo Repositorio...</span>
-                        </>
-                      ) : (
-                        <>
-                          <FolderGit2 className="h-3.5 w-3.5 text-purple-400" />
-                          <span>Subir Todo (510 Imágenes y Código)</span>
-                        </>
-                      )}
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={handleSyncNow}
-                      disabled={saving || syncing || pushingAll}
-                      className="py-2.5 px-4 bg-secondary/80 hover:bg-secondary text-foreground font-medium rounded-xl text-xs flex items-center justify-center gap-2 transition-all border border-border/70 disabled:opacity-50"
-                    >
-                      {syncing ? (
-                        <>
-                          <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
-                          <span>Sincronizando...</span>
-                        </>
-                      ) : (
-                        <>
-                          <RefreshCw className="h-3.5 w-3.5 text-purple-400" />
-                          <span>Sincronizar Artículos</span>
-                        </>
-                      )}
-                    </button>
-                  </>
+                  <button
+                    type="button"
+                    onClick={handleSyncNow}
+                    disabled={saving || syncing}
+                    className="py-2.5 px-4 bg-secondary/80 hover:bg-secondary text-foreground font-medium rounded-xl text-xs flex items-center justify-center gap-2 transition-all border border-border/70 disabled:opacity-50"
+                  >
+                    {syncing ? (
+                      <>
+                        <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
+                        <span>Sincronizando...</span>
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCw className="h-3.5 w-3.5 text-purple-400" />
+                        <span>Sincronizar Todo Ahora</span>
+                      </>
+                    )}
+                  </button>
                 )}
               </div>
             </form>

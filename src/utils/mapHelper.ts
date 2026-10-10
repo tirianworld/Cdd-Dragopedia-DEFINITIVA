@@ -9,7 +9,7 @@ export function getCleanMapUrl(url: string | null | undefined): string {
   if (!trimmed) return "";
 
   // Target domain configured by user, or default CartoCraft domain
-  let targetDomain = "https://cartocraft.ai.studio";
+  let targetDomain = "https://cartocraft-v2.ai.studio";
   
   // Safely attempt to read from localStorage
   try {
@@ -28,46 +28,23 @@ export function getCleanMapUrl(url: string | null | undefined): string {
     }
 
     const parsed = new URL(workingUrl);
-
-    // If it's an old base44 view URL like /view/<mapId>
-    const base44ViewMatch = workingUrl.match(/\/view\/([a-zA-Z0-9_-]+)/);
-    if (base44ViewMatch) {
-      const mapId = base44ViewMatch[1];
-      return `${targetDomain}/#/map/${mapId}/no-ui?markers=false&lights=true&helpers=false&root=${mapId}`;
-    }
-
-    // If it has hash like #/map/<mapId>
-    const hashMatch = (parsed.hash || "").match(/#\/map\/([a-zA-Z0-9_-]+)/);
-    if (hashMatch) {
-      const mapId = hashMatch[1];
-      const hasNoUi = parsed.hash.includes("no-ui");
-      if (hasNoUi) {
-        return `${targetDomain}${parsed.hash}`;
-      }
-      return `${targetDomain}/#/map/${mapId}/no-ui?markers=false&lights=true&helpers=false&root=${mapId}`;
-    }
     
     // Check if it belongs to base44.app (the older system), old cartocraft.ai.studio, or cartocraft run.app
     if (
       parsed.hostname.includes("base44.app") || 
       parsed.hostname.includes("carto-craft") || 
-      parsed.hostname.includes("cartocraft-679508173370")
+      parsed.hostname.includes("cartocraft-679508173370") ||
+      parsed.hostname === "cartocraft.ai.studio"
     ) {
-      // Extract any alphanumeric ID from pathname
-      const idMatch = parsed.pathname.match(/([a-zA-Z0-9_-]{10,})/);
-      if (idMatch) {
-        const mapId = idMatch[1];
-        return `${targetDomain}/#/map/${mapId}/no-ui?markers=false&lights=true&helpers=false&root=${mapId}`;
-      }
-      return `${targetDomain}/#/map/map-agoog8k/no-ui?markers=false&lights=true&helpers=false&root=map-agoog8k`;
+      return `${targetDomain}${parsed.pathname}${parsed.search}${parsed.hash}`;
     }
     
+    // If it's already using cartocraft-v2.ai.studio or another custom map URL, return as is
     return workingUrl;
   } catch (e) {
     // Fallback if URL parsing fails
-    const match = trimmed.match(/(?:view\/|map\/)([a-zA-Z0-9_-]+)/);
-    if (match) {
-      return `${targetDomain}/#/map/${match[1]}/no-ui?markers=false&lights=true&helpers=false&root=${match[1]}`;
+    if (trimmed.includes("base44.app") || trimmed.includes("run.app") || trimmed.includes("cartocraft.ai.studio")) {
+      return trimmed.replace(/https?:\/\/[^\/]+/, targetDomain);
     }
     return trimmed;
   }

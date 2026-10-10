@@ -12,54 +12,6 @@ import { EditableText } from "./webbuilder/EditableText";
 
 import defaultCampaignEventsData from "../data/campaign_events.json";
 
-/**
- * Formats Markdown syntax into styled HTML:
- * - **bold** or __bold__ -> <strong>
- * - *italic* or _italic_ -> <em>
- * - ***bold italic*** -> <strong><em>
- * - ~~strikethrough~~ -> <del>
- * - `code` -> <code>
- * - [link](url) -> <a>
- * - bullet points (- or *) -> •
- * - newlines \n -> <br />
- */
-export function formatEventMarkdown(text?: string | null): string {
-  if (!text || typeof text !== "string") return "";
-  let res = text;
-
-  // 1. Triple asterisks / underscores (bold italic)
-  res = res.replace(/\*\*\*([^*\n]+?)\*\*\*/g, '<strong class="font-bold italic text-foreground font-semibold">$1</strong>');
-  res = res.replace(/___([^*_\n]+?)___/g, '<strong class="font-bold italic text-foreground font-semibold">$1</strong>');
-
-  // 2. Double asterisks / underscores (bold) -> **negrita** or __negrita__ (including unclosed at line/string end)
-  res = res.replace(/\*\*([^*\n]+?)(?:\*\*|$)/g, '<strong class="font-bold text-foreground font-semibold">$1</strong>');
-  res = res.replace(/__([^_]+?)(?:__|$)/g, '<strong class="font-bold text-foreground font-semibold">$1</strong>');
-
-  // 3. Single asterisks / underscores (italic) -> *cursiva* or _cursiva_
-  res = res.replace(/(^|[^*])\*([^*\n]+?)\*([^*]|$)/g, '$1<em class="italic text-foreground/90">$2</em>$3');
-  res = res.replace(/(^|[^_])_([^_\n]+?)_([^_]|$)/g, '$1<em class="italic text-foreground/90">$2</em>$3');
-
-  // 4. Strikethrough ~~tachado~~
-  res = res.replace(/~~([^~\n]+?)~~/g, '<del class="opacity-60">$1</del>');
-
-  // 5. Inline code `código`
-  res = res.replace(/`([^`\n]+?)`/g, '<code class="px-1.5 py-0.5 rounded bg-secondary text-primary font-mono text-[11px] border border-border/50">$1</code>');
-
-  // 6. Markdown links [texto](url)
-  res = res.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_match, label, url) => {
-    const isInternal = url.startsWith("/");
-    return `<a href="${url}" class="text-primary hover:underline font-semibold"${isInternal ? "" : ' target="_blank" rel="noopener noreferrer"'}>${label}</a>`;
-  });
-
-  // 7. Bullet points at start of line
-  res = res.replace(/^[*-]\s+(.+)$/gm, '• $1');
-
-  // 8. Line breaks \n into <br />
-  res = res.replace(/\n/g, '<br />');
-
-  return res;
-}
-
 interface LatestEventsPanelProps {
   articles?: WikiArticle[];
 }
@@ -112,7 +64,7 @@ export function LatestEventsPanel({ articles = [] }: LatestEventsPanelProps) {
     new Set(events.map(e => e.campaign || "Campaña Principal").filter(Boolean))
   );
 
-  // Filtered & sorted events (strictly latest 3 events)
+  // Filtered & sorted events
   const filteredEvents = events.filter(e => {
     if (activeCampaignFilter !== "all" && (e.campaign || "Campaña Principal") !== activeCampaignFilter) {
       return false;
@@ -124,13 +76,8 @@ export function LatestEventsPanel({ articles = [] }: LatestEventsPanelProps) {
   }).sort((a, b) => {
     if (a.is_pinned && !b.is_pinned) return -1;
     if (!a.is_pinned && b.is_pinned) return 1;
-    const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
-    const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
-    return timeB - timeA;
+    return new Date(b.created_at || "").getTime() - new Date(a.created_at || "").getTime();
   });
-
-  // Display strictly the latest 3 events as requested by user
-  const displayedEvents = filteredEvents.slice(0, 3);
 
   // Save / Update Event
   const handleSaveEvent = async (e: React.FormEvent) => {
@@ -372,7 +319,7 @@ export function LatestEventsPanel({ articles = [] }: LatestEventsPanelProps) {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {displayedEvents.map((event) => {
+          {filteredEvents.map((event) => {
             return (
               <div
                 key={event.id}
@@ -384,15 +331,17 @@ export function LatestEventsPanel({ articles = [] }: LatestEventsPanelProps) {
                   <h3 
                     onClick={() => setSelectedEventForDetail(event)}
                     className="font-heading font-serif uppercase tracking-wider text-sm md:text-[14px] font-extrabold text-foreground hover:text-primary transition-colors cursor-pointer line-clamp-2 leading-snug"
-                    dangerouslySetInnerHTML={{ __html: formatEventMarkdown(event.title) }}
-                  />
+                  >
+                    {event.title}
+                  </h3>
 
                   {/* Summary */}
-                  <div 
+                  <p 
                     onClick={() => setSelectedEventForDetail(event)}
-                    className="text-xs text-muted-foreground leading-relaxed line-clamp-4 md:line-clamp-5 cursor-pointer hover:text-foreground/90 transition-colors mt-2.5"
-                    dangerouslySetInnerHTML={{ __html: formatEventMarkdown(event.summary) }}
-                  />
+                    className="text-xs text-muted-foreground leading-relaxed line-clamp-3 md:line-clamp-4 cursor-pointer hover:text-foreground/90 transition-colors mt-2.5"
+                  >
+                    {event.summary}
+                  </p>
                 </div>
 
                 {/* Bottom Footer (visible on hover) */}
@@ -503,16 +452,14 @@ export function LatestEventsPanel({ articles = [] }: LatestEventsPanelProps) {
                   )}
                 </div>
 
-                <h2 
-                  className="font-heading font-bold text-xl text-foreground mt-2"
-                  dangerouslySetInnerHTML={{ __html: formatEventMarkdown(selectedEventForDetail.title) }}
-                />
+                <h2 className="font-heading font-bold text-xl text-foreground mt-2">
+                  {selectedEventForDetail.title}
+                </h2>
               </div>
 
-              <div 
-                className="p-4 bg-secondary/30 border border-border/80 rounded-xl leading-relaxed font-sans text-xs"
-                dangerouslySetInnerHTML={{ __html: formatEventMarkdown(selectedEventForDetail.summary) }}
-              />
+              <div className="p-4 bg-secondary/30 border border-border/80 rounded-xl whitespace-pre-wrap text-foreground/90 leading-relaxed font-sans text-xs">
+                {selectedEventForDetail.summary}
+              </div>
 
               {selectedEventForDetail.related_article_slug && (
                 <div className="p-3 bg-primary/10 border border-primary/30 rounded-xl flex items-center justify-between gap-3">
@@ -699,10 +646,6 @@ export function LatestEventsPanel({ articles = [] }: LatestEventsPanelProps) {
                   placeholder="Escribe lo ocurrido en la partida, las consecuencias para el mundo, recompensas o advertencias..."
                   className="w-full p-3 bg-secondary border border-border rounded-xl text-foreground text-xs focus:outline-none focus:border-primary transition-all resize-y leading-relaxed font-sans"
                 />
-                <p className="text-[11px] text-muted-foreground flex items-center gap-1.5 pt-0.5">
-                  <span className="font-semibold text-primary/80">Soporta Markdown:</span>
-                  <span>**negrita**, *cursiva*, `código`, [enlace](url) y viñetas (- ).</span>
-                </p>
               </div>
 
               {/* Related Wiki Article Picker */}

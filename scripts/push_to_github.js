@@ -140,9 +140,12 @@ async function main() {
     }
   }
 
-  // 2. Process deleted files (files in remoteMap that do not exist locally)
+  // 2. Process deleted files (files in remoteMap that do not exist locally, except existing image assets)
   for (const remotePath of remoteMap.keys()) {
     if (shouldIgnore(remotePath)) continue;
+    // Protect all cloud, covers, and image assets from accidental automated deletion
+    if (remotePath.startsWith("public/images/")) continue;
+
     if (!localMap.has(remotePath)) {
       console.log(`Removing from remote: ${remotePath}`);
       deltaTreeEntries.push({

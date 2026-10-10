@@ -1358,7 +1358,7 @@ export function CategoryView() {
           <EditableBannerWrapper
             bannerKey={bannerKey}
             label={currentCategory?.name || slug || "Categoría"}
-            defaultFit={isPortadores ? "cover" : "contain"}
+            defaultFit={isPortadores || isPersonajes ? "cover" : "contain"}
             groundColor="#232e33"
             className="w-full h-36 sm:h-44 md:h-52 lg:h-60"
           >

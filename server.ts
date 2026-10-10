@@ -5621,7 +5621,7 @@ app.post("/api/site-ui-config", async (req: Request, res: Response) => {
 
 // Dedicated endpoint to upload & permanently save a banner image from PC
 const STATIC_BANNER_FILES: Record<string, string> = {
-  personajes: "caldo_personajes_drawn_solid.png",
+  personajes: "banners/banner_personajes_cristales.jpg",
   lugares: "caldo_lugares_carroza_solid.png",
   dragones: "caldo_dragones_combate_solid.png",
   ascendidos: "caldo_ascendidos_silhouettes_solid.png",

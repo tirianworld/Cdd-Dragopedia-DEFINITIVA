@@ -1,5 +1,38 @@
 [
   {
+    "id": "bak-art-1783643834135-1791706920035",
+    "articleId": "art-1783643834135",
+    "title": "Svartal",
+    "content": "<p>textotextotexto<strong><a href=\"/articulo/svarta\">Svartal</a></strong> es <a href=\"/articulo/la-capital\" class=\"text-primary hover:underline font-semibold\">la capital</a> del <a href=\"/articulo/gran-reino-enano-de-thorin-mrdtvqcc\">Gran Reino Enano de Thorin</a>, una ciudad dividida en dos niveles: la <strong>superficie</strong> y las <strong>profundidades subterráneas</strong>.</p>\n<h2>Estructura y División</h2>\n<p>La ciudad se estructura en dos niveles claramente diferenciados:</p>\n<ul>\n<li><strong>Nivel Superior (Superficie):</strong> Destinado principalmente a actividades turísticas, comercio y vida pública. Es la parte más accesible y visible de la ciudad.</li>\n</ul>\n<ul>\n<li><strong>Nivel Inferior (Subterráneo):</strong> Reserva exclusiva para la élite enana. Aquí se concentran los palacios, salones de poder y zonas de extracción de recursos. El acceso a este nivel está estrictamente controlado.</li>\n</ul>\n<h2>Acceso al Nivel Inferior</h2>\n<p>Para ganar el derecho a descender al nivel subterráneo, los enanos deben participar y ganar el <strong>torneo anual de <a href=\"/articulo/svarta\">Svartal</a></strong>. La arena donde se celebra el torneo funciona también como un ascensor, permitiendo el descenso de los ganadores a las profundidades de la ciudad.</p>\n<h2>Época de <a href=\"/articulo/kaelgor-loux\">Kaelgor Loux</a></h2>\n<p>Durante el tiránico reinado de <a href=\"/articulo/kaelgor-loux\">Kaelgor Loux</a>, el torneo perdió su propósito original y se convirtió en un mecanismo de explotación. Los participantes eran obligados a competir no solo por el honor, sino también para ser seleccionados como mano de obra esclava. Bajo su dictadura, la ciudad subterránea se dedicó a la extracción de <strong><a href=\"/articulo/magia-profana\" class=\"text-primary hover:underline font-semibold\">magia profana</a> cristalizada</strong>, un recurso que alimentaba su poder y control sobre el reino. La vida en el nivel inferior se caracterizó por una <strong>dictadura férrea</strong>, donde la opresión y el miedo eran moneda corriente.</p>\n<h2>Restauración bajo <a href=\"/articulo/familia-loux\">Utric Loux II</a></h2>\n<p>Tras el asesinato de <a href=\"/articulo/kaelgor-loux\">Kaelgor Loux</a>, su hijo <a href=\"/articulo/familia-loux\">Utric Loux II</a> asumió el trono y restauró el esplendor de <a href=\"/articulo/svarta\">Svartal</a>. Bajo su liderazgo, la ciudad recuperó su antigua gloria, y el torneo volvió a ser un símbolo de honor y competencia, no de explotación. La extracción de <a href=\"/articulo/magia-profana\" class=\"text-primary hover:underline font-semibold\">magia profana</a> cesó, y la ciudad subterránea recuperó su función como centro de poder y élite enana.</p>",
+    "summary": "Capital del Gran Reino Enano de Thorin, dividida en dos niveles: la superficie turística y la subterránea elitista. Acceso restringido mediante torneos. Bajo el reinado de Kaelgor Loux, fue usada para extraer mano de obra esclava y magia profana cristalizada. Tras su asesinato, Utric Loux II restauró su esplendor.",
+    "category": "Asentamientos",
+    "tags": [],
+    "image_url": "/images/cloud/svartal-mre7hjm6_b056521a82.png",
+    "infobox": {},
+    "timeline_markers": [
+      {
+        "id": "tl-svartal-epoca-kalgor-1785317338758-1",
+        "label": "Época de Kaelgor Loux",
+        "content": "Durante este período, la ciudad de Svartal se convirtió en un lugar de explotación bajo el tiránico reinado de Kaelgor Loux. El torneo anual perdió su propósito original y se utilizó como mecanismo para seleccionar mano de obra esclava. La ciudad subterránea se dedicó a la extracción de magia profana cristalizada, lo que alimentaba el poder y control de Kaelgor Loux sobre el reino.",
+        "image_url": ""
+      },
+      {
+        "id": "tl-svartal-restauracion-utricleux-1785317338758-2",
+        "label": "Restauración bajo Utric Loux II",
+        "content": "Tras el asesinato de Kaelgor Loux, su hijo Utric Loux II asumió el trono y restauró el esplendor de Svartal. Bajo su liderazgo, la ciudad recuperó su antigua gloria, y el torneo volvió a ser un símbolo de honor y competencia, no de explotación. La extracción de magia profana cesó, y la ciudad subterránea recuperó su función como centro de poder y élite enana.",
+        "image_url": ""
+      },
+      {
+        "id": "tl-svartal-asasinato-kalgor-1785317338758-3",
+        "label": "Asesinato de Kaelgor Loux",
+        "content": "El asesinato de Kaelgor Loux marcó el fin de su tiránico reinado y permitió que su hijo Utric Loux II asumiera el trono y restaurara el esplendor de Svartal.",
+        "image_url": ""
+      }
+    ],
+    "createdAt": 1791706920035,
+    "expiresAt": 1791842400000
+  },
+  {
     "id": "bak-art-1783641215166-1791706863633",
     "articleId": "art-1783641215166",
     "title": "Siramar",

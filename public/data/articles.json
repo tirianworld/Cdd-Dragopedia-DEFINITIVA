@@ -12838,7 +12838,7 @@
     "summary": "Sin resumen",
     "content": "<p>Reino de las PesadillasEl <strong>Reino de las Pesadillas</strong> es un territorio oscuro y caótico dentro del <a href=\"/articulo/plano-onirico\">Plano Onírico</a>, donde los miedos más profundos y las angustias de los seres vivos se materializan como monstruos y escenarios aterradores. Es un lugar de caos y dolor, gobernado por entidades que reflejan los temores inconscientes de quienes lo visitan.</p>\n<p><strong><a href=\"/articulo/la-compania-mrc0in6q\">La Compañía</a></strong> tiene aquí su sede principal.</p>\n<h2>Características</h2>\n<ul>\n<li><strong>Geografía cambiante:</strong> El paisaje se distorsiona constantemente, reflejando los peores temores de quienes lo habitan o visitan.</li>\n</ul>\n<ul>\n<li><strong>Criaturas de sombra:</strong> Los habitantes de este reino son manifestaciones de los miedos más profundos, como pesadillas vivientes, monstruos deformes y entidades que buscan devorar la cordura de los intrusos.</li>\n</ul>\n<ul>\n<li><strong>Influencia del miedo:</strong> Cuanto más intenso sea el miedo de un visitante, más poderosas y peligrosas serán las criaturas que lo acechen.</li>\n</ul>\n<ul>\n<li><strong>Ausencia de tiempo lineal:</strong> El tiempo no fluye de manera convencional, y los visitantes pueden experimentar eventos de manera caótica o repetitiva.</li>\n</ul>\n<h2><a href=\"/articulo/la-compania-mrc0in6q\">La Compañía</a> en el Reino de las Pesadillas</h2>\n<p><a href=\"/articulo/la-compania-mrc0in6q\">La Compañía</a> tiene su sede principal en una carpa de circo ubicada en el <a href=\"/articulo/reino-de-las-pesadillas-mrc2mkc6\">Reino de las Pesadillas</a>, un plano dentro del <a href=\"/articulo/plano-onirico\">Plano Onírico</a>. Desde allí, <a href=\"/articulo/el-maestro-db608e\">El Maestro</a> coordina sus actividades, asegurando que su influencia crezca sin ser detectada.</p>\n<h2>Relación con el <a href=\"/articulo/plano-onirico\">Plano Onírico</a></h2>\n<p>El <strong>Reino de las Pesadillas</strong> es uno de los dos reinos principales dentro del <a href=\"/articulo/plano-onirico\">Plano Onírico</a>, junto al <a href=\"/articulo/reino-de-los-suenos-mrdbnam8\">Reino de los Sueños</a>. Mientras que el <a href=\"/articulo/reino-de-los-suenos-mrdbnam8\">Reino de los Sueños</a> es un lugar de paz y fantasía, el <strong>Reino de las Pesadillas</strong> es su contraparte oscura, donde la realidad se corrompe y los miedos se hacen carne.</p>\n<h2>Visitantes y Consecuencias</h2>\n<p>Solo los más valientes o los más desesperados se atreven a adentrarse en el <strong>Reino de las Pesadillas</strong>. Quienes lo hacen suelen buscar respuestas, escapar de sus propios temores o enfrentarse a sus peores pesadillas. Sin embargo, la mayoría de los visitantes no logran salir ilesos, y muchos quedan atrapados para siempre en sus laberintos de oscuridad.</p>\n<h2>Curiosidades</h2>\n<ul>\n<li>Algunos creen que el <strong>Reino de las Pesadillas</strong> es la fuente de los sueños más aterradores que los mortales experimentan.</li>\n</ul>\n<ul>\n<li>Se dice que <a href=\"/articulo/varianthel\">Varianthel</a>, el Príncipe Feérico, fue desterrado a este reino tras su derrota en el <a href=\"/articulo/reino-de-los-suenos-mrdbnam8\">Reino de los Sueños</a>.</li>\n</ul>\n<ul>\n<li>Las criaturas que habitan este reino no pueden ser destruidas permanentemente, ya que son manifestaciones de los miedos, y estos nunca desaparecen por completo.</li>\n</ul>\n<p><strong><a href=\"/articulo/la-compania-mrc0in6q\">La Compañía</a></strong> tiene aquí su sede principal.</p>\n<p>Categoría: <a href=\"/articulo/planos\">Planos</a></p>",
     "created_date": "2026-07-08T12:45:39.318Z",
-    "updated_date": "2026-10-11T09:11:57.292Z",
+    "updated_date": "2026-10-11T09:13:15.420Z",
     "infobox": {
       "tipo": "Lugar",
       "nombre": "Reino de las Pesadillas",
@@ -12890,7 +12890,7 @@
     "related_article_ids": [
       "art-1787666875758"
     ],
-    "image_url": "",
+    "image_url": "/images/uploads/carpa_de_la_compa_ia-1791709950103_qa1fs.png",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -12906,7 +12906,9 @@
     },
     "extra_categories": [
       "Planos"
-    ]
+    ],
+    "spells": [],
+    "spell_images": {}
   },
   {
     "id": "art-1783511194716",

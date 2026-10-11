@@ -12114,10 +12114,10 @@
     "title": "Siramar",
     "category": "Asentamientos",
     "summary": "Reino élfico en Avalon, fundado por elfos del Plano de la Foresta. Gobernado por Elyndar y Thranduin, aliado de humanos y enanos para forjar las espadas de los Caballeros de la Mesa Redonda. Su caída estuvo ligada a la locura de Arturo y la maldición de Elyndar.",
-    "content": "<p>SiramarLos elfos llegaron a <a href=\"/articulo/avalon\">Avalon</a> desde el Plano de la Foresta, expandiéndose luego por <a href=\"/articulo/aeros\">Aeros</a>. Fundaron <strong><a href=\"/articulo/palacio-de-los-elfos-de-siramar-mreuygo8\">Siramar</a></strong>, la Joya del Mar, un reino que aprovechaba la potente <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a> de <a href=\"/articulo/avalon\">Avalon</a> para obtener energía.</p><p>Durante siglos, el rey de <a href=\"/articulo/palacio-de-los-elfos-de-siramar-mreuygo8\">Siramar</a>, primero <strong>Elyndar</strong> y luego su sucesor y mano derecha <strong>Thranduin</strong>, gobernaron con compasión. Colaboraron con humanos y enanos para crear las espadas de los Caballeros de la Mesa Redonda.</p><p>Cuando <a href=\"/articulo/arturo\">Arturo</a> cayó en la locura, las fuerzas mágicas se descontrolaron, haciendo que Elyndar cayera presa de la Primordial de la Vida. Su rey cayó, presa de una maldición, y su príncipe, <strong>Bedivere</strong>, hermano adoptivo del rey <a href=\"/articulo/arturo\">Arturo</a>, se dio a la bebida y el juego.</p><p>El rey de los elfos adoptó a <a href=\"/articulo/arturo\">Arturo</a> cuando este era un niño y aún no gobernaba <a href=\"/articulo/camelot\">Camelot</a>.</p>",
+    "content": "<p>SiramarLos elfos llegaron a <a href=\"/articulo/avalon\">Avalon</a> desde el Plano de la Foresta, expandiéndose luego por <a href=\"/articulo/aeros\">Aeros</a>. Fundaron <strong><a href=\"/articulo/palacio-de-los-elfos-de-siramar-mreuygo8\">Siramar</a></strong>, la Joya del Mar, un reino que aprovechaba la potente <a href=\"/articulo/magia-natural\">magia natural</a> de <a href=\"/articulo/avalon\">Avalon</a> para obtener energía.</p>\n<p>Durante siglos, el rey de <a href=\"/articulo/palacio-de-los-elfos-de-siramar-mreuygo8\">Siramar</a>, primero <strong>Elyndar</strong> y luego su sucesor y mano derecha <strong>Thranduin</strong>, gobernaron con compasión. Colaboraron con humanos y enanos para crear las espadas de los Caballeros de la Mesa Redonda.</p>\n<p>Cuando <a href=\"/articulo/arturo\">Arturo</a> cayó en la locura, las fuerzas mágicas se descontrolaron, haciendo que Elyndar cayera presa de la Primordial de la Vida. Su rey cayó, presa de una maldición, y su príncipe, <strong>Bedivere</strong>, hermano adoptivo del rey <a href=\"/articulo/arturo\">Arturo</a>, se dio a la bebida y el juego.</p>\n<p>El rey de los elfos adoptó a <a href=\"/articulo/arturo\">Arturo</a> cuando este era un niño y aún no gobernaba <a href=\"/articulo/camelot\">Camelot</a>.</p>",
     "created_date": "2026-07-09T23:53:35.939Z",
-    "updated_date": "2026-09-24T10:10:40.281Z",
-    "image_url": "/images/cloud/siramar-mre5xebn_99068577a1.png",
+    "updated_date": "2026-10-11T08:21:03.537Z",
+    "image_url": "/images/uploads/siramar-1791706856003_qiz6t.png",
     "gallery": [],
     "infobox": {},
     "tags": [],
@@ -12196,9 +12196,11 @@
     },
     "map_url": "https://cartocraft.ai.studio/#/map/map-q2ajbqm/no-ui?markers=false&lights=true&helpers=false&root=map-q2ajbqm",
     "extra_categories": [
-      "Lugares",
-      "Asentamientos"
-    ]
+      "Asentamientos",
+      "Lugares"
+    ],
+    "spells": [],
+    "spell_images": {}
   },
   {
     "id": "art-1783639501899",

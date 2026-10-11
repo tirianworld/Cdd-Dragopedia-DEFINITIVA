@@ -18,6 +18,12 @@ import {
   syncLocalImagesToGitHub
 } from "../utils/localImageStorage";
 import { getSafeImageUrl } from "../utils/imageUrl";
+import {
+  MatchedDownloadImage,
+  getStoredDownloadsDirectoryHandle,
+  scanDirectoryForMatchingImages,
+  requestDownloadsDirectoryPicker
+} from "../utils/downloadsDirectoryHelper";
 
 export interface ArtworkItem {
   id: string;
@@ -103,6 +109,132 @@ export function ArtGalleryPickerModal({
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const folderInputRef = useRef<HTMLInputElement>(null);
+
+  // Matched images from Downloads folder for current search query
+  const [matchedDownloads, setMatchedDownloads] = useState<MatchedDownloadImage[]>([]);
+  const [isScanningDownloads, setIsScanningDownloads] = useState<boolean>(false);
+  const [downloadsDirHandle, setDownloadsDirHandle] = useState<FileSystemDirectoryHandle | null>(null);
+  const [isAssigningMatchedDownload, setIsAssigningMatchedDownload] = useState<string | null>(null);
+
+  // Clean up blob preview URLs
+  useEffect(() => {
+    return () => {
+      matchedDownloads.forEach((img) => {
+        if (img.previewUrl.startsWith("blob:")) {
+          URL.revokeObjectURL(img.previewUrl);
+        }
+      });
+    };
+  }, [matchedDownloads]);
+
+  // Scan Downloads folder for query
+  const scanDownloadsForQuery = async (query: string, explicitHandle?: FileSystemDirectoryHandle) => {
+    const q = (query || "").trim();
+    if (!q) {
+      setMatchedDownloads([]);
+      return;
+    }
+    try {
+      let handle = explicitHandle || downloadsDirHandle;
+      if (!handle) {
+        handle = await getStoredDownloadsDirectoryHandle();
+        if (handle) setDownloadsDirHandle(handle);
+      }
+      if (handle) {
+        // @ts-ignore
+        const perm = await handle.queryPermission({ mode: "read" });
+        if (perm === "granted") {
+          setIsScanningDownloads(true);
+          const results = await scanDirectoryForMatchingImages(handle, q);
+          setMatchedDownloads(results);
+        }
+      }
+    } catch (err) {
+      console.warn("Scan downloads for query error:", err);
+    } finally {
+      setIsScanningDownloads(false);
+    }
+  };
+
+  // User explicitly clicks "Buscar en Descargas"
+  const handleScanDownloadsDirectory = async () => {
+    try {
+      setIsScanningDownloads(true);
+      let handle = downloadsDirHandle || (await getStoredDownloadsDirectoryHandle());
+      if (!handle) {
+        handle = await requestDownloadsDirectoryPicker();
+        if (handle) setDownloadsDirHandle(handle);
+      } else {
+        // @ts-ignore
+        const perm = await handle.queryPermission({ mode: "read" });
+        if (perm !== "granted") {
+          // @ts-ignore
+          const req = await handle.requestPermission({ mode: "read" });
+          if (req !== "granted") {
+            handle = await requestDownloadsDirectoryPicker();
+            if (handle) setDownloadsDirHandle(handle);
+          }
+        }
+      }
+
+      if (handle) {
+        const queryToSearch = searchQuery || initialQuery || articleTitle || "Aboleth";
+        const results = await scanDirectoryForMatchingImages(handle, queryToSearch);
+        setMatchedDownloads(results);
+        if (results.length === 0) {
+          setLocalNotification(`No se encontraron imágenes en Descargas con "${queryToSearch}".`);
+        } else {
+          setLocalNotification(`¡Se encontraron ${results.length} imagen(es) en Descargas con "${queryToSearch}"!`);
+        }
+        setTimeout(() => setLocalNotification(null), 5000);
+      }
+    } catch (err: any) {
+      if (err.name !== "AbortError") {
+        console.error("Error explorando Descargas:", err);
+      }
+    } finally {
+      setIsScanningDownloads(false);
+    }
+  };
+
+  const handleAssignMatchedDownload = async (item: MatchedDownloadImage) => {
+    setIsAssigningMatchedDownload(item.id);
+    setAssignedId(item.id);
+    try {
+      const dataUrl = await readFileAsDataURL(item.file);
+      const uploadRes = await uploadImageToServerAndGitHub(dataUrl, item.name, "covers");
+      const chosenUrl = uploadRes.success && uploadRes.url ? uploadRes.url : dataUrl;
+
+      // Save to local IndexedDB storage
+      const localItem: StoredLocalImage = {
+        id: "local_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9),
+        name: item.name,
+        dataUrl,
+        serverUrl: uploadRes.url,
+        githubSynced: uploadRes.githubSaved,
+        size: item.size,
+        type: item.file.type || "image/jpeg",
+        lastModified: item.lastModified,
+        addedAt: Date.now()
+      };
+      await saveLocalImage(localItem);
+
+      onSelectImage(chosenUrl, {
+        posX: 50,
+        posY: 50,
+        title: item.name.replace(/\.[^/.]+$/, ""),
+        sourceName: "Descargas (PC)",
+        is3d: false
+      });
+      setTimeout(() => {
+        onClose();
+      }, 400);
+    } catch (err) {
+      console.error("Error al asignar imagen de descargas:", err);
+    } finally {
+      setIsAssigningMatchedDownload(null);
+    }
+  };
 
   // Load persistent local images from IndexedDB
   const refreshLocalImages = async () => {
@@ -368,6 +500,8 @@ export function ArtGalleryPickerModal({
           setAtajos(customAtajos as string[]);
         }
       }
+      // Also scan matching images in user's Downloads folder
+      scanDownloadsForQuery(q);
     } catch (err) {
       console.error("Error searching artworks in gallery:", err);
     } finally {
@@ -800,6 +934,9 @@ export function ArtGalleryPickerModal({
               onClick={() => {
                 setActiveTab("downloads");
                 refreshLocalImages();
+                if (!localSearchQuery && (searchQuery || initialQuery)) {
+                  setLocalSearchQuery(searchQuery || initialQuery);
+                }
               }}
               className={`flex-1 py-2.5 px-2.5 sm:px-3 rounded-lg font-heading font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 sm:gap-2 transition-all cursor-pointer ${
                 activeTab === "downloads"
@@ -872,6 +1009,26 @@ export function ArtGalleryPickerModal({
                 >
                   {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
                   <span>BUSCAR OBRAS</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleScanDownloadsDirectory}
+                  disabled={isScanningDownloads}
+                  className="px-4 h-11 bg-sky-950/70 hover:bg-sky-900 border border-sky-500/50 text-sky-200 font-heading font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md shadow-sky-500/10 flex items-center gap-2 shrink-0 disabled:opacity-50 cursor-pointer"
+                  title="Buscar automáticamente en tu carpeta Descargas todas las imágenes con este nombre"
+                >
+                  {isScanningDownloads ? (
+                    <Loader2 className="h-4 w-4 animate-spin text-sky-400" />
+                  ) : (
+                    <HardDrive className="h-4 w-4 text-sky-400" />
+                  )}
+                  <span className="hidden sm:inline">DESCARGAS (PC)</span>
+                  {matchedDownloads.length > 0 && (
+                    <span className="px-1.5 py-0.5 rounded-full bg-sky-500 text-slate-950 text-[10px] font-bold">
+                      {matchedDownloads.length}
+                    </span>
+                  )}
                 </button>
               </form>
 
@@ -1050,6 +1207,88 @@ export function ArtGalleryPickerModal({
 
             {/* RESULTS CONTENT */}
             <div className="flex-1 p-4 sm:p-6 overflow-y-auto min-h-0 bg-[#060a12] space-y-8">
+              {/* SECCIÓN: IMÁGENES ENCONTRADAS EN CARPETA DESCARGAS */}
+              {matchedDownloads.length > 0 && (
+                <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#0d2138] via-[#091524] to-[#0d2138] border-2 border-sky-400/60 shadow-xl space-y-3.5">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-sky-500/30 pb-3">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-2.5 rounded-xl bg-sky-500/20 text-sky-300 border border-sky-500/40">
+                        <HardDrive className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="font-heading font-extrabold text-sm sm:text-base text-sky-200 uppercase tracking-wide flex items-center gap-2">
+                          <span>Encontrado en tu carpeta Descargas</span>
+                          <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-sky-500 text-slate-950">
+                            {matchedDownloads.length} {matchedDownloads.length === 1 ? "IMAGEN" : "IMÁGENES"}
+                          </span>
+                        </h3>
+                        <p className="text-xs text-sky-300/80">
+                          Archivos en tu PC que coinciden con &quot;{searchQuery || initialQuery}&quot;. Elige cuál deseas usar:
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setMatchedDownloads([])}
+                      className="text-xs text-muted-foreground hover:text-foreground self-end sm:self-center font-semibold"
+                    >
+                      Ocultar
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                    {matchedDownloads.map((dl) => (
+                      <div
+                        key={dl.id}
+                        className="group relative rounded-xl border border-sky-500/40 bg-[#060e1a] hover:border-sky-400 p-2.5 flex flex-col transition-all shadow-sm"
+                      >
+                        <div className="relative aspect-video w-full rounded-lg overflow-hidden bg-black/70 flex items-center justify-center border border-sky-900/40">
+                          <img
+                            src={dl.previewUrl}
+                            alt={dl.name}
+                            className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                          />
+                          <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded bg-black/80 backdrop-blur-sm text-[9px] font-mono text-sky-300 border border-sky-500/40 font-bold">
+                            {dl.score === 100 ? "Coincidencia exacta" : `Relevancia: ${dl.score}%`}
+                          </div>
+                        </div>
+
+                        <div className="mt-2.5 flex-1 flex flex-col justify-between space-y-2">
+                          <div>
+                            <p className="font-semibold text-xs text-foreground truncate group-hover:text-sky-300 transition-colors" title={dl.name}>
+                              {dl.name}
+                            </p>
+                            <div className="flex items-center justify-between text-[10px] text-muted-foreground mt-0.5">
+                              <span>{formatBytes(dl.size)}</span>
+                              <span>{new Date(dl.lastModified).toLocaleDateString()}</span>
+                            </div>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => handleAssignMatchedDownload(dl)}
+                            disabled={isAssigningMatchedDownload === dl.id}
+                            className="w-full py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-heading font-extrabold text-xs uppercase tracking-wider rounded-lg transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                          >
+                            {isAssigningMatchedDownload === dl.id ? (
+                              <>
+                                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                <span>Subiendo a GitHub...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Check className="h-3.5 w-3.5" />
+                                <span>Elegir esta imagen</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {loading ? (
                 <div className="py-20 flex flex-col items-center justify-center space-y-4">
                   <div className="relative">
@@ -1316,6 +1555,21 @@ export function ArtGalleryPickerModal({
                   >
                     <FolderOpen className="h-4 w-4" />
                     <span>EXPLORAR CARPETA</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleScanDownloadsDirectory}
+                    disabled={isScanningDownloads}
+                    className="px-3.5 py-2.5 bg-sky-950/70 hover:bg-sky-900 border border-sky-500/50 text-sky-200 font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                    title={`Buscar automáticamente en Descargas archivos que contengan "${searchQuery || initialQuery || articleTitle}"`}
+                  >
+                    {isScanningDownloads ? (
+                      <Loader2 className="h-4 w-4 animate-spin text-sky-400" />
+                    ) : (
+                      <HardDrive className="h-4 w-4 text-sky-400" />
+                    )}
+                    <span>BUSCAR &quot;{searchQuery || initialQuery || articleTitle || "ARTÍCULO"}&quot;</span>
                   </button>
 
                   {localImages.length > 0 && (

@@ -77,8 +77,7 @@
       "plano": [],
       "criatura": [],
       "entidad": []
-    },
-    "image_url": "/images/covers/mongraal.webp"
+    }
   },
   {
     "id": "caldo-de-dragon",
@@ -174,8 +173,7 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/culto-a-los-dragones.png"
+    "extra_categories": []
   },
   {
     "title": "Culto a la Piedad",
@@ -236,8 +234,7 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/culto-a-la-piedad.webp"
+    "extra_categories": []
   },
   {
     "title": "Astora",
@@ -279,8 +276,7 @@
     "id": "art-1790263141584",
     "created_date": "2026-09-24T15:19:01.584Z",
     "updated_date": "2026-09-24T15:19:01.584Z",
-    "extra_categories": [],
-    "image_url": "/images/uploads/lordran-1790264016622_c4yek.png"
+    "extra_categories": []
   },
   {
     "title": "Oceiros",
@@ -331,8 +327,7 @@
     "extra_categories": [
       "Dioses",
       "Verdaderos"
-    ],
-    "image_url": "/images/covers/faram-senor-del-sol.jpg"
+    ]
   },
   {
     "title": "Alejandría",
@@ -460,8 +455,7 @@
     "extra_categories": [
       "Dioses",
       "Verdaderos"
-    ],
-    "image_url": "/images/covers/la-luna-oscura.png"
+    ]
   },
   {
     "id": "art-1789932671503",
@@ -503,7 +497,7 @@
     "timeline_markers": [],
     "timeline_order": [],
     "created_date": "2026-09-20T00:23:32.648Z",
-    "updated_date": "2026-10-09T09:28:38.313Z",
+    "updated_date": "2026-09-22T09:54:58.223Z",
     "image_position_x": 48,
     "image_position_y": 8,
     "gallery": [],
@@ -518,10 +512,8 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "/images/uploads/cid-1791537864394_ovtha.png",
-    "extra_categories": [
-      "Personajes"
-    ]
+    "image_url": "/images/covers/cid.png",
+    "extra_categories": []
   },
   {
     "id": "art-1789858601576",
@@ -1484,8 +1476,7 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/refugiados-del-feywild.png"
+    "extra_categories": []
   },
   {
     "title": "Corte Feérica",
@@ -1584,7 +1575,7 @@
     "is_featured": false,
     "id": "art-1787667632755",
     "created_date": "2026-08-25T14:20:39.692Z",
-    "updated_date": "2026-10-09T09:30:44.689Z",
+    "updated_date": "2026-09-24T10:35:37.472Z",
     "image_url": "/images/covers/seis-magias-primordiales.png",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -1742,9 +1733,7 @@
       "blink": "https://bg3.wiki/wiki/Special:FilePath/Blink%20Icon.webp",
       "hypnotic-pattern": "https://bg3.wiki/wiki/Special:FilePath/Hypnotic%20Pattern%20Icon.webp"
     },
-    "extra_categories": [
-      "Magias"
-    ]
+    "extra_categories": []
   },
   {
     "title": "Adamantita",
@@ -1875,8 +1864,7 @@
     "id": "art-1787667220867",
     "created_date": "2026-08-25T14:13:49.232Z",
     "updated_date": "2026-08-25T14:13:49.232Z",
-    "extra_categories": [],
-    "image_url": "/images/covers/familias-de-herreros-malditos.png"
+    "extra_categories": []
   },
   {
     "title": "Diablos",
@@ -2242,8 +2230,7 @@
     "image_position_y": 50,
     "spells": [],
     "spell_images": {},
-    "extra_categories": [],
-    "image_url": "/images/covers/la-casa-loux.png"
+    "extra_categories": []
   },
   {
     "title": "Acero Negro",
@@ -3691,8 +3678,7 @@
     "id": "art-1787666129928",
     "created_date": "2026-08-25T13:55:33.488Z",
     "updated_date": "2026-08-25T13:55:33.488Z",
-    "extra_categories": [],
-    "image_url": "/images/covers/reloj-astral.webp"
+    "extra_categories": []
   },
   {
     "title": "Clérigos",
@@ -4936,8 +4922,7 @@
     "id": "art-1787665974094",
     "created_date": "2026-08-25T13:52:57.466Z",
     "updated_date": "2026-08-25T13:52:57.466Z",
-    "extra_categories": [],
-    "image_url": "/images/covers/segadores.png"
+    "extra_categories": []
   },
   {
     "title": "Aulladores",
@@ -4979,8 +4964,7 @@
       "art-1787665974094",
       "art-1783384032020"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/aulladores.png"
+    "extra_categories": []
   },
   {
     "title": "Ludwig",
@@ -5039,8 +5023,7 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/ludwig.png"
+    "extra_categories": []
   },
   {
     "title": "Bloodhunters",
@@ -5178,8 +5161,7 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/blanca-via.png"
+    "extra_categories": []
   },
   {
     "title": "Paladín",
@@ -5467,8 +5449,7 @@
     "extra_categories": [
       "Dioses",
       "Consejo Omega"
-    ],
-    "image_url": "/images/covers/chemos-el-dios-oscuro.jpg"
+    ]
   },
   {
     "title": "Fafnir, el Dios Dragón",
@@ -5527,8 +5508,7 @@
       "Dioses",
       "Ascendidos",
       "Regionales"
-    ],
-    "image_url": "/images/covers/fafnir-el-dios-dragon.jpg"
+    ]
   },
   {
     "title": "ki",
@@ -5715,8 +5695,7 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/santuario-de-la-mano-abierta.webp"
+    "extra_categories": []
   },
   {
     "title": "Monjes de la Mano Abierta",
@@ -5747,8 +5726,7 @@
     "related_article_ids": [
       "art-1787665738452"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/monjes-de-la-mano-abierta.png"
+    "extra_categories": []
   },
   {
     "title": "Nigromancia",
@@ -7944,8 +7922,7 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/los-latentes.png"
+    "extra_categories": []
   },
   {
     "title": "El Plano Material",
@@ -9629,8 +9606,7 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/uploads/PRIMORDIALES-1791538236326_jyfw1.png"
+    "extra_categories": []
   },
   {
     "title": "Poder Cósmico",
@@ -9794,8 +9770,7 @@
     "related_article_ids": [
       "art-1787665007919"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/plaga-de-las-bestias.jpg"
+    "extra_categories": []
   },
   {
     "title": "Logario",
@@ -9915,8 +9890,7 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/la-blanca-inquisicion.webp"
+    "extra_categories": []
   },
   {
     "title": "La Blanca Vía",
@@ -9970,8 +9944,7 @@
     "extra_categories": [
       "Dioses",
       "Verdaderos"
-    ],
-    "image_url": "/images/covers/la-blanca-via.jpg"
+    ]
   },
   {
     "title": "Devotos de la Reina",
@@ -10021,8 +9994,7 @@
       "art-1787664785063",
       "art-1787664592459"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/devotos-de-la-reina.png"
+    "extra_categories": []
   },
   {
     "title": "Blackguard",
@@ -10564,8 +10536,7 @@
       "art-1787665642246"
     ],
     "map_url": "https://cartocraft.ai.studio/#/map/6a33c6fb7fcb71b00f8684d7/no-ui?markers=false&lights=true&helpers=false&root=6a33c6fb7fcb71b00f8684d7",
-    "extra_categories": [],
-    "image_url": "/images/covers/la-gran-biblioteca-de-kaliria-mt7cxkz1.jpg"
+    "extra_categories": []
   },
   {
     "id": "art-1787582919040",
@@ -10662,8 +10633,8 @@
       "muerte-gravatax"
     ],
     "created_date": "2026-08-12T14:48:49.565Z",
-    "updated_date": "2026-10-09T11:41:17.834Z",
-    "image_url": "/images/uploads/drangleic_alternativo-1791546029617_j1r58.png",
+    "updated_date": "2026-09-24T10:10:09.256Z",
+    "image_url": "/images/covers/drangleic-alternativo-msq7fs0t.png",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -10695,9 +10666,7 @@
       "entidad": []
     },
     "map_url": "https://cartocraft.ai.studio/#/map/map-ba6meuz/no-ui?markers=false&lights=true&helpers=false&root=map-ba6meuz",
-    "extra_categories": [
-      "Lugares"
-    ]
+    "extra_categories": []
   },
   {
     "title": "El Santa María",
@@ -10829,8 +10798,7 @@
         "Elfo"
       ]
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/faustus.png"
+    "extra_categories": []
   },
   {
     "title": "Fara",
@@ -10908,8 +10876,7 @@
         "Elfo"
       ]
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/fara.png"
+    "extra_categories": []
   },
   {
     "title": "Limeyr",
@@ -11037,8 +11004,7 @@
     "related_article_ids": [
       "art-1784457936358"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/grimorios-de-faustus.png"
+    "extra_categories": []
   },
   {
     "id": "art-1783715624151",
@@ -11287,8 +11253,7 @@
       ]
     },
     "map_url": "https://cartocraft.ai.studio/#/map/6a3421b268196ec66c7119aa/no-ui?markers=false&lights=true&helpers=false&root=6a3421b268196ec66c7119aa",
-    "extra_categories": [],
-    "image_url": "/images/covers/academia-de-los-espejos-de-drangleic-mrfddq1b.png"
+    "extra_categories": []
   },
   {
     "id": "art-1783713825197",
@@ -11457,8 +11422,7 @@
     "extra_categories": [
       "Lugares",
       "Mazmorras"
-    ],
-    "image_url": "/images/covers/mehetia-mrfciyvp.png"
+    ]
   },
   {
     "id": "art-1783712480274",
@@ -11559,7 +11523,7 @@
     "summary": "Entidad divina que mantiene unida a Ávalon y otorga inmortalidad a sus habitantes mediante la absorción de energía vital y almas.",
     "content": "<h1>Árbol Áureo</h1><p>El <strong>Árbol Áureo</strong> es una entidad divina y ancestral que se erige como el corazón y el alma de <a href=\"/articulo/avalon\">Ávalon</a>. Su existencia es el pilar que mantiene unida a la isla, y su poder trasciende las leyes naturales, especialmente la muerte. Este árbol sagrado fue creado por la unión de la <a href=\"/articulo/magia-divina\" class=\"text-primary hover:underline font-semibold\">magia divina</a> y la <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a>, y con el tiempo desarrolló una conciencia propia, elevándose a un nivel cercano al de las deidades menores.</p><h2>Origen y Creación</h2><p>El Árbol Áureo nació de la fusión entre la <a href=\"/articulo/magia-divina\" class=\"text-primary hover:underline font-semibold\">magia divina</a> y la <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a>, un proceso que ocurrió en los albores de la creación de <a href=\"/articulo/avalon\">Ávalon</a>. Su formación fue un evento único, donde las fuerzas de la creación y la protección se unieron para dar vida a una entidad que trascendería el tiempo y el espacio.</p><h2>Poderes y Funciones</h2><p>El Árbol Áureo posee un poder único que desafía las leyes naturales:</p><ul><li><strong>Inmortalidad en Ávalon:</strong> Mientras el Árbol Áureo exista, la muerte en <a href=\"/articulo/avalon\">Ávalon</a> es imposible. Su presencia actúa como un escudo divino que protege a los habitantes de la isla de la muerte natural.</li><li><strong>Absorción de Energía Vital:</strong> Cuando alguien muere en <a href=\"/articulo/avalon\">Ávalon</a>, el Árbol Áureo absorbe parte de la energía vital y un fragmento del alma del difunto. Este proceso ocurre de dos formas:</li><ul><li>Si el asesino de la víctima muere, la energía vital y el alma de la víctima original son devueltos a su poseedor original.</li><li>Si la víctima no es asesinada, pero su energía vital se agota por otros medios, su alma es forzada a reencarnar.</li></ul><li><strong>Nutrición del Árbol:</strong> Ambos procesos envían \"nutrientes\" al Árbol Áureo, aumentando su poder y fortaleciéndolo. Con el tiempo, estos nutrientes han elevado al Árbol Áureo a un nivel que roza el de las deidades menores.</li></ul><h2>Interés en la Expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a></h2><p>El Árbol Áureo ha mostrado un especial interés en la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a>. Cree que los miembros de esta expedición podrían ser clave para cumplir su plan: alcanzar un poder aún mayor y trascender su estado actual. El Árbol Áureo ve en ellos la posibilidad de fortalecerse y expandir su influencia más allá de los límites de <a href=\"/articulo/avalon\">Ávalon</a>.</p><h2>Relación con <a href=\"/articulo/avalon\">Ávalon</a></h2><p>El Árbol Áureo es el corazón de <a href=\"/articulo/avalon\">Ávalon</a>. Sus raíces se extienden por toda la isla, manteniéndola unida y protegiéndola de cualquier amenaza externa. Sin el Árbol Áureo, <a href=\"/articulo/avalon\">Ávalon</a> dejaría de existir como la conocemos, y la muerte volvería a reclamar a sus habitantes.</p>",
     "created_date": "2026-07-10T18:15:16.104Z",
-    "updated_date": "2026-10-07T08:38:03.783Z",
+    "updated_date": "2026-10-07T07:38:31.932Z",
     "infobox": {
       "Nombre": "Árbol Áureo",
       "Categoría": "Dioses",
@@ -11634,8 +11598,7 @@
     "extra_categories": [
       "Dioses",
       "Regionales"
-    ],
-    "image_url": "/images/covers/arbol-aureo-mrf9a5jc.png"
+    ]
   },
   {
     "id": "art-1783683254944",
@@ -11645,7 +11608,7 @@
     "summary": "Antiguo centro de investigación de magias en Siramar, corrompido por la maldición de la Primordial de la Vida que convirtió en madera al rey Elyndar y desestabilizó la magia natural, liberando sujetos de prueba e inundando el palacio de magias inestables.",
     "content": "<h2>Palacio de los Elfos de Siramar</h2>\n<p><strong>Palacio de los Elfos de <a href=\"/articulo/siramar-mre5xebn\">Siramar</a></strong> fue antaño el centro de investigación más avanzado de todo tipo de magias en el reino élfico de <a href=\"/articulo/siramar-mre5xebn\">Siramar</a>. Su torre central, imponente y luminosa, albergaba estudios sobre <a href=\"/articulo/magia-natural\">magia natural</a>, hechizos ancestrales y experimentos arcanos que buscaban potenciar el poder mágico de la isla.</p>\n<h2>Caída</h2>\n<p>Sin embargo, la corrupción de la <strong>Primordial de la Vida</strong> marcó un punto de inflexión irreversible. La maldición que afectó al rey —convertido en un ser de madera— desestabilizó la <a href=\"/articulo/magia-natural\">magia natural</a> que sostenía el palacio. Las barreras mágicas se rompieron, los sujetos de prueba fueron liberados, y el palacio se inundó de magias inestables, cada una más extraña y peligrosa que la anterior.</p>\n<h2>Estado Actual</h2>\n<p>Hoy, el <strong>Palacio de los Elfos de <a href=\"/articulo/siramar-mre5xebn\">Siramar</a></strong> es un laberinto de ruinas mágicas, donde los ecos de experimentos fallidos y energías descontroladas persisten como un recordatorio de la caída de <a href=\"/articulo/siramar-mre5xebn\">Siramar</a>.</p>",
     "created_date": "2026-07-10T11:34:16.040Z",
-    "updated_date": "2026-10-10T23:42:26.921Z",
+    "updated_date": "2026-09-24T14:18:45.998Z",
     "gallery": [],
     "infobox": {},
     "tags": [],
@@ -11687,10 +11650,10 @@
         "Elfo"
       ]
     },
-    "image_url": "/images/uploads/palacio_elficp_siramar-1791675739195_4vqza.png",
+    "image_url": "/images/covers/palacio-de-los-elfos-de-siramar-mreuygo8.png",
     "animation_frames": "{\"elements\":[{\"type\":\"waterfall_flow\",\"color\":\"rgba(100, 200, 255, 0.4)\",\"base_x\":50,\"base_y\":30,\"width\":80,\"height\":30,\"frames\":[{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0,\"offset_y\":0.416,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":3.45},{\"offset_x\":0,\"offset_y\":0.813,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":6.9},{\"offset_x\":0,\"offset_y\":1.176,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":10.34},{\"offset_x\":0,\"offset_y\":1.486,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":13.79},{\"offset_x\":0,\"offset_y\":1.732,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":17.24},{\"offset_x\":0,\"offset_y\":1.902,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":20.69},{\"offset_x\":0,\"offset_y\":1.989,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":24.14},{\"offset_x\":0,\"offset_y\":1.989,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":27.59},{\"offset_x\":0,\"offset_y\":1.902,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":31.03},{\"offset_x\":0,\"offset_y\":1.732,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":34.48},{\"offset_x\":0,\"offset_y\":1.486,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":37.93},{\"offset_x\":0,\"offset_y\":1.176,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":41.38},{\"offset_x\":0,\"offset_y\":0.813,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":44.83},{\"offset_x\":0,\"offset_y\":0.416,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":48.28},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":51.72},{\"offset_x\":0,\"offset_y\":-0.416,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":55.17},{\"offset_x\":0,\"offset_y\":-0.813,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":58.62},{\"offset_x\":0,\"offset_y\":-1.176,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":62.07},{\"offset_x\":0,\"offset_y\":-1.486,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":65.52},{\"offset_x\":0,\"offset_y\":-1.732,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":68.97},{\"offset_x\":0,\"offset_y\":-1.902,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":72.41},{\"offset_x\":0,\"offset_y\":-1.989,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":75.86},{\"offset_x\":0,\"offset_y\":-1.989,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":79.31},{\"offset_x\":0,\"offset_y\":-1.902,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":82.76},{\"offset_x\":0,\"offset_y\":-1.732,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":86.21},{\"offset_x\":0,\"offset_y\":-1.486,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":89.66},{\"offset_x\":0,\"offset_y\":-1.176,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":93.1},{\"offset_x\":0,\"offset_y\":-0.813,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":96.55},{\"offset_x\":0,\"offset_y\":-0.416,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":100}]},{\"type\":\"ambient_particles\",\"color\":\"rgba(255, 200, 50, 0.3)\",\"base_x\":50,\"base_y\":50,\"width\":100,\"height\":100,\"frames\":[{\"offset_x\":0,\"offset_y\":1,\"opacity\":0.6,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0.208,\"offset_y\":0.978,\"opacity\":0.681,\"scale\":1,\"rotate\":0,\"custom_value\":3.45},{\"offset_x\":0.407,\"offset_y\":0.914,\"opacity\":0.749,\"scale\":1,\"rotate\":0,\"custom_value\":6.9},{\"offset_x\":0.588,\"offset_y\":0.809,\"opacity\":0.79,\"scale\":1,\"rotate\":0,\"custom_value\":10.34},{\"offset_x\":0.743,\"offset_y\":0.669,\"opacity\":0.799,\"scale\":1,\"rotate\":0,\"custom_value\":13.79},{\"offset_x\":0.866,\"offset_y\":0.5,\"opacity\":0.773,\"scale\":1,\"rotate\":0,\"custom_value\":17.24},{\"offset_x\":0.951,\"offset_y\":0.309,\"opacity\":0.718,\"scale\":1,\"rotate\":0,\"custom_value\":20.69},{\"offset_x\":0.995,\"offset_y\":0.105,\"opacity\":0.642,\"scale\":1,\"rotate\":0,\"custom_value\":24.14},{\"offset_x\":0.995,\"offset_y\":-0.105,\"opacity\":0.558,\"scale\":1,\"rotate\":0,\"custom_value\":27.59},{\"offset_x\":0.951,\"offset_y\":-0.309,\"opacity\":0.482,\"scale\":1,\"rotate\":0,\"custom_value\":31.03},{\"offset_x\":0.866,\"offset_y\":-0.5,\"opacity\":0.427,\"scale\":1,\"rotate\":0,\"custom_value\":34.48},{\"offset_x\":0.743,\"offset_y\":-0.669,\"opacity\":0.401,\"scale\":1,\"rotate\":0,\"custom_value\":37.93},{\"offset_x\":0.588,\"offset_y\":-0.809,\"opacity\":0.41,\"scale\":1,\"rotate\":0,\"custom_value\":41.38},{\"offset_x\":0.407,\"offset_y\":-0.914,\"opacity\":0.451,\"scale\":1,\"rotate\":0,\"custom_value\":44.83},{\"offset_x\":0.208,\"offset_y\":-0.978,\"opacity\":0.519,\"scale\":1,\"rotate\":0,\"custom_value\":48.28},{\"offset_x\":0,\"offset_y\":-1,\"opacity\":0.6,\"scale\":1,\"rotate\":0,\"custom_value\":51.72},{\"offset_x\":-0.208,\"offset_y\":-0.978,\"opacity\":0.681,\"scale\":1,\"rotate\":0,\"custom_value\":55.17},{\"offset_x\":-0.407,\"offset_y\":-0.914,\"opacity\":0.749,\"scale\":1,\"rotate\":0,\"custom_value\":58.62},{\"offset_x\":-0.588,\"offset_y\":-0.809,\"opacity\":0.79,\"scale\":1,\"rotate\":0,\"custom_value\":62.07},{\"offset_x\":-0.743,\"offset_y\":-0.669,\"opacity\":0.799,\"scale\":1,\"rotate\":0,\"custom_value\":65.52},{\"offset_x\":-0.866,\"offset_y\":-0.5,\"opacity\":0.773,\"scale\":1,\"rotate\":0,\"custom_value\":68.97},{\"offset_x\":-0.951,\"offset_y\":-0.309,\"opacity\":0.718,\"scale\":1,\"rotate\":0,\"custom_value\":72.41},{\"offset_x\":-0.995,\"offset_y\":-0.105,\"opacity\":0.642,\"scale\":1,\"rotate\":0,\"custom_value\":75.86},{\"offset_x\":-0.995,\"offset_y\":0.105,\"opacity\":0.558,\"scale\":1,\"rotate\":0,\"custom_value\":79.31},{\"offset_x\":-0.951,\"offset_y\":0.309,\"opacity\":0.482,\"scale\":1,\"rotate\":0,\"custom_value\":82.76},{\"offset_x\":-0.866,\"offset_y\":0.5,\"opacity\":0.427,\"scale\":1,\"rotate\":0,\"custom_value\":86.21},{\"offset_x\":-0.743,\"offset_y\":0.669,\"opacity\":0.401,\"scale\":1,\"rotate\":0,\"custom_value\":89.66},{\"offset_x\":-0.588,\"offset_y\":0.809,\"opacity\":0.41,\"scale\":1,\"rotate\":0,\"custom_value\":93.1},{\"offset_x\":-0.407,\"offset_y\":0.914,\"opacity\":0.451,\"scale\":1,\"rotate\":0,\"custom_value\":96.55},{\"offset_x\":-0.208,\"offset_y\":0.978,\"opacity\":0.519,\"scale\":1,\"rotate\":0,\"custom_value\":100}]},{\"type\":\"glow_pulse\",\"color\":\"rgba(200, 100, 255, 0.5)\",\"base_x\":70,\"base_y\":70,\"width\":20,\"height\":20,\"frames\":[{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.604,\"scale\":1.042,\"rotate\":1.04,\"custom_value\":3.45},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.703,\"scale\":1.081,\"rotate\":2.034,\"custom_value\":6.9},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.794,\"scale\":1.118,\"rotate\":2.939,\"custom_value\":10.34},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.872,\"scale\":1.149,\"rotate\":3.716,\"custom_value\":13.79},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.933,\"scale\":1.173,\"rotate\":4.33,\"custom_value\":17.24},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.976,\"scale\":1.19,\"rotate\":4.756,\"custom_value\":20.69},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.997,\"scale\":1.199,\"rotate\":4.973,\"custom_value\":24.14},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.997,\"scale\":1.199,\"rotate\":4.973,\"custom_value\":27.59},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.976,\"scale\":1.19,\"rotate\":4.756,\"custom_value\":31.03},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.933,\"scale\":1.173,\"rotate\":4.33,\"custom_value\":34.48},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.872,\"scale\":1.149,\"rotate\":3.716,\"custom_value\":37.93},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.794,\"scale\":1.118,\"rotate\":2.939,\"custom_value\":41.38},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.703,\"scale\":1.081,\"rotate\":2.034,\"custom_value\":44.83},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.604,\"scale\":1.042,\"rotate\":1.04,\"custom_value\":48.28},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":1,\"rotate\":0,\"custom_value\":51.72},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.396,\"scale\":0.958,\"rotate\":-1.04,\"custom_value\":55.17},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.297,\"scale\":0.919,\"rotate\":-2.034,\"custom_value\":58.62},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.206,\"scale\":0.882,\"rotate\":-2.939,\"custom_value\":62.07},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.129,\"scale\":0.851,\"rotate\":-3.716,\"custom_value\":65.52},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.067,\"scale\":0.827,\"rotate\":-4.33,\"custom_value\":68.97},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.025,\"scale\":0.81,\"rotate\":-4.756,\"custom_value\":72.41},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.003,\"scale\":0.801,\"rotate\":-4.973,\"custom_value\":75.86},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.003,\"scale\":0.801,\"rotate\":-4.973,\"custom_value\":79.31},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.025,\"scale\":0.81,\"rotate\":-4.756,\"custom_value\":82.76},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.067,\"scale\":0.827,\"rotate\":-4.33,\"custom_value\":86.21},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.129,\"scale\":0.851,\"rotate\":-3.716,\"custom_value\":89.66},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.206,\"scale\":0.882,\"rotate\":-2.939,\"custom_value\":93.1},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.297,\"scale\":0.919,\"rotate\":-2.034,\"custom_value\":96.55},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.396,\"scale\":0.958,\"rotate\":-1.04,\"custom_value\":100}]}]}",
     "animate_illustration": true,
-    "image_position_x": 50,
+    "image_position_x": 77,
     "image_position_y": 50,
     "cozy_fx": {
       "preset": "autumn_leaves",
@@ -11712,8 +11675,8 @@
     "spells": [],
     "spell_images": {},
     "extra_categories": [
-      "Mazmorras",
-      "Lugares"
+      "Lugares",
+      "Mazmorras"
     ]
   },
   {
@@ -11956,8 +11919,7 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/la-capital.png"
+    "extra_categories": []
   },
   {
     "title": "Máscara de Purga",
@@ -12031,8 +11993,7 @@
     "id": "art-1783680216668",
     "created_date": "2026-07-10T10:43:37.451Z",
     "updated_date": "2026-07-29T09:28:56.960Z",
-    "extra_categories": [],
-    "image_url": "/images/covers/parasito-de-cobre.png"
+    "extra_categories": []
   },
   {
     "id": "art-1783643834135",
@@ -12195,7 +12156,7 @@
     "title": "Stariax",
     "category": "Personajes",
     "summary": "",
-    "content": "<h2>Stariax</h2>\n<p>Stariax es una figura esbelta y ágil, con una presencia que irradia letalidad y frialdad.</p>\n<h2>Apariencia</h2>\n<p>Stariax es una figura esbelta y ágil, con una presencia que irradia letalidad y frialdad. Su cuerpo está marcado por cicatrices de pruebas y rituales, pero también por una agilidad sobrenatural. Sus movimientos son precisos y rápidos, como si el tiempo mismo se ralentizara a su alrededor. Sus ojos, fríos y vacíos, reflejan la ausencia de humanidad que alguna vez tuvo. Su piel, pálida y sin vida, contrasta con la oscuridad de su entorno. Viste ropas desgarradas y funcionales, diseñadas para el movimiento y la supervivencia, pero sin ningún adorno que delate su pasado.</p>\n<h2>Personalidad</h2>\n<p>Stariax es un ser consumido por el odio y la sed de venganza. Su mente está dominada por una voz que le susurra \"Todos deben morir\", una obsesión que la impulsa a eliminar cualquier amenaza o obstáculo en su camino. No siente remordimiento ni empatía, solo una frialdad calculadora y una determinación implacable. Su único propósito es destruir a quienes considera responsables de su sufrimiento, sin importar el costo. Aunque alguna vez tuvo amor por su hermano y esperanza de escapar, ahora solo existe el vacío y la necesidad de matar.</p>\n<h2>Historia</h2>\n<p>Stariax nació en una familia humilde, pero su vida dio un giro oscuro cuando, a una edad temprana, sus padres, ahogados en deudas y miedo, la vendieron junto a su hermano a un <a href=\"/articulo/hechicero\">hechicero</a> ligado a una poderosa <a href=\"/articulo/secta-oscura\">secta oscura</a>. El <a href=\"/articulo/hechicero\">hechicero</a> no veía en ellos a niños, sino en material en potencia para crear una criatura perfecta: rápida, letal y sin emociones. Los llevó a un castillo, donde el sol no entraba y solo reinaba el polvo y la humedad. Allí, Stariax y su hermano fueron sometidos a pruebas, rituales y castigos interminables. Stariax siempre se levantó más fuerte, más rápida y más fría, pero su hermano, de constitución más frágil, no resistía igual. Stariax lo protegía, asegurándole que algún día escaparían.</p>\n<p>Un día, el <a href=\"/articulo/hechicero\">hechicero</a> decidió que el hermano de Stariax había fallado y ya no le servía. Obligada a mirar, encadenada e inmóvil, Stariax vio cómo el <a href=\"/articulo/hechicero\">hechicero</a> iniciaba un conjuro que terminó con la vida de su hermano. Pero el hechizo, aún incompleto, se desbordó, y una parte de esa magia entró en Stariax. Ese fue el momento en que algo dentro de ella murió y algo más nació. Un vacío se llenó completamente de odio, odio sin forma ni razón, dirigido no solo hacia el <a href=\"/articulo/hechicero\">hechicero</a>, sino hacia todo lo que la rodeaba. Rompió sus cadenas y, por primera vez, el <a href=\"/articulo/hechicero\">hechicero</a> sintió miedo. Fue ejecutado en un instante. El dolor la había convertido en algo inhumano.</p>\n<p>Desde entonces, Stariax solo siente odio y sed de venganza. Su cuerpo es ligero, rápido y letal, y sus sentidos están afilados como cuchillas. Pero su mente está consumida por la voz que le susurra \"Todos deben morir\". Pronto descubrió que el <a href=\"/articulo/hechicero\">hechicero</a> no estaba solo; formaba parte de una <a href=\"/articulo/secta-oscura\">secta oscura</a> que seguía creando monstruos. Su objetivo se volvió claro: matar a todos hasta que no quedara ni uno en pie, cueste lo que cueste.</p>\n<p>Tras su transformación en una criatura letal y consumida por el odio, Stariax vagó por el mundo hasta que, durante la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a> a <a href=\"#\">Ávalon</a>, llegó a <a href=\"#\">Svartal</a>, en el <a href=\"/articulo/gran-reino-enano-de-thorin-mrdtvqcc\">Gran Reino Enano de Thorin</a>. Al enterarse de que el grupo carecía de un miembro para competir en el  torndeo se unió a ellos. Su habilidad en combate y su sed de venganza resultaron clave para derrotar a <a href=\"/articulo/kaelgor-loux\">Kaelgor Loux</a>. Tras la victoria, Stariax se unió oficialmente a la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a>, consolidando su lugar como parte del grupo.</p>\n<h2>Habilidades y poderes</h2>\n<ul>\n<li><strong>Agilidad sobrenatural:</strong> Su cuerpo es increíblemente ágil, capaz de moverse a velocidades inhumanas y esquivar ataques con facilidad.</li>\n</ul>\n<ul>\n<li><strong>Sentidos afilados:</strong> Sus sentidos están tan desarrollados que puede detectar presencias, olores y sonidos a distancias imposibles para un humano normal.</li>\n</ul>\n<ul>\n<li><strong>Resistencia extrema:</strong> Ha sido sometida a pruebas brutales que la han hecho resistente al dolor y a la fatiga, permitiéndole continuar incluso en condiciones extremas.</li>\n</ul>\n<ul>\n<li><strong>Frialdad mental:</strong> Su mente está tan consumida por el odio que no siente miedo ni remordimiento, lo que la hace un enemigo implacable.</li>\n</ul>\n<ul>\n<li><strong>Armas naturales:</strong> Sus manos y pies están adaptados para el combate, con garras y golpes letales que pueden matar instantáneamente.</li>\n</ul>\n<h2>Curiosidades</h2>\n<ul>\n<li>Stariax no recuerda su nombre de nacimiento ni el de su hermano, ya que todo su pasado fue borrado por los experimentos de la <a href=\"/articulo/secta-oscura\">secta oscura</a>.</li>\n</ul>\n<ul>\n<li>Su odio no está dirigido solo a quienes la dañaron, sino a todo lo que existe, incluyendo a los inocentes.</li>\n</ul>\n<ul>\n<li>Aunque su cuerpo es humanoide, su fisiología ha sido alterada por la <a href=\"/articulo/magia-oscura\">magia oscura</a>, dándole habilidades sobrehumanas.</li>\n</ul>\n<ul>\n<li>La <a href=\"/articulo/secta-oscura\">secta oscura</a> que la creó sigue activa, y Stariax busca destruirla como parte de su venganza.</li>\n</ul>",
+    "content": "<h2>Stariax</h2>\n<p>Stariax es una figura esbelta y ágil, con una presencia que irradia letalidad y frialdad.</p>\n<h2>Apariencia</h2>\n<p>Stariax es una figura esbelta y ágil, con una presencia que irradia letalidad y frialdad. Su cuerpo está marcado por cicatrices de pruebas y rituales, pero también por una agilidad sobrenatural. Sus movimientos son precisos y rápidos, como si el tiempo mismo se ralentizara a su alrededor. Sus ojos, fríos y vacíos, reflejan la ausencia de humanidad que alguna vez tuvo. Su piel, pálida y sin vida, contrasta con la oscuridad de su entorno. Viste ropas desgarradas y funcionales, diseñadas para el movimiento y la supervivencia, pero sin ningún adorno que delate su pasado.</p>\n<h2>Personalidad</h2>\n<p>Stariax es un ser consumido por el odio y la sed de venganza. Su mente está dominada por una voz que le susurra \"Todos deben morir\", una obsesión que la impulsa a eliminar cualquier amenaza o obstáculo en su camino. No siente remordimiento ni empatía, solo una frialdad calculadora y una determinación implacable. Su único propósito es destruir a quienes considera responsables de su sufrimiento, sin importar el costo. Aunque alguna vez tuvo amor por su hermano y esperanza de escapar, ahora solo existe el vacío y la necesidad de matar.</p>\n<h2>Historia</h2>\n<p>Stariax nació en una familia humilde, pero su vida dio un giro oscuro cuando, a una edad temprana, sus padres, ahogados en deudas y miedo, la vendieron junto a su hermano a un <a href=\"/articulo/hechicero\">hechicero</a> ligado a una poderosa <a href=\"/articulo/secta-oscura\">secta oscura</a>. El <a href=\"/articulo/hechicero\">hechicero</a> no veía en ellos a niños, sino en material en potencia para crear una criatura perfecta: rápida, letal y sin emociones. Los llevó a un castillo, donde el sol no entraba y solo reinaba el polvo y la humedad. Allí, Stariax y su hermano fueron sometidos a pruebas, rituales y castigos interminables. Stariax siempre se levantó más fuerte, más rápida y más fría, pero su hermano, de constitución más frágil, no resistía igual. Stariax lo protegía, asegurándole que algún día escaparían.</p>\n<p>Un día, el <a href=\"/articulo/hechicero\">hechicero</a> decidió que el hermano de Stariax había fallado y ya no le servía. Obligada a mirar, encadenada e inmóvil, Stariax vio cómo el <a href=\"/articulo/hechicero\">hechicero</a> iniciaba un conjuro que terminó con la vida de su hermano. Pero el hechizo, aún incompleto, se desbordó, y una parte de esa magia entró en Stariax. Ese fue el momento en que algo dentro de ella murió y algo más nació. Un vacío se llenó completamente de odio, odio sin forma ni razón, dirigido no solo hacia el <a href=\"/articulo/hechicero\">hechicero</a>, sino hacia todo lo que la rodeaba. Rompió sus cadenas y, por primera vez, el <a href=\"/articulo/hechicero\">hechicero</a> sintió miedo. Fue ejecutado en un instante. El dolor la había convertido en algo inhumano.</p>\n<p>Desde entonces, Stariax solo siente odio y sed de venganza. Su cuerpo es ligero, rápido y letal, y sus sentidos están afilados como cuchillas. Pero su mente está consumida por la voz que le susurra \"Todos deben morir\". Pronto descubrió que el <a href=\"/articulo/hechicero\">hechicero</a> no estaba solo; formaba parte de una <a href=\"/articulo/secta-oscura\">secta oscura</a> que seguía creando monstruos. Su objetivo se volvió claro: matar a todos hasta que no quedara ni uno en pie, cueste lo que cueste.</p>\n<p>Tras su transformación en una criatura letal y consumida por el odio, Stariax vagó por el mundo hasta que, durante la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a> a <a href=\"#\">Ávalon</a>, llegó a <a href=\"#\">Svartal</a>, en el <a href=\"/articulo/gran-reino-enano-de-thorin-mrdtvqcc\">Gran Reino Enano de Thorin</a>. Al enterarse de que el grupo carecía de un miembro para competir en el  torndeo se unió a ellos. Su habilidad en combate y su sed de venganza resultaron clave para derrotar a <a href=\"/articulo/kaelgor-loux\">Kaelgor Loux</a>. Tras la victoria, Stariax se unió oficialmente a la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a>, consolidando su lugar como parte del grupo.</p>\n<h2>Habilidades y poderes</h2>\n<ul>\n<li><strong>Agilidad sobrenatural:</strong> Su cuerpo es increíblemente ágil, capaz de moverse a velocidades inhumanas y esquivar ataques con facilidad.</li>\n<li><strong>Sentidos afilados:</strong> Sus sentidos están tan desarrollados que puede detectar presencias, olores y sonidos a distancias imposibles para un humano normal.</li>\n<li><strong>Resistencia extrema:</strong> Ha sido sometida a pruebas brutales que la han hecho resistente al dolor y a la fatiga, permitiéndole continuar incluso en condiciones extremas.</li>\n<li><strong>Frialdad mental:</strong> Su mente está tan consumida por el odio que no siente miedo ni remordimiento, lo que la hace un enemigo implacable.</li>\n<li><strong>Armas naturales:</strong> Sus manos y pies están adaptados para el combate, con garras y golpes letales que pueden matar instantáneamente.</li>\n</ul>\n<h2>Curiosidades</h2>\n<ul>\n<li>Stariax no recuerda su nombre de nacimiento ni el de su hermano, ya que todo su pasado fue borrado por los experimentos de la <a href=\"/articulo/secta-oscura\">secta oscura</a>.</li>\n<li>Su odio no está dirigido solo a quienes la dañaron, sino a todo lo que existe, incluyendo a los inocentes.</li>\n<li>Aunque su cuerpo es humanoide, su fisiología ha sido alterada por la <a href=\"/articulo/magia-oscura\">magia oscura</a>, dándole habilidades sobrehumanas.</li>\n<li>La <a href=\"/articulo/secta-oscura\">secta oscura</a> que la creó sigue activa, y Stariax busca destruirla como parte de su venganza.</li>\n</ul>",
     "created_date": "2026-07-09T23:25:05.482Z",
     "updated_date": "2026-10-02T11:32:46.319Z",
     "image_url": "/images/covers/stariax-mre4wqiy.png",
@@ -12287,9 +12248,7 @@
       "Personajes",
       "Jugadores",
       "Expedición de Moonhaven"
-    ],
-    "spells": [],
-    "spell_images": {}
+    ]
   },
   {
     "id": "art-1783620980303",
@@ -12685,8 +12644,7 @@
     "related_article_ids": [
       "art-1787666807809"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/gripe-de-la-plata-mrdhl7vn.png"
+    "extra_categories": []
   },
   {
     "id": "art-1783590621561",
@@ -12964,8 +12922,7 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/la-compania-mrc0in6q.png"
+    "extra_categories": []
   },
   {
     "id": "art-1783510714533",
@@ -13157,7 +13114,7 @@
     "slug": "mansion-de-zaltar",
     "category": "Mazmorras",
     "summary": "<i>Ubicada en el corazón ennegrecido de las ruinas de Ravenholm, la Mansión de Zaltar se erige como fortaleza del lich Zaltar, símbolo de su poder oscuro, guardada por abominaciones y un santuario filárquico, y punto de partida hacia el Plano Etéreo.</i>",
-    "content": "<p>Ubicada en lo que alguna vez fue el corazón de <a href=\"/articulo/ravenholm-075d82\">Ravenholm</a>, la <a href=\"/articulo/mansion-de-zaltar\">Mansión de Zaltar</a> se alza como un monumento al terror y la desesperación.</p>\n<p>Sus muros de piedra ennegrecida, cubiertos por maleza , son un testimonio de la eterna lucha entre la luz y la oscuridad. El paisaje que rodea la mansión es sombrío: los árboles secos como esqueletos, los ríos secos, y una atmósfera densa y opresiva que parece respirar con la misma malignidad que emana de la mansión.</p>\n<ul>\n<li>1 <strong>La Adquisición del Poder</strong></li>\n</ul>\n<ul>\n<li>2 <strong>La Conexión con la Magia Prohibida</strong></li>\n</ul>\n<ul>\n<li>3 <strong>El Legado de la Destrucción</strong></li>\n</ul>\n<ul>\n<li>4 <strong>La Mansión como Refugio y Fortaleza</strong></li>\n</ul>\n<ul>\n<li>5 Personajes Relevantes</li>\n</ul>\n<h2><strong>La Adquisición del Poder</strong></h2>\n<p><a href=\"/articulo/zaltar\">Zaltar</a>, el temido Rākṣasa que logró escapar de <a href=\"/articulo/los-nueve-infiernos\">los Nueve Infiernos</a>, utilizó sus vastos conocimientos arcanos y su dominio sobre la <a href=\"/articulo/magia-oscura\">magia oscura</a> para tomar control de la mansión en las ruinas de <a href=\"/articulo/ravenholm-075d82\">Ravenholm</a>. Una vez en <a href=\"/articulo/el-plano-material\">el plano material</a>, <a href=\"/articulo/zaltar\">Zaltar</a> no tardó en convertir la mansión en su sede personal, el epicentro de su poder. Aquí, en la colina que domina la ciudad destrozada, el <a href=\"/articulo/hechicero\">hechicero</a> transformado en lich traza sus planes más oscuros, alejándose de la influencia de su oscuro señor, <a href=\"/articulo/magor\">Magor</a>.</p>\n<p>La mansión, rodeada por un aura sobrenatural, no es solo una fortaleza física, sino también un reflejo de la corrupción que consume a su maestro. Las puertas de <a href=\"/articulo/hierro\">hierro</a>, cubiertas de runas demoníacas, se abren solo para aquellos que <a href=\"/articulo/zaltar\">Zaltar</a> permite. El interior está repleto de objetos antiguos y rituales prohibidos, todo diseñado para alimentar su sed insaciable de poder y conocimiento.</p>\n<h2><strong>La Conexión con la Magia Prohibida</strong></h2>\n<p>En las oscuras galerías de la mansión, el suelo está impregnado con magia corrupta. Cada rincón parece latir con una energía distorsionada que refleja el alma del propio <a href=\"/articulo/zaltar\">Zaltar</a>. Las paredes, cubiertas de inscripciones arcanas, narran la historia de su transformación y la victoria sobre el ciclo de reencarnación infernal.</p>\n<p>Los pasillos de la mansión están custodiados por una serie de abominaciones deformes, muertos vivientes y criaturas que alguna vez fueron habitantes de <a href=\"/articulo/ravenholm-075d82\">Ravenholm</a>, ahora corrompidos y convertidos en marionetas bajo el control de <a href=\"/articulo/zaltar\">Zaltar</a>. En el centro de la mansión se encuentra su sala más secreta: <a href=\"/articulo/el-santuario-d45cdc\">el santuario</a> de la filacteria, un altar adornado con símbolos demoníicos donde <a href=\"/articulo/zaltar\">Zaltar</a> guarda su alma. Este objeto, brillante con un verde enfermizo, es la clave de su inmortalidad y el núcleo de su poder.</p>\n<h2><strong>El Legado de la Destrucción</strong></h2>\n<p>La <a href=\"/articulo/mansion-de-zaltar\">mansión de Zaltar</a> ha sido testigo de la caída de <a href=\"/articulo/ravenholm-075d82\">Ravenholm</a>, ciudad que una vez fue próspera antes de sucumbir a su dominio. Bajo su influencia, la ciudad se convirtió en un páramo, con sus habitantes sacrificados en oscuros rituales para alimentar el poder de <a href=\"/articulo/zaltar\">Zaltar</a>. La muerte se esparció por los bosques, y los ríos se secaron. Nada quedó intacto bajo su control, excepto la mansión, que permanece intacta, como un faro para aquellos que se acercan demasiado.</p>\n<h2><strong>La Mansión como Refugio y Fortaleza</strong></h2>\n<p>Ahora, la mansión es mucho más que una simple fortaleza: es un refugio para aquellos que se alinean con la causa de <a href=\"/articulo/zaltar\">Zaltar</a> y, a su vez, un centro de poder arcano. Aquellos que buscan poder y conocimiento prohibido pueden encontrar un lugar bajo su techo, pero deben estar dispuestos a pagar el precio por su lealtad. Los esclavos y seguidores de <a href=\"/articulo/zaltar\">Zaltar</a> son tratados con la misma indiferencia que el resto del mundo, pues para él, todos son piezas en un juego mucho más grande.</p>\n<p>Pero la mansión también es un símbolo de la ambición desmedida de <a href=\"/articulo/zaltar\">Zaltar</a>. A medida que su poder crece, también lo hace su deseo de trascender. Su búsqueda del acceso al <strong><a href=\"/articulo/plano-etereo\">Plano Etéreo</a></strong>, un dominio en el que puede observar todos los <a href=\"/articulo/planos\">planos</a> de existencia sin estar atado a ninguno, es el objetivo final de su existencia. Para <a href=\"/articulo/zaltar\">Zaltar</a>, la mansión no es solo su refugio, pero el punto de partida para una nueva era de oscuridad que planea expandir más allá de los límites del <a href=\"/articulo/plano-material\">plano material</a>.</p>\n<h2>Personajes Relevantes</h2>\n<p><a href=\"/articulo/zaltar\">Zaltar</a><a href=\"/articulo/el-loa-tigre\">El Loa Tigre</a></p>",
+    "content": "<p>Ubicada en lo que alguna vez fue el corazón de <a href=\"/articulo/ravenholm-075d82\">Ravenholm</a>, la <a href=\"/articulo/mansion-de-zaltar\">Mansión de Zaltar</a> se alza como un monumento al terror y la desesperación.</p>\n<p>Sus muros de piedra ennegrecida, cubiertos por maleza , son un testimonio de la eterna lucha entre la luz y la oscuridad. El paisaje que rodea la mansión es sombrío: los árboles secos como esqueletos, los ríos secos, y una atmósfera densa y opresiva que parece respirar con la misma malignidad que emana de la mansión.</p>\n<ul>\n<li>1 <strong>La Adquisición del Poder</strong></li>\n</ul>\n<ul>\n<li>2 <strong>La Conexión con la Magia Prohibida</strong></li>\n</ul>\n<ul>\n<li>3 <strong>El Legado de la Destrucción</strong></li>\n</ul>\n<ul>\n<li>4 <strong>La Mansión como Refugio y Fortaleza</strong></li>\n</ul>\n<ul>\n<li>5 Personajes Relevantes</li>\n</ul>\n<h2><strong>La Adquisición del Poder</strong></h2>\n<p><a href=\"/articulo/zaltar\">Zaltar</a>, el temido Rākṣasa que logró escapar de <a href=\"/articulo/los-nueve-infiernos\" class=\"text-primary hover:underline font-semibold\">los Nueve Infiernos</a>, utilizó sus vastos conocimientos arcanos y su dominio sobre la <a href=\"/articulo/magia-oscura\" class=\"text-primary hover:underline font-semibold\">magia oscura</a> para tomar control de la mansión en las ruinas de <a href=\"/articulo/ravenholm-075d82\">Ravenholm</a>. Una vez en <a href=\"/articulo/el-plano-material\" class=\"text-primary hover:underline font-semibold\">el plano material</a>, <a href=\"/articulo/zaltar\">Zaltar</a> no tardó en convertir la mansión en su sede personal, el epicentro de su poder. Aquí, en la colina que domina la ciudad destrozada, el <a href=\"/articulo/hechicero\" class=\"text-primary hover:underline font-semibold\">hechicero</a> transformado en lich traza sus planes más oscuros, alejándose de la influencia de su oscuro señor, <a href=\"/articulo/magor\">Magor</a>.</p>\n<p>La mansión, rodeada por un aura sobrenatural, no es solo una fortaleza física, sino también un reflejo de la corrupción que consume a su maestro. Las puertas de <a href=\"/articulo/hierro\" class=\"text-primary hover:underline font-semibold\">hierro</a>, cubiertas de runas demoníacas, se abren solo para aquellos que <a href=\"/articulo/zaltar\">Zaltar</a> permite. El interior está repleto de objetos antiguos y rituales prohibidos, todo diseñado para alimentar su sed insaciable de poder y conocimiento.</p>\n<h2><strong>La Conexión con la Magia Prohibida</strong></h2>\n<p>En las oscuras galerías de la mansión, el suelo está impregnado con magia corrupta. Cada rincón parece latir con una energía distorsionada que refleja el alma del propio <a href=\"/articulo/zaltar\">Zaltar</a>. Las paredes, cubiertas de inscripciones arcanas, narran la historia de su transformación y la victoria sobre el ciclo de reencarnación infernal.</p>\n<p>Los pasillos de la mansión están custodiados por una serie de abominaciones deformes, muertos vivientes y criaturas que alguna vez fueron habitantes de <a href=\"/articulo/ravenholm-075d82\">Ravenholm</a>, ahora corrompidos y convertidos en marionetas bajo el control de <a href=\"/articulo/zaltar\">Zaltar</a>. En el centro de la mansión se encuentra su sala más secreta: <a href=\"/articulo/el-santuario-d45cdc\">el santuario</a> de la filacteria, un altar adornado con símbolos demoníicos donde <a href=\"/articulo/zaltar\">Zaltar</a> guarda su alma. Este objeto, brillante con un verde enfermizo, es la clave de su inmortalidad y el núcleo de su poder.</p>\n<h2><strong>El Legado de la Destrucción</strong></h2>\n<p>La <a href=\"/articulo/mansion-de-zaltar\">mansión de Zaltar</a> ha sido testigo de la caída de <a href=\"/articulo/ravenholm-075d82\">Ravenholm</a>, ciudad que una vez fue próspera antes de sucumbir a su dominio. Bajo su influencia, la ciudad se convirtió en un páramo, con sus habitantes sacrificados en oscuros rituales para alimentar el poder de <a href=\"/articulo/zaltar\">Zaltar</a>. La muerte se esparció por los bosques, y los ríos se secaron. Nada quedó intacto bajo su control, excepto la mansión, que permanece intacta, como un faro para aquellos que se acercan demasiado.</p>\n<h2><strong>La Mansión como Refugio y Fortaleza</strong></h2>\n<p>Ahora, la mansión es mucho más que una simple fortaleza: es un refugio para aquellos que se alinean con la causa de <a href=\"/articulo/zaltar\">Zaltar</a> y, a su vez, un centro de poder arcano. Aquellos que buscan poder y conocimiento prohibido pueden encontrar un lugar bajo su techo, pero deben estar dispuestos a pagar el precio por su lealtad. Los esclavos y seguidores de <a href=\"/articulo/zaltar\">Zaltar</a> son tratados con la misma indiferencia que el resto del mundo, pues para él, todos son piezas en un juego mucho más grande.</p>\n<p>Pero la mansión también es un símbolo de la ambición desmedida de <a href=\"/articulo/zaltar\">Zaltar</a>. A medida que su poder crece, también lo hace su deseo de trascender. Su búsqueda del acceso al <strong><a href=\"/articulo/plano-etereo\" class=\"text-primary hover:underline font-semibold\">Plano Etéreo</a></strong>, un dominio en el que puede observar todos los <a href=\"/articulo/planos\" class=\"text-primary hover:underline font-semibold\">planos</a> de existencia sin estar atado a ninguno, es el objetivo final de su existencia. Para <a href=\"/articulo/zaltar\">Zaltar</a>, la mansión no es solo su refugio, pero el punto de partida para una nueva era de oscuridad que planea expandir más allá de los límites del <a href=\"/articulo/plano-material\" class=\"text-primary hover:underline font-semibold\">plano material</a>.</p>\n<h2>Personajes Relevantes</h2>\n<p><a href=\"/articulo/zaltar\">Zaltar</a><a href=\"/articulo/el-loa-tigre\">El Loa Tigre</a></p>",
     "infobox": {
       "Zona": "Ravenholm",
       "Dueño/a": "Zaltar",
@@ -13205,7 +13162,7 @@
     "is_featured": false,
     "id": "art-1783384240124",
     "created_date": "2026-07-07T00:30:44.180Z",
-    "updated_date": "2026-10-10T23:43:11.375Z",
+    "updated_date": "2026-07-29T09:29:51.454Z",
     "gallery": [],
     "related_article_ids": [
       "art-1787664381669",
@@ -13224,19 +13181,15 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "/images/uploads/Mansion_de_Zaltar-1791675784044_f6z76.webp",
+    "image_url": "/images/covers/mansion-de-zaltar.png",
     "animation_frames": "{\"elements\":[{\"type\":\"ambient_particles\",\"color\":\"rgba(150, 50, 200, 0.4)\",\"base_x\":50,\"base_y\":70,\"width\":100,\"height\":30,\"frames\":[{\"offset_x\":0,\"offset_y\":3,\"opacity\":0.6,\"scale\":0.9,\"rotate\":0,\"custom_value\":0},{\"offset_x\":1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":1},{\"offset_x\":2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":2},{\"offset_x\":3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":3},{\"offset_x\":2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":4},{\"offset_x\":1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":5},{\"offset_x\":0,\"offset_y\":-3,\"opacity\":0.9,\"scale\":1.2,\"rotate\":0,\"custom_value\":6},{\"offset_x\":-1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":7},{\"offset_x\":-2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":8},{\"offset_x\":-3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":9},{\"offset_x\":-2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":10},{\"offset_x\":-1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":11},{\"offset_x\":0,\"offset_y\":3,\"opacity\":0.6,\"scale\":0.9,\"rotate\":0,\"custom_value\":12},{\"offset_x\":1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":13},{\"offset_x\":2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":14},{\"offset_x\":3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":15},{\"offset_x\":2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":16},{\"offset_x\":1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":17},{\"offset_x\":0,\"offset_y\":-3,\"opacity\":0.9,\"scale\":1.2,\"rotate\":0,\"custom_value\":18},{\"offset_x\":-1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":19},{\"offset_x\":-2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":20},{\"offset_x\":-3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":21},{\"offset_x\":-2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":22},{\"offset_x\":-1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":23},{\"offset_x\":0,\"offset_y\":3,\"opacity\":0.6,\"scale\":0.9,\"rotate\":0,\"custom_value\":24},{\"offset_x\":1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":25},{\"offset_x\":2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":26},{\"offset_x\":3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":27},{\"offset_x\":2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":28},{\"offset_x\":1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":29}]},{\"type\":\"glow_pulse\",\"color\":\"rgba(255, 100, 0, 0.3)\",\"base_x\":50,\"base_y\":30,\"width\":20,\"height\":40,\"frames\":[{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":0.9,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.55,\"scale\":0.92,\"rotate\":0,\"custom_value\":5},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.6,\"scale\":0.94,\"rotate\":0,\"custom_value\":10},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.65,\"scale\":0.96,\"rotate\":0,\"custom_value\":15},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.7,\"scale\":0.98,\"rotate\":0,\"custom_value\":20},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.75,\"scale\":1,\"rotate\":0,\"custom_value\":25},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1.02,\"rotate\":0,\"custom_value\":30},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.85,\"scale\":1.04,\"rotate\":0,\"custom_value\":35},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.9,\"scale\":1.06,\"rotate\":0,\"custom_value\":40},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.95,\"scale\":1.08,\"rotate\":0,\"custom_value\":45},{\"offset_x\":0,\"offset_y\":0,\"opacity\":1,\"scale\":1.1,\"rotate\":0,\"custom_value\":50},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.95,\"scale\":1.08,\"rotate\":0,\"custom_value\":55},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.9,\"scale\":1.06,\"rotate\":0,\"custom_value\":60},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.85,\"scale\":1.04,\"rotate\":0,\"custom_value\":65},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1.02,\"rotate\":0,\"custom_value\":70},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.75,\"scale\":1,\"rotate\":0,\"custom_value\":75},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.7,\"scale\":0.98,\"rotate\":0,\"custom_value\":80},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.65,\"scale\":0.96,\"rotate\":0,\"custom_value\":85},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.6,\"scale\":0.94,\"rotate\":0,\"custom_value\":90},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.55,\"scale\":0.92,\"rotate\":0,\"custom_value\":95},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":0.9,\"rotate\":0,\"custom_value\":100},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.55,\"scale\":0.92,\"rotate\":0,\"custom_value\":5},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.6,\"scale\":0.94,\"rotate\":0,\"custom_value\":10},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.65,\"scale\":0.96,\"rotate\":0,\"custom_value\":15},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.7,\"scale\":0.98,\"rotate\":0,\"custom_value\":20},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.75,\"scale\":1,\"rotate\":0,\"custom_value\":25},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1.02,\"rotate\":0,\"custom_value\":30},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.85,\"scale\":1.04,\"rotate\":0,\"custom_value\":35},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.9,\"scale\":1.06,\"rotate\":0,\"custom_value\":40},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.95,\"scale\":1.08,\"rotate\":0,\"custom_value\":45},{\"offset_x\":0,\"offset_y\":0,\"opacity\":1,\"scale\":1.1,\"rotate\":0,\"custom_value\":50},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.95,\"scale\":1.08,\"rotate\":0,\"custom_value\":55}]},{\"type\":\"flying_animal\",\"color\":\"rgba(30, 30, 30, 0.6)\",\"base_x\":55,\"base_y\":25,\"width\":15,\"height\":10,\"frames\":[{\"offset_x\":0,\"offset_y\":1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":12},{\"offset_x\":1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":24},{\"offset_x\":1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":3,\"custom_value\":36},{\"offset_x\":1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":48},{\"offset_x\":0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":60},{\"offset_x\":0,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":72},{\"offset_x\":-0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":-1,\"custom_value\":84},{\"offset_x\":-1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":-2,\"custom_value\":96},{\"offset_x\":-1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":-3,\"custom_value\":108},{\"offset_x\":-1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":-2,\"custom_value\":120},{\"offset_x\":-0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":-1,\"custom_value\":132},{\"offset_x\":0,\"offset_y\":1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":144},{\"offset_x\":0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":156},{\"offset_x\":1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":168},{\"offset_x\":1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":3,\"custom_value\":180},{\"offset_x\":1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":192},{\"offset_x\":0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":204},{\"offset_x\":0,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":216},{\"offset_x\":-0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":-1,\"custom_value\":228},{\"offset_x\":-1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":-2,\"custom_value\":240},{\"offset_x\":-1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":-3,\"custom_value\":252},{\"offset_x\":-1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":-2,\"custom_value\":264},{\"offset_x\":-0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":-1,\"custom_value\":276},{\"offset_x\":0,\"offset_y\":1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":288},{\"offset_x\":0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":300},{\"offset_x\":1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":312},{\"offset_x\":1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":3,\"custom_value\":324},{\"offset_x\":1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":336},{\"offset_x\":0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":348},{\"offset_x\":0,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":0}]}]}",
     "animate_illustration": true,
     "image_position_x": 50,
     "image_position_y": 50,
     "extra_categories": [
-      "Mazmorras",
-      "Lugares"
-    ],
-    "monsters": [],
-    "monster_images": {},
-    "spells": [],
-    "spell_images": {}
+      "Lugares",
+      "Mazmorras"
+    ]
   },
   {
     "title": "Mansión Loux",
@@ -14020,8 +13973,7 @@
     "related_article_ids": [
       "art-1787664906161"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/llamas-en-la-noche.png"
+    "extra_categories": []
   },
   {
     "title": "Leonard Loux",
@@ -14602,8 +14554,7 @@
       "art-1787665642246",
       "art-1787664906161"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/la-guerra-del-averno.webp"
+    "extra_categories": []
   },
   {
     "title": "La Familia Elegida",
@@ -14693,8 +14644,7 @@
     "related_article_ids": [
       "art-1787665587156"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/la-familia-elegida.png"
+    "extra_categories": []
   },
   {
     "title": "La Era de Los Dioses",
@@ -14798,8 +14748,7 @@
       "art-1787665020601",
       "art-1787664370722"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/la-era-de-los-dioses.jpg"
+    "extra_categories": []
   },
   {
     "title": "Kōryū no Kame",
@@ -15493,8 +15442,7 @@
       "art-1787666801376",
       "art-1787664906161"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/herald-i-de-moonhaven.png"
+    "extra_categories": []
   },
   {
     "title": "Havrik Deez",
@@ -15598,8 +15546,7 @@
       "art-1783383652919",
       "art-1787664906161"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/hagamos-caldo-de-dragon.webp"
+    "extra_categories": []
   },
   {
     "title": "Gungnir",
@@ -15628,8 +15575,7 @@
       "art-1783509789811",
       "art-1787665103836"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/gungnir.webp"
+    "extra_categories": []
   },
   {
     "title": "Gromock",
@@ -16120,8 +16066,7 @@
       "art-1787665881215",
       "art-1787667206844"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/gobernante-de-moonhaven.png"
+    "extra_categories": []
   },
   {
     "title": "Gildemar, el Rey Mago",
@@ -16270,8 +16215,7 @@
       "art-1787664906161",
       "art-1787666836984"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/freya.webp"
+    "extra_categories": []
   },
   {
     "title": "Fit Fitson",
@@ -16519,8 +16463,7 @@
       "art-1787664906161",
       "6a2191de386a7048e8d7e6b8"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/feria-de-makai.webp"
+    "extra_categories": []
   },
   {
     "title": "Familia Díaz",
@@ -16578,8 +16521,7 @@
       "art-1787665881215",
       "art-1787664906161"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/familia-diaz.png"
+    "extra_categories": []
   },
   {
     "title": "Familia Deez",
@@ -16674,8 +16616,7 @@
       "art-1787665511485",
       "art-1783383871252"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/familia-deez.png"
+    "extra_categories": []
   },
   {
     "title": "Fafnir",
@@ -16768,8 +16709,7 @@
       "Dioses",
       "Ascendidos",
       "Regionales"
-    ],
-    "image_url": "/images/covers/fafnir.png"
+    ]
   },
   {
     "title": "Emboscada",
@@ -16825,8 +16765,7 @@
       "art-1783383954035",
       "art-1787664906161"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/emboscada.png"
+    "extra_categories": []
   },
   {
     "title": "El barón",
@@ -17074,8 +17013,7 @@
       "art-1787666796733",
       "art-1787664906161"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/el-reino-de-los-suenos.webp"
+    "extra_categories": []
   },
   {
     "title": "El Oni del Cerezo",
@@ -17233,8 +17171,7 @@
       "art-1787665090919",
       "art-1787666648124"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/el-loa-tigre.png"
+    "extra_categories": []
   },
   {
     "title": "El Ciervo Celeste",
@@ -17815,8 +17752,7 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/consejo-omega.png"
+    "extra_categories": []
   },
   {
     "title": "Chispo Deez",
@@ -17979,8 +17915,7 @@
     "extra_categories": [
       "Dioses",
       "Consejo Omega"
-    ],
-    "image_url": "/images/covers/chemos.png"
+    ]
   },
   {
     "title": "Bestias del Apocalipsis",
@@ -18044,8 +17979,7 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/bestias-del-apocalipsis.webp"
+    "extra_categories": []
   },
   {
     "title": "Bellmoth",
@@ -18076,8 +18010,7 @@
       "art-1783383696074",
       "art-1787664906161"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/bellmoth.png"
+    "extra_categories": []
   },
   {
     "title": "Belcebú",
@@ -18532,8 +18465,7 @@
     "related_article_ids": [
       "art-1787665020601"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/armagedon.png"
+    "extra_categories": []
   },
   {
     "title": "Arlem Díaz",
@@ -18846,8 +18778,7 @@
       "art-1783383696074",
       "art-1783383906169"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/arashi.webp"
+    "extra_categories": []
   },
   {
     "title": "Aeros",
@@ -19354,8 +19285,7 @@
       "art-1783383696074",
       "art-1783383842297"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/una-carta-inesperada.png"
+    "extra_categories": []
   },
   {
     "title": "Una Leyenda se Forja",
@@ -19382,8 +19312,7 @@
       "art-1783383696074",
       "art-1787665818655"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/una-leyenda-se-forja.png"
+    "extra_categories": []
   },
   {
     "title": "Umberlee",
@@ -19442,8 +19371,7 @@
     "related_article_ids": [
       "art-1783509789811"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/umberlee.png"
+    "extra_categories": []
   },
   {
     "title": "Tumba de Chemos",
@@ -19569,7 +19497,7 @@
     "is_featured": false,
     "id": "art-1783383337454",
     "created_date": "2026-07-07T00:15:47.991Z",
-    "updated_date": "2026-10-09T10:59:05.749Z",
+    "updated_date": "2026-08-23T16:05:36.970Z",
     "image_url": "/images/covers/thravir-el-loxodon.png",
     "gallery": [],
     "related_article_ids": [
@@ -19586,9 +19514,7 @@
     },
     "image_position_x": 50,
     "image_position_y": 20,
-    "extra_categories": [
-      "Personajes"
-    ]
+    "extra_categories": []
   },
   {
     "title": "Thorin Loux",
@@ -19953,8 +19879,7 @@
     "extra_categories": [
       "Dioses",
       "Ascendidos"
-    ],
-    "image_url": "/images/covers/tauron.png"
+    ]
   },
   {
     "title": "Takhisis",
@@ -20042,8 +19967,7 @@
     "extra_categories": [
       "Dioses",
       "Ascendidos"
-    ],
-    "image_url": "/images/covers/takhisis.webp"
+    ]
   },
   {
     "title": "Syndragosa",
@@ -20410,7 +20334,7 @@
     "is_featured": false,
     "id": "art-1783383230017",
     "created_date": "2026-07-07T00:13:51.802Z",
-    "updated_date": "2026-10-09T10:55:10.663Z",
+    "updated_date": "2026-08-23T16:05:36.970Z",
     "image_url": "/images/covers/rey-redcap.png",
     "gallery": [],
     "related_article_ids": [
@@ -20428,9 +20352,7 @@
     },
     "image_position_x": 50,
     "image_position_y": 30,
-    "extra_categories": [
-      "Personajes"
-    ]
+    "extra_categories": []
   },
   {
     "title": "Rexyrian",
@@ -20789,8 +20711,8 @@
     "is_featured": false,
     "id": "art-1783383197350",
     "created_date": "2026-07-07T00:13:22.236Z",
-    "updated_date": "2026-10-09T11:04:25.373Z",
-    "image_url": "/images/uploads/Ragnarok-1791543852223_b4rje.png",
+    "updated_date": "2026-08-23T16:55:59.427Z",
+    "image_url": "/images/covers/ragnarok.png",
     "gallery": [],
     "related_article_ids": [
       "art-1787665090919",
@@ -20805,9 +20727,7 @@
     },
     "image_position_x": 50,
     "image_position_y": 40,
-    "extra_categories": [
-      "Personajes"
-    ]
+    "extra_categories": []
   },
   {
     "title": "Pythor",
@@ -21280,8 +21200,7 @@
     "extra_categories": [
       "Dioses",
       "Consejo Omega"
-    ],
-    "image_url": "/images/covers/nuitari.png"
+    ]
   },
   {
     "title": "Nidhog",
@@ -21330,8 +21249,7 @@
     "id": "art-1783383061996",
     "created_date": "2026-07-07T00:11:09.252Z",
     "updated_date": "2026-07-07T00:11:09.252Z",
-    "extra_categories": [],
-    "image_url": "/images/covers/nidhog.png"
+    "extra_categories": []
   },
   {
     "title": "Nemuina",
@@ -21403,8 +21321,7 @@
     "extra_categories": [
       "Dioses",
       "Ascendidos"
-    ],
-    "image_url": "/images/covers/nemuina.png"
+    ]
   },
   {
     "title": "Mushusu",
@@ -21464,8 +21381,7 @@
       "art-1783383652919",
       "art-1787666801376"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/mushusu.png"
+    "extra_categories": []
   },
   {
     "title": "Morgion",
@@ -21533,8 +21449,7 @@
     "extra_categories": [
       "Dioses",
       "Consejo Omega"
-    ],
-    "image_url": "/images/covers/morgion.webp"
+    ]
   },
   {
     "title": "Moonhaven",
@@ -21859,8 +21774,7 @@
       "art-1783383871252",
       "art-1787666836984"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/marduk.webp"
+    "extra_categories": []
   },
   {
     "title": "Mamon",
@@ -21915,7 +21829,7 @@
     "is_featured": false,
     "id": "art-1783382917815",
     "created_date": "2026-07-07T00:08:41.149Z",
-    "updated_date": "2026-10-09T11:02:58.258Z",
+    "updated_date": "2026-08-23T16:59:26.187Z",
     "gallery": [],
     "related_article_ids": [
       "art-1787666875758",
@@ -21932,9 +21846,7 @@
     "image_url": "/images/covers/mamon.png",
     "image_position_x": 50,
     "image_position_y": 30,
-    "extra_categories": [
-      "Personajes"
-    ]
+    "extra_categories": []
   },
   {
     "title": "La Corona del Apocalipsis",
@@ -21966,8 +21878,7 @@
       "art-1783383276390",
       "art-1783383645366"
     ],
-    "extra_categories": [],
-    "image_url": "/images/covers/la-corona-del-apocalipsis.png"
+    "extra_categories": []
   },
   {
     "title": "Auros",

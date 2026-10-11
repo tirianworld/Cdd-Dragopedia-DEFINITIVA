@@ -6177,7 +6177,7 @@ function savePublicSpellLists() {
   try {
     fs.writeFileSync(PUBLIC_SPELL_LISTS_PATH, JSON.stringify(publicSpellLists, null, 2), "utf8");
     if (getEffectiveGitHubToken()) {
-      writeToGitHub("public_spell_lists.json", JSON.stringify(publicSpellLists, null, 2)).catch(() => {});
+      writeToGitHub("public_spell_lists.json", JSON.stringify(publicSpellLists, null, 2), "chore: update public spell lists").catch(() => {});
     }
   } catch (e) {
     console.warn("Could not save public_spell_lists.json:", e);

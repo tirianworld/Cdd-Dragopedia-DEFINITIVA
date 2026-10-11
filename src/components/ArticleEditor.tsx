@@ -24,6 +24,8 @@ import { ArticleTarotScribeModal } from "./ArticleTarotScribeModal";
 import { ArticleMergeModal, MergedDataResult } from "./ArticleMergeModal";
 import { getSafeImageUrl } from "../utils/imageUrl";
 import { SpellbookSpell } from "../types";
+import { DownloadsImagePickerModal } from "./DownloadsImagePickerModal";
+
 export function ArticleEditor() {
   const { slug } = useParams<{ slug: string }>();
   const isEditMode = !!slug;
@@ -686,11 +688,10 @@ export function ArticleEditor() {
 
   const pcCoverInputRef = useRef<HTMLInputElement>(null);
   const [isUploadingCoverPC, setIsUploadingCoverPC] = useState(false);
+  const [isDownloadsPickerOpen, setIsDownloadsPickerOpen] = useState(false);
   const [coverUploadNotification, setCoverUploadNotification] = useState<string | null>(null);
 
-  const handleUploadCoverFromPC = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const handleUploadCoverFile = async (file: File) => {
     setIsUploadingCoverPC(true);
     setCoverUploadNotification("Cargando imagen desde tu PC y guardando en GitHub...");
     try {
@@ -711,6 +712,12 @@ export function ArticleEditor() {
       setTimeout(() => setCoverUploadNotification(null), 4500);
       if (pcCoverInputRef.current) pcCoverInputRef.current.value = "";
     }
+  };
+
+  const handleUploadCoverFromPC = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    await handleUploadCoverFile(file);
   };
 
   // Handler for Inline AI Copilot commands
@@ -2489,17 +2496,17 @@ export function ArticleEditor() {
                 />
                 <button
                   type="button"
-                  onClick={() => pcCoverInputRef.current?.click()}
+                  onClick={() => setIsDownloadsPickerOpen(true)}
                   disabled={isUploadingCoverPC}
                   className="px-3 h-10 bg-sky-950/60 hover:bg-sky-900/80 border border-sky-500/40 hover:border-sky-400 rounded-lg text-sky-200 font-bold text-xs flex items-center gap-1.5 transition-all shrink-0 cursor-pointer shadow-sm disabled:opacity-50"
-                  title="Cargar imagen desde tu PC y respaldarla permanentemente en GitHub"
+                  title="Buscar automáticamente en tu carpeta Descargas o subir desde tu PC"
                 >
                   {isUploadingCoverPC ? (
                     <Loader2 className="h-4 w-4 animate-spin text-sky-400" />
                   ) : (
                     <UploadCloud className="h-4 w-4 text-sky-400" />
                   )}
-                  <span className="hidden sm:inline">Subir PC (GitHub)</span>
+                  <span className="hidden sm:inline">Subir PC (Descargas)</span>
                 </button>
                 <button
                   type="button"
@@ -4320,6 +4327,17 @@ export function ArticleEditor() {
               autoSaved
             });
           }}
+        />
+      )}
+
+      {/* Downloads Image Picker Modal */}
+      {isDownloadsPickerOpen && (
+        <DownloadsImagePickerModal
+          isOpen={isDownloadsPickerOpen}
+          onClose={() => setIsDownloadsPickerOpen(false)}
+          articleTitle={title || "Criatura"}
+          onSelectImageFile={handleUploadCoverFile}
+          onOpenManualFileInput={() => pcCoverInputRef.current?.click()}
         />
       )}
     </div>

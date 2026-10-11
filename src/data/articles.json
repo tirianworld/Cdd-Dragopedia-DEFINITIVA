@@ -175,7 +175,7 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/culto-a-los-dragones.png"
+    "image_url": ""
   },
   {
     "title": "Culto a la Piedad",
@@ -4989,7 +4989,7 @@
       "art-1783384032020"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/aulladores.png"
+    "image_url": ""
   },
   {
     "title": "Ludwig",
@@ -5188,7 +5188,7 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/blanca-via.png"
+    "image_url": ""
   },
   {
     "title": "Paladín",
@@ -10031,7 +10031,7 @@
       "art-1787664592459"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/devotos-de-la-reina.png"
+    "image_url": ""
   },
   {
     "title": "Blackguard",
@@ -10839,7 +10839,7 @@
       ]
     },
     "extra_categories": [],
-    "image_url": "/images/covers/faustus.png"
+    "image_url": ""
   },
   {
     "title": "Fara",
@@ -10918,7 +10918,7 @@
       ]
     },
     "extra_categories": [],
-    "image_url": "/images/covers/fara.png"
+    "image_url": ""
   },
   {
     "title": "Limeyr",
@@ -10980,7 +10980,7 @@
     "id": "art-1784457896936",
     "created_date": "2026-07-19T10:44:57.832Z",
     "updated_date": "2026-10-09T09:35:29.979Z",
-    "image_url": "/images/cloud/limeyr_a77d4b7640.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [],
     "monsters": [],
@@ -11047,7 +11047,7 @@
       "art-1784457936358"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/grimorios-de-faustus.png"
+    "image_url": ""
   },
   {
     "id": "art-1783715624151",
@@ -11297,7 +11297,7 @@
     },
     "map_url": "https://cartocraft.ai.studio/#/map/6a3421b268196ec66c7119aa/no-ui?markers=false&lights=true&helpers=false&root=6a3421b268196ec66c7119aa",
     "extra_categories": [],
-    "image_url": "/images/covers/academia-de-los-espejos-de-drangleic-mrfddq1b.png"
+    "image_url": ""
   },
   {
     "id": "art-1783713825197",
@@ -11644,7 +11644,7 @@
       "Dioses",
       "Regionales"
     ],
-    "image_url": "/images/covers/arbol-aureo-mrf9a5jc.png"
+    "image_url": ""
   },
   {
     "id": "art-1783683254944",
@@ -11696,7 +11696,7 @@
         "Elfo"
       ]
     },
-    "image_url": "/images/cloud/palacio-de-los-elfos-de-sirama_9c73e8cdcd.png",
+    "image_url": "",
     "animation_frames": "{\"elements\":[{\"type\":\"waterfall_flow\",\"color\":\"rgba(100, 200, 255, 0.4)\",\"base_x\":50,\"base_y\":30,\"width\":80,\"height\":30,\"frames\":[{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0,\"offset_y\":0.416,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":3.45},{\"offset_x\":0,\"offset_y\":0.813,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":6.9},{\"offset_x\":0,\"offset_y\":1.176,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":10.34},{\"offset_x\":0,\"offset_y\":1.486,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":13.79},{\"offset_x\":0,\"offset_y\":1.732,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":17.24},{\"offset_x\":0,\"offset_y\":1.902,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":20.69},{\"offset_x\":0,\"offset_y\":1.989,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":24.14},{\"offset_x\":0,\"offset_y\":1.989,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":27.59},{\"offset_x\":0,\"offset_y\":1.902,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":31.03},{\"offset_x\":0,\"offset_y\":1.732,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":34.48},{\"offset_x\":0,\"offset_y\":1.486,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":37.93},{\"offset_x\":0,\"offset_y\":1.176,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":41.38},{\"offset_x\":0,\"offset_y\":0.813,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":44.83},{\"offset_x\":0,\"offset_y\":0.416,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":48.28},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":51.72},{\"offset_x\":0,\"offset_y\":-0.416,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":55.17},{\"offset_x\":0,\"offset_y\":-0.813,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":58.62},{\"offset_x\":0,\"offset_y\":-1.176,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":62.07},{\"offset_x\":0,\"offset_y\":-1.486,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":65.52},{\"offset_x\":0,\"offset_y\":-1.732,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":68.97},{\"offset_x\":0,\"offset_y\":-1.902,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":72.41},{\"offset_x\":0,\"offset_y\":-1.989,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":75.86},{\"offset_x\":0,\"offset_y\":-1.989,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":79.31},{\"offset_x\":0,\"offset_y\":-1.902,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":82.76},{\"offset_x\":0,\"offset_y\":-1.732,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":86.21},{\"offset_x\":0,\"offset_y\":-1.486,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":89.66},{\"offset_x\":0,\"offset_y\":-1.176,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":93.1},{\"offset_x\":0,\"offset_y\":-0.813,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":96.55},{\"offset_x\":0,\"offset_y\":-0.416,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":100}]},{\"type\":\"ambient_particles\",\"color\":\"rgba(255, 200, 50, 0.3)\",\"base_x\":50,\"base_y\":50,\"width\":100,\"height\":100,\"frames\":[{\"offset_x\":0,\"offset_y\":1,\"opacity\":0.6,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0.208,\"offset_y\":0.978,\"opacity\":0.681,\"scale\":1,\"rotate\":0,\"custom_value\":3.45},{\"offset_x\":0.407,\"offset_y\":0.914,\"opacity\":0.749,\"scale\":1,\"rotate\":0,\"custom_value\":6.9},{\"offset_x\":0.588,\"offset_y\":0.809,\"opacity\":0.79,\"scale\":1,\"rotate\":0,\"custom_value\":10.34},{\"offset_x\":0.743,\"offset_y\":0.669,\"opacity\":0.799,\"scale\":1,\"rotate\":0,\"custom_value\":13.79},{\"offset_x\":0.866,\"offset_y\":0.5,\"opacity\":0.773,\"scale\":1,\"rotate\":0,\"custom_value\":17.24},{\"offset_x\":0.951,\"offset_y\":0.309,\"opacity\":0.718,\"scale\":1,\"rotate\":0,\"custom_value\":20.69},{\"offset_x\":0.995,\"offset_y\":0.105,\"opacity\":0.642,\"scale\":1,\"rotate\":0,\"custom_value\":24.14},{\"offset_x\":0.995,\"offset_y\":-0.105,\"opacity\":0.558,\"scale\":1,\"rotate\":0,\"custom_value\":27.59},{\"offset_x\":0.951,\"offset_y\":-0.309,\"opacity\":0.482,\"scale\":1,\"rotate\":0,\"custom_value\":31.03},{\"offset_x\":0.866,\"offset_y\":-0.5,\"opacity\":0.427,\"scale\":1,\"rotate\":0,\"custom_value\":34.48},{\"offset_x\":0.743,\"offset_y\":-0.669,\"opacity\":0.401,\"scale\":1,\"rotate\":0,\"custom_value\":37.93},{\"offset_x\":0.588,\"offset_y\":-0.809,\"opacity\":0.41,\"scale\":1,\"rotate\":0,\"custom_value\":41.38},{\"offset_x\":0.407,\"offset_y\":-0.914,\"opacity\":0.451,\"scale\":1,\"rotate\":0,\"custom_value\":44.83},{\"offset_x\":0.208,\"offset_y\":-0.978,\"opacity\":0.519,\"scale\":1,\"rotate\":0,\"custom_value\":48.28},{\"offset_x\":0,\"offset_y\":-1,\"opacity\":0.6,\"scale\":1,\"rotate\":0,\"custom_value\":51.72},{\"offset_x\":-0.208,\"offset_y\":-0.978,\"opacity\":0.681,\"scale\":1,\"rotate\":0,\"custom_value\":55.17},{\"offset_x\":-0.407,\"offset_y\":-0.914,\"opacity\":0.749,\"scale\":1,\"rotate\":0,\"custom_value\":58.62},{\"offset_x\":-0.588,\"offset_y\":-0.809,\"opacity\":0.79,\"scale\":1,\"rotate\":0,\"custom_value\":62.07},{\"offset_x\":-0.743,\"offset_y\":-0.669,\"opacity\":0.799,\"scale\":1,\"rotate\":0,\"custom_value\":65.52},{\"offset_x\":-0.866,\"offset_y\":-0.5,\"opacity\":0.773,\"scale\":1,\"rotate\":0,\"custom_value\":68.97},{\"offset_x\":-0.951,\"offset_y\":-0.309,\"opacity\":0.718,\"scale\":1,\"rotate\":0,\"custom_value\":72.41},{\"offset_x\":-0.995,\"offset_y\":-0.105,\"opacity\":0.642,\"scale\":1,\"rotate\":0,\"custom_value\":75.86},{\"offset_x\":-0.995,\"offset_y\":0.105,\"opacity\":0.558,\"scale\":1,\"rotate\":0,\"custom_value\":79.31},{\"offset_x\":-0.951,\"offset_y\":0.309,\"opacity\":0.482,\"scale\":1,\"rotate\":0,\"custom_value\":82.76},{\"offset_x\":-0.866,\"offset_y\":0.5,\"opacity\":0.427,\"scale\":1,\"rotate\":0,\"custom_value\":86.21},{\"offset_x\":-0.743,\"offset_y\":0.669,\"opacity\":0.401,\"scale\":1,\"rotate\":0,\"custom_value\":89.66},{\"offset_x\":-0.588,\"offset_y\":0.809,\"opacity\":0.41,\"scale\":1,\"rotate\":0,\"custom_value\":93.1},{\"offset_x\":-0.407,\"offset_y\":0.914,\"opacity\":0.451,\"scale\":1,\"rotate\":0,\"custom_value\":96.55},{\"offset_x\":-0.208,\"offset_y\":0.978,\"opacity\":0.519,\"scale\":1,\"rotate\":0,\"custom_value\":100}]},{\"type\":\"glow_pulse\",\"color\":\"rgba(200, 100, 255, 0.5)\",\"base_x\":70,\"base_y\":70,\"width\":20,\"height\":20,\"frames\":[{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.604,\"scale\":1.042,\"rotate\":1.04,\"custom_value\":3.45},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.703,\"scale\":1.081,\"rotate\":2.034,\"custom_value\":6.9},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.794,\"scale\":1.118,\"rotate\":2.939,\"custom_value\":10.34},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.872,\"scale\":1.149,\"rotate\":3.716,\"custom_value\":13.79},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.933,\"scale\":1.173,\"rotate\":4.33,\"custom_value\":17.24},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.976,\"scale\":1.19,\"rotate\":4.756,\"custom_value\":20.69},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.997,\"scale\":1.199,\"rotate\":4.973,\"custom_value\":24.14},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.997,\"scale\":1.199,\"rotate\":4.973,\"custom_value\":27.59},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.976,\"scale\":1.19,\"rotate\":4.756,\"custom_value\":31.03},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.933,\"scale\":1.173,\"rotate\":4.33,\"custom_value\":34.48},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.872,\"scale\":1.149,\"rotate\":3.716,\"custom_value\":37.93},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.794,\"scale\":1.118,\"rotate\":2.939,\"custom_value\":41.38},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.703,\"scale\":1.081,\"rotate\":2.034,\"custom_value\":44.83},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.604,\"scale\":1.042,\"rotate\":1.04,\"custom_value\":48.28},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":1,\"rotate\":0,\"custom_value\":51.72},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.396,\"scale\":0.958,\"rotate\":-1.04,\"custom_value\":55.17},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.297,\"scale\":0.919,\"rotate\":-2.034,\"custom_value\":58.62},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.206,\"scale\":0.882,\"rotate\":-2.939,\"custom_value\":62.07},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.129,\"scale\":0.851,\"rotate\":-3.716,\"custom_value\":65.52},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.067,\"scale\":0.827,\"rotate\":-4.33,\"custom_value\":68.97},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.025,\"scale\":0.81,\"rotate\":-4.756,\"custom_value\":72.41},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.003,\"scale\":0.801,\"rotate\":-4.973,\"custom_value\":75.86},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.003,\"scale\":0.801,\"rotate\":-4.973,\"custom_value\":79.31},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.025,\"scale\":0.81,\"rotate\":-4.756,\"custom_value\":82.76},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.067,\"scale\":0.827,\"rotate\":-4.33,\"custom_value\":86.21},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.129,\"scale\":0.851,\"rotate\":-3.716,\"custom_value\":89.66},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.206,\"scale\":0.882,\"rotate\":-2.939,\"custom_value\":93.1},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.297,\"scale\":0.919,\"rotate\":-2.034,\"custom_value\":96.55},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.396,\"scale\":0.958,\"rotate\":-1.04,\"custom_value\":100}]}]}",
     "animate_illustration": true,
     "image_position_x": 77,
@@ -12213,7 +12213,7 @@
     "content": "<h2>Stariax</h2>\n<p>Stariax es una figura esbelta y ágil, con una presencia que irradia letalidad y frialdad.</p>\n<h2>Apariencia</h2>\n<p>Stariax es una figura esbelta y ágil, con una presencia que irradia letalidad y frialdad. Su cuerpo está marcado por cicatrices de pruebas y rituales, pero también por una agilidad sobrenatural. Sus movimientos son precisos y rápidos, como si el tiempo mismo se ralentizara a su alrededor. Sus ojos, fríos y vacíos, reflejan la ausencia de humanidad que alguna vez tuvo. Su piel, pálida y sin vida, contrasta con la oscuridad de su entorno. Viste ropas desgarradas y funcionales, diseñadas para el movimiento y la supervivencia, pero sin ningún adorno que delate su pasado.</p>\n<h2>Personalidad</h2>\n<p>Stariax es un ser consumido por el odio y la sed de venganza. Su mente está dominada por una voz que le susurra \"Todos deben morir\", una obsesión que la impulsa a eliminar cualquier amenaza o obstáculo en su camino. No siente remordimiento ni empatía, solo una frialdad calculadora y una determinación implacable. Su único propósito es destruir a quienes considera responsables de su sufrimiento, sin importar el costo. Aunque alguna vez tuvo amor por su hermano y esperanza de escapar, ahora solo existe el vacío y la necesidad de matar.</p>\n<h2>Historia</h2>\n<p>Stariax nació en una familia humilde, pero su vida dio un giro oscuro cuando, a una edad temprana, sus padres, ahogados en deudas y miedo, la vendieron junto a su hermano a un <a href=\"/articulo/hechicero\">hechicero</a> ligado a una poderosa <a href=\"/articulo/secta-oscura\">secta oscura</a>. El <a href=\"/articulo/hechicero\">hechicero</a> no veía en ellos a niños, sino en material en potencia para crear una criatura perfecta: rápida, letal y sin emociones. Los llevó a un castillo, donde el sol no entraba y solo reinaba el polvo y la humedad. Allí, Stariax y su hermano fueron sometidos a pruebas, rituales y castigos interminables. Stariax siempre se levantó más fuerte, más rápida y más fría, pero su hermano, de constitución más frágil, no resistía igual. Stariax lo protegía, asegurándole que algún día escaparían.</p>\n<p>Un día, el <a href=\"/articulo/hechicero\">hechicero</a> decidió que el hermano de Stariax había fallado y ya no le servía. Obligada a mirar, encadenada e inmóvil, Stariax vio cómo el <a href=\"/articulo/hechicero\">hechicero</a> iniciaba un conjuro que terminó con la vida de su hermano. Pero el hechizo, aún incompleto, se desbordó, y una parte de esa magia entró en Stariax. Ese fue el momento en que algo dentro de ella murió y algo más nació. Un vacío se llenó completamente de odio, odio sin forma ni razón, dirigido no solo hacia el <a href=\"/articulo/hechicero\">hechicero</a>, sino hacia todo lo que la rodeaba. Rompió sus cadenas y, por primera vez, el <a href=\"/articulo/hechicero\">hechicero</a> sintió miedo. Fue ejecutado en un instante. El dolor la había convertido en algo inhumano.</p>\n<p>Desde entonces, Stariax solo siente odio y sed de venganza. Su cuerpo es ligero, rápido y letal, y sus sentidos están afilados como cuchillas. Pero su mente está consumida por la voz que le susurra \"Todos deben morir\". Pronto descubrió que el <a href=\"/articulo/hechicero\">hechicero</a> no estaba solo; formaba parte de una <a href=\"/articulo/secta-oscura\">secta oscura</a> que seguía creando monstruos. Su objetivo se volvió claro: matar a todos hasta que no quedara ni uno en pie, cueste lo que cueste.</p>\n<p>Tras su transformación en una criatura letal y consumida por el odio, Stariax vagó por el mundo hasta que, durante la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a> a <a href=\"#\">Ávalon</a>, llegó a <a href=\"#\">Svartal</a>, en el <a href=\"/articulo/gran-reino-enano-de-thorin-mrdtvqcc\">Gran Reino Enano de Thorin</a>. Al enterarse de que el grupo carecía de un miembro para competir en el  torndeo se unió a ellos. Su habilidad en combate y su sed de venganza resultaron clave para derrotar a <a href=\"/articulo/kaelgor-loux\">Kaelgor Loux</a>. Tras la victoria, Stariax se unió oficialmente a la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a>, consolidando su lugar como parte del grupo.</p>\n<h2>Habilidades y poderes</h2>\n<ul>\n<li><strong>Agilidad sobrenatural:</strong> Su cuerpo es increíblemente ágil, capaz de moverse a velocidades inhumanas y esquivar ataques con facilidad.</li>\n</ul>\n<ul>\n<li><strong>Sentidos afilados:</strong> Sus sentidos están tan desarrollados que puede detectar presencias, olores y sonidos a distancias imposibles para un humano normal.</li>\n</ul>\n<ul>\n<li><strong>Resistencia extrema:</strong> Ha sido sometida a pruebas brutales que la han hecho resistente al dolor y a la fatiga, permitiéndole continuar incluso en condiciones extremas.</li>\n</ul>\n<ul>\n<li><strong>Frialdad mental:</strong> Su mente está tan consumida por el odio que no siente miedo ni remordimiento, lo que la hace un enemigo implacable.</li>\n</ul>\n<ul>\n<li><strong>Armas naturales:</strong> Sus manos y pies están adaptados para el combate, con garras y golpes letales que pueden matar instantáneamente.</li>\n</ul>\n<h2>Curiosidades</h2>\n<ul>\n<li>Stariax no recuerda su nombre de nacimiento ni el de su hermano, ya que todo su pasado fue borrado por los experimentos de la <a href=\"/articulo/secta-oscura\">secta oscura</a>.</li>\n</ul>\n<ul>\n<li>Su odio no está dirigido solo a quienes la dañaron, sino a todo lo que existe, incluyendo a los inocentes.</li>\n</ul>\n<ul>\n<li>Aunque su cuerpo es humanoide, su fisiología ha sido alterada por la <a href=\"/articulo/magia-oscura\">magia oscura</a>, dándole habilidades sobrehumanas.</li>\n</ul>\n<ul>\n<li>La <a href=\"/articulo/secta-oscura\">secta oscura</a> que la creó sigue activa, y Stariax busca destruirla como parte de su venganza.</li>\n</ul>",
     "created_date": "2026-07-09T23:25:05.482Z",
     "updated_date": "2026-10-09T10:56:45.220Z",
-    "image_url": "/images/cloud/stariax-mre4wqiy_48c58c534d.png",
+    "image_url": "",
     "gallery": [],
     "infobox": {
       "Nombre real": "Desconocido",
@@ -12707,7 +12707,7 @@
       "art-1787666807809"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/gripe-de-la-plata-mrdhl7vn.png"
+    "image_url": ""
   },
   {
     "id": "art-1783590621561",
@@ -13059,7 +13059,7 @@
     "content": "<p>La Gran Nada es una vasta extensión de tierras arrasadas por un evento catastrófico que transformó el territorio en un desierto de cenizas y ruinas. Esta región, antes habitada por diversas razas, quedó reducida a un páramo desolado, donde la vida es casi inexistente y la esperanza de recuperación parece lejana.</p><p>El nombre \"La Gran Nada\" refleja la ausencia de vida, civilización y recursos en este lugar, que ahora sirve como un recordatorio de la fragilidad de los reinos y la fuerza destructiva de los cataclismos.</p>",
     "created_date": "2026-07-08T11:17:57.819Z",
     "updated_date": "2026-07-29T09:29:45.542Z",
-    "image_url": "/images/cloud/la-gran-nada-mrbzhsjf_7668958d8b.png",
+    "image_url": "",
     "gallery": [],
     "infobox": {},
     "tags": [],
@@ -13155,7 +13155,7 @@
     "id": "art-1783384268210",
     "created_date": "2026-07-07T00:31:16.987Z",
     "updated_date": "2026-07-29T09:29:48.205Z",
-    "image_url": "/images/cloud/mercado-negro-de-icespear_e650753754.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787664906161"
@@ -13245,7 +13245,7 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "/images/cloud/mansion-de-zaltar_523a046c94.png",
+    "image_url": "",
     "animation_frames": "{\"elements\":[{\"type\":\"ambient_particles\",\"color\":\"rgba(150, 50, 200, 0.4)\",\"base_x\":50,\"base_y\":70,\"width\":100,\"height\":30,\"frames\":[{\"offset_x\":0,\"offset_y\":3,\"opacity\":0.6,\"scale\":0.9,\"rotate\":0,\"custom_value\":0},{\"offset_x\":1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":1},{\"offset_x\":2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":2},{\"offset_x\":3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":3},{\"offset_x\":2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":4},{\"offset_x\":1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":5},{\"offset_x\":0,\"offset_y\":-3,\"opacity\":0.9,\"scale\":1.2,\"rotate\":0,\"custom_value\":6},{\"offset_x\":-1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":7},{\"offset_x\":-2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":8},{\"offset_x\":-3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":9},{\"offset_x\":-2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":10},{\"offset_x\":-1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":11},{\"offset_x\":0,\"offset_y\":3,\"opacity\":0.6,\"scale\":0.9,\"rotate\":0,\"custom_value\":12},{\"offset_x\":1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":13},{\"offset_x\":2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":14},{\"offset_x\":3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":15},{\"offset_x\":2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":16},{\"offset_x\":1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":17},{\"offset_x\":0,\"offset_y\":-3,\"opacity\":0.9,\"scale\":1.2,\"rotate\":0,\"custom_value\":18},{\"offset_x\":-1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":19},{\"offset_x\":-2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":20},{\"offset_x\":-3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":21},{\"offset_x\":-2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":22},{\"offset_x\":-1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":23},{\"offset_x\":0,\"offset_y\":3,\"opacity\":0.6,\"scale\":0.9,\"rotate\":0,\"custom_value\":24},{\"offset_x\":1,\"offset_y\":2,\"opacity\":0.65,\"scale\":0.95,\"rotate\":0,\"custom_value\":25},{\"offset_x\":2,\"offset_y\":1,\"opacity\":0.7,\"scale\":1,\"rotate\":0,\"custom_value\":26},{\"offset_x\":3,\"offset_y\":0,\"opacity\":0.75,\"scale\":1.05,\"rotate\":0,\"custom_value\":27},{\"offset_x\":2,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1.1,\"rotate\":0,\"custom_value\":28},{\"offset_x\":1,\"offset_y\":-2,\"opacity\":0.85,\"scale\":1.15,\"rotate\":0,\"custom_value\":29}]},{\"type\":\"glow_pulse\",\"color\":\"rgba(255, 100, 0, 0.3)\",\"base_x\":50,\"base_y\":30,\"width\":20,\"height\":40,\"frames\":[{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":0.9,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.55,\"scale\":0.92,\"rotate\":0,\"custom_value\":5},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.6,\"scale\":0.94,\"rotate\":0,\"custom_value\":10},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.65,\"scale\":0.96,\"rotate\":0,\"custom_value\":15},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.7,\"scale\":0.98,\"rotate\":0,\"custom_value\":20},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.75,\"scale\":1,\"rotate\":0,\"custom_value\":25},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1.02,\"rotate\":0,\"custom_value\":30},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.85,\"scale\":1.04,\"rotate\":0,\"custom_value\":35},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.9,\"scale\":1.06,\"rotate\":0,\"custom_value\":40},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.95,\"scale\":1.08,\"rotate\":0,\"custom_value\":45},{\"offset_x\":0,\"offset_y\":0,\"opacity\":1,\"scale\":1.1,\"rotate\":0,\"custom_value\":50},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.95,\"scale\":1.08,\"rotate\":0,\"custom_value\":55},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.9,\"scale\":1.06,\"rotate\":0,\"custom_value\":60},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.85,\"scale\":1.04,\"rotate\":0,\"custom_value\":65},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1.02,\"rotate\":0,\"custom_value\":70},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.75,\"scale\":1,\"rotate\":0,\"custom_value\":75},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.7,\"scale\":0.98,\"rotate\":0,\"custom_value\":80},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.65,\"scale\":0.96,\"rotate\":0,\"custom_value\":85},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.6,\"scale\":0.94,\"rotate\":0,\"custom_value\":90},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.55,\"scale\":0.92,\"rotate\":0,\"custom_value\":95},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":0.9,\"rotate\":0,\"custom_value\":100},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.55,\"scale\":0.92,\"rotate\":0,\"custom_value\":5},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.6,\"scale\":0.94,\"rotate\":0,\"custom_value\":10},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.65,\"scale\":0.96,\"rotate\":0,\"custom_value\":15},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.7,\"scale\":0.98,\"rotate\":0,\"custom_value\":20},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.75,\"scale\":1,\"rotate\":0,\"custom_value\":25},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.8,\"scale\":1.02,\"rotate\":0,\"custom_value\":30},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.85,\"scale\":1.04,\"rotate\":0,\"custom_value\":35},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.9,\"scale\":1.06,\"rotate\":0,\"custom_value\":40},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.95,\"scale\":1.08,\"rotate\":0,\"custom_value\":45},{\"offset_x\":0,\"offset_y\":0,\"opacity\":1,\"scale\":1.1,\"rotate\":0,\"custom_value\":50},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.95,\"scale\":1.08,\"rotate\":0,\"custom_value\":55}]},{\"type\":\"flying_animal\",\"color\":\"rgba(30, 30, 30, 0.6)\",\"base_x\":55,\"base_y\":25,\"width\":15,\"height\":10,\"frames\":[{\"offset_x\":0,\"offset_y\":1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":12},{\"offset_x\":1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":24},{\"offset_x\":1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":3,\"custom_value\":36},{\"offset_x\":1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":48},{\"offset_x\":0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":60},{\"offset_x\":0,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":72},{\"offset_x\":-0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":-1,\"custom_value\":84},{\"offset_x\":-1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":-2,\"custom_value\":96},{\"offset_x\":-1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":-3,\"custom_value\":108},{\"offset_x\":-1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":-2,\"custom_value\":120},{\"offset_x\":-0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":-1,\"custom_value\":132},{\"offset_x\":0,\"offset_y\":1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":144},{\"offset_x\":0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":156},{\"offset_x\":1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":168},{\"offset_x\":1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":3,\"custom_value\":180},{\"offset_x\":1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":192},{\"offset_x\":0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":204},{\"offset_x\":0,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":216},{\"offset_x\":-0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":-1,\"custom_value\":228},{\"offset_x\":-1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":-2,\"custom_value\":240},{\"offset_x\":-1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":-3,\"custom_value\":252},{\"offset_x\":-1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":-2,\"custom_value\":264},{\"offset_x\":-0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":-1,\"custom_value\":276},{\"offset_x\":0,\"offset_y\":1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":288},{\"offset_x\":0.5,\"offset_y\":0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":300},{\"offset_x\":1,\"offset_y\":0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":312},{\"offset_x\":1.5,\"offset_y\":0,\"opacity\":0.8,\"scale\":1,\"rotate\":3,\"custom_value\":324},{\"offset_x\":1,\"offset_y\":-0.5,\"opacity\":0.8,\"scale\":1,\"rotate\":2,\"custom_value\":336},{\"offset_x\":0.5,\"offset_y\":-0.8,\"opacity\":0.8,\"scale\":1,\"rotate\":1,\"custom_value\":348},{\"offset_x\":0,\"offset_y\":-1,\"opacity\":0.8,\"scale\":1,\"rotate\":0,\"custom_value\":0}]}]}",
     "animate_illustration": true,
     "image_position_x": 50,
@@ -13355,7 +13355,7 @@
     "id": "art-1783384228862",
     "created_date": "2026-07-07T00:30:37.021Z",
     "updated_date": "2026-07-29T09:29:54.949Z",
-    "image_url": "/images/cloud/mansion-loux_e835abf540.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1783384096482",
@@ -13452,7 +13452,7 @@
     "id": "art-1783384220963",
     "created_date": "2026-07-07T00:30:25.494Z",
     "updated_date": "2026-10-09T11:46:09.344Z",
-    "image_url": "/images/cloud/mansion-ferton_d392c91ad5.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787665587156",
@@ -13535,7 +13535,7 @@
     "id": "art-1783384206423",
     "created_date": "2026-07-07T00:30:17.437Z",
     "updated_date": "2026-10-09T11:49:13.797Z",
-    "image_url": "/images/cloud/manantial-del-feywild_85d2e3dd6b.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787664906161"
@@ -14490,7 +14490,7 @@
     "id": "art-1783384103424",
     "created_date": "2026-07-07T00:28:28.346Z",
     "updated_date": "2026-07-29T09:30:32.632Z",
-    "image_url": "/images/cloud/la-tienda-23_f858befd7b.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787664919295"
@@ -15093,7 +15093,7 @@
     "id": "art-1783384032020",
     "created_date": "2026-07-07T00:27:14.910Z",
     "updated_date": "2026-09-26T15:30:33.092Z",
-    "image_url": "/images/cloud/kaliria_6272b28d68.png",
+    "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -15515,7 +15515,7 @@
       "art-1787664906161"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/herald-i-de-moonhaven.png"
+    "image_url": ""
   },
   {
     "title": "Havrik Deez",
@@ -15975,7 +15975,7 @@
     "id": "art-1783383921777",
     "created_date": "2026-07-07T00:25:25.488Z",
     "updated_date": "2026-10-09T11:53:15.196Z",
-    "image_url": "/images/cloud/gran-torre-arcana-de-cryostar_5bad42c066.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787664919295",
@@ -16142,7 +16142,7 @@
       "art-1787667206844"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/gobernante-de-moonhaven.png"
+    "image_url": ""
   },
   {
     "title": "Gildemar, el Rey Mago",
@@ -16406,7 +16406,7 @@
     "id": "art-1783383848489",
     "created_date": "2026-07-07T00:24:11.508Z",
     "updated_date": "2026-07-09T16:59:32.896Z",
-    "image_url": "/images/cloud/feywild_38a530ef71.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [],
     "filters": {
@@ -16600,7 +16600,7 @@
       "art-1787664906161"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/familia-diaz.png"
+    "image_url": ""
   },
   {
     "title": "Familia Deez",
@@ -16790,7 +16790,7 @@
       "Ascendidos",
       "Regionales"
     ],
-    "image_url": "/images/covers/fafnir.png"
+    "image_url": ""
   },
   {
     "title": "Emboscada",
@@ -16847,7 +16847,7 @@
       "art-1787664906161"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/emboscada.png"
+    "image_url": ""
   },
   {
     "title": "El barón",
@@ -17295,7 +17295,7 @@
     "id": "art-1783383723477",
     "created_date": "2026-07-07T00:22:05.747Z",
     "updated_date": "2026-07-09T16:00:23.484Z",
-    "image_url": "/images/cloud/el-ciervo-celeste_90edf02bae.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787665270474"
@@ -17745,7 +17745,7 @@
     "id": "art-1783383645366",
     "created_date": "2026-07-07T00:20:50.283Z",
     "updated_date": "2026-07-09T15:12:49.791Z",
-    "image_url": "/images/cloud/cryostar_d25862c4a6.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787664178463",
@@ -17837,7 +17837,7 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/consejo-omega.png"
+    "image_url": ""
   },
   {
     "title": "Chispo Deez",
@@ -18098,7 +18098,7 @@
       "art-1787664906161"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/bellmoth.png"
+    "image_url": ""
   },
   {
     "title": "Belcebú",
@@ -18499,7 +18499,7 @@
     "id": "art-1783383523286",
     "created_date": "2026-07-07T00:19:04.000Z",
     "updated_date": "2026-10-09T10:57:42.438Z",
-    "image_url": "/images/cloud/arthorius_cf9ffbf166.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787665020601",
@@ -18554,7 +18554,7 @@
       "art-1787665020601"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/armagedon.png"
+    "image_url": ""
   },
   {
     "title": "Arlem Díaz",
@@ -18915,7 +18915,7 @@
     "id": "art-1783383445659",
     "created_date": "2026-07-07T00:17:29.308Z",
     "updated_date": "2026-09-24T14:34:33.896Z",
-    "image_url": "/images/cloud/aeros_643fcf7092.png",
+    "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -19049,7 +19049,7 @@
     "id": "art-1783383434816",
     "created_date": "2026-07-07T00:17:23.017Z",
     "updated_date": "2026-08-23T16:51:45.270Z",
-    "image_url": "/images/cloud/aeliana_41d59ea62b.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1783383775188",
@@ -19142,7 +19142,7 @@
     "id": "art-1783383418932",
     "created_date": "2026-07-07T00:17:03.442Z",
     "updated_date": "2026-07-09T15:04:46.421Z",
-    "image_url": "/images/cloud/exodus-umbral_c0230d2829.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787665654504",
@@ -19513,7 +19513,7 @@
     "id": "art-1783383350433",
     "created_date": "2026-07-07T00:15:52.633Z",
     "updated_date": "2026-07-09T15:03:14.625Z",
-    "image_url": "/images/cloud/tumba-de-chemos_6c52b7ca2c.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787665654504"
@@ -19894,7 +19894,7 @@
     "id": "art-1783383301469",
     "created_date": "2026-07-07T00:15:03.105Z",
     "updated_date": "2026-07-09T14:50:00.279Z",
-    "image_url": "/images/cloud/taverna-de-caldo-de-dragon_aecddbc7c3.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787666836984"
@@ -20282,7 +20282,7 @@
     "id": "art-1783383245721",
     "created_date": "2026-07-07T00:14:11.905Z",
     "updated_date": "2026-07-19T10:45:47.896Z",
-    "image_url": "/images/cloud/spellforge_5d564d0adb.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787665020601",
@@ -20714,7 +20714,7 @@
     "id": "art-1783383205089",
     "created_date": "2026-07-07T00:13:27.518Z",
     "updated_date": "2026-10-09T11:02:15.993Z",
-    "image_url": "/images/cloud/ragnavaldr_f2a5aca03a.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787666648124",
@@ -20987,7 +20987,7 @@
     "id": "art-1783383166992",
     "created_date": "2026-07-07T00:12:48.538Z",
     "updated_date": "2026-09-24T10:11:08.331Z",
-    "image_url": "/images/cloud/plano-del-polvo_43c59abe78.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [],
     "filters": {
@@ -21026,7 +21026,7 @@
     "id": "art-1783383107977",
     "created_date": "2026-07-07T00:11:55.120Z",
     "updated_date": "2026-07-09T16:58:44.262Z",
-    "image_url": "/images/cloud/plano-onirico_284ed96b8e.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [],
     "filters": {
@@ -21108,7 +21108,7 @@
     "id": "art-1783383102129",
     "created_date": "2026-07-07T00:11:45.210Z",
     "updated_date": "2026-07-10T18:00:22.358Z",
-    "image_url": "/images/cloud/pico-de-icespear_b8bf822773.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787666796733",
@@ -21672,7 +21672,7 @@
     "id": "art-1783383007677",
     "created_date": "2026-07-07T00:10:14.125Z",
     "updated_date": "2026-10-09T11:52:40.897Z",
-    "image_url": "/images/cloud/minas-de-icespear_a215483a2f.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787667030822",
@@ -22240,7 +22240,7 @@
   },
   {
     "summary": "",
-    "image_url": "/images/cloud/makai-d7e6b8_8077b385a5.png",
+    "image_url": "",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -22386,7 +22386,7 @@
   },
   {
     "summary": "",
-    "image_url": "/images/cloud/la-antigua-capital-72cd6a_38d060765f.png",
+    "image_url": "",
     "map_url": "https://preview--carto-craft-copy-25de56d5.base44.app/view/6a201116d15c4d51f3b81ff5",
     "infobox": {},
     "filters": {
@@ -22425,7 +22425,7 @@
   },
   {
     "summary": "",
-    "image_url": "/images/cloud/el-abismo-96325e_9b41bd02b3.png",
+    "image_url": "",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -22463,7 +22463,7 @@
   },
   {
     "summary": "",
-    "image_url": "/images/cloud/el-cierre-del-reloj-astral-367_ffd1a471fd.png",
+    "image_url": "",
     "map_url": null,
     "infobox": {},
     "filters": {
@@ -22896,7 +22896,7 @@
   },
   {
     "summary": "",
-    "image_url": "/images/cloud/el-santuario-d45cdc_c0ce465fc9.png",
+    "image_url": "",
     "map_url": "https://cartocraft.ai.studio/#/map/6a36c300d27abeefcaa93fb8/no-ui?markers=false&lights=true&helpers=false&root=6a36c300d27abeefcaa93fb8",
     "infobox": {},
     "filters": {
@@ -22921,7 +22921,7 @@
     "is_featured": false,
     "id": "6a1f47fdce9c60c774d45cdc",
     "created_date": "2026-06-02T21:15:41.660000",
-    "updated_date": "2026-09-24T10:11:14.210Z",
+    "updated_date": "2026-10-11T09:08:01.119Z",
     "created_by_id": "anonymous",
     "is_sample": false,
     "animation_frames": "{\"elements\":[{\"type\":\"tree_sway\",\"color\":\"rgba(34, 139, 34, 0.5)\",\"base_x\":50,\"base_y\":70,\"width\":30,\"height\":60,\"frames\":[{\"offset_x\":0,\"offset_y\":0,\"opacity\":1,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0.5,\"offset_y\":0,\"opacity\":1,\"scale\":1.005,\"rotate\":0.35,\"custom_value\":5},{\"offset_x\":1,\"offset_y\":0,\"opacity\":1,\"scale\":1.01,\"rotate\":0.7,\"custom_value\":10},{\"offset_x\":1.5,\"offset_y\":0,\"opacity\":1,\"scale\":1.015,\"rotate\":1.05,\"custom_value\":15},{\"offset_x\":2,\"offset_y\":0,\"opacity\":1,\"scale\":1.02,\"rotate\":1.4,\"custom_value\":20},{\"offset_x\":2.5,\"offset_y\":0,\"opacity\":1,\"scale\":1.025,\"rotate\":1.75,\"custom_value\":25},{\"offset_x\":3,\"offset_y\":0,\"opacity\":1,\"scale\":1.03,\"rotate\":2.1,\"custom_value\":30},{\"offset_x\":3.5,\"offset_y\":0,\"opacity\":1,\"scale\":1.035,\"rotate\":2.45,\"custom_value\":35},{\"offset_x\":4,\"offset_y\":0,\"opacity\":1,\"scale\":1.04,\"rotate\":2.8,\"custom_value\":40},{\"offset_x\":4.5,\"offset_y\":0,\"opacity\":1,\"scale\":1.045,\"rotate\":3.15,\"custom_value\":45},{\"offset_x\":5,\"offset_y\":0,\"opacity\":1,\"scale\":1.05,\"rotate\":3.5,\"custom_value\":50},{\"offset_x\":5.5,\"offset_y\":0,\"opacity\":1,\"scale\":1.055,\"rotate\":3.85,\"custom_value\":55},{\"offset_x\":6,\"offset_y\":0,\"opacity\":1,\"scale\":1.06,\"rotate\":4.2,\"custom_value\":60},{\"offset_x\":6.5,\"offset_y\":0,\"opacity\":1,\"scale\":1.065,\"rotate\":4.55,\"custom_value\":65},{\"offset_x\":7,\"offset_y\":0,\"opacity\":1,\"scale\":1.07,\"rotate\":4.9,\"custom_value\":70},{\"offset_x\":6.5,\"offset_y\":0,\"opacity\":1,\"scale\":1.065,\"rotate\":4.55,\"custom_value\":65},{\"offset_x\":6,\"offset_y\":0,\"opacity\":1,\"scale\":1.06,\"rotate\":4.2,\"custom_value\":60},{\"offset_x\":5.5,\"offset_y\":0,\"opacity\":1,\"scale\":1.055,\"rotate\":3.85,\"custom_value\":55},{\"offset_x\":5,\"offset_y\":0,\"opacity\":1,\"scale\":1.05,\"rotate\":3.5,\"custom_value\":50},{\"offset_x\":4.5,\"offset_y\":0,\"opacity\":1,\"scale\":1.045,\"rotate\":3.15,\"custom_value\":45},{\"offset_x\":4,\"offset_y\":0,\"opacity\":1,\"scale\":1.04,\"rotate\":2.8,\"custom_value\":40},{\"offset_x\":3.5,\"offset_y\":0,\"opacity\":1,\"scale\":1.035,\"rotate\":2.45,\"custom_value\":35},{\"offset_x\":3,\"offset_y\":0,\"opacity\":1,\"scale\":1.03,\"rotate\":2.1,\"custom_value\":30},{\"offset_x\":2.5,\"offset_y\":0,\"opacity\":1,\"scale\":1.025,\"rotate\":1.75,\"custom_value\":25},{\"offset_x\":2,\"offset_y\":0,\"opacity\":1,\"scale\":1.02,\"rotate\":1.4,\"custom_value\":20},{\"offset_x\":1.5,\"offset_y\":0,\"opacity\":1,\"scale\":1.015,\"rotate\":1.05,\"custom_value\":15},{\"offset_x\":1,\"offset_y\":0,\"opacity\":1,\"scale\":1.01,\"rotate\":0.7,\"custom_value\":10},{\"offset_x\":0.5,\"offset_y\":0,\"opacity\":1,\"scale\":1.005,\"rotate\":0.35,\"custom_value\":5},{\"offset_x\":0,\"offset_y\":0,\"opacity\":1,\"scale\":1,\"rotate\":0,\"custom_value\":0},{\"offset_x\":0,\"offset_y\":0,\"opacity\":1,\"scale\":1,\"rotate\":0,\"custom_value\":0}]},{\"type\":\"ambient_particles\",\"color\":\"rgba(255, 215, 0, 0.3)\",\"base_x\":50,\"base_y\":80,\"width\":20,\"height\":20,\"frames\":[{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":0.8,\"rotate\":0,\"custom_value\":80},{\"offset_x\":0.5,\"offset_y\":0.25,\"opacity\":0.5357142857142857,\"scale\":0.825,\"rotate\":0,\"custom_value\":82.5},{\"offset_x\":1,\"offset_y\":0.5,\"opacity\":0.5714285714285714,\"scale\":0.85,\"rotate\":0,\"custom_value\":85},{\"offset_x\":1.5,\"offset_y\":0.75,\"opacity\":0.6071428571428571,\"scale\":0.875,\"rotate\":0,\"custom_value\":87.5},{\"offset_x\":2,\"offset_y\":1,\"opacity\":0.6428571428571429,\"scale\":0.9,\"rotate\":0,\"custom_value\":90},{\"offset_x\":2.5,\"offset_y\":1.25,\"opacity\":0.6785714285714286,\"scale\":0.925,\"rotate\":0,\"custom_value\":92.5},{\"offset_x\":3,\"offset_y\":1.5,\"opacity\":0.7142857142857143,\"scale\":0.95,\"rotate\":0,\"custom_value\":95},{\"offset_x\":3.5,\"offset_y\":1.75,\"opacity\":0.75,\"scale\":0.975,\"rotate\":0,\"custom_value\":97.5},{\"offset_x\":4,\"offset_y\":2,\"opacity\":0.7857142857142857,\"scale\":1,\"rotate\":0,\"custom_value\":100},{\"offset_x\":4.5,\"offset_y\":2.25,\"opacity\":0.8214285714285714,\"scale\":1.025,\"rotate\":0,\"custom_value\":102.5},{\"offset_x\":5,\"offset_y\":2.5,\"opacity\":0.8571428571428572,\"scale\":1.05,\"rotate\":0,\"custom_value\":105},{\"offset_x\":5.5,\"offset_y\":2.75,\"opacity\":0.8928571428571429,\"scale\":1.075,\"rotate\":0,\"custom_value\":107.5},{\"offset_x\":6,\"offset_y\":3,\"opacity\":0.9285714285714286,\"scale\":1.1,\"rotate\":0,\"custom_value\":110},{\"offset_x\":6.5,\"offset_y\":3.25,\"opacity\":0.9642857142857143,\"scale\":1.125,\"rotate\":0,\"custom_value\":112.5},{\"offset_x\":7,\"offset_y\":3.5,\"opacity\":1,\"scale\":1.15,\"rotate\":0,\"custom_value\":115},{\"offset_x\":6.5,\"offset_y\":3.25,\"opacity\":0.9642857142857143,\"scale\":1.125,\"rotate\":0,\"custom_value\":112.5},{\"offset_x\":6,\"offset_y\":3,\"opacity\":0.9285714285714286,\"scale\":1.1,\"rotate\":0,\"custom_value\":110},{\"offset_x\":5.5,\"offset_y\":2.75,\"opacity\":0.8928571428571429,\"scale\":1.075,\"rotate\":0,\"custom_value\":107.5},{\"offset_x\":5,\"offset_y\":2.5,\"opacity\":0.8571428571428572,\"scale\":1.05,\"rotate\":0,\"custom_value\":105},{\"offset_x\":4.5,\"offset_y\":2.25,\"opacity\":0.8214285714285714,\"scale\":1.025,\"rotate\":0,\"custom_value\":102.5},{\"offset_x\":4,\"offset_y\":2,\"opacity\":0.7857142857142857,\"scale\":1,\"rotate\":0,\"custom_value\":100},{\"offset_x\":3.5,\"offset_y\":1.75,\"opacity\":0.75,\"scale\":0.975,\"rotate\":0,\"custom_value\":97.5},{\"offset_x\":3,\"offset_y\":1.5,\"opacity\":0.7142857142857143,\"scale\":0.95,\"rotate\":0,\"custom_value\":95},{\"offset_x\":2.5,\"offset_y\":1.25,\"opacity\":0.6785714285714286,\"scale\":0.925,\"rotate\":0,\"custom_value\":92.5},{\"offset_x\":2,\"offset_y\":1,\"opacity\":0.6428571428571429,\"scale\":0.9,\"rotate\":0,\"custom_value\":90},{\"offset_x\":1.5,\"offset_y\":0.75,\"opacity\":0.6071428571428571,\"scale\":0.875,\"rotate\":0,\"custom_value\":87.5},{\"offset_x\":1,\"offset_y\":0.5,\"opacity\":0.5714285714285714,\"scale\":0.85,\"rotate\":0,\"custom_value\":85},{\"offset_x\":0.5,\"offset_y\":0.25,\"opacity\":0.5357142857142857,\"scale\":0.825,\"rotate\":0,\"custom_value\":82.5},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":0.8,\"rotate\":0,\"custom_value\":80},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.5,\"scale\":0.8,\"rotate\":0,\"custom_value\":80}]},{\"type\":\"glow_pulse\",\"color\":\"rgba(173, 216, 255, 0.6)\",\"base_x\":50,\"base_y\":50,\"width\":40,\"height\":40,\"frames\":[{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.6,\"scale\":1,\"rotate\":0,\"custom_value\":100},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.607,\"scale\":1.01,\"rotate\":0,\"custom_value\":101},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.614,\"scale\":1.02,\"rotate\":0,\"custom_value\":102},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.621,\"scale\":1.03,\"rotate\":0,\"custom_value\":103},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.628,\"scale\":1.04,\"rotate\":0,\"custom_value\":104},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.635,\"scale\":1.05,\"rotate\":0,\"custom_value\":105},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.642,\"scale\":1.06,\"rotate\":0,\"custom_value\":106},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.649,\"scale\":1.07,\"rotate\":0,\"custom_value\":107},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.656,\"scale\":1.08,\"rotate\":0,\"custom_value\":108},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.663,\"scale\":1.09,\"rotate\":0,\"custom_value\":109},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.67,\"scale\":1.1,\"rotate\":0,\"custom_value\":110},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.677,\"scale\":1.11,\"rotate\":0,\"custom_value\":111},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.684,\"scale\":1.12,\"rotate\":0,\"custom_value\":112},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.691,\"scale\":1.13,\"rotate\":0,\"custom_value\":113},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.698,\"scale\":1.14,\"rotate\":0,\"custom_value\":114},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.705,\"scale\":1.15,\"rotate\":0,\"custom_value\":115},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.698,\"scale\":1.14,\"rotate\":0,\"custom_value\":114},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.691,\"scale\":1.13,\"rotate\":0,\"custom_value\":113},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.684,\"scale\":1.12,\"rotate\":0,\"custom_value\":112},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.677,\"scale\":1.11,\"rotate\":0,\"custom_value\":111},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.67,\"scale\":1.1,\"rotate\":0,\"custom_value\":110},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.663,\"scale\":1.09,\"rotate\":0,\"custom_value\":109},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.656,\"scale\":1.08,\"rotate\":0,\"custom_value\":108},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.649,\"scale\":1.07,\"rotate\":0,\"custom_value\":107},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.642,\"scale\":1.06,\"rotate\":0,\"custom_value\":106},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.635,\"scale\":1.05,\"rotate\":0,\"custom_value\":105},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.628,\"scale\":1.04,\"rotate\":0,\"custom_value\":104},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.621,\"scale\":1.03,\"rotate\":0,\"custom_value\":103},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.614,\"scale\":1.02,\"rotate\":0,\"custom_value\":102},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.607,\"scale\":1.01,\"rotate\":0,\"custom_value\":101},{\"offset_x\":0,\"offset_y\":0,\"opacity\":0.6,\"scale\":1,\"rotate\":0,\"custom_value\":100}]}]}",

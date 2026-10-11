@@ -1,5 +1,65 @@
 [
   {
+    "id": "bak-art-1783612617804-1791708108000",
+    "articleId": "art-1783612617804",
+    "title": "Las Islas de Kaanil",
+    "content": "<h2>Las Islas de Kaanil</h2><p>En la edad prehistórica del mundo, los <a href=\"/articulo/dragones\">dragones</a> tenían esclavos creados con magia, dragonoides y bestias dracónicas. Algunos de estos esclavos lograron escapar a unas islas lejanas, donde fundaron <a href=\"/articulo/kaanil-nah\">Kaanil</a>. Con el tiempo, evolucionaron por la <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a> del lugar a saurios, y se convirtieron en criaturas dinosaurio que vagaban por las islas.</p><p>Con el tiempo, los <a href=\"/articulo/dragones\">dragones</a> perdieron su dominio sobre las islas, sin embargo, <a href=\"/articulo/kaanil-nah\">Kaanil</a> seguía floreciendo.</p><p>Hasta que unos humanos llegaron e hicieron rituales para convertirse en seres serpentinos, aclamando que eran superiores. Arrastaron a las tribus saurias hasta que el general saurio <strong><a href=\"/articulo/thrag-mrdrc85l\" class=\"text-primary hover:underline font-semibold\">Thrag</a></strong> (un hombre triceratops) se hartó y les declaró la guerra. Perdieron debido a un extraño viajero del futuro y los saurios fueron erradicados.</p><p>Los humanos serpentinos, con el tiempo, se mudaron a la península de <a href=\"/articulo/kaanil-nah\">Kaanil</a> en <a href=\"/articulo/aeros\">Aeros</a> y fundaron <a href=\"/articulo/kaanil-nah\">Kaanil Nah</a>.</p><p>Sin embargo, la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a> a <a href=\"#\">Avalon</a>, tras derrotar a la leyenda de <strong><a href=\"/articulo/thrag-mrdrc85l\" class=\"text-primary hover:underline font-semibold\">Thrag</a></strong>, llegaron a la época del conflicto y vencieron a los humanos serpentinos, cambiando el futuro y haciendo que, en el presente, los saurios fueran los que fundaron <a href=\"/articulo/kaanil-nah\">Kaanil Nah</a>.</p>",
+    "summary": "<i>Las Islas de Kaanil, en la edad prehistórica del mundo, fueron refugio de esclavos creados con magia por dragones, dragonoides y bestias dracónicas. Tras escapar, evolucionaron a saurios y dinosaurios, hasta que humanos serpentinos los arrasaron. Tras un conflicto con el general saurio Thrag, un viajero del futuro y la expedición de Moonhaven alteraron el futuro, cambiando el destino de las islas.</i>",
+    "category": "Lugares",
+    "tags": [],
+    "image_url": "/images/cloud/las-islas-de-kaanil-mrdowgts_c44fde186d.png",
+    "infobox": {
+      "Nombre": "Las Islas de Kaanil",
+      "Categoría": "Lugares",
+      "Ubicación": "Avalon",
+      "Conectados con": "Dragones, Kaanil Nah, Aeros, Moonhaven",
+      "Eventos clave": "Escape de esclavos, Evolución de saurios, Conflicto humano-saurio, Expedición de Moonhaven",
+      "Figuras importantes": "Thrag, Viajero del futuro",
+      "Razas presentes": "Saurios, Humanos, Dragones",
+      "Eras": "Edad prehistórica, Época del conflicto, Presente"
+    },
+    "timeline_markers": [
+      {
+        "id": "tl-las-islas-de-kaanil-mrdowgts-1785317358606-1",
+        "label": "Edad prehistórica - Creación de esclavos",
+        "content": "Los dragones crearon esclavos con magia en la edad prehistórica del mundo, incluyendo dragonoides y bestias dracónicas, los cuales luego escaparían a las Islas de Kaanil.",
+        "image_url": ""
+      },
+      {
+        "id": "tl-las-islas-de-kaanil-mrdowgts-1785317358606-2",
+        "label": "Edad prehistórica - Escape de esclavos",
+        "content": "Esclavos creados con magia por dragones, dragonoides y bestias dracónicas lograron escapar a las Islas de Kaanil, donde fundaron Kaanil.",
+        "image_url": ""
+      },
+      {
+        "id": "tl-las-islas-de-kaanil-mrdowgts-1785317358606-3",
+        "label": "Edad prehistórica - Evolución de saurios",
+        "content": "Con el tiempo, los esclavos que escaparon evolucionaron por la magia natural del lugar a saurios y se convirtieron en criaturas dinosaurio que vagaban por las islas.",
+        "image_url": ""
+      },
+      {
+        "id": "tl-las-islas-de-kaanil-mrdowgts-1785317358606-4",
+        "label": "Época del conflicto - Llegada de humanos serpentinos",
+        "content": "Unos humanos llegaron a las Islas de Kaanil, hicieron rituales para convertirse en seres serpentinos y comenzaron a arrasar a las tribus saurias.",
+        "image_url": ""
+      },
+      {
+        "id": "tl-las-islas-de-kaanil-mrdowgts-1785317358606-5",
+        "label": "Época del conflicto - Guerra entre humanos y saurios",
+        "content": "El general saurio Thrag se hartó de la opresión y declaró la guerra a los humanos serpentinos, pero perdieron debido a la intervención de un extraño viajero del futuro.",
+        "image_url": ""
+      },
+      {
+        "id": "tl-las-islas-de-kaanil-mrdowgts-1785317358606-6",
+        "label": "Presente - Expedición de Moonhaven",
+        "content": "La expedición de Moonhaven a Avalon derrotó a la leyenda de Thrag, llegó a la época del conflicto y venció a los humanos serpentinos, cambiando el futuro y haciendo que, en el presente, los saurios fueran los que fundaron Kaanil Nah.",
+        "image_url": ""
+      }
+    ],
+    "createdAt": 1791708108000,
+    "expiresAt": 1791842400000
+  },
+  {
     "id": "bak-art-1783643834135-1791706920035",
     "articleId": "art-1783643834135",
     "title": "Svartal",

@@ -7,7 +7,7 @@ import { useCategories } from "../context/CategoryContext";
 import { getAllArticleCategories } from "../utils/categoryHelper";
 import { syncFetch, getCachedArticles, getCachedArticleBySlugOrId } from "../utils/syncArticles";
 import { getCleanMapUrl } from "../utils/mapHelper";
-import { getSafeImageUrl, handleImageErrorWithFallback, isBlockedGeoImage, checkAndRemoveIfGeoBlockedImage } from "../utils/imageUrl";
+import { getSafeImageUrl, handleImageErrorWithFallback } from "../utils/imageUrl";
 import { motion, AnimatePresence, useDragControls } from "motion/react";
 import { 
   ArrowLeft, Edit, Trash2, Calendar, Link2, Loader2, BookOpen, AlertCircle, Eye, Compass,
@@ -183,7 +183,6 @@ export function ArticleView() {
   const [editCategory, setEditCategory] = useState("");
   const [editExtraCategories, setEditExtraCategories] = useState<string[]>([]);
   const [editCoverImage, setEditCoverImage] = useState("");
-  const [isBlockedImage, setIsBlockedImage] = useState(false);
   const [editInfobox, setEditInfobox] = useState<Record<string, string>>({});
   const [editTimelineMarkers, setEditTimelineMarkers] = useState<any[]>([]);
   const [editContent, setEditContent] = useState("");
@@ -201,24 +200,12 @@ export function ArticleView() {
       setEditCategory(article.category || "");
       const allCats = getAllArticleCategories(article);
       setEditExtraCategories(allCats.length > 0 ? allCats : [article.category || "Personajes"]);
-      
-      const currentImg = article.image_url || (article as any).imageUrl || "";
-      if (currentImg && isBlockedGeoImage(currentImg)) {
-        setIsBlockedImage(true);
-        setEditCoverImage("");
-        // Automatically remove blocked image from article in persistent storage
-        const updated = { ...article, image_url: "" };
-        saveArticleDirectly(updated);
-      } else {
-        setIsBlockedImage(false);
-        setEditCoverImage(currentImg);
-      }
-
+      setEditCoverImage(article.image_url || "");
       setEditInfobox(article.infobox ? { ...article.infobox } : {});
       setEditTimelineMarkers(Array.isArray(article.timeline_markers) ? [...article.timeline_markers] : []);
       setEditContent(article.content || "");
     }
-  }, [article, saveArticleDirectly]);
+  }, [article]);
 
   const handleSaveArticleVisual = async () => {
     if (!article) return;
@@ -1007,8 +994,8 @@ export function ArticleView() {
   // Load active timeline marker details
   const safeTimeline = Array.isArray(article?.timeline_markers) ? article.timeline_markers : [];
   const activeTimelineMarker = safeTimeline.find(m => m && m.id === selectedTimelineId) || safeTimeline[0] || null;
-  const rawDisplayedImageUrl = (activeTimelineMarker && activeTimelineMarker.image_url) ? activeTimelineMarker.image_url : (article?.image_url || (article as any)?.imageUrl || "");
-  const displayedImageUrl = isBlockedImage || isBlockedGeoImage(rawDisplayedImageUrl) ? "" : getSafeImageUrl(rawDisplayedImageUrl);
+  const rawDisplayedImageUrl = (activeTimelineMarker && activeTimelineMarker.image_url) ? activeTimelineMarker.image_url : (article?.image_url || "");
+  const displayedImageUrl = getSafeImageUrl(rawDisplayedImageUrl);
 
   // Safe gallery item with proxied/safe URLs
   const safeGallery = Array.isArray(article?.gallery) ? article.gallery.filter(g => g && g.url).map(g => ({
@@ -1020,7 +1007,7 @@ export function ArticleView() {
   // Process HTML body and timeline content to safely proxy external blocked images and parse graph shortcodes
   const processedContent = useMemo(() => {
     if (!article?.content) return "<p>No hay descripción para este manuscrito místico.</p>";
-    let result = article.content.replace(/src=["']([^"']+)["']/g, (_match, url) => {
+    let result = article.content.replace(/src=["'](https?:\/\/[^"']+)["']/g, (_match, url) => {
       return `src="${getSafeImageUrl(url)}"`;
     });
     // Parse markdown shortcodes like [grafo type="magias"] or [grafo]
@@ -1037,7 +1024,7 @@ export function ArticleView() {
 
   const processedTimelineContent = useMemo(() => {
     if (!activeTimelineMarker?.content) return "";
-    return activeTimelineMarker.content.replace(/src=["']([^"']+)["']/g, (_match, url) => {
+    return activeTimelineMarker.content.replace(/src=["'](https?:\/\/[^"']+)["']/g, (_match, url) => {
       return `src="${getSafeImageUrl(url)}"`;
     });
   }, [activeTimelineMarker?.content]);
@@ -1673,10 +1660,9 @@ export function ArticleView() {
                   title="Haz clic para ampliar la imagen"
                 >
                   <img 
-                    src={getSafeImageUrl(currentGalleryItem.url)} 
+                    src={currentGalleryItem.url} 
                     alt="Gallery item" 
                     referrerPolicy="no-referrer"
-                    onError={(e) => handleImageErrorWithFallback(e, currentGalleryItem.url)}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1704,10 +1690,9 @@ export function ArticleView() {
                         }`}
                       >
                         <img 
-                          src={getSafeImageUrl(img.url)} 
+                          src={img.url} 
                           alt="Thumbnail" 
                           referrerPolicy="no-referrer"
-                          onError={(e) => handleImageErrorWithFallback(e, img.url)}
                           className="w-full h-full object-cover"
                         />
                       </button>
@@ -1744,45 +1729,11 @@ export function ArticleView() {
                   alt={article.title} 
                   referrerPolicy="no-referrer"
                   onError={(e) => handleImageErrorWithFallback(e, rawDisplayedImageUrl)}
-                  onLoad={(e) => {
-                    checkAndRemoveIfGeoBlockedImage(e.currentTarget, async () => {
-                      setIsBlockedImage(true);
-                      setEditCoverImage("");
-                      if (article) {
-                        const updated = { ...article, image_url: "" };
-                        await saveArticleDirectly(updated);
-                        setArticle(updated);
-                        showToast("Se detectó una imagen no disponible regionalmente y ha sido retirada del artículo.", "info", 4500);
-                      }
-                    });
-                  }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   style={{
                     objectPosition: `${article.image_position_x ?? 50}% ${article.image_position_y ?? 50}%`
                   }}
                 />
-                {isVisualEditMode && (
-                  <button
-                    type="button"
-                    onClick={async (e) => {
-                      e.stopPropagation();
-                      if (window.confirm("¿Seguro que deseas quitar la imagen de este artículo?")) {
-                        setIsBlockedImage(true);
-                        setEditCoverImage("");
-                        if (article) {
-                          const updated = { ...article, image_url: "" };
-                          await saveArticleDirectly(updated);
-                          setArticle(updated);
-                          showToast("Imagen retirada del artículo con éxito.", "info");
-                        }
-                      }
-                    }}
-                    className="absolute top-2 left-2 px-2.5 py-1 rounded bg-rose-600/90 hover:bg-rose-600 text-[10px] font-bold text-white uppercase tracking-wider backdrop-blur-sm flex items-center gap-1 shadow-md z-30 transition-all cursor-pointer"
-                    title="Quitar la imagen del artículo"
-                  >
-                    <Trash2 className="h-3 w-3" /> Quitar imagen
-                  </button>
-                )}
                 <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <span className="px-2.5 py-1 rounded bg-black/70 text-[10px] font-bold text-white uppercase tracking-wider backdrop-blur-sm flex items-center gap-1 border border-white/20">
                     <Eye className="h-3.5 w-3.5" /> Ampliar
@@ -1926,9 +1877,8 @@ export function ArticleView() {
                       <div className="h-10 w-10 shrink-0 rounded-md overflow-hidden border border-border bg-secondary/30 flex items-center justify-center relative">
                         {monsterImg ? (
                           <img 
-                            src={getSafeImageUrl(monsterImg)} 
+                            src={monsterImg} 
                             alt={monsterIndex} 
-                            onError={(e) => handleImageErrorWithFallback(e, monsterImg)}
                             className="h-full w-full object-cover transition-transform group-hover:scale-110 duration-300"
                             referrerPolicy="no-referrer"
                           />
@@ -2586,9 +2536,8 @@ export function ArticleView() {
                         <div className="md:col-span-5 flex flex-col items-center justify-start">
                           <div className="border-4 border-[#b89a47] rounded-xl overflow-hidden shadow-xl bg-[#58180d]/5 w-full">
                             <img 
-                              src={getSafeImageUrl(selectedMonsterImg)} 
+                              src={selectedMonsterImg} 
                               alt={selectedMonster.name_es || selectedMonster.name} 
-                              onError={(e) => handleImageErrorWithFallback(e, selectedMonsterImg)}
                               className="w-full h-60 object-cover hover:scale-105 transition-transform duration-300"
                               referrerPolicy="no-referrer"
                             />

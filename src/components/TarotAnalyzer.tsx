@@ -12,6 +12,7 @@ import { CATEGORY_INFO, getCategoryColor } from "./Layout";
 import { useBulkImport, BulkQueueItem } from "../context/BulkImportContext";
 import { useCategories } from "../context/CategoryContext";
 import { syncFetch } from "../utils/syncArticles";
+import { formatInfoboxValue } from "../utils/infoboxHelper";
 
 // Helper to chunk text cleanly without breaking words or sentences
 const chunkString = (str: string, maxLen = 10000): string[] => {
@@ -504,12 +505,23 @@ export function TarotAnalyzer() {
     setSuccess("");
 
     try {
+      // 0. Si el articulo viene recortado del cache, traer el completo antes de fusionar
+      let fullMatchedArticle: any = matchedArticle;
+      if ((matchedArticle as any)?._compact) {
+        try {
+          const fullRes = await syncFetch(`/api/articles/${matchedArticle.id}`);
+          if (fullRes.ok) fullMatchedArticle = await fullRes.json();
+        } catch {
+          // se usa el que hay
+        }
+      }
+
       // 1. Call merge endpoint
       const mergeRes = await fetch("/api/ai/merge", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          existingArticle: matchedArticle,
+          existingArticle: fullMatchedArticle,
           newArticleInfo: entity
         }),
       });
@@ -1278,7 +1290,7 @@ export function TarotAnalyzer() {
                             {Object.entries(entity.infobox).slice(0, 4).map(([key, value]) => (
                               <div key={key} className="flex gap-1.5 truncate">
                                 <span className="text-muted-foreground font-semibold shrink-0">{key}:</span>
-                                <span className="text-foreground truncate">{value}</span>
+                                <span className="text-foreground truncate">{formatInfoboxValue(value)}</span>
                               </div>
                             ))}
                           </div>
@@ -1462,7 +1474,7 @@ export function TarotAnalyzer() {
                             Object.entries(matchedExisting.infobox).map(([k, v]) => (
                               <div key={k} className="flex justify-between border-b border-border/30 pb-1">
                                 <span className="text-muted-foreground">{k}:</span>
-                                <span className="text-foreground font-medium">{String(v)}</span>
+                                <span className="text-foreground font-medium">{formatInfoboxValue(v)}</span>
                               </div>
                             ))
                           ) : (
@@ -1478,7 +1490,7 @@ export function TarotAnalyzer() {
                               return (
                                 <div key={k} className={`flex justify-between border-b border-border/30 pb-1 ${isNew ? "text-primary font-semibold" : ""}`}>
                                   <span>{k} {isNew ? "(Nuevo)" : ""}:</span>
-                                  <span className="text-foreground">{String(v)}</span>
+                                  <span className="text-foreground">{formatInfoboxValue(v)}</span>
                                 </div>
                               );
                             })
@@ -1561,7 +1573,7 @@ export function TarotAnalyzer() {
                           {Object.entries(previewArticle.infobox).map(([key, value]) => (
                             <div key={key} className="flex justify-between gap-2 border-b border-border/30 pb-1.5 last:border-0 last:pb-0">
                               <span className="text-muted-foreground font-semibold shrink-0">{key}</span>
-                              <span className="text-foreground text-right">{value}</span>
+                              <span className="text-foreground text-right">{formatInfoboxValue(value)}</span>
                             </div>
                           ))}
                         </div>

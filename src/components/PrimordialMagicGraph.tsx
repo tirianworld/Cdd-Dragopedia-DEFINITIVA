@@ -11,6 +11,7 @@ import { WikiArticle } from "../types";
 import { useVisualEditor } from "../context/VisualEditorContext";
 import { DND_5E_SPELLS, Dnd5eSpell } from "../data/dnd5eSpells";
 import { SubmagiaPaletteModal, SubmagiaItemInfo, COLOR_PRESETS } from "./SubmagiaPaletteModal";
+import { formatInfoboxValue } from "../utils/infoboxHelper";
 import { Dnd5eSpellDrawerCard } from "./Dnd5eSpellDrawerCard";
 import { ColorWheel, ColorWheelModal, ColorWheelModalTarget } from "./ColorWheel";
 import { GraphShareModal } from "./GraphShareModal";
@@ -2932,7 +2933,7 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                       {Object.entries(selectedNode.infobox).map(([k, v]) => (
                         <div key={k} className="text-xs">
                           <span className="text-muted-foreground font-medium block text-[10.5px]">{k}:</span>
-                          <span className="text-foreground text-[11px] leading-snug">{v}</span>
+                          <span className="text-foreground text-[11px] leading-snug">{formatInfoboxValue(v)}</span>
                         </div>
                       ))}
                     </div>

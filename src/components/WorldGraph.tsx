@@ -12,6 +12,7 @@ import { useVisualEditor } from "../context/VisualEditorContext";
 import { PrimordialMagicGraph } from "./PrimordialMagicGraph";
 import { GraphsHub } from "./GraphsHub";
 import { GraphShareModal } from "./GraphShareModal";
+import { formatInfoboxValue } from "../utils/infoboxHelper";
 
 // Types for the celestial graph
 export interface ConstellationNode extends WikiArticle {
@@ -1908,7 +1909,7 @@ export function WorldGraph() {
                   {Object.entries(selectedNode.infobox).slice(0, 5).map(([k, v]) => (
                     <div key={k} className="grid grid-cols-2 text-xs">
                       <span className="text-muted-foreground font-medium">{k}</span>
-                      <span className="text-foreground truncate font-mono text-[11px]">{v}</span>
+                      <span className="text-foreground truncate font-mono text-[11px]">{formatInfoboxValue(v)}</span>
                     </div>
                   ))}
                 </div>

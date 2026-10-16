@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-serif: 'Cinzel', 'Philosopher', serif;
+    --font-heading: 'Cinzel', 'Philosopher', serif;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    background-color: #090d10;
+    color: #cbd5e1;
+  }
+}
+
+.font-heading {
+  font-family: 'Cinzel', 'Philosopher', serif;
+  letter-spacing: 0.05em;
+}
+
+.font-serif-body {
+  font-family: 'Alegreya', Georgia, serif;
+}
+
+/* Dragopedia subtle dark vignette matching official UI */
+.dragopedia-canvas {
+  background-color: #090d10;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(186, 250, 253, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 100% 100%, rgba(186, 250, 253, 0.04) 0%, transparent 60%);
+}
+
+/* Completely invisible scrollbars */
+html, body, *, *::before, *::after {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+::-webkit-scrollbar,
+*::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+div::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
+  display: none !important;
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track {
+  display: none !important;
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-button,
+*::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.sidebar-scroll {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.sidebar-scroll::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+

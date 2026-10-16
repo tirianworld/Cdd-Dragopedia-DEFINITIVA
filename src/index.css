@@ -52,11 +52,19 @@
   --radius: .5rem;
 }
 
+html {
+  color-scheme: dark;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
   font-family: var(--font-body);
   overflow-x: hidden;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 /* Custom Quill wiki content styles */
@@ -90,9 +98,14 @@ body {
   color: hsl(var(--foreground) / 0.85);
 }
 
-.wiki-content strong {
+b, strong {
+  font-weight: 700 !important;
+}
+
+.wiki-content strong,
+.wiki-content b {
   color: hsl(var(--foreground));
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .wiki-content ul, .wiki-content ol {
@@ -142,20 +155,50 @@ body {
   color: hsl(var(--primary) / 0.8);
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+/* Completely invisible scrollbars across the entire website while preserving full scrollability */
+html, body, *, *::before, *::after {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
-::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+
+::-webkit-scrollbar,
+*::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+div::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--secondary));
-  border-radius: 4px;
+
+::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
+  display: none !important;
+  background: transparent !important;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--border));
+
+::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track {
+  display: none !important;
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-button,
+*::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar, .scrollbar-none {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.no-scrollbar::-webkit-scrollbar, .scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 /* Custom Soundwave Animations */
@@ -458,6 +501,24 @@ body {
 
 .animate-spark-shimmer {
   animation: spark-shimmer 3s ease-in-out infinite;
+}
+
+/* Dragopedia subtle dark vignette matching official spellbook UI */
+.dragopedia-canvas {
+  background-color: #090d10;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(186, 250, 253, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 100% 100%, rgba(186, 250, 253, 0.04) 0%, transparent 60%);
+}
+
+.sidebar-scroll {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.sidebar-scroll::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 

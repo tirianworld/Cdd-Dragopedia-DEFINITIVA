@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { WikiArticle } from "../types";
 import { getCategoryIcon, getCategoryColor } from "./Layout";
 import { Clock, Eye } from "lucide-react";
-import { getSafeImageUrl, getProxiedFallbackUrl } from "../utils/imageUrl";
+import { getSafeImageUrl, handleImageErrorWithFallback } from "../utils/imageUrl";
 import { getRootCategoryForArticle } from "../utils/categoryHelper";
 import { useCategories } from "../context/CategoryContext";
 
@@ -16,8 +16,6 @@ interface ArticleCardProps {
 }
 
 export function ArticleCard({ article, compact = false, useRootCategory = false, displayCategory }: ArticleCardProps) {
-  const [proxyAttempted, setProxyAttempted] = useState(false);
-  const [imgFailed, setImgFailed] = useState(false);
   const { mergedCategories } = useCategories();
 
   const displayedCategory = useMemo(() => {
@@ -29,23 +27,8 @@ export function ArticleCard({ article, compact = false, useRootCategory = false,
   const Icon = getCategoryIcon(displayedCategory);
   const themeColor = getCategoryColor(displayedCategory);
 
-  const baseSafeUrl = useMemo(() => getSafeImageUrl(article.image_url), [article.image_url]);
-
-  const safeImageUrl = useMemo(() => {
-    if (imgFailed || !baseSafeUrl) return null;
-    if (proxyAttempted && article.image_url && !baseSafeUrl.includes("/api/proxy-image") && article.image_url.startsWith("http")) {
-      return getProxiedFallbackUrl(article.image_url);
-    }
-    return baseSafeUrl;
-  }, [imgFailed, baseSafeUrl, proxyAttempted, article.image_url]);
-
-  const handleImageError = () => {
-    if (!proxyAttempted && article.image_url?.startsWith("http") && safeImageUrl && !safeImageUrl.includes("/api/proxy-image")) {
-      setProxyAttempted(true);
-    } else {
-      setImgFailed(true);
-    }
-  };
+  const rawImageUrl = article.image_url || (article as any).image;
+  const safeImageUrl = useMemo(() => getSafeImageUrl(rawImageUrl), [rawImageUrl]);
 
   if (compact) {
     return (
@@ -59,7 +42,7 @@ export function ArticleCard({ article, compact = false, useRootCategory = false,
             src={safeImageUrl} 
             alt={article.title}
             referrerPolicy="no-referrer"
-            onError={handleImageError}
+            onError={(e) => handleImageErrorWithFallback(e, rawImageUrl)}
             className="w-12 h-12 rounded-md object-cover border border-border shrink-0"
             style={{
               objectPosition: `${article.image_position_x ?? 50}% ${article.image_position_y ?? 50}%`
@@ -101,7 +84,7 @@ export function ArticleCard({ article, compact = false, useRootCategory = false,
             src={safeImageUrl} 
             alt={article.title}
             referrerPolicy="no-referrer"
-            onError={handleImageError}
+            onError={(e) => handleImageErrorWithFallback(e, rawImageUrl)}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             style={{
               objectPosition: `${article.image_position_x ?? 50}% ${article.image_position_y ?? 50}%`

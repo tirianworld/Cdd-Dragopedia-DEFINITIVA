@@ -3,12 +3,6 @@
  * Handles caching, resolving, and authenticated loading of GitHub and remote spell icons.
  */
 import { githubService } from './githubService';
-import {
-  safeLocalStorageGet,
-  safeLocalStorageSet,
-  saveImageToIDB,
-  loadImagesFromIDB,
-} from './storageHelper';
 
 // In-memory cache for resolved blob/data URLs to ensure zero latency on re-renders
 const urlCache = new Map<string, string>();
@@ -16,27 +10,12 @@ const pendingRequests = new Map<string, Promise<string>>();
 
 const STORAGE_KEY_CUSTOM_IMAGES = 'dragopedia_custom_images_v2';
 
-// Load initial images from IndexedDB asynchronously into memory cache
-if (typeof window !== 'undefined') {
-  loadImagesFromIDB()
-    .then((images) => {
-      Object.entries(images).forEach(([key, data]) => {
-        if (!urlCache.has(key)) {
-          urlCache.set(key, data);
-        }
-      });
-    })
-    .catch(() => {
-      // Ignore
-    });
-}
-
 /**
  * Get all cached custom base64 images from localStorage
  */
 export function getLocalCustomImages(): Record<string, string> {
   try {
-    const raw = safeLocalStorageGet(STORAGE_KEY_CUSTOM_IMAGES);
+    const raw = localStorage.getItem(STORAGE_KEY_CUSTOM_IMAGES);
     return raw ? JSON.parse(raw) : {};
   } catch {
     return {};
@@ -44,21 +23,14 @@ export function getLocalCustomImages(): Record<string, string> {
 }
 
 /**
- * Save a custom image base64 into localStorage cache & IndexedDB
+ * Save a custom image base64 into localStorage cache
  */
 export function saveLocalCustomImage(key: string, base64DataUrl: string): void {
   try {
-    urlCache.set(key, base64DataUrl);
-    // Persist to IndexedDB (safe large storage)
-    saveImageToIDB(key, base64DataUrl);
-
-    // Also attempt localStorage cache if size allows
     const current = getLocalCustomImages();
-    // Only store in localStorage if base64 is reasonable (< 150KB) to prevent blowing quota
-    if (base64DataUrl.length < 150000) {
-      current[key] = base64DataUrl;
-      safeLocalStorageSet(STORAGE_KEY_CUSTOM_IMAGES, JSON.stringify(current));
-    }
+    current[key] = base64DataUrl;
+    localStorage.setItem(STORAGE_KEY_CUSTOM_IMAGES, JSON.stringify(current));
+    urlCache.set(key, base64DataUrl);
   } catch (err) {
     console.warn('Could not save custom image to localStorage:', err);
   }
@@ -71,7 +43,7 @@ export function removeLocalCustomImage(key: string): void {
   try {
     const current = getLocalCustomImages();
     delete current[key];
-    safeLocalStorageSet(STORAGE_KEY_CUSTOM_IMAGES, JSON.stringify(current));
+    localStorage.setItem(STORAGE_KEY_CUSTOM_IMAGES, JSON.stringify(current));
     urlCache.delete(key);
   } catch (err) {
     console.warn('Could not remove custom image from localStorage:', err);

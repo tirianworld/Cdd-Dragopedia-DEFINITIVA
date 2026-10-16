@@ -3,7 +3,6 @@ import { getOfficialSpellIconUrl, sanitizeBg3Url } from '../data/bg3IconHelper';
 import { MagicSchool } from '../types';
 import { getSchoolTheme } from '../data/schools';
 import { getCachedImageUrl, resolveSpellImageUrl } from '../services/imageService';
-import { isOfficialDndLineIcon, OfficialSpellLineIcon } from './OfficialSpellLineIcon';
 
 interface SpellIconProps {
   spell: {
@@ -139,25 +138,14 @@ export const SpellIcon: React.FC<SpellIconProps> = ({
       />
 
       {activeSrc ? (
-        isOfficialDndLineIcon(activeSrc, spell) ? (
-          <OfficialSpellLineIcon
-            iconUrl={activeSrc}
-            name={spell.name || 'Hechizo'}
-            school={spell.school ? String(spell.school) : undefined}
-            color={spell.color}
-            className="relative z-10 w-full h-full transition-transform duration-300 group-hover:scale-110"
-            onError={handleImageError}
-          />
-        ) : (
-          <img
-            src={activeSrc}
-            alt={spell.name || 'Hechizo'}
-            loading="lazy"
-            referrerPolicy="no-referrer"
-            onError={handleImageError}
-            className="relative z-10 w-full h-full object-contain filter drop-shadow-md select-none transition-transform duration-300 group-hover:scale-110"
-          />
-        )
+        <img
+          src={activeSrc}
+          alt={spell.name || 'Hechizo'}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          onError={handleImageError}
+          className="relative z-10 w-full h-full object-contain filter drop-shadow-md select-none transition-transform duration-300 group-hover:scale-110"
+        />
       ) : (
         /* Fallback: School Icon with specific vivid school color */
         <div className="relative z-10 flex flex-col items-center justify-center text-center p-2">

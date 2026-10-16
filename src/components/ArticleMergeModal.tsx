@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { WikiArticle, GalleryItem, TimelineMarker } from "../types";
 import { syncFetch } from "../utils/syncArticles";
+import { getSafeImageUrl, handleImageErrorWithFallback } from "../utils/imageUrl";
 
 export interface MergedDataResult {
   contentHtml: string;
@@ -905,9 +906,10 @@ export function ArticleMergeModal({
                     >
                       {art.image_url ? (
                         <img
-                          src={art.image_url}
+                          src={getSafeImageUrl(art.image_url)}
                           alt={art.title}
                           referrerPolicy="no-referrer"
+                          onError={(e) => handleImageErrorWithFallback(e, art.image_url)}
                           className="h-12 w-12 rounded-lg object-cover border border-border/60 shrink-0"
                         />
                       ) : (
@@ -941,9 +943,10 @@ export function ArticleMergeModal({
                 <div className="flex items-center gap-3">
                   {selectedOtherArticle.image_url ? (
                     <img
-                      src={selectedOtherArticle.image_url}
+                      src={getSafeImageUrl(selectedOtherArticle.image_url)}
                       alt={selectedOtherArticle.title}
                       referrerPolicy="no-referrer"
+                      onError={(e) => handleImageErrorWithFallback(e, selectedOtherArticle.image_url)}
                       className="h-14 w-14 rounded-lg object-cover border border-red-500/30 shrink-0"
                     />
                   ) : (

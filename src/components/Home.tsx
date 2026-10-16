@@ -15,6 +15,7 @@ import { EditableText } from "./webbuilder/EditableText";
 import { CategoryQuickEditModal } from "./webbuilder/CategoryQuickEditModal";
 import { CategoryReorderModal } from "./CategoryReorderModal";
 import { AstralClockLogo } from "./AstralClockWatermark";
+import { getSafeImageUrl, handleImageErrorWithFallback } from "../utils/imageUrl";
 
 export function Home() {
   const { isVisualEditMode, showToast } = useVisualEditor();
@@ -342,9 +343,10 @@ export function Home() {
         {heroBannerImg && (
           <div className="absolute inset-0 pointer-events-none select-none z-0">
             <img
-              src={heroBannerImg}
+              src={getSafeImageUrl(heroBannerImg)}
               alt="Fondo del Banner de Bienvenida"
               referrerPolicy="no-referrer"
+              onError={(e) => handleImageErrorWithFallback(e, heroBannerImg)}
               className={`w-full h-full object-cover object-center ${
                 isHeroBannerTransparent ? "opacity-90" : "opacity-40"
               }`}

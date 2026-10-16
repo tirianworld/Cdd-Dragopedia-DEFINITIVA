@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from "motion/react";
 import { 
   Sparkles, Edit3, X, Check, Plus, Link as LinkIcon, Image, 
   Dna, Network, BookOpen, Save, Trash2, Sliders, ChevronDown, 
-  HelpCircle, Eye, AlertCircle, Info, RefreshCw, Layers, Type
+  HelpCircle, Eye, AlertCircle, Info, RefreshCw, Layers, Type,
+  Wand2, ScrollText, Flame
 } from "lucide-react";
 import { useVisualEditor } from "../context/VisualEditorContext";
 import { useCategories } from "../context/CategoryContext";
@@ -29,6 +30,7 @@ export function VisualEditorHUD() {
     addGenealogyNode,
     saveGenealogyNode,
     addGenealogyRelation,
+    saveSpellDirectly,
     showToast
   } = useVisualEditor();
 
@@ -65,6 +67,13 @@ export function VisualEditorHUD() {
   const [newArtTitle, setNewArtTitle] = useState("");
   const [newArtCategory, setNewArtCategory] = useState("Personajes");
   const [newArtSummary, setNewArtSummary] = useState("");
+
+  // New spell quick form
+  const [newSpellName, setNewSpellName] = useState("");
+  const [newSpellLevel, setNewSpellLevel] = useState(1);
+  const [newSpellSchool, setNewSpellSchool] = useState("Evocación");
+  const [newSpellPrimordial, setNewSpellPrimordial] = useState("Magia de Fuego");
+  const [newSpellDesc, setNewSpellDesc] = useState("");
 
   // Cached genealogy characters list for relationship selector
   const [treeCharacters, setTreeCharacters] = useState<CharacterNode[]>([]);
@@ -174,6 +183,44 @@ export function VisualEditorHUD() {
     }
   };
 
+  const handleCreateNewSpell = async () => {
+    if (!newSpellName.trim()) {
+      showToast("Ingresa el nombre del conjuro.", "warning");
+      return;
+    }
+    const createdSpell = {
+      id: `spell-custom-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      name: newSpellName.trim(),
+      nameEn: newSpellName.trim(),
+      level: newSpellLevel,
+      school: newSpellSchool,
+      schoolEn: newSpellSchool,
+      primordialMagic: newSpellPrimordial,
+      castingTime: "1 acción",
+      range: "18 metros (60 pies)",
+      duration: "Instantánea",
+      components: { verbal: true, somatic: true, material: false },
+      description: newSpellDesc.trim() || "Un poderoso conjuro mágico forjado en el Caldo de Dragón.",
+      classes: ["Mago"],
+      damageTypes: [],
+      targets: ["enemigo"],
+      isCustom: true,
+      source: "Homebrew",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    if (saveSpellDirectly) {
+      const ok = await saveSpellDirectly(createdSpell);
+      if (ok) {
+        closeQuickEditModal();
+        setNewSpellName("");
+        setNewSpellDesc("");
+        navigate(`/spellbook?id=${createdSpell.id}`);
+      }
+    }
+  };
+
   return (
     <>
       {/* Toast notifications container */}
@@ -246,6 +293,12 @@ export function VisualEditorHUD() {
                     <>
                       <Layers className="h-4 w-4" />
                       <span>Nueva Categoría de la Wiki</span>
+                    </>
+                  )}
+                  {quickEditModal.type === "new_spell" && (
+                    <>
+                      <Wand2 className="h-4 w-4" />
+                      <span>Nuevo Hechizo Casero (Grimorio)</span>
                     </>
                   )}
                 </div>
@@ -587,11 +640,253 @@ export function VisualEditorHUD() {
                   </div>
                 )}
 
+                {/* 5. NEW SPELL FORM */}
+                {quickEditModal.type === "new_spell" && (
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+                        Nombre del Conjuro *
+                      </label>
+                      <input
+                        type="text"
+                        value={newSpellName}
+                        onChange={(e) => setNewSpellName(e.target.value)}
+                        placeholder="Ej: Rayo de Luna Negra, Escudo de Azogue..."
+                        className="w-full h-9 px-3 text-xs bg-secondary/70 border border-border rounded-lg text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                        autoFocus
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+                          Nivel
+                        </label>
+                        <select
+                          value={newSpellLevel}
+                          onChange={(e) => setNewSpellLevel(Number(e.target.value))}
+                          className="w-full h-9 px-3 text-xs bg-secondary/70 border border-border rounded-lg text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                        >
+                          <option value={0}>Truco (Nivel 0)</option>
+                          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((lvl) => (
+                            <option key={lvl} value={lvl}>Nivel {lvl}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+                          Escuela de Magia
+                        </label>
+                        <select
+                          value={newSpellSchool}
+                          onChange={(e) => setNewSpellSchool(e.target.value)}
+                          className="w-full h-9 px-3 text-xs bg-secondary/70 border border-border rounded-lg text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                        >
+                          <option value="Evocación">Evocación</option>
+                          <option value="Abjuración">Abjuración</option>
+                          <option value="Conjuración">Conjuración</option>
+                          <option value="Adivinación">Adivinación</option>
+                          <option value="Encantamiento">Encantamiento</option>
+                          <option value="Ilusión">Ilusión</option>
+                          <option value="Nigromancia">Nigromancia</option>
+                          <option value="Transmutación">Transmutación</option>
+                          <option value="Reflexión">Reflexión</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+                        Magia Primordial Asociada
+                      </label>
+                      <select
+                        value={newSpellPrimordial}
+                        onChange={(e) => setNewSpellPrimordial(e.target.value)}
+                        className="w-full h-9 px-3 text-xs bg-secondary/70 border border-border rounded-lg text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                      >
+                        <option value="Magia de Fuego">Magia de Fuego</option>
+                        <option value="Magia de Hielo">Magia de Hielo</option>
+                        <option value="Magia de Rayo">Magia de Rayo</option>
+                        <option value="Magia de los Espejos">Magia de los Espejos (Drangleic)</option>
+                        <option value="Magia de Sangre">Magia de Sangre</option>
+                        <option value="Magia de Almas">Magia de Almas</option>
+                        <option value="Magia de Tiempo">Magia de Tiempo</option>
+                        <option value="Magia de Espacio">Magia de Espacio</option>
+                        <option value="Magia Primordial">Magia Primordial (General)</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+                        Descripción y Efecto Mágico
+                      </label>
+                      <textarea
+                        value={newSpellDesc}
+                        onChange={(e) => setNewSpellDesc(e.target.value)}
+                        placeholder="Describe el lanzamiento, alcance, daño o utilidad del conjuro..."
+                        rows={3}
+                        className="w-full p-2.5 text-xs bg-secondary/70 border border-border rounded-lg text-foreground focus:outline-none focus:ring-1 focus:ring-primary resize-none"
+                      />
+                    </div>
+
+                    <div className="pt-2 flex justify-end gap-2">
+                      <button
+                        type="button"
+                        onClick={closeQuickEditModal}
+                        className="px-3 py-2 text-xs rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleCreateNewSpell}
+                        className="px-4 py-2 text-xs font-semibold rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity flex items-center gap-1.5"
+                      >
+                        <Wand2 className="w-3.5 h-3.5" />
+                        <span>Crear y Abrir Hechizo</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+
               </div>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
+
+      {/* Floating Bottom HUD Bar when in Visual Edit Mode */}
+      {isVisualEditMode && (
+        <aside 
+          aria-label="Barra de herramientas de edición visual"
+          className="visual-editor-hud fixed bottom-4 left-1/2 -translate-x-1/2 z-[9990] flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-[#0c1218]/95 border-2 border-primary/50 shadow-2xl backdrop-blur-xl text-foreground font-sans animate-in slide-in-from-bottom-3 duration-200"
+        >
+          {location.pathname.startsWith("/spellbook") || location.pathname.startsWith("/hechizos") ? (
+            /* Spellbook-specific Quick Actions in Bottom Dock */
+            <>
+              <div className="flex items-center gap-1.5 pr-2 border-r border-border/60">
+                <div className="w-6 h-6 rounded-lg bg-primary flex items-center justify-center text-primary-foreground shadow-xs">
+                  <Flame className="w-3.5 h-3.5" />
+                </div>
+                <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-primary hidden sm:inline">
+                  Grimorio
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent("open_custom_spell_modal"));
+                }}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-primary text-primary-foreground hover:opacity-90 text-xs font-bold transition-all shadow-xs cursor-pointer"
+                title="Crear nuevo hechizo casero"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>Nuevo Hechizo</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowGalleryPicker(true)}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-secondary/80 hover:bg-secondary text-foreground text-xs font-medium transition-all cursor-pointer"
+                title="Explorar galería de arte e ilustraciones"
+              >
+                <Image className="w-3.5 h-3.5 text-primary" />
+                <span className="hidden md:inline">Galería</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsUIInspectorOpen(true)}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-secondary/80 hover:bg-secondary text-foreground text-xs font-medium transition-all cursor-pointer"
+                title="Gestor de textos de la interfaz"
+              >
+                <Type className="w-3.5 h-3.5 text-primary" />
+                <span className="hidden lg:inline">Textos</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsVisualEditMode(false)}
+                className="p-1.5 rounded-xl hover:bg-destructive/20 text-muted-foreground hover:text-destructive transition-colors cursor-pointer"
+                title="Salir del modo edición visual"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </>
+          ) : (
+            /* General Wiki Quick Actions in Bottom Dock */
+            <>
+              <div className="flex items-center gap-1.5 pr-2 border-r border-border/60">
+                <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+                <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-primary hidden sm:inline">
+                  Editor
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => openQuickEditModal("new_article")}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-primary text-primary-foreground hover:opacity-90 text-xs font-bold transition-all shadow-xs cursor-pointer"
+                title="Crear nuevo artículo de la wiki"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>Nuevo Artículo</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => openQuickEditModal("new_spell")}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-secondary/80 hover:bg-secondary text-foreground text-xs font-medium transition-all cursor-pointer"
+                title="Crear nuevo hechizo para el libro de hechizos"
+              >
+                <Wand2 className="w-3.5 h-3.5 text-primary" />
+                <span className="hidden sm:inline">Hechizo</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => openQuickEditModal("new_character")}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-secondary/80 hover:bg-secondary text-foreground text-xs font-medium transition-all cursor-pointer"
+                title="Añadir personaje al árbol genealógico"
+              >
+                <Dna className="w-3.5 h-3.5 text-primary" />
+                <span className="hidden md:inline">Personaje</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowGalleryPicker(true)}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-secondary/80 hover:bg-secondary text-foreground text-xs font-medium transition-all cursor-pointer"
+                title="Galería de arte"
+              >
+                <Image className="w-3.5 h-3.5 text-primary" />
+                <span className="hidden lg:inline">Galería</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsUIInspectorOpen(true)}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-secondary/80 hover:bg-secondary text-foreground text-xs font-medium transition-all cursor-pointer"
+                title="Gestor de textos"
+              >
+                <Type className="w-3.5 h-3.5 text-primary" />
+                <span className="hidden lg:inline">Textos</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsVisualEditMode(false)}
+                className="p-1.5 rounded-xl hover:bg-destructive/20 text-muted-foreground hover:text-destructive transition-colors cursor-pointer"
+                title="Salir del modo edición visual"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </>
+          )}
+        </aside>
+      )}
 
       {/* Gallery Picker Modal */}
       {showGalleryPicker && (

@@ -8,7 +8,7 @@ import {
   Upload, X, Trash2, Paperclip, Plus, Eye, ChevronDown, ChevronUp
 } from "lucide-react";
 import { TarotLogo, TarotAISeal } from "./TarotLogo";
-import { getSafeImageUrl } from "../utils/imageUrl";
+import { getSafeImageUrl, handleImageErrorWithFallback } from "../utils/imageUrl";
 
 interface WikiArticleSummary {
   id: string;
@@ -834,9 +834,10 @@ export function DMSanctum() {
                 >
                   <div className="relative group rounded-xl overflow-hidden border border-border/80 bg-black/40 shadow-2xl max-h-[460px] flex items-center justify-center">
                     <img 
-                      src={currentArtwork.imageUrl} 
+                      src={getSafeImageUrl(currentArtwork.imageUrl)} 
                       alt={currentArtwork.title} 
                       referrerPolicy="no-referrer"
+                      onError={(e) => handleImageErrorWithFallback(e, currentArtwork.imageUrl)}
                       className="max-h-[460px] w-auto max-w-full object-contain rounded-xl transition-transform duration-300"
                     />
 

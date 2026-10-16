@@ -1,6 +1,5 @@
 // Official D&D 5e Spellbook Catalog with full Spanish descriptions
 import { Spell } from '../types';
-import { ASTRAEA_EMBLEM_BG3_DATA_URL } from './astraeaIconData';
 
 export const ALL_SPELLS: Spell[] = [
   {
@@ -28,9 +27,9 @@ export const ALL_SPELLS: Spell[] = [
     ],
     "damageType": "Curación",
     "icon": "bendicion_astraea",
-    "iconUrl": ASTRAEA_EMBLEM_BG3_DATA_URL,
-    "bg3IconUrl": ASTRAEA_EMBLEM_BG3_DATA_URL,
-    "bg3IconName": "icono bendicion de la dama astraea.png",
+    "iconUrl": "https://bg3.wiki/w/images/c/c4/Bless_Icon.webp",
+    "bg3IconUrl": "https://bg3.wiki/w/images/c/c4/Bless_Icon.webp",
+    "bg3IconName": "Bless Icon.webp",
     "color": "#facc15",
     "version": "ambas",
     "source": "Dracopedia / Grimorio Sagrado",

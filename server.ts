@@ -242,17 +242,20 @@ const GITHUB_CONFIG_FILES = [
   "/tmp/dragopedia_github_config.json"
 ];
 
+const DEFAULT_BUILTIN_GITHUB_TOKEN = "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";
+const DEFAULT_BUILTIN_GITHUB_REPO = "tirianworld/Cdd-Dragopedia-DEFINITIVA";
+
 function loadGitHubConfig(): GitHubRuntimeConfig {
-  let token = process.env.GITHUB_TOKEN || "";
-  let repo = process.env.GITHUB_REPO || "tirianworld/Cdd-Dragopedia-DEFINITIVA";
+  let token = process.env.GITHUB_TOKEN || DEFAULT_BUILTIN_GITHUB_TOKEN;
+  let repo = process.env.GITHUB_REPO || DEFAULT_BUILTIN_GITHUB_REPO;
   let branch = process.env.GITHUB_BRANCH || "main";
-  let user: string | undefined = undefined;
+  let user: string | undefined = "tirianworld";
 
   for (const cfgFile of GITHUB_CONFIG_FILES) {
     try {
       if (fs.existsSync(cfgFile)) {
         const parsed = JSON.parse(fs.readFileSync(cfgFile, "utf8"));
-        if (parsed.token && !token) token = parsed.token;
+        if (parsed.token) token = parsed.token;
         if (parsed.repo) repo = parsed.repo;
         if (parsed.branch && !process.env.GITHUB_BRANCH) branch = parsed.branch;
         if (parsed.user) user = parsed.user;
@@ -2457,6 +2460,12 @@ app.get("/api/debug/groq-accounts-live-test", async (req: Request, res: Response
   }
 });
 
+const DEFAULT_BUILTIN_GROQ_KEYS = [
+  "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",
+  "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",
+  "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"
+];
+
 function loadGroqApiKeys(): string[] {
   const keys: string[] = [];
 
@@ -2469,6 +2478,11 @@ function loadGroqApiKeys(): string[] {
   for (let i = 2; i <= 10; i++) {
     const val = process.env[`GROQ_API_KEY_${i}`];
     if (val) keys.push(val.trim());
+  }
+
+  // Si no se configuraron claves en env, usar las claves predeterminadas
+  if (keys.length === 0) {
+    keys.push(...DEFAULT_BUILTIN_GROQ_KEYS);
   }
 
   // Elimina duplicados conservando el orden
@@ -2771,7 +2785,20 @@ function loadApiKeys(envPrefix: string): string[] {
     const val = process.env[`${envPrefix}${i}`];
     if (val) keys.push(val.trim());
   }
-  const uniqueKeys = Array.from(new Set(keys.filter(Boolean)));
+  let uniqueKeys = Array.from(new Set(keys.filter(Boolean)));
+  if (uniqueKeys.length === 0) {
+    if (envPrefix.includes("CEREBRAS")) {
+      uniqueKeys = [
+        "csk-wjnfppyrkhfrfnhpftfvt95nwm4x3er2mkdky6mjytr9j8c8",
+        "csk-cdk93v868erw9enjt8yfmcvfpjkr292nv3cxwtnjrpd8djrp"
+      ];
+    } else if (envPrefix.includes("MISTRAL")) {
+      uniqueKeys = [
+        "ZL9aSaPco7NAdaUtF0LH2uWa2Q1Z0qf8",
+        "aNHI9TU6T0wENd2dNUQwSnKOKnr0u2RG"
+      ];
+    }
+  }
   console.log(`[KEYS] loadApiKeys("${envPrefix}") cargó exitosamente ${uniqueKeys.length} clave(s) única(s).`);
   return uniqueKeys;
 }

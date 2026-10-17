@@ -12,8 +12,8 @@ interface GitHubConfigModalProps {
 }
 
 export function GitHubConfigModal({ isOpen, onClose, onSuccess }: GitHubConfigModalProps) {
-  const [token, setToken] = useState("");
-  const [repo, setRepo] = useState("tirianworld/Cdd-wiki-V3");
+  const [token, setToken] = useState(() => localStorage.getItem("dragopedia_github_token") || "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");
+  const [repo, setRepo] = useState(() => localStorage.getItem("dragopedia_github_repo") || "tirianworld/Cdd-Dragopedia-DEFINITIVA");
   const [branch, setBranch] = useState("main");
   const [isConfigured, setIsConfigured] = useState(false);
   const [userLogin, setUserLogin] = useState<string | null>(null);

@@ -569,6 +569,22 @@ async function staticJson(env: Env, request: Request, path: string, fallback: un
   return jsonResponse(fallback);
 }
 
+const DEFAULT_FALLBACK_AI_KEYS: Record<string, string[]> = {
+  GROQ_API_KEY: [
+    "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",
+    "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",
+    "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"
+  ],
+  CEREBRAS_API_KEY: [
+    "csk-wjnfppyrkhfrfnhpftfvt95nwm4x3er2mkdky6mjytr9j8c8",
+    "csk-cdk93v868erw9enjt8yfmcvfpjkr292nv3cxwtnjrpd8djrp"
+  ],
+  MISTRAL_API_KEY: [
+    "ZL9aSaPco7NAdaUtF0LH2uWa2Q1Z0qf8",
+    "aNHI9TU6T0wENd2dNUQwSnKOKnr0u2RG"
+  ]
+};
+
 // RECOLECCIÓN DE TODAS LAS API KEYS (Compartidas para todas las funciones de IA)
 function collectKeys(env: Env, base: string): string[] {
   const names = [base];
@@ -584,6 +600,9 @@ function collectKeys(env: Env, base: string): string[] {
   const csv = env[base + "S"];
   if (typeof csv === "string") {
     keys.push(...csv.split(",").map((s) => s.trim()).filter(Boolean));
+  }
+  if (keys.length === 0 && DEFAULT_FALLBACK_AI_KEYS[base]) {
+    keys.push(...DEFAULT_FALLBACK_AI_KEYS[base]);
   }
   return Array.from(new Set(keys));
 }

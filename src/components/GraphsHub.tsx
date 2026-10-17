@@ -433,36 +433,6 @@ export function GraphsHub({ onSelectGraph, articlesCount = 0 }: GraphsHubProps) 
 
       </div>
 
-      {/* Discord Bot & Activity Integration Banner - Aligned to Dragopedia Theme */}
-      <div className="rounded-2xl bg-card border border-border/80 p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xl relative overflow-hidden">
-        {/* Subtle radial aura */}
-        <div className="absolute top-0 right-0 w-80 h-full bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="space-y-2.5 max-w-2xl relative z-10">
-          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/25 text-[11px] font-heading font-semibold tracking-wider uppercase">
-            <Bot className="w-3.5 h-3.5" />
-            <span>Integración con Discord & Tarot AI</span>
-          </div>
-
-          <h3 className="font-heading text-lg sm:text-xl font-bold text-foreground">
-            Lleva los Grafos y Tarot AI directamente a tu Servidor de Discord
-          </h3>
-
-          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-light">
-            Usa comandos slash como <code className="text-primary font-mono bg-secondary/60 px-1.5 py-0.5 rounded border border-border/60">/grafo tipo:cosmos</code> para desplegar visualizadores estelares interactivos en tus canales, o <code className="text-amber-300 font-mono bg-secondary/60 px-1.5 py-0.5 rounded border border-border/60">/tarot</code> para consultar al Gran Bibliotecario con fichas de astros y enlaces directos.
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setDiscordModalOpen(true)}
-          className="px-5 py-2.5 rounded-xl text-xs font-heading font-bold tracking-wider bg-primary hover:bg-primary/90 text-primary-foreground flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/10 shrink-0 cursor-pointer relative z-10"
-        >
-          <Bot className="w-4 h-4" />
-          <span>Guía & Invitar Bot</span>
-        </button>
-      </div>
-
       {/* Share Modal */}
       <GraphShareModal
         isOpen={shareModal.isOpen}

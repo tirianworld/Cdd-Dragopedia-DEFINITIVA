@@ -1593,7 +1593,7 @@
     "is_featured": false,
     "id": "art-1787667632755",
     "created_date": "2026-08-25T14:20:39.692Z",
-    "updated_date": "2026-10-09T09:30:44.689Z",
+    "updated_date": "2026-10-15T12:27:58.278Z",
     "image_url": "/images/covers/seis-magias-primordiales.png",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -19019,7 +19019,7 @@
     "is_featured": false,
     "id": "art-1783383434816",
     "created_date": "2026-07-07T00:17:23.017Z",
-    "updated_date": "2026-08-23T16:51:45.270Z",
+    "updated_date": "2026-10-15T12:10:46.636Z",
     "image_url": "",
     "gallery": [],
     "related_article_ids": [
@@ -19036,7 +19036,9 @@
     },
     "image_position_x": 50,
     "image_position_y": 20,
-    "extra_categories": []
+    "extra_categories": [
+      "Personajes"
+    ]
   },
   {
     "title": "Éxodus Umbral",

@@ -2749,11 +2749,12 @@ const CEREBRAS_MODELS = [
 
 const MISTRAL_MODELS = [
   process.env.MISTRAL_MODEL,
+  "open-mistral-nemo",
   "ministral-8b-latest",
-  "mistral-small-latest",
+  "open-mistral-7b",
   "ministral-3b-latest",
-  "mistral-medium-latest",
-  "codestral-latest"
+  "codestral-latest",
+  "mistral-small-latest"
 ].filter(Boolean) as string[];
 
 const CEREBRAS_MODEL = CEREBRAS_MODELS[0];

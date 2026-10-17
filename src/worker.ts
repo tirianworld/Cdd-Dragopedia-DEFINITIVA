@@ -607,25 +607,25 @@ function collectKeys(env: Env, base: string): string[] {
   return Array.from(new Set(keys));
 }
 
-// PROVEEDORES DE IA SOPORTADOS (Groq, Cerebras, Mistral, Gemini)
+// PROVEEDORES DE IA SOPORTADOS (Priorizando Mistral activo con modelos confirmados)
 const PROVIDERS = [
+  { 
+    name: "mistral", 
+    base: "MISTRAL_API_KEY", 
+    url: "https://api.mistral.ai/v1/chat/completions", 
+    models: ["open-mistral-nemo", "ministral-8b-latest", "open-mistral-7b", "codestral-latest", "mistral-small-latest"] 
+  },
   { 
     name: "groq", 
     base: "GROQ_API_KEY", 
     url: "https://api.groq.com/openai/v1/chat/completions", 
-    models: ["openai/gpt-oss-120b", "llama-3.3-70b-versatile", "openai/gpt-oss-20b", "qwen/qwen3.6-27b"] 
+    models: ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "qwen/qwen3.6-27b", "openai/gpt-oss-120b", "openai/gpt-oss-20b"] 
   },
   { 
     name: "cerebras", 
     base: "CEREBRAS_API_KEY", 
     url: "https://api.cerebras.ai/v1/chat/completions", 
-    models: ["gpt-oss-120b", "llama-3.3-70b", "zai-glm-4.7", "llama3.1-8b"] 
-  },
-  { 
-    name: "mistral", 
-    base: "MISTRAL_API_KEY", 
-    url: "https://api.mistral.ai/v1/chat/completions", 
-    models: ["mistral-small-latest", "open-mistral-nemo", "mistral-large-latest"] 
+    models: ["llama-3.3-70b", "llama3.1-8b"] 
   },
   {
     name: "gemini",
@@ -640,8 +640,11 @@ let lastAttempts: string[] = [];
 async function generate(env: Env, messages: unknown[], extra: Record<string, unknown> = {}) {
   lastAttempts = [];
   for (const p of PROVIDERS) {
-    const keys = collectKeys(env, p.base).sort(() => Math.random() - 0.5);
-    if (!keys.length) lastAttempts.push(`${p.name}: sin claves`);
+    const keys = collectKeys(env, p.base);
+    if (!keys.length) {
+      lastAttempts.push(`${p.name}: sin claves`);
+      continue;
+    }
     for (let i = 0; i < keys.length; i++) {
       for (const model of p.models) {
         try {
@@ -656,7 +659,12 @@ async function generate(env: Env, messages: unknown[], extra: Record<string, unk
           }
           const txt = (await res.text()).slice(0, 200);
           lastAttempts.push(`${p.name} #${i + 1} ${model}: HTTP ${res.status} ${txt}`);
-          if (res.status !== 404) break; // 404 = modelo no disponible: probar siguiente modelo
+          
+          // Si la API key es inválida o rechazada por la cuenta (401/403), saltar al siguiente juego de claves
+          if (res.status === 401 || res.status === 403) {
+            break;
+          }
+          // Si es 404, 400 (modelo inválido) o 429 (límite de cuota en este modelo), continuar con el siguiente modelo de la lista
         } catch (err: any) {
           lastAttempts.push(`${p.name} #${i + 1} ${model}: ${err?.message || err}`);
           break;

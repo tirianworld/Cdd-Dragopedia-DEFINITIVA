@@ -9629,7 +9629,7 @@
     "is_featured": false,
     "id": "art-1787664919295",
     "created_date": "2026-08-25T13:35:24.209Z",
-    "updated_date": "2026-09-24T14:16:51.817Z",
+    "updated_date": "2026-10-17T13:31:41.134Z",
     "related_article_ids": [
       "art-1787664913096",
       "art-1787665642246",
@@ -9649,7 +9649,9 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
+    "extra_categories": [
+      "Dioses"
+    ],
     "image_url": "/images/uploads/PRIMORDIALES-1791538236326_jyfw1.png"
   },
   {

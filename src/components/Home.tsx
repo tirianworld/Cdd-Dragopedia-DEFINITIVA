@@ -501,7 +501,6 @@ export function Home() {
       <section>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <TarotLogo className="h-4 w-4 text-primary" />
             <EditableText
               textKey="home.explore.title"
               defaultValue="Explorar por Categoría"

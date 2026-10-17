@@ -301,7 +301,6 @@ export function LatestEventsPanel({ articles = [] }: LatestEventsPanelProps) {
       {/* Header Bar */}
       <div className="flex items-center justify-between gap-3 pb-2 border-b border-border/60">
         <div className="flex items-center gap-2">
-          <TarotLogo className="h-4 w-4 text-primary" />
           <EditableText
             textKey="home.events.title"
             defaultValue="Últimos Acontecimientos"

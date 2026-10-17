@@ -1411,8 +1411,16 @@ export function CategoryView() {
         /* Barra Minimizado EXACTA A LA IMAGEN DEL USUARIO */
         <div className="bg-[#0e1418]/70 border border-[#232e33] rounded-2xl px-4 sm:px-6 py-3 shadow-xs flex items-center justify-between gap-4 transition-all">
           <div className="flex items-center gap-3 shrink-0">
-            <div className="h-6 w-6 rounded-full border border-teal-500/40 bg-teal-500/10 flex items-center justify-center text-teal-400 shrink-0">
-              <Icon className="h-3.5 w-3.5" />
+            <div 
+              className="h-6 w-6 rounded-full flex items-center justify-center shrink-0 border transition-all duration-300 shadow-xs"
+              style={{
+                borderColor: `${themeColor}60`,
+                backgroundColor: `${themeColor}20`,
+                color: themeColor,
+                boxShadow: `0 0 10px ${themeColor}25`
+              }}
+            >
+              <Icon className="h-3.5 w-3.5" style={{ color: themeColor }} />
             </div>
             <span className="font-heading font-semibold text-xs sm:text-sm tracking-wider uppercase text-foreground/90">
               EXPLORAR SUBCATEGORÍAS DE {currentCategory?.name || slug}
@@ -1467,7 +1475,8 @@ export function CategoryView() {
               <button
                 type="button"
                 onClick={toggleSubcatMinimized}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-[#232e33] bg-[#131b20] hover:bg-[#1c282f] text-teal-400 hover:text-teal-300 font-medium transition-colors shadow-xs cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-[#232e33] bg-[#131b20] hover:bg-[#1c282f] font-medium transition-colors shadow-xs cursor-pointer"
+                style={{ color: themeColor }}
                 title="Desplegar subcategorías"
               >
                 <span>Desplegar</span>
@@ -1482,8 +1491,16 @@ export function CategoryView() {
           {/* Header de la sección de subcategorías */}
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-center gap-3">
-              <div className="h-6 w-6 rounded-full border border-teal-500/40 bg-teal-500/10 flex items-center justify-center text-teal-400 shrink-0">
-                <Icon className="h-3.5 w-3.5" />
+              <div 
+                className="h-6 w-6 rounded-full flex items-center justify-center shrink-0 border transition-all duration-300 shadow-xs"
+                style={{
+                  borderColor: `${themeColor}60`,
+                  backgroundColor: `${themeColor}20`,
+                  color: themeColor,
+                  boxShadow: `0 0 10px ${themeColor}25`
+                }}
+              >
+                <Icon className="h-3.5 w-3.5" style={{ color: themeColor }} />
               </div>
               <h2 className="font-heading font-semibold text-xs sm:text-sm text-foreground tracking-wider uppercase">
                 EXPLORAR SUBCATEGORÍAS DE {currentCategory?.name || slug}
@@ -1597,7 +1614,12 @@ export function CategoryView() {
                                   setAssignCategoryFilter("all");
                                   setIsAssignArticlesOpen(true);
                                 }}
-                                className="text-[10px] font-semibold text-teal-400 bg-teal-500/15 hover:bg-teal-500/25 px-2 py-0.5 rounded-full flex items-center gap-1 border border-teal-500/30 cursor-pointer"
+                                className="text-[10px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1 border cursor-pointer transition-colors hover:brightness-110"
+                                style={{
+                                  color: subcat.color,
+                                  backgroundColor: `${subcat.color}15`,
+                                  borderColor: `${subcat.color}35`
+                                }}
                                 title={`Asignar artículos a ${subcat.name}`}
                               >
                                 <FolderPlus className="h-2.5 w-2.5" />

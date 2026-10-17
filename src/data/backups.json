@@ -1,1 +1,25 @@
-[]
+[
+  {
+    "id": "bak-art-1790263133673-1792243875078",
+    "articleId": "art-1790263133673",
+    "title": "Faram, señor del Sol",
+    "content": "<h2>Descripción</h2><p>Faram es el dios del Sol, personificado como una llama viviente que ilumina los corazones de sus devotos. Es llamado <strong>señor del Sol</strong> y se le atribuyen cualidades de generosidad, ira bélica y una luz purificadora.</p><h2>Papel en la fe solar</h2><p>Los Guerreros de la Luz Solar consideran a Faram la única salvación frente a la oscuridad. Cada victoria en combate se ofrece como ofrenda a su brillo, y sus dogmas giran en torno a la valentía bajo su resplandor.</p><h2>Representación</h2><p>Aunque la doctrina rechaza los íconos, algunos templos alzan estatuas de Faram como símbolos de inspiración. Su imagen suele mostrarse como un sol radiante con una espada de fuego.</p>",
+    "summary": "*Faram es la deidad solar venerada por los Guerreros de la Luz Solar, descrito como el propio Sol, ardiente, generoso y temible en la batalla, fuente de esperanza y justicia en Kaliria.*",
+    "category": "Dioses",
+    "tags": [
+      "deidad",
+      "sol",
+      "luz",
+      "Kaliria"
+    ],
+    "image_url": "/images/covers/faram-senor-del-sol.jpg",
+    "infobox": {
+      "Título": "Señor del Sol",
+      "Dominio": "Luz y guerra",
+      "Alineación": "Luz"
+    },
+    "timeline_markers": [],
+    "createdAt": 1792243875078,
+    "expiresAt": 1792360800000
+  }
+]

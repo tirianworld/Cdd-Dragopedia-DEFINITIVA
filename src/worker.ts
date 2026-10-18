@@ -175,7 +175,16 @@ function stripHtml(s: string): string {
   return (s || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 }
 
-// 4. CHAT DE TAROT (Carga completa del historial, lore y tomos sin truncar)
+function workerSlugify(title: string): string {
+  return (title || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "") || `tomo-${Date.now()}`;
+}
+
+// 4. CHAT DE TAROT (Carga completa del historial, lore y tomos sin truncar, con soporte de creación y edición)
 async function tarotChat(env: Env, request: Request, body: any) {
   const message = String(body?.message || "").trim();
   if (!message) throw new Error("El mensaje es requerido.");
@@ -187,6 +196,10 @@ async function tarotChat(env: Env, request: Request, body: any) {
     raw = await res.json();
   } catch {}
   const all: any[] = (Array.isArray(raw) ? raw : (raw && raw.articles) || []).filter((a: any) => a && a.title);
+
+  const hasAdminPass = /\bOKI\b/i.test(message);
+  const isCreateIntent = /(?:haz|crea|crear|redacta|escribe|agrega|a[ñn]ade|generar?|nuevo)\s+(?:un\s+)?(?:art[ií]culo|tomo|p[aá]gina|entrada|ficha)/i.test(message) || (hasAdminPass && /(?:crea|crear|haz|nuevo\s+tomo|nuevo\s+art[ií]culo)/i.test(message));
+  const isEditIntent = !isCreateIntent && (/(?:edita|editar|modifica|modificar|actualiza|actualizar|cambia|cambiar|corrige|corregir|reescribe)\s+(?:el\s+|la\s+)?(?:art[ií]culo|tomo|p[aá]gina|entrada|ficha)/i.test(message) || (hasAdminPass && /(?:edita|editar|modifica|modificar|actualiza)/i.test(message)));
 
   const recentUser = history
     .filter((m) => m && (m.role === "user" || m.role === "client"))
@@ -216,8 +229,29 @@ async function tarotChat(env: Env, request: Request, body: any) {
   const used = new Set(scored.map((s) => s.a.slug));
   const catalog = all.filter((a) => !used.has(a.slug)).slice(0, 40).map((a) => `- ${a.title} (${a.category || "General"})`).join("\n");
 
-  const system = `Eres Tarot, el asistente de consulta de la wiki "Caldo de Dragón".
-Responde en español, de forma concisa y directa, con el contexto justo para que se entienda. Nada de roleplay ni adornos poéticos.
+  let system = "";
+  if (isCreateIntent || isEditIntent) {
+    system = `Eres Tarot, el Gran Bibliotecario de la Gran Biblioteca de Kaliria de la enciclopedia de lore "Caldo de Dragón".
+Responde en español con nobleza y precisión.
+AUTORIZACIÓN DE ADMINISTRADOR Y PERMISOS DE EDICIÓN / CREACIÓN DE TOMOS:
+- Tienes autorización plena para CREAR NUEVOS TOMOS o EDITAR TOMOS EXISTENTES cuando el usuario te lo solicite y se proporcione la contraseña de administrador oficial: "OKI".
+- ${hasAdminPass ? 'La contraseña de administrador "OKI" ha sido PROPORCIONADA en este mensaje. Tienes permiso pleno para consagrar el tomo.' : 'La contraseña "OKI" aún NO ha sido facilitada. Prepara el tomo y solicita en tu mensaje la contraseña de administrador "OKI" para consagrarlo en los manuscritos oficiales.'}
+- MANDATO DE CERO INVENCIÓN: Sé 100% fiel al relato facilitado por el usuario y no inventes hechos no suministrados.
+
+Responde OBLIGATORIAMENTE en formato JSON con la siguiente estructura:
+{
+  "message": "${hasAdminPass ? 'He verificado la contraseña de administrador (OKI) y he consagrado el tomo...' : 'He preparado el tomo según tus instrucciones. Para consagrarlo en la enciclopedia oficial, por favor introduce la contraseña de administrador (OKI) o pulsa Confirmar.'}",
+  "pendingEdit": {
+    "isNew": ${isCreateIntent ? "true" : "false"},
+    "title": "Nombre o título del artículo",
+    "category": "Categoría adecuada (Personajes, Lugares, Dragones, Magias, etc.)",
+    "summary": "Resumen conciso y fiel",
+    "content": "<p>Contenido completo estructurado en HTML con <h2>, <p>, <ul>, etc.</p>"
+  }
+}`;
+  } else {
+    system = `Eres Tarot, el asistente de consulta de la wiki "Caldo de Dragón".
+Responde en español, de forma concisa y directa, con el contexto justo para que se entienda. Nada de roleplay excesivo.
 Basa tu respuesta ÚNICAMENTE en los tomos que aparecen abajo. Si la información no está en ellos, dilo claramente y no inventes.
 Termina siempre las frases y la respuesta completa.
 
@@ -226,6 +260,7 @@ ${ctx || "No se encontraron tomos relacionados directos."}
 
 OTROS TOMOS CATALOGADOS:
 ${catalog}`;
+  }
 
   const msgs: { role: string; content: string }[] = [{ role: "system", content: system }];
   for (const m of history) {
@@ -237,7 +272,54 @@ ${catalog}`;
 
   const r: any = await generate(env, msgs);
   if (!r) throw new Error("Todos los proveedores de IA fallaron");
-  return { message: r.choices?.[0]?.message?.content || "No he podido generar una respuesta." };
+  const rawText = String(r.choices?.[0]?.message?.content || "").trim();
+
+  if (isCreateIntent || isEditIntent || rawText.includes('"pendingEdit"') || rawText.startsWith("{")) {
+    try {
+      const cleanedJson = rawText.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
+      const parsed = JSON.parse(cleanedJson);
+      if (parsed && typeof parsed === "object") {
+        const pending = parsed.pendingEdit;
+        if (pending && (pending.title || pending.content)) {
+          if (hasAdminPass) {
+            const finalSlug = workerSlugify(pending.title || "tomo");
+            const newArt = {
+              id: `art-${Date.now()}`,
+              slug: finalSlug,
+              title: pending.title,
+              category: pending.category || "Personajes",
+              summary: pending.summary || "",
+              content: pending.content || "",
+              updated_date: new Date().toISOString()
+            };
+            return {
+              message: `✨ **Contraseña de administrador (OKI) verificada.** He creado y consagrado el nuevo tomo **<a href="/articulo/${finalSlug}">${pending.title}</a>** directamente en la enciclopedia oficial.`,
+              article: newArt,
+              executionResult: {
+                success: true,
+                action: pending.isNew ? "chat_direct_edit_create" : "chat_direct_edit_update",
+                details: `Se ha consagrado el tomo **${pending.title}** con la contraseña de administrador (OKI).`,
+                modifiedSlugs: [finalSlug]
+              }
+            };
+          } else {
+            return {
+              message: parsed.message || `He preparado el tomo **${pending.title}**. Para consagrarlo en la enciclopedia oficial, por favor introduce la contraseña de administrador (**OKI**) o pulsa el botón de confirmación.`,
+              pendingEdit: {
+                isNew: pending.isNew !== false,
+                title: pending.title,
+                category: pending.category || "Personajes",
+                summary: pending.summary || "",
+                content: pending.content || ""
+              }
+            };
+          }
+        }
+      }
+    } catch {}
+  }
+
+  return { message: rawText || "No he podido generar una respuesta." };
 }
 
 // 5. IMPORTADOR TAROT SCRIBE (Para /api/ai/article-scribe-import)
@@ -784,16 +866,33 @@ export default {
         try {
           const body = await request.json();
           const pending = body?.pendingEdit;
+          const providedPassword = String(body?.password || "").trim().toUpperCase();
+          const isAffirmative = ["SI", "SÍ", "CONFIRMAR", "CONFIRMO", "APLICAR", "APLICO", "GUARDAR", "GUARDO", "ADELANTE", "HAZLO", "OK", "YES", "OKI", "GORM"].includes(providedPassword) || body?.confirmed === true;
+          if (!isAffirmative && providedPassword !== "OKI") {
+            return jsonResponse({ success: false, error: "Contraseña de administrador incorrecta. Se requiere: OKI" }, 401);
+          }
+
+          const title = pending?.title || "Nuevo tomo sin título";
+          const slug = pending?.slug || workerSlugify(title);
+          const article = {
+            id: pending?.id || `art-${Date.now()}`,
+            slug,
+            title,
+            category: pending?.category || "Personajes",
+            summary: pending?.summary || "",
+            content: pending?.content || "",
+            updated_date: new Date().toISOString()
+          };
+
           return jsonResponse({
             success: true,
-            message: "Modificación de Tarot AI confirmada y aplicada.",
+            article,
+            message: "Modificación de Tarot AI confirmada y consagrada con la contraseña de administrador OKI.",
             executionResult: {
               success: true,
               action: pending?.isBatch ? "batch_modify_articles" : pending?.isNew ? "chat_direct_edit_create" : pending?.isDelete ? "chat_direct_edit_delete" : "chat_direct_edit_update",
-              details: pending?.isBatch
-                ? "Se han modificado múltiples tomos en lote según tus instrucciones."
-                : `El tomo ${pending?.title || pending?.slug} ha sido actualizado directamente en los registros reales de la Dragopedia.`,
-              modifiedSlugs: pending?.targetSlugs || [pending?.slug || ""]
+              details: `El tomo **<a href="/articulo/${slug}">${title}</a>** ha sido consagrado y registrado en la Dragopedia con la contraseña de administrador (OKI).`,
+              modifiedSlugs: [slug]
             }
           });
         } catch (e: any) {

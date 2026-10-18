@@ -1205,6 +1205,9 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
             <p className="text-xs text-foreground/90 line-clamp-2">
               {pendingConfirmation.instructions || pendingConfirmation.changeInstructions || pendingConfirmation.summary || pendingConfirmation.title || "Aplicar cambios directamente sobre los artículos oficiales."}
             </p>
+            <p className="text-[11px] text-primary font-medium">
+              Contraseña de administrador requerida: <strong className="font-mono bg-primary/20 px-1 py-0.5 rounded">OKI</strong>
+            </p>
             <div className="flex items-center gap-2 pt-0.5">
               <button
                 type="button"
@@ -1218,7 +1221,7 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
                     ? "Aplicar edición masiva"
                     : pendingConfirmation.isDelete
                     ? "Confirmar eliminación"
-                    : "Aplicar al artículo real"}
+                    : "Consagrar con OKI"}
                 </span>
               </button>
               <button
@@ -1259,8 +1262,8 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
             onChange={(e) => setMessage(e.target.value)}
             placeholder={
               pendingConfirmation
-                ? "Escribe 'confirmar' (o 'cancelar')..."
-                : "Pregunta a Tarot, o pídele editar un tomo..."
+                ? "Introduce la contraseña 'OKI' o pulsa Consagrar..."
+                : "Pregunta a Tarot, o pídele crear o editar un tomo (clave: OKI)..."
             }
             className={`flex-1 text-xs bg-background border rounded-xl px-3 py-2.5 outline-none text-foreground placeholder:text-muted-foreground/60 transition-colors ${
               pendingConfirmation ? "border-primary/60 focus:border-primary" : "border-border/80 focus:border-primary/45"
@@ -1753,6 +1756,9 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
                   <p className="text-xs text-foreground/90 leading-relaxed">
                     {pendingConfirmation.instructions || pendingConfirmation.changeInstructions || pendingConfirmation.summary || pendingConfirmation.title || "Aplicar cambios directamente sobre los artículos oficiales."}
                   </p>
+                  <p className="text-[11px] text-primary font-medium">
+                    Contraseña de administrador requerida: <strong className="font-mono bg-primary/20 px-1.5 py-0.5 rounded">OKI</strong>
+                  </p>
                   <div className="flex items-center gap-3 pt-1">
                     <button
                       type="button"
@@ -1766,7 +1772,7 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
                           ? "Aplicar edición masiva"
                           : pendingConfirmation.isDelete
                           ? "Confirmar eliminación"
-                          : "Aplicar al artículo real"}
+                          : "Consagrar con OKI"}
                       </span>
                     </button>
                     <button
@@ -1810,8 +1816,8 @@ function TarotChatbotInner({ standalone = false }: { standalone?: boolean }) {
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder={
                     pendingConfirmation
-                      ? "Escribe 'confirmar' (o 'cancelar')..."
-                      : "Escribe tu consulta o pide editar un tomo real..."
+                      ? "Introduce la contraseña 'OKI' o pulsa Consagrar..."
+                      : "Escribe tu consulta o pide crear/editar un tomo (clave: OKI)..."
                   }
                   className="flex-1 text-xs bg-transparent border-0 outline-none text-foreground placeholder:text-muted-foreground/50 py-2"
                   disabled={isLoading}

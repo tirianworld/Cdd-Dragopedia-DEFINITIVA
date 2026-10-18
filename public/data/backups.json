@@ -1,5 +1,36 @@
 [
   {
+    "id": "bak-art-1787667729491-1792355799439",
+    "articleId": "art-1787667729491",
+    "title": "Energía oscura del Shadowfell",
+    "content": "<p>Esta energía no es un simple fenómeno mágico, sino una <em>fuerza viviente</em> que impregna cada rincón del <a href=\"/shadowfell\">Shadowfell</a>. No sigue las leyes de la <a href=\"/articulo/magia\">magia</a> convencional; es una entidad en sí misma, con voluntad propia y sed de sufrimiento.</p>\n<h2>Efectos sobre los seres vivos</h2>\n<p>Quienes entran en contacto con esta energía experimentan:</p>\n<ul>\n<li><strong>Deterioro mental:</strong> La cordura se quiebra bajo el peso de visiones distorsionadas y recuerdos que nunca existieron.</li>\n</ul>\n<ul>\n<li><strong>Parálisis emocional:</strong> La apatía se apodera del individuo, anulando su deseo de luchar o incluso de intentar escapar.</li>\n</ul>\n<ul>\n<li><strong>Corrupción física:</strong> En casos extremos, el cuerpo comienza a desvanecerse, transformándose en una sombra o un espectro.</li>\n</ul>\n<h2>Interacción con otros <a href=\"/articulo/planos\">planos</a></h2>\n<p>Se rumorea que esta energía oscura puede filtrarse a otros dominios, especialmente en aquellos donde la <a href=\"/magia-oscura\">magia oscura</a> es practicada. Algunos <a href=\"/hechicero\">hechiceros</a> la buscan para potenciar sus rituales, aunque pocos sobreviven al proceso.</p>\n<p>Magia</p>\n<p>Explorar Cosmos Completo ↗</p>\n<p>Subgrafo Relacional: Energía oscura del Shadowfell</p>\n<p>Red interactiva de conexiones del universo de Caldo de Dragón.</p>\n<p>texto</p>",
+    "summary": "*Fuerza arcanas que emanan del Shadowfell, capaces de corromper la mente, el alma y la voluntad de quienes la absorben. Una magia que se alimenta del sufrimiento y distorsiona la realidad.*",
+    "category": "Magias",
+    "tags": [
+      "magia oscura",
+      "corrupción",
+      "energía vital",
+      "sufrimiento"
+    ],
+    "image_url": "/images/cloud/energia-oscura-shadowfell_0bf21f7804.jpg",
+    "infobox": {
+      "Origen": "Shadowfell",
+      "Tipo": "Energía corruptora",
+      "Efectos": "Deterioro mental, parálisis emocional, corrupción física",
+      "Riesgo": "Pérdida de humanidad"
+    },
+    "timeline_markers": [
+      {
+        "id": "descubrimiento-primigenio",
+        "label": "Primera observación",
+        "content": "Los primeros registros de esta energía datan de cuando los hechiceros de Kaliria intentaron estudiar los efectos del Shadowfell en los condenados a muerte.",
+        "image_url": ""
+      }
+    ],
+    "createdAt": 1792355799439,
+    "expiresAt": 1792447200000
+  },
+  {
     "id": "bak-art-1792327400020-1792327504175",
     "articleId": "art-1792327400020",
     "title": "Primordial Reflejo",

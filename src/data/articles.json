@@ -1388,7 +1388,7 @@
     "slug": "energia-oscura-shadowfell",
     "category": "Magias",
     "summary": "*Fuerza arcanas que emanan del Shadowfell, capaces de corromper la mente, el alma y la voluntad de quienes la absorben. Una magia que se alimenta del sufrimiento y distorsiona la realidad.*",
-    "content": "<p>Esta energía no es un simple fenómeno mágico, sino una <em>fuerza viviente</em> que impregna cada rincón del <a href=\"/shadowfell\">Shadowfell</a>. No sigue las leyes de la <a href=\"/articulo/magia\">magia</a> convencional; es una entidad en sí misma, con voluntad propia y sed de sufrimiento.</p>\n<h2>Efectos sobre los seres vivos</h2>\n<p>Quienes entran en contacto con esta energía experimentan:</p>\n<ul>\n<li><strong>Deterioro mental:</strong> La cordura se quiebra bajo el peso de visiones distorsionadas y recuerdos que nunca existieron.</li>\n</ul>\n<ul>\n<li><strong>Parálisis emocional:</strong> La apatía se apodera del individuo, anulando su deseo de luchar o incluso de intentar escapar.</li>\n</ul>\n<ul>\n<li><strong>Corrupción física:</strong> En casos extremos, el cuerpo comienza a desvanecerse, transformándose en una sombra o un espectro.</li>\n</ul>\n<h2>Interacción con otros <a href=\"/articulo/planos\">planos</a></h2>\n<p>Se rumorea que esta energía oscura puede filtrarse a otros dominios, especialmente en aquellos donde la <a href=\"/magia-oscura\">magia oscura</a> es practicada. Algunos <a href=\"/hechicero\">hechiceros</a> la buscan para potenciar sus rituales, aunque pocos sobreviven al proceso.</p>\n<p>Magia</p>\n<p>Explorar Cosmos Completo ↗</p>\n<p>Subgrafo Relacional: Energía oscura del Shadowfell</p>\n<p>Red interactiva de conexiones del universo de Caldo de Dragón.</p>\n<p>texto</p>",
+    "content": "<p>Esta energía no es un simple fenómeno mágico, sino una <em>fuerza viviente</em> que impregna cada rincón del <a href=\"/shadowfell\">Shadowfell</a>. No sigue las leyes de la <a href=\"/articulo/magia\">magia</a> convencional; es una entidad en sí misma, con voluntad propia y sed de sufrimiento.</p>\n<h2>Efectos sobre los seres vivos</h2>\n<p>Quienes entran en contacto con esta energía experimentan:</p>\n<ul>\n<li><strong>Deterioro mental:</strong> La cordura se quiebra bajo el peso de visiones distorsionadas y recuerdos que nunca existieron.</li>\n</ul>\n<ul>\n<li><strong>Parálisis emocional:</strong> La apatía se apodera del individuo, anulando su deseo de luchar o incluso de intentar escapar.</li>\n</ul>\n<ul>\n<li><strong>Corrupción física:</strong> En casos extremos, el cuerpo comienza a desvanecerse, transformándose en una sombra o un espectro.</li>\n</ul>\n<h2>Interacción con otros <a href=\"/articulo/planos\">planos</a></h2>\n<p>Se rumorea que esta energía oscura puede filtrarse a otros dominios, especialmente en aquellos donde la <a href=\"/magia-oscura\">magia oscura</a> es practicada. Algunos <a href=\"/hechicero\">hechiceros</a> la buscan para potenciar sus rituales, aunque pocos sobreviven al proceso.</p>\n<p>Magia</p>\n<p>Explorar Cosmos Completo ↗</p>\n<p>Subgrafo Relacional: Energía oscura del Shadowfell</p>\n<p>Red interactiva de conexiones del universo de Caldo de Dragón.</p>\n<p>texto</p>\n<p>> 🌐 <strong>Subgrafo Interactivo: Subgrafo: Escuela Mágica</strong></p>\n<p>> <em>Ramificación del pilar de Magia Profana en el cosmos.</em></p>\n<p><div class=\"dragopedia-graph-embed my-8 overflow-hidden rounded-2xl border border-cyan-500/30 bg-[#070a13] shadow-xl\" data-graph='%7B%22type%22%3A%22magias%22%2C%22subgraphType%22%3A%22submagia%22%2C%22targetId%22%3A%22Energ%C3%ADa%20del%20Shadowfell%22%2C%22targetTitle%22%3A%22Energ%C3%ADa%20del%20Shadowfell%22%2C%22height%22%3A480%2C%22title%22%3A%22Subgrafo%3A%20Escuela%20M%C3%A1gica%22%2C%22description%22%3A%22Ramificaci%C3%B3n%20del%20pilar%20de%20Magia%20Profana%20en%20el%20cosmos.%22%7D'></p>\n<p><div class=\"p-3.5 bg-[#0c1222]/90 border-b border-border/80 flex items-center justify-between text-xs\"></p>\n<p><div class=\"flex items-center gap-2\"></p>\n<p><span class=\"text-cyan-400 font-bold\">✨ Subgrafo: Escuela Mágica</span></p>\n<p><span class=\"px-2 py-0.5 rounded-full text-[10px] bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 uppercase font-semibold\"></p>\n<p>Magia</p>\n<p></span></p>\n<p></div></p>\n<p><a href=\"/grafo\" target=\"_blank\" class=\"text-cyan-400 hover:underline text-[11px] font-semibold flex items-center gap-1\"></p>\n<p>Explorar Cosmos Completo ↗</p>\n</a>\n<p></div></p>\n<p><div class=\"w-full relative overflow-hidden\" style=\"height: 480px;\"></p>\n<p><!-- Interactive Graph Container Mounted Dynamically --></p>\n<p><div class=\"w-full h-full flex flex-col items-center justify-center text-center p-6 text-muted-foreground\"></p>\n<p><p class=\"text-sm font-semibold text-white mb-1\">Subgrafo: Escuela Mágica</p></p>\n<p><p class=\"text-xs max-w-md\">Ramificación del pilar de Magia Profana en el cosmos.</p></p>\n<p></div></p>\n<p></div></p>\n<p></div></p>\n<p>texto</p>",
     "infobox": {
       "Origen": "Shadowfell",
       "Tipo": "Energía corruptora",
@@ -1415,7 +1415,7 @@
     "is_featured": false,
     "id": "art-1787667729491",
     "created_date": "2026-08-25T14:22:11.527Z",
-    "updated_date": "2026-09-24T10:35:34.523Z",
+    "updated_date": "2026-10-18T20:36:39.311Z",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -1436,13 +1436,17 @@
     "embedded_graph": {
       "type": "magias",
       "subgraphType": "submagia",
-      "targetId": "profana",
-      "targetTitle": "Energía oscura del Shadowfell",
-      "title": "Subgrafo: Energía oscura del Shadowfell",
-      "description": "Ramificación del pilar de Magia Profana en el cosmos.",
-      "height": 480
+      "targetId": "Energía del Shadowfell",
+      "targetTitle": "Energía del Shadowfell",
+      "height": 480,
+      "title": "Subgrafo: Escuela Mágica",
+      "description": "Ramificación del pilar de Magia Profana en el cosmos."
     },
-    "extra_categories": []
+    "extra_categories": [
+      "Magias"
+    ],
+    "spells": [],
+    "spell_images": {}
   },
   {
     "title": "Shadowfell",

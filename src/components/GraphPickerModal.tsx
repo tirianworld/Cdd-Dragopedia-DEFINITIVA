@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { 
-  Network, X, Sparkles, Orbit, Layers, Check, ChevronRight,
+  Network, X, Sparkles, Orbit, Layers, Check, ChevronRight, ChevronUp, ChevronDown,
   Shield, Zap, Eye, Flame, Moon, Compass, Plus, Trash2,
   FileCode, Sliders, ExternalLink, HelpCircle, ArrowRight
 } from "lucide-react";
@@ -61,6 +61,138 @@ export function GraphPickerModal({
     (initialGraph?.type === "magias" && initialGraph?.targetId) || "arcana"
   );
   const [selectedSubmagiaTitle, setSelectedSubmagiaTitle] = useState<string>("");
+
+  // Pillar selector wheel scrolling state & refs (like Home & CategoryView category selectors)
+  const pillarContainerRef = useRef<HTMLDivElement>(null);
+  const pillarGridRef = useRef<HTMLDivElement>(null);
+  const [currentPillarRow, setCurrentPillarRow] = useState(0);
+  const [pillarNumCols, setPillarNumCols] = useState(3);
+  const [pillarCardHeight, setPillarCardHeight] = useState(56);
+  const currentPillarRowRef = useRef(0);
+  const maxPillarRowRef = useRef(0);
+  const lastPillarWheelTimeRef = useRef(0);
+  const pillarTouchStartYRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const updateCols = () => {
+      if (typeof window !== "undefined" && window.innerWidth < 640) {
+        setPillarNumCols(2);
+      } else {
+        setPillarNumCols(3);
+      }
+    };
+    updateCols();
+    window.addEventListener("resize", updateCols);
+    return () => window.removeEventListener("resize", updateCols);
+  }, []);
+
+  const totalPillarRows = Math.ceil(PRIMORDIAL_PILLARS.length / pillarNumCols);
+  const maxPillarRow = Math.max(0, totalPillarRows - 2); // Show exactly 2 rows at a time
+  currentPillarRowRef.current = currentPillarRow;
+  maxPillarRowRef.current = maxPillarRow;
+
+  // Clamp currentPillarRow if maxPillarRow decreases
+  useEffect(() => {
+    if (currentPillarRow > maxPillarRow) {
+      setCurrentPillarRow(maxPillarRow);
+    }
+  }, [maxPillarRow, currentPillarRow]);
+
+  // Measure card height dynamically
+  useEffect(() => {
+    if (!pillarGridRef.current) return;
+    const firstChild = pillarGridRef.current.firstElementChild as HTMLElement;
+    if (firstChild && firstChild.offsetHeight > 0) {
+      setPillarCardHeight(firstChild.offsetHeight);
+    }
+  }, [pillarNumCols, magicSubgraphType, isOpen]);
+
+  const pillarRowStep = pillarCardHeight + 8; // 8px = gap-2
+  const pillarContainerHeight = (pillarCardHeight * 2) + 8; // exactly 2 rows high
+
+  // Wheel and touch navigation for pillar selector
+  useEffect(() => {
+    const el = pillarContainerRef.current;
+    if (!el || !isOpen) return;
+
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) < 15) return;
+
+      const now = Date.now();
+      const isDown = e.deltaY > 0;
+      const isUp = e.deltaY < 0;
+
+      if (isDown && currentPillarRowRef.current < maxPillarRowRef.current) {
+        e.preventDefault();
+        if (now - lastPillarWheelTimeRef.current > 240) {
+          lastPillarWheelTimeRef.current = now;
+          setCurrentPillarRow((r) => {
+            const next = Math.min(r + 1, maxPillarRowRef.current);
+            currentPillarRowRef.current = next;
+            return next;
+          });
+        }
+        return;
+      }
+
+      if (isUp && currentPillarRowRef.current > 0) {
+        e.preventDefault();
+        if (now - lastPillarWheelTimeRef.current > 240) {
+          lastPillarWheelTimeRef.current = now;
+          setCurrentPillarRow((r) => {
+            const next = Math.max(r - 1, 0);
+            currentPillarRowRef.current = next;
+            return next;
+          });
+        }
+        return;
+      }
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      pillarTouchStartYRef.current = e.touches[0].clientY;
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (pillarTouchStartYRef.current === null) return;
+      const deltaY = pillarTouchStartYRef.current - e.touches[0].clientY;
+      const now = Date.now();
+
+      if (Math.abs(deltaY) > 30) {
+        if (deltaY > 0 && currentPillarRowRef.current < maxPillarRowRef.current) {
+          e.preventDefault();
+          if (now - lastPillarWheelTimeRef.current > 240) {
+            lastPillarWheelTimeRef.current = now;
+            pillarTouchStartYRef.current = e.touches[0].clientY;
+            setCurrentPillarRow((r) => Math.min(r + 1, maxPillarRowRef.current));
+          }
+        } else if (deltaY < 0 && currentPillarRowRef.current > 0) {
+          e.preventDefault();
+          if (now - lastPillarWheelTimeRef.current > 240) {
+            lastPillarWheelTimeRef.current = now;
+            pillarTouchStartYRef.current = e.touches[0].clientY;
+            setCurrentPillarRow((r) => Math.max(r - 1, 0));
+          }
+        }
+      }
+    };
+
+    const onTouchEnd = () => {
+      pillarTouchStartYRef.current = null;
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
+
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [maxPillarRow, magicSubgraphType, isOpen]);
 
   // Custom Graph Settings
   const [customText, setCustomText] = useState<string>(() => {
@@ -607,37 +739,86 @@ export function GraphPickerModal({
 
                 {/* Pillar selector */}
                 {(magicSubgraphType === "pillar" || magicSubgraphType === "submagia") && (
-                  <div className="space-y-3 p-4 rounded-2xl bg-secondary/20 border border-border/80">
-                    <span className="text-xs font-bold text-white">Selecciona el Pilar Primordial:</span>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                      {PRIMORDIAL_PILLARS.map((p) => {
-                        const IconComponent = p.icon || Sparkles;
-                        return (
-                          <button
-                            key={p.id}
-                            type="button"
-                            onClick={() => {
-                              setSelectedPillarId(p.id);
-                              const subs = getSubmagiasForPillar(p.id);
-                              if (subs.length > 0) setSelectedSubmagiaTitle(subs[0].title);
-                            }}
-                            className={`p-2.5 rounded-xl border flex items-center gap-2 transition-all text-left ${
-                              selectedPillarId === p.id
-                                ? "bg-purple-500/20 border-purple-400 text-white shadow-sm"
-                                : "bg-card border-border/80 text-muted-foreground hover:text-white"
-                            }`}
-                          >
-                            <span 
-                              className="w-3 h-3 rounded-full shrink-0 shadow-sm" 
-                              style={{ backgroundColor: p.color }} 
-                            />
-                            <div className="overflow-hidden">
-                              <p className="text-xs font-bold truncate text-white">{p.name}</p>
-                              <p className="text-[9px] text-muted-foreground truncate">{p.domain}</p>
-                            </div>
-                          </button>
-                        );
-                      })}
+                  <div className="space-y-2.5 p-4 rounded-2xl bg-secondary/20 border border-border/80">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-white">Selecciona el Pilar Primordial:</span>
+                      {maxPillarRow > 0 && (
+                        <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground font-mono">
+                          <span className={currentPillarRow > 0 ? "text-amber-400 font-semibold" : "opacity-80"}>
+                            {currentPillarRow > 0 ? "✦ Magia Áurea" : "Desliza rueda del ratón ↕"}
+                          </span>
+                          <div className="flex items-center gap-0.5 ml-1">
+                            <button
+                              type="button"
+                              onClick={() => setCurrentPillarRow((r) => Math.max(0, r - 1))}
+                              disabled={currentPillarRow === 0}
+                              className="p-0.5 rounded hover:bg-secondary/60 disabled:opacity-30 disabled:cursor-not-allowed text-muted-foreground hover:text-white transition-colors"
+                              title="Fila anterior"
+                            >
+                              <ChevronUp className="h-3 w-3" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setCurrentPillarRow((r) => Math.min(maxPillarRow, r + 1))}
+                              disabled={currentPillarRow >= maxPillarRow}
+                              className="p-0.5 rounded hover:bg-secondary/60 disabled:opacity-30 disabled:cursor-not-allowed text-muted-foreground hover:text-white transition-colors"
+                              title="Siguiente fila (Magia Áurea)"
+                            >
+                              <ChevronDown className="h-3 w-3" />
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Wheel-scrollable container: exactly 2 rows visible at a time */}
+                    <div
+                      ref={pillarContainerRef}
+                      className="relative overflow-hidden w-full select-none"
+                      style={{ height: `${pillarContainerHeight}px` }}
+                    >
+                      <div
+                        ref={pillarGridRef}
+                        style={{
+                          transform: `translateY(-${currentPillarRow * pillarRowStep}px)`,
+                          transition: "transform 320ms cubic-bezier(0.2, 0.8, 0.25, 1)"
+                        }}
+                        className="grid grid-cols-2 sm:grid-cols-3 gap-2"
+                      >
+                        {PRIMORDIAL_PILLARS.map((p) => {
+                          const isAurea = p.id === "aurea";
+                          const isSelected = selectedPillarId === p.id;
+                          return (
+                            <button
+                              key={p.id}
+                              type="button"
+                              onClick={() => {
+                                setSelectedPillarId(p.id);
+                                const subs = getSubmagiasForPillar(p.id);
+                                if (subs.length > 0) setSelectedSubmagiaTitle(subs[0].title);
+                              }}
+                              className={`p-2.5 rounded-xl border flex items-center gap-2 transition-all text-left ${
+                                isSelected
+                                  ? isAurea
+                                    ? "bg-amber-500/25 border-amber-400 text-white shadow-md shadow-amber-500/10 ring-1 ring-amber-400/50"
+                                    : "bg-purple-500/20 border-purple-400 text-white shadow-sm ring-1 ring-purple-400/40"
+                                  : isAurea
+                                    ? "bg-amber-950/20 border-amber-500/30 text-amber-200/80 hover:text-white hover:border-amber-400/60 hover:bg-amber-500/15"
+                                    : "bg-card border-border/80 text-muted-foreground hover:text-white hover:bg-secondary/40"
+                              }`}
+                            >
+                              <span 
+                                className={`w-3 h-3 rounded-full shrink-0 shadow-sm ${isAurea ? "ring-1 ring-amber-300" : ""}`}
+                                style={{ backgroundColor: p.color }} 
+                              />
+                              <div className="overflow-hidden">
+                                <p className={`text-xs font-bold truncate ${isAurea ? "text-amber-300" : "text-white"}`}>{p.name}</p>
+                                <p className="text-[9px] text-muted-foreground truncate">{p.domain}</p>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
 
                     {/* If Submagia mode: choose specific submagia */}

@@ -21,7 +21,7 @@ export interface MagicNode {
   title: string;
   subtitle?: string;
   tier: 0 | 1 | 2 | 3; // 0 = Core, 1 = Primordial, 2 = Submagia, 3 = Manifestation/Spell
-  pillarId: "divina" | "arcana" | "natural" | "profana" | "salvaje" | "extraplanar" | "core";
+  pillarId: "divina" | "arcana" | "natural" | "profana" | "salvaje" | "extraplanar" | "aurea" | "core";
   pillarName: string;
   color: string;
   glowColor: string;
@@ -58,7 +58,7 @@ function getLighterGlowColor(hex: string): string {
 }
 
 export interface MagicPillarConfig {
-  id: "divina" | "arcana" | "natural" | "profana" | "salvaje" | "extraplanar";
+  id: "divina" | "arcana" | "natural" | "profana" | "salvaje" | "extraplanar" | "aurea";
   name: string;
   title: string;
   angleDeg: number;
@@ -163,6 +163,21 @@ export const PRIMORDIAL_PILLARS: MagicPillarConfig[] = [
     source: "Las dimensiones alternas y los planos lejanos que rodean el tejido del plano material de Caldo de Dragón.",
     adamantiteEffect: "La adamantita se transforma en un portal latente, permitiendo abrir brechas hacia planos exteriores.",
     summary: "El puente entre lo que es y lo que podría ser. Permite rasgar el velo de la realidad, doblegar la distancia física y canalizar la esencia de entidades extradimensionales."
+  },
+  {
+    id: "aurea",
+    name: "Magia Áurea",
+    title: "Magia Áurea",
+    angleDeg: 0, // 3:00 (Entre Arcana y Natural, conexión sagrada con el Árbol Áureo)
+    color: "#eab308",
+    glowColor: "#fde047",
+    lightColor: "#fef9c3",
+    icon: Sparkles,
+    articleSlug: "magia-aurea",
+    domain: "Curación sagrada, regeneración acelerada, resurrección de almas y creación de leyendas en Ávalon.",
+    source: "El corazón del Árbol Áureo y la unión primordial de la magia divina y natural.",
+    adamantiteEffect: "La adamantita canaliza savia dorada regenerativa que restaura continuamente las heridas y la esencia del portador.",
+    summary: "Manifestación única de 2ª generación nacida de la unión de la magia divina y la magia natural en Ávalon, corazón y alma del Árbol Áureo."
   }
 ];
 
@@ -328,6 +343,29 @@ export function getSubmagiasForPillar(pillarId: string): SubmagiaDef[] {
       {
         title: "Magia del Vacío & Éter Astral",
         summary: "Canalización de las corrientes de éter y las fuerzas del vacío primordial que sostienen el tejido cósmico multiversal."
+      }
+    ];
+  } else if (pillarId === "aurea") {
+    return [
+      {
+        title: "Curación & Regeneración Áurea",
+        slug: "magia-aurea",
+        summary: "Sanación de heridas físicas y espirituales, regeneración acelerada de tejidos vitales impulsada por el Árbol Áureo."
+      },
+      {
+        title: "Resurrección & Ciclo de Almas",
+        slug: "magia-aurea",
+        summary: "Ciclo kármico de retorno del alma y energía vital vinculado a las leyes sagradas de Ávalon."
+      },
+      {
+        title: "Creación de Leyendas",
+        slug: "magia-aurea",
+        summary: "Manifestación mística en la narrativa y la memoria colectiva que perdura a través del tiempo."
+      },
+      {
+        title: "Poder del Árbol Áureo",
+        slug: "arbol-aureo-mrf9a5jc",
+        summary: "Fusión divina y natural que nutre el corazón de Ávalon, protegiendo la inmortalidad y el renacimiento."
       }
     ];
   }
@@ -1017,9 +1055,10 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
     const spiralNodes: { x: number; y: number; r: number; opacity: number }[] = [];
 
     // 3. Equilibrium links between adjacent pillars (forming the regular polygon between the 6 Primordial Pillars)
-    for (let i = 0; i < PRIMORDIAL_PILLARS.length; i++) {
-      const current = PRIMORDIAL_PILLARS[i];
-      const next = PRIMORDIAL_PILLARS[(i + 1) % PRIMORDIAL_PILLARS.length];
+    const CORE_HEX_PILLARS = PRIMORDIAL_PILLARS.filter((p) => p.id !== "aurea");
+    for (let i = 0; i < CORE_HEX_PILLARS.length; i++) {
+      const current = CORE_HEX_PILLARS[i];
+      const next = CORE_HEX_PILLARS[(i + 1) % CORE_HEX_PILLARS.length];
       linkList.push({
         from: `pillar-${current.id}`,
         to: `pillar-${next.id}`,
@@ -1027,6 +1066,27 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
         width: 1.2,
         dash: "5 7",
         opacity: 0.4
+      });
+    }
+
+    // Sacred bridges for Magia Áurea (Fusión de Magia Divina y Magia Natural)
+    const aureaPillar = PRIMORDIAL_PILLARS.find((p) => p.id === "aurea");
+    if (aureaPillar) {
+      linkList.push({
+        from: "pillar-divina",
+        to: "pillar-aurea",
+        color: "#f59e0b",
+        width: 1.6,
+        dash: "3 5",
+        opacity: 0.65
+      });
+      linkList.push({
+        from: "pillar-natural",
+        to: "pillar-aurea",
+        color: "#10b981",
+        width: 1.6,
+        dash: "3 5",
+        opacity: 0.65
       });
     }
 

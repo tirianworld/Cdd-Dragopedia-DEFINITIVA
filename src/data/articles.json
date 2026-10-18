@@ -5077,7 +5077,7 @@
     "is_featured": false,
     "id": "art-1787665967192",
     "created_date": "2026-08-25T13:52:50.085Z",
-    "updated_date": "2026-09-17T10:47:46.447Z",
+    "updated_date": "2026-10-18T20:39:59.039Z",
     "related_article_ids": [
       "art-1787665235268",
       "art-1787665970429"
@@ -5100,8 +5100,10 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/ludwig.png"
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": ""
   },
   {
     "title": "Bloodhunters",

@@ -5756,7 +5756,7 @@
     "is_featured": false,
     "id": "art-1787665725866",
     "created_date": "2026-08-25T13:48:49.234Z",
-    "updated_date": "2026-09-15T17:07:32.216Z",
+    "updated_date": "2026-10-18T20:41:24.235Z",
     "related_article_ids": [
       "6a1f47fdce9c60c774d45cdc",
       "art-1787665090919",
@@ -5774,8 +5774,12 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/santuario-de-la-mano-abierta.webp"
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": ".",
+    "spells": [],
+    "spell_images": {}
   },
   {
     "title": "Monjes de la Mano Abierta",

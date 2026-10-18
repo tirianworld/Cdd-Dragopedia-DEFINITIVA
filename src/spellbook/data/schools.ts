@@ -1,5 +1,17 @@
 import React from 'react';
 import {
+  Shield,
+  Eye,
+  Layers,
+  Heart,
+  Flame,
+  Ghost,
+  Skull,
+  RefreshCw,
+  Sparkles,
+  LucideIcon,
+} from 'lucide-react';
+import {
   AbjurationIcon,
   DivinationIcon,
   ConjurationIcon,
@@ -17,6 +29,7 @@ export interface SchoolTheme {
   name: MagicSchool;
   nameEn: string;
   icon: React.FC<{ className?: string; style?: React.CSSProperties }>;
+  vectorIcon: LucideIcon;
   iconUrl?: string;
   hexColor: string;
   textColor: string;
@@ -32,6 +45,7 @@ export const SCHOOL_THEMES: Record<string, SchoolTheme> = {
     name: 'Abjuración',
     nameEn: 'Abjuration',
     icon: AbjurationIcon,
+    vectorIcon: Shield,
     iconUrl: SCHOOL_IMAGE_MAP['Abjuración'],
     hexColor: '#38bdf8', // Ice Blue / Sky
     textColor: 'text-sky-300',
@@ -45,6 +59,7 @@ export const SCHOOL_THEMES: Record<string, SchoolTheme> = {
     name: 'Adivinación',
     nameEn: 'Divination',
     icon: DivinationIcon,
+    vectorIcon: Eye,
     iconUrl: SCHOOL_IMAGE_MAP['Adivinación'],
     hexColor: '#fbbf24', // Amber/Yellow
     textColor: 'text-amber-300',
@@ -58,6 +73,7 @@ export const SCHOOL_THEMES: Record<string, SchoolTheme> = {
     name: 'Conjuración',
     nameEn: 'Conjuration',
     icon: ConjurationIcon,
+    vectorIcon: Layers,
     iconUrl: SCHOOL_IMAGE_MAP['Conjuración'],
     hexColor: '#34d399', // Emerald/Mint
     textColor: 'text-emerald-300',
@@ -71,6 +87,7 @@ export const SCHOOL_THEMES: Record<string, SchoolTheme> = {
     name: 'Encantamiento',
     nameEn: 'Enchantment',
     icon: EnchantmentIcon,
+    vectorIcon: Heart,
     iconUrl: SCHOOL_IMAGE_MAP['Encantamiento'],
     hexColor: '#f472b6', // Pink
     textColor: 'text-pink-300',
@@ -84,6 +101,7 @@ export const SCHOOL_THEMES: Record<string, SchoolTheme> = {
     name: 'Evocación',
     nameEn: 'Evocation',
     icon: EvocationIcon,
+    vectorIcon: Flame,
     iconUrl: SCHOOL_IMAGE_MAP['Evocación'],
     hexColor: '#f97316', // Orange / Fire
     textColor: 'text-orange-300',
@@ -97,6 +115,7 @@ export const SCHOOL_THEMES: Record<string, SchoolTheme> = {
     name: 'Ilusión',
     nameEn: 'Illusion',
     icon: IllusionIcon,
+    vectorIcon: Ghost,
     iconUrl: SCHOOL_IMAGE_MAP['Ilusión'],
     hexColor: '#c084fc', // Purple / Violet
     textColor: 'text-purple-300',
@@ -110,6 +129,7 @@ export const SCHOOL_THEMES: Record<string, SchoolTheme> = {
     name: 'Nigromancia',
     nameEn: 'Necromancy',
     icon: NecromancyIcon,
+    vectorIcon: Skull,
     iconUrl: SCHOOL_IMAGE_MAP['Nigromancia'],
     hexColor: '#a855f7', // Deep Violet / Necrotic
     textColor: 'text-violet-300',
@@ -123,6 +143,7 @@ export const SCHOOL_THEMES: Record<string, SchoolTheme> = {
     name: 'Transmutación',
     nameEn: 'Transmutation',
     icon: TransmutationIcon,
+    vectorIcon: RefreshCw,
     iconUrl: SCHOOL_IMAGE_MAP['Transmutación'],
     hexColor: '#10b981', // Emerald / Alchemy
     textColor: 'text-emerald-300',
@@ -136,6 +157,7 @@ export const SCHOOL_THEMES: Record<string, SchoolTheme> = {
     name: 'Reflexión',
     nameEn: 'Reflection',
     icon: ReflectionIcon,
+    vectorIcon: Sparkles,
     iconUrl: SCHOOL_IMAGE_MAP['Reflexión'],
     hexColor: '#bafafd', // Ice Crystal Mint #bafafd
     textColor: 'text-[#bafafd]',

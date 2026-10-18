@@ -1,5 +1,12 @@
 import React from 'react';
-import { LucideIcon } from 'lucide-react';
+import {
+  User,
+  Crosshair,
+  Users,
+  HeartHandshake,
+  Box,
+  LucideIcon,
+} from 'lucide-react';
 import {
   SelfTargetIcon,
   EnemyTargetIcon,
@@ -14,10 +21,12 @@ export interface SpellTargetInfo {
   name: string;
   nameEn: string;
   icon: React.FC<{ className?: string; style?: React.CSSProperties }> | LucideIcon;
+  vectorIcon: LucideIcon;
   color: string;
   textColor: string;
   bgColor: string;
   borderColor: string;
+  accentGlow: string;
   description: string;
   descriptionEn: string;
 }
@@ -36,10 +45,12 @@ export const SPELL_TARGET_OPTIONS: SpellTargetInfo[] = [
     name: 'Propio',
     nameEn: 'Self',
     icon: SelfTargetIcon,
+    vectorIcon: User,
     color: '#38bdf8',
     textColor: 'text-sky-400',
     bgColor: 'bg-sky-950/40',
     borderColor: 'border-sky-500/40',
+    accentGlow: 'rgba(56, 189, 248, 0.75)',
     description: 'Hechizos que afectan al propio lanzador (Personal, movilidad, defensas personales o auras).',
     descriptionEn: 'Spells that target the caster (Self, personal mobility, personal defense or auras).',
   },
@@ -48,10 +59,12 @@ export const SPELL_TARGET_OPTIONS: SpellTargetInfo[] = [
     name: 'Enemigo',
     nameEn: 'Enemy',
     icon: EnemyTargetIcon,
+    vectorIcon: Crosshair,
     color: '#f87171',
     textColor: 'text-rose-400',
     bgColor: 'bg-rose-950/40',
     borderColor: 'border-rose-500/40',
+    accentGlow: 'rgba(248, 113, 113, 0.75)',
     description: 'Hechizos dirigidos a un único objetivo enemigo (ataques directos, maleficios o control).',
     descriptionEn: 'Spells targeting a single hostile enemy (direct spell attacks, single-target saves or debuffs).',
   },
@@ -60,10 +73,12 @@ export const SPELL_TARGET_OPTIONS: SpellTargetInfo[] = [
     name: 'Enemigos',
     nameEn: 'Enemies',
     icon: EnemiesTargetIcon,
+    vectorIcon: Users,
     color: '#fb923c',
     textColor: 'text-amber-400',
     bgColor: 'bg-amber-950/40',
     borderColor: 'border-amber-500/40',
+    accentGlow: 'rgba(251, 146, 60, 0.75)',
     description: 'Hechizos de área o múltiples objetivos hostiles (esferas, conos, líneas o proyectiles múltiples).',
     descriptionEn: 'Area of effect spells or multiple hostile targets (spheres, cones, lines, multiple projectiles).',
   },
@@ -72,10 +87,12 @@ export const SPELL_TARGET_OPTIONS: SpellTargetInfo[] = [
     name: 'Aliados',
     nameEn: 'Allies',
     icon: AlliesTargetIcon,
+    vectorIcon: HeartHandshake,
     color: '#4ade80',
     textColor: 'text-emerald-400',
     bgColor: 'bg-emerald-950/40',
     borderColor: 'border-emerald-500/40',
+    accentGlow: 'rgba(74, 222, 128, 0.75)',
     description: 'Hechizos para ayudar o fortalecer compañeros (curación, mejoras tácticas, protección y bendiciones).',
     descriptionEn: 'Spells to assist or strengthen party members (healing, tactical buffs, protection, and blessings).',
   },
@@ -84,10 +101,12 @@ export const SPELL_TARGET_OPTIONS: SpellTargetInfo[] = [
     name: 'Objeto',
     nameEn: 'Object',
     icon: ObjectTargetIcon,
+    vectorIcon: Box,
     color: '#c084fc',
     textColor: 'text-purple-400',
     bgColor: 'bg-purple-950/40',
     borderColor: 'border-purple-500/40',
+    accentGlow: 'rgba(192, 132, 252, 0.75)',
     description: 'Hechizos que afectan, manipulan, reparan o encantan objetos, armas, puertas y superficies.',
     descriptionEn: 'Spells affecting, manipulating, repairing, or enchanting objects, weapons, doors, and surfaces.',
   },

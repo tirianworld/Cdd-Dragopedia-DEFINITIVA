@@ -1,5 +1,6 @@
 // Official D&D 5e Spellbook Catalog with full Spanish descriptions
 import { Spell } from '../types';
+import { ASTRAEA_EMBLEM_BG3_DATA_URL } from './astraeaIconData';
 
 export const ALL_SPELLS: Spell[] = [
   {
@@ -9,7 +10,7 @@ export const ALL_SPELLS: Spell[] = [
     "level": 5,
     "school": "Evocación",
     "schoolEn": "Evocation",
-    "primordialMagic": "Magia Divina",
+    "primordialMagic": "Magia Áurea",
     "origin": "Celestial",
     "castingTime": "1 acción",
     "range": "Personal (radio de 9 m / 30 pies)",
@@ -27,9 +28,9 @@ export const ALL_SPELLS: Spell[] = [
     ],
     "damageType": "Curación",
     "icon": "bendicion_astraea",
-    "iconUrl": "https://bg3.wiki/w/images/c/c4/Bless_Icon.webp",
-    "bg3IconUrl": "https://bg3.wiki/w/images/c/c4/Bless_Icon.webp",
-    "bg3IconName": "Bless Icon.webp",
+    "iconUrl": ASTRAEA_EMBLEM_BG3_DATA_URL,
+    "bg3IconUrl": ASTRAEA_EMBLEM_BG3_DATA_URL,
+    "bg3IconName": "icono bendicion de la dama astraea.png",
     "color": "#facc15",
     "version": "ambas",
     "source": "Dracopedia / Grimorio Sagrado",

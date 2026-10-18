@@ -10,17 +10,68 @@ interface OfficialSpellLineIconProps {
   onError?: () => void;
 }
 
-// Authentic Baldur's Gate 3 neon palette for each spell school
-const BG3_SCHOOL_COLORS: Record<string, { neon: string; light: string }> = {
-  'Abjuración': { neon: '#00e5ff', light: '#e0f7fa' }, // Electric Cyan (Animal Friendship / Escudos)
-  'Adivinación': { neon: '#ffc400', light: '#fff8e1' }, // Oro radiante (Guía / Vista Verdadera)
-  'Conjuración': { neon: '#00ff88', light: '#e8f5e9' }, // Verde menta vivo (Enredar / Niebla)
-  'Encantamiento': { neon: '#ff2a85', light: '#fce4ec' }, // Magenta místico (Hechizar / Sueño)
-  'Evocación': { neon: '#ff5500', light: '#fff3e0' }, // Naranja fuego radiante (Descarga / Rayo)
-  'Ilusión': { neon: '#b026ff', light: '#f3e5f5' }, // Violeta etéreo (Perdición / Disfraz)
-  'Nigromancia': { neon: '#d946ef', light: '#fdf4ff' }, // Fucsia necrótico (Toque Helado / Ceguera)
-  'Transmutación': { neon: '#10e78c', light: '#e6fffa' }, // Jade alquímico (Salto / Zancada)
-  'Reflexión': { neon: '#67e8f9', light: '#f0fdfa' }, // Diamante Dragón (Aura de Astraea)
+interface SchoolGlowStyle {
+  core: string; // The vibrant, high-brightness stroke color
+  mid: string;  // Saturated midtone for body and halo
+  rim: string;  // Deep, intense outline delineation
+}
+
+// Authentic Baldur's Gate 3 colored line-art palette matching user's reference images
+const BG3_GLOW_STYLES: Record<string, SchoolGlowStyle> = {
+  // Evocación (Fuego / Rayo solar / Destrucción)
+  'Evocación': {
+    core: '#ffaa33',
+    mid: '#ff6600',
+    rim: '#e62e00',
+  },
+  // Abjuración (Escudos / Rayo azul eléctrico - como en Imagen 1)
+  'Abjuración': {
+    core: '#38bdf8',
+    mid: '#0284c7',
+    rim: '#0369a1',
+  },
+  // Adivinación (Oro solar / Visión)
+  'Adivinación': {
+    core: '#fde047',
+    mid: '#eab308',
+    rim: '#ca8a04',
+  },
+  // Conjuración (Esmeralda / Menta viva)
+  'Conjuración': {
+    core: '#4ade80',
+    mid: '#16a34a',
+    rim: '#15803d',
+  },
+  // Encantamiento (Rosa fucsia místico / Hechizo)
+  'Encantamiento': {
+    core: '#f472b6',
+    mid: '#db2777',
+    rim: '#be185d',
+  },
+  // Ilusión (Violeta etéreo / Sombras)
+  'Ilusión': {
+    core: '#c084fc',
+    mid: '#9333ea',
+    rim: '#7e22ce',
+  },
+  // Nigromancia (Fucsia necrótico / Amatista oscuro)
+  'Nigromancia': {
+    core: '#e879f9',
+    mid: '#c026d3',
+    rim: '#a21caf',
+  },
+  // Transmutación (Jade alquímico / Metamorfosis)
+  'Transmutación': {
+    core: '#34d399',
+    mid: '#059669',
+    rim: '#047857',
+  },
+  // Reflexión (Cian cristalino / Pluma caída - como en Imagen 2)
+  'Reflexión': {
+    core: '#67e8f9',
+    mid: '#06b6d4',
+    rim: '#0e7490',
+  },
 };
 
 /**
@@ -69,12 +120,11 @@ export function isOfficialDndLineIcon(
 }
 
 /**
- * Renders official D&D spellbook and created spell icons with the refined, calibrated
- * Baldur's Gate 3 aesthetic:
- * - Crisp, fine white centerline core
- * - Tight, saturated colored rim hugging the edges (not blurry or blown out)
- * - Gentle ambient falloff mimicking the authentic BG3 in-game spell icons
- * - Subtle floating arcane spark motes
+ * Renders spell icons with authentic Baldur's Gate 3 colored line-art style:
+ * - Entire stroke filled with vibrant thematic magical color (electric blue, cyan, etc.)
+ * - Deep, rich saturated outline delineation around the contours
+ * - Soft diffuse ambient aura radiating into the dark background
+ * - 100% original scale and proportions preserved
  */
 export const OfficialSpellLineIcon: React.FC<OfficialSpellLineIconProps> = ({
   iconUrl,
@@ -86,17 +136,22 @@ export const OfficialSpellLineIcon: React.FC<OfficialSpellLineIconProps> = ({
 }) => {
   const [hasError, setHasError] = useState(false);
   const theme = getSchoolTheme(school);
-  const palette = (school && BG3_SCHOOL_COLORS[school]) || {
-    neon: color || theme.hexColor,
-    light: '#ffffff',
+  const glow = (school && BG3_GLOW_STYLES[school]) || {
+    core: color || theme.hexColor,
+    mid: color || theme.hexColor,
+    rim: color || theme.hexColor,
   };
 
-  const neonColor = color || palette.neon;
+  if (color) {
+    glow.core = color;
+    glow.mid = color;
+    glow.rim = color;
+  }
 
   if (hasError) {
     return (
       <div className={`flex items-center justify-center ${className}`}>
-        <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: neonColor }}>
+        <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: glow.core }}>
           {school ? String(school).substring(0, 3) : 'D&D'}
         </span>
       </div>
@@ -116,36 +171,16 @@ export const OfficialSpellLineIcon: React.FC<OfficialSpellLineIconProps> = ({
         }}
       />
 
-      {/* BG3 Subtle Ambient Backlight: gentle, soft aura behind the subject (calibrated, not blinding) */}
+      {/* BG3 Subtle Ambient Backlight: gentle, soft aura behind the subject */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at 50% 45%, ${neonColor}18 0%, ${neonColor}06 42%, transparent 65%)`,
+          background: `radial-gradient(circle at 50% 50%, ${glow.mid}20 0%, ${glow.rim}08 45%, transparent 68%)`,
           mixBlendMode: 'screen',
         }}
       />
 
-      {/* BG3 Floating Arcane Motes / Mana Dust: delicate, subtle glowing specks */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div
-          className="absolute top-[20%] left-[16%] w-1 h-1 rounded-full bg-white"
-          style={{ boxShadow: `0 0 2px #ffffff, 0 0 4px ${neonColor}`, opacity: 0.55 }}
-        />
-        <div
-          className="absolute top-[34%] right-[15%] w-0.8 h-0.8 rounded-full bg-white"
-          style={{ boxShadow: `0 0 2px #ffffff, 0 0 3px ${neonColor}`, opacity: 0.45 }}
-        />
-        <div
-          className="absolute bottom-[22%] left-[24%] w-0.8 h-0.8 rounded-full bg-white"
-          style={{ boxShadow: `0 0 1.5px #ffffff, 0 0 3px ${neonColor}`, opacity: 0.4 }}
-        />
-        <div
-          className="absolute bottom-[26%] right-[20%] w-1 h-1 rounded-full bg-white"
-          style={{ boxShadow: `0 0 2px #ffffff, 0 0 4px ${neonColor}`, opacity: 0.5 }}
-        />
-      </div>
-
-      {/* Layer 1: Refined Soft Colored Aura (Tight, subtle falloff matching BG3) */}
+      {/* Layer 1: Soft Ambient Diffuse Glow (Halo exterior difuso) */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -157,14 +192,32 @@ export const OfficialSpellLineIcon: React.FC<OfficialSpellLineIconProps> = ({
           WebkitMaskRepeat: 'no-repeat',
           maskPosition: 'center',
           WebkitMaskPosition: 'center',
-          backgroundColor: neonColor,
-          filter: `drop-shadow(0 0 2.5px ${neonColor}) drop-shadow(0 0 5px ${neonColor}88)`,
+          backgroundColor: glow.mid,
+          filter: `drop-shadow(0 0 2.5px ${glow.mid}) drop-shadow(0 0 6px ${glow.rim}aa)`,
           opacity: 0.75,
           mixBlendMode: 'screen',
         }}
       />
 
-      {/* Layer 2: Crisp White Core with Tight Colored Rim (Exact look of BG3 icons) */}
+      {/* Layer 2: Deep Saturated Outline & Contour Delineation (Delineado profundo marcado) */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          maskImage: `url("${iconUrl}")`,
+          WebkitMaskImage: `url("${iconUrl}")`,
+          maskSize: 'contain',
+          WebkitMaskSize: 'contain',
+          maskRepeat: 'no-repeat',
+          WebkitMaskRepeat: 'no-repeat',
+          maskPosition: 'center',
+          WebkitMaskPosition: 'center',
+          backgroundColor: glow.rim,
+          filter: `drop-shadow(0 0 1px ${glow.rim}) drop-shadow(0 0 1.8px ${glow.rim})`,
+          opacity: 1,
+        }}
+      />
+
+      {/* Layer 3: Vibrant Luminous Core Stroke (Trazo vivo en color, idéntico a las imágenes de referencia) */}
       <div
         className="relative z-10 w-full h-full pointer-events-none"
         style={{
@@ -176,9 +229,9 @@ export const OfficialSpellLineIcon: React.FC<OfficialSpellLineIconProps> = ({
           WebkitMaskRepeat: 'no-repeat',
           maskPosition: 'center',
           WebkitMaskPosition: 'center',
-          backgroundColor: '#ffffff',
-          filter: `drop-shadow(0 0 1.2px ${neonColor})`,
-          opacity: 0.92,
+          background: `linear-gradient(135deg, ${glow.core} 0%, ${glow.mid} 100%)`,
+          filter: `drop-shadow(0 0 0.8px ${glow.core})`,
+          opacity: 0.95,
         }}
       />
     </div>

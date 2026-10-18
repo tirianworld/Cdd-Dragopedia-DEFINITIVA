@@ -1,4 +1,5 @@
 import bg3IconsData from './bg3Icons.json';
+import { ASTRAEA_EMBLEM_BG3_DATA_URL } from './astraeaIconData';
 
 export interface Bg3IconInfo {
   name: string;
@@ -11,9 +12,9 @@ const bg3Icons: Record<string, Bg3IconInfo> = bg3IconsData as Record<string, Bg3
 // Manual high-priority aliases for Baldur's Gate 3 spells
 const SPELL_TO_BG3_KEY: Record<string, string> = {
   // Special / Homebrew & Dragopedia Sacred Spells
-  'bendiciondeastraea': 'bless',
-  'bendicionastraea': 'bless',
-  'astraeasblessing': 'bless',
+  'bendiciondeastraea': ASTRAEA_EMBLEM_BG3_DATA_URL,
+  'bendicionastraea': ASTRAEA_EMBLEM_BG3_DATA_URL,
+  'astraeasblessing': ASTRAEA_EMBLEM_BG3_DATA_URL,
 
   // Cantrips
   'firebolt': 'firebolt',
@@ -383,6 +384,53 @@ export function sanitizeBg3Url(url: string | null | undefined): string | null {
     if (match) return match;
   }
   return url;
+}
+
+/**
+ * Checks whether a spell is an official spell implemented in Baldur's Gate 3.
+ * Spells that are table-top only (e.g. from Xanathar's, Tasha's, Wildemount, or high-level 7-9 spells
+ * not present in official BG3) return false.
+ */
+export function isOfficialBg3Spell(spell?: {
+  id?: string;
+  name?: string;
+  nameEn?: string;
+  source?: string;
+  bg3IconUrl?: string | null;
+  bg3IconName?: string | null;
+}): boolean {
+  if (!spell) return false;
+  const id = (spell.id || '').toLowerCase();
+  if (id.includes('astraea') || id.includes('bendicion-de-astraea')) return false;
+
+  const rawId = spell.id ? spell.id.replace(/^(xphb|tce|xge|egw|ggr|idrotf|ftd|scc|aag)-/, '') : '';
+  const candidates = [
+    rawId ? normalizeKey(rawId) : '',
+    spell.nameEn ? normalizeKey(spell.nameEn) : '',
+    spell.name ? normalizeKey(spell.name) : '',
+    spell.id ? normalizeKey(spell.id) : '',
+  ].filter(Boolean);
+
+  for (const cand of candidates) {
+    const mapped = SPELL_TO_BG3_KEY[cand];
+    if (mapped) {
+      if (mapped === 'astraea' || mapped.startsWith('data:') || mapped.startsWith('/')) continue;
+      if (bg3Icons[mapped]) return true;
+    }
+    if (bg3Icons[cand]) return true;
+  }
+
+  for (const cand of candidates) {
+    if (cand.length < 4) continue;
+    for (const [key] of Object.entries(bg3Icons)) {
+      if (key === cand) return true;
+      if ((key.startsWith(cand) || cand.startsWith(key)) && Math.abs(key.length - cand.length) <= 3) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
 
 /**

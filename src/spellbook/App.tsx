@@ -13,7 +13,8 @@ import { SpellListsView } from './components/SpellListsView';
 import { PublicGalleryView } from './components/PublicGalleryView';
 import { EditSpellListModal } from './components/EditSpellListModal';
 import { AddToListModal } from './components/AddToListModal';
-import { Character, FilterState, Spell, ViewTab, MagicSchool, DndClass, PrimordialMagic, GroupByDistribution, SpellFunctionality, SpellTarget, SpellList } from './types';
+import { PrimordialLoreModal } from './components/PrimordialLoreModal';
+import { Character, FilterState, Spell, ViewTab, MagicSchool, DndClass, PrimordialMagic, GroupByDistribution, SpellFunctionality, SpellTarget, SpellOrigin, SpellList } from './types';
 import { ALL_SPELLS } from './data/allSpells';
 import { DEFAULT_CHARACTERS } from './data/spells';
 import { DEFAULT_PUBLIC_LISTS } from './data/defaultPublicLists';
@@ -28,17 +29,23 @@ import {
   likePublicList,
   decodeListFromUrl,
 } from './services/spellListService';
-import { getSpellPrimordialMagic } from './data/primordialMagic';
+import { getSpellPrimordialMagic, PrimordialMagicInfo, PRIMORDIAL_MAGIC_MAP } from './data/primordialMagic';
 import { getSpellFunctionalities } from './data/spellFunctionalities';
 import { getSpellDamageTypes } from './data/damageTypes';
 import { getSpellTargets } from './data/spellTargets';
+import { getSpellOrigin, SPELL_ORIGIN_OPTIONS } from './data/spellOrigins';
 import { sanitizeBg3Url } from './data/bg3IconHelper';
 import { githubService, GitHubSaveResult } from './services/githubService';
-import { Sparkles, BookOpen, AlertCircle, CheckCircle2, Wand2, Compass, Edit3, PlusCircle, Type, X, Image as ImageIcon } from 'lucide-react';
-import { useVisualEditor } from '../context/VisualEditorContext';
-import { useUIContent } from '../context/UIContentContext';
-import { ArtGalleryPickerModal } from '../components/ArtGalleryPickerModal';
-import { EditableText } from '../components/webbuilder/EditableText';
+import {
+  safeLocalStorageGet,
+  safeLocalStorageSet,
+  purgeObsoleteStorage,
+  saveSpellsToIDB,
+  loadSpellsFromIDB,
+  saveCharactersToIDB,
+  loadCharactersFromIDB,
+} from './services/storageHelper';
+import { Sparkles, BookOpen, AlertCircle, CheckCircle2, Wand2, Compass } from 'lucide-react';
 
 const STORAGE_KEYS = {
   SPELLS: 'spellbook_dnd_spells_v2',
@@ -102,25 +109,23 @@ function normalizeSchool(name: string): string {
   return SCHOOL_NORM_MAP[clean] || clean;
 }
 
+// Purge obsolete and heavy legacy cache keys on initial script evaluation
+purgeObsoleteStorage();
+
 export interface SpellbookAppProps {
   initialSearch?: string;
   initialSpellId?: string;
 }
 
 export default function App({ initialSearch = '', initialSpellId }: SpellbookAppProps = {}) {
-  // Visual Editor Integration from Wiki
-  const { isVisualEditMode, setIsVisualEditMode, showToast: showVisualToast } = useVisualEditor();
-  const { setIsUIInspectorOpen } = useUIContent();
-  const [customSpellInitialData, setCustomSpellInitialData] = useState<Partial<Spell> | null>(null);
-
   // Version and Language state
   const [version, setVersion] = useState<'2014' | '2024'>(() => {
-    const saved = localStorage.getItem(STORAGE_KEYS.VERSION);
+    const saved = safeLocalStorageGet(STORAGE_KEYS.VERSION);
     return saved === '2024' ? '2024' : '2014';
   });
 
   const [language, setLanguage] = useState<'es' | 'en'>(() => {
-    const saved = localStorage.getItem(STORAGE_KEYS.LANG);
+    const saved = safeLocalStorageGet(STORAGE_KEYS.LANG);
     return saved === 'en' ? 'en' : 'es';
   });
 
@@ -129,9 +134,6 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
 
   // Embed modal state
   const [isEmbedModalOpen, setIsEmbedModalOpen] = useState(false);
-
-  // Gallery Picker modal state
-  const [showGalleryPicker, setShowGalleryPicker] = useState(false);
 
   // Secret Easter Egg: Custom spell creation unlocked only by pressing Space 10 times in 2 seconds
   const [isCustomSpellUnlocked, setIsCustomSpellUnlocked] = useState(false);
@@ -155,10 +157,10 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
   // Active spell being edited in modal
   const [editingSpell, setEditingSpell] = useState<Spell | null>(null);
 
-  // Master spells state (all 525 official spells + custom/edited homebrew)
+  // Master spells state (all official spells + custom/edited homebrew)
   const [spells, setSpells] = useState<Spell[]>(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEYS.SPELLS);
+      const saved = safeLocalStorageGet(STORAGE_KEYS.SPELLS);
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -203,7 +205,7 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
   // Characters state
   const [characters, setCharacters] = useState<Character[]>(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEYS.CHARACTERS);
+      const saved = safeLocalStorageGet(STORAGE_KEYS.CHARACTERS);
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) return parsed;
@@ -216,12 +218,50 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
 
   // Active Character
   const [activeCharacterId, setActiveCharacterId] = useState<string>(() => {
-    const saved = localStorage.getItem(STORAGE_KEYS.ACTIVE_CHAR);
+    const saved = safeLocalStorageGet(STORAGE_KEYS.ACTIVE_CHAR);
     return saved || DEFAULT_CHARACTERS[0]?.id || 'char-1';
   });
 
+  // Hydrate custom spells and characters from IndexedDB in case localStorage hit quotas
+  useEffect(() => {
+    loadSpellsFromIDB().then((idbSpells) => {
+      if (idbSpells && idbSpells.length > 0) {
+        setSpells((prev) => {
+          const map = new Map<string, Spell>();
+          prev.forEach((s) => map.set(s.id, s));
+          let changed = false;
+          idbSpells.forEach((s) => {
+            if (!map.has(s.id) || s.isCustom || s.isEdited) {
+              map.set(s.id, { ...map.get(s.id), ...s });
+              changed = true;
+            }
+          });
+          return changed ? Array.from(map.values()) : prev;
+        });
+      }
+    });
+
+    loadCharactersFromIDB().then((idbChars) => {
+      if (idbChars && idbChars.length > 0) {
+        setCharacters((prev) => (prev.length === 0 ? idbChars : prev));
+      }
+    });
+  }, []);
+
   // Active Spell for Modal Detail
   const [activeSpellDetail, setActiveSpellDetail] = useState<Spell | null>(null);
+
+  // Active Primordial Lore Modal
+  const [activePrimordialLore, setActivePrimordialLore] = useState<PrimordialMagicInfo | null>(null);
+
+  const handleOpenPrimordialLore = (magic: PrimordialMagicInfo | PrimordialMagic) => {
+    if (typeof magic === 'string') {
+      const info = PRIMORDIAL_MAGIC_MAP[magic];
+      if (info) setActivePrimordialLore(info);
+    } else {
+      setActivePrimordialLore(magic);
+    }
+  };
 
   // Toast Notification state
   const [toastMessage, setToastMessage] = useState<{
@@ -237,117 +277,60 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
   };
 
   // Filter State
-  const [filterState, setFilterState] = useState<FilterState>(() => {
-    let startingQuery = initialSearch || '';
-    if (!startingQuery && typeof window !== 'undefined') {
-      try {
-        const params = new URLSearchParams(window.location.search);
-        startingQuery = params.get('q') || params.get('spell') || params.get('search') || '';
-      } catch {}
-    }
-    return {
-      search: startingQuery,
-      levels: [],
-      classes: [],
-      schools: [],
-      primordialMagics: [],
-      functionalities: [],
-      targets: [],
-      groupBy: 'primordial',
-      castingTime: '',
-      concentration: null,
-      ritual: null,
-      components: {
-        verbal: false,
-        somatic: false,
-        material: false,
-      },
-      damageTypes: [],
-      damageType: '',
-      sortBy: 'level-asc',
-      onlyPrepared: false,
-      onlyFavorites: false,
-      onlySpellbook: false,
-      onlyCustom: false,
-      onlyVanilla: false,
-    };
+  const [filterState, setFilterState] = useState<FilterState>({
+    search: '',
+    levels: [],
+    classes: [],
+    schools: [],
+    primordialMagics: [],
+    functionalities: [],
+    targets: [],
+    origins: [],
+    groupBy: 'primordial',
+    castingTime: '',
+    concentration: null,
+    ritual: null,
+    components: {
+      verbal: false,
+      somatic: false,
+      material: false,
+    },
+    damageTypes: [],
+    damageType: '',
+    sortBy: 'level-asc',
+    onlyPrepared: false,
+    onlyFavorites: false,
+    onlySpellbook: false,
+    onlyCustom: false,
+    onlyVanilla: false,
   });
 
-  // Sync initialSearch if passed or changed
+  // Persist State safely without crashing on quota exceeded
   useEffect(() => {
-    if (initialSearch !== undefined && initialSearch !== filterState.search) {
-      setFilterState((prev) => ({ ...prev, search: initialSearch }));
-    }
-  }, [initialSearch]);
-
-  // Auto-open spell if initialSpellId or exact query matches
-  useEffect(() => {
-    if (spells.length === 0) return;
-    try {
-      const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
-      const spellId = initialSpellId || (params ? params.get('id') : null);
-      if (spellId) {
-        const found = spells.find((s) => s.id === spellId);
-        if (found) {
-          setActiveSpellDetail(found);
-          return;
-        }
-      }
-      const query = initialSearch || (params ? (params.get('q') || params.get('spell') || params.get('search')) : '') || '';
-      if (query && query.trim()) {
-        const clean = query.trim().toLowerCase();
-        const found = spells.find(
-          (s) => s.name.toLowerCase() === clean || (s.nameEn && s.nameEn.toLowerCase() === clean)
-        );
-        if (found) {
-          setActiveSpellDetail(found);
-        }
-      }
-    } catch {}
-  }, [spells, initialSearch, initialSpellId]);
-
-  // Persist State
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.VERSION, version);
+    safeLocalStorageSet(STORAGE_KEYS.VERSION, version);
   }, [version]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.LANG, language);
+    safeLocalStorageSet(STORAGE_KEYS.LANG, language);
   }, [language]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.ACTIVE_CHAR, activeCharacterId);
+    safeLocalStorageSet(STORAGE_KEYS.ACTIVE_CHAR, activeCharacterId);
   }, [activeCharacterId]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.CHARACTERS, JSON.stringify(characters));
+    safeLocalStorageSet(STORAGE_KEYS.CHARACTERS, JSON.stringify(characters));
+    saveCharactersToIDB(characters);
   }, [characters]);
 
   useEffect(() => {
     const customAndEdited = spells.filter((s) => s.isCustom || s.isEdited);
-    localStorage.setItem(STORAGE_KEYS.SPELLS, JSON.stringify(customAndEdited));
+    safeLocalStorageSet(STORAGE_KEYS.SPELLS, JSON.stringify(customAndEdited));
+    saveSpellsToIDB(customAndEdited);
   }, [spells]);
 
   // Sincronizar automáticamente con el repositorio GitHub de la Dragopedia si está disponible
   useEffect(() => {
-    // 1. Fetch server custom & edited spells
-    fetch('/api/spellbook/custom-spells')
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data && Array.isArray(data.spells) && data.spells.length > 0) {
-          setSpells((prev) => {
-            const map = new Map<string, Spell>();
-            prev.forEach((s) => map.set(s.id, s));
-            data.spells.forEach((s: Spell) => {
-              map.set(s.id, { ...map.get(s.id), ...s });
-            });
-            return Array.from(map.values());
-          });
-        }
-      })
-      .catch(() => {});
-
-    // 2. Fetch remote spells from GitHub repository if configured
     githubService
       .getRemoteSpellsFile()
       .then(({ spells: remoteSpells }) => {
@@ -438,20 +421,6 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
-
-  // Event listener to open custom spell modal from Visual Editor HUD or external components
-  useEffect(() => {
-    const handleOpenCustom = (e: any) => {
-      if (e && e.detail) {
-        setCustomSpellInitialData(e.detail);
-      } else {
-        setCustomSpellInitialData(null);
-      }
-      setCurrentTab('custom');
-    };
-    window.addEventListener('open_custom_spell_modal', handleOpenCustom);
-    return () => window.removeEventListener('open_custom_spell_modal', handleOpenCustom);
   }, []);
 
   // Fetch live public lists & inspect URL for shared spell lists
@@ -783,14 +752,6 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
     }
     setCurrentTab('catalog');
     showToast(`✨ Hechizo "${newSpell.name}" guardado y añadido a tu grimorio!`, 'success');
-    showVisualToast?.(`✨ Nuevo Hechizo "${newSpell.name}" creado con éxito`, 'success');
-
-    // Also persist to server
-    fetch('/api/spellbook/save-spell', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newSpell),
-    }).catch(() => {});
   };
 
   // Open spell editor for modifying existing or custom spell
@@ -815,113 +776,7 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
     }
 
     showToast(`✨ Hechizo "${updatedSpell.name}" guardado exitosamente`, 'success');
-    showVisualToast?.(`✨ Conjuro "${updatedSpell.name}" actualizado con éxito`, 'success');
-
-    // Also persist to server
-    fetch('/api/spellbook/save-spell', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedSpell),
-    }).catch(() => {});
   };
-
-  // Duplicate spell as a homebrew custom spell variant
-  const handleDuplicateSpell = (spellToDuplicate: Spell) => {
-    const duplicated: Spell = {
-      ...spellToDuplicate,
-      id: `spell-custom-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-      name: `${spellToDuplicate.name} (Copia)`,
-      nameEn: spellToDuplicate.nameEn ? `${spellToDuplicate.nameEn} (Copy)` : `${spellToDuplicate.name} (Copy)`,
-      isCustom: true,
-      source: 'Homebrew',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-
-    setSpells((prev) => [duplicated, ...prev]);
-    setEditingSpell(duplicated);
-    showToast(`✨ Conjuro duplicado como "${duplicated.name}". Abriendo editor...`, 'success');
-    showVisualToast?.(`✨ Conjuro duplicado con éxito.`, 'success');
-
-    fetch('/api/spellbook/save-spell', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(duplicated),
-    }).catch(() => {});
-  };
-
-  // Delete a custom or edited spell
-  const handleDeleteSpell = (spellId: string) => {
-    const target = spells.find((s) => s.id === spellId);
-    setSpells((prev) => prev.filter((s) => s.id !== spellId));
-    if (activeSpellDetail?.id === spellId) {
-      setActiveSpellDetail(null);
-    }
-    if (editingSpell?.id === spellId) {
-      setEditingSpell(null);
-    }
-
-    setCharacters((prev) =>
-      prev.map((c) => ({
-        ...c,
-        knownSpellIds: c.knownSpellIds.filter((id) => id !== spellId),
-        preparedSpellIds: c.preparedSpellIds.filter((id) => id !== spellId),
-        favoriteSpellIds: c.favoriteSpellIds.filter((id) => id !== spellId),
-      }))
-    );
-
-    setUserSpellLists((prev) =>
-      prev.map((l) => ({
-        ...l,
-        spellIds: l.spellIds.filter((id) => id !== spellId),
-      }))
-    );
-
-    fetch('/api/spellbook/delete-spell', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: spellId }),
-    }).catch(() => {});
-
-    showToast(target ? `Conjuro "${target.name}" eliminado.` : 'Conjuro eliminado.', 'info');
-    showVisualToast?.('Conjuro eliminado del compendio.', 'info');
-  };
-
-  // Sync external spell events from VisualEditorHUD or other components
-  useEffect(() => {
-    const handleExternalSpellSaved = (e: any) => {
-      if (!e.detail) return;
-      const savedSpell = e.detail as Spell;
-      setSpells((prev) => {
-        const idx = prev.findIndex((s) => s.id === savedSpell.id);
-        if (idx >= 0) {
-          const copy = [...prev];
-          copy[idx] = savedSpell;
-          return copy;
-        }
-        return [savedSpell, ...prev];
-      });
-      if (activeSpellDetail?.id === savedSpell.id) {
-        setActiveSpellDetail(savedSpell);
-      }
-    };
-
-    const handleExternalSpellDeleted = (e: any) => {
-      if (!e.detail?.id) return;
-      const delId = e.detail.id;
-      setSpells((prev) => prev.filter((s) => s.id !== delId));
-      if (activeSpellDetail?.id === delId) {
-        setActiveSpellDetail(null);
-      }
-    };
-
-    window.addEventListener('spellbook_spell_saved', handleExternalSpellSaved);
-    window.addEventListener('spellbook_spell_deleted', handleExternalSpellDeleted);
-    return () => {
-      window.removeEventListener('spellbook_spell_saved', handleExternalSpellSaved);
-      window.removeEventListener('spellbook_spell_deleted', handleExternalSpellDeleted);
-    };
-  }, [activeSpellDetail]);
 
   // GitHub sync success notification
   const handleSaveGitHubSuccess = (result: GitHubSaveResult) => {
@@ -1024,6 +879,21 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
     setFilterState((prev) => ({ ...prev, targets: [] }));
   };
 
+  const handleToggleOriginFromSidebar = (origin: SpellOrigin) => {
+    setFilterState((prev) => {
+      const current = prev.origins || [];
+      const exists = current.includes(origin);
+      return {
+        ...prev,
+        origins: exists ? current.filter((o) => o !== origin) : [...current, origin],
+      };
+    });
+  };
+
+  const handleClearOriginsFromSidebar = () => {
+    setFilterState((prev) => ({ ...prev, origins: [] }));
+  };
+
   // Filter and Sort Spells
   const filteredSpells = useMemo(() => {
     return spells
@@ -1103,6 +973,18 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
           const spellTargets = getSpellTargets(s);
           const hasMatchingTarget = filterState.targets.some((t) => spellTargets.includes(t));
           if (!hasMatchingTarget) return false;
+        }
+
+        // Origen (Origins) filter: Infernal, Celestial, Elemental, Feérica, Shadowfell, Onírico, Astral
+        if (filterState.origins && filterState.origins.length > 0) {
+          const spellOrigin = getSpellOrigin(s);
+          if (!spellOrigin) return false;
+          const hasMatchingOrigin = filterState.origins.some((orig) => {
+            if ((orig === 'Feérica' || orig === 'Feérico') && (spellOrigin === 'Feérica' || spellOrigin === 'Feérico')) return true;
+            if ((orig === 'Onírico' || (orig as string) === 'Onirico') && (spellOrigin === 'Onírico' || (spellOrigin as string) === 'Onirico')) return true;
+            return orig === spellOrigin;
+          });
+          if (!hasMatchingOrigin) return false;
         }
 
         // Concentration
@@ -1190,6 +1072,9 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
         selectedTargets={filterState.targets}
         onToggleTarget={handleToggleTargetFromSidebar}
         onClearTargets={handleClearTargetsFromSidebar}
+        selectedOrigins={filterState.origins}
+        onToggleOrigin={handleToggleOriginFromSidebar}
+        onClearOrigins={handleClearOriginsFromSidebar}
         selectedDamageType={filterState.damageType || null}
         selectedDamageTypes={filterState.damageTypes}
         onToggleDamageType={handleToggleDamageTypeFromSidebar}
@@ -1204,6 +1089,7 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
         selectedPrimordials={filterState.primordialMagics}
         onTogglePrimordial={handleTogglePrimordialFromSidebar}
         onClearPrimordials={handleClearPrimordialsFromSidebar}
+        onOpenPrimordialLore={handleOpenPrimordialLore}
         groupBy={filterState.groupBy || 'level'}
         onGroupByChange={(mode) => setFilterState((prev) => ({ ...prev, groupBy: mode }))}
         activeCharacter={activeCharacter}
@@ -1212,7 +1098,7 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
         isOpenMobile={isMobileSidebarOpen}
         onCloseMobile={() => setIsMobileSidebarOpen(false)}
         onOpenEmbedModal={() => setIsEmbedModalOpen(true)}
-        isCustomSpellUnlocked={isCustomSpellUnlocked || isVisualEditMode}
+        isCustomSpellUnlocked={isCustomSpellUnlocked}
         listsCount={userSpellLists.length}
       />
 
@@ -1237,75 +1123,6 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
 
         {/* Page Content Container - Full Screen Width */}
         <main className="flex-1 w-full px-4 sm:px-6 lg:px-8 xl:px-10 py-6 space-y-7">
-          {/* Visual Editor Mode Active Banner */}
-          {isVisualEditMode && (
-            <div className="rounded-2xl border-2 border-primary/50 bg-gradient-to-r from-primary/15 via-[#101c24] to-primary/10 p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4 shadow-2xl backdrop-blur-md animate-in fade-in">
-              <div className="flex items-center gap-3.5">
-                <div className="p-2.5 rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/20">
-                  <Edit3 className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-sm font-bold text-foreground font-heading uppercase tracking-wide">
-                      Modo de Edición Visual: <span className="text-primary">Libro de Hechizos</span>
-                    </h2>
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/40">
-                      Grimorio Editable
-                    </span>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    {language === 'es'
-                      ? 'Haz clic en el botón ✏️ de cualquier tarjeta para editar estadísticas y reglas, o crea conjuros caseros directamente.'
-                      : 'Click the ✏️ button on any card to edit stats and rules, or create custom spells directly.'}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2.5 flex-wrap">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCustomSpellInitialData(null);
-                    setCurrentTab('custom');
-                  }}
-                  className="px-3.5 py-1.5 rounded-xl bg-primary hover:opacity-90 text-primary-foreground font-bold text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer"
-                >
-                  <PlusCircle className="w-4 h-4" />
-                  <span>{language === 'es' ? '+ Nuevo Conjuro' : '+ New Spell'}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setShowGalleryPicker(true)}
-                  className="px-3.5 py-1.5 rounded-xl bg-secondary hover:bg-secondary/80 text-foreground border border-border font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
-                  title="Galería de Ilustraciones de la Wiki"
-                >
-                  <ImageIcon className="w-3.5 h-3.5 text-primary" />
-                  <span>{language === 'es' ? 'Galería de Arte' : 'Art Gallery'}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setIsUIInspectorOpen(true)}
-                  className="px-3.5 py-1.5 rounded-xl bg-secondary hover:bg-secondary/80 text-foreground border border-border font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
-                >
-                  <Type className="w-3.5 h-3.5 text-primary" />
-                  <span>{language === 'es' ? 'Gestor de Textos' : 'UI Texts'}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setIsVisualEditMode(false)}
-                  className="px-3 py-1.5 rounded-xl bg-secondary/80 hover:bg-destructive/20 hover:text-destructive hover:border-destructive/40 text-muted-foreground border border-border text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
-                  title="Salir del modo edición visual"
-                >
-                  <X className="w-3.5 h-3.5" />
-                  <span>{language === 'es' ? 'Salir del Modo' : 'Exit Mode'}</span>
-                </button>
-              </div>
-            </div>
-          )}
-
           {/* Tab: Catalog (All Spells) or Spellbook */}
           {(currentTab === 'catalog' || currentTab === 'spellbook') && (
             <div className="space-y-7">
@@ -1358,21 +1175,16 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
                 hasActiveCharacter={Boolean(activeCharacter)}
                 activeCharacterName={activeCharacter?.name}
                 totalFiltered={filteredSpells.length}
+                onOpenPrimordialLore={handleOpenPrimordialLore}
               />
 
               {/* Section 3: Spells Presentation (Always Icon Grid) */}
               <div>
                 <div className="flex items-center justify-between mb-3 px-1">
                   <h3 className="font-heading text-sm sm:text-base font-bold tracking-widest text-slate-100 uppercase">
-                    <EditableText
-                      textKey={currentTab === 'spellbook' ? 'spellbook_personal_header' : 'spellbook_catalog_header'}
-                      defaultValue={
-                        currentTab === 'spellbook'
-                          ? (language === 'es' ? 'HECHIZOS EN TU GRIMORIO' : 'SPELLS IN YOUR SPELLBOOK')
-                          : (language === 'es' ? 'CATÁLOGO DE CONJUROS' : 'SPELLS CATALOG')
-                      }
-                      label="Título de la Sección de Hechizos"
-                    />
+                    {currentTab === 'spellbook'
+                      ? (language === 'es' ? 'HECHIZOS EN TU GRIMORIO' : 'SPELLS IN YOUR SPELLBOOK')
+                      : (language === 'es' ? 'CATÁLOGO DE CONJUROS' : 'SPELLS CATALOG')}
                   </h3>
                   <span className="text-xs text-slate-400 font-mono">
                     {filteredSpells.length} {language === 'es' ? 'conjuros encontrados' : 'spells found'}
@@ -1392,13 +1204,7 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
                     onEditSpell={handleOpenEditSpell}
                     onAddToList={(s) => setSpellToAddToList(s)}
                     groupBy={filterState.groupBy || 'level'}
-                    isVisualEditMode={isVisualEditMode}
-                    onDuplicateSpell={handleDuplicateSpell}
-                    onDeleteSpell={handleDeleteSpell}
-                    onCreateCustomSpell={(initialData) => {
-                      setCustomSpellInitialData(initialData || null);
-                      setCurrentTab('custom');
-                    }}
+                    onOpenPrimordialLore={handleOpenPrimordialLore}
                   />
                 ) : (
                   <div className="text-center py-16 px-4 bg-[#10181e] rounded-2xl border border-[#1b2a33] space-y-3">
@@ -1422,6 +1228,7 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
                           primordialMagics: [],
                           functionalities: [],
                           targets: [],
+                          origins: [],
                           groupBy: 'primordial',
                           castingTime: '',
                           concentration: null,
@@ -1477,12 +1284,8 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
           {currentTab === 'custom' && (
             <CustomSpellModal
               onSave={handleSaveCustomSpell}
-              onCancel={() => {
-                setCustomSpellInitialData(null);
-                setCurrentTab('catalog');
-              }}
+              onCancel={() => setCurrentTab('catalog')}
               language={language}
-              initialData={customSpellInitialData}
             />
           )}
 
@@ -1562,14 +1365,26 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
             onEditSpell={(s) => {
               handleOpenEditSpell(s);
             }}
-            onSaveSpell={handleSaveEditedSpell}
-            onDuplicateSpell={handleDuplicateSpell}
-            onDeleteSpell={handleDeleteSpell}
             onAddToList={(s) => {
               setSpellToAddToList(s);
             }}
+            onOpenPrimordialLore={handleOpenPrimordialLore}
           />
         )}
+
+        {/* Primordial Magic Lore Modal (Dracopedia Canonical Lore & 2ª Generación) */}
+        <PrimordialLoreModal
+          primordial={activePrimordialLore}
+          onClose={() => setActivePrimordialLore(null)}
+          language={language}
+          onFilterByThisMagic={(magicName) => {
+            setFilterState((prev) => ({
+              ...prev,
+              primordialMagics: [magicName as PrimordialMagic],
+            }));
+            if (currentTab !== 'catalog') setCurrentTab('catalog');
+          }}
+        />
 
         {/* Spell Edit Modal with GitHub sync */}
         {editingSpell && (
@@ -1672,19 +1487,6 @@ export default function App({ initialSearch = '', initialSpellId }: SpellbookApp
               </p>
             </div>
           </div>
-        )}
-        {/* Art Gallery Picker Modal */}
-        {showGalleryPicker && (
-          <ArtGalleryPickerModal
-            isOpen={showGalleryPicker}
-            onClose={() => setShowGalleryPicker(false)}
-            onSelectImage={(imageUrl) => {
-              setShowGalleryPicker(false);
-              navigator.clipboard?.writeText(imageUrl);
-              showToast('URL de la ilustración copiada al portapapeles.', 'success');
-              showVisualToast?.('Ilustración seleccionada de la Galería de Arte.', 'success');
-            }}
-          />
         )}
       </div>
     </div>

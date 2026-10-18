@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Spell, Character, GroupByDistribution } from '../types';
 import { SpellIcon } from './SpellIcon';
-import { ChevronDown, ChevronUp, Star, Check, Bookmark, Sparkles, FolderTree, Edit3, Plus, Copy, Trash2 } from 'lucide-react';
-import { getSpellPrimordialMagic, PRIMORDIAL_MAGICS } from '../data/primordialMagic';
+import { ChevronDown, ChevronUp, Star, Check, Bookmark, Sparkles, FolderTree, BookOpen } from 'lucide-react';
+import { getSpellPrimordialMagic, PRIMORDIAL_MAGICS, PrimordialMagicInfo } from '../data/primordialMagic';
 import { ALL_SCHOOLS } from '../data/spells';
 import { getSchoolTheme } from '../data/schools';
+import { getSpellOrigin, SPELL_ORIGIN_OPTIONS } from '../data/spellOrigins';
+import { isOfficialBg3Spell } from '../data/bg3IconHelper';
 
 interface SpellGridProps {
   spells: Spell[];
@@ -16,12 +18,9 @@ interface SpellGridProps {
   onToggleFavorite?: (spellId: string) => void;
   onCastSpell?: (spell: Spell) => void;
   onEditSpell?: (spell: Spell) => void;
-  onDuplicateSpell?: (spell: Spell) => void;
-  onDeleteSpell?: (spellId: string) => void;
   onAddToList?: (spell: Spell) => void;
   groupBy?: GroupByDistribution;
-  isVisualEditMode?: boolean;
-  onCreateCustomSpell?: (initialData?: Partial<Spell>) => void;
+  onOpenPrimordialLore?: (magic: PrimordialMagicInfo) => void;
 }
 
 const LEVEL_NAMES_ES: Record<number, string> = {
@@ -77,6 +76,7 @@ interface GroupSection {
     interactions?: string;
     canonicalId?: string;
   };
+  primordialInfo?: PrimordialMagicInfo;
 }
 
 export const SpellGrid: React.FC<SpellGridProps> = ({
@@ -89,12 +89,9 @@ export const SpellGrid: React.FC<SpellGridProps> = ({
   onToggleFavorite,
   onCastSpell,
   onEditSpell,
-  onDuplicateSpell,
-  onDeleteSpell,
   onAddToList,
   groupBy = 'level',
-  isVisualEditMode = false,
-  onCreateCustomSpell,
+  onOpenPrimordialLore,
 }) => {
   const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
 
@@ -110,12 +107,21 @@ export const SpellGrid: React.FC<SpellGridProps> = ({
     if (groupBy === 'primordial') {
       return PRIMORDIAL_MAGICS.map((p) => {
         const list = spells.filter((s) => getSpellPrimordialMagic(s) === p.name);
+        const isSecondGen = p.generation === 2;
         return {
           id: p.name,
-          title: p.name,
+          title: isSecondGen ? `2ª Generación • ${p.name}` : p.name,
+          subtitle: isSecondGen
+            ? 'Fusión Divina + Natural • Epicentro: Árbol Áureo de Ávalon'
+            : p.domain,
+          badgeText: isSecondGen ? '2ª Gen • Fusión' : '1ª Gen',
+          badgeColor: isSecondGen
+            ? 'bg-[#221b0e] text-amber-300 border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.25)]'
+            : 'bg-[#14282c] text-[#bafafd] border-[#bafafd]/35',
           count: list.length,
           spells: list,
           icon: p.icon,
+          primordialInfo: p,
         };
       }).filter((section) => section.spells.length > 0);
     }
@@ -148,6 +154,45 @@ export const SpellGrid: React.FC<SpellGridProps> = ({
             : undefined,
         };
       }).filter((section) => section.spells.length > 0);
+    }
+
+    if (groupBy === 'origin') {
+      const originSections: GroupSection[] = SPELL_ORIGIN_OPTIONS.map((orig) => {
+        const list = spells.filter((s) => {
+          const so = getSpellOrigin(s);
+          if ((orig.name === 'Feérica' || orig.name === 'Feérico') && (so === 'Feérica' || so === 'Feérico')) return true;
+          if ((orig.name === 'Onírico' || (orig.name as string) === 'Onirico') && (so === 'Onírico' || (so as string) === 'Onirico')) return true;
+          return so === orig.name;
+        });
+        return {
+          id: orig.name,
+          title: language === 'es' ? `Origen • ${orig.name}` : `Origin • ${orig.nameEn}`,
+          subtitle: language === 'es' ? orig.description : orig.descriptionEn,
+          badgeText: language === 'es' ? orig.name : orig.nameEn,
+          badgeColor: `${orig.bgColor} ${orig.textColor} ${orig.borderColor}`,
+          count: list.length,
+          spells: list,
+          icon: orig.icon,
+        };
+      }).filter((section) => section.spells.length > 0);
+
+      const unassignedSpells = spells.filter((s) => !getSpellOrigin(s));
+      if (unassignedSpells.length > 0) {
+        originSections.push({
+          id: 'Arcano-Comun',
+          title: language === 'es' ? 'Magia Arcana y Común' : 'Arcane & Common Magic',
+          subtitle: language === 'es'
+            ? 'Conjuros y trucos arcanos sin afiliación planar específica (hechicería pura, artificio y transmutaciones comunes)'
+            : 'Arcane and common spells with no specific planar affiliation (pure wizardry, common utility)',
+          badgeText: language === 'es' ? 'Arcano / Común' : 'Arcane / Common',
+          badgeColor: 'bg-[#14282c] text-[#bafafd] border-[#bafafd]/35',
+          count: unassignedSpells.length,
+          spells: unassignedSpells,
+          icon: FolderTree,
+        });
+      }
+
+      return originSections;
     }
 
     // Default: Group by Level (0-9)
@@ -214,28 +259,20 @@ export const SpellGrid: React.FC<SpellGridProps> = ({
               </div>
 
               <div className="flex items-center gap-2 text-slate-400 group-hover:text-slate-200 transition-colors shrink-0 ml-2">
-                {isVisualEditMode && onCreateCustomSpell && (
+                {section.primordialInfo && onOpenPrimordialLore && (
                   <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
-                      const initialData: Partial<Spell> = {};
-                      if (groupBy === 'level') {
-                        const lvlNum = parseInt(section.id, 10);
-                        if (!isNaN(lvlNum)) initialData.level = lvlNum;
-                      } else if (groupBy === 'school') {
-                        initialData.school = section.title as any;
-                      }
-                      onCreateCustomSpell(initialData);
+                      if (section.primordialInfo) onOpenPrimordialLore(section.primordialInfo);
                     }}
-                    className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-primary/20 hover:bg-primary text-primary hover:text-primary-foreground border border-primary/40 transition-colors shadow-xs cursor-pointer mr-1"
-                    title={language === 'es' ? 'Crear nuevo conjuro en esta sección' : 'Add new spell in this section'}
+                    className="px-2.5 py-1 rounded-lg bg-[#14232c] hover:bg-[#1c3340] text-[#bafafd] hover:text-white border border-[#213744] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer mr-1 shadow-xs"
+                    title={language === 'es' ? `Ver Lore de ${section.title}` : `View ${section.title} Lore`}
                   >
-                    <Plus className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">{language === 'es' ? 'Añadir' : 'Add'}</span>
+                    <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+                    <span className="hidden sm:inline">Lore</span>
                   </button>
                 )}
-
                 <span className="text-xs uppercase tracking-widest font-mono hidden md:inline opacity-70">
                   {isCollapsed
                     ? (language === 'es' ? 'Desplegar' : 'Expand')
@@ -256,16 +293,18 @@ export const SpellGrid: React.FC<SpellGridProps> = ({
                   const isKnown = activeCharacter?.knownSpellIds.includes(spell.id) ?? false;
                   const isPrepared = activeCharacter?.preparedSpellIds.includes(spell.id) ?? false;
                   const isFav = activeCharacter?.favoriteSpellIds.includes(spell.id) ?? false;
+                  const isBg3 = isOfficialBg3Spell(spell);
 
                   return (
                     <div
                       key={spell.id}
-                      className={`group relative flex flex-col items-center justify-between p-2.5 rounded-xl border bg-[#10181e] hover:bg-[#142129] transition-all cursor-pointer shadow-xs ${
-                        isVisualEditMode
-                          ? 'border-primary/40 hover:border-primary ring-1 ring-primary/25 hover:ring-2 hover:ring-primary shadow-md'
-                          : 'border-[#192731] hover:border-[#bafafd]/50'
+                      className={`group relative flex flex-col items-center justify-between p-2.5 rounded-xl border transition-all duration-300 cursor-pointer shadow-xs ${
+                        !isBg3
+                          ? 'border-[#15222b] bg-[#0c1318]/90 hover:border-[#bafafd]/50 hover:bg-[#142129]'
+                          : 'border-[#192731] bg-[#10181e] hover:border-[#bafafd]/50 hover:bg-[#142129]'
                       }`}
                       onClick={() => onOpenDetails(spell)}
+                      title={!isBg3 ? (language === 'es' ? 'D&D 5e (No oficial en Baldur\'s Gate 3)' : 'D&D 5e (Not in official Baldur\'s Gate 3)') : undefined}
                     >
                       {/* Top status badges */}
                       <div className="absolute top-2 right-2 z-20 flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
@@ -283,14 +322,6 @@ export const SpellGrid: React.FC<SpellGridProps> = ({
                             className="w-4 h-4 rounded-full bg-[#bafafd]/80 text-slate-950 flex items-center justify-center text-[10px] font-bold shadow-xs"
                           >
                             <Bookmark className="w-2.5 h-2.5" />
-                          </span>
-                        )}
-                        {(spell.isCustom || spell.source === 'Homebrew') && (
-                          <span
-                            title={language === 'es' ? 'Hechizo Creado' : 'Custom Spell'}
-                            className="w-4 h-4 rounded-full bg-purple-900/90 text-purple-300 border border-purple-500/50 flex items-center justify-center text-[10px] font-bold shadow-xs"
-                          >
-                            <Sparkles className="w-2.5 h-2.5" />
                           </span>
                         )}
                       </div>
@@ -315,7 +346,9 @@ export const SpellGrid: React.FC<SpellGridProps> = ({
                       )}
 
                       {/* Spell Icon Container */}
-                      <div className="relative mt-2 mb-1 p-1 rounded-xl bg-[#14232c] border border-[#213744] group-hover:border-[#bafafd]/50 transition-colors shadow-xs">
+                      <div className={`relative mt-2 mb-1 p-1 rounded-xl bg-[#14232c] border border-[#213744] group-hover:border-[#bafafd]/50 transition-all duration-300 shadow-xs ${
+                        !isBg3 ? 'filter blur-[0.6px] opacity-80 group-hover:blur-none group-hover:opacity-100' : ''
+                      }`}>
                         <SpellIcon spell={spell} size="md" />
 
                         {/* Corner Level / Cantrip tag */}
@@ -334,54 +367,14 @@ export const SpellGrid: React.FC<SpellGridProps> = ({
                             {spell.nameEn}
                           </p>
                         )}
+                        {!isBg3 && (
+                          <div className="mt-1">
+                            <span className="inline-block text-[8px] uppercase tracking-wider px-1.5 py-0.2 rounded-sm bg-[#090f13]/90 text-slate-400 border border-slate-700/40 font-mono group-hover:text-slate-300 transition-colors">
+                              5e Expandido
+                            </span>
+                          </div>
+                        )}
                       </div>
-
-                      {/* Visual Edit Action Buttons Bar on Card */}
-                      {isVisualEditMode && (
-                        <div className="absolute bottom-2 right-2 z-20 flex items-center gap-1">
-                          {onDuplicateSpell && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onDuplicateSpell(spell);
-                              }}
-                              className="p-1.5 rounded-lg bg-[#14232c] hover:bg-amber-600 hover:text-white text-slate-300 border border-[#213744] transition-all shadow-md cursor-pointer hover:scale-105"
-                              title={language === 'es' ? 'Duplicar como conjuro casero' : 'Duplicate as custom spell'}
-                            >
-                              <Copy className="w-3 h-3" />
-                            </button>
-                          )}
-                          {(spell.isCustom || spell.isEdited || spell.source === 'Homebrew') && onDeleteSpell && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                if (window.confirm(`¿Eliminar el conjuro "${spell.name}"?`)) {
-                                  onDeleteSpell(spell.id);
-                                }
-                              }}
-                              className="p-1.5 rounded-lg bg-destructive/20 hover:bg-destructive text-destructive hover:text-destructive-foreground border border-destructive/40 transition-all shadow-md cursor-pointer hover:scale-105"
-                              title={language === 'es' ? 'Eliminar conjuro' : 'Delete spell'}
-                            >
-                              <Trash2 className="w-3 h-3" />
-                            </button>
-                          )}
-                          {onEditSpell && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onEditSpell(spell);
-                              }}
-                              className="p-1.5 rounded-lg bg-primary/20 hover:bg-primary text-primary hover:text-primary-foreground border border-primary/50 transition-all shadow-md cursor-pointer hover:scale-105"
-                              title={language === 'es' ? 'Editar este conjuro (Modo Visual)' : 'Edit this spell (Visual Mode)'}
-                            >
-                              <Edit3 className="w-3.5 h-3.5" />
-                            </button>
-                          )}
-                        </div>
-                      )}
                     </div>
                   );
                 })}

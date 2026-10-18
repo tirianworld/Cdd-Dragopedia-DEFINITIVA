@@ -1,7 +1,6 @@
 import React from 'react';
-import { Menu, Flame, ScrollText, Globe, PlusCircle, Edit3, Sparkles } from 'lucide-react';
+import { Menu, Flame, ScrollText, Globe } from 'lucide-react';
 import { Character, ViewTab } from '../types';
-import { useVisualEditor } from '../../context/VisualEditorContext';
 
 interface NavbarProps {
   currentTab: ViewTab;
@@ -26,7 +25,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   onChangeLanguage,
   onOpenMobileSidebar,
 }) => {
-  const { isVisualEditMode, setIsVisualEditMode } = useVisualEditor();
   return (
     <header className="sticky top-0 z-30 bg-[#0c1013]/95 backdrop-blur-md border-b border-[#172127]">
       <div className="w-full px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
@@ -60,36 +58,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Center / Right: Actions, Language Switcher, Visual Mode */}
+        {/* Center / Right: Spell Lists, Public Gallery, and Language Switcher */}
         <div className="flex items-center gap-2 sm:gap-2.5">
-          {/* Button: Nuevo Conjuro (when in Visual Edit Mode) */}
-          {isVisualEditMode && (
-            <button
-              type="button"
-              onClick={() => onSelectTab('custom')}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-primary hover:opacity-90 text-primary-foreground transition-all cursor-pointer shadow-md"
-              title={language === 'es' ? 'Crear Nuevo Conjuro' : 'Create New Spell'}
-            >
-              <PlusCircle className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">{language === 'es' ? '+ Nuevo Conjuro' : '+ New Spell'}</span>
-            </button>
-          )}
-
-          {/* Toggle: Modo Edición Visual */}
-          <button
-            type="button"
-            onClick={() => setIsVisualEditMode((prev) => !prev)}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
-              isVisualEditMode
-                ? 'bg-primary/20 text-primary border-primary/50 shadow-xs'
-                : 'bg-[#10171d] hover:bg-[#14282c] text-slate-300 hover:text-white border-[#1d2d38]'
-            }`}
-            title={isVisualEditMode ? 'Desactivar Modo Edición Visual' : 'Activar Modo Edición Visual'}
-          >
-            <Edit3 className="w-3.5 h-3.5 text-primary" />
-            <span className="hidden md:inline">{isVisualEditMode ? 'Edición Activa' : 'Modo Edición'}</span>
-          </button>
-
           {/* Button: Listas de Hechizos (visible to everyone) */}
           <button
             type="button"
@@ -102,14 +72,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             title={language === 'es' ? 'Listas de Hechizos' : 'Spell Lists'}
           >
             <ScrollText className="w-3.5 h-3.5 text-[#bafafd]" />
-            <span className="hidden sm:inline">{language === 'es' ? 'Listas' : 'Lists'}</span>
+            <span>{language === 'es' ? 'Listas de Hechizos' : 'Spell Lists'}</span>
           </button>
 
           {/* Button: Galería Pública (visible to everyone) */}
           <button
             type="button"
             onClick={() => onSelectTab('public-gallery')}
-            className={`hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs ${
+            className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs ${
               currentTab === 'public-gallery'
                 ? 'bg-[#14282c] text-[#bafafd] border border-[#bafafd]'
                 : 'bg-[#10171d] hover:bg-[#14282c] text-slate-200 hover:text-[#bafafd] border border-[#1d2d38]'
@@ -117,7 +87,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             title={language === 'es' ? 'Galería Pública' : 'Public Gallery'}
           >
             <Globe className="w-3.5 h-3.5 text-[#bafafd]" />
-            <span>{language === 'es' ? 'Galería' : 'Gallery'}</span>
+            <span>{language === 'es' ? 'Galería Pública' : 'Public Gallery'}</span>
           </button>
 
           {/* Language Switcher */}

@@ -1,5 +1,14 @@
 import React from 'react';
-import { LucideIcon } from 'lucide-react';
+import {
+  Sparkles,
+  Swords,
+  Shield,
+  Wrench,
+  Compass,
+  Orbit,
+  Heart,
+  LucideIcon,
+} from 'lucide-react';
 import {
   SummonIcon,
   AttackIcon,
@@ -16,10 +25,12 @@ export interface SpellFunctionalityInfo {
   name: string;
   nameEn: string;
   icon: React.FC<{ className?: string; style?: React.CSSProperties }> | LucideIcon;
+  vectorIcon: LucideIcon;
   color: string;
   textColor: string;
   bgColor: string;
   borderColor: string;
+  accentGlow: string;
   description: string;
 }
 
@@ -39,10 +50,12 @@ export const SPELL_FUNCTIONALITIES: SpellFunctionalityInfo[] = [
     name: 'Invocar',
     nameEn: 'Summon',
     icon: SummonIcon,
+    vectorIcon: Sparkles,
     color: '#a855f7',
     textColor: 'text-purple-400',
     bgColor: 'bg-purple-950/40',
     borderColor: 'border-purple-500/40',
+    accentGlow: 'rgba(168, 85, 247, 0.75)',
     description: 'Invocación de criaturas, familiares, sirvientes espirituales y entidades aliadas.',
   },
   {
@@ -50,10 +63,12 @@ export const SPELL_FUNCTIONALITIES: SpellFunctionalityInfo[] = [
     name: 'Atacar',
     nameEn: 'Attack',
     icon: AttackIcon,
+    vectorIcon: Swords,
     color: '#ef4444',
     textColor: 'text-red-400',
     bgColor: 'bg-red-950/40',
     borderColor: 'border-red-500/40',
+    accentGlow: 'rgba(239, 68, 68, 0.75)',
     description: 'Ataques directos, proyectiles mágicos, daño elemental y castigos de combate.',
   },
   {
@@ -61,10 +76,12 @@ export const SPELL_FUNCTIONALITIES: SpellFunctionalityInfo[] = [
     name: 'Defenderse',
     nameEn: 'Defense',
     icon: DefenseIcon,
+    vectorIcon: Shield,
     color: '#3b82f6',
     textColor: 'text-blue-400',
     bgColor: 'bg-blue-950/40',
     borderColor: 'border-blue-500/40',
+    accentGlow: 'rgba(59, 130, 246, 0.75)',
     description: 'Escudos protectores, aumento de armadura (CA), reducción de daño y salvaguardas.',
   },
   {
@@ -72,10 +89,12 @@ export const SPELL_FUNCTIONALITIES: SpellFunctionalityInfo[] = [
     name: 'Utilidad',
     nameEn: 'Utility',
     icon: UtilityIcon,
+    vectorIcon: Wrench,
     color: '#eab308',
     textColor: 'text-yellow-400',
     bgColor: 'bg-yellow-950/40',
     borderColor: 'border-yellow-500/40',
+    accentGlow: 'rgba(234, 179, 8, 0.75)',
     description: 'Detección, adivinación, luz, comunicación, ilusiones e interacción con el entorno.',
   },
   {
@@ -83,10 +102,12 @@ export const SPELL_FUNCTIONALITIES: SpellFunctionalityInfo[] = [
     name: 'Transporte',
     nameEn: 'Transport',
     icon: TransportIcon,
+    vectorIcon: Compass,
     color: '#06b6d4',
     textColor: 'text-cyan-400',
     bgColor: 'bg-cyan-950/40',
     borderColor: 'border-cyan-500/40',
+    accentGlow: 'rgba(6, 182, 212, 0.75)',
     description: 'Teletransporte, vuelo, velocidad aumentada, saltos, levitación y movilidad táctica.',
   },
   {
@@ -94,10 +115,12 @@ export const SPELL_FUNCTIONALITIES: SpellFunctionalityInfo[] = [
     name: 'Cambio Planar',
     nameEn: 'Planar Shift',
     icon: PlanarShiftIcon,
+    vectorIcon: Orbit,
     color: '#ec4899',
     textColor: 'text-pink-400',
     bgColor: 'bg-pink-950/40',
     borderColor: 'border-pink-500/40',
+    accentGlow: 'rgba(236, 72, 153, 0.75)',
     description: 'Viajes interplanares, portales, destierro a otros planos y proyecciones astrales.',
   },
   {
@@ -105,10 +128,12 @@ export const SPELL_FUNCTIONALITIES: SpellFunctionalityInfo[] = [
     name: 'Curación',
     nameEn: 'Healing',
     icon: HealingIcon,
+    vectorIcon: Heart,
     color: '#10b981',
     textColor: 'text-emerald-400',
     bgColor: 'bg-emerald-950/40',
     borderColor: 'border-emerald-500/40',
+    accentGlow: 'rgba(16, 185, 129, 0.75)',
     description: 'Restauración de puntos de golpe, curar heridas, eliminar dolencias y revivir caídos.',
   },
 ];

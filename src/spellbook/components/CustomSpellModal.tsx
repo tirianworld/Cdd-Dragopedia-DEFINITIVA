@@ -17,10 +17,11 @@ import {
 } from 'lucide-react';
 import { Spell, MagicSchool, DndClass, SpellOrigin, PrimordialMagic } from '../types';
 import { ALL_CLASSES, ALL_SCHOOLS } from '../data/spells';
-import { PRIMORDIAL_MAGICS } from '../data/primordialMagic';
+import { PRIMORDIAL_MAGICS, PRIMORDIAL_FIRST_GEN, PRIMORDIAL_SECOND_GEN } from '../data/primordialMagic';
 import { SPELL_ORIGINS } from '../data/spellOrigins';
 import { DAMAGE_TYPES } from '../data/damageTypes';
 import { SpellIcon } from './SpellIcon';
+import { OfficialSpellLineIcon } from './OfficialSpellLineIcon';
 import { MarkdownText } from './MarkdownText';
 import bg3IconsData from '../data/bg3Icons.json';
 import officialSpellbookIcons from '../data/officialSpellbookIcons.json';
@@ -29,12 +30,12 @@ import {
   getLocalCustomImages,
   removeLocalCustomImage,
 } from '../services/imageService';
+import { compressImageIcon } from '../services/storageHelper';
 
 interface CustomSpellModalProps {
   onSave: (spell: Spell) => void;
   onCancel: () => void;
   language: 'es' | 'en';
-  initialData?: Partial<Spell> | null;
 }
 
 const AI_PRESETS = [
@@ -50,16 +51,15 @@ export const CustomSpellModal: React.FC<CustomSpellModalProps> = ({
   onSave,
   onCancel,
   language,
-  initialData,
 }) => {
   // Spell Attributes
-  const [name, setName] = useState(initialData?.name || '');
-  const [nameEn, setNameEn] = useState(initialData?.nameEn || '');
-  const [level, setLevel] = useState<number>(initialData?.level !== undefined ? initialData.level : 1);
-  const [school, setSchool] = useState<MagicSchool>(initialData?.school || 'Evocación');
-  const [castingTime, setCastingTime] = useState(initialData?.castingTime || '1 acción');
-  const [range, setRange] = useState(initialData?.range || '18 metros (60 pies)');
-  const [duration, setDuration] = useState(initialData?.duration || 'Instantáneo');
+  const [name, setName] = useState('');
+  const [nameEn, setNameEn] = useState('');
+  const [level, setLevel] = useState<number>(1);
+  const [school, setSchool] = useState<MagicSchool>('Evocación');
+  const [castingTime, setCastingTime] = useState('1 acción');
+  const [range, setRange] = useState('18 metros (60 pies)');
+  const [duration, setDuration] = useState('Instantáneo');
   const [concentration, setConcentration] = useState(false);
   const [ritual, setRitual] = useState(false);
   const [verbal, setVerbal] = useState(true);
@@ -124,17 +124,28 @@ export const CustomSpellModal: React.FC<CustomSpellModalProps> = ({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64 = reader.result as string;
-      const customKey = `custom_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-      saveLocalCustomImage(customKey, base64);
-      setCustomGallery(getLocalCustomImages());
-      setBg3IconUrl(base64);
-      setBg3IconName(file.name);
-      setIcon(customKey);
-    };
-    reader.readAsDataURL(file);
+    compressImageIcon(file, 256, 256, 0.85)
+      .then((base64) => {
+        const customKey = `custom_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        saveLocalCustomImage(customKey, base64);
+        setCustomGallery(getLocalCustomImages());
+        setBg3IconUrl(base64);
+        setBg3IconName(file.name);
+        setIcon(customKey);
+      })
+      .catch(() => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64 = reader.result as string;
+          const customKey = `custom_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+          saveLocalCustomImage(customKey, base64);
+          setCustomGallery(getLocalCustomImages());
+          setBg3IconUrl(base64);
+          setBg3IconName(file.name);
+          setIcon(customKey);
+        };
+        reader.readAsDataURL(file);
+      });
   };
 
   // Handle external URL submission
@@ -583,11 +594,20 @@ export const CustomSpellModal: React.FC<CustomSpellModalProps> = ({
                   className="w-full bg-[#14222a] text-slate-100 rounded-lg px-3 py-2 border border-[#213540] focus:outline-hidden focus:border-[#bafafd] cursor-pointer"
                 >
                   <option value="">{language === 'es' ? '(Automática por afinidad canónica)' : '(Auto by canonical affinity)'}</option>
-                  {PRIMORDIAL_MAGICS.map((p) => (
-                    <option key={p.name} value={p.name}>
-                      {language === 'es' ? p.name : p.nameEn}
-                    </option>
-                  ))}
+                  <optgroup label={language === 'es' ? '1ª Generación (Primordiales Puras)' : '1st Generation (Pure Primordial)'}>
+                    {PRIMORDIAL_FIRST_GEN.map((p) => (
+                      <option key={p.name} value={p.name}>
+                        {language === 'es' ? p.name : p.nameEn}
+                      </option>
+                    ))}
+                  </optgroup>
+                  <optgroup label={language === 'es' ? '2ª Generación (Fusión Ávalon)' : '2nd Generation (Avalon Fusion)'}>
+                    {PRIMORDIAL_SECOND_GEN.map((p) => (
+                      <option key={p.name} value={p.name}>
+                        {language === 'es' ? p.name : p.nameEn}
+                      </option>
+                    ))}
+                  </optgroup>
                 </select>
               </div>
 
@@ -813,10 +833,11 @@ export const CustomSpellModal: React.FC<CustomSpellModalProps> = ({
                               }`}
                             >
                               <div className="w-12 h-12 rounded-lg overflow-hidden bg-black/40 flex items-center justify-center">
-                                <img
-                                  src={dataUrl}
-                                  alt="Custom"
-                                  className="w-full h-full object-contain group-hover:scale-110 transition-transform"
+                                <OfficialSpellLineIcon
+                                  iconUrl={dataUrl}
+                                  name={key}
+                                  school={school}
+                                  className="w-full h-full group-hover:scale-110 transition-transform"
                                 />
                               </div>
                               <span className="text-[9px] font-medium text-slate-300 truncate w-full text-center">
@@ -861,11 +882,11 @@ export const CustomSpellModal: React.FC<CustomSpellModalProps> = ({
                         title={`${item.name} (${item.school})`}
                       >
                         <div className="w-12 h-12 rounded-lg overflow-hidden bg-black/40 flex items-center justify-center">
-                          <img
-                            src={item.iconUrl}
-                            alt={item.name}
-                            loading="lazy"
-                            className="w-full h-full object-contain group-hover:scale-110 transition-transform"
+                          <OfficialSpellLineIcon
+                            iconUrl={item.iconUrl}
+                            name={item.name}
+                            school={item.school}
+                            className="w-full h-full group-hover:scale-110 transition-transform"
                           />
                         </div>
                         <span className="text-[9px] font-medium text-slate-300 truncate w-full text-center">

@@ -1,5 +1,38 @@
 [
   {
+    "id": "art-1792327400020",
+    "slug": "primordial-reflejo",
+    "title": "Primordial Reflejo",
+    "category": "Primordiales",
+    "summary": "Primordial vinculada a la magia de reflexión y espejos, creadora del Laberinto de Cristales y guardiana de un artefacto de adamantita. Su poder radica en manipular la luz, la percepción y las ilusiones, y es responsable de encadenar el alma de Zaratras como custodio involuntario del laberinto.",
+    "content": "<h2>Primordial Reflejo</h2>\n<p>La <strong>Primordial Reflejo</strong> es una deidad primordial asociada a la magia de <strong>reflexión y espejos</strong>, conocida por su papel en la creación del <a href=\"/articulo/laberinto-de-cristales\">Laberinto de Cristales</a>.</p>\n<h2>Descripción y Origen</h2>\n<p>La Primordial Reflejo es una entidad primordial que encarna la esencia de la magia de los espejos y la reflexión. Su poder se manifiesta en la capacidad de manipular la luz, crear ilusiones y distorsionar la percepción. Según los manuscritos, fue ella quien diseñó y selló el <a href=\"/articulo/laberinto-de-cristales\">Laberinto de Cristales</a>, un laberinto infinito de cristal puro que refleja y distorsiona la luz.</p>\n<h2>Creadora del Laberinto de Cristales</h2>\n<p>El <a href=\"/articulo/laberinto-de-cristales\">Laberinto de Cristales</a> fue creado por la Primordial Reflejo para guardar un artefacto de <a href=\"/articulo/adamantita\">adamantita</a>. Al hacerlo, la Primordial Reflejo se selló a sí misma dentro del laberinto, convirtiéndose en su guardiana involuntaria. Este lugar se convirtió en una prisión y santuario para la energía atrapada, y también en un espacio donde experimentó con reflejos, como el caso de <a href=\"/articulo/firulais\">Firulais</a>.</p>\n<h2>Relación con Zaratras</h2>\n<p>La Primordial Reflejo secuestró el alma del caballero <a href=\"/articulo/zaratras\">Zaratras</a> y lo condenó a servir como custodio del laberinto. Zaratras, en su condición de guardián involuntario, mantuvo la integridad del laberinto bajo la vigilancia de la Primordial Reflejo.</p>\n<h2>Poderes y Capacidades</h2>\n<ul>\n<li><strong>Manipulación de la luz y los espejos:</strong> Capacidad para crear ilusiones y distorsionar la percepción mediante la reflexión.</li>\n</ul>\n<ul>\n<li><strong>Creación de espacios mágicos:</strong> Capacidad para diseñar y sellar laberintos y espacios de gran poder cósmico.</li>\n</ul>\n<ul>\n<li><strong>Control sobre almas:</strong> Capacidad para secuestrar y encadenar almas, como la de <a href=\"/articulo/zaratras\">Zaratras</a>.</li>\n</ul>\n<ul>\n<li><strong>Experimentos con reflejos:</strong> Creación de entidades basadas en reflejos, como <a href=\"/articulo/firulais\">Firulais</a>.</li>\n</ul>\n<h2>Legado</h2>\n<p>La Primordial Reflejo es una figura enigmática y poderosa dentro del lore de <em><a href=\"/articulo/caldo-de-dragon\">Caldo de Dragón</a></em>. Su legado se extiende a través del <a href=\"/articulo/laberinto-de-cristales\">Laberinto de Cristales</a>, donde su influencia sigue presente en la custodia de artefactos y la manipulación de reflejos. Su papel como guardiana involuntaria de <a href=\"/articulo/zaratras\">Zaratras</a> y creadora de espacios mágicos la convierte en una de las deidades primordiales más fascinantes y misteriosas.</p>\n<h2>Referencias</h2>\n<ul>\n<li><a href=\"/articulo/laberinto-de-cristales\">Laberinto de Cristales</a></li>\n</ul>\n<ul>\n<li><a href=\"/articulo/zaratras\">Zaratras</a></li>\n</ul>\n<ul>\n<li><a href=\"/articulo/firulais\">Firulais</a></li>\n</ul>",
+    "infobox": {},
+    "timeline_markers": [],
+    "timeline_order": [],
+    "created_date": "2026-10-18T12:43:48.304Z",
+    "updated_date": "2026-10-18T12:45:26.183Z",
+    "extra_categories": [
+      "Primordiales"
+    ],
+    "image_url": "/images/uploads/reflejo-1792327495803_c3g5t.png",
+    "image_position_x": 50,
+    "image_position_y": 0,
+    "gallery": [],
+    "tags": [],
+    "related_article_ids": [],
+    "monsters": [],
+    "monster_images": {},
+    "spells": [],
+    "spell_images": {},
+    "filters": {
+      "campaña": [],
+      "continente": [],
+      "plano": [],
+      "criatura": [],
+      "entidad": []
+    }
+  },
+  {
     "id": "art-1791351732056",
     "slug": "magia-aurea",
     "title": "Magia Áurea",
@@ -78,7 +111,8 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "/images/covers/mongraal.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "id": "caldo-de-dragon",
@@ -237,7 +271,8 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/culto-a-la-piedad.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Astora",
@@ -310,7 +345,7 @@
     "slug": "faram-senor-del-sol",
     "category": "Dioses",
     "summary": "*Faram es la deidad solar venerada por los Guerreros de la Luz Solar, descrito como el propio Sol, ardiente, generoso y temible en la batalla, fuente de esperanza y justicia en Kaliria.*",
-    "content": "<h2>Descripción</h2><p>Faram es el dios del Sol, personificado como una llama viviente que ilumina los corazones de sus devotos. Es llamado <strong>señor del Sol</strong> y se le atribuyen cualidades de generosidad, ira bélica y una luz purificadora.</p><h2>Papel en la fe solar</h2><p>Los Guerreros de la Luz Solar consideran a Faram la única salvación frente a la oscuridad. Cada victoria en combate se ofrece como ofrenda a su brillo, y sus dogmas giran en torno a la valentía bajo su resplandor.</p><h2>Representación</h2><p>Aunque la doctrina rechaza los íconos, algunos templos alzan estatuas de Faram como símbolos de inspiración. Su imagen suele mostrarse como un sol radiante con una espada de fuego.</p>",
+    "content": "<h2>Descripción</h2>\n<p>Faram es el dios del Sol, personificado como una llama viviente que ilumina los corazones de sus devotos. Es llamado <strong>señor del Sol</strong> y se le atribuyen cualidades de generosidad, ira bélica y una luz purificadora.</p>\n<h2>Papel en la fe solar</h2>\n<p>Los Guerreros de la Luz Solar consideran a Faram la única salvación frente a la oscuridad. Cada victoria en combate se ofrece como ofrenda a su brillo, y sus dogmas giran en torno a la valentía bajo su resplandor.</p>\n<h2>Representación</h2>\n<p>Aunque la doctrina rechaza los íconos, algunos templos alzan estatuas de Faram como símbolos de inspiración. Su imagen suele mostrarse como un sol radiante con una espada de fuego.</p>",
     "infobox": {
       "Título": "Señor del Sol",
       "Dominio": "Luz y guerra",
@@ -327,12 +362,28 @@
     "is_featured": false,
     "id": "art-1790263133673",
     "created_date": "2026-09-24T15:18:53.673Z",
-    "updated_date": "2026-10-02T11:44:47.209Z",
+    "updated_date": "2026-10-17T13:31:14.958Z",
     "extra_categories": [
       "Dioses",
       "Verdaderos"
     ],
-    "image_url": "/images/covers/faram-senor-del-sol.jpg"
+    "image_url": "",
+    "image_position_x": 50,
+    "image_position_y": 50,
+    "gallery": [],
+    "related_article_ids": [],
+    "monsters": [],
+    "monster_images": {},
+    "spells": [],
+    "spell_images": {},
+    "filters": {
+      "campaña": [],
+      "continente": [],
+      "plano": [],
+      "criatura": [],
+      "entidad": []
+    },
+    "imageUrl": ""
   },
   {
     "title": "Alejandría",
@@ -456,12 +507,13 @@
     "is_featured": false,
     "id": "art-1790262567396",
     "created_date": "2026-09-24T15:09:27.396Z",
-    "updated_date": "2026-10-02T11:44:53.702Z",
+    "updated_date": "2026-10-17T13:30:57.426Z",
     "extra_categories": [
       "Dioses",
       "Verdaderos"
     ],
-    "image_url": "/images/covers/la-luna-oscura.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "id": "art-1789932671503",
@@ -1340,7 +1392,7 @@
     "slug": "energia-oscura-shadowfell",
     "category": "Magias",
     "summary": "*Fuerza arcanas que emanan del Shadowfell, capaces de corromper la mente, el alma y la voluntad de quienes la absorben. Una magia que se alimenta del sufrimiento y distorsiona la realidad.*",
-    "content": "<p>Esta energía no es un simple fenómeno mágico, sino una <em>fuerza viviente</em> que impregna cada rincón del <a href=\"/shadowfell\">Shadowfell</a>. No sigue las leyes de la <a href=\"/articulo/magia\">magia</a> convencional; es una entidad en sí misma, con voluntad propia y sed de sufrimiento.</p>\n<h2>Efectos sobre los seres vivos</h2>\n<p>Quienes entran en contacto con esta energía experimentan:</p>\n<ul>\n<li><strong>Deterioro mental:</strong> La cordura se quiebra bajo el peso de visiones distorsionadas y recuerdos que nunca existieron.</li>\n</ul>\n<ul>\n<li><strong>Parálisis emocional:</strong> La apatía se apodera del individuo, anulando su deseo de luchar o incluso de intentar escapar.</li>\n</ul>\n<ul>\n<li><strong>Corrupción física:</strong> En casos extremos, el cuerpo comienza a desvanecerse, transformándose en una sombra o un espectro.</li>\n</ul>\n<h2>Interacción con otros <a href=\"/articulo/planos\">planos</a></h2>\n<p>Se rumorea que esta energía oscura puede filtrarse a otros dominios, especialmente en aquellos donde la <a href=\"/magia-oscura\">magia oscura</a> es practicada. Algunos <a href=\"/hechicero\">hechiceros</a> la buscan para potenciar sus rituales, aunque pocos sobreviven al proceso.</p>\n<p>Magia</p>\n<p>Explorar Cosmos Completo ↗</p>\n<p>Subgrafo Relacional: Energía oscura del Shadowfell</p>\n<p>Red interactiva de conexiones del universo de Caldo de Dragón.</p>\n<p>texto</p>",
+    "content": "<p>Esta energía no es un simple fenómeno mágico, sino una <em>fuerza viviente</em> que impregna cada rincón del <a href=\"/shadowfell\">Shadowfell</a>. No sigue las leyes de la <a href=\"/articulo/magia\">magia</a> convencional; es una entidad en sí misma, con voluntad propia y sed de sufrimiento.</p>\n<h2>Efectos sobre los seres vivos</h2>\n<p>Quienes entran en contacto con esta energía experimentan:</p>\n<ul>\n<li><strong>Deterioro mental:</strong> La cordura se quiebra bajo el peso de visiones distorsionadas y recuerdos que nunca existieron.</li>\n</ul>\n<ul>\n<li><strong>Parálisis emocional:</strong> La apatía se apodera del individuo, anulando su deseo de luchar o incluso de intentar escapar.</li>\n</ul>\n<ul>\n<li><strong>Corrupción física:</strong> En casos extremos, el cuerpo comienza a desvanecerse, transformándose en una sombra o un espectro.</li>\n</ul>\n<h2>Interacción con otros <a href=\"/articulo/planos\">planos</a></h2>\n<p>Se rumorea que esta energía oscura puede filtrarse a otros dominios, especialmente en aquellos donde la <a href=\"/magia-oscura\">magia oscura</a> es practicada. Algunos <a href=\"/hechicero\">hechiceros</a> la buscan para potenciar sus rituales, aunque pocos sobreviven al proceso.</p>\n<p>Magia</p>\n<p>Explorar Cosmos Completo ↗</p>\n<p>Subgrafo Relacional: Energía oscura del Shadowfell</p>\n<p>Red interactiva de conexiones del universo de Caldo de Dragón.</p>\n<p>texto</p>\n<p>> 🌐 <strong>Subgrafo Interactivo: Subgrafo: Escuela Mágica</strong></p>\n<p>> <em>Ramificación del pilar de Magia Profana en el cosmos.</em></p>\n<p><div class=\"dragopedia-graph-embed my-8 overflow-hidden rounded-2xl border border-cyan-500/30 bg-[#070a13] shadow-xl\" data-graph='%7B%22type%22%3A%22magias%22%2C%22subgraphType%22%3A%22submagia%22%2C%22targetId%22%3A%22Energ%C3%ADa%20del%20Shadowfell%22%2C%22targetTitle%22%3A%22Energ%C3%ADa%20del%20Shadowfell%22%2C%22height%22%3A480%2C%22title%22%3A%22Subgrafo%3A%20Escuela%20M%C3%A1gica%22%2C%22description%22%3A%22Ramificaci%C3%B3n%20del%20pilar%20de%20Magia%20Profana%20en%20el%20cosmos.%22%7D'></p>\n<p><div class=\"p-3.5 bg-[#0c1222]/90 border-b border-border/80 flex items-center justify-between text-xs\"></p>\n<p><div class=\"flex items-center gap-2\"></p>\n<p><span class=\"text-cyan-400 font-bold\">✨ Subgrafo: Escuela Mágica</span></p>\n<p><span class=\"px-2 py-0.5 rounded-full text-[10px] bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 uppercase font-semibold\"></p>\n<p>Magia</p>\n<p></span></p>\n<p></div></p>\n<p><a href=\"/grafo\" target=\"_blank\" class=\"text-cyan-400 hover:underline text-[11px] font-semibold flex items-center gap-1\"></p>\n<p>Explorar Cosmos Completo ↗</p>\n</a>\n<p></div></p>\n<p><div class=\"w-full relative overflow-hidden\" style=\"height: 480px;\"></p>\n<p><!-- Interactive Graph Container Mounted Dynamically --></p>\n<p><div class=\"w-full h-full flex flex-col items-center justify-center text-center p-6 text-muted-foreground\"></p>\n<p><p class=\"text-sm font-semibold text-white mb-1\">Subgrafo: Escuela Mágica</p></p>\n<p><p class=\"text-xs max-w-md\">Ramificación del pilar de Magia Profana en el cosmos.</p></p>\n<p></div></p>\n<p></div></p>\n<p></div></p>\n<p>texto</p>",
     "infobox": {
       "Origen": "Shadowfell",
       "Tipo": "Energía corruptora",
@@ -1367,7 +1419,7 @@
     "is_featured": false,
     "id": "art-1787667729491",
     "created_date": "2026-08-25T14:22:11.527Z",
-    "updated_date": "2026-09-24T10:35:34.523Z",
+    "updated_date": "2026-10-18T20:36:39.311Z",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -1388,13 +1440,17 @@
     "embedded_graph": {
       "type": "magias",
       "subgraphType": "submagia",
-      "targetId": "profana",
-      "targetTitle": "Energía oscura del Shadowfell",
-      "title": "Subgrafo: Energía oscura del Shadowfell",
-      "description": "Ramificación del pilar de Magia Profana en el cosmos.",
-      "height": 480
+      "targetId": "Energía del Shadowfell",
+      "targetTitle": "Energía del Shadowfell",
+      "height": 480,
+      "title": "Subgrafo: Escuela Mágica",
+      "description": "Ramificación del pilar de Magia Profana en el cosmos."
     },
-    "extra_categories": []
+    "extra_categories": [
+      "Magias"
+    ],
+    "spells": [],
+    "spell_images": {}
   },
   {
     "title": "Shadowfell",
@@ -1494,7 +1550,8 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/refugiados-del-feywild.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Corte Feérica",
@@ -1593,8 +1650,8 @@
     "is_featured": false,
     "id": "art-1787667632755",
     "created_date": "2026-08-25T14:20:39.692Z",
-    "updated_date": "2026-10-09T09:30:44.689Z",
-    "image_url": "/images/covers/seis-magias-primordiales.png",
+    "updated_date": "2026-10-15T12:27:58.278Z",
+    "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -1753,7 +1810,8 @@
     },
     "extra_categories": [
       "Magias"
-    ]
+    ],
+    "imageUrl": ""
   },
   {
     "title": "Adamantita",
@@ -1885,7 +1943,8 @@
     "created_date": "2026-08-25T14:13:49.232Z",
     "updated_date": "2026-08-25T14:13:49.232Z",
     "extra_categories": [],
-    "image_url": "/images/covers/familias-de-herreros-malditos.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Diablos",
@@ -4946,7 +5005,8 @@
     "created_date": "2026-08-25T13:52:57.466Z",
     "updated_date": "2026-08-25T13:52:57.466Z",
     "extra_categories": [],
-    "image_url": "/images/covers/segadores.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Aulladores",
@@ -5025,7 +5085,7 @@
     "is_featured": false,
     "id": "art-1787665967192",
     "created_date": "2026-08-25T13:52:50.085Z",
-    "updated_date": "2026-09-17T10:47:46.447Z",
+    "updated_date": "2026-10-18T20:39:59.039Z",
     "related_article_ids": [
       "art-1787665235268",
       "art-1787665970429"
@@ -5048,8 +5108,10 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/ludwig.png"
+    "extra_categories": [
+      "Personajes"
+    ],
+    "image_url": ""
   },
   {
     "title": "Bloodhunters",
@@ -5473,7 +5535,8 @@
       "Dioses",
       "Consejo Omega"
     ],
-    "image_url": "/images/covers/chemos-el-dios-oscuro.jpg"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Fafnir, el Dios Dragón",
@@ -5533,7 +5596,8 @@
       "Ascendidos",
       "Regionales"
     ],
-    "image_url": "/images/covers/fafnir-el-dios-dragon.jpg"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "ki",
@@ -5702,7 +5766,7 @@
     "is_featured": false,
     "id": "art-1787665725866",
     "created_date": "2026-08-25T13:48:49.234Z",
-    "updated_date": "2026-09-15T17:07:32.216Z",
+    "updated_date": "2026-10-18T20:41:24.235Z",
     "related_article_ids": [
       "6a1f47fdce9c60c774d45cdc",
       "art-1787665090919",
@@ -5720,8 +5784,13 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/santuario-de-la-mano-abierta.webp"
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "",
+    "spells": [],
+    "spell_images": {},
+    "imageUrl": ""
   },
   {
     "title": "Monjes de la Mano Abierta",
@@ -7950,7 +8019,8 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/los-latentes.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "El Plano Material",
@@ -9614,7 +9684,7 @@
     "is_featured": false,
     "id": "art-1787664919295",
     "created_date": "2026-08-25T13:35:24.209Z",
-    "updated_date": "2026-09-24T14:16:51.817Z",
+    "updated_date": "2026-10-17T13:31:41.134Z",
     "related_article_ids": [
       "art-1787664913096",
       "art-1787665642246",
@@ -9634,7 +9704,9 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
+    "extra_categories": [
+      "Dioses"
+    ],
     "image_url": "/images/uploads/PRIMORDIALES-1791538236326_jyfw1.png"
   },
   {
@@ -9800,7 +9872,8 @@
       "art-1787665007919"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/plaga-de-las-bestias.jpg"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Logario",
@@ -9921,7 +9994,8 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/la-blanca-inquisicion.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "La Blanca Vía",
@@ -9976,7 +10050,8 @@
       "Dioses",
       "Verdaderos"
     ],
-    "image_url": "/images/covers/la-blanca-via.jpg"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Devotos de la Reina",
@@ -10251,7 +10326,7 @@
       "art-1787666625565",
       "art-1787666875758"
     ],
-    "image_url": "/images/covers/stygia-1789491651779.png",
+    "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -10264,7 +10339,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "imageUrl": ""
   },
   {
     "title": "Planeshifter",
@@ -10553,24 +10629,36 @@
     "category": "Lugares",
     "summary": "La Gran Biblioteca de Kaliria, ubicada en la Antigua Capital, es un lugar sagrado donde Tarot, el Gran Bibliotecario, custodia los secretos de la creación. Fue aquí donde Caldo de Dragón superó sus pruebas y obtuvo el Libro de Tarot, que en realidad era Tarot transformado en un libro.",
     "content": "<h1>La Gran Biblioteca de <a href=\"/articulo/kaliria\">Kaliria</a></h1>\n\n<p>La Gran Biblioteca de Kaliria es un lugar legendario y sagrado ubicado en el corazón de la <a href=\"/articulo/la-antigua-capital-72cd6a\">La Antigua Capital</a>. Este recinto no solo alberga innumerables volúmenes de conocimiento ancestral, sino que también es el bastión de <a href=\"/articulo/tarot-el-gran-bibliotecario-8300f5\">Tarot, el Gran Bibliotecario</a>, una de las entidades más antiguas y poderosas del universo.</p>\n\n<h2>Descripción</h2>\n<p>La Gran Biblioteca de Kaliria es un templo del saber, donde los estantes se extienden hacia alturas imposibles y los pasillos están iluminados por una luz etérea que parece emanar de los propios libros. Sus paredes están talladas con runas y símbolos de eras olvidadas, y el aire está impregnado de un aroma a pergamino antiguo y <a href=\"/articulo/magia-arcana\" class=\"text-primary hover:underline font-semibold\">magia arcana</a>. Cada libro, cada pergamino y cada hoja contiene fragmentos de la historia del mundo, profecías, secretos cósmicos y conocimientos prohibidos.</p>\n\n<p>En el centro de la biblioteca se alza el <strong>Libro de Tarot</strong>, un artefacto único que no es un simple libro, sino la encarnación misma de Tarot. Este libro contiene todo lo que ha sucedido, lo que sucede, lo que sucederá y lo que podría suceder en el universo. Sin embargo, solo puede ser abierto por quienes demuestren ser dignos de su conocimiento, pues Tarot sabe que el conocimiento sin juicio es una maldición, no un don.</p>\n\n<h2>Historia</h2>\n<p>La Gran Biblioteca de Kaliria ha sido un lugar de peregrinación para sabios, <a href=\"/articulo/magos\" class=\"text-primary hover:underline font-semibold\">magos</a> y buscadores de la verdad durante siglos. Su origen se remonta a los primeros días de la creación, cuando los dioses más antiguos depositaron en ella los secretos que darían forma al mundo. Con el tiempo, la biblioteca se convirtió en el refugio de Tarot, quien, tras la partida de la reina hacia lo desconocido, asumió la custodia de todo lo que había sido, es y será.</p>\n\n<p>Fue en este lugar donde el grupo de aventureros <a href=\"/articulo/caldo-de-dragon-mrbzokez\">Caldo de Dragón</a> llegó en busca de respuestas y poder. Tras superar las pruebas impuestas por Tarot, demostraron ser dignos de acceder al conocimiento contenido en el Libro de Tarot. En un acto de reconocimiento, Tarot se transformó en el libro, permitiendo que el grupo lo obtuviera y lo utilizara en sus futuras batallas contra las fuerzas del mal.</p>\n\n<h2>Importancia</h2>\n<p>La Gran Biblioteca de Kaliria no es solo un repositorio de conocimiento, sino un símbolo de la búsqueda eterna de la verdad y la sabiduría. Su existencia recuerda a todos los que la visitan que el saber es un poder que debe ser usado con responsabilidad y juicio. Además, el Libro de Tarot se convirtió en una herramienta invaluable para <a href=\"/articulo/caldo-de-dragon-mrbzokez\">Caldo de Dragón</a>, permitiéndoles enfrentar desafíos que de otro modo habrían sido insuperables.</p>\n\n<h2>Acceso</h2>\n<p>La Gran Biblioteca de Kaliria solo puede ser accesible para aquellos que demuestren ser dignos de su conocimiento. Tarot, como guardián, somete a cada visitante a una prueba que evalúa su capacidad para manejar el poder del saber. Solo quienes superan esta prueba pueden acceder a los secretos contenidos en sus estantes y, en particular, al Libro de Tarot.</p>\n\n<h2>Curiosidades</h2>\n<ul>\n<li>El Libro de Tarot no es un objeto inanimado, sino una entidad consciente que interactúa con quienes intentan leerlo.</li>\n<li>La Gran Biblioteca de Kaliria es uno de los pocos lugares en el mundo donde el tiempo parece detenerse, permitiendo a los visitantes sumergirse en el conocimiento sin distracciones.</li>\n<li>Se rumorea que, en sus estantes más profundos, se encuentran libros que contienen profecías aún no cumplidas y secretos que podrían cambiar el destino del mundo.</li>\n</ul>",
-    "infobox": {
-      "Padre": "",
-      "Madre": "",
-      "Pareja": "",
-      "Hijos": "",
-      "Parientes": ""
-    },
+    "infobox": {},
     "timeline_markers": [],
     "timeline_order": [],
     "created_date": "2026-08-24T14:54:43.309Z",
-    "updated_date": "2026-09-24T10:10:06.243Z",
+    "updated_date": "2026-10-18T20:41:07.783Z",
     "related_article_ids": [
       "art-1787665014090",
       "art-1787665642246"
     ],
     "map_url": "https://cartocraft.ai.studio/#/map/6a33c6fb7fcb71b00f8684d7/no-ui?markers=false&lights=true&helpers=false&root=6a33c6fb7fcb71b00f8684d7",
-    "extra_categories": [],
-    "image_url": "/images/covers/la-gran-biblioteca-de-kaliria-mt7cxkz1.jpg"
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": "",
+    "image_position_x": 50,
+    "image_position_y": 50,
+    "gallery": [],
+    "tags": [],
+    "monsters": [],
+    "monster_images": {},
+    "spells": [],
+    "spell_images": {},
+    "filters": {
+      "campaña": [],
+      "continente": [],
+      "plano": [],
+      "criatura": [],
+      "entidad": []
+    },
+    "imageUrl": ""
   },
   {
     "id": "art-1787582919040",
@@ -11392,7 +11480,7 @@
     "summary": "Ciudad marginada de Boletaria, hogar de demonios y corrupción.",
     "content": "<h2><strong>Historia</strong></h2>   <p>Mehetia, repugnante y sin dios, es el hogar de muchos demonios asquerosos y despreciables. La gente de <a href=\"/articulo/boletaria-7e36fa\">Boletaria</a> usó este valle como vertedero para todas las almas no deseadas, los marginados serían exiliados para vivir sus vidas lejos de la civilización y establecer una nueva residencia en el horrible pantano. Cuando <strong><a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Santa Astraea de la Piedad</a></strong> descubrió los horrores del valle, se encargó de viajar hacia allá para purificar y salvar a sus habitantes de la depravación total. Al llegar, se sintió profundamente afligida por el estado de la tierra y su gente. Disgustada de que los dioses permitieran que existiera algo así, decidió renegar de sus votos y adoptó el alma de un demonio que <a href=\"/articulo/rey-allant-fb4cad\">Rey Allant</a> le ofreció, lo que le dio las habilidades necesarias para purificar, aunque solo fuera un poco, el valle de Mehetia. Gracias a esto, <strong><a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Astraea</a></strong> es muy querida en todo el valle, pero también lleva el alma demoníaca más impía y vil de todas. La familia <a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Vinland</a> es bien conocida en las tierras occidentales de <a href=\"/articulo/kaliria\">Kaliria</a> y siempre tuvo una gran influencia en sus iglesias.</p>   <p>## <strong>Personajes clave</strong></p>   <p>- <strong><a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Garl Vinland</a></strong>: Un <a href=\"/articulo/guerrero\" class=\"text-primary hover:underline font-semibold\">guerrero</a> robusto y devoto, protector de la <strong><a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Dama Astraea</a></strong>.</p>   <p>- <strong><a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Dama Astraea</a></strong>: Una figura pura y serena, santa de gran piedad que busca purificar el valle de Mehetia.</p>   <p>- <strong><a href=\"/articulo/rey-allant-fb4cad\">Rey Allant</a></strong>: Un personaje que ofrece el alma de un demonio a la <strong><a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Dama Astraea</a></strong>.</p>   <p>## <strong>Lugares relacionados</strong></p>   <p>- <a href=\"/articulo/boletaria-7e36fa\">Boletaria</a>: Un lugar donde se encuentra la ciudad de Mehetia.</p>   <p>- <a href=\"/articulo/torre-de-latria-mrfccvm3\">Torre de Latria</a>: Un lugar mencionado en el contexto de Mehetia.</p>   <p>- <a href=\"/articulo/kaliria\">Kaliria</a>: Un lugar donde se encuentra la familia <a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Vinland</a>.</p>   <p>## <strong>Características</strong></p>   <p>Mehetia se caracteriza por ser un pantano corrupto lleno de demonios y enfermedades. La presencia de la <strong><a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Dama Astraea</a></strong> y su decisión de adoptar el alma de un demonio han tenido un impacto significativo en la región, aunque la corrupción y la miseria siguen siendo una realidad en este valle marginado.</p>",
     "created_date": "2026-07-10T19:46:06.229Z",
-    "updated_date": "2026-09-24T10:10:22.735Z",
+    "updated_date": "2026-10-17T13:30:16.049Z",
     "infobox": {
       "Título": "Mehetia",
       "Categoría": "Lugares",
@@ -11463,7 +11551,8 @@
       "Lugares",
       "Mazmorras"
     ],
-    "image_url": "/images/covers/mehetia-mrfciyvp.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "id": "art-1783712480274",
@@ -11946,7 +12035,7 @@
     "is_featured": false,
     "id": "art-1783680242263",
     "created_date": "2026-07-10T10:44:03.227Z",
-    "updated_date": "2026-07-10T10:48:51.786Z",
+    "updated_date": "2026-10-17T13:30:08.539Z",
     "gallery": [],
     "related_article_ids": [],
     "filters": {
@@ -11956,8 +12045,10 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": [],
-    "image_url": "/images/covers/la-capital.png"
+    "extra_categories": [
+      "Lugares"
+    ],
+    "image_url": ""
   },
   {
     "title": "Máscara de Purga",
@@ -12032,7 +12123,8 @@
     "created_date": "2026-07-10T10:43:37.451Z",
     "updated_date": "2026-07-29T09:28:56.960Z",
     "extra_categories": [],
-    "image_url": "/images/covers/parasito-de-cobre.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "id": "art-1783643834135",
@@ -12879,7 +12971,7 @@
     "related_article_ids": [
       "art-1787666875758"
     ],
-    "image_url": "/images/uploads/carpa_de_la_compa_ia-1791709950103_qa1fs.png",
+    "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -12897,7 +12989,8 @@
       "Planos"
     ],
     "spells": [],
-    "spell_images": {}
+    "spell_images": {},
+    "imageUrl": ""
   },
   {
     "id": "art-1783511194716",
@@ -12983,7 +13076,8 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/la-compania-mrc0in6q.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "id": "art-1783510714533",
@@ -14039,7 +14133,8 @@
       "art-1787664906161"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/llamas-en-la-noche.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Leonard Loux",
@@ -14621,7 +14716,8 @@
       "art-1787664906161"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/la-guerra-del-averno.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "La Familia Elegida",
@@ -14712,7 +14808,8 @@
       "art-1787665587156"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/la-familia-elegida.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "La Era de Los Dioses",
@@ -14817,7 +14914,8 @@
       "art-1787664370722"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/la-era-de-los-dioses.jpg"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Kōryū no Kame",
@@ -15615,7 +15713,8 @@
       "art-1787664906161"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/hagamos-caldo-de-dragon.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Gungnir",
@@ -15645,7 +15744,8 @@
       "art-1787665103836"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/gungnir.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Gromock",
@@ -16287,7 +16387,8 @@
       "art-1787666836984"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/freya.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Fit Fitson",
@@ -16536,7 +16637,8 @@
       "6a2191de386a7048e8d7e6b8"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/feria-de-makai.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Familia Díaz",
@@ -16684,7 +16786,8 @@
       "art-1783383871252"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/familia-deez.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Fafnir",
@@ -17084,7 +17187,8 @@
       "art-1787664906161"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/el-reino-de-los-suenos.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "El Oni del Cerezo",
@@ -17989,7 +18093,8 @@
       "Dioses",
       "Consejo Omega"
     ],
-    "image_url": "/images/covers/chemos.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Bestias del Apocalipsis",
@@ -18054,7 +18159,8 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/bestias-del-apocalipsis.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Bellmoth",
@@ -18848,7 +18954,8 @@
       "art-1783383906169"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/arashi.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Aeros",
@@ -19019,7 +19126,7 @@
     "is_featured": false,
     "id": "art-1783383434816",
     "created_date": "2026-07-07T00:17:23.017Z",
-    "updated_date": "2026-10-15T12:09:57.884Z",
+    "updated_date": "2026-10-15T12:10:46.636Z",
     "image_url": "",
     "gallery": [],
     "related_article_ids": [
@@ -19349,7 +19456,8 @@
       "art-1783383842297"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/una-carta-inesperada.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Una Leyenda se Forja",
@@ -19377,7 +19485,8 @@
       "art-1787665818655"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/una-leyenda-se-forja.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Umberlee",
@@ -19437,7 +19546,8 @@
       "art-1783509789811"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/umberlee.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Tumba de Chemos",
@@ -19564,7 +19674,7 @@
     "id": "art-1783383337454",
     "created_date": "2026-07-07T00:15:47.991Z",
     "updated_date": "2026-10-09T10:59:05.749Z",
-    "image_url": "/images/covers/thravir-el-loxodon.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787665587156",
@@ -19582,7 +19692,8 @@
     "image_position_y": 20,
     "extra_categories": [
       "Personajes"
-    ]
+    ],
+    "imageUrl": ""
   },
   {
     "title": "Thorin Loux",
@@ -19952,7 +20063,8 @@
       "Dioses",
       "Ascendidos"
     ],
-    "image_url": "/images/covers/tauron.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Takhisis",
@@ -20041,7 +20153,8 @@
       "Dioses",
       "Ascendidos"
     ],
-    "image_url": "/images/covers/takhisis.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Syndragosa",
@@ -20409,7 +20522,7 @@
     "id": "art-1783383230017",
     "created_date": "2026-07-07T00:13:51.802Z",
     "updated_date": "2026-10-09T10:55:10.663Z",
-    "image_url": "/images/covers/rey-redcap.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787665729589",
@@ -20428,7 +20541,8 @@
     "image_position_y": 30,
     "extra_categories": [
       "Personajes"
-    ]
+    ],
+    "imageUrl": ""
   },
   {
     "title": "Rexyrian",
@@ -20497,7 +20611,7 @@
       "art-1783383696074",
       "art-1787664906161"
     ],
-    "image_url": "/images/covers/rexyrian-1789638711927.png",
+    "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -20513,7 +20627,8 @@
     "extra_categories": [
       "Dragones",
       "Bestias"
-    ]
+    ],
+    "imageUrl": ""
   },
   {
     "title": "Raxxar",
@@ -21272,7 +21387,8 @@
       "Dioses",
       "Consejo Omega"
     ],
-    "image_url": "/images/covers/nuitari.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Nidhog",
@@ -21322,7 +21438,8 @@
     "created_date": "2026-07-07T00:11:09.252Z",
     "updated_date": "2026-07-07T00:11:09.252Z",
     "extra_categories": [],
-    "image_url": "/images/covers/nidhog.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Nemuina",
@@ -21395,7 +21512,8 @@
       "Dioses",
       "Ascendidos"
     ],
-    "image_url": "/images/covers/nemuina.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Mushusu",
@@ -21456,7 +21574,8 @@
       "art-1787666801376"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/mushusu.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Morgion",
@@ -21521,7 +21640,8 @@
       "Dioses",
       "Consejo Omega"
     ],
-    "image_url": "/images/covers/morgion.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Moonhaven",
@@ -21851,7 +21971,8 @@
       "art-1787666836984"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/marduk.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Mamon",
@@ -21920,12 +22041,13 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "/images/covers/mamon.png",
+    "image_url": "",
     "image_position_x": 50,
     "image_position_y": 30,
     "extra_categories": [
       "Personajes"
-    ]
+    ],
+    "imageUrl": ""
   },
   {
     "title": "La Corona del Apocalipsis",
@@ -21958,7 +22080,8 @@
       "art-1783383645366"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/la-corona-del-apocalipsis.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Auros",

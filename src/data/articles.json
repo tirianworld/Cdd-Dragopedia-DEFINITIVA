@@ -111,7 +111,8 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "/images/covers/mongraal.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "id": "caldo-de-dragon",
@@ -270,7 +271,8 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/culto-a-la-piedad.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Astora",
@@ -365,7 +367,7 @@
       "Dioses",
       "Verdaderos"
     ],
-    "image_url": "/images/covers/faram-senor-del-sol.jpg",
+    "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -380,7 +382,8 @@
       "plano": [],
       "criatura": [],
       "entidad": []
-    }
+    },
+    "imageUrl": ""
   },
   {
     "title": "Alejandría",
@@ -509,7 +512,8 @@
       "Dioses",
       "Verdaderos"
     ],
-    "image_url": "/images/covers/la-luna-oscura.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "id": "art-1789932671503",
@@ -1546,7 +1550,8 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/refugiados-del-feywild.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Corte Feérica",
@@ -1646,7 +1651,7 @@
     "id": "art-1787667632755",
     "created_date": "2026-08-25T14:20:39.692Z",
     "updated_date": "2026-10-15T12:27:58.278Z",
-    "image_url": "/images/covers/seis-magias-primordiales.png",
+    "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -1805,7 +1810,8 @@
     },
     "extra_categories": [
       "Magias"
-    ]
+    ],
+    "imageUrl": ""
   },
   {
     "title": "Adamantita",
@@ -1937,7 +1943,8 @@
     "created_date": "2026-08-25T14:13:49.232Z",
     "updated_date": "2026-08-25T14:13:49.232Z",
     "extra_categories": [],
-    "image_url": "/images/covers/familias-de-herreros-malditos.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Diablos",
@@ -4998,7 +5005,8 @@
     "created_date": "2026-08-25T13:52:57.466Z",
     "updated_date": "2026-08-25T13:52:57.466Z",
     "extra_categories": [],
-    "image_url": "/images/covers/segadores.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Aulladores",
@@ -5527,7 +5535,8 @@
       "Dioses",
       "Consejo Omega"
     ],
-    "image_url": "/images/covers/chemos-el-dios-oscuro.jpg"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Fafnir, el Dios Dragón",
@@ -5587,7 +5596,8 @@
       "Ascendidos",
       "Regionales"
     ],
-    "image_url": "/images/covers/fafnir-el-dios-dragon.jpg"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "ki",
@@ -5777,9 +5787,10 @@
     "extra_categories": [
       "Lugares"
     ],
-    "image_url": ".",
+    "image_url": "",
     "spells": [],
-    "spell_images": {}
+    "spell_images": {},
+    "imageUrl": ""
   },
   {
     "title": "Monjes de la Mano Abierta",
@@ -8008,7 +8019,8 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/los-latentes.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "El Plano Material",
@@ -9860,7 +9872,8 @@
       "art-1787665007919"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/plaga-de-las-bestias.jpg"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Logario",
@@ -9981,7 +9994,8 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/la-blanca-inquisicion.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "La Blanca Vía",
@@ -10036,7 +10050,8 @@
       "Dioses",
       "Verdaderos"
     ],
-    "image_url": "/images/covers/la-blanca-via.jpg"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Devotos de la Reina",
@@ -10311,7 +10326,7 @@
       "art-1787666625565",
       "art-1787666875758"
     ],
-    "image_url": "/images/covers/stygia-1789491651779.png",
+    "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -10324,7 +10339,8 @@
       "criatura": [],
       "entidad": []
     },
-    "extra_categories": []
+    "extra_categories": [],
+    "imageUrl": ""
   },
   {
     "title": "Planeshifter",
@@ -10626,7 +10642,7 @@
     "extra_categories": [
       "Lugares"
     ],
-    "image_url": "5",
+    "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -10641,7 +10657,8 @@
       "plano": [],
       "criatura": [],
       "entidad": []
-    }
+    },
+    "imageUrl": ""
   },
   {
     "id": "art-1787582919040",
@@ -11534,7 +11551,8 @@
       "Lugares",
       "Mazmorras"
     ],
-    "image_url": "/images/covers/mehetia-mrfciyvp.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "id": "art-1783712480274",
@@ -12105,7 +12123,8 @@
     "created_date": "2026-07-10T10:43:37.451Z",
     "updated_date": "2026-07-29T09:28:56.960Z",
     "extra_categories": [],
-    "image_url": "/images/covers/parasito-de-cobre.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "id": "art-1783643834135",
@@ -12952,7 +12971,7 @@
     "related_article_ids": [
       "art-1787666875758"
     ],
-    "image_url": "/images/uploads/carpa_de_la_compa_ia-1791709950103_qa1fs.png",
+    "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -12970,7 +12989,8 @@
       "Planos"
     ],
     "spells": [],
-    "spell_images": {}
+    "spell_images": {},
+    "imageUrl": ""
   },
   {
     "id": "art-1783511194716",
@@ -13056,7 +13076,8 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/la-compania-mrc0in6q.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "id": "art-1783510714533",
@@ -14112,7 +14133,8 @@
       "art-1787664906161"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/llamas-en-la-noche.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Leonard Loux",
@@ -14694,7 +14716,8 @@
       "art-1787664906161"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/la-guerra-del-averno.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "La Familia Elegida",
@@ -14785,7 +14808,8 @@
       "art-1787665587156"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/la-familia-elegida.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "La Era de Los Dioses",
@@ -14890,7 +14914,8 @@
       "art-1787664370722"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/la-era-de-los-dioses.jpg"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Kōryū no Kame",
@@ -15688,7 +15713,8 @@
       "art-1787664906161"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/hagamos-caldo-de-dragon.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Gungnir",
@@ -15718,7 +15744,8 @@
       "art-1787665103836"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/gungnir.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Gromock",
@@ -16360,7 +16387,8 @@
       "art-1787666836984"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/freya.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Fit Fitson",
@@ -16609,7 +16637,8 @@
       "6a2191de386a7048e8d7e6b8"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/feria-de-makai.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Familia Díaz",
@@ -16757,7 +16786,8 @@
       "art-1783383871252"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/familia-deez.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Fafnir",
@@ -17157,7 +17187,8 @@
       "art-1787664906161"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/el-reino-de-los-suenos.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "El Oni del Cerezo",
@@ -18062,7 +18093,8 @@
       "Dioses",
       "Consejo Omega"
     ],
-    "image_url": "/images/covers/chemos.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Bestias del Apocalipsis",
@@ -18127,7 +18159,8 @@
       "entidad": []
     },
     "extra_categories": [],
-    "image_url": "/images/covers/bestias-del-apocalipsis.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Bellmoth",
@@ -18921,7 +18954,8 @@
       "art-1783383906169"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/arashi.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Aeros",
@@ -19422,7 +19456,8 @@
       "art-1783383842297"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/una-carta-inesperada.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Una Leyenda se Forja",
@@ -19450,7 +19485,8 @@
       "art-1787665818655"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/una-leyenda-se-forja.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Umberlee",
@@ -19510,7 +19546,8 @@
       "art-1783509789811"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/umberlee.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Tumba de Chemos",
@@ -19637,7 +19674,7 @@
     "id": "art-1783383337454",
     "created_date": "2026-07-07T00:15:47.991Z",
     "updated_date": "2026-10-09T10:59:05.749Z",
-    "image_url": "/images/covers/thravir-el-loxodon.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787665587156",
@@ -19655,7 +19692,8 @@
     "image_position_y": 20,
     "extra_categories": [
       "Personajes"
-    ]
+    ],
+    "imageUrl": ""
   },
   {
     "title": "Thorin Loux",
@@ -20025,7 +20063,8 @@
       "Dioses",
       "Ascendidos"
     ],
-    "image_url": "/images/covers/tauron.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Takhisis",
@@ -20114,7 +20153,8 @@
       "Dioses",
       "Ascendidos"
     ],
-    "image_url": "/images/covers/takhisis.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Syndragosa",
@@ -20482,7 +20522,7 @@
     "id": "art-1783383230017",
     "created_date": "2026-07-07T00:13:51.802Z",
     "updated_date": "2026-10-09T10:55:10.663Z",
-    "image_url": "/images/covers/rey-redcap.png",
+    "image_url": "",
     "gallery": [],
     "related_article_ids": [
       "art-1787665729589",
@@ -20501,7 +20541,8 @@
     "image_position_y": 30,
     "extra_categories": [
       "Personajes"
-    ]
+    ],
+    "imageUrl": ""
   },
   {
     "title": "Rexyrian",
@@ -20570,7 +20611,7 @@
       "art-1783383696074",
       "art-1787664906161"
     ],
-    "image_url": "/images/covers/rexyrian-1789638711927.png",
+    "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -20586,7 +20627,8 @@
     "extra_categories": [
       "Dragones",
       "Bestias"
-    ]
+    ],
+    "imageUrl": ""
   },
   {
     "title": "Raxxar",
@@ -21345,7 +21387,8 @@
       "Dioses",
       "Consejo Omega"
     ],
-    "image_url": "/images/covers/nuitari.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Nidhog",
@@ -21395,7 +21438,8 @@
     "created_date": "2026-07-07T00:11:09.252Z",
     "updated_date": "2026-07-07T00:11:09.252Z",
     "extra_categories": [],
-    "image_url": "/images/covers/nidhog.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Nemuina",
@@ -21468,7 +21512,8 @@
       "Dioses",
       "Ascendidos"
     ],
-    "image_url": "/images/covers/nemuina.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Mushusu",
@@ -21529,7 +21574,8 @@
       "art-1787666801376"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/mushusu.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Morgion",
@@ -21594,7 +21640,8 @@
       "Dioses",
       "Consejo Omega"
     ],
-    "image_url": "/images/covers/morgion.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Moonhaven",
@@ -21924,7 +21971,8 @@
       "art-1787666836984"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/marduk.webp"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Mamon",
@@ -21993,12 +22041,13 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "/images/covers/mamon.png",
+    "image_url": "",
     "image_position_x": 50,
     "image_position_y": 30,
     "extra_categories": [
       "Personajes"
-    ]
+    ],
+    "imageUrl": ""
   },
   {
     "title": "La Corona del Apocalipsis",
@@ -22031,7 +22080,8 @@
       "art-1783383645366"
     ],
     "extra_categories": [],
-    "image_url": "/images/covers/la-corona-del-apocalipsis.png"
+    "image_url": "",
+    "imageUrl": ""
   },
   {
     "title": "Auros",

@@ -14805,11 +14805,13 @@
     "is_featured": false,
     "id": "art-1783384085595",
     "created_date": "2026-07-07T00:28:13.401Z",
-    "updated_date": "2026-07-29T09:30:40.219Z",
+    "updated_date": "2026-10-20T10:49:46.959Z",
     "related_article_ids": [
       "art-1787665587156"
     ],
-    "extra_categories": [],
+    "extra_categories": [
+      "Familias"
+    ],
     "image_url": "",
     "imageUrl": ""
   },

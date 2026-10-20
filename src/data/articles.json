@@ -21444,8 +21444,10 @@
     "is_featured": false,
     "id": "art-1783383061996",
     "created_date": "2026-07-07T00:11:09.252Z",
-    "updated_date": "2026-07-07T00:11:09.252Z",
-    "extra_categories": [],
+    "updated_date": "2026-10-20T10:49:56.614Z",
+    "extra_categories": [
+      "Objetos"
+    ],
     "image_url": "",
     "imageUrl": ""
   },

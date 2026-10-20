@@ -22080,7 +22080,7 @@
     "is_featured": false,
     "id": "art-1783382815626",
     "created_date": "2026-07-07T00:06:57.750Z",
-    "updated_date": "2026-07-07T00:06:57.750Z",
+    "updated_date": "2026-10-20T10:50:01.771Z",
     "related_article_ids": [
       "art-1783383921777",
       "art-1783384096482",
@@ -22089,7 +22089,9 @@
       "art-1783383276390",
       "art-1783383645366"
     ],
-    "extra_categories": [],
+    "extra_categories": [
+      "Objetos"
+    ],
     "image_url": "",
     "imageUrl": ""
   },

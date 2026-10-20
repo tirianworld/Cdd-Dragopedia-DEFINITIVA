@@ -19541,11 +19541,13 @@
     "is_featured": false,
     "id": "art-1783383355847",
     "created_date": "2026-07-07T00:16:14.732Z",
-    "updated_date": "2026-08-23T16:52:56.244Z",
+    "updated_date": "2026-10-20T10:48:51.163Z",
     "related_article_ids": [
       "art-1783509789811"
     ],
-    "extra_categories": [],
+    "extra_categories": [
+      "Dioses"
+    ],
     "image_url": "",
     "imageUrl": ""
   },

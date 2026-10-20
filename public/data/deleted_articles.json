@@ -1,10 +1,1 @@
-[
-  {
-    "id": "art-test-delete-12345",
-    "slug": "test-articulo-para-borrar-12345",
-    "title": "Test Articulo Para Borrar",
-    "category": "General",
-    "deletedAt": "2026-10-20T11:09:41.626Z",
-    "reason": "Eliminado desde la interfaz de la wiki"
-  }
-]
+[]

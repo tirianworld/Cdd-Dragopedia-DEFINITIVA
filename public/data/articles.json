@@ -1,15 +1,5 @@
 [
   {
-    "id": "art-test-delete-12345",
-    "slug": "test-articulo-para-borrar-12345",
-    "title": "Test Articulo Para Borrar",
-    "category": "General",
-    "summary": "Articulo de prueba para verificar borrado persistente",
-    "content": "<p>Contenido de prueba</p>",
-    "created_date": "2026-10-20T11:09:38.547Z",
-    "updated_date": "2026-10-20T11:09:38.547Z"
-  },
-  {
     "id": "art-1792327400020",
     "slug": "primordial-reflejo",
     "title": "Primordial Reflejo",

@@ -12121,8 +12121,10 @@
     "is_featured": false,
     "id": "art-1783680216668",
     "created_date": "2026-07-10T10:43:37.451Z",
-    "updated_date": "2026-07-29T09:28:56.960Z",
-    "extra_categories": [],
+    "updated_date": "2026-10-20T10:49:52.631Z",
+    "extra_categories": [
+      "Objetos"
+    ],
     "image_url": "",
     "imageUrl": ""
   },

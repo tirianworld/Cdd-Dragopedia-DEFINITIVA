@@ -19452,7 +19452,7 @@
     "is_featured": false,
     "id": "art-1783383383113",
     "created_date": "2026-07-07T00:16:29.138Z",
-    "updated_date": "2026-07-07T00:16:29.138Z",
+    "updated_date": "2026-10-20T10:50:06.824Z",
     "related_article_ids": [
       "art-1783383623438",
       "art-1783383765360",
@@ -19461,7 +19461,9 @@
       "art-1783383696074",
       "art-1783383842297"
     ],
-    "extra_categories": [],
+    "extra_categories": [
+      "Eventos"
+    ],
     "image_url": "",
     "imageUrl": ""
   },

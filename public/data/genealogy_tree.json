@@ -12,7 +12,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Tiefling / Demonio",
-      "imageUrl": "/images/covers/mongraal.webp",
+      "imageUrl": "",
       "summary": "Guerrero y brawler tiefling de piel roja carmesí, grandes cuernos negros y fuerza colosal, célebre por sus pulsos épicos en la taberna y su bravura en combate.",
       "relations": {
         "parents": [],
@@ -62,7 +62,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Panteón & Dragones",
       "raceOrSpecies": "Dioses",
-      "imageUrl": "/images/covers/faram-senor-del-sol.jpg",
+      "imageUrl": "",
       "summary": "*Faram es la deidad solar venerada por los Guerreros de la Luz Solar, descrito como el propio Sol, ardiente, generoso y temible en la batalla, fuente de esperanza y justicia en Kaliria.*",
       "relations": {
         "parents": [],
@@ -88,7 +88,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Familia Díaz",
       "raceOrSpecies": "Dioses",
-      "imageUrl": "/images/covers/la-luna-oscura.png",
+      "imageUrl": "",
       "summary": "<i>Deidad central de la fe más extendida en Kaliria, encarna la noche y la promesa de que la ausencia de luz impedirá el despertar de los males.</i>",
       "relations": {
         "parents": [],
@@ -163,7 +163,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Familias",
-      "imageUrl": "/images/covers/familias-de-herreros-malditos.png",
+      "imageUrl": "",
       "summary": "*Linajes de herreros que han heredado el secreto de forjar el Acero Infernal, transmitiendo no solo el conocimiento, sino también una maldición generacional vinculada a pactos infernales.*",
       "relations": {
         "parents": [],
@@ -189,7 +189,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Casa Loux",
       "raceOrSpecies": "Familias",
-      "imageUrl": "/images/covers/la-casa-loux.png",
+      "imageUrl": "",
       "summary": "La Casa Loux, linaje enano de Aeros y Kaliria, es famosa por descubrir y dominar el mithril, una tradición de forja legendaria que combina grandeza, tragedia y redención a través de figuras como Thorin, Leonard y Pepe Loux.",
       "relations": {
         "parents": [],
@@ -239,7 +239,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Personajes",
-      "imageUrl": "/images/covers/ludwig.png",
+      "imageUrl": "",
       "summary": "*Miembro del Tribunal de Kaliria que abrazó la facción de los Aulladores, defendiendo el uso de la transformación bestial como arma de guerra. Su postura refleja una aceptación de la bestialidad como herramienta necesaria.*",
       "relations": {
         "parents": [],
@@ -265,7 +265,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Panteón & Dragones",
       "raceOrSpecies": "Dioses",
-      "imageUrl": "/images/covers/chemos-el-dios-oscuro.jpg",
+      "imageUrl": "",
       "summary": "*Chemos, deidad primordial de la nigromancia, profanó a Fafnir y corrompió su esencia, transformándolo en una abominación de muerte. Su poder era tal que ni mortales ni inmortales osaban enfrentarlo, hasta que Edacorn lo derrotó con un golpe certero.*",
       "relations": {
         "parents": [],
@@ -366,7 +366,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Panteón & Dragones",
       "raceOrSpecies": "Dioses",
-      "imageUrl": "/images/covers/la-blanca-via.jpg",
+      "imageUrl": "",
       "summary": "*Entidad divina de luz blanca que descendió sobre La Capital durante la plaga de las bestias, curando a algunos sin distinción de culpa, pero ignorando a otros. Es adorada como el dios de la misericordia, la redención y la compasión universal, cuyo dogma central reza que la piedad redime y renueva el espíritu.*",
       "relations": {
         "parents": [],
@@ -706,7 +706,7 @@
       "status": "desconocido",
       "gender": "desconocido",
       "raceOrSpecies": "Familias",
-      "imageUrl": "/images/covers/la-familia-elegida.png",
+      "imageUrl": "",
       "summary": "*Dinastía real que gobernó Moonhaven tras la Guerra del Averno, forjada no por linaje divino, sino por la elección del pueblo y la bendición de los dioses. Su legado perdura en la memoria colectiva como símbolo de fe, justicia y sacrificio.*",
       "relations": {
         "parents": [],
@@ -1002,7 +1002,7 @@
       "gender": "femenino",
       "houseOrFamily": "Dioses De Aeros",
       "raceOrSpecies": "Diosa",
-      "imageUrl": "/images/covers/freya.webp",
+      "imageUrl": "",
       "summary": "<i>Freya, diosa del amor, fertilidad y sabiduría, llega a Aeros como luz celestial, venerada por los enanos nórdicos y académicos. Su dualidad entre ternura y furia la convierte en protectora y guerrera, y su destierro al Plano Astral alimenta la esperanza de su regreso.</i>",
       "relations": {
         "parents": [],
@@ -1113,7 +1113,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Casa Deez",
       "raceOrSpecies": "Enanos",
-      "imageUrl": "/images/covers/familia-deez.png",
+      "imageUrl": "",
       "summary": "*La familia Deez, una de las más antiguas y veneradas entre los enanos de Aeros, pasó de ser druidas devotos de Freya a paladines de Marduk, enfrentó la sangrienta masacre de Glimmerstone y dejó un legado de equilibrio entre naturaleza y guerra.*",
       "relations": {
         "parents": [],
@@ -1195,7 +1195,7 @@
       "gender": "masculino",
       "houseOrFamily": "Loas(Semidioses Naturales)",
       "raceOrSpecies": "Semidios Natural(Loa)",
-      "imageUrl": "/images/covers/el-loa-tigre.png",
+      "imageUrl": "",
       "summary": "<i>El Loa Tigre, guardián del bosque y semidiós elemental, surge como un majestuoso tigre verde de 12 metros, con ojos dorados y un collar de acero infernal que lo corrompe bajo el dominio de Zaltar, hasta ser liberado por Caldo de Dragón.</i>",
       "relations": {
         "parents": [],
@@ -1384,7 +1384,7 @@
       "gender": "masculino",
       "houseOrFamily": "Dioses de Aeros",
       "raceOrSpecies": "Dios Oscuro",
-      "imageUrl": "/images/covers/chemos.png",
+      "imageUrl": "",
       "summary": "*Chemos, el dios oscuro de los no muertos, es una entidad temida y reverenciada; anciano cadavérico de ojos negros y magia negra como petróleo. Lideró el Consejo Omega, corrompió héroes y fue aniquilado por Edacorn, hijo del dios dragón, poniendo fin a su reinado.*",
       "relations": {
         "parents": [],
@@ -1566,7 +1566,7 @@
       "gender": "femenino",
       "houseOrFamily": "Dioses de Aeros",
       "raceOrSpecies": "Diosa Oscura",
-      "imageUrl": "/images/covers/umberlee.png",
+      "imageUrl": "",
       "summary": "<i>Umberlee, diosa oscura del mar de Aeros, encarna la furia abisal y el rencor contra mortales y dioses ajenos al Consejo Omega. De 15 m de altura, su torso humanoide se funde con tentáculos de kraken, y su voluntad controla tormentas y criaturas oceánicas.</i>",
       "relations": {
         "parents": [],
@@ -1596,7 +1596,7 @@
       "gender": "desconocido",
       "houseOrFamily": "Desconocida",
       "raceOrSpecies": "Loxodon",
-      "imageUrl": "/images/covers/thravir-el-loxodon.png",
+      "imageUrl": "",
       "summary": "*Thravir, el Loxodon, es un ser imponente de rasgos elefantinos y mirada cargada de secretos ancestrales. Dueño de la Tienda 23 y antiguo miembro del Consejo Omega, su naturaleza pragmática y su conexión con lo arcano lo convierten en un manipulador sutil pero peligroso, cuyo verdadero poder yace en los hilos oscuros de la magia y el comercio.*",
       "relations": {
         "parents": [],
@@ -1743,7 +1743,7 @@
       "gender": "masculino",
       "houseOrFamily": "Redcaps del Bosque Azul",
       "raceOrSpecies": "Redcap(Antes); Redcap Mutante",
-      "imageUrl": "/images/covers/rey-redcap.png",
+      "imageUrl": "",
       "summary": "<i>El Rey Redcap, una entidad fey colosal surgida de un redcap que bebió de un portal al Feywild, gobierna con una corona dorada, hacha sangrienta y aura de miedo. Su sed de sangre lo impulsa, pero su fin llega a manos de héroes que sellan su caída.</i>",
       "relations": {
         "parents": [],
@@ -1946,7 +1946,7 @@
       "gender": "femenino",
       "houseOrFamily": "Dioses de Aeros",
       "raceOrSpecies": "Diosa",
-      "imageUrl": "/images/covers/nuitari.png",
+      "imageUrl": "",
       "summary": "*Nuitari, diosa de la magia oscura, es una entidad primordial nacida del caos cósmico y las sombras entre mundos. Su poder radica en la manipulación sutil, el control mental y la corrupción de voluntades, tejiendo destinos desde las tinieblas. Con una presencia etérea y ojos naranjas como brasas, encarna la ambición desmedida y la astucia maquiavélica.*",
       "relations": {
         "parents": [],
@@ -1976,7 +1976,7 @@
       "gender": "masculino",
       "houseOrFamily": "Dioses de Aeros",
       "raceOrSpecies": "Dios Oscuro",
-      "imageUrl": "/images/covers/morgion.webp",
+      "imageUrl": "",
       "summary": "*Morgion, el Dios Oscuro de la Peste y la Podredumbre, encarna la corrupción eterna entre la vida y la muerte. Su figura decrépita, envuelta en un aura de enfermedad y desesperanza, simboliza la inevitabilidad de la decadencia para mortales e inmortales por igual, sin más propósito que regir el sufrimiento como justicia suprema.*",
       "relations": {
         "parents": [],
@@ -2069,7 +2069,7 @@
       "gender": "masculino",
       "houseOrFamily": "Dioses de Aeros",
       "raceOrSpecies": "Dios",
-      "imageUrl": "/images/covers/marduk.webp",
+      "imageUrl": "",
       "summary": "*Marduk, dios de la luz, la justicia, la curación y la magia blanca, es una deidad imponente originaria de los cielos estelares, desterrada al Plano Astral pero aún influyente entre paladines y clérigos de Aeros.*",
       "relations": {
         "parents": [],
@@ -2099,7 +2099,7 @@
       "gender": "masculino",
       "houseOrFamily": "Pecados Capitales",
       "raceOrSpecies": "Archi Diablo",
-      "imageUrl": "/images/covers/mamon.png",
+      "imageUrl": "",
       "summary": "*Mamón, la encarnación viviente de la codicia absoluta, es un archidiablo de cuatro metros, cubierto de oro y joyas, señor de Pandemonium. Manipula contratos, compra lealtades y corrompe almas, guiando una red de deudas y deseos que devora reinos y mortales por igual.*",
       "relations": {
         "parents": [],
@@ -4527,7 +4527,7 @@
       ]
     }
   ],
-  "lastUpdated": "2026-10-18T12:43:48.433Z",
+  "lastUpdated": "2026-10-20T11:09:43.948Z",
   "stats": {
     "totalCharacters": 128,
     "withArticleCount": 84,

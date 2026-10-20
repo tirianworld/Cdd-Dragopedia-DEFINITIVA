@@ -310,6 +310,11 @@ const LOCAL_SITE_UI_CONFIG_PATH = path.join(process.cwd(), "public", "data", "si
 const GITHUB_GENEALOGY_PATH = "public/data/genealogy_tree.json";
 const GITHUB_MAPS_PATH = "public/data/maps.json";
 const LOCAL_MAPS_PATH = path.join(process.cwd(), "public", "data", "maps.json");
+const GITHUB_DELETED_ARTICLES_PATH = "public/data/deleted_articles.json";
+const LOCAL_DELETED_ARTICLES_PATHS = [
+  path.join(process.cwd(), "public", "data", "deleted_articles.json"),
+  path.join(process.cwd(), "src", "data", "deleted_articles.json"),
+];
 
 async function readFromGitHub<T>(repoPath: string, tokenOverride?: string): Promise<T | null> {
   const currentRepo = getEffectiveGitHubRepo();
@@ -1089,6 +1094,143 @@ async function readMapsFromStorage(): Promise<{ folders: any[]; maps: any[]; upd
   return { folders: [], maps: [] };
 }
 
+// ---------------------------------------------------------------------------
+// Registro persistente de artículos eliminados (Tombstones / Deleted Articles)
+// ---------------------------------------------------------------------------
+export interface DeletedArticleRecord {
+  id: string;
+  slug: string;
+  title: string;
+  category?: string;
+  deletedAt: string;
+  reason?: string;
+}
+
+let deletedArticlesCache: DeletedArticleRecord[] | null = null;
+
+async function readDeletedArticles(): Promise<DeletedArticleRecord[]> {
+  if (deletedArticlesCache !== null) {
+    return deletedArticlesCache;
+  }
+
+  let localDeleted: DeletedArticleRecord[] = [];
+  for (const p of LOCAL_DELETED_ARTICLES_PATHS) {
+    try {
+      if (fs.existsSync(p)) {
+        const raw = fs.readFileSync(p, "utf8");
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          localDeleted = parsed;
+          break;
+        }
+      }
+    } catch (e) {
+      console.warn(`[Deleted Articles] Error reading ${p}:`, e);
+    }
+  }
+
+  let deletedList: DeletedArticleRecord[] = [...localDeleted];
+
+  if (GITHUB_TOKEN) {
+    try {
+      const ghDeleted = await readFromGitHub<DeletedArticleRecord[]>(GITHUB_DELETED_ARTICLES_PATH);
+      if (ghDeleted && Array.isArray(ghDeleted) && ghDeleted.length > 0) {
+        const map = new Map<string, DeletedArticleRecord>();
+        for (const item of ghDeleted) {
+          if (item && (item.id || item.slug)) {
+            map.set(item.id || item.slug, item);
+          }
+        }
+        for (const item of localDeleted) {
+          if (item && (item.id || item.slug)) {
+            map.set(item.id || item.slug, item);
+          }
+        }
+        deletedList = Array.from(map.values());
+      }
+    } catch (err) {
+      console.warn("[Deleted Articles] Error reading from GitHub:", err);
+    }
+  }
+
+  deletedArticlesCache = deletedList;
+  return deletedList;
+}
+
+async function writeDeletedArticles(records: DeletedArticleRecord[]): Promise<boolean> {
+  deletedArticlesCache = records;
+  const jsonContent = JSON.stringify(records, null, 2);
+
+  for (const p of LOCAL_DELETED_ARTICLES_PATHS) {
+    try {
+      const dir = path.dirname(p);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(p, jsonContent, "utf8");
+    } catch (err) {
+      console.error(`[Deleted Articles] Error saving to ${p}:`, err);
+    }
+  }
+
+  const token = getEffectiveGitHubToken();
+  if (token) {
+    writeToGitHub(
+      GITHUB_DELETED_ARTICLES_PATH,
+      jsonContent,
+      "Actualizar registro persistente de artículos eliminados (Dragopedia Deleted Articles Update)",
+      token
+    ).catch((err) => console.error("[Deleted Articles] GitHub push error:", err));
+  }
+
+  return true;
+}
+
+async function recordDeletedArticles(items: Array<{ id: string; slug?: string; title?: string; category?: string; reason?: string }>): Promise<void> {
+  const current = await readDeletedArticles();
+  const map = new Map<string, DeletedArticleRecord>();
+  for (const c of current) {
+    if (c.id) map.set(c.id, c);
+    if (c.slug) map.set(c.slug, c);
+  }
+
+  const now = new Date().toISOString();
+  let modified = false;
+
+  for (const item of items) {
+    const id = item.id || `art-${Date.now()}`;
+    const slug = item.slug || id;
+    if (!map.has(id) && !map.has(slug)) {
+      const rec: DeletedArticleRecord = {
+        id,
+        slug,
+        title: item.title || slug,
+        category: item.category || "General",
+        deletedAt: now,
+        reason: item.reason || "Usuario eliminó el artículo"
+      };
+      current.push(rec);
+      map.set(id, rec);
+      map.set(slug, rec);
+      modified = true;
+    }
+  }
+
+  if (modified) {
+    await writeDeletedArticles(current);
+    // Invalidate articles cache to force re-filter
+    articlesCache = null;
+  }
+}
+
+async function unrecordDeletedArticle(idOrSlug: string): Promise<void> {
+  if (!idOrSlug) return;
+  const current = await readDeletedArticles();
+  const filtered = current.filter((c) => c.id !== idOrSlug && c.slug !== idOrSlug);
+  if (filtered.length !== current.length) {
+    await writeDeletedArticles(filtered);
+    articlesCache = null;
+  }
+}
+
 
 function initMultiFirebase() {
   if (firebaseInstances.length > 0) return;
@@ -1777,12 +1919,36 @@ async function readArticles(): Promise<WikiArticle[]> {
     }
   }
 
+  // Filtrar de forma estricta cualquier artículo registrado como eliminado para que nunca reaparezca
+  try {
+    const deletedRecords = await readDeletedArticles();
+    if (deletedRecords && deletedRecords.length > 0) {
+      const deletedIdSet = new Set(deletedRecords.map((d) => d.id).filter(Boolean));
+      const deletedSlugSet = new Set(deletedRecords.map((d) => d.slug).filter(Boolean));
+      articles = articles.filter((a) => !deletedIdSet.has(a.id) && !deletedSlugSet.has(a.slug));
+    }
+  } catch (dErr) {
+    console.warn("[Deleted Filter] Error al filtrar artículos eliminados:", dErr);
+  }
+
   articlesCache = articles;
   return articles;
 }
 
 // Helper to write articles with automatic routing & overflow
 async function writeArticles(articles: WikiArticle[], retryCount = 0, tokenOverride?: string): Promise<boolean> {
+  // Filtrar de forma estricta cualquier artículo registrado como eliminado antes de guardar
+  try {
+    const deletedRecords = await readDeletedArticles();
+    if (deletedRecords && deletedRecords.length > 0) {
+      const deletedIdSet = new Set(deletedRecords.map((d) => d.id).filter(Boolean));
+      const deletedSlugSet = new Set(deletedRecords.map((d) => d.slug).filter(Boolean));
+      articles = articles.filter((a) => !deletedIdSet.has(a.id) && !deletedSlugSet.has(a.slug));
+    }
+  } catch (dErr) {
+    console.warn("[Deleted Filter] Error al filtrar artículos eliminados en writeArticles:", dErr);
+  }
+
   // Auto-scrub any regional geo-blocked placeholders and normalize infoboxes before writing
   for (const art of articles) {
     if (art) {
@@ -3618,11 +3784,17 @@ app.post("/api/articles/sync", async (req: Request, res: Response) => {
     const deletedIds: string[] = [];
 
     const serverIdSet = new Set(serverArticles.map((a) => a.id));
+    const serverSlugSet = new Set(serverArticles.map((a) => a.slug));
+    const deletedRecords = await readDeletedArticles();
+    const deletedIdSet = new Set(deletedRecords.map((d) => d.id).filter(Boolean));
+    const deletedSlugSet = new Set(deletedRecords.map((d) => d.slug).filter(Boolean));
 
-    // Find deleted articles: present in client's cache, but not on the server
+    // Find deleted articles: present in client's cache, but not on the server or explicitly registered in tombstones
     for (const id in clientCache) {
-      if (!serverIdSet.has(id)) {
-        deletedIds.push(id);
+      if (!serverIdSet.has(id) || deletedIdSet.has(id) || deletedSlugSet.has(id)) {
+        if (!deletedIds.includes(id)) {
+          deletedIds.push(id);
+        }
       }
     }
 
@@ -3946,6 +4118,28 @@ Return ONLY a valid JSON object matching the input structure. Do not include mar
   }
 }
 
+// 1d. Consultar lista de artículos eliminados
+app.get("/api/articles/deleted", async (_req: Request, res: Response) => {
+  try {
+    const deleted = await readDeletedArticles();
+    res.json({ success: true, count: deleted.length, deleted });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || "Error al consultar artículos eliminados" });
+  }
+});
+
+// 1e. Restaurar un artículo eliminado (quitarlo de la lista de eliminados)
+app.post("/api/articles/restore/:id", async (req: Request, res: Response) => {
+  try {
+    const idOrSlug = req.params.id;
+    await unrecordDeletedArticle(idOrSlug);
+    const articles = await readArticles();
+    res.json({ success: true, restored: idOrSlug, totalArticles: articles.length });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || "Error al restaurar artículo" });
+  }
+});
+
 // 2. Get articles by slug (with translation support & suffix tolerance)
 app.get(["/api/articles/:slug", "/api/articulos/:slug", "/api/tomo/:slug"], async (req: Request, res: Response) => {
   const articles = await readArticles();
@@ -4253,11 +4447,14 @@ app.post("/api/articles", async (req: Request, res: Response) => {
 
     await sanitizeAndPersistArticleImagesAsync(newArticle);
 
+    if (newArticle.id) await unrecordDeletedArticle(newArticle.id);
+    if (newArticle.slug) await unrecordDeletedArticle(newArticle.slug);
+
     newArticle.created_date = newArticle.created_date || new Date().toISOString();
     newArticle.updated_date = new Date().toISOString();
     
     // Remove any older duplicate with same id if exists
-    const filtered = articles.filter(a => a.id !== newArticle.id);
+    const filtered = articles.filter(a => a.id !== newArticle.id && a.slug !== newArticle.slug);
     filtered.unshift(newArticle);
     
     const githubSaved = await writeArticles(filtered, 0, token);
@@ -4330,31 +4527,88 @@ app.put("/api/articles/:id", async (req: Request, res: Response) => {
   }
 });
 
-// 5. Delete active article
+// 5. Delete active article (con registro persistente de borrado)
 app.delete("/api/articles/:id", async (req: Request, res: Response) => {
-  const articles = await readArticles();
-  const id = req.params.id;
-  const filtered = articles.filter((a) => a.id !== id);
-  if (articles.length !== filtered.length) {
-    await writeArticles(filtered);
-    res.json({ success: true });
-  } else {
-    res.status(404).json({ error: "Article not found" });
+  try {
+    const idOrSlug = req.params.id;
+    const articles = await readArticles();
+    const target = articles.find((a) => a.id === idOrSlug || a.slug === idOrSlug);
+    
+    if (target) {
+      // Registrar en la lista persistente de artículos eliminados (tombstones)
+      await recordDeletedArticles([{
+        id: target.id,
+        slug: target.slug,
+        title: target.title,
+        category: target.category,
+        deletedAt: new Date().toISOString(),
+        reason: "Eliminado desde la interfaz de la wiki"
+      }]);
+
+      const filtered = articles.filter((a) => a.id !== target.id && a.slug !== target.slug);
+      await writeArticles(filtered);
+
+      // Limpiar genealogía si aplica
+      try {
+        const updatedGenealogy = buildBaselineGenealogy(filtered);
+        await writeGenealogyToStorage(updatedGenealogy);
+      } catch (gErr) {
+        console.warn("[Genealogy] Error actualizando tras eliminar artículo:", gErr);
+      }
+
+      console.log(`[Delete Article] Tomo "${target.title}" (${target.slug}) eliminado y registrado en deleted_articles.`);
+      res.json({ success: true, deleted: target });
+    } else {
+      // Registrar en tombstones para evitar que reaparezca si provenía de algún seed
+      await recordDeletedArticles([{
+        id: idOrSlug,
+        slug: idOrSlug,
+        title: idOrSlug,
+        deletedAt: new Date().toISOString(),
+        reason: "Eliminado por id o slug"
+      }]);
+      res.json({ success: true, recordedTombstone: true });
+    }
+  } catch (err: any) {
+    console.error("Error deleting article:", err);
+    res.status(500).json({ error: err.message || "Error al eliminar artículo" });
   }
 });
 
-// 5b. Bulk delete articles
+// 5b. Bulk delete articles (con registro persistente de borrado)
 app.post("/api/articles/bulk-delete", async (req: Request, res: Response) => {
   try {
     const { ids } = req.body;
     if (!Array.isArray(ids)) {
       return res.status(400).json({ error: "ids must be an array of string IDs" });
     }
-    const idSet = new Set(ids);
+    const idSet = new Set(ids.map(String));
     const articles = await readArticles();
-    const filtered = articles.filter((a) => !idSet.has(a.id));
+
+    const toDelete = articles.filter((a) => idSet.has(a.id) || idSet.has(a.slug));
+    if (toDelete.length > 0) {
+      await recordDeletedArticles(toDelete.map((a) => ({
+        id: a.id,
+        slug: a.slug,
+        title: a.title,
+        category: a.category,
+        deletedAt: new Date().toISOString(),
+        reason: "Eliminado en lote"
+      })));
+    } else {
+      await recordDeletedArticles(ids.map((id) => ({
+        id: String(id),
+        slug: String(id),
+        title: String(id),
+        deletedAt: new Date().toISOString(),
+        reason: "Eliminado en lote (ID directo)"
+      })));
+    }
+
+    const filtered = articles.filter((a) => !idSet.has(a.id) && !idSet.has(a.slug));
     const deletedCount = articles.length - filtered.length;
     await writeArticles(filtered);
+
     res.json({ success: true, deletedCount, remainingCount: filtered.length });
   } catch (err: any) {
     console.error("Bulk delete error:", err);
@@ -13043,6 +13297,14 @@ app.post("/api/ai/confirm-edit", async (req: Request, res: Response) => {
       }
 
       const deletedArticle = articles[index];
+      await recordDeletedArticles([{
+        id: deletedArticle.id,
+        slug: deletedArticle.slug,
+        title: deletedArticle.title,
+        category: deletedArticle.category,
+        deletedAt: new Date().toISOString(),
+        reason: "Eliminado desde el chat de Tarot AI"
+      }]);
       articles.splice(index, 1);
       await writeArticles(articles);
       const updatedGenealogy = buildBaselineGenealogy(articles);

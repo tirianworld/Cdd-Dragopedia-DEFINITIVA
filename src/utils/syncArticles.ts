@@ -226,12 +226,73 @@ function hydrateCompactArticles(list: any[]): any[] {
   });
 }
 
+const DELETED_ARTICLES_STORAGE_KEY = "dragopedia_deleted_articles_v1";
+
+export function getClientDeletedArticlesSet(): Set<string> {
+  const set = new Set<string>();
+  if (typeof window !== "undefined" && window.localStorage) {
+    try {
+      const raw = localStorage.getItem(DELETED_ARTICLES_STORAGE_KEY);
+      if (raw) {
+        const arr = JSON.parse(raw);
+        if (Array.isArray(arr)) {
+          arr.forEach((id: string) => {
+            if (id && typeof id === "string") {
+              set.add(id);
+              set.add(id.toLowerCase().trim());
+            }
+          });
+        }
+      }
+    } catch {}
+  }
+  return set;
+}
+
+export function recordClientDeletedArticle(idOrSlug: string): void {
+  if (!idOrSlug || typeof idOrSlug !== "string") return;
+  if (typeof window === "undefined" || !window.localStorage) return;
+  try {
+    const raw = localStorage.getItem(DELETED_ARTICLES_STORAGE_KEY);
+    const list: string[] = raw ? JSON.parse(raw) : [];
+    const normalized = idOrSlug.trim();
+    if (!list.includes(normalized)) {
+      list.push(normalized);
+      localStorage.setItem(DELETED_ARTICLES_STORAGE_KEY, JSON.stringify(list));
+    }
+  } catch {}
+}
+
+export function unrecordClientDeletedArticle(idOrSlug: string): void {
+  if (!idOrSlug || typeof idOrSlug !== "string") return;
+  if (typeof window === "undefined" || !window.localStorage) return;
+  try {
+    const raw = localStorage.getItem(DELETED_ARTICLES_STORAGE_KEY);
+    if (raw) {
+      const list: string[] = JSON.parse(raw);
+      const filtered = list.filter((x) => x !== idOrSlug && x !== idOrSlug.toLowerCase());
+      localStorage.setItem(DELETED_ARTICLES_STORAGE_KEY, JSON.stringify(filtered));
+    }
+  } catch {}
+}
+
 // Helper to get cached articles instantly
 export function getCachedArticles(): WikiArticle[] {
   cleanLegacyCaches();
+  const deletedSet = getClientDeletedArticlesSet();
+  const filterDeleted = (list: WikiArticle[]) => {
+    if (!Array.isArray(list) || deletedSet.size === 0) return list || [];
+    return list.filter((a) => {
+      if (!a) return false;
+      const id = a.id ? a.id.toLowerCase().trim() : "";
+      const slug = a.slug ? a.slug.toLowerCase().trim() : "";
+      return !deletedSet.has(a.id) && !deletedSet.has(a.slug) && !deletedSet.has(id) && !deletedSet.has(slug);
+    });
+  };
+
   const key = getCacheKey();
   if (memoryArticlesCache[key] && memoryArticlesCache[key].length > 0) {
-    return memoryArticlesCache[key];
+    return filterDeleted(memoryArticlesCache[key]);
   }
   if (typeof window !== "undefined" && window.localStorage) {
     try {
@@ -239,7 +300,7 @@ export function getCachedArticles(): WikiArticle[] {
       if (raw) {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          const normalized = applyDefaultArticleSubcategories(hydrateCompactArticles(parsed));
+          const normalized = filterDeleted(applyDefaultArticleSubcategories(hydrateCompactArticles(parsed)));
           memoryArticlesCache[key] = normalized;
           return normalized;
         }
@@ -249,7 +310,7 @@ export function getCachedArticles(): WikiArticle[] {
     }
   }
   // Initialize from bundled seed articles!
-  const defaultList = applyDefaultArticleSubcategories(HARDCODED_ARTICLES);
+  const defaultList = filterDeleted(applyDefaultArticleSubcategories(HARDCODED_ARTICLES));
   memoryArticlesCache[key] = defaultList;
   seedOnlyKeys.add(key);
   return defaultList;
@@ -258,8 +319,11 @@ export function getCachedArticles(): WikiArticle[] {
 // Helper to get a specific cached article by slug or id immediately
 export function getCachedArticleBySlugOrId(slugOrId: string): WikiArticle | null {
   if (!slugOrId) return null;
-  const articles = getCachedArticles();
+  const deletedSet = getClientDeletedArticlesSet();
   const normalized = slugOrId.toLowerCase().trim();
+  if (deletedSet.has(slugOrId) || deletedSet.has(normalized)) return null;
+
+  const articles = getCachedArticles();
   const found = articles.find(a => 
     (a.id && a.id.toLowerCase() === normalized) || 
     (a.slug && a.slug.toLowerCase() === normalized) ||
@@ -269,11 +333,16 @@ export function getCachedArticleBySlugOrId(slugOrId: string): WikiArticle | null
   // para que quien lo pide lo cargue completo desde la API.
   if (found && (found as any)._compact) return null;
   if (found) return found;
-  return HARDCODED_ARTICLES.find(a => 
+
+  const seedMatch = HARDCODED_ARTICLES.find(a => 
     (a.id && a.id.toLowerCase() === normalized) || 
     (a.slug && a.slug.toLowerCase() === normalized) ||
     (a.title && a.title.toLowerCase() === normalized)
-  ) || null;
+  );
+  if (seedMatch && (deletedSet.has(seedMatch.id) || deletedSet.has(seedMatch.slug))) {
+    return null;
+  }
+  return seedMatch || null;
 }
 
 // Helper to save articles to cache safely without exceeding storage quota
@@ -554,7 +623,8 @@ export async function syncFetch(
             // Remove deleted articles
             if (deletedIds && deletedIds.length > 0) {
               const deletedSet = new Set(deletedIds);
-              mergedList = mergedList.filter((a) => !deletedSet.has(a.id));
+              deletedIds.forEach((id) => recordClientDeletedArticle(id));
+              mergedList = mergedList.filter((a) => !deletedSet.has(a.id) && !deletedSet.has(a.slug));
               hasChanges = true;
             }
 
@@ -601,8 +671,15 @@ export async function syncFetch(
   const articleSlugMatch = url.match(/\/api\/articles\/([^/?#]+)$/);
   if (articleSlugMatch && method === "GET") {
     const slug = articleSlugMatch[1];
-    const nonArticleEndpoints = ["sync", "auto-position-images", "sync-monsters", "filter-categories", "categories"];
+    const nonArticleEndpoints = ["sync", "auto-position-images", "sync-monsters", "filter-categories", "categories", "deleted"];
     if (!nonArticleEndpoints.includes(slug)) {
+      const deletedSet = getClientDeletedArticlesSet();
+      if (deletedSet.has(slug) || deletedSet.has(slug.toLowerCase())) {
+        return new Response(JSON.stringify({ error: "Article has been deleted", deleted: true }), {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
       const localArticle = getCachedArticleBySlugOrId(slug);
       if (localArticle && localArticle.title && localArticle.content && !(localArticle as any)._compact) {
         return new Response(JSON.stringify(localArticle), {
@@ -676,6 +753,9 @@ export async function syncFetch(
           : { ...bodyData, id: bodyData.id || `art_${Date.now()}` };
         
         const cached = getCachedArticles();
+        if (newArticle.id) unrecordClientDeletedArticle(newArticle.id);
+        if (newArticle.slug) unrecordClientDeletedArticle(newArticle.slug);
+
         // Remove any old copy and prepend new
         const filtered = cached.filter((a) => a.id !== newArticle.id && a.slug !== newArticle.slug);
         setCachedArticles([newArticle, ...filtered]);
@@ -697,6 +777,9 @@ export async function syncFetch(
         created_date: bodyData.created_date || new Date().toISOString(),
       };
 
+      if (fallbackArticle.id) unrecordClientDeletedArticle(fallbackArticle.id);
+      if (fallbackArticle.slug) unrecordClientDeletedArticle(fallbackArticle.slug);
+
       const cached = getCachedArticles();
       const filtered = cached.filter((a) => a.id !== fallbackArticle.id);
       setCachedArticles([fallbackArticle, ...filtered]);
@@ -714,10 +797,12 @@ export async function syncFetch(
   const putMatch = url.match(/\/api\/articles\/([^/?#]+)$/);
   if (putMatch && method === "PUT") {
     const id = putMatch[1];
+    unrecordClientDeletedArticle(id);
     let bodyData: any = {};
     try {
       if (init?.body) {
         bodyData = JSON.parse(init.body as string);
+        if (bodyData.slug) unrecordClientDeletedArticle(bodyData.slug);
       }
     } catch (e) {}
 
@@ -778,11 +863,19 @@ export async function syncFetch(
   const deleteMatch = url.match(/\/api\/articles\/([^/?#]+)$/);
   if (deleteMatch && method === "DELETE") {
     const id = deleteMatch[1];
+    recordClientDeletedArticle(id);
+    const cached = getCachedArticles();
+    const target = cached.find((a) => a.id === id || a.slug === id);
+    if (target?.slug) recordClientDeletedArticle(target.slug);
+    if (target?.id) recordClientDeletedArticle(target.id);
+
     try {
       const response = await originalFetch(input, init);
       if (response.ok) {
-        const cached = getCachedArticles();
-        const filtered = cached.filter((a) => a.id !== id);
+        const currentCached = getCachedArticles();
+        const filtered = currentCached.filter(
+          (a) => a.id !== id && a.slug !== id && (target ? a.id !== target.id && a.slug !== target.slug : true)
+        );
         setCachedArticles(filtered);
         
         triggerPendingSync();
@@ -792,8 +885,10 @@ export async function syncFetch(
       }
     } catch (err) {
       console.warn(`Server delete for ${id} failed, deleting from cache offline:`, err);
-      const cached = getCachedArticles();
-      const filtered = cached.filter((a) => a.id !== id);
+      const currentCached = getCachedArticles();
+      const filtered = currentCached.filter(
+        (a) => a.id !== id && a.slug !== id && (target ? a.id !== target.id && a.slug !== target.slug : true)
+      );
       setCachedArticles(filtered);
 
       queueSyncAction({ action: "delete", id });

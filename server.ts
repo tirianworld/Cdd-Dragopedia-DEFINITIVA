@@ -242,7 +242,7 @@ const GITHUB_CONFIG_FILES = [
   "/tmp/dragopedia_github_config.json"
 ];
 
-const DEFAULT_BUILTIN_GITHUB_TOKEN = "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";
+const DEFAULT_BUILTIN_GITHUB_TOKEN = process.env.GITHUB_TOKEN || "";
 const DEFAULT_BUILTIN_GITHUB_REPO = "tirianworld/Cdd-Dragopedia-DEFINITIVA";
 
 function loadGitHubConfig(): GitHubRuntimeConfig {
@@ -1964,12 +1964,14 @@ async function writeArticles(articles: WikiArticle[], retryCount = 0, tokenOverr
   // Always update the global in-memory cache!
   articlesCache = articles;
 
-  // Always save to the local articles.json and seed_articles.json files!
+  // Always save to the local articles.json and seed_articles.json files (including dist)!
   const targetBackupPaths = [
     path.join(process.cwd(), "public", "data", "articles.json"),
     path.join(process.cwd(), "src", "data", "articles.json"),
+    path.join(process.cwd(), "dist", "data", "articles.json"),
     path.join(process.cwd(), "public", "data", "seed_articles.json"),
     path.join(process.cwd(), "src", "data", "seed_articles.json"),
+    path.join(process.cwd(), "dist", "data", "seed_articles.json"),
   ];
 
   for (const backupPath of targetBackupPaths) {

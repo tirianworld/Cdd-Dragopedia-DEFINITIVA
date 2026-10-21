@@ -30,9 +30,6 @@ function cleanLegacyCaches(): void {
   legacyCacheCleaned = true;
   if (typeof window === "undefined" || !window.localStorage) return;
   try {
-    if (!localStorage.getItem("dragopedia_github_token")) {
-      localStorage.setItem("dragopedia_github_token", "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");
-    }
     if (!localStorage.getItem("dragopedia_github_repo")) {
       localStorage.setItem("dragopedia_github_repo", "tirianworld/Cdd-Dragopedia-DEFINITIVA");
     }

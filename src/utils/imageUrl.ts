@@ -1,63 +1,64 @@
 /**
  * Utility to process and sanitize image URLs throughout Dragopedia.
  * Bypasses hotlink protection (e.g. Fandom/Wikia Cloudflare 403 blocks)
- * by proxying through our server-side image proxy, filters regional geo-blocked
- * placeholders, and provides multi-tier reliable fallbacks.
+ * by proxying through our server-side image proxy, and provides reliable fallbacks.
  */
 
-import {
-  isBlockedGeoImage,
-  checkAndRemoveIfGeoBlockedImage,
-  GEO_BLOCK_MD5,
-  GEO_BLOCK_FILE_SIZE,
-  GEO_BLOCK_WIDTH,
-  GEO_BLOCK_HEIGHT
-} from "./blockedImages";
+/**
+ * Utility to process and sanitize image URLs throughout Dragopedia.
+ * Bypasses hotlink protection (e.g. Fandom/Wikia Cloudflare 403 blocks)
+ * by proxying through our server-side image proxy, and provides reliable fallbacks
+ * using GitHub Raw content for all local/cloud assets.
+ */
 
-export {
-  isBlockedGeoImage,
-  checkAndRemoveIfGeoBlockedImage,
-  GEO_BLOCK_MD5,
-  GEO_BLOCK_FILE_SIZE,
-  GEO_BLOCK_WIDTH,
-  GEO_BLOCK_HEIGHT
-};
+export const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/tirianworld/Cdd-Dragopedia-DEFINITIVA/main/public";
 
-const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/tirianworld/Cdd-Dragopedia-DEFINITIVA/main/public";
-const GITHUB_V4_RAW_BASE = "https://raw.githubusercontent.com/tirianworld/Cdd-wiki-V4/main/public";
-const GITHUB_V3_RAW_BASE = "https://raw.githubusercontent.com/tirianworld/Cdd-wiki-V3/main/public";
+/**
+ * Converts any local image path (/images/...) into a direct GitHub raw content URL.
+ */
+export function getGitHubRawFallbackUrl(path?: string | null): string {
+  if (!path || typeof path !== "string") return "";
+  const trimmed = path.trim();
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+    return trimmed;
+  }
+  const cleanPath = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+  return `${GITHUB_RAW_BASE}${cleanPath}`;
+}
 
 export function getSafeImageUrl(url?: string | null): string {
   if (!url || typeof url !== "string") return "";
+
   const trimmed = url.trim();
   if (!trimmed) return "";
 
-  // If this URL is known to be a regional geo-blocked placeholder, immediately reject it
-  if (isBlockedGeoImage(trimmed)) {
-    return "";
-  }
-
-  // Data URLs and blob URLs are used directly
+  // Data URLs and blob URLs are safe to use directly
   if (trimmed.startsWith("data:") || trimmed.startsWith("blob:")) {
     return trimmed;
   }
 
-  // If running on GitHub Pages (static hosting with no local node server),
-  // route local /images/ paths directly to raw GitHub CDN
-  if (typeof window !== "undefined" && window.location.hostname.includes("github.io")) {
-    if (trimmed.startsWith("/images/")) {
-      return `${GITHUB_RAW_BASE}${trimmed}`;
+  // Already a raw github URL
+  if (trimmed.includes("raw.githubusercontent.com")) {
+    return trimmed;
+  }
+
+  // Local images (/images/...)
+  if (trimmed.startsWith("/images/") || trimmed.startsWith("images/")) {
+    const cleanPath = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+
+    // If running in a GitHub Pages environment (username.github.io):
+    if (typeof window !== "undefined" && window.location?.hostname?.endsWith("github.io")) {
+      // Direct raw GitHub URL is 100% reliable on GitHub Pages and never 404s
+      return `${GITHUB_RAW_BASE}${cleanPath}`;
     }
-  }
 
-  // Local absolute paths are safe to use directly
-  if (trimmed.startsWith("/")) {
-    return trimmed;
-  }
+    // If a custom base URL is configured in Vite/environment
+    const base = (typeof import.meta !== "undefined" && import.meta.env?.BASE_URL ? import.meta.env.BASE_URL : "/").replace(/\/$/, "");
+    if (base && base !== "/" && base !== "." && !cleanPath.startsWith(base)) {
+      return `${base}${cleanPath}`;
+    }
 
-  // Already proxied
-  if (trimmed.startsWith("/api/proxy-image")) {
-    return trimmed;
+    return cleanPath;
   }
 
   // Known domains with strict hotlink protections / CORS policies
@@ -72,8 +73,7 @@ export function getSafeImageUrl(url?: string | null): string {
     trimmed.includes("dndbeyond.com") ||
     trimmed.includes("wargamer.com") ||
     trimmed.includes("dungeonnexus.com") ||
-    trimmed.includes("arcpublishing.com") ||
-    trimmed.includes("imgur.com")
+    trimmed.includes("arcpublishing.com")
   ) {
     return `/api/proxy-image?url=${encodeURIComponent(trimmed)}`;
   }
@@ -90,8 +90,8 @@ export function getProxiedFallbackUrl(url: string): string {
   if (trimmed.startsWith("data:") || trimmed.startsWith("blob:")) {
     return trimmed;
   }
-  if (isBlockedGeoImage(trimmed)) {
-    return "";
+  if (trimmed.startsWith("/images/") || trimmed.startsWith("images/")) {
+    return getGitHubRawFallbackUrl(trimmed);
   }
   if (trimmed.startsWith("/api/proxy-image")) {
     return trimmed;
@@ -101,11 +101,11 @@ export function getProxiedFallbackUrl(url: string): string {
 
 /**
  * Common fallback handler for <img> elements:
- * Multi-tier recovery:
- * 1. Filter out regional geo-blocked placeholders immediately
- * 2. Server-side proxy for external blocked images
- * 3. GitHub Raw CDN fallback (DEFINITIVA -> V4 -> V3)
- * 4. Graceful hiding / fallback placeholder so no broken image icon is shown
+ * 1. If it was a local image path (/images/...) that failed on the current domain,
+ *    switches seamlessly to GitHub Raw repository CDN.
+ * 2. If it was an external HTTP URL, tries the proxy once.
+ * 3. If fallbackSrc provided and different, switches to it.
+ * 4. Only if all options fail, hides the broken icon.
  */
 export function handleImageErrorWithFallback(
   event: React.SyntheticEvent<HTMLImageElement, Event>,
@@ -117,60 +117,39 @@ export function handleImageErrorWithFallback(
 
   const currentSrc = target.src || "";
 
-  // If already flagged as geo-blocked or URL is blocked, stop retries immediately
-  if (target.dataset.geoBlocked === "true" || isBlockedGeoImage(currentSrc) || isBlockedGeoImage(originalUrl)) {
-    target.dataset.exhausted = "true";
-    target.style.display = "none";
+  // 1. If it's a local image that failed locally or on a subpath, fall back to GitHub raw CDN
+  const isLocalImage = (originalUrl && (originalUrl.startsWith("/images/") || originalUrl.startsWith("images/"))) ||
+                       currentSrc.includes("/images/");
+
+  if (isLocalImage && !currentSrc.includes("raw.githubusercontent.com")) {
+    let subpath = "";
+    if (originalUrl && (originalUrl.startsWith("/images/") || originalUrl.startsWith("images/"))) {
+      subpath = originalUrl.startsWith("/") ? originalUrl : `/${originalUrl}`;
+    } else if (currentSrc.includes("/images/")) {
+      subpath = `/images/${currentSrc.split("/images/")[1].split("?")[0]}`;
+    }
+
+    if (subpath) {
+      target.src = `${GITHUB_RAW_BASE}${subpath}`;
+      return;
+    }
+  }
+
+  // 2. If not yet proxied and original URL was external HTTP, try server proxy
+  if (originalUrl && !currentSrc.includes("/api/proxy-image") && originalUrl.startsWith("http") && !originalUrl.includes("raw.githubusercontent.com")) {
+    target.src = getProxiedFallbackUrl(originalUrl);
     return;
   }
 
-  const step = Number(target.dataset.fallbackStep || 0);
-  target.dataset.fallbackStep = String(step + 1);
-
-  // Preserve the true original path
-  if (!target.dataset.originalPath && originalUrl) {
-    target.dataset.originalPath = originalUrl;
-  }
-
-  const extractImagesPath = (src: string) => {
-    const idx = src.indexOf("/images/");
-    return idx !== -1 ? src.substring(idx) : null;
-  };
-
-  const trueOriginal = target.dataset.originalPath || originalUrl || currentSrc;
-  const imgPath = extractImagesPath(trueOriginal) || extractImagesPath(currentSrc);
-
-  // Step 0: If external URL, try proxying
-  if (step === 0 && trueOriginal.startsWith("http") && !trueOriginal.includes("/api/proxy-image") && !trueOriginal.includes("raw.githubusercontent.com")) {
-    target.src = getProxiedFallbackUrl(trueOriginal);
-    return;
-  }
-
-  // Step 1: GitHub Raw CDN fallback (DEFINITIVA)
-  if (step <= 1 && imgPath && !isBlockedGeoImage(imgPath)) {
-    target.src = `${GITHUB_RAW_BASE}${imgPath}`;
-    return;
-  }
-
-  // Step 2: GitHub Raw CDN fallback (V4)
-  if (step <= 2 && imgPath && !isBlockedGeoImage(imgPath)) {
-    target.src = `${GITHUB_V4_RAW_BASE}${imgPath}`;
-    return;
-  }
-
-  // Step 3: GitHub Raw CDN fallback (V3)
-  if (step <= 3 && imgPath && !isBlockedGeoImage(imgPath)) {
-    target.src = `${GITHUB_V3_RAW_BASE}${imgPath}`;
-    return;
-  }
-
-  // Step 4: Custom fallbackSrc if provided
-  if (fallbackSrc && target.src !== fallbackSrc && !isBlockedGeoImage(fallbackSrc)) {
+  // 3. If fallbackSrc provided and different, switch to it
+  if (fallbackSrc && target.src !== fallbackSrc) {
     target.src = fallbackSrc;
     return;
   }
 
-  // Step 5: All attempts exhausted.
-  target.dataset.exhausted = "true";
+  // 4. If all fails, hide image so broken icon doesn't show
   target.style.display = "none";
 }
+
+export { isBlockedGeoImage, checkAndRemoveIfGeoBlockedImage } from "./blockedImages";
+

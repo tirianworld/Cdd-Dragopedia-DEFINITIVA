@@ -78,7 +78,7 @@
   ],
   "banner.image.ascendidos": "/images/banners/banner_ascendidos_1790951489101_9iqq.png?t=1790955000000",
   "banner.fit.ascendidos": "contain",
-  "_updated_at": 1792357426196,
+  "_updated_at": 1792584004142,
   "banner.transparent.ascendidos": "true",
   "banner.ground.ascendidos": "true",
   "banner.tint.ascendidos": "true",
@@ -123,5 +123,12 @@
   "banner.image.personajes": "/images/banners/banner_personajes_1792357241421_fs7n.png",
   "banner.fit.personajes": "contain",
   "banner.scale.personajes": "100",
-  "banner.offsetY.personajes": "0"
+  "banner.offsetY.personajes": "0",
+  "banner.image.organizaciones": "/images/caldo_organizaciones_silhouettes_solid.png",
+  "banner.fit.organizaciones": "contain",
+  "banner.scale.organizaciones": "100",
+  "banner.offsetY.organizaciones": "0",
+  "banner.transparent.organizaciones": "true",
+  "banner.ground.organizaciones": "true",
+  "banner.tint.organizaciones": "true"
 }

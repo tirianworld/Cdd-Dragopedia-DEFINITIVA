@@ -132,6 +132,7 @@ export interface WikiArticle {
   image_position_y?: number;
   gallery?: GalleryItem[];
   is_featured?: boolean;
+  importance?: "normal" | "destacado" | "urgente" | "epico";
   tags?: string[];
   infobox?: Record<string, string>;
   related_article_ids?: string[];

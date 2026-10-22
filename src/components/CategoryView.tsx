@@ -6,7 +6,7 @@ import { ArticleCard } from "./ArticleCard";
 import { 
   Search, ArrowLeft, BookOpen, Layers, ExternalLink, GitFork, 
   ChevronUp, ChevronDown, Minimize2, Maximize2, LayoutGrid, ListFilter, X, Plus,
-  Edit3, Check, Palette, Sparkles, FolderPlus, FileText
+  Edit3, Check, Palette, Sparkles, FolderPlus, FileText, Star, CheckCircle2, RotateCcw
 } from "lucide-react";
 import { TarotLogo } from "./TarotLogo";
 import { useCategories, getGitHubAuthHeaders } from "../context/CategoryContext";
@@ -21,7 +21,7 @@ export function CategoryView() {
   const { slug } = useParams<{ slug: string }>();
   const { mergedCategories, addCategory, assignArticlesToCategory } = useCategories();
   const { isVisualEditMode, showToast } = useVisualEditor();
-  const { getText } = useUIContent();
+  const { getText, setMultipleTexts, resetText } = useUIContent();
   const currentCategory = mergedCategories.find((c) => c.slug === slug);
 
   // Modal state for creating a new subcategory directly on this category page
@@ -42,6 +42,12 @@ export function CategoryView() {
   const [assignSearchQuery, setAssignSearchQuery] = useState("");
   const [assignCategoryFilter, setAssignCategoryFilter] = useState<string>("all");
   const [assigningArticleId, setAssigningArticleId] = useState<string | null>(null);
+
+  // Estados para Artículos Destacados
+  const [isFeaturedModalOpen, setIsFeaturedModalOpen] = useState(false);
+  const [featuredSearchQuery, setFeaturedSearchQuery] = useState("");
+  const [isFeaturedMinimized, setIsFeaturedMinimized] = useState(false);
+  const [tempFeaturedIds, setTempFeaturedIds] = useState<string[]>([]);
   const Icon = currentCategory ? currentCategory.icon : BookOpen;
   const themeColor = currentCategory ? currentCategory.color : "#a0a0a0";
 
@@ -608,6 +614,120 @@ export function CategoryView() {
     (s) => s.slug === selectedSubcategory || s.id === selectedSubcategory
   );
 
+  // Alcance actual para artículos destacados (categoría o subcategoría seleccionada)
+  const activeScopeSlug = useMemo(() => {
+    if (selectedSubcategory !== "all" && activeSubcategoryObj) {
+      return activeSubcategoryObj.slug;
+    }
+    return currentCategory?.slug || slug || "categoria";
+  }, [selectedSubcategory, activeSubcategoryObj, currentCategory, slug]);
+
+  const featuredStorageKey = `category.featured.${activeScopeSlug.toLowerCase().replace(/[^a-z0-9_-]/g, "_")}`;
+  const customFeaturedRaw = getText(featuredStorageKey, "");
+
+  // Artículos que pertenecen al alcance actual (categoría o subcategoría seleccionada)
+  const categoryScopeArticles = useMemo(() => {
+    if (!Array.isArray(articles)) return [];
+    if (selectedSubcategory !== "all" && activeSubcategoryObj) {
+      return articles.filter((a) => doesArticleMatchCategory(a, activeSubcategoryObj.name, activeSubcategoryObj.slug));
+    }
+    return articles;
+  }, [articles, selectedSubcategory, activeSubcategoryObj]);
+
+  // Selección de artículos destacados para mostrar
+  const featuredArticles = useMemo(() => {
+    if (!categoryScopeArticles.length) return [];
+
+    let pinnedIds: string[] = [];
+    if (customFeaturedRaw) {
+      try {
+        const parsed = JSON.parse(customFeaturedRaw);
+        if (Array.isArray(parsed)) pinnedIds = parsed.map(String);
+      } catch {
+        pinnedIds = customFeaturedRaw.split(",").map((s) => s.trim()).filter(Boolean);
+      }
+    }
+
+    const pinnedList: WikiArticle[] = [];
+    const remainingList: WikiArticle[] = [];
+
+    // 1. Artículos fijados manualmente por el usuario en esta categoría/subcategoría
+    if (pinnedIds.length > 0) {
+      const idMap = new Map<string, WikiArticle>();
+      for (const a of categoryScopeArticles) {
+        if (a.id) idMap.set(a.id, a);
+        if (a.slug) idMap.set(a.slug, a);
+      }
+      for (const pid of pinnedIds) {
+        const found = idMap.get(pid);
+        if (found && !pinnedList.some((x) => x.id === found.id)) {
+          pinnedList.push(found);
+        }
+      }
+    }
+
+    // 2. Artículos con is_featured: true o importance: 'destacado' | 'epico'
+    for (const a of categoryScopeArticles) {
+      if (pinnedList.some((x) => x.id === a.id)) continue;
+      if (a.is_featured || a.importance === "destacado" || a.importance === "epico") {
+        remainingList.push(a);
+      }
+    }
+
+    // 3. Si aún hay menos de 4, completar automáticamente con los artículos más notables (con imagen y más contenido)
+    if (pinnedList.length + remainingList.length < 4) {
+      const candidates = categoryScopeArticles.filter(
+        (a) => !pinnedList.some((x) => x.id === a.id) && !remainingList.some((x) => x.id === a.id)
+      );
+      candidates.sort((a, b) => {
+        const aHasImg = Boolean(a.image_url && a.image_url.trim()) ? 1 : 0;
+        const bHasImg = Boolean(b.image_url && b.image_url.trim()) ? 1 : 0;
+        if (aHasImg !== bHasImg) return bHasImg - aHasImg;
+
+        const aLen = (a.content?.length || 0) + (a.summary?.length || 0);
+        const bLen = (b.content?.length || 0) + (b.summary?.length || 0);
+        return bLen - aLen;
+      });
+
+      const needed = 4 - (pinnedList.length + remainingList.length);
+      remainingList.push(...candidates.slice(0, needed));
+    }
+
+    return [...pinnedList, ...remainingList].slice(0, 8);
+  }, [categoryScopeArticles, customFeaturedRaw]);
+
+  const openFeaturedModal = () => {
+    setTempFeaturedIds(featuredArticles.map((a) => a.id));
+    setFeaturedSearchQuery("");
+    setIsFeaturedModalOpen(true);
+  };
+
+  const handleToggleFeaturedId = (id: string) => {
+    setTempFeaturedIds((prev) => 
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
+  const handleSaveFeatured = async () => {
+    try {
+      await setMultipleTexts({ [featuredStorageKey]: JSON.stringify(tempFeaturedIds) });
+      showToast("✨ Artículos destacados actualizados para esta sección.", "success");
+      setIsFeaturedModalOpen(false);
+    } catch {
+      showToast("Error al guardar destacados.", "error");
+    }
+  };
+
+  const handleResetFeatured = async () => {
+    try {
+      await resetText(featuredStorageKey);
+      showToast("Destacados restablecidos a la selección automática.", "info");
+      setIsFeaturedModalOpen(false);
+    } catch {
+      showToast("Error al restablecer destacados.", "error");
+    }
+  };
+
   const NewSubSelectedIcon = ICON_MAP[newSubIcon] || ICON_MAP.Sparkles || BookOpen;
 
   // Detección de columnas y altura para mostrar exactamente 2 filas enteras a la vez
@@ -669,6 +789,184 @@ export function CategoryView() {
           category={editingSubcategory}
           onClose={() => setEditingSubcategory(null)}
         />
+      )}
+
+      {/* Modal para Gestionar Artículos Destacados de esta Categoría / Subcategoría */}
+      {isFeaturedModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="bg-[#10171b] border border-[#232e33] rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            {/* Modal Header */}
+            <div className="p-5 border-b border-[#232e33] flex items-center justify-between gap-4 bg-[#141d22]">
+              <div className="flex items-center gap-3">
+                <div 
+                  className="h-9 w-9 rounded-xl flex items-center justify-center border shadow-xs"
+                  style={{
+                    borderColor: `${themeColor}60`,
+                    backgroundColor: `${themeColor}20`,
+                    color: themeColor
+                  }}
+                >
+                  <Star className="h-5 w-5 fill-current" />
+                </div>
+                <div>
+                  <h3 className="font-heading font-bold text-base text-foreground">
+                    Gestionar Artículos Destacados
+                  </h3>
+                  <p className="text-xs text-muted-foreground">
+                    {activeSubcategoryObj 
+                      ? `Subcategoría: ${activeSubcategoryObj.name}`
+                      : `Categoría: ${currentCategory?.name || slug}`}
+                    {" "}• Selecciona los pergaminos prioritarios que se mostrarán en la cabecera.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsFeaturedModalOpen(false)}
+                className="h-8 w-8 rounded-lg flex items-center justify-center bg-secondary/60 hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* Modal Subhead & Filter */}
+            <div className="p-4 border-b border-[#232e33] bg-[#0c1215] flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="relative w-full sm:w-80">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <input
+                  type="text"
+                  value={featuredSearchQuery}
+                  onChange={(e) => setFeaturedSearchQuery(e.target.value)}
+                  placeholder="Buscar en esta categoría para destacar..."
+                  className="w-full h-9 pl-9 pr-3 text-xs bg-secondary/80 border border-border/80 rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-all"
+                />
+              </div>
+              <div className="flex items-center gap-2 self-end sm:self-auto text-xs text-muted-foreground">
+                <span className="font-semibold text-foreground">
+                  {tempFeaturedIds.length} {tempFeaturedIds.length === 1 ? "artículo fijado" : "artículos fijados"}
+                </span>
+                <span className="text-[11px] opacity-70">(Recomendado: 3 a 6)</span>
+              </div>
+            </div>
+
+            {/* Modal Body / Article List */}
+            <div className="p-4 overflow-y-auto flex-1 space-y-2 max-h-[50vh]">
+              {(() => {
+                const q = featuredSearchQuery.toLowerCase().trim();
+                const filteredList = categoryScopeArticles.filter((art) => {
+                  if (!q) return true;
+                  return art.title.toLowerCase().includes(q) || (art.summary && art.summary.toLowerCase().includes(q));
+                });
+
+                if (filteredList.length === 0) {
+                  return (
+                    <div className="py-12 text-center text-muted-foreground text-xs">
+                      No se encontraron artículos con "{featuredSearchQuery}".
+                    </div>
+                  );
+                }
+
+                // Sort so selected items appear at the top
+                const sorted = [...filteredList].sort((a, b) => {
+                  const aSelected = tempFeaturedIds.includes(a.id) ? 1 : 0;
+                  const bSelected = tempFeaturedIds.includes(b.id) ? 1 : 0;
+                  if (aSelected !== bSelected) return bSelected - aSelected;
+                  return a.title.localeCompare(b.title);
+                });
+
+                return sorted.map((art) => {
+                  const isSelected = tempFeaturedIds.includes(art.id);
+                  const safeImg = getSafeImageUrl(art.image_url);
+
+                  return (
+                    <div
+                      key={art.id}
+                      onClick={() => handleToggleFeaturedId(art.id)}
+                      className={`p-3 rounded-xl border flex items-center justify-between gap-3 cursor-pointer transition-all ${
+                        isSelected
+                          ? "bg-amber-500/10 border-amber-500/40 shadow-xs"
+                          : "bg-secondary/40 border-border/60 hover:bg-secondary/70 hover:border-border"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        {safeImg ? (
+                          <img
+                            src={safeImg}
+                            alt={art.title}
+                            className="h-10 w-10 rounded-lg object-cover border border-border shrink-0"
+                            onError={(e) => handleImageErrorWithFallback(e, art.image_url)}
+                          />
+                        ) : (
+                          <div className="h-10 w-10 rounded-lg bg-secondary flex items-center justify-center border border-border shrink-0 text-muted-foreground">
+                            <FileText className="h-4 w-4" />
+                          </div>
+                        )}
+                        <div className="min-w-0">
+                          <h4 className="font-heading font-semibold text-xs sm:text-sm text-foreground truncate flex items-center gap-1.5">
+                            <span>{art.title}</span>
+                            {isSelected && (
+                              <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase">
+                                Fijado
+                              </span>
+                            )}
+                          </h4>
+                          <p className="text-[11px] text-muted-foreground line-clamp-1">
+                            {art.summary || "Sin resumen disponible."}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="shrink-0">
+                        <button
+                          type="button"
+                          className={`flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                            isSelected
+                              ? "bg-amber-500 text-black shadow-sm"
+                              : "bg-secondary border border-border/80 text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          <Star className={`h-3.5 w-3.5 ${isSelected ? "fill-black" : ""}`} />
+                          <span>{isSelected ? "Destacado" : "Destacar"}</span>
+                        </button>
+                      </div>
+                    </div>
+                  );
+                });
+              })()}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 border-t border-[#232e33] bg-[#141d22] flex items-center justify-between gap-3 flex-wrap">
+              <button
+                type="button"
+                onClick={handleResetFeatured}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-border/80 bg-secondary/60 hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                title="Restablecer para que el sistema seleccione los artículos más ricos automáticamente"
+              >
+                <RotateCcw className="h-3.5 w-3.5" />
+                <span>Restablecer a Automático</span>
+              </button>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsFeaturedModalOpen(false)}
+                  className="px-3.5 py-1.5 text-xs rounded-lg border border-border/80 bg-secondary/80 hover:bg-secondary text-foreground font-medium transition-colors cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveFeatured}
+                  className="flex items-center gap-1.5 px-4 py-1.5 text-xs rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-sm transition-colors cursor-pointer"
+                >
+                  <Check className="h-3.5 w-3.5" />
+                  <span>Guardar Destacados</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Menú Popup Grande para Asignar Artículos a la Categoría Actual */}
@@ -1620,6 +1918,134 @@ export function CategoryView() {
             </button>
           </div>
         </div>
+      )}
+
+      {/* 2.5 Artículos Destacados de la Categoría o Subcategoría */}
+      {(featuredArticles.length > 0 || isVisualEditMode) && (
+        <section className="space-y-3.5 bg-gradient-to-br from-[#121a20]/90 via-[#0e1418]/90 to-[#141e24]/70 border border-[#232e33] rounded-2xl p-4 sm:p-5 shadow-md relative overflow-hidden transition-all">
+          {/* Subtle background glow effect using themeColor */}
+          <div 
+            className="absolute -top-16 -right-16 w-56 h-56 rounded-full blur-3xl pointer-events-none opacity-15"
+            style={{ backgroundColor: themeColor }}
+          />
+
+          {/* Section Header */}
+          <div className="flex items-center justify-between gap-3 flex-wrap relative z-10">
+            <div className="flex items-center gap-2.5">
+              <div 
+                className="h-7 w-7 rounded-lg flex items-center justify-center shrink-0 border shadow-xs"
+                style={{
+                  borderColor: `${themeColor}60`,
+                  backgroundColor: `${themeColor}20`,
+                  color: themeColor,
+                  boxShadow: `0 0 12px ${themeColor}30`
+                }}
+              >
+                <Star className="h-4 w-4 fill-current" style={{ color: themeColor }} />
+              </div>
+              <div>
+                <h3 className="font-heading font-bold text-sm sm:text-base tracking-wide text-foreground uppercase flex items-center gap-2 flex-wrap">
+                  <span>
+                    {activeSubcategoryObj 
+                      ? `Artículos Destacados de ${activeSubcategoryObj.name}`
+                      : `Artículos Destacados de ${currentCategory?.name || slug || "la Categoría"}`}
+                  </span>
+                  {featuredArticles.length > 0 && (
+                    <span className="text-[10px] font-sans font-semibold px-2 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/30 normal-case tracking-normal">
+                      {featuredArticles.length} {featuredArticles.length === 1 ? "destacado" : "destacados"}
+                    </span>
+                  )}
+                </h3>
+                <p className="text-[11px] text-muted-foreground">
+                  Pergaminos más relevantes, hitos históricos y figuras clave de este compendio
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              {isVisualEditMode && (
+                <button
+                  type="button"
+                  onClick={openFeaturedModal}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-amber-500/40 bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 font-semibold transition-colors shadow-xs cursor-pointer"
+                  title="Seleccionar qué artículos destacar en esta categoría o subcategoría"
+                >
+                  <Star className="h-3.5 w-3.5 fill-amber-300" />
+                  <span>Gestionar Destacados</span>
+                </button>
+              )}
+
+              {featuredArticles.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setIsFeaturedMinimized(!isFeaturedMinimized)}
+                  className="flex items-center gap-1 px-2.5 py-1 text-xs rounded-lg border border-border/70 bg-secondary/50 hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  title={isFeaturedMinimized ? "Desplegar artículos destacados" : "Minimizar artículos destacados"}
+                >
+                  {isFeaturedMinimized ? (
+                    <>
+                      <ChevronDown className="h-3.5 w-3.5" />
+                      <span className="hidden sm:inline">Desplegar</span>
+                    </>
+                  ) : (
+                    <>
+                      <ChevronUp className="h-3.5 w-3.5" />
+                      <span className="hidden sm:inline">Minimizar</span>
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Cards Grid */}
+          {!isFeaturedMinimized && (
+            featuredArticles.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1 relative z-10">
+                {featuredArticles.map((article) => (
+                  <div key={article.id} className="relative group flex flex-col">
+                    <div className="absolute top-2.5 right-2.5 z-20 pointer-events-none">
+                      <span 
+                        className="flex items-center gap-1 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-md backdrop-blur-md shadow-md border"
+                        style={{
+                          backgroundColor: "rgba(18, 26, 32, 0.88)",
+                          borderColor: `${themeColor}80`,
+                          color: themeColor
+                        }}
+                      >
+                        <Star className="h-2.5 w-2.5 fill-current" />
+                        <span>Destacado</span>
+                      </span>
+                    </div>
+                    <ArticleCard 
+                      article={article} 
+                      displayCategory={getCategoryForArticleInSection(
+                        article,
+                        activeSubcategoryObj || currentCategory,
+                        mergedCategories
+                      )}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-6 text-center text-xs text-muted-foreground border border-dashed border-border/60 rounded-xl relative z-10">
+                No hay artículos para destacar en esta sección aún.
+                {isVisualEditMode && (
+                  <div className="mt-2">
+                    <button
+                      type="button"
+                      onClick={openFeaturedModal}
+                      className="text-xs text-primary underline font-medium"
+                    >
+                      Haz clic aquí para seleccionar artículos destacados manualmente
+                    </button>
+                  </div>
+                )}
+              </div>
+            )
+          )}
+        </section>
       )}
 
       {/* 3. Dropdown Filters (Desplegables de Categoría) */}

@@ -10,7 +10,7 @@
     "timeline_markers": [],
     "timeline_order": [],
     "created_date": "2026-10-18T12:43:48.304Z",
-    "updated_date": "2026-10-20T12:56:34.935Z",
+    "updated_date": "2026-10-18T12:45:26.183Z",
     "extra_categories": [
       "Primordiales"
     ],
@@ -64,55 +64,6 @@
       "entidad": []
     },
     "image_url": "/images/uploads/imagen_2026-10-07_092314068-1791357795595_wy2z6.png"
-  },
-  {
-    "id": "art-mongraal-player",
-    "title": "Mongraal",
-    "slug": "mongraal",
-    "category": "Personajes",
-    "extra_categories": [
-      "Personajes",
-      "Jugadores",
-      "Expedición de Moonhaven"
-    ],
-    "summary": "Guerrero y brawler tiefling de piel roja carmesí, grandes cuernos negros y fuerza colosal, célebre por sus pulsos épicos en la taberna y su bravura en combate.",
-    "content": "<p><strong>Mongraal</strong> es un poderoso combatiente y aventurero miembro de la compañía de <em>Caldo de Dragón</em>. De piel roja encendida, cornamenta negra azabache, bigote distintivo y musculatura formidable, Mongraal destaca por su ferocidad en la batalla y su carácter festivo en las tabernas.</p><h2>El Gran Pulso de la Taberna</h2><p>Es legendario su duelo de fuerza contra <a href=\"/articulo/pepe-loux\">Pepe Loux</a>, donde ambos contendientes hicieron temblar las mesas de roble entre jarras de hidromiel y los vítores de sus compañeros aventureros.</p><h2>Compañeros de Aventuras</h2><ul><li><a href=\"/articulo/roxanne\">Roxanne</a></li><li><a href=\"/articulo/arlem-diaz\">Arlem Díaz</a></li><li><a href=\"/articulo/barled\">Barled</a></li><li><a href=\"/articulo/pepe-loux\">Pepe Loux</a></li><li><a href=\"/articulo/kairon\">Kairon</a></li><li><a href=\"/articulo/raxxar\">Raxxar</a></li><li><a href=\"/articulo/edacorn\">Edacorn</a></li></ul>",
-    "tags": [
-      "Jugadores",
-      "Tiefling",
-      "Guerrero",
-      "Caldo de Dragón",
-      "Taberna",
-      "Pulso"
-    ],
-    "author": "Tarot",
-    "created_date": "2026-10-03T11:58:00Z",
-    "updated_date": "2026-10-10T10:56:38.569Z",
-    "infobox": {
-      "Raza": "Tiefling / Demonio",
-      "Clase": "Brawler / Bárbaro / Guerrero",
-      "Grupo": "Jugadores de Caldo de Dragón",
-      "Compañero de Pulso": "Pepe Loux"
-    },
-    "image_position_x": 50,
-    "image_position_y": 50,
-    "gallery": [],
-    "related_article_ids": [],
-    "timeline_markers": [],
-    "timeline_order": [],
-    "monsters": [],
-    "monster_images": {},
-    "spells": [],
-    "spell_images": {},
-    "filters": {
-      "campaña": [],
-      "continente": [],
-      "plano": [],
-      "criatura": [],
-      "entidad": []
-    },
-    "image_url": "",
-    "imageUrl": ""
   },
   {
     "id": "caldo-de-dragon",
@@ -12201,7 +12152,7 @@
     "summary": "Reino élfico en Avalon, fundado por elfos del Plano de la Foresta. Gobernado por Elyndar y Thranduin, aliado de humanos y enanos para forjar las espadas de los Caballeros de la Mesa Redonda. Su caída estuvo ligada a la locura de Arturo y la maldición de Elyndar.",
     "content": "<p>SiramarLos elfos llegaron a <a href=\"/articulo/avalon\">Avalon</a> desde el <a href=\"/articulo/plano-de-la-tierra\">Plano de la Tierra</a>, expandiéndose luego por <a href=\"/articulo/aeros\">Aeros</a>. Fundaron <strong><a href=\"/articulo/palacio-de-los-elfos-de-siramar-mreuygo8\">Siramar</a></strong>, la Joya del Mar, un reino que aprovechaba la potente <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a> de <a href=\"/articulo/avalon\">Avalon</a> para obtener energía.</p><p>Durante siglos, el rey de <a href=\"/articulo/palacio-de-los-elfos-de-siramar-mreuygo8\">Siramar</a>, primero <strong>Elyndar</strong> y luego su sucesor y mano derecha <strong>Thranduin</strong>, gobernaron con compasión. Thranduin, aunque inicialmente alejado de los designios de la <a href=\"/articulo/primordiales\">Primordial</a> de la Vida, fue corrompido por la <strong>Primordial Natural</strong>, una entidad vinculada a la esencia misma de la magia natural de <a href=\"/articulo/avalon\">Avalon</a>. Su influencia transformó a Thranduin en madera, reduciéndolo a un estado vegetal y despojándolo de su esencia elfa. Sin embargo, la <a href=\"/articulo/moonhaven\">Moonhaven</a> intervino en el proceso, liberando su alma y deteniendo su corrupción total. Este evento debilitó la conexión de Siramar con la <a href=\"/articulo/magia\">magia</a> primordial, afectando indirectamente a Elyndar, quien ya se encontraba en una relación tensa con la <a href=\"/articulo/primordiales\">Primordial</a> de la Vida. La corrupción de Thranduin, junto con la influencia de la <a href=\"/articulo/primordiales\">Primordial</a> de la Vida sobre Elyndar, contribuyó al desequilibrio mágico que luego afectaría a <a href=\"/articulo/arturo\">Arturo</a>. Colaboraron con humanos y enanos para crear las espadas de los <a href=\"/articulo/guerreros-de-la-luz-solar\">Guerreros de la Luz Solar</a>.</p><p>Cuando <a href=\"/articulo/arturo\">Arturo</a> cayó en la locura, las fuerzas mágicas se descontrolaron, haciendo que Elyndar cayera presa de la <a href=\"/articulo/primordiales\">Primordial</a> de la Vida. Su rey cayó, presa de una maldición, y su príncipe, <strong>Bedivere</strong>, hermano adoptivo del rey <a href=\"/articulo/arturo\">Arturo</a>, se dio a la bebida y el juego.</p><p>El rey de los elfos adoptó a <a href=\"/articulo/arturo\">Arturo</a> cuando este era un niño y aún no gobernaba <a href=\"/articulo/camelot\">Camelot</a>.</p>",
     "created_date": "2026-07-09T23:53:35.939Z",
-    "updated_date": "2026-10-21T10:13:48.950Z",
+    "updated_date": "2026-10-11T08:21:03.537Z",
     "image_url": "/images/uploads/siramar-1791706856003_qiz6t.png",
     "gallery": [],
     "infobox": {},
@@ -21513,7 +21464,7 @@
     "is_featured": false,
     "id": "art-1783383056680",
     "created_date": "2026-07-07T00:10:59.395Z",
-    "updated_date": "2026-10-20T10:48:57.283Z",
+    "updated_date": "2026-07-20T23:28:47.476Z",
     "related_article_ids": [
       "art-1783383107977",
       "art-1787664370722",

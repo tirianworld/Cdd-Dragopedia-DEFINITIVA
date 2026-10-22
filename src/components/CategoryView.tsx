@@ -43,10 +43,10 @@ export function CategoryView() {
   const [assignCategoryFilter, setAssignCategoryFilter] = useState<string>("all");
   const [assigningArticleId, setAssigningArticleId] = useState<string | null>(null);
 
-  // Estados para Artículos Destacados
+  // Estados para Artículos Destacados (minimizados por defecto)
   const [isFeaturedModalOpen, setIsFeaturedModalOpen] = useState(false);
   const [featuredSearchQuery, setFeaturedSearchQuery] = useState("");
-  const [isFeaturedMinimized, setIsFeaturedMinimized] = useState(false);
+  const [isFeaturedMinimized, setIsFeaturedMinimized] = useState(true);
   const [tempFeaturedIds, setTempFeaturedIds] = useState<string[]>([]);
   const Icon = currentCategory ? currentCategory.icon : BookOpen;
   const themeColor = currentCategory ? currentCategory.color : "#a0a0a0";
@@ -511,6 +511,7 @@ export function CategoryView() {
     setSelCriatura("");
     setSelectedSubcategory("all"); // Reset subcategory filter when changing category
     setSubcatRow(0);
+    setIsFeaturedMinimized(true); // Minimizados por defecto
 
     // Check cached articles first
     const cached = getCachedArticles();
@@ -1915,9 +1916,11 @@ export function CategoryView() {
         </div>
       )}
 
-      {/* 2.5 Artículos Destacados de la Categoría o Subcategoría */}
+      {/* 2.5 Artículos Destacados de la Categoría o Subcategoría (Minimizado por defecto) */}
       {(featuredArticles.length > 0 || isVisualEditMode) && (
-        <section className="space-y-3.5 bg-gradient-to-br from-[#121a20]/90 via-[#0e1418]/90 to-[#141e24]/70 border border-[#232e33] rounded-2xl p-4 sm:p-5 shadow-md relative overflow-hidden transition-all">
+        <section className={`bg-gradient-to-br from-[#121a20]/90 via-[#0e1418]/90 to-[#141e24]/70 border border-[#232e33] rounded-2xl shadow-md relative overflow-hidden transition-all ${
+          isFeaturedMinimized ? "px-4 sm:px-6 py-3.5" : "p-4 sm:p-5 space-y-3.5"
+        }`}>
           {/* Subtle background glow effect using themeColor */}
           <div 
             className="absolute -top-16 -right-16 w-56 h-56 rounded-full blur-3xl pointer-events-none opacity-15"
@@ -1954,18 +1957,18 @@ export function CategoryView() {
                 <button
                   type="button"
                   onClick={() => setIsFeaturedMinimized(!isFeaturedMinimized)}
-                  className="flex items-center gap-1 px-2.5 py-1 text-xs rounded-lg border border-border/70 bg-secondary/50 hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-border/70 bg-secondary/50 hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                   title={isFeaturedMinimized ? "Desplegar artículos destacados" : "Minimizar artículos destacados"}
                 >
                   {isFeaturedMinimized ? (
                     <>
                       <ChevronDown className="h-3.5 w-3.5" />
-                      <span className="hidden sm:inline">Desplegar</span>
+                      <span>Desplegar</span>
                     </>
                   ) : (
                     <>
                       <ChevronUp className="h-3.5 w-3.5" />
-                      <span className="hidden sm:inline">Minimizar</span>
+                      <span>Minimizar</span>
                     </>
                   )}
                 </button>

@@ -534,106 +534,124 @@ export function Home() {
           </div>
         </div>
 
-        {/* Minimized categories shelf */}
-        {isHomeCategoriesMinimized ? (
-          <div
-            onClick={toggleHomeCategoriesMinimized}
-            className="cursor-pointer bg-card/40 border border-border/60 hover:border-primary/50 rounded-xl p-3 sm:p-4 flex items-center justify-between transition-all group shadow-sm hover:shadow"
-          >
-            <div className="flex items-center gap-3 overflow-hidden">
-              <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors font-medium">
-                Categorías de lore minimizadas ({rootCategories.length} disponibles)
-              </span>
-              <div className="flex items-center gap-1.5 overflow-hidden opacity-75 group-hover:opacity-100 transition-opacity">
-                {rootCategories.slice(0, 8).map((c) => {
-                  const CatIcon = c.icon;
-                  return (
-                    <span
-                      key={c.slug}
-                      className="h-7 w-7 rounded-lg flex items-center justify-center bg-secondary/60 border border-border/40 shrink-0"
-                      title={c.name}
-                    >
-                      <CatIcon className="h-3.5 w-3.5" style={{ color: c.color }} />
+        {/* Minimized categories shelf with smooth accordion */}
+        <div
+          className={`grid transition-[grid-template-rows,opacity,margin] duration-400 ease-in-out ${
+            isHomeCategoriesMinimized
+              ? "grid-rows-[1fr] opacity-100 mb-0"
+              : "grid-rows-[0fr] opacity-0 pointer-events-none mb-0"
+          }`}
+        >
+          <div className="overflow-hidden min-h-0">
+            <div
+              onClick={toggleHomeCategoriesMinimized}
+              className="cursor-pointer bg-card/40 border border-border/60 hover:border-primary/50 rounded-xl p-3 sm:p-4 flex items-center justify-between transition-all group shadow-sm hover:shadow"
+            >
+              <div className="flex items-center gap-3 overflow-hidden">
+                <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors font-medium">
+                  Categorías de lore minimizadas ({rootCategories.length} disponibles)
+                </span>
+                <div className="flex items-center gap-1.5 overflow-hidden opacity-75 group-hover:opacity-100 transition-opacity">
+                  {rootCategories.slice(0, 8).map((c) => {
+                    const CatIcon = c.icon;
+                    return (
+                      <span
+                        key={c.slug}
+                        className="h-7 w-7 rounded-lg flex items-center justify-center bg-secondary/60 border border-border/40 shrink-0"
+                        title={c.name}
+                      >
+                        <CatIcon className="h-3.5 w-3.5" style={{ color: c.color }} />
+                      </span>
+                    );
+                  })}
+                  {rootCategories.length > 8 && (
+                    <span className="text-[10px] text-muted-foreground font-mono bg-secondary/50 px-1.5 py-0.5 rounded border border-border/30">
+                      +{rootCategories.length - 8}
                     </span>
+                  )}
+                </div>
+              </div>
+              <span className="text-xs text-primary font-medium flex items-center gap-1 shrink-0 group-hover:underline">
+                Desplegar <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300" />
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Categories container: exactly 3 rows high with smooth accordion */}
+        <div
+          className={`grid transition-[grid-template-rows,opacity] duration-400 ease-in-out ${
+            !isHomeCategoriesMinimized
+              ? "grid-rows-[1fr] opacity-100"
+              : "grid-rows-[0fr] opacity-0 pointer-events-none"
+          }`}
+        >
+          <div className="overflow-hidden min-h-0">
+            <div
+              ref={categoryContainerRef}
+              className="relative overflow-hidden w-full select-none pt-0.5"
+              style={{ height: `${containerHeight}px` }}
+            >
+              <div
+                ref={categoryGridRef}
+                style={{
+                  transform: `translateY(-${currentRow * rowStep}px)`,
+                  transition: "transform 320ms cubic-bezier(0.2, 0.8, 0.25, 1)"
+                }}
+                className="flex flex-wrap justify-center gap-4"
+              >
+                {rootCategories.map((cat) => {
+                  const Icon = cat.icon;
+                  return (
+                    <div
+                      key={cat.slug}
+                      className="relative group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] shrink-0"
+                    >
+                      <Link
+                        to={`/categoria/${cat.slug}`}
+                        className={`block bg-card border border-border/75 rounded-xl p-4 sm:p-5 hover:border-primary/45 transition-all hover:bg-secondary/20 hover:shadow-sm h-[140px] flex flex-col justify-between ${
+                          isVisualEditMode ? "ring-1 ring-primary/20 hover:ring-primary/60" : ""
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <div 
+                              className="h-8 w-8 rounded-lg flex items-center justify-center group-hover:bg-primary/10 transition-colors"
+                              style={{ backgroundColor: `${cat.color}15` }}
+                            >
+                              <Icon className="h-4 w-4" style={{ color: cat.color }} />
+                            </div>
+                            {isVisualEditMode && (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  setEditingCategory(cat);
+                                }}
+                                className="text-[10px] font-semibold text-primary bg-primary/15 hover:bg-primary/25 px-2 py-0.5 rounded-full flex items-center gap-1 border border-primary/20 cursor-pointer"
+                                title={`Editar ${cat.name}`}
+                              >
+                                <Edit3 className="h-2.5 w-2.5" />
+                                Editar
+                              </button>
+                            )}
+                          </div>
+                          <h3 className="font-heading text-xs sm:text-sm font-bold text-foreground group-hover:text-primary transition-colors tracking-wide uppercase line-clamp-1">
+                            {cat.name}
+                          </h3>
+                        </div>
+                        <p className="text-[11px] text-muted-foreground mt-1 line-clamp-2 leading-relaxed font-light">
+                          {cat.description || "Categoría mística de la enciclopedia de Caldo de Dragón."}
+                        </p>
+                      </Link>
+                    </div>
                   );
                 })}
-                {rootCategories.length > 8 && (
-                  <span className="text-[10px] text-muted-foreground font-mono bg-secondary/50 px-1.5 py-0.5 rounded border border-border/30">
-                    +{rootCategories.length - 8}
-                  </span>
-                )}
               </div>
             </div>
-            <span className="text-xs text-primary font-medium flex items-center gap-1 shrink-0 group-hover:underline">
-              Desplegar <ChevronDown className="h-3.5 w-3.5" />
-            </span>
           </div>
-        ) : (
-          /* Categories container: exactly 3 rows high, NO visible container styling, NO scrollbar */
-          <div
-            ref={categoryContainerRef}
-            className="relative overflow-hidden w-full select-none"
-            style={{ height: `${containerHeight}px` }}
-          >
-            <div
-              ref={categoryGridRef}
-              style={{
-                transform: `translateY(-${currentRow * rowStep}px)`,
-                transition: "transform 320ms cubic-bezier(0.2, 0.8, 0.25, 1)"
-              }}
-              className="flex flex-wrap justify-center gap-4"
-            >
-              {rootCategories.map((cat) => {
-                const Icon = cat.icon;
-                return (
-                  <div
-                    key={cat.slug}
-                    className="relative group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] shrink-0"
-                  >
-                    <Link
-                      to={`/categoria/${cat.slug}`}
-                      className={`block bg-card border border-border/75 rounded-xl p-4 sm:p-5 hover:border-primary/45 transition-all hover:bg-secondary/20 hover:shadow-sm h-[140px] flex flex-col justify-between ${
-                        isVisualEditMode ? "ring-1 ring-primary/20 hover:ring-primary/60" : ""
-                      }`}
-                    >
-                      <div>
-                        <div className="flex items-center justify-between mb-2">
-                          <div 
-                            className="h-8 w-8 rounded-lg flex items-center justify-center group-hover:bg-primary/10 transition-colors"
-                            style={{ backgroundColor: `${cat.color}15` }}
-                          >
-                            <Icon className="h-4 w-4" style={{ color: cat.color }} />
-                          </div>
-                          {isVisualEditMode && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setEditingCategory(cat);
-                              }}
-                              className="text-[10px] font-semibold text-primary bg-primary/15 hover:bg-primary/25 px-2 py-0.5 rounded-full flex items-center gap-1 border border-primary/20 cursor-pointer"
-                              title={`Editar ${cat.name}`}
-                            >
-                              <Edit3 className="h-2.5 w-2.5" />
-                              Editar
-                            </button>
-                          )}
-                        </div>
-                        <h3 className="font-heading text-xs sm:text-sm font-bold text-foreground group-hover:text-primary transition-colors tracking-wide uppercase line-clamp-1">
-                          {cat.name}
-                        </h3>
-                      </div>
-                      <p className="text-[11px] text-muted-foreground mt-1 line-clamp-2 leading-relaxed font-light">
-                        {cat.description || "Categoría mística de la enciclopedia de Caldo de Dragón."}
-                      </p>
-                    </Link>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+        </div>
       </section>
 
       {/* Featured Articles */}

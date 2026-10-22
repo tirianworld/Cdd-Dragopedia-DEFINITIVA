@@ -1444,16 +1444,24 @@ export function ArticleView() {
                   </span>
                 </div>
                 <ChevronDown
-                  className={`h-5 w-5 text-primary shrink-0 transition-transform duration-200 ${
+                  className={`h-5 w-5 text-primary shrink-0 transition-transform duration-300 ease-in-out ${
                     isTimelineMinimized ? "rotate-0" : "rotate-180"
                   }`}
                   strokeWidth={2.5}
                 />
               </div>
 
-              {!isTimelineMinimized && (
-                <div className="w-full overflow-hidden">
-                  <div className="px-4 sm:px-8 pt-2 pb-9">
+              {/* Contenedor animado fluido de la línea temporal */}
+              <div
+                className={`grid transition-[grid-template-rows,opacity] duration-400 ease-in-out ${
+                  isTimelineMinimized
+                    ? "grid-rows-[0fr] opacity-0 pointer-events-none"
+                    : "grid-rows-[1fr] opacity-100"
+                }`}
+              >
+                <div className="overflow-hidden min-h-0">
+                  <div className="w-full">
+                    <div className="px-4 sm:px-8 pt-2 pb-9">
                     <div className="relative flex items-center justify-between w-full">
                       {/* Track container strictly between first and last dot centers */}
                       <div className="absolute left-3 right-3 top-1/2 -translate-y-1/2 h-0.5 bg-border rounded-full overflow-hidden">
@@ -1538,9 +1546,10 @@ export function ArticleView() {
                     </div>
                   )}
                 </div>
-              )}
+              </div>
             </div>
-          )}
+          </div>
+        )}
 
           {/* Location Map Section - Justo debajo de la línea temporal */}
           {article.map_url && (() => {

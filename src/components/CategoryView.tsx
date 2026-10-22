@@ -1610,10 +1610,14 @@ export function CategoryView() {
         </div>
       </div>
 
-      {/* 2. Menú de Subcategorías (Se muestra en todas las categorías por igual; si no hay subcategorías, no se expande) */}
-      {!shouldShowExpanded ? (
-        /* Barra Minimizado EXACTA A LA IMAGEN DEL USUARIO */
-        <div className="bg-[#0e1418]/70 border border-[#232e33] rounded-2xl px-4 sm:px-6 py-3 shadow-xs flex items-center justify-between gap-4 transition-all">
+      {/* 2. Menú de Subcategorías (Animación fluida al desplegar/minimizar) */}
+      <section 
+        className={`bg-[#0e1418]/70 border border-[#232e33] rounded-2xl shadow-xs transition-all duration-400 ease-in-out relative overflow-hidden ${
+          !shouldShowExpanded ? "px-4 sm:px-6 py-3" : "px-4 sm:px-6 pt-4 pb-6 space-y-4"
+        }`}
+      >
+        {/* Header de la sección de subcategorías */}
+        <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-3 shrink-0">
             <div 
               className="h-6 w-6 rounded-full flex items-center justify-center shrink-0 border transition-all duration-300 shadow-xs"
@@ -1679,209 +1683,142 @@ export function CategoryView() {
               <button
                 type="button"
                 onClick={toggleSubcatMinimized}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-[#232e33] bg-[#131b20] hover:bg-[#1c282f] font-medium transition-colors shadow-xs cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-[#232e33] bg-[#131b20] hover:bg-[#1c282f] font-medium transition-all duration-300 shadow-xs cursor-pointer"
                 style={{ color: themeColor }}
-                title="Desplegar subcategorías"
+                title={shouldShowExpanded ? "Minimizar subcategorías" : "Desplegar subcategorías"}
               >
-                <span>Desplegar</span>
-                <ChevronDown className="h-3.5 w-3.5" />
+                <span>{shouldShowExpanded ? "Minimizar" : "Desplegar"}</span>
+                <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ease-in-out ${
+                  shouldShowExpanded ? "rotate-180" : "rotate-0"
+                }`} />
               </button>
             )}
           </div>
         </div>
-      ) : (
-        /* Sección Desplegada (Cuando existen subcategorías o está activo el Modo Edición) */
-        <section className="space-y-4 bg-card/40 border border-border/70 rounded-2xl p-4 sm:p-6 shadow-sm">
-          {/* Header de la sección de subcategorías */}
-          <div className="flex items-center justify-between gap-3 flex-wrap">
-            <div className="flex items-center gap-3">
-              <div 
-                className="h-6 w-6 rounded-full flex items-center justify-center shrink-0 border transition-all duration-300 shadow-xs"
-                style={{
-                  borderColor: `${themeColor}60`,
-                  backgroundColor: `${themeColor}20`,
-                  color: themeColor,
-                  boxShadow: `0 0 10px ${themeColor}25`
-                }}
-              >
-                <Icon className="h-3.5 w-3.5" style={{ color: themeColor }} />
-              </div>
-              <h2 className="font-heading font-semibold text-xs sm:text-sm text-foreground tracking-wider uppercase">
-                EXPLORAR SUBCATEGORÍAS DE {currentCategory?.name || slug}
-              </h2>
-            </div>
 
-            <div className="flex items-center gap-3">
-              {isVisualEditMode && (
-                <button
-                  type="button"
-                  onClick={openCreateSubcatModal}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-primary/40 bg-primary/15 hover:bg-primary/25 text-primary font-semibold transition-colors shadow-xs cursor-pointer"
-                  title={`Crear nueva subcategoría dentro de ${currentCategory?.name || slug}`}
-                >
-                  <Plus className="h-3.5 w-3.5" />
-                  <span>Crear subcategoría</span>
-                </button>
-              )}
-
-              {selectedSubcategory === "all" && (
-                <div className="hidden sm:flex items-center bg-[#131b20] border border-[#232e33] rounded-lg p-0.5 text-xs">
-                  <button
-                    type="button"
-                    onClick={() => setViewLayout("standard")}
-                    className={`px-3 py-1 rounded-md flex items-center gap-1.5 font-medium transition-all ${
-                      viewLayout === "standard"
-                        ? "bg-[#1c282f] text-foreground font-semibold shadow-xs"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                    title="Vista en cuadrícula estándar"
-                  >
-                    <LayoutGrid className="h-3.5 w-3.5" />
-                    <span>Cuadrícula</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setViewLayout("sections")}
-                    className={`px-3 py-1 rounded-md flex items-center gap-1.5 font-medium transition-all ${
-                      viewLayout === "sections"
-                        ? "bg-[#1c282f] text-foreground font-semibold shadow-xs"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                    title="Vista organizada por secciones de cada subcategoría (Estilo Inicio)"
-                  >
-                    <ListFilter className="h-3.5 w-3.5" />
-                    <span>Por Secciones</span>
-                  </button>
-                </div>
-              )}
-
-              <button
-                type="button"
-                onClick={toggleSubcatMinimized}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-[#232e33] bg-[#131b20] hover:bg-[#1c282f] text-muted-foreground hover:text-foreground font-medium transition-colors shadow-xs cursor-pointer"
-                title="Minimizar subcategorías"
-              >
-                <span>Minimizar</span>
-                <ChevronUp className="h-3.5 w-3.5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Contenedor de 1 fila visible con desplazamiento por rueda del ratón como en Inicio */}
-          <div
-            ref={subcatContainerRef}
-            className="relative overflow-hidden w-full select-none"
-            style={{ height: `${subcatContainerHeight}px` }}
-          >
+        {/* Cuerpo animado fluido de subcategorías */}
+        <div 
+          className={`grid transition-[grid-template-rows,opacity] duration-400 ease-in-out ${
+            !shouldShowExpanded ? "grid-rows-[0fr] opacity-0 pointer-events-none" : "grid-rows-[1fr] opacity-100"
+          }`}
+        >
+          <div className="overflow-hidden min-h-0 pt-2">
+            {/* Contenedor de 1 fila visible con desplazamiento por rueda del ratón como en Inicio */}
             <div
-              ref={subcatGridRef}
-              style={{
-                transform: `translateY(-${subcatRow * subcatRowStep}px)`,
-                transition: "transform 320ms cubic-bezier(0.2, 0.8, 0.25, 1)"
-              }}
-              className="flex flex-wrap justify-center gap-4"
+              ref={subcatContainerRef}
+              className="relative overflow-hidden w-full select-none"
+              style={{ height: `${subcatContainerHeight}px` }}
             >
-              {subcategories.map((subcat) => {
-                const SubIcon = subcat.icon;
+              <div
+                ref={subcatGridRef}
+                style={{
+                  transform: `translateY(-${subcatRow * subcatRowStep}px)`,
+                  transition: "transform 320ms cubic-bezier(0.2, 0.8, 0.25, 1)"
+                }}
+                className="flex flex-wrap justify-center gap-4"
+              >
+                {subcategories.map((subcat) => {
+                  const SubIcon = subcat.icon;
 
-                return (
-                  <div
-                    key={subcat.id || subcat.slug}
-                    className="relative group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] shrink-0"
-                  >
-                    <Link
-                      to={`/categoria/${subcat.slug}`}
-                      className={`block bg-card border border-border/75 rounded-xl p-4 sm:p-5 hover:border-primary/45 transition-all hover:bg-secondary/20 hover:shadow-sm h-[140px] flex flex-col justify-between ${
-                        isVisualEditMode ? "ring-1 ring-primary/20 hover:ring-primary/60" : ""
-                      }`}
+                  return (
+                    <div
+                      key={subcat.id || subcat.slug}
+                      className="relative group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] shrink-0"
                     >
-                      <div>
-                        <div className="flex items-center justify-between mb-2">
-                          <div
-                            className="h-8 w-8 rounded-lg flex items-center justify-center transition-colors group-hover:scale-105"
-                            style={{ 
-                              backgroundColor: `${subcat.color}15`,
-                              border: `1px solid ${subcat.color}35`
-                            }}
-                          >
-                            <SubIcon className="h-4 w-4" style={{ color: subcat.color }} />
-                          </div>
-                          {isVisualEditMode && (
-                            <div className="flex items-center gap-1">
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setAssignTargetOverride(subcat);
-                                  setAssignSearchQuery("");
-                                  setAssignCategoryFilter("all");
-                                  setIsAssignArticlesOpen(true);
-                                }}
-                                className="text-[10px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1 border cursor-pointer transition-colors hover:brightness-110"
-                                style={{
-                                  color: subcat.color,
-                                  backgroundColor: `${subcat.color}15`,
-                                  borderColor: `${subcat.color}35`
-                                }}
-                                title={`Asignar artículos a ${subcat.name}`}
-                              >
-                                <FolderPlus className="h-2.5 w-2.5" />
-                                Artículos
-                              </button>
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setEditingSubcategory(subcat);
-                                }}
-                                className="text-[10px] font-semibold text-primary bg-primary/15 hover:bg-primary/25 px-2 py-0.5 rounded-full flex items-center gap-1 border border-primary/20 cursor-pointer"
-                                title={`Editar ${subcat.name}`}
-                              >
-                                <Edit3 className="h-2.5 w-2.5" />
-                                Editar
-                              </button>
+                      <Link
+                        to={`/categoria/${subcat.slug}`}
+                        className={`block bg-card border border-border/75 rounded-xl p-4 sm:p-5 hover:border-primary/45 transition-all hover:bg-secondary/20 hover:shadow-sm h-[140px] flex flex-col justify-between ${
+                          isVisualEditMode ? "ring-1 ring-primary/20 hover:ring-primary/60" : ""
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <div
+                              className="h-8 w-8 rounded-lg flex items-center justify-center transition-colors group-hover:scale-105"
+                              style={{ 
+                                backgroundColor: `${subcat.color}15`,
+                                border: `1px solid ${subcat.color}35`
+                              }}
+                            >
+                              <SubIcon className="h-4 w-4" style={{ color: subcat.color }} />
                             </div>
-                          )}
+                            {isVisualEditMode && (
+                              <div className="flex items-center gap-1">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setAssignTargetOverride(subcat);
+                                    setAssignSearchQuery("");
+                                    setAssignCategoryFilter("all");
+                                    setIsAssignArticlesOpen(true);
+                                  }}
+                                  className="text-[10px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1 border cursor-pointer transition-colors hover:brightness-110"
+                                  style={{
+                                    color: subcat.color,
+                                    backgroundColor: `${subcat.color}15`,
+                                    borderColor: `${subcat.color}35`
+                                  }}
+                                  title={`Asignar artículos a ${subcat.name}`}
+                                >
+                                  <FolderPlus className="h-2.5 w-2.5" />
+                                  Artículos
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setEditingSubcategory(subcat);
+                                  }}
+                                  className="text-[10px] font-semibold text-primary bg-primary/15 hover:bg-primary/25 px-2 py-0.5 rounded-full flex items-center gap-1 border border-primary/20 cursor-pointer"
+                                  title={`Editar ${subcat.name}`}
+                                >
+                                  <Edit3 className="h-2.5 w-2.5" />
+                                  Editar
+                                </button>
+                              </div>
+                            )}
+                          </div>
+
+                          <h3 className="font-heading text-xs sm:text-sm font-bold text-foreground group-hover:text-primary transition-colors tracking-wide uppercase line-clamp-1">
+                            {subcat.name}
+                          </h3>
                         </div>
 
-                        <h3 className="font-heading text-xs sm:text-sm font-bold text-foreground group-hover:text-primary transition-colors tracking-wide uppercase line-clamp-1">
-                          {subcat.name}
-                        </h3>
-                      </div>
+                        <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed font-light">
+                          {subcat.description || "Subcategoría mística de Caldo de Dragón."}
+                        </p>
+                      </Link>
+                    </div>
+                  );
+                })}
 
-                      <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed font-light">
-                        {subcat.description || "Subcategoría mística de Caldo de Dragón."}
-                      </p>
-                    </Link>
-                  </div>
-                );
-              })}
-
-              {isVisualEditMode && (
-                <button
-                  type="button"
-                  onClick={openCreateSubcatModal}
-                  className="group bg-card/50 hover:bg-primary/10 border-2 border-dashed border-primary/35 hover:border-primary rounded-xl p-4 sm:p-5 transition-all h-[140px] flex flex-col items-center justify-center gap-2 text-center cursor-pointer w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] shrink-0"
-                >
-                  <div className="h-9 w-9 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                    <Plus className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <span className="font-heading text-xs sm:text-sm font-bold text-primary tracking-wide uppercase block">
-                      Crear subcategoría
-                    </span>
-                    <span className="text-[11px] text-muted-foreground font-light line-clamp-1 mt-0.5">
-                      Añadir dentro de {currentCategory?.name || slug}
-                    </span>
-                  </div>
-                </button>
-              )}
+                {isVisualEditMode && (
+                  <button
+                    type="button"
+                    onClick={openCreateSubcatModal}
+                    className="group bg-card/50 hover:bg-primary/10 border-2 border-dashed border-primary/35 hover:border-primary rounded-xl p-4 sm:p-5 transition-all h-[140px] flex flex-col items-center justify-center gap-2 text-center cursor-pointer w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] shrink-0"
+                  >
+                    <div className="h-9 w-9 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                      <Plus className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <span className="font-heading text-xs sm:text-sm font-bold text-primary tracking-wide uppercase block">
+                        Crear subcategoría
+                      </span>
+                      <span className="text-[11px] text-muted-foreground font-light line-clamp-1 mt-0.5">
+                        Añadir dentro de {currentCategory?.name || slug}
+                      </span>
+                    </div>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* Banner de subcategoría activa cuando hay filtro seleccionado */}
       {selectedSubcategory !== "all" && activeSubcategoryObj && (
@@ -1916,10 +1853,10 @@ export function CategoryView() {
         </div>
       )}
 
-      {/* 2.5 Artículos Destacados de la Categoría o Subcategoría (Minimizado por defecto) */}
+      {/* 2.5 Artículos Destacados de la Categoría o Subcategoría (Minimizado por defecto con animación fluida) */}
       {(featuredArticles.length > 0 || isVisualEditMode) && (
-        <section className={`bg-gradient-to-br from-[#121a20]/90 via-[#0e1418]/90 to-[#141e24]/70 border border-[#232e33] rounded-2xl shadow-md relative overflow-hidden transition-all ${
-          isFeaturedMinimized ? "px-4 sm:px-6 py-3.5" : "p-4 sm:p-5 space-y-3.5"
+        <section className={`bg-gradient-to-br from-[#121a20]/90 via-[#0e1418]/90 to-[#141e24]/70 border border-[#232e33] rounded-2xl shadow-md relative overflow-hidden transition-all duration-400 ease-in-out ${
+          isFeaturedMinimized ? "px-4 sm:px-6 py-3.5" : "px-4 sm:px-6 pt-4 pb-5"
         }`}>
           {/* Subtle background glow effect using themeColor */}
           <div 
@@ -1957,59 +1894,62 @@ export function CategoryView() {
                 <button
                   type="button"
                   onClick={() => setIsFeaturedMinimized(!isFeaturedMinimized)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-border/70 bg-secondary/50 hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-border/70 bg-secondary/50 hover:bg-secondary text-muted-foreground hover:text-foreground transition-all duration-300 cursor-pointer"
                   title={isFeaturedMinimized ? "Desplegar artículos destacados" : "Minimizar artículos destacados"}
                 >
-                  {isFeaturedMinimized ? (
-                    <>
-                      <ChevronDown className="h-3.5 w-3.5" />
-                      <span>Desplegar</span>
-                    </>
-                  ) : (
-                    <>
-                      <ChevronUp className="h-3.5 w-3.5" />
-                      <span>Minimizar</span>
-                    </>
-                  )}
+                  <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ease-in-out ${
+                    isFeaturedMinimized ? "rotate-0" : "rotate-180"
+                  }`} />
+                  <span>{isFeaturedMinimized ? "Desplegar" : "Minimizar"}</span>
                 </button>
               )}
             </div>
           </div>
 
-          {/* Cards Grid */}
-          {!isFeaturedMinimized && (
-            featuredArticles.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1 relative z-10">
-                {featuredArticles.map((article) => (
-                  <div key={article.id} className="relative group flex flex-col">
-                    <ArticleCard 
-                      article={article} 
-                      displayCategory={getCategoryForArticleInSection(
-                        article,
-                        activeSubcategoryObj || currentCategory,
-                        mergedCategories
-                      )}
-                    />
+          {/* Cards Grid con animación fluida sin saltos */}
+          <div
+            className={`grid transition-[grid-template-rows,opacity] duration-400 ease-in-out relative z-10 ${
+              isFeaturedMinimized
+                ? "grid-rows-[0fr] opacity-0 pointer-events-none"
+                : "grid-rows-[1fr] opacity-100"
+            }`}
+          >
+            <div className="overflow-hidden min-h-0">
+              <div className="pt-4">
+                {featuredArticles.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {featuredArticles.map((article) => (
+                      <div key={article.id} className="relative group flex flex-col">
+                        <ArticleCard 
+                          article={article} 
+                          displayCategory={getCategoryForArticleInSection(
+                            article,
+                            activeSubcategoryObj || currentCategory,
+                            mergedCategories
+                          )}
+                        />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="py-6 text-center text-xs text-muted-foreground border border-dashed border-border/60 rounded-xl relative z-10">
-                No hay artículos para destacar en esta sección aún.
-                {isVisualEditMode && (
-                  <div className="mt-2">
-                    <button
-                      type="button"
-                      onClick={openFeaturedModal}
-                      className="text-xs text-primary underline font-medium"
-                    >
-                      Haz clic aquí para seleccionar artículos destacados manualmente
-                    </button>
+                ) : (
+                  <div className="py-6 text-center text-xs text-muted-foreground border border-dashed border-border/60 rounded-xl relative z-10">
+                    No hay artículos para destacar en esta sección aún.
+                    {isVisualEditMode && (
+                      <div className="mt-2">
+                        <button
+                          type="button"
+                          onClick={openFeaturedModal}
+                          className="text-xs text-primary underline font-medium cursor-pointer"
+                        >
+                          Haz clic aquí para seleccionar artículos destacados manualmente
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
-            )
-          )}
+            </div>
+          </div>
         </section>
       )}
 

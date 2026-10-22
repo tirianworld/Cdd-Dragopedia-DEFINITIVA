@@ -1184,7 +1184,7 @@ async function writeDeletedArticles(records: DeletedArticleRecord[]): Promise<bo
   return true;
 }
 
-async function recordDeletedArticles(items: Array<{ id: string; slug?: string; title?: string; category?: string; reason?: string }>): Promise<void> {
+async function recordDeletedArticles(items: Array<{ id: string; slug?: string; title?: string; category?: string; reason?: string; deletedAt?: string }>): Promise<void> {
   const current = await readDeletedArticles();
   const map = new Map<string, DeletedArticleRecord>();
   for (const c of current) {

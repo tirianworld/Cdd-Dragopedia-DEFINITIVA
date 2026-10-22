@@ -634,7 +634,25 @@ export function CategoryView() {
     return articles;
   }, [articles, selectedSubcategory, activeSubcategoryObj]);
 
-  // Selección de artículos destacados para mostrar
+  // Helper para obtener la marca de tiempo más reciente de creación o actualización
+  const getArticleDateScore = (art: WikiArticle): number => {
+    if (art.created_date) {
+      const t = new Date(art.created_date).getTime();
+      if (!isNaN(t) && t > 0) return t;
+    }
+    if (art.updated_date) {
+      const t = new Date(art.updated_date).getTime();
+      if (!isNaN(t) && t > 0) return t;
+    }
+    const m = art.id?.match(/\d{10,}/);
+    if (m) {
+      const t = parseInt(m[0], 10);
+      if (!isNaN(t) && t > 0) return t;
+    }
+    return 0;
+  };
+
+  // Selección de artículos destacados para mostrar (los más nuevos de la categoría/subcategoría)
   const featuredArticles = useMemo(() => {
     if (!categoryScopeArticles.length) return [];
 
@@ -649,9 +667,8 @@ export function CategoryView() {
     }
 
     const pinnedList: WikiArticle[] = [];
-    const remainingList: WikiArticle[] = [];
 
-    // 1. Artículos fijados manualmente por el usuario en esta categoría/subcategoría
+    // 1. Artículos fijados manualmente por el usuario en esta categoría/subcategoría (si los hay)
     if (pinnedIds.length > 0) {
       const idMap = new Map<string, WikiArticle>();
       for (const a of categoryScopeArticles) {
@@ -666,34 +683,12 @@ export function CategoryView() {
       }
     }
 
-    // 2. Artículos con is_featured: true o importance: 'destacado' | 'epico'
-    for (const a of categoryScopeArticles) {
-      if (pinnedList.some((x) => x.id === a.id)) continue;
-      if (a.is_featured || a.importance === "destacado" || a.importance === "epico") {
-        remainingList.push(a);
-      }
-    }
+    // 2. Artículos de esta categoría o subcategoría ordenados estrictamente por los más nuevos
+    const newestCandidates = categoryScopeArticles
+      .filter((a) => !pinnedList.some((x) => x.id === a.id))
+      .sort((a, b) => getArticleDateScore(b) - getArticleDateScore(a));
 
-    // 3. Si aún hay menos de 4, completar automáticamente con los artículos más notables (con imagen y más contenido)
-    if (pinnedList.length + remainingList.length < 4) {
-      const candidates = categoryScopeArticles.filter(
-        (a) => !pinnedList.some((x) => x.id === a.id) && !remainingList.some((x) => x.id === a.id)
-      );
-      candidates.sort((a, b) => {
-        const aHasImg = Boolean(a.image_url && a.image_url.trim()) ? 1 : 0;
-        const bHasImg = Boolean(b.image_url && b.image_url.trim()) ? 1 : 0;
-        if (aHasImg !== bHasImg) return bHasImg - aHasImg;
-
-        const aLen = (a.content?.length || 0) + (a.summary?.length || 0);
-        const bLen = (b.content?.length || 0) + (b.summary?.length || 0);
-        return bLen - aLen;
-      });
-
-      const needed = 4 - (pinnedList.length + remainingList.length);
-      remainingList.push(...candidates.slice(0, needed));
-    }
-
-    return [...pinnedList, ...remainingList].slice(0, 8);
+    return [...pinnedList, ...newestCandidates].slice(0, 4);
   }, [categoryScopeArticles, customFeaturedRaw]);
 
   const openFeaturedModal = () => {
@@ -1931,35 +1926,15 @@ export function CategoryView() {
 
           {/* Section Header */}
           <div className="flex items-center justify-between gap-3 flex-wrap relative z-10">
-            <div className="flex items-center gap-2.5">
-              <div 
-                className="h-7 w-7 rounded-lg flex items-center justify-center shrink-0 border shadow-xs"
-                style={{
-                  borderColor: `${themeColor}60`,
-                  backgroundColor: `${themeColor}20`,
-                  color: themeColor,
-                  boxShadow: `0 0 12px ${themeColor}30`
-                }}
-              >
-                <Star className="h-4 w-4 fill-current" style={{ color: themeColor }} />
-              </div>
-              <div>
-                <h3 className="font-heading font-bold text-sm sm:text-base tracking-wide text-foreground uppercase flex items-center gap-2 flex-wrap">
-                  <span>
-                    {activeSubcategoryObj 
-                      ? `Artículos Destacados de ${activeSubcategoryObj.name}`
-                      : `Artículos Destacados de ${currentCategory?.name || slug || "la Categoría"}`}
-                  </span>
-                  {featuredArticles.length > 0 && (
-                    <span className="text-[10px] font-sans font-semibold px-2 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/30 normal-case tracking-normal">
-                      {featuredArticles.length} {featuredArticles.length === 1 ? "destacado" : "destacados"}
-                    </span>
-                  )}
-                </h3>
-                <p className="text-[11px] text-muted-foreground">
-                  Pergaminos más relevantes, hitos históricos y figuras clave de este compendio
-                </p>
-              </div>
+            <div>
+              <h3 className="font-heading font-bold text-sm sm:text-base tracking-wide text-foreground uppercase">
+                {activeSubcategoryObj 
+                  ? `Artículos Destacados de ${activeSubcategoryObj.name}`
+                  : `Artículos Destacados de ${currentCategory?.name || slug || "la Categoría"}`}
+              </h3>
+              <p className="text-[11px] text-muted-foreground">
+                Pergaminos más recientes añadidos a este compendio
+              </p>
             </div>
 
             <div className="flex items-center gap-2">
@@ -2004,19 +1979,6 @@ export function CategoryView() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1 relative z-10">
                 {featuredArticles.map((article) => (
                   <div key={article.id} className="relative group flex flex-col">
-                    <div className="absolute top-2.5 right-2.5 z-20 pointer-events-none">
-                      <span 
-                        className="flex items-center gap-1 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-md backdrop-blur-md shadow-md border"
-                        style={{
-                          backgroundColor: "rgba(18, 26, 32, 0.88)",
-                          borderColor: `${themeColor}80`,
-                          color: themeColor
-                        }}
-                      >
-                        <Star className="h-2.5 w-2.5 fill-current" />
-                        <span>Destacado</span>
-                      </span>
-                    </div>
                     <ArticleCard 
                       article={article} 
                       displayCategory={getCategoryForArticleInSection(

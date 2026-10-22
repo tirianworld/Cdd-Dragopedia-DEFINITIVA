@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": "art-mongraal-player",
+    "slug": "mongraal",
+    "title": "Mongraal",
+    "category": "Personajes",
+    "deletedAt": "2026-10-22T12:09:54.326Z",
+    "reason": "Eliminado desde la interfaz de la wiki"
+  }
+]

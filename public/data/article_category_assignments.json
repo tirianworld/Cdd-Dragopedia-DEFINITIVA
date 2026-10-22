@@ -1,13 +1,4 @@
 {
-  "mongraal": {
-    "category": "Personajes",
-    "extra_categories": [
-      "Personajes",
-      "Jugadores",
-      "Expedición de Moonhaven"
-    ],
-    "image_url": ""
-  },
   "caldo-de-dragon": {
     "category": "Organizaciones",
     "extra_categories": [

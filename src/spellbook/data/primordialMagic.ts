@@ -6,7 +6,6 @@ import {
   DivineMagicIcon,
   ExtraplanarMagicIcon,
   ProfaneMagicIcon,
-  AureaMagicIcon,
   PRIMORDIAL_IMAGE_URLS,
 } from '../components/PrimordialIcon';
 import React from 'react';
@@ -14,8 +13,6 @@ import React from 'react';
 export interface PrimordialMagicInfo {
   name: PrimordialMagic;
   nameEn: string;
-  generation?: 1 | 2;
-  generationLabel?: string;
   source: string;
   domain: string;
   adamantiteEffect: string;
@@ -25,7 +22,7 @@ export interface PrimordialMagicInfo {
   bgColor: string; // Tailwind class
   borderColor: string; // Tailwind class
   accentGlow: string;
-  icon: React.FC<{ className?: string; alt?: string; style?: React.CSSProperties }>;
+  icon: React.FC<{ className?: string; alt?: string }>;
   iconUrl?: string;
   // Dracopedia official canonical document fields
   canonicalId?: string;
@@ -40,10 +37,6 @@ export interface PrimordialMagicInfo {
   masters?: string[];
   dangers?: string[];
   interactions?: string;
-  treeOfAvalonRelation?: string;
-  loreImportance?: string;
-  curiosities?: string;
-  fullLore?: string;
 }
 
 export const PRIMORDIAL_MAGICS: PrimordialMagicInfo[] = [
@@ -203,47 +196,6 @@ export const PRIMORDIAL_MAGICS: PrimordialMagicInfo[] = [
     ],
     interactions: 'Actúa como una plaga corrosiva contra la Magia Natural marchitando la vida, y es repelida y destruida por la luz radiante de la Magia Divina.',
   },
-  {
-    name: 'Magia Áurea',
-    nameEn: 'Golden Magic',
-    generation: 2,
-    generationLabel: '2ª Generación',
-    source: 'Fusión única y trascendente entre la Magia Divina y la Magia Natural en el contexto de Ávalon, emanada del sagrado Árbol Áureo.',
-    domain: 'Curación física y espiritual, regeneración acelerada de tejidos y órganos, resurrección de seres vivos y creación de leyendas/mitos eternos',
-    adamantiteEffect: 'Imbúe la adamantita con una refulgente aura dorada viviente que restaura la salud del portador y preserva su hilo vital contra la muerte definitiva.',
-    realmNotes: 'La Magia Áurea es única en su capacidad para fusionar dos magias tan distintas como la divina y la natural. Este equilibrio es lo que permite que Ávalon sea un lugar donde la muerte no es el final, sino una transición hacia nuevas formas de existencia.',
-    color: '#eab308', // Radiant Golden / Amber
-    textColor: 'text-amber-300',
-    bgColor: 'bg-amber-950/45',
-    borderColor: 'border-amber-400/50',
-    accentGlow: 'rgba(234, 179, 8, 0.65)',
-    icon: AureaMagicIcon,
-    canonicalId: 'magia-aurea',
-    cosmicOrigin: 'La Magia Áurea es una manifestación única y poderosa que surge de la fusión entre la magia divina y la magia natural en el contexto de Ávalon. Esta magia se centra en la curación, regeneración, resurrección y creación de leyendas, otorgando un poder que trasciende las leyes naturales y se convierte en un elemento esencial del Árbol Áureo.\n\nEl origen de la Magia Áurea está profundamente ligado al Árbol Áureo, una entidad divina y ancestral que actúa como el corazón de Ávalon. Este árbol fue creado por la unión de la magia divina y la magia natural, lo que le otorgó una esencia única y poderosa. La Magia Áurea es la expresión de esta fusión, manifestándose como una energía que promueve la curación, la regeneración y la resurrección de seres vivos.',
-    properties: {
-      indomable: 'Curación: Capacidad de sanar heridas físicas y espirituales, restaurando la salud y el equilibrio en los seres que la reciben.',
-      transformable: 'Regeneración: Acelera la regeneración de tejidos y órganos, permitiendo la recuperación de daños incluso graves.',
-      inestable: 'Resurrección: En casos excepcionales, puede revivir a los muertos, ligado a condiciones específicas y a la absorción de energía vital y almas.',
-      eterna: 'Creación de Leyendas: Efecto en la narrativa y la memoria colectiva, creando leyendas y mitos que perduran a través del tiempo.',
-    },
-    mastersTitle: 'Relación con el Árbol Áureo & Características Principales',
-    masters: [
-      'Curación: Sana heridas físicas y espirituales, restaurando la salud y el equilibrio.',
-      'Regeneración: Acelera la regeneración de tejidos y órganos ante daños incluso graves.',
-      'Resurrección: Revive a los muertos en casos excepcionales bajo condiciones específicas del Árbol Áureo.',
-      'Creación de Leyendas: Permite la creación de leyendas y mitos que perduran en la memoria colectiva de Ávalon.',
-      'Absorción y retorno de energía vital: Si el asesino muere, alma y energía vital regresan al poseedor original; si se agota, reencarna.',
-    ],
-    dangers: [
-      'Dependencia del corazón de Ávalon: Su caudal decae si el Árbol Áureo sufre corrupción, marchitamiento o tala.',
-      'Proceso kármico de almas: El ciclo de resurrección depende inexorablemente de las leyes del Árbol Áureo.',
-    ],
-    interactions: 'Fusión de 2ª Generación que une lo sagrado y lo terrenal. Inmune a la corrupción corruptora gracias a su síntesis de luz divina y fuerza natural.',
-    treeOfAvalonRelation: 'El Árbol Áureo es el epicentro de la Magia Áurea. Cada vez que alguien muere en Ávalon, el Árbol Áureo absorbe parte de su energía vital y un fragmento de su alma. Si el asesino de la víctima muere, la energía vital y el alma de la víctima son devueltos a su poseedor original. Si la víctima no es asesinada, pero su energía vital se agota por otros medios, su alma es forzada a reencarnar. Ambos procesos envían nutrientes al Árbol Áureo, elevando su poder a un nivel cercano al de las deidades menores.',
-    loreImportance: 'La Magia Áurea es crucial en el lore de Ávalon, ya que no solo permite la supervivencia y regeneración de sus habitantes, sino que también influye en la creación de leyendas y mitos que definen la identidad de la isla. Esta magia es un símbolo de la conexión entre lo divino y lo natural, y su presencia asegura que Ávalon permanezca como un lugar de inmortalidad y renacimiento.',
-    curiosities: 'La Magia Áurea es única en su capacidad para fusionar dos tipos de magia tan distintos como la divina y la natural. Este equilibrio es lo que permite que Ávalon sea un lugar donde la muerte no es el final, sino una transición hacia nuevas formas de existencia. Además, la Magia Áurea también tiene un papel en la protección de la isla, asegurando que su esencia y su magia sigan siendo inquebrantables.',
-    fullLore: `# Magia Áurea (Magias)\n\n**Magia Áurea**\nLa Magia Áurea es una manifestación única y poderosa que surge de la fusión entre la magia divina y la magia natural en el contexto de Ávalon. Esta magia se centra en la curación, regeneración, resurrección y creación de leyendas, otorgando un poder que trasciende las leyes naturales y se convierte en un elemento esencial del Árbol Áureo.\n\n**Origen y Naturaleza**\nEl origen de la Magia Áurea está profundamente ligado al Árbol Áureo, una entidad divina y ancestral que actúa como el corazón de Ávalon. Este árbol fue creado por la unión de la magia divina y la magia natural, lo que le otorgó una esencia única y poderosa. La Magia Áurea es la expresión de esta fusión, manifestándose como una energía que promueve la curación, la regeneración y la resurrección de seres vivos.\n\n**Características Principales**\n\n- **Curación:** La Magia Áurea tiene la capacidad de sanar heridas físicas y espirituales, restaurando la salud y el equilibrio en los seres que la reciben.\n- **Regeneración:** Esta magia puede acelerar la regeneración de tejidos y órganos, permitiendo la recuperación de daños incluso graves.\n- **Resurrección:** En casos excepcionales, la Magia Áurea puede revivir a los muertos, aunque esto suele estar ligado a condiciones específicas y a la absorción de energía vital y almas.\n- **Creación de Leyendas:** La Magia Áurea no solo tiene un impacto físico, sino también un efecto en la narrativa y la memoria colectiva, permitiendo la creación de leyendas y mitos que perduran a través del tiempo.\n\n**Relación con el Árbol Áureo**\nEl Árbol Áureo es el epicentro de la Magia Áurea. Cada vez que alguien muere en Ávalon, el Árbol Áureo absorbe parte de su energía vital y un fragmento de su alma. Este proceso tiene dos posibles resultados:\n- Si el asesino de la víctima muere, la energía vital y el alma de la víctima son devueltos a su poseedor original.\n- Si la víctima no es asesinada, pero su energía vital se agota por otros medios, su alma es forzada a reencarnar.\n\nAmbos procesos envían nutrientes al Árbol Áureo, aumentando su poder y fortaleciéndolo. Con el tiempo, estos nutrientes han elevado al Árbol Áureo a un nivel cercano al de las deidades menores, consolidando su papel como guardián y fuente de la Magia Áurea.\n\n**Importancia en el Lore**\nLa Magia Áurea es crucial en el lore de Ávalon, ya que no solo permite la supervivencia y regeneración de sus habitantes, sino que también influye en la creación de leyendas y mitos que definen la identidad de la isla. Esta magia es un símbolo de la conexión entre lo divino y lo natural, y su presencia asegura que Ávalon permanezca como un lugar de inmortalidad y renacimiento.\n\n**Curiosidades**\nLa Magia Áurea es única en su capacidad para fusionar dos tipos de magia tan distintos como la divina y la natural. Este equilibrio es lo que permite que Ávalon sea un lugar donde la muerte no es el final, sino una transición hacia nuevas formas de existencia. Además, la Magia Áurea también tiene un papel en la protección de la isla, asegurando que su esencia y su magia sigan siendo inquebrantables.`,
-  },
 ];
 
 export const PRIMORDIAL_MAGIC_MAP: Record<PrimordialMagic, PrimordialMagicInfo> = {
@@ -253,11 +205,7 @@ export const PRIMORDIAL_MAGIC_MAP: Record<PrimordialMagic, PrimordialMagicInfo> 
   'Magia Divina': PRIMORDIAL_MAGICS[3],
   'Magia Extraplanar': PRIMORDIAL_MAGICS[4],
   'Magia Profana': PRIMORDIAL_MAGICS[5],
-  'Magia Áurea': PRIMORDIAL_MAGICS[6],
 };
-
-export const PRIMORDIAL_FIRST_GEN = PRIMORDIAL_MAGICS.filter((p) => !p.generation || p.generation === 1);
-export const PRIMORDIAL_SECOND_GEN = PRIMORDIAL_MAGICS.filter((p) => p.generation === 2);
 
 /**
  * MAPA CANÓNICO Y EXHAUSTIVO DE CADA UNO DE LOS CONJUROS A SUS 6 MAGIAS PRIMORDIALES:
@@ -269,11 +217,6 @@ export const PRIMORDIAL_SECOND_GEN = PRIMORDIAL_MAGICS.filter((p) => p.generatio
  * 6. Magia Profana: Muerte, sombras, necrosis, maldiciones oscuras y siega vital.
  */
 export const CANONICAL_SPELL_PRIMORDIAL_MAP: Record<string, PrimordialMagic> = {
-  // === 2ª GENERACIÓN (Fusión de Magia Divina + Magia Natural: Ávalon / Árbol Áureo) ===
-  'bendicion_astraea': 'Magia Áurea',
-  'bendicion-de-astraea': 'Magia Áurea',
-  'astraeas-blessing': 'Magia Áurea',
-
   // === 1. MAGIA NATURAL (23 Conjuros: Elementos + Naturaleza) ===
   // Elementos: Fuego, Frío, Relámpago, Trueno, Meteoros
   'saeta-de-fuego': 'Magia Natural',
@@ -516,6 +459,9 @@ export const CANONICAL_SPELL_PRIMORDIAL_MAP: Record<string, PrimordialMagic> = {
   'reverse-gravity': 'Magia Salvaje',
 
   // === MAGIA DIVINA (Alias en inglés para evitar que milagros/curación caigan en otras ramas) ===
+  'bendicion-de-astraea': 'Magia Divina',
+  'bendicion-astraea': 'Magia Divina',
+  'astraeas-blessing': 'Magia Divina',
   'sacred-flame': 'Magia Divina',
   'guidance': 'Magia Divina',
   'cure-wounds': 'Magia Divina',

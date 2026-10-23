@@ -207,6 +207,18 @@ export const PRIMORDIAL_MAGIC_MAP: Record<PrimordialMagic, PrimordialMagicInfo> 
   'Magia Profana': PRIMORDIAL_MAGICS[5],
 };
 
+export const PRIMORDIAL_FIRST_GEN: PrimordialMagicInfo[] = [
+  PRIMORDIAL_MAGICS[0],
+  PRIMORDIAL_MAGICS[1],
+  PRIMORDIAL_MAGICS[2],
+  PRIMORDIAL_MAGICS[3],
+];
+
+export const PRIMORDIAL_SECOND_GEN: PrimordialMagicInfo[] = [
+  PRIMORDIAL_MAGICS[4],
+  PRIMORDIAL_MAGICS[5],
+];
+
 /**
  * MAPA CANÓNICO Y EXHAUSTIVO DE CADA UNO DE LOS CONJUROS A SUS 6 MAGIAS PRIMORDIALES:
  * 1. Magia Natural: Ecosistemas, plantas, bestias, clima local y regeneración orgánica.

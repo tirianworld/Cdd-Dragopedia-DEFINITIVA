@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { getSafeImageUrl } from "../utils/imageUrl";
 
 interface OrganizacionesSilhouettesBannerProps {
   className?: string;
@@ -9,7 +10,7 @@ export function OrganizacionesSilhouettesBanner({
   className = "w-full h-full",
   color = "#232e33",
 }: OrganizacionesSilhouettesBannerProps) {
-  const [imgSrc, setImgSrc] = useState("/images/caldo_organizaciones_silhouettes_solid.png");
+  const [imgSrc, setImgSrc] = useState(() => getSafeImageUrl("/images/caldo_organizaciones_silhouettes_solid.png"));
 
   return (
     <div
@@ -30,7 +31,7 @@ export function OrganizacionesSilhouettesBanner({
           referrerPolicy="no-referrer"
           className="max-h-[86%] sm:max-h-[88%] max-w-full w-auto h-auto self-end object-contain object-bottom select-none pointer-events-none transition-transform duration-300 origin-bottom group-hover:scale-[1.01] block m-0 p-0"
           style={{ objectPosition: "center bottom" }}
-          onError={() => setImgSrc("/images/caldo_organizaciones_silhouettes_solid.png")}
+          onError={() => setImgSrc("https://raw.githubusercontent.com/tirianworld/Cdd-Dragopedia-DEFINITIVA/main/public/images/caldo_organizaciones_silhouettes_solid.png")}
         />
       </div>
     </div>

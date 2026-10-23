@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useRef } from "react";
+import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { WikiArticle } from "../types";
 import { getCategoryIcon } from "./Layout";
@@ -726,16 +726,13 @@ export function CategoryView() {
 
   const NewSubSelectedIcon = ICON_MAP[newSubIcon] || ICON_MAP.Sparkles || BookOpen;
 
-  // Detección de columnas y altura para mostrar exactamente 2 filas enteras con desplazamiento por ruleta
+  // Detección de columnas y altura para mostrar exactamente 2 filas enteras con desplazamiento fluido por ruleta
   const [articleCols, setArticleCols] = useState<number>(3);
-  const [articleRow, setArticleRow] = useState(0);
-  const [articleCardHeight, setArticleCardHeight] = useState(380);
-  const articleContainerRef = useRef<HTMLDivElement | null>(null);
+  const [articleCardHeight, setArticleCardHeight] = useState(400);
+  const [measuredRowStep, setMeasuredRowStep] = useState<number | null>(null);
+  const articleScrollContainerRef = useRef<HTMLDivElement | null>(null);
   const articleGridRef = useRef<HTMLDivElement | null>(null);
-  const articleRowRef = useRef(0);
-  const maxArticleRowRef = useRef(0);
   const lastArticleWheelTimeRef = useRef(0);
-  const articleTouchStartYRef = useRef<number | null>(null);
 
   useEffect(() => {
     const updateCols = () => {
@@ -754,141 +751,97 @@ export function CategoryView() {
 
   const totalArticleRows = Math.ceil(sortedArticles.length / articleCols);
   const visibleArticleRows = Math.min(2, Math.max(1, totalArticleRows));
-  const maxArticleRow = Math.max(0, totalArticleRows - 2);
 
-  articleRowRef.current = articleRow;
-  maxArticleRowRef.current = maxArticleRow;
-
-  // Restablecer la fila al cambiar de categoría o aplicar filtros
+  // Restablecer scroll al cambiar de categoría o aplicar filtros
   useEffect(() => {
-    setArticleRow(0);
+    if (articleScrollContainerRef.current) {
+      articleScrollContainerRef.current.scrollTop = 0;
+    }
   }, [slug, selectedSubcategory, filterQuery, sortBy]);
 
-  useEffect(() => {
-    if (articleRow > maxArticleRow) {
-      setArticleRow(maxArticleRow);
-    }
-  }, [maxArticleRow, articleRow]);
-
-  // Medir la altura de tarjeta para que el contenedor encaje exactamente 2 filas completas
+  // Medir la altura de tarjeta y la separación real exacta para que el contenedor encaje siempre 2 filas completas
   useEffect(() => {
     if (!articleGridRef.current) return;
-    const updateCardHeight = () => {
+    const updateMeasurements = () => {
       const grid = articleGridRef.current;
       if (!grid) return;
-      const firstChild = grid.firstElementChild as HTMLElement;
-      if (firstChild && firstChild.offsetHeight > 0) {
-        setArticleCardHeight(firstChild.offsetHeight);
+      const cards = Array.from(grid.children) as HTMLElement[];
+      if (cards.length === 0) return;
+
+      const firstCard = cards[0];
+      if (firstCard && firstCard.offsetHeight > 0) {
+        const h = firstCard.offsetHeight;
+        setArticleCardHeight(h);
+
+        // Si hay una segunda fila, obtener la distancia exacta entre filas
+        if (cards.length > articleCols && cards[articleCols]) {
+          const step = cards[articleCols].offsetTop - firstCard.offsetTop;
+          if (step > 0) {
+            setMeasuredRowStep(step);
+          }
+        }
       }
     };
-    updateCardHeight();
-    const ro = new ResizeObserver(updateCardHeight);
+
+    updateMeasurements();
+    const ro = new ResizeObserver(updateMeasurements);
     ro.observe(articleGridRef.current);
-    window.addEventListener("resize", updateCardHeight);
+    window.addEventListener("resize", updateMeasurements);
     return () => {
       ro.disconnect();
-      window.removeEventListener("resize", updateCardHeight);
+      window.removeEventListener("resize", updateMeasurements);
     };
   }, [sortedArticles.length, articleCols]);
 
-  const articleGap = 24; // gap-6 en Tailwind equivale a 24px
+  const articleGap = 24; // gap-6
+  const articleRowStep = measuredRowStep || (articleCardHeight + articleGap);
   const articleContainerHeight =
-    articleCardHeight * visibleArticleRows + articleGap * Math.max(0, visibleArticleRows - 1);
-  const articleRowStep = articleCardHeight + articleGap;
+    visibleArticleRows <= 1
+      ? articleCardHeight + 8
+      : (measuredRowStep ? measuredRowStep + articleCardHeight + 8 : articleCardHeight * 2 + articleGap + 8);
 
-  // Manejo nativo de rueda del ratón y gestos táctiles para avanzar fila por fila sin cortes
-  useEffect(() => {
-    const el = articleContainerRef.current;
-    if (!el) return;
+  const handleArticleContainerWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    const container = articleScrollContainerRef.current;
+    if (!container) return;
 
-    const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) < 15) return;
+    // Si todo el contenido cabe sin scroll o hay 2 filas o menos, permitir scroll natural de la página
+    if (container.scrollHeight <= container.clientHeight + 15 || totalArticleRows <= 2) {
+      return;
+    }
 
-      const now = Date.now();
-      const isDown = e.deltaY > 0;
-      const isUp = e.deltaY < 0;
+    const isScrollingDown = e.deltaY > 0;
+    const isScrollingUp = e.deltaY < 0;
 
-      if (isDown && articleRowRef.current < maxArticleRowRef.current) {
-        e.preventDefault();
-        if (now - lastArticleWheelTimeRef.current > 220) {
-          lastArticleWheelTimeRef.current = now;
-          setArticleRow((r) => {
-            const next = Math.min(r + 1, maxArticleRowRef.current);
-            articleRowRef.current = next;
-            return next;
-          });
-        }
-        return;
-      }
+    const atTop = container.scrollTop <= 4;
+    const atBottom = container.scrollTop >= container.scrollHeight - container.clientHeight - 8;
 
-      if (isUp && articleRowRef.current > 0) {
-        e.preventDefault();
-        if (now - lastArticleWheelTimeRef.current > 220) {
-          lastArticleWheelTimeRef.current = now;
-          setArticleRow((r) => {
-            const next = Math.max(r - 1, 0);
-            articleRowRef.current = next;
-            return next;
-          });
-        }
-        return;
-      }
-    };
+    // Si está en el tope y sigue scrolleando hacia afuera, permitir que el scroll continúe en la página
+    if (atTop && isScrollingUp) {
+      return;
+    }
+    if (atBottom && isScrollingDown) {
+      return;
+    }
 
-    const onTouchStart = (e: TouchEvent) => {
-      if (e.touches.length === 1) {
-        articleTouchStartYRef.current = e.touches[0].clientY;
-      }
-    };
+    // Prevenir scroll de la página principal mientras se navega por las filas de artículos
+    e.preventDefault();
 
-    const onTouchMove = (e: TouchEvent) => {
-      if (articleTouchStartYRef.current === null) return;
-      const currentY = e.touches[0].clientY;
-      const diffY = articleTouchStartYRef.current - currentY;
-      if (Math.abs(diffY) < 25) return;
+    const now = Date.now();
+    if (now - lastArticleWheelTimeRef.current < 160) {
+      return;
+    }
+    lastArticleWheelTimeRef.current = now;
 
-      const now = Date.now();
-      if (diffY > 0 && articleRowRef.current < maxArticleRowRef.current) {
-        if (e.cancelable) e.preventDefault();
-        if (now - lastArticleWheelTimeRef.current > 240) {
-          lastArticleWheelTimeRef.current = now;
-          setArticleRow((r) => {
-            const next = Math.min(r + 1, maxArticleRowRef.current);
-            articleRowRef.current = next;
-            return next;
-          });
-          articleTouchStartYRef.current = currentY;
-        }
-      } else if (diffY < 0 && articleRowRef.current > 0) {
-        if (e.cancelable) e.preventDefault();
-        if (now - lastArticleWheelTimeRef.current > 240) {
-          lastArticleWheelTimeRef.current = now;
-          setArticleRow((r) => {
-            const next = Math.max(r - 1, 0);
-            articleRowRef.current = next;
-            return next;
-          });
-          articleTouchStartYRef.current = currentY;
-        }
-      }
-    };
+    const step = articleRowStep || 400;
+    const targetScroll = isScrollingDown
+      ? Math.min(container.scrollTop + step, container.scrollHeight - container.clientHeight)
+      : Math.max(container.scrollTop - step, 0);
 
-    const onTouchEnd = () => {
-      articleTouchStartYRef.current = null;
-    };
-
-    el.addEventListener("wheel", onWheel, { passive: false });
-    el.addEventListener("touchstart", onTouchStart, { passive: true });
-    el.addEventListener("touchmove", onTouchMove, { passive: false });
-    el.addEventListener("touchend", onTouchEnd, { passive: true });
-
-    return () => {
-      el.removeEventListener("wheel", onWheel);
-      el.removeEventListener("touchstart", onTouchStart);
-      el.removeEventListener("touchmove", onTouchMove);
-      el.removeEventListener("touchend", onTouchEnd);
-    };
-  }, []);
+    container.scrollTo({
+      top: targetScroll,
+      behavior: "smooth"
+    });
+  };
 
   return (
     <div className="p-6 lg:p-8 space-y-6">
@@ -2288,61 +2241,25 @@ export function CategoryView() {
             </div>
           )}
 
-          {/* Barra superior de control e indicador de navegación por filas */}
-          {totalArticleRows > 2 && (
-            <div className="flex items-center justify-between text-xs text-muted-foreground pb-1 px-1">
-              <span className="flex items-center gap-1.5 font-medium">
-                <span>
-                  Mostrando filas <strong className="text-foreground">{articleRow + 1}</strong> y{" "}
-                  <strong className="text-foreground">
-                    {Math.min(articleRow + 2, totalArticleRows)}
-                  </strong>{" "}
-                  de <strong className="text-foreground">{totalArticleRows}</strong>
-                </span>
-                <span className="opacity-70 hidden sm:inline">• Desplázate con la ruleta para avanzar de 2 en 2 sin cortes</span>
-              </span>
-              <div className="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  disabled={articleRow === 0}
-                  onClick={() => setArticleRow((r) => Math.max(0, r - 1))}
-                  className="p-1 rounded-md border border-border/70 bg-card hover:bg-secondary text-foreground disabled:opacity-35 disabled:cursor-not-allowed transition-colors cursor-pointer"
-                  title="Fila anterior"
-                >
-                  <ChevronUp className="h-4 w-4" />
-                </button>
-                <button
-                  type="button"
-                  disabled={articleRow >= maxArticleRow}
-                  onClick={() => setArticleRow((r) => Math.min(r + 1, maxArticleRow))}
-                  className="p-1 rounded-md border border-border/70 bg-card hover:bg-secondary text-foreground disabled:opacity-35 disabled:cursor-not-allowed transition-colors cursor-pointer"
-                  title="Fila siguiente"
-                >
-                  <ChevronDown className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Contenedor de artículos: exactamente 2 filas enteras visibles a la vez con desplazamiento por ruleta */}
+          {/* Contenedor de artículos: exactamente 2 filas enteras visibles a la vez con desplazamiento fluido por ruleta */}
           <div
-            ref={articleContainerRef}
-            className="relative overflow-hidden w-full select-none"
+            ref={articleScrollContainerRef}
+            onWheel={handleArticleContainerWheel}
+            className="relative w-full overflow-y-auto overflow-x-hidden snap-y snap-mandatory scroll-smooth rounded-xl pr-1.5 focus:outline-none"
             style={{
-              height: `${articleContainerHeight}px`,
-              transition: "height 240ms ease"
+              maxHeight: `${articleContainerHeight}px`,
+              height: totalArticleRows <= 2 ? "auto" : `${articleContainerHeight}px`,
+              scrollSnapType: "y mandatory",
+              scrollbarWidth: "thin",
+              scrollbarColor: "rgba(234, 179, 8, 0.35) rgba(255, 255, 255, 0.05)"
             }}
           >
             <div
               ref={articleGridRef}
-              style={{
-                transform: `translateY(-${articleRow * articleRowStep}px)`,
-                transition: "transform 320ms cubic-bezier(0.2, 0.8, 0.25, 1)"
-              }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-1"
             >
               {sortedArticles.map((article) => (
-                <div key={article.id} className="h-full">
+                <div key={article.id} className="h-full snap-start snap-always">
                   <ArticleCard
                     article={article}
                     displayCategory={getCategoryForArticleInSection(

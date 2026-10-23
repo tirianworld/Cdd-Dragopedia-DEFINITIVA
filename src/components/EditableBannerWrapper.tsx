@@ -14,7 +14,6 @@ import {
   cleanInteriorStrokesOnCanvas,
   extendGroundToMargins
 } from "../utils/imageCleanup";
-import { getSafeImageUrl } from "../utils/imageUrl";
 
 // Exact color of the figures from the "Inicio / Personajes / Antiguos" banner
 export const ANTIGUOS_FIGURE_COLOR_HEX = "#232e33";
@@ -1319,7 +1318,7 @@ export function EditableBannerWrapper({
                 }}
               >
                 <img
-                  src={getSafeImageUrl(customImageUrl)}
+                  src={customImageUrl}
                   alt={`Banner de ${label || bannerKey}`}
                   referrerPolicy="no-referrer"
                   className={

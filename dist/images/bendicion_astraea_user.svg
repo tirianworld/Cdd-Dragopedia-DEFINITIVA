@@ -1,0 +1,225 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <!-- Soft celestial radial glow -->
+    <radialGradient id="celestialAura" cx="50%" cy="48%" r="48%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="40%" stop-color="#d1e8fa" stop-opacity="0.08"/>
+      <stop offset="70%" stop-color="#93c5fd" stop-opacity="0.02"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Tear core metallic silver gradient -->
+    <linearGradient id="tearMetallic" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8a9ba8" stop-opacity="0.6"/>
+      <stop offset="45%" stop-color="#f8fafc" stop-opacity="0.95"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="55%" stop-color="#f8fafc" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#8a9ba8" stop-opacity="0.6"/>
+    </linearGradient>
+
+    <!-- Vertical light ray gradient -->
+    <linearGradient id="verticalBeam" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#f1f5f9" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#94a3b8" stop-opacity="0.5"/>
+    </linearGradient>
+
+    <!-- Filter for soft luminous bloom -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Aura background glow -->
+  <circle cx="512" cy="480" r="420" fill="url(#celestialAura)"/>
+
+  <!-- ================= BACKGROUND HALO & COMPASS RAYS ================= -->
+  <!-- Main halo circle -->
+  <circle cx="512" cy="460" r="310" fill="none" stroke="#e2e8f0" stroke-width="4.5" opacity="0.85"/>
+  <circle cx="512" cy="460" r="316" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Radiant sunburst rays from halo -->
+  <!-- Top quadrant rays -->
+  <line x1="410" y1="170" x2="360" y2="90" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" opacity="0.75"/>
+  <line x1="614" y1="170" x2="664" y2="90" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" opacity="0.75"/>
+  <line x1="330" y1="230" x2="250" y2="170" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  <line x1="694" y1="230" x2="774" y2="170" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Horizontal quadrant rays -->
+  <line x1="210" y1="360" x2="110" y2="330" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  <line x1="814" y1="360" x2="914" y2="330" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  <line x1="210" y1="560" x2="110" y2="590" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  <line x1="814" y1="560" x2="914" y2="590" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Bottom quadrant rays -->
+  <line x1="330" y1="690" x2="250" y2="750" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  <line x1="694" y1="690" x2="774" y2="750" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Little orbital pearl dots -->
+  <circle cx="417" cy="120" r="5" fill="#ffffff" opacity="0.85"/>
+  <circle cx="600" cy="120" r="5" fill="#ffffff" opacity="0.85"/>
+  <circle cx="175" cy="275" r="5.5" fill="#ffffff" opacity="0.85"/>
+  <circle cx="845" cy="275" r="5.5" fill="#ffffff" opacity="0.85"/>
+  <circle cx="190" cy="675" r="5.5" fill="#ffffff" opacity="0.85"/>
+  <circle cx="830" cy="675" r="5.5" fill="#ffffff" opacity="0.85"/>
+
+  <!-- Cardinal Compass Stars -->
+  <!-- NORTH STAR (Zenith) -->
+  <g transform="translate(512, 90)" filter="url(#glow)">
+    <!-- Vertical spike -->
+    <path d="M0,-85 Q-7,-20 -22,0 Q-7,20 0,85 Q7,20 22,0 Q7,-20 0,-85 Z" fill="#ffffff"/>
+    <path d="M0,-85 Q-3,-10 -10,0 Q-3,10 0,85 Q3,10 10,0 Q3,-10 0,-85 Z" fill="#e2e8f0"/>
+    <!-- Horizontal spike -->
+    <path d="M-55,0 Q-15,-5 0,-15 Q15,-5 55,0 Q15,5 0,15 Q-15,5 -55,0 Z" fill="#ffffff"/>
+    <!-- Diagonal micro points -->
+    <path d="M-22,-22 Q-6,-6 0,-8 Q6,-6 22,22 Q6,6 0,8 Q-6,6 -22,-22 Z" fill="#ffffff" opacity="0.8"/>
+    <path d="M-22,22 Q-6,6 -8,0 Q-6,-6 22,-22 Q6,-6 8,0 Q6,6 -22,22 Z" fill="#ffffff" opacity="0.8"/>
+    <!-- Center star core -->
+    <circle cx="0" cy="0" r="6" fill="#ffffff"/>
+  </g>
+
+  <!-- WEST STAR (Left) -->
+  <g transform="translate(130, 480)" filter="url(#glow)">
+    <path d="M-65,0 Q-15,-6 0,-18 Q15,-6 65,0 Q15,6 0,18 Q-15,6 -65,0 Z" fill="#ffffff"/>
+    <path d="M0,-35 Q-4,-8 0,0 Q4,-8 0,-35 Q-4,8 0,35 Q4,8 0,0 Z" fill="#ffffff"/>
+    <circle cx="0" cy="0" r="4.5" fill="#ffffff"/>
+  </g>
+
+  <!-- EAST STAR (Right) -->
+  <g transform="translate(894, 480)" filter="url(#glow)">
+    <path d="M-65,0 Q-15,-6 0,-18 Q15,-6 65,0 Q15,6 0,18 Q-15,6 -65,0 Z" fill="#ffffff"/>
+    <path d="M0,-35 Q-4,-8 0,0 Q4,-8 0,-35 Q-4,8 0,35 Q4,8 0,0 Z" fill="#ffffff"/>
+    <circle cx="0" cy="0" r="4.5" fill="#ffffff"/>
+  </g>
+
+  <!-- ================= LADY ASTRAEA PROFILE ================= -->
+  <!-- Inner radiating starlight lines behind Astraea -->
+  <g stroke="#ffffff" stroke-width="2.5" opacity="0.65" stroke-linecap="round">
+    <line x1="560" y1="240" x2="630" y2="200"/>
+    <line x1="590" y1="290" x2="680" y2="270"/>
+    <line x1="600" y1="350" x2="710" y2="350"/>
+    <line x1="590" y1="410" x2="695" y2="430"/>
+    <line x1="570" y1="470" x2="675" y2="510"/>
+    <line x1="540" y1="520" x2="630" y2="580"/>
+  </g>
+
+  <!-- Astraea Head, Face, Features, Laurel Wreath & Flowing Hair -->
+  <!-- Delicate Laurel Branch in Hair -->
+  <g fill="#ffffff" stroke="#94a3b8" stroke-width="1.2" opacity="0.95">
+    <path d="M380,245 Q405,230 435,235 Q410,248 380,245 Z"/>
+    <path d="M410,232 Q435,215 460,225 Q438,238 410,232 Z"/>
+    <path d="M438,228 Q462,210 488,225 Q465,238 438,228 Z"/>
+    <path d="M395,246 Q415,260 440,252 Q418,245 395,246 Z"/>
+    <path d="M428,245 Q448,260 472,252 Q450,245 428,245 Z"/>
+  </g>
+
+  <!-- Flowing hair tresses -->
+  <g fill="none" stroke="#f1f5f9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9">
+    <!-- Crown of head contour -->
+    <path d="M335,285 C310,260 330,225 380,220 C435,215 480,245 500,285 C515,315 510,360 485,395 C460,430 430,460 415,505 C400,550 405,600 420,640" stroke-width="5.5"/>
+    <path d="M360,230 C410,235 460,270 480,320 C495,360 480,410 455,450 C430,490 415,530 420,575 C425,620 445,660 440,700" stroke-width="4" opacity="0.8"/>
+    <!-- Left falling strands -->
+    <path d="M295,335 C285,350 275,375 278,410 C282,450 305,480 308,520 C312,560 300,595 285,630 C270,665 272,705 285,735" stroke-width="4.5" opacity="0.85"/>
+    <path d="M320,380 C305,410 300,450 312,490 C325,530 335,570 328,610 C320,650 305,685 308,720" stroke-width="3.5" opacity="0.75"/>
+    <!-- Outer wave billowing to the right -->
+    <path d="M470,280 C530,290 575,340 595,400 C615,460 590,520 570,570 C550,620 560,670 580,715" stroke-width="5" opacity="0.85"/>
+    <path d="M495,330 C545,350 575,400 570,455 C565,510 535,550 530,600 C525,650 540,685 550,725" stroke-width="3.5" opacity="0.7"/>
+  </g>
+
+  <!-- Serene Profile Face Silhouette (Forehead, Nose, Lips, Chin, Neck) -->
+  <g fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)">
+    <path d="M335,285 
+             C315,305 300,325 292,345 
+             C285,360 286,370 293,382 
+             C298,390 308,398 316,400 
+             C325,402 333,408 333,415 
+             C333,422 322,425 316,428 
+             C310,432 312,442 320,446 
+             C328,450 338,452 342,460 
+             C346,470 335,482 332,492 
+             C328,505 338,515 352,525 
+             C370,540 385,565 390,595"/>
+  </g>
+
+  <!-- Soft shading under face profile -->
+  <path d="M335,285 C315,305 300,325 292,345 C285,360 286,370 293,382 C298,390 308,398 316,400 C325,402 333,408 333,415 C333,422 322,425 316,428 C310,432 312,442 320,446 C328,450 338,452 342,460 C346,470 335,482 332,492 C328,505 338,515 352,525 C370,540 385,565 390,595 L370,595 C360,550 340,510 320,480 C305,450 295,410 305,370 C315,330 335,300 350,285 Z" fill="#cbd5e1" opacity="0.35"/>
+
+  <!-- Closed, gentle peaceful eye & eyebrow -->
+  <!-- Eyebrow -->
+  <path d="M312,348 Q328,340 345,348" fill="none" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+  <!-- Curved sleeping eyelid with lash flick -->
+  <path d="M318,360 Q330,370 340,363" fill="none" stroke="#64748b" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- ================= THE SACRED CELESTIAL TEAR (FOREGROUND) ================= -->
+  <!-- Outer Tear Glow Rim -->
+  <path d="M512,235 
+           C495,290 460,370 425,445 
+           C385,530 365,605 375,685 
+           C388,775 445,835 512,855 
+           C579,835 636,775 649,685 
+           C659,605 639,530 599,445 
+           C564,370 529,290 512,235 Z"
+        fill="url(#tearMetallic)"
+        stroke="#ffffff"
+        stroke-width="7"
+        filter="url(#glow)"/>
+
+  <!-- Inner Concentric Tear Shape -->
+  <path d="M512,285 
+           C498,335 470,405 442,470 
+           C408,545 392,610 400,675 
+           C410,750 458,800 512,818 
+           C566,800 614,750 624,675 
+           C632,610 616,545 582,470 
+           C554,405 526,335 512,285 Z"
+        fill="#0f172a"
+        fill-opacity="0.8"
+        stroke="#ffffff"
+        stroke-width="5"
+        filter="url(#glow)"/>
+
+  <!-- Innermost Tear Core Flame -->
+  <path d="M512,340 
+           C502,380 480,435 460,490 
+           C432,555 422,610 430,660 
+           C438,720 472,760 512,776 
+           C552,760 586,720 594,660 
+           C602,610 592,555 564,490 
+           C544,435 522,380 512,340 Z"
+        fill="url(#tearMetallic)"
+        opacity="0.95"/>
+
+  <!-- Center Specular Reflection Axis (The Vertical Light Pillar) -->
+  <line x1="512" y1="240" x2="512" y2="850" stroke="#ffffff" stroke-width="6" stroke-linecap="round" filter="url(#glow)"/>
+  <line x1="512" y1="270" x2="512" y2="820" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- ================= BASE STARBURST FLARE & DROPLET ================= -->
+  <!-- Downward expanding light needles at tear base -->
+  <g stroke="#ffffff" stroke-linecap="round" filter="url(#glow)">
+    <!-- Horizontal main spike -->
+    <line x1="260" y1="855" x2="764" y2="855" stroke-width="5"/>
+    <line x1="330" y1="855" x2="694" y2="855" stroke-width="9" stroke-opacity="0.8"/>
+
+    <!-- Diagonal radiating needles -->
+    <line x1="380" y1="800" x2="644" y2="910" stroke-width="3.5" opacity="0.85"/>
+    <line x1="380" y1="910" x2="644" y2="800" stroke-width="3.5" opacity="0.85"/>
+    <line x1="430" y1="770" x2="594" y2="940" stroke-width="3" opacity="0.8"/>
+    <line x1="430" y1="940" x2="594" y2="770" stroke-width="3" opacity="0.8"/>
+
+    <!-- Flared vertical needles -->
+    <line x1="490" y1="840" x2="460" y2="920" stroke-width="2.5" opacity="0.75"/>
+    <line x1="534" y1="840" x2="564" y2="920" stroke-width="2.5" opacity="0.75"/>
+  </g>
+
+  <!-- SOUTH STAR (Base Anchor) -->
+  <g transform="translate(512, 855)" filter="url(#glow)">
+    <path d="M0,-45 Q-5,-10 -14,0 Q-5,10 0,45 Q5,10 14,0 Q5,-10 0,-45 Z" fill="#ffffff"/>
+    <path d="M-35,0 Q-10,-4 0,-10 Q10,-4 35,0 Q10,4 0,10 Q-10,4 -35,0 Z" fill="#ffffff"/>
+    <circle cx="0" cy="0" r="5" fill="#ffffff"/>
+  </g>
+
+  <!-- Lower hanging holy droplet -->
+  <line x1="512" y1="900" x2="512" y2="950" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+  <circle cx="512" cy="965" r="5" fill="#ffffff" filter="url(#glow)"/>
+</svg>

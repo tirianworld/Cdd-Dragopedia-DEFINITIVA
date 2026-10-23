@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { WikiArticle } from "../types";
 import { GraphShareModal } from "./GraphShareModal";
+import { getSafeImageUrl, handleImageErrorWithFallback } from "../utils/imageUrl";
 
 export interface CosmicCategoryTier {
   id: string;
@@ -1590,8 +1591,9 @@ export function CosmicRankingTreeGraph({
                 {selectedArticle.image_url && (
                   <div className="relative w-full h-36 rounded-2xl overflow-hidden border border-border/80 shadow-md">
                     <img
-                      src={selectedArticle.image_url}
+                      src={getSafeImageUrl(selectedArticle.image_url)}
                       alt={selectedArticle.title}
+                      onError={(e) => handleImageErrorWithFallback(e, selectedArticle.image_url)}
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0b101d] via-transparent to-transparent opacity-80" />

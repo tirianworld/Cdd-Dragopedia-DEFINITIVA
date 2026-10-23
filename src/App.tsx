@@ -50,14 +50,6 @@ export default function App() {
                           <Route path="/post/:slug" element={<ArticleView />} />
                           <Route path="/p/:slug" element={<ArticleView />} />
                           <Route path="/categoria/:slug" element={<CategoryView />} />
-                          <Route path="/organizaciones" element={<CategoryView />} />
-                          <Route path="/personajes" element={<CategoryView />} />
-                          <Route path="/lugares" element={<CategoryView />} />
-                          <Route path="/dragones" element={<CategoryView />} />
-                          <Route path="/primordiales" element={<CategoryView />} />
-                          <Route path="/ascendidos" element={<CategoryView />} />
-                          <Route path="/antiguos" element={<CategoryView />} />
-                          <Route path="/jugadores" element={<CategoryView />} />
                           <Route path="/buscar" element={<SearchView />} />
                           <Route path="/nuevo" element={<ArticleEditor />} />
                           <Route path="/editar/:slug" element={<ArticleEditor />} />

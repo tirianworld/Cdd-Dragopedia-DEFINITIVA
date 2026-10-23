@@ -213,7 +213,7 @@ export function Home() {
 
       if (isDown && currentRowRef.current < maxRowRef.current) {
         e.preventDefault();
-        if (now - lastWheelTimeRef.current > 260) {
+        if (now - lastWheelTimeRef.current > 160) {
           lastWheelTimeRef.current = now;
           setCurrentRow((r) => {
             const next = Math.min(r + 1, maxRowRef.current);
@@ -226,7 +226,7 @@ export function Home() {
 
       if (isUp && currentRowRef.current > 0) {
         e.preventDefault();
-        if (now - lastWheelTimeRef.current > 260) {
+        if (now - lastWheelTimeRef.current > 160) {
           lastWheelTimeRef.current = now;
           setCurrentRow((r) => {
             const next = Math.max(r - 1, 0);
@@ -596,7 +596,7 @@ export function Home() {
                 ref={categoryGridRef}
                 style={{
                   transform: `translateY(-${currentRow * rowStep}px)`,
-                  transition: "transform 320ms cubic-bezier(0.2, 0.8, 0.25, 1)"
+                  transition: "transform 260ms cubic-bezier(0.16, 1, 0.3, 1)"
                 }}
                 className="flex flex-wrap justify-center gap-4"
               >

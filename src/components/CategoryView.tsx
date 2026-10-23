@@ -290,7 +290,7 @@ export function CategoryView() {
 
       if (isDown && subcatRowRef.current < maxSubcatRowRef.current) {
         e.preventDefault();
-        if (now - lastSubcatWheelTimeRef.current > 240) {
+        if (now - lastSubcatWheelTimeRef.current > 150) {
           lastSubcatWheelTimeRef.current = now;
           setSubcatRow((r) => {
             const next = Math.min(r + 1, maxSubcatRowRef.current);
@@ -303,7 +303,7 @@ export function CategoryView() {
 
       if (isUp && subcatRowRef.current > 0) {
         e.preventDefault();
-        if (now - lastSubcatWheelTimeRef.current > 240) {
+        if (now - lastSubcatWheelTimeRef.current > 150) {
           lastSubcatWheelTimeRef.current = now;
           setSubcatRow((r) => {
             const next = Math.max(r - 1, 0);
@@ -726,13 +726,23 @@ export function CategoryView() {
 
   const NewSubSelectedIcon = ICON_MAP[newSubIcon] || ICON_MAP.Sparkles || BookOpen;
 
-  // Detección de columnas y altura para mostrar exactamente 2 filas enteras con desplazamiento fluido por ruleta
+  // Detección de columnas y altura para mostrar exactamente 2 filas enteras con desplazamiento ultrasuave por ruleta
   const [articleCols, setArticleCols] = useState<number>(3);
   const [articleCardHeight, setArticleCardHeight] = useState(400);
   const [measuredRowStep, setMeasuredRowStep] = useState<number | null>(null);
   const articleScrollContainerRef = useRef<HTMLDivElement | null>(null);
   const articleGridRef = useRef<HTMLDivElement | null>(null);
-  const lastArticleWheelTimeRef = useRef(0);
+  const targetScrollRef = useRef<number | null>(null);
+  const animFrameRef = useRef<number | null>(null);
+  const snapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Limpiar animaciones al desmontar
+  useEffect(() => {
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+      if (snapTimerRef.current) clearTimeout(snapTimerRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     const updateCols = () => {
@@ -754,6 +764,15 @@ export function CategoryView() {
 
   // Restablecer scroll al cambiar de categoría o aplicar filtros
   useEffect(() => {
+    if (animFrameRef.current) {
+      cancelAnimationFrame(animFrameRef.current);
+      animFrameRef.current = null;
+    }
+    if (snapTimerRef.current) {
+      clearTimeout(snapTimerRef.current);
+      snapTimerRef.current = null;
+    }
+    targetScrollRef.current = null;
     if (articleScrollContainerRef.current) {
       articleScrollContainerRef.current.scrollTop = 0;
     }
@@ -771,13 +790,13 @@ export function CategoryView() {
       const firstCard = cards[0];
       if (firstCard && firstCard.offsetHeight > 0) {
         const h = firstCard.offsetHeight;
-        setArticleCardHeight(h);
+        setArticleCardHeight((prev) => (prev === h ? prev : h));
 
         // Si hay una segunda fila, obtener la distancia exacta entre filas
         if (cards.length > articleCols && cards[articleCols]) {
           const step = cards[articleCols].offsetTop - firstCard.offsetTop;
           if (step > 0) {
-            setMeasuredRowStep(step);
+            setMeasuredRowStep((prev) => (prev === step ? prev : step));
           }
         }
       }
@@ -800,47 +819,115 @@ export function CategoryView() {
       ? articleCardHeight + 8
       : (measuredRowStep ? measuredRowStep + articleCardHeight + 8 : articleCardHeight * 2 + articleGap + 8);
 
+  const startSmoothAnimation = () => {
+    if (animFrameRef.current) return;
+
+    const tick = () => {
+      const c = articleScrollContainerRef.current;
+      if (!c || targetScrollRef.current === null) {
+        animFrameRef.current = null;
+        return;
+      }
+
+      const current = c.scrollTop;
+      const target = targetScrollRef.current;
+      const diff = target - current;
+
+      // Factor lerp 0.22: respuesta inmediata sin lag y desaceleración sedosa
+      if (Math.abs(diff) > 0.5) {
+        c.scrollTop = current + diff * 0.22;
+        animFrameRef.current = requestAnimationFrame(tick);
+      } else {
+        c.scrollTop = target;
+        animFrameRef.current = null;
+        targetScrollRef.current = null;
+      }
+    };
+
+    animFrameRef.current = requestAnimationFrame(tick);
+  };
+
   const handleArticleContainerWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     const container = articleScrollContainerRef.current;
     if (!container) return;
 
+    const maxScroll = Math.max(0, container.scrollHeight - container.clientHeight);
+
     // Si todo el contenido cabe sin scroll o hay 2 filas o menos, permitir scroll natural de la página
-    if (container.scrollHeight <= container.clientHeight + 15 || totalArticleRows <= 2) {
+    if (maxScroll <= 4 || totalArticleRows <= 2) {
       return;
     }
 
     const isScrollingDown = e.deltaY > 0;
     const isScrollingUp = e.deltaY < 0;
 
-    const atTop = container.scrollTop <= 4;
-    const atBottom = container.scrollTop >= container.scrollHeight - container.clientHeight - 8;
+    const currentScroll = container.scrollTop;
+    const atTop = currentScroll <= 2;
+    const atBottom = currentScroll >= maxScroll - 2;
 
-    // Si está en el tope y sigue scrolleando hacia afuera, permitir que el scroll continúe en la página
+    // Si está en el tope y sigue scrolleando hacia arriba, permitir que la página se desplace
     if (atTop && isScrollingUp) {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+      animFrameRef.current = null;
+      targetScrollRef.current = 0;
       return;
     }
+    // Si está en el fondo y sigue scrolleando hacia abajo, permitir que la página se desplace
     if (atBottom && isScrollingDown) {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+      animFrameRef.current = null;
+      targetScrollRef.current = maxScroll;
       return;
     }
 
-    // Prevenir scroll de la página principal mientras se navega por las filas de artículos
+    // Prevenir el scroll exterior de la página mientras se navega fluidamente por las tarjetas
     e.preventDefault();
 
-    const now = Date.now();
-    if (now - lastArticleWheelTimeRef.current < 160) {
-      return;
+    // Normalizar deltas para ratón estándar (deltaMode 1) o trackpads de alta tasa (deltaMode 0)
+    let delta = e.deltaY;
+    if (e.deltaMode === 1) {
+      // Líneas de texto (rueda de ratón de PC típica)
+      delta *= 28;
+    } else if (e.deltaMode === 2) {
+      // Páginas
+      delta *= container.clientHeight * 0.85;
+    } else {
+      // Píxeles (trackpad o ratón de rueda libre/alta resolución)
+      delta = Math.sign(delta) * Math.min(Math.abs(delta), 140);
     }
-    lastArticleWheelTimeRef.current = now;
 
-    const step = articleRowStep || 400;
-    const targetScroll = isScrollingDown
-      ? Math.min(container.scrollTop + step, container.scrollHeight - container.clientHeight)
-      : Math.max(container.scrollTop - step, 0);
+    // Acumular de forma continua y suave
+    const baseTarget = targetScrollRef.current !== null ? targetScrollRef.current : currentScroll;
+    targetScrollRef.current = Math.max(0, Math.min(maxScroll, baseTarget + delta * 1.15));
 
-    container.scrollTo({
-      top: targetScroll,
-      behavior: "smooth"
-    });
+    startSmoothAnimation();
+
+    // Cuando el usuario cesa de girar la rueda (220ms de inactividad), autoalinear con suavidad a la fila exacta más cercana
+    if (snapTimerRef.current) {
+      clearTimeout(snapTimerRef.current);
+    }
+    snapTimerRef.current = setTimeout(() => {
+      const c = articleScrollContainerRef.current;
+      if (!c) return;
+      const step = articleRowStep || 380;
+      if (step <= 0) return;
+
+      const current = c.scrollTop;
+      const nearestRowIndex = Math.round(current / step);
+      const snapTarget = Math.max(0, Math.min(maxScroll, nearestRowIndex * step));
+
+      if (Math.abs(current - snapTarget) > 3) {
+        targetScrollRef.current = snapTarget;
+        startSmoothAnimation();
+      }
+    }, 220);
+  };
+
+  const handleArticleContainerScroll = () => {
+    // Si el usuario arrastra directamente la barra de scroll y no hay animación activa, sincronizar target
+    if (!animFrameRef.current && articleScrollContainerRef.current) {
+      targetScrollRef.current = articleScrollContainerRef.current.scrollTop;
+    }
   };
 
   return (
@@ -1779,7 +1866,7 @@ export function CategoryView() {
                 ref={subcatGridRef}
                 style={{
                   transform: `translateY(-${subcatRow * subcatRowStep}px)`,
-                  transition: "transform 320ms cubic-bezier(0.2, 0.8, 0.25, 1)"
+                  transition: "transform 260ms cubic-bezier(0.16, 1, 0.3, 1)"
                 }}
                 className="flex flex-wrap justify-center gap-4"
               >
@@ -2241,17 +2328,17 @@ export function CategoryView() {
             </div>
           )}
 
-          {/* Contenedor de artículos: exactamente 2 filas enteras visibles a la vez con desplazamiento fluido por ruleta */}
+          {/* Contenedor de artículos: exactamente 2 filas enteras visibles a la vez con desplazamiento ultrasuave y fluido */}
           <div
             ref={articleScrollContainerRef}
             onWheel={handleArticleContainerWheel}
-            className="relative w-full overflow-y-auto overflow-x-hidden snap-y snap-mandatory scroll-smooth rounded-xl pr-1.5 focus:outline-none"
+            onScroll={handleArticleContainerScroll}
+            className="relative w-full overflow-y-auto overflow-x-hidden overscroll-y-contain rounded-xl pr-1.5 focus:outline-none"
             style={{
               maxHeight: `${articleContainerHeight}px`,
               height: totalArticleRows <= 2 ? "auto" : `${articleContainerHeight}px`,
-              scrollSnapType: "y mandatory",
               scrollbarWidth: "thin",
-              scrollbarColor: "rgba(234, 179, 8, 0.35) rgba(255, 255, 255, 0.05)"
+              scrollbarColor: "rgba(234, 179, 8, 0.45) rgba(255, 255, 255, 0.05)"
             }}
           >
             <div
@@ -2259,7 +2346,7 @@ export function CategoryView() {
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-1"
             >
               {sortedArticles.map((article) => (
-                <div key={article.id} className="h-full snap-start snap-always">
+                <div key={article.id} className="h-full">
                   <ArticleCard
                     article={article}
                     displayCategory={getCategoryForArticleInSection(

@@ -549,39 +549,47 @@ export function Layout({ children }: LayoutProps) {
                 </button>
               </div>
 
-              {!homeCollapsed && (
-                <div className="space-y-1">
-                  <Link
-                    to="/"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                      location.pathname === "/" 
-                        ? "bg-primary/10 text-primary border border-primary/15" 
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
-                    }`}
-                  >
-                    <BookOpen className="h-4 w-4 shrink-0" />
-                    <EditableText
-                      textKey="nav.menu.inicio"
-                      defaultValue={t("Inicio")}
-                      label="Menú Inicio"
-                    />
-                  </Link>
+              <div
+                className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
+                  homeCollapsed
+                    ? "grid-rows-[0fr] opacity-0 pointer-events-none"
+                    : "grid-rows-[1fr] opacity-100"
+                }`}
+              >
+                <div className="overflow-hidden min-h-0">
+                  <div className="space-y-1 pt-1">
+                    <Link
+                      to="/"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                        location.pathname === "/" 
+                          ? "bg-primary/10 text-primary border border-primary/15" 
+                          : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
+                      }`}
+                    >
+                      <BookOpen className="h-4 w-4 shrink-0" />
+                      <EditableText
+                        textKey="nav.menu.inicio"
+                        defaultValue={t("Inicio")}
+                        label="Menú Inicio"
+                      />
+                    </Link>
 
-                  <Link
-                    to="/nuevo"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2 text-sm font-semibold rounded-md transition-all bg-primary/15 text-primary hover:bg-primary/25 border border-primary/20 shadow-sm shadow-primary/5"
-                  >
-                    <FilePlus className="h-4 w-4 shrink-0" />
-                    <EditableText
-                      textKey="nav.menu.nuevo"
-                      defaultValue={t("Nuevo artículo")}
-                      label="Menú Nuevo Artículo"
-                    />
-                  </Link>
+                    <Link
+                      to="/nuevo"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-3 px-3 py-2 text-sm font-semibold rounded-md transition-all bg-primary/15 text-primary hover:bg-primary/25 border border-primary/20 shadow-sm shadow-primary/5"
+                    >
+                      <FilePlus className="h-4 w-4 shrink-0" />
+                      <EditableText
+                        textKey="nav.menu.nuevo"
+                        defaultValue={t("Nuevo artículo")}
+                        label="Menú Nuevo Artículo"
+                      />
+                    </Link>
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
 
             {/* Tarot AI Section */}
@@ -614,47 +622,55 @@ export function Layout({ children }: LayoutProps) {
                   title={tarotAiCollapsed ? "Expandir sección Tarot AI" : "Minimizar sección Tarot AI"}
                   className="p-0.5 rounded text-muted-foreground/60 hover:text-foreground hover:bg-secondary/60 transition-colors"
                 >
-                  <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${tarotAiCollapsed ? "-rotate-90" : "rotate-0"}`} />
+                  <ChevronDown className={`h-3 w-3 transition-transform duration-300 ease-in-out ${tarotAiCollapsed ? "-rotate-90" : "rotate-0"}`} />
                 </button>
               </div>
 
-              {!tarotAiCollapsed && (
-                <div className="space-y-1">
-                  <Link
-                    to="/tarot-ai"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 px-3 py-2 text-sm font-semibold rounded-md transition-all ${
-                      location.pathname === "/tarot-ai"
-                        ? "bg-primary/20 text-primary border border-primary/30"
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
-                    }`}
-                  >
-                    <TarotLogo className="h-4 w-4 text-primary shrink-0" />
-                    <EditableText
-                      textKey="nav.menu.tarotAI"
-                      defaultValue={t("Escriba de Tarot AI")}
-                      label="Menú Tarot AI"
-                    />
-                  </Link>
+              <div
+                className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
+                  tarotAiCollapsed
+                    ? "grid-rows-[0fr] opacity-0 pointer-events-none"
+                    : "grid-rows-[1fr] opacity-100"
+                }`}
+              >
+                <div className="overflow-hidden min-h-0">
+                  <div className="space-y-1 pt-1">
+                    <Link
+                      to="/tarot-ai"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center gap-3 px-3 py-2 text-sm font-semibold rounded-md transition-all ${
+                        location.pathname === "/tarot-ai"
+                          ? "bg-primary/20 text-primary border border-primary/30"
+                          : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
+                      }`}
+                    >
+                      <TarotLogo className="h-4 w-4 text-primary shrink-0" />
+                      <EditableText
+                        textKey="nav.menu.tarotAI"
+                        defaultValue={t("Escriba de Tarot AI")}
+                        label="Menú Tarot AI"
+                      />
+                    </Link>
 
-                  <Link
-                    to="/tarot-chat"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 px-3 py-2 text-sm font-semibold rounded-md transition-all ${
-                      location.pathname === "/tarot-chat"
-                        ? "bg-primary/20 text-primary border border-primary/30 animate-pulse-slow"
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
-                    }`}
-                  >
-                    <MessageSquare className="h-4 w-4 text-primary shrink-0 animate-pulse" />
-                    <EditableText
-                      textKey="nav.menu.tarotChat"
-                      defaultValue={t("Chat con Tarot AI")}
-                      label="Menú Chat AI"
-                    />
-                  </Link>
+                    <Link
+                      to="/tarot-chat"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center gap-3 px-3 py-2 text-sm font-semibold rounded-md transition-all ${
+                        location.pathname === "/tarot-chat"
+                          ? "bg-primary/20 text-primary border border-primary/30 animate-pulse-slow"
+                          : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
+                      }`}
+                    >
+                      <MessageSquare className="h-4 w-4 text-primary shrink-0 animate-pulse" />
+                      <EditableText
+                        textKey="nav.menu.tarotChat"
+                        defaultValue={t("Chat con Tarot AI")}
+                        label="Menú Chat AI"
+                      />
+                    </Link>
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
 
             {/* Aplicaciones Section */}
@@ -684,100 +700,108 @@ export function Layout({ children }: LayoutProps) {
                   title={appsCollapsed ? "Expandir sección Aplicaciones" : "Minimizar sección Aplicaciones"}
                   className="p-0.5 rounded text-muted-foreground/60 hover:text-foreground hover:bg-secondary/60 transition-colors"
                 >
-                  <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${appsCollapsed ? "-rotate-90" : "rotate-0"}`} />
+                  <ChevronDown className={`h-3 w-3 transition-transform duration-300 ease-in-out ${appsCollapsed ? "-rotate-90" : "rotate-0"}`} />
                 </button>
               </div>
 
-              {!appsCollapsed && (
-                <div className="space-y-1">
-                  <Link
-                    to="/grafo"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                      location.pathname === "/grafo" || location.pathname === "/grafos"
-                        ? "bg-primary/10 text-primary border border-primary/15" 
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
-                    }`}
-                  >
-                    <Network className="h-4 w-4 shrink-0" />
-                    <EditableText
-                      textKey="nav.menu.grafo"
-                      defaultValue={t("Grafo del mundo")}
-                      label="Menú Grafo del Mundo"
-                    />
-                  </Link>
-
-                  <Link
-                    to="/mundo"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                      location.pathname === "/mundo" 
-                        ? "bg-primary/10 text-primary border border-primary/15" 
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
-                    }`}
-                  >
-                    <Compass className="h-4 w-4 shrink-0" />
-                    <EditableText
-                      textKey="nav.menu.mundo"
-                      defaultValue={t("Explorar Mundo")}
-                      label="Menú Mapa Mundo"
-                    />
-                  </Link>
-
-                  <Link
-                    to="/spellbook"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 px-3 py-2 text-sm font-semibold rounded-md transition-all ${
-                      location.pathname === "/spellbook" || location.pathname === "/hechizos" || location.pathname === "/libro-de-hechizos"
-                        ? "bg-primary/20 text-primary border border-primary/30 shadow-sm shadow-primary/5" 
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
-                    }`}
-                  >
-                    <Wand2 className="h-4 w-4 text-primary shrink-0" />
-                    <EditableText
-                      textKey="nav.menu.spellbook"
-                      defaultValue={t("Libro de Hechizos")}
-                      label="Menú Libro de Hechizos"
-                    />
-                  </Link>
-
-                  <Link
-                    to="/diario"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 px-3 py-2 text-sm font-semibold rounded-md transition-all ${
-                      location.pathname === "/diario" 
-                        ? "bg-primary/20 text-primary border border-primary/30" 
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
-                    }`}
-                  >
-                    <Book className="h-4 w-4 text-primary shrink-0" />
-                    <EditableText
-                      textKey="nav.menu.diario"
-                      defaultValue={t("Diario del Cazador")}
-                      label="Menú Diario Cazador"
-                    />
-                  </Link>
-
-                  {isVisualEditMode && (
+              <div
+                className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
+                  appsCollapsed
+                    ? "grid-rows-[0fr] opacity-0 pointer-events-none"
+                    : "grid-rows-[1fr] opacity-100"
+                }`}
+              >
+                <div className="overflow-hidden min-h-0">
+                  <div className="space-y-1 pt-1">
                     <Link
-                      to="/filtros"
+                      to="/grafo"
                       onClick={() => setMobileMenuOpen(false)}
                       className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                        location.pathname === "/filtros" 
+                        location.pathname === "/grafo" || location.pathname === "/grafos"
                           ? "bg-primary/10 text-primary border border-primary/15" 
                           : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
                       }`}
                     >
-                      <SlidersHorizontal className="h-4 w-4 shrink-0" />
+                      <Network className="h-4 w-4 shrink-0" />
                       <EditableText
-                        textKey="nav.menu.filtros"
-                        defaultValue={t("Gestión de Filtros")}
-                        label="Menú Gestión de Filtros"
+                        textKey="nav.menu.grafo"
+                        defaultValue={t("Grafo del mundo")}
+                        label="Menú Grafo del Mundo"
                       />
                     </Link>
-                  )}
+
+                    <Link
+                      to="/mundo"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                        location.pathname === "/mundo" 
+                          ? "bg-primary/10 text-primary border border-primary/15" 
+                          : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
+                      }`}
+                    >
+                      <Compass className="h-4 w-4 shrink-0" />
+                      <EditableText
+                        textKey="nav.menu.mundo"
+                        defaultValue={t("Explorar Mundo")}
+                        label="Menú Mapa Mundo"
+                      />
+                    </Link>
+
+                    <Link
+                      to="/spellbook"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center gap-3 px-3 py-2 text-sm font-semibold rounded-md transition-all ${
+                        location.pathname === "/spellbook" || location.pathname === "/hechizos" || location.pathname === "/libro-de-hechizos"
+                          ? "bg-primary/20 text-primary border border-primary/30 shadow-sm shadow-primary/5" 
+                          : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
+                      }`}
+                    >
+                      <Wand2 className="h-4 w-4 text-primary shrink-0" />
+                      <EditableText
+                        textKey="nav.menu.spellbook"
+                        defaultValue={t("Libro de Hechizos")}
+                        label="Menú Libro de Hechizos"
+                      />
+                    </Link>
+
+                    <Link
+                      to="/diario"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center gap-3 px-3 py-2 text-sm font-semibold rounded-md transition-all ${
+                        location.pathname === "/diario" 
+                          ? "bg-primary/20 text-primary border border-primary/30" 
+                          : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
+                      }`}
+                    >
+                      <Book className="h-4 w-4 text-primary shrink-0" />
+                      <EditableText
+                        textKey="nav.menu.diario"
+                        defaultValue={t("Diario del Cazador")}
+                        label="Menú Diario Cazador"
+                      />
+                    </Link>
+
+                    {isVisualEditMode && (
+                      <Link
+                        to="/filtros"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                          location.pathname === "/filtros" 
+                            ? "bg-primary/10 text-primary border border-primary/15" 
+                            : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
+                        }`}
+                      >
+                        <SlidersHorizontal className="h-4 w-4 shrink-0" />
+                        <EditableText
+                          textKey="nav.menu.filtros"
+                          defaultValue={t("Gestión de Filtros")}
+                          label="Menú Gestión de Filtros"
+                        />
+                      </Link>
+                    )}
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
 
             {/* Categories list with minimize functionality & tree subcategories */}
@@ -809,216 +833,234 @@ export function Layout({ children }: LayoutProps) {
                     title={categoriesCollapsed ? "Expandir categorías de lore" : "Minimizar categorías de lore"}
                     className="p-1 rounded text-muted-foreground/60 hover:text-foreground hover:bg-secondary/60 transition-colors"
                   >
-                    <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${categoriesCollapsed ? "-rotate-90" : "rotate-0"}`} />
+                    <ChevronDown className={`h-3 w-3 transition-transform duration-300 ease-in-out ${categoriesCollapsed ? "-rotate-90" : "rotate-0"}`} />
                   </button>
                 </div>
               </div>
               
-              {!categoriesCollapsed && (
-                <div className="space-y-0.5">
-                  {rootCategories.map((cat) => {
-                    const Icon = cat.icon;
-                    const catKey = cat.id || cat.slug;
-                    const subcats = getSubcategories(cat);
-                    const hasSubcategories = subcats.length > 0;
-                    const isExpanded = !!expandedCategories[cat.id] || !!expandedCategories[cat.slug];
-                    const isParentActive = location.pathname === `/categoria/${cat.slug}`;
-                    const hasActiveChild = subcats.some((s) => location.pathname === `/categoria/${s.slug}`);
-                    const isDraggingRoot =
-                      isVisualEditMode &&
-                      draggedSidebarItem?.type === "root" &&
-                      draggedSidebarItem.id === catKey;
-                    const isDragOverRoot =
-                      isVisualEditMode &&
-                      dragOverSidebarItem?.type === "root" &&
-                      dragOverSidebarItem.id === catKey &&
-                      draggedSidebarItem?.id !== catKey;
+              <div
+                className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
+                  categoriesCollapsed
+                    ? "grid-rows-[0fr] opacity-0 pointer-events-none"
+                    : "grid-rows-[1fr] opacity-100"
+                }`}
+              >
+                <div className="overflow-hidden min-h-0">
+                  <div className="space-y-0.5 pt-1">
+                    {rootCategories.map((cat) => {
+                      const Icon = cat.icon;
+                      const catKey = cat.id || cat.slug;
+                      const subcats = getSubcategories(cat);
+                      const hasSubcategories = subcats.length > 0;
+                      const isExpanded = !!expandedCategories[cat.id] || !!expandedCategories[cat.slug];
+                      const isParentActive = location.pathname === `/categoria/${cat.slug}`;
+                      const hasActiveChild = subcats.some((s) => location.pathname === `/categoria/${s.slug}`);
+                      const isDraggingRoot =
+                        isVisualEditMode &&
+                        draggedSidebarItem?.type === "root" &&
+                        draggedSidebarItem.id === catKey;
+                      const isDragOverRoot =
+                        isVisualEditMode &&
+                        dragOverSidebarItem?.type === "root" &&
+                        dragOverSidebarItem.id === catKey &&
+                        draggedSidebarItem?.id !== catKey;
 
-                    return (
-                      <div key={cat.slug} className="space-y-0.5">
-                        <div
-                          draggable={isVisualEditMode}
-                          onDragStart={(e) => handleRootDragStart(catKey, e)}
-                          onDragOver={(e) => handleRootDragOver(catKey, e)}
-                          onDragLeave={() => {
-                            if (dragOverSidebarItem?.id === catKey) {
-                              setDragOverSidebarItem(null);
-                            }
-                          }}
-                          onDrop={(e) => handleRootDrop(catKey, e)}
-                          onDragEnd={handleSidebarDragEnd}
-                          title={isVisualEditMode ? "Mantén pulsado y arrastra para reordenar esta categoría" : undefined}
-                          className={`flex items-center group rounded-md transition-all ${
-                            isDraggingRoot ? "opacity-40 border border-dashed border-primary/60 bg-primary/5" : ""
-                          } ${
-                            isDragOverRoot && dragOverSidebarItem?.position === "before"
-                              ? "border-t-2 border-t-primary bg-primary/10"
-                              : isDragOverRoot && dragOverSidebarItem?.position === "after"
-                              ? "border-b-2 border-b-primary bg-primary/10"
-                              : ""
-                          }`}
-                        >
-                          <Link
-                            to={`/categoria/${cat.slug}`}
-                            draggable={false}
-                            onClick={(e) => {
-                              if (isSidebarDraggingRef.current) {
-                                e.preventDefault();
-                                return;
+                      return (
+                        <div key={cat.slug} className="space-y-0.5">
+                          <div
+                            draggable={isVisualEditMode}
+                            onDragStart={(e) => handleRootDragStart(catKey, e)}
+                            onDragOver={(e) => handleRootDragOver(catKey, e)}
+                            onDragLeave={() => {
+                              if (dragOverSidebarItem?.id === catKey) {
+                                setDragOverSidebarItem(null);
                               }
-                              setMobileMenuOpen(false);
                             }}
-                            className={`flex-1 flex items-center justify-between px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                              isParentActive 
-                                ? "bg-primary/10 text-primary border border-primary/20" 
-                                : hasActiveChild
-                                ? "text-foreground font-medium bg-secondary/30"
-                                : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
-                            } ${isVisualEditMode ? "hover:ring-1 hover:ring-primary/60 cursor-grab active:cursor-grabbing" : ""}`}
+                            onDrop={(e) => handleRootDrop(catKey, e)}
+                            onDragEnd={handleSidebarDragEnd}
+                            title={isVisualEditMode ? "Mantén pulsado y arrastra para reordenar esta categoría" : undefined}
+                            className={`flex items-center group rounded-md transition-all ${
+                              isDraggingRoot ? "opacity-40 border border-dashed border-primary/60 bg-primary/5" : ""
+                            } ${
+                              isDragOverRoot && dragOverSidebarItem?.position === "before"
+                                ? "border-t-2 border-t-primary bg-primary/10"
+                                : isDragOverRoot && dragOverSidebarItem?.position === "after"
+                                ? "border-b-2 border-b-primary bg-primary/10"
+                                : ""
+                            }`}
                           >
-                            <span className="flex items-center gap-2.5 truncate">
+                            <Link
+                              to={`/categoria/${cat.slug}`}
+                              draggable={false}
+                              onClick={(e) => {
+                                if (isSidebarDraggingRef.current) {
+                                  e.preventDefault();
+                                  return;
+                                }
+                                setMobileMenuOpen(false);
+                              }}
+                              className={`flex-1 flex items-center justify-between px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                                isParentActive 
+                                  ? "bg-primary/10 text-primary border border-primary/20" 
+                                  : hasActiveChild
+                                  ? "text-foreground font-medium bg-secondary/30"
+                                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
+                              } ${isVisualEditMode ? "hover:ring-1 hover:ring-primary/60 cursor-grab active:cursor-grabbing" : ""}`}
+                            >
+                              <span className="flex items-center gap-2.5 truncate">
+                                {isVisualEditMode && (
+                                  <GripVertical className="h-3.5 w-3.5 text-muted-foreground/50 group-hover:text-primary shrink-0 -ml-1 transition-colors" />
+                                )}
+                                <Icon className="h-4 w-4 shrink-0" style={{ color: cat.color }} />
+                                <span className="truncate">{cat.name}</span>
+                              </span>
                               {isVisualEditMode && (
-                                <GripVertical className="h-3.5 w-3.5 text-muted-foreground/50 group-hover:text-primary shrink-0 -ml-1 transition-colors" />
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setEditingCategory(cat);
+                                  }}
+                                  className="text-[9px] text-primary/90 bg-primary/15 hover:bg-primary/25 px-1.5 py-0.5 rounded cursor-pointer"
+                                >
+                                  Editar
+                                </button>
                               )}
-                              <Icon className="h-4 w-4 shrink-0" style={{ color: cat.color }} />
-                              <span className="truncate">{cat.name}</span>
-                            </span>
-                            {isVisualEditMode && (
+                            </Link>
+
+                            {hasSubcategories && (
                               <button
                                 type="button"
                                 onClick={(e) => {
                                   e.preventDefault();
                                   e.stopPropagation();
-                                  setEditingCategory(cat);
+                                  setExpandedCategories((prev) => ({
+                                    ...prev,
+                                    [cat.id]: !isExpanded,
+                                    [cat.slug]: !isExpanded,
+                                  }));
                                 }}
-                                className="text-[9px] text-primary/90 bg-primary/15 hover:bg-primary/25 px-1.5 py-0.5 rounded cursor-pointer"
+                                title={isExpanded ? `Contraer subcategorías de ${cat.name}` : `Expandir subcategorías de ${cat.name}`}
+                                className="p-1.5 ml-0.5 rounded-md text-muted-foreground/60 hover:text-foreground hover:bg-secondary/60 transition-colors"
                               >
-                                Editar
+                                <ChevronDown
+                                  className={`h-3 w-3 transition-transform duration-300 ease-in-out ${
+                                    isExpanded ? "rotate-0 text-foreground/80" : "-rotate-90"
+                                  }`}
+                                />
                               </button>
                             )}
-                          </Link>
+                          </div>
 
+                          {/* Subcategorías anidadas con línea guía de árbol y animación fluida */}
                           {hasSubcategories && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setExpandedCategories((prev) => ({
-                                  ...prev,
-                                  [cat.id]: !isExpanded,
-                                  [cat.slug]: !isExpanded,
-                                }));
-                              }}
-                              title={isExpanded ? `Contraer subcategorías de ${cat.name}` : `Expandir subcategorías de ${cat.name}`}
-                              className="p-1.5 ml-0.5 rounded-md text-muted-foreground/60 hover:text-foreground hover:bg-secondary/60 transition-colors"
+                            <div
+                              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
+                                !isExpanded
+                                  ? "grid-rows-[0fr] opacity-0 pointer-events-none"
+                                  : "grid-rows-[1fr] opacity-100"
+                              }`}
                             >
-                              <ChevronDown
-                                className={`h-3 w-3 transition-transform duration-200 ${
-                                  isExpanded ? "rotate-0 text-foreground/80" : "-rotate-90"
-                                }`}
-                              />
-                            </button>
+                              <div className="overflow-hidden min-h-0">
+                                <div className="relative ml-4 pl-3.5 border-l border-border/40 space-y-0.5 py-0.5 mt-0.5">
+                                  {subcats.map((subcat) => {
+                                    const SubIcon = subcat.icon;
+                                    const subKey = subcat.id || subcat.slug;
+                                    const isSubActive = location.pathname === `/categoria/${subcat.slug}`;
+                                    const isDraggingSub =
+                                      isVisualEditMode &&
+                                      draggedSidebarItem?.type === "sub" &&
+                                      draggedSidebarItem.id === subKey;
+                                    const isDragOverSub =
+                                      isVisualEditMode &&
+                                      dragOverSidebarItem?.type === "sub" &&
+                                      dragOverSidebarItem.id === subKey &&
+                                      draggedSidebarItem?.id !== subKey;
+
+                                    return (
+                                      <div
+                                        key={subcat.slug}
+                                        draggable={isVisualEditMode}
+                                        onDragStart={(e) => handleSubDragStart(subKey, catKey, e)}
+                                        onDragOver={(e) => handleSubDragOver(subKey, catKey, e)}
+                                        onDragLeave={() => {
+                                          if (dragOverSidebarItem?.id === subKey) {
+                                            setDragOverSidebarItem(null);
+                                          }
+                                        }}
+                                        onDrop={(e) => handleSubDrop(subKey, cat, e)}
+                                        onDragEnd={handleSidebarDragEnd}
+                                        title={
+                                          isVisualEditMode
+                                            ? `Mantén pulsado y arrastra para reordenar dentro de ${cat.name}`
+                                            : undefined
+                                        }
+                                        className={`rounded-md transition-all ${
+                                          isDraggingSub
+                                            ? "opacity-40 border border-dashed border-primary/60 bg-primary/5"
+                                            : ""
+                                        } ${
+                                          isDragOverSub && dragOverSidebarItem?.position === "before"
+                                            ? "border-t-2 border-t-primary bg-primary/10"
+                                            : isDragOverSub && dragOverSidebarItem?.position === "after"
+                                            ? "border-b-2 border-b-primary bg-primary/10"
+                                            : ""
+                                        }`}
+                                      >
+                                        <Link
+                                          to={`/categoria/${subcat.slug}`}
+                                          draggable={false}
+                                          onClick={(e) => {
+                                            if (isSidebarDraggingRef.current) {
+                                              e.preventDefault();
+                                              return;
+                                            }
+                                            setMobileMenuOpen(false);
+                                          }}
+                                          className={`flex items-center justify-between px-2.5 py-1 text-xs font-medium rounded-md transition-colors group ${
+                                            isSubActive
+                                              ? "bg-primary/10 text-primary border border-primary/20 font-semibold"
+                                              : "text-muted-foreground hover:text-foreground hover:bg-secondary/35"
+                                          } ${isVisualEditMode ? "hover:ring-1 hover:ring-primary/60 cursor-grab active:cursor-grabbing" : ""}`}
+                                        >
+                                          <span className="flex items-center gap-2 truncate">
+                                            {isVisualEditMode && (
+                                              <GripVertical className="h-3 w-3 text-muted-foreground/50 group-hover:text-primary shrink-0 -ml-1 transition-colors" />
+                                            )}
+                                            <SubIcon
+                                              className="h-3.5 w-3.5 shrink-0"
+                                              style={{ color: subcat.color || cat.color }}
+                                            />
+                                            <span className="truncate">{subcat.name}</span>
+                                          </span>
+                                          {isVisualEditMode && (
+                                            <button
+                                              type="button"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setEditingCategory(subcat);
+                                              }}
+                                              className="text-[8.5px] text-primary/90 bg-primary/15 hover:bg-primary/25 px-1.5 py-0.5 rounded cursor-pointer"
+                                            >
+                                              Editar
+                                            </button>
+                                          )}
+                                        </Link>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            </div>
                           )}
                         </div>
-
-                        {/* Subcategorías anidadas con línea guía de árbol */}
-                        {hasSubcategories && isExpanded && (
-                          <div className="relative ml-4 pl-3.5 border-l border-border/40 space-y-0.5 py-0.5">
-                            {subcats.map((subcat) => {
-                              const SubIcon = subcat.icon;
-                              const subKey = subcat.id || subcat.slug;
-                              const isSubActive = location.pathname === `/categoria/${subcat.slug}`;
-                              const isDraggingSub =
-                                isVisualEditMode &&
-                                draggedSidebarItem?.type === "sub" &&
-                                draggedSidebarItem.id === subKey;
-                              const isDragOverSub =
-                                isVisualEditMode &&
-                                dragOverSidebarItem?.type === "sub" &&
-                                dragOverSidebarItem.id === subKey &&
-                                draggedSidebarItem?.id !== subKey;
-
-                              return (
-                                <div
-                                  key={subcat.slug}
-                                  draggable={isVisualEditMode}
-                                  onDragStart={(e) => handleSubDragStart(subKey, catKey, e)}
-                                  onDragOver={(e) => handleSubDragOver(subKey, catKey, e)}
-                                  onDragLeave={() => {
-                                    if (dragOverSidebarItem?.id === subKey) {
-                                      setDragOverSidebarItem(null);
-                                    }
-                                  }}
-                                  onDrop={(e) => handleSubDrop(subKey, cat, e)}
-                                  onDragEnd={handleSidebarDragEnd}
-                                  title={
-                                    isVisualEditMode
-                                      ? `Mantén pulsado y arrastra para reordenar dentro de ${cat.name}`
-                                      : undefined
-                                  }
-                                  className={`rounded-md transition-all ${
-                                    isDraggingSub
-                                      ? "opacity-40 border border-dashed border-primary/60 bg-primary/5"
-                                      : ""
-                                  } ${
-                                    isDragOverSub && dragOverSidebarItem?.position === "before"
-                                      ? "border-t-2 border-t-primary bg-primary/10"
-                                      : isDragOverSub && dragOverSidebarItem?.position === "after"
-                                      ? "border-b-2 border-b-primary bg-primary/10"
-                                      : ""
-                                  }`}
-                                >
-                                  <Link
-                                    to={`/categoria/${subcat.slug}`}
-                                    draggable={false}
-                                    onClick={(e) => {
-                                      if (isSidebarDraggingRef.current) {
-                                        e.preventDefault();
-                                        return;
-                                      }
-                                      setMobileMenuOpen(false);
-                                    }}
-                                    className={`flex items-center justify-between px-2.5 py-1 text-xs font-medium rounded-md transition-colors group ${
-                                      isSubActive
-                                        ? "bg-primary/10 text-primary border border-primary/20 font-semibold"
-                                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/35"
-                                    } ${isVisualEditMode ? "hover:ring-1 hover:ring-primary/60 cursor-grab active:cursor-grabbing" : ""}`}
-                                  >
-                                    <span className="flex items-center gap-2 truncate">
-                                      {isVisualEditMode && (
-                                        <GripVertical className="h-3 w-3 text-muted-foreground/50 group-hover:text-primary shrink-0 -ml-1 transition-colors" />
-                                      )}
-                                      <SubIcon
-                                        className="h-3.5 w-3.5 shrink-0"
-                                        style={{ color: subcat.color || cat.color }}
-                                      />
-                                      <span className="truncate">{subcat.name}</span>
-                                    </span>
-                                    {isVisualEditMode && (
-                                      <button
-                                        type="button"
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          e.stopPropagation();
-                                          setEditingCategory(subcat);
-                                        }}
-                                        className="text-[8.5px] text-primary/90 bg-primary/15 hover:bg-primary/25 px-1.5 py-0.5 rounded cursor-pointer"
-                                      >
-                                        Editar
-                                      </button>
-                                    )}
-                                  </Link>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
 
             {/* Help & About Footer */}

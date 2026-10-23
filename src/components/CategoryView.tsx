@@ -726,8 +726,17 @@ export function CategoryView() {
 
   const NewSubSelectedIcon = ICON_MAP[newSubIcon] || ICON_MAP.Sparkles || BookOpen;
 
-  // Detección de columnas y altura para mostrar exactamente 2 filas enteras a la vez
+  // Detección de columnas y altura para mostrar exactamente 2 filas enteras con desplazamiento por ruleta
   const [articleCols, setArticleCols] = useState<number>(3);
+  const [articleRow, setArticleRow] = useState(0);
+  const [articleCardHeight, setArticleCardHeight] = useState(380);
+  const articleContainerRef = useRef<HTMLDivElement | null>(null);
+  const articleGridRef = useRef<HTMLDivElement | null>(null);
+  const articleRowRef = useRef(0);
+  const maxArticleRowRef = useRef(0);
+  const lastArticleWheelTimeRef = useRef(0);
+  const articleTouchStartYRef = useRef<number | null>(null);
+
   useEffect(() => {
     const updateCols = () => {
       if (window.innerWidth < 768) {
@@ -744,38 +753,142 @@ export function CategoryView() {
   }, []);
 
   const totalArticleRows = Math.ceil(sortedArticles.length / articleCols);
-  const [twoRowsHeight, setTwoRowsHeight] = useState<number | null>(null);
-  const articleGridRef = useRef<HTMLDivElement | null>(null);
+  const visibleArticleRows = Math.min(2, Math.max(1, totalArticleRows));
+  const maxArticleRow = Math.max(0, totalArticleRows - 2);
 
-  // Medir la altura exacta para que SIEMPRE se vean 2 filas enteras sin recortes
+  articleRowRef.current = articleRow;
+  maxArticleRowRef.current = maxArticleRow;
+
+  // Restablecer la fila al cambiar de categoría o aplicar filtros
+  useEffect(() => {
+    setArticleRow(0);
+  }, [slug, selectedSubcategory, filterQuery, sortBy]);
+
+  useEffect(() => {
+    if (articleRow > maxArticleRow) {
+      setArticleRow(maxArticleRow);
+    }
+  }, [maxArticleRow, articleRow]);
+
+  // Medir la altura de tarjeta para que el contenedor encaje exactamente 2 filas completas
   useEffect(() => {
     if (!articleGridRef.current) return;
-    const updateHeight = () => {
+    const updateCardHeight = () => {
       const grid = articleGridRef.current;
       if (!grid) return;
-      const cards = Array.from(grid.children) as HTMLElement[];
-      if (cards.length === 0) return;
-
-      if (cards.length > articleCols * 2) {
-        const row2Card = cards[articleCols] || cards[1];
-        if (row2Card && row2Card.offsetTop !== undefined) {
-          const row2Bottom = row2Card.offsetTop + row2Card.offsetHeight;
-          setTwoRowsHeight(row2Bottom + 12);
-          return;
-        }
+      const firstChild = grid.firstElementChild as HTMLElement;
+      if (firstChild && firstChild.offsetHeight > 0) {
+        setArticleCardHeight(firstChild.offsetHeight);
       }
-      setTwoRowsHeight(null);
     };
-
-    updateHeight();
-    const ro = new ResizeObserver(updateHeight);
+    updateCardHeight();
+    const ro = new ResizeObserver(updateCardHeight);
     ro.observe(articleGridRef.current);
-    window.addEventListener("resize", updateHeight);
+    window.addEventListener("resize", updateCardHeight);
     return () => {
       ro.disconnect();
-      window.removeEventListener("resize", updateHeight);
+      window.removeEventListener("resize", updateCardHeight);
     };
   }, [sortedArticles.length, articleCols]);
+
+  const articleGap = 24; // gap-6 en Tailwind equivale a 24px
+  const articleContainerHeight =
+    articleCardHeight * visibleArticleRows + articleGap * Math.max(0, visibleArticleRows - 1);
+  const articleRowStep = articleCardHeight + articleGap;
+
+  // Manejo nativo de rueda del ratón y gestos táctiles para avanzar fila por fila sin cortes
+  useEffect(() => {
+    const el = articleContainerRef.current;
+    if (!el) return;
+
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) < 15) return;
+
+      const now = Date.now();
+      const isDown = e.deltaY > 0;
+      const isUp = e.deltaY < 0;
+
+      if (isDown && articleRowRef.current < maxArticleRowRef.current) {
+        e.preventDefault();
+        if (now - lastArticleWheelTimeRef.current > 220) {
+          lastArticleWheelTimeRef.current = now;
+          setArticleRow((r) => {
+            const next = Math.min(r + 1, maxArticleRowRef.current);
+            articleRowRef.current = next;
+            return next;
+          });
+        }
+        return;
+      }
+
+      if (isUp && articleRowRef.current > 0) {
+        e.preventDefault();
+        if (now - lastArticleWheelTimeRef.current > 220) {
+          lastArticleWheelTimeRef.current = now;
+          setArticleRow((r) => {
+            const next = Math.max(r - 1, 0);
+            articleRowRef.current = next;
+            return next;
+          });
+        }
+        return;
+      }
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        articleTouchStartYRef.current = e.touches[0].clientY;
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (articleTouchStartYRef.current === null) return;
+      const currentY = e.touches[0].clientY;
+      const diffY = articleTouchStartYRef.current - currentY;
+      if (Math.abs(diffY) < 25) return;
+
+      const now = Date.now();
+      if (diffY > 0 && articleRowRef.current < maxArticleRowRef.current) {
+        if (e.cancelable) e.preventDefault();
+        if (now - lastArticleWheelTimeRef.current > 240) {
+          lastArticleWheelTimeRef.current = now;
+          setArticleRow((r) => {
+            const next = Math.min(r + 1, maxArticleRowRef.current);
+            articleRowRef.current = next;
+            return next;
+          });
+          articleTouchStartYRef.current = currentY;
+        }
+      } else if (diffY < 0 && articleRowRef.current > 0) {
+        if (e.cancelable) e.preventDefault();
+        if (now - lastArticleWheelTimeRef.current > 240) {
+          lastArticleWheelTimeRef.current = now;
+          setArticleRow((r) => {
+            const next = Math.max(r - 1, 0);
+            articleRowRef.current = next;
+            return next;
+          });
+          articleTouchStartYRef.current = currentY;
+        }
+      }
+    };
+
+    const onTouchEnd = () => {
+      articleTouchStartYRef.current = null;
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
+
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+    };
+  }, []);
 
   return (
     <div className="p-6 lg:p-8 space-y-6">
@@ -2175,28 +2288,61 @@ export function CategoryView() {
             </div>
           )}
 
-          {/* Contenedor de artículos: exactamente 2 filas enteras visibles a la vez con scroll de ratón fluido */}
+          {/* Barra superior de control e indicador de navegación por filas */}
+          {totalArticleRows > 2 && (
+            <div className="flex items-center justify-between text-xs text-muted-foreground pb-1 px-1">
+              <span className="flex items-center gap-1.5 font-medium">
+                <span>
+                  Mostrando filas <strong className="text-foreground">{articleRow + 1}</strong> y{" "}
+                  <strong className="text-foreground">
+                    {Math.min(articleRow + 2, totalArticleRows)}
+                  </strong>{" "}
+                  de <strong className="text-foreground">{totalArticleRows}</strong>
+                </span>
+                <span className="opacity-70 hidden sm:inline">• Desplázate con la ruleta para avanzar de 2 en 2 sin cortes</span>
+              </span>
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  disabled={articleRow === 0}
+                  onClick={() => setArticleRow((r) => Math.max(0, r - 1))}
+                  className="p-1 rounded-md border border-border/70 bg-card hover:bg-secondary text-foreground disabled:opacity-35 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                  title="Fila anterior"
+                >
+                  <ChevronUp className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  disabled={articleRow >= maxArticleRow}
+                  onClick={() => setArticleRow((r) => Math.min(r + 1, maxArticleRow))}
+                  className="p-1 rounded-md border border-border/70 bg-card hover:bg-secondary text-foreground disabled:opacity-35 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                  title="Fila siguiente"
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Contenedor de artículos: exactamente 2 filas enteras visibles a la vez con desplazamiento por ruleta */}
           <div
-            className={`w-full relative pr-1 ${
-              totalArticleRows > 2 ? "overflow-y-auto" : "overflow-visible"
-            }`}
+            ref={articleContainerRef}
+            className="relative overflow-hidden w-full select-none"
             style={{
-              maxHeight: twoRowsHeight && totalArticleRows > 2 ? `${twoRowsHeight}px` : undefined,
-              scrollBehavior: "smooth",
-              scrollbarWidth: "thin",
-              scrollSnapType: totalArticleRows > 2 ? "y proximity" : undefined,
+              height: `${articleContainerHeight}px`,
+              transition: "height 240ms ease"
             }}
           >
             <div
               ref={articleGridRef}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-1"
+              style={{
+                transform: `translateY(-${articleRow * articleRowStep}px)`,
+                transition: "transform 320ms cubic-bezier(0.2, 0.8, 0.25, 1)"
+              }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
               {sortedArticles.map((article) => (
-                <div
-                  key={article.id}
-                  className="scroll-mt-3"
-                  style={{ scrollSnapAlign: "start" }}
-                >
+                <div key={article.id} className="h-full">
                   <ArticleCard
                     article={article}
                     displayCategory={getCategoryForArticleInSection(

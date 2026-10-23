@@ -6,7 +6,7 @@ import { ArticleCard } from "./ArticleCard";
 import { 
   Search, ArrowLeft, BookOpen, Layers, ExternalLink, GitFork, 
   ChevronUp, ChevronDown, Minimize2, Maximize2, LayoutGrid, ListFilter, X, Plus,
-  Edit3, Check, Palette, Sparkles, FolderPlus, FileText
+  Edit3, Check, Palette, Sparkles, FolderPlus, FileText, Star, CheckCircle2, RotateCcw
 } from "lucide-react";
 import { TarotLogo } from "./TarotLogo";
 import { useCategories, getGitHubAuthHeaders } from "../context/CategoryContext";
@@ -15,25 +15,14 @@ import { useUIContent } from "../context/UIContentContext";
 import { AVAILABLE_ICONS, ICON_MAP, getAllArticleCategories, getCategoryForArticleInSection } from "../utils/categoryHelper";
 import { CategoryQuickEditModal } from "./webbuilder/CategoryQuickEditModal";
 import { syncFetch, getCachedArticles, setCachedArticles } from "../utils/syncArticles";
-import { PersonajesSilhouettesBanner } from "./PersonajesSilhouettesBanner";
-import { LugaresSilhouettesBanner } from "./LugaresSilhouettesBanner";
-import { DragonesSilhouettesBanner } from "./DragonesSilhouettesBanner";
-import { PrimordialesSilhouettesBanner } from "./PrimordialesSilhouettesBanner";
-import { AscendidosSilhouettesBanner } from "./AscendidosSilhouettesBanner";
-import { AntiguosSilhouettesBanner } from "./AntiguosSilhouettesBanner";
-import { OrganizacionesSilhouettesBanner } from "./OrganizacionesSilhouettesBanner";
-import { JugadoresBanner } from "./JugadoresBanner";
-import { PortadoresBanner } from "./PortadoresBanner";
-import { EditableBannerWrapper } from "./EditableBannerWrapper";
 import { getSafeImageUrl, handleImageErrorWithFallback } from "../utils/imageUrl";
 
 export function CategoryView() {
-  const { slug: routeSlug } = useParams<{ slug: string }>();
-  const slug = routeSlug || (typeof window !== "undefined" ? window.location.pathname.replace(/^\/categoria\//, "").replace(/^\//, "").split("/")[0] : "");
+  const { slug } = useParams<{ slug: string }>();
   const { mergedCategories, addCategory, assignArticlesToCategory } = useCategories();
   const { isVisualEditMode, showToast } = useVisualEditor();
-  const { getText } = useUIContent();
-  const currentCategory = mergedCategories.find((c) => c.slug === slug || c.slug === routeSlug);
+  const { getText, setMultipleTexts, resetText } = useUIContent();
+  const currentCategory = mergedCategories.find((c) => c.slug === slug);
 
   // Modal state for creating a new subcategory directly on this category page
   const [isCreateSubcatOpen, setIsCreateSubcatOpen] = useState(false);
@@ -53,38 +42,14 @@ export function CategoryView() {
   const [assignSearchQuery, setAssignSearchQuery] = useState("");
   const [assignCategoryFilter, setAssignCategoryFilter] = useState<string>("all");
   const [assigningArticleId, setAssigningArticleId] = useState<string | null>(null);
+
+  // Estados para Artículos Destacados (minimizados por defecto)
+  const [isFeaturedModalOpen, setIsFeaturedModalOpen] = useState(false);
+  const [featuredSearchQuery, setFeaturedSearchQuery] = useState("");
+  const [isFeaturedMinimized, setIsFeaturedMinimized] = useState(true);
+  const [tempFeaturedIds, setTempFeaturedIds] = useState<string[]>([]);
   const Icon = currentCategory ? currentCategory.icon : BookOpen;
   const themeColor = currentCategory ? currentCategory.color : "#a0a0a0";
-  const isPersonajes = currentCategory?.slug === "personajes" || currentCategory?.name?.toLowerCase() === "personajes" || slug?.toLowerCase() === "personajes";
-  const isLugares = currentCategory?.slug === "lugares" || currentCategory?.slug === "lugar" || currentCategory?.name?.toLowerCase() === "lugares" || currentCategory?.name?.toLowerCase() === "lugar" || slug?.toLowerCase() === "lugares" || slug?.toLowerCase() === "lugar";
-  const isDragones = currentCategory?.slug === "dragones" || currentCategory?.slug === "dragon" || currentCategory?.name?.toLowerCase() === "dragones" || currentCategory?.name?.toLowerCase() === "dragón" || slug?.toLowerCase() === "dragones" || slug?.toLowerCase() === "dragon";
-  const isPrimordiales = currentCategory?.slug === "primordiales" || currentCategory?.slug === "primordial" || currentCategory?.name?.toLowerCase() === "primordiales" || currentCategory?.name?.toLowerCase() === "primordial" || slug?.toLowerCase() === "primordiales" || slug?.toLowerCase() === "primordial";
-  const isAscendidos = currentCategory?.slug === "ascendidos" || currentCategory?.slug === "ascendido" || currentCategory?.name?.toLowerCase() === "ascendidos" || currentCategory?.name?.toLowerCase() === "ascendido" || slug?.toLowerCase() === "ascendidos" || slug?.toLowerCase() === "ascendido";
-  const isAntiguos = currentCategory?.slug === "antiguos" || currentCategory?.slug === "antiguo" || currentCategory?.slug === "los-antiguos" || currentCategory?.name?.toLowerCase() === "antiguos" || currentCategory?.name?.toLowerCase() === "antiguo" || currentCategory?.name?.toLowerCase() === "los antiguos" || slug?.toLowerCase() === "antiguos" || slug?.toLowerCase() === "antiguo" || slug?.toLowerCase() === "los-antiguos";
-  const isJugadores = currentCategory?.slug === "jugadores" || currentCategory?.slug === "jugador" || currentCategory?.name?.toLowerCase() === "jugadores" || currentCategory?.name?.toLowerCase() === "jugador" || slug?.toLowerCase() === "jugadores" || slug?.toLowerCase() === "jugador";
-  const isPortadores = currentCategory?.slug === "portadores-de-marca" || currentCategory?.slug === "portadores" || currentCategory?.name?.toLowerCase().includes("portadores de marca") || slug?.toLowerCase() === "portadores-de-marca";
-  const isOrganizaciones = currentCategory?.slug === "organizaciones" || currentCategory?.slug === "organizacion" || currentCategory?.name?.toLowerCase() === "organizaciones" || currentCategory?.name?.toLowerCase() === "organización" || slug?.toLowerCase() === "organizaciones" || slug?.toLowerCase() === "organizacion";
-  const bannerKey = isPersonajes
-    ? "personajes"
-    : isJugadores
-      ? "jugadores"
-      : isLugares
-        ? "lugares"
-        : isDragones
-          ? "dragones"
-          : isPrimordiales
-            ? "primordiales"
-            : isAscendidos
-              ? "ascendidos"
-              : isAntiguos
-                ? "antiguos"
-                : isOrganizaciones
-                  ? "organizaciones"
-                  : isPortadores
-                    ? "portadores_de_marca"
-                    : (currentCategory?.slug || slug || "categoria").toLowerCase().replace(/[^a-z0-9_-]/g, "_");
-  const hasSavedCustomBanner = Boolean(getText(`banner.image.${bannerKey}`, "").trim());
-  const hasCustomBanner = isPersonajes || isJugadores || isLugares || isDragones || isPrimordiales || isAscendidos || isAntiguos || isPortadores || isOrganizaciones || hasSavedCustomBanner || isVisualEditMode;
 
   // Detección de Subcategorías directas (solo 1 nivel debajo de la categoría actual)
   const subcategories = useMemo(() => {
@@ -546,6 +511,7 @@ export function CategoryView() {
     setSelCriatura("");
     setSelectedSubcategory("all"); // Reset subcategory filter when changing category
     setSubcatRow(0);
+    setIsFeaturedMinimized(true); // Minimizados por defecto
 
     // Check cached articles first
     const cached = getCachedArticles();
@@ -649,10 +615,128 @@ export function CategoryView() {
     (s) => s.slug === selectedSubcategory || s.id === selectedSubcategory
   );
 
+  // Alcance actual para artículos destacados (categoría o subcategoría seleccionada)
+  const activeScopeSlug = useMemo(() => {
+    if (selectedSubcategory !== "all" && activeSubcategoryObj) {
+      return activeSubcategoryObj.slug;
+    }
+    return currentCategory?.slug || slug || "categoria";
+  }, [selectedSubcategory, activeSubcategoryObj, currentCategory, slug]);
+
+  const featuredStorageKey = `category.featured.${activeScopeSlug.toLowerCase().replace(/[^a-z0-9_-]/g, "_")}`;
+  const customFeaturedRaw = getText(featuredStorageKey, "");
+
+  // Artículos que pertenecen al alcance actual (categoría o subcategoría seleccionada)
+  const categoryScopeArticles = useMemo(() => {
+    if (!Array.isArray(articles)) return [];
+    if (selectedSubcategory !== "all" && activeSubcategoryObj) {
+      return articles.filter((a) => doesArticleMatchCategory(a, activeSubcategoryObj.name, activeSubcategoryObj.slug));
+    }
+    return articles;
+  }, [articles, selectedSubcategory, activeSubcategoryObj]);
+
+  // Helper para obtener la marca de tiempo más reciente de creación o actualización
+  const getArticleDateScore = (art: WikiArticle): number => {
+    if (art.created_date) {
+      const t = new Date(art.created_date).getTime();
+      if (!isNaN(t) && t > 0) return t;
+    }
+    if (art.updated_date) {
+      const t = new Date(art.updated_date).getTime();
+      if (!isNaN(t) && t > 0) return t;
+    }
+    const m = art.id?.match(/\d{10,}/);
+    if (m) {
+      const t = parseInt(m[0], 10);
+      if (!isNaN(t) && t > 0) return t;
+    }
+    return 0;
+  };
+
+  // Selección de artículos destacados para mostrar (los más nuevos de la categoría/subcategoría)
+  const featuredArticles = useMemo(() => {
+    if (!categoryScopeArticles.length) return [];
+
+    let pinnedIds: string[] = [];
+    if (customFeaturedRaw) {
+      try {
+        const parsed = JSON.parse(customFeaturedRaw);
+        if (Array.isArray(parsed)) pinnedIds = parsed.map(String);
+      } catch {
+        pinnedIds = customFeaturedRaw.split(",").map((s) => s.trim()).filter(Boolean);
+      }
+    }
+
+    const pinnedList: WikiArticle[] = [];
+
+    // 1. Artículos fijados manualmente por el usuario en esta categoría/subcategoría (si los hay)
+    if (pinnedIds.length > 0) {
+      const idMap = new Map<string, WikiArticle>();
+      for (const a of categoryScopeArticles) {
+        if (a.id) idMap.set(a.id, a);
+        if (a.slug) idMap.set(a.slug, a);
+      }
+      for (const pid of pinnedIds) {
+        const found = idMap.get(pid);
+        if (found && !pinnedList.some((x) => x.id === found.id)) {
+          pinnedList.push(found);
+        }
+      }
+    }
+
+    // 2. Artículos de esta categoría o subcategoría ordenados estrictamente por los más nuevos
+    const newestCandidates = categoryScopeArticles
+      .filter((a) => !pinnedList.some((x) => x.id === a.id))
+      .sort((a, b) => getArticleDateScore(b) - getArticleDateScore(a));
+
+    return [...pinnedList, ...newestCandidates].slice(0, 4);
+  }, [categoryScopeArticles, customFeaturedRaw]);
+
+  const openFeaturedModal = () => {
+    setTempFeaturedIds(featuredArticles.map((a) => a.id));
+    setFeaturedSearchQuery("");
+    setIsFeaturedModalOpen(true);
+  };
+
+  const handleToggleFeaturedId = (id: string) => {
+    setTempFeaturedIds((prev) => 
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
+  const handleSaveFeatured = async () => {
+    try {
+      await setMultipleTexts({ [featuredStorageKey]: JSON.stringify(tempFeaturedIds) });
+      showToast("✨ Artículos destacados actualizados para esta sección.", "success");
+      setIsFeaturedModalOpen(false);
+    } catch {
+      showToast("Error al guardar destacados.", "error");
+    }
+  };
+
+  const handleResetFeatured = async () => {
+    try {
+      await resetText(featuredStorageKey);
+      showToast("Destacados restablecidos a la selección automática.", "info");
+      setIsFeaturedModalOpen(false);
+    } catch {
+      showToast("Error al restablecer destacados.", "error");
+    }
+  };
+
   const NewSubSelectedIcon = ICON_MAP[newSubIcon] || ICON_MAP.Sparkles || BookOpen;
 
-  // Detección de columnas y altura para mostrar exactamente 2 filas enteras a la vez
+  // Detección de columnas y altura para mostrar exactamente 2 filas enteras con desplazamiento por ruleta
   const [articleCols, setArticleCols] = useState<number>(3);
+  const [articleRow, setArticleRow] = useState(0);
+  const [articleCardHeight, setArticleCardHeight] = useState(380);
+  const articleContainerRef = useRef<HTMLDivElement | null>(null);
+  const articleGridRef = useRef<HTMLDivElement | null>(null);
+  const articleRowRef = useRef(0);
+  const maxArticleRowRef = useRef(0);
+  const lastArticleWheelTimeRef = useRef(0);
+  const articleTouchStartYRef = useRef<number | null>(null);
+
   useEffect(() => {
     const updateCols = () => {
       if (window.innerWidth < 768) {
@@ -669,38 +753,142 @@ export function CategoryView() {
   }, []);
 
   const totalArticleRows = Math.ceil(sortedArticles.length / articleCols);
-  const [twoRowsHeight, setTwoRowsHeight] = useState<number | null>(null);
-  const articleGridRef = useRef<HTMLDivElement | null>(null);
+  const visibleArticleRows = Math.min(2, Math.max(1, totalArticleRows));
+  const maxArticleRow = Math.max(0, totalArticleRows - 2);
 
-  // Medir la altura exacta para que SIEMPRE se vean 2 filas enteras sin recortes
+  articleRowRef.current = articleRow;
+  maxArticleRowRef.current = maxArticleRow;
+
+  // Restablecer la fila al cambiar de categoría o aplicar filtros
+  useEffect(() => {
+    setArticleRow(0);
+  }, [slug, selectedSubcategory, filterQuery, sortBy]);
+
+  useEffect(() => {
+    if (articleRow > maxArticleRow) {
+      setArticleRow(maxArticleRow);
+    }
+  }, [maxArticleRow, articleRow]);
+
+  // Medir la altura de tarjeta para que el contenedor encaje exactamente 2 filas completas
   useEffect(() => {
     if (!articleGridRef.current) return;
-    const updateHeight = () => {
+    const updateCardHeight = () => {
       const grid = articleGridRef.current;
       if (!grid) return;
-      const cards = Array.from(grid.children) as HTMLElement[];
-      if (cards.length === 0) return;
-
-      if (cards.length > articleCols * 2) {
-        const row2Card = cards[articleCols] || cards[1];
-        if (row2Card && row2Card.offsetTop !== undefined) {
-          const row2Bottom = row2Card.offsetTop + row2Card.offsetHeight;
-          setTwoRowsHeight(row2Bottom + 12);
-          return;
-        }
+      const firstChild = grid.firstElementChild as HTMLElement;
+      if (firstChild && firstChild.offsetHeight > 0) {
+        setArticleCardHeight(firstChild.offsetHeight);
       }
-      setTwoRowsHeight(null);
     };
-
-    updateHeight();
-    const ro = new ResizeObserver(updateHeight);
+    updateCardHeight();
+    const ro = new ResizeObserver(updateCardHeight);
     ro.observe(articleGridRef.current);
-    window.addEventListener("resize", updateHeight);
+    window.addEventListener("resize", updateCardHeight);
     return () => {
       ro.disconnect();
-      window.removeEventListener("resize", updateHeight);
+      window.removeEventListener("resize", updateCardHeight);
     };
   }, [sortedArticles.length, articleCols]);
+
+  const articleGap = 24; // gap-6 en Tailwind equivale a 24px
+  const articleContainerHeight =
+    articleCardHeight * visibleArticleRows + articleGap * Math.max(0, visibleArticleRows - 1);
+  const articleRowStep = articleCardHeight + articleGap;
+
+  // Manejo nativo de rueda del ratón y gestos táctiles para avanzar fila por fila sin cortes
+  useEffect(() => {
+    const el = articleContainerRef.current;
+    if (!el) return;
+
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) < 15) return;
+
+      const now = Date.now();
+      const isDown = e.deltaY > 0;
+      const isUp = e.deltaY < 0;
+
+      if (isDown && articleRowRef.current < maxArticleRowRef.current) {
+        e.preventDefault();
+        if (now - lastArticleWheelTimeRef.current > 220) {
+          lastArticleWheelTimeRef.current = now;
+          setArticleRow((r) => {
+            const next = Math.min(r + 1, maxArticleRowRef.current);
+            articleRowRef.current = next;
+            return next;
+          });
+        }
+        return;
+      }
+
+      if (isUp && articleRowRef.current > 0) {
+        e.preventDefault();
+        if (now - lastArticleWheelTimeRef.current > 220) {
+          lastArticleWheelTimeRef.current = now;
+          setArticleRow((r) => {
+            const next = Math.max(r - 1, 0);
+            articleRowRef.current = next;
+            return next;
+          });
+        }
+        return;
+      }
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        articleTouchStartYRef.current = e.touches[0].clientY;
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (articleTouchStartYRef.current === null) return;
+      const currentY = e.touches[0].clientY;
+      const diffY = articleTouchStartYRef.current - currentY;
+      if (Math.abs(diffY) < 25) return;
+
+      const now = Date.now();
+      if (diffY > 0 && articleRowRef.current < maxArticleRowRef.current) {
+        if (e.cancelable) e.preventDefault();
+        if (now - lastArticleWheelTimeRef.current > 240) {
+          lastArticleWheelTimeRef.current = now;
+          setArticleRow((r) => {
+            const next = Math.min(r + 1, maxArticleRowRef.current);
+            articleRowRef.current = next;
+            return next;
+          });
+          articleTouchStartYRef.current = currentY;
+        }
+      } else if (diffY < 0 && articleRowRef.current > 0) {
+        if (e.cancelable) e.preventDefault();
+        if (now - lastArticleWheelTimeRef.current > 240) {
+          lastArticleWheelTimeRef.current = now;
+          setArticleRow((r) => {
+            const next = Math.max(r - 1, 0);
+            articleRowRef.current = next;
+            return next;
+          });
+          articleTouchStartYRef.current = currentY;
+        }
+      }
+    };
+
+    const onTouchEnd = () => {
+      articleTouchStartYRef.current = null;
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
+
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+    };
+  }, []);
 
   return (
     <div className="p-6 lg:p-8 space-y-6">
@@ -710,6 +898,184 @@ export function CategoryView() {
           category={editingSubcategory}
           onClose={() => setEditingSubcategory(null)}
         />
+      )}
+
+      {/* Modal para Gestionar Artículos Destacados de esta Categoría / Subcategoría */}
+      {isFeaturedModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="bg-[#10171b] border border-[#232e33] rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            {/* Modal Header */}
+            <div className="p-5 border-b border-[#232e33] flex items-center justify-between gap-4 bg-[#141d22]">
+              <div className="flex items-center gap-3">
+                <div 
+                  className="h-9 w-9 rounded-xl flex items-center justify-center border shadow-xs"
+                  style={{
+                    borderColor: `${themeColor}60`,
+                    backgroundColor: `${themeColor}20`,
+                    color: themeColor
+                  }}
+                >
+                  <Star className="h-5 w-5 fill-current" />
+                </div>
+                <div>
+                  <h3 className="font-heading font-bold text-base text-foreground">
+                    Gestionar Artículos Destacados
+                  </h3>
+                  <p className="text-xs text-muted-foreground">
+                    {activeSubcategoryObj 
+                      ? `Subcategoría: ${activeSubcategoryObj.name}`
+                      : `Categoría: ${currentCategory?.name || slug}`}
+                    {" "}• Selecciona los pergaminos prioritarios que se mostrarán en la cabecera.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsFeaturedModalOpen(false)}
+                className="h-8 w-8 rounded-lg flex items-center justify-center bg-secondary/60 hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* Modal Subhead & Filter */}
+            <div className="p-4 border-b border-[#232e33] bg-[#0c1215] flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="relative w-full sm:w-80">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <input
+                  type="text"
+                  value={featuredSearchQuery}
+                  onChange={(e) => setFeaturedSearchQuery(e.target.value)}
+                  placeholder="Buscar en esta categoría para destacar..."
+                  className="w-full h-9 pl-9 pr-3 text-xs bg-secondary/80 border border-border/80 rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-all"
+                />
+              </div>
+              <div className="flex items-center gap-2 self-end sm:self-auto text-xs text-muted-foreground">
+                <span className="font-semibold text-foreground">
+                  {tempFeaturedIds.length} {tempFeaturedIds.length === 1 ? "artículo fijado" : "artículos fijados"}
+                </span>
+                <span className="text-[11px] opacity-70">(Recomendado: 3 a 6)</span>
+              </div>
+            </div>
+
+            {/* Modal Body / Article List */}
+            <div className="p-4 overflow-y-auto flex-1 space-y-2 max-h-[50vh]">
+              {(() => {
+                const q = featuredSearchQuery.toLowerCase().trim();
+                const filteredList = categoryScopeArticles.filter((art) => {
+                  if (!q) return true;
+                  return art.title.toLowerCase().includes(q) || (art.summary && art.summary.toLowerCase().includes(q));
+                });
+
+                if (filteredList.length === 0) {
+                  return (
+                    <div className="py-12 text-center text-muted-foreground text-xs">
+                      No se encontraron artículos con "{featuredSearchQuery}".
+                    </div>
+                  );
+                }
+
+                // Sort so selected items appear at the top
+                const sorted = [...filteredList].sort((a, b) => {
+                  const aSelected = tempFeaturedIds.includes(a.id) ? 1 : 0;
+                  const bSelected = tempFeaturedIds.includes(b.id) ? 1 : 0;
+                  if (aSelected !== bSelected) return bSelected - aSelected;
+                  return a.title.localeCompare(b.title);
+                });
+
+                return sorted.map((art) => {
+                  const isSelected = tempFeaturedIds.includes(art.id);
+                  const safeImg = getSafeImageUrl(art.image_url);
+
+                  return (
+                    <div
+                      key={art.id}
+                      onClick={() => handleToggleFeaturedId(art.id)}
+                      className={`p-3 rounded-xl border flex items-center justify-between gap-3 cursor-pointer transition-all ${
+                        isSelected
+                          ? "bg-amber-500/10 border-amber-500/40 shadow-xs"
+                          : "bg-secondary/40 border-border/60 hover:bg-secondary/70 hover:border-border"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        {safeImg ? (
+                          <img
+                            src={safeImg}
+                            alt={art.title}
+                            className="h-10 w-10 rounded-lg object-cover border border-border shrink-0"
+                            onError={(e) => handleImageErrorWithFallback(e, art.image_url)}
+                          />
+                        ) : (
+                          <div className="h-10 w-10 rounded-lg bg-secondary flex items-center justify-center border border-border shrink-0 text-muted-foreground">
+                            <FileText className="h-4 w-4" />
+                          </div>
+                        )}
+                        <div className="min-w-0">
+                          <h4 className="font-heading font-semibold text-xs sm:text-sm text-foreground truncate flex items-center gap-1.5">
+                            <span>{art.title}</span>
+                            {isSelected && (
+                              <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase">
+                                Fijado
+                              </span>
+                            )}
+                          </h4>
+                          <p className="text-[11px] text-muted-foreground line-clamp-1">
+                            {art.summary || "Sin resumen disponible."}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="shrink-0">
+                        <button
+                          type="button"
+                          className={`flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                            isSelected
+                              ? "bg-amber-500 text-black shadow-sm"
+                              : "bg-secondary border border-border/80 text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          <Star className={`h-3.5 w-3.5 ${isSelected ? "fill-black" : ""}`} />
+                          <span>{isSelected ? "Destacado" : "Destacar"}</span>
+                        </button>
+                      </div>
+                    </div>
+                  );
+                });
+              })()}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 border-t border-[#232e33] bg-[#141d22] flex items-center justify-between gap-3 flex-wrap">
+              <button
+                type="button"
+                onClick={handleResetFeatured}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-border/80 bg-secondary/60 hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                title="Restablecer para que el sistema seleccione los artículos más ricos automáticamente"
+              >
+                <RotateCcw className="h-3.5 w-3.5" />
+                <span>Restablecer a Automático</span>
+              </button>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsFeaturedModalOpen(false)}
+                  className="px-3.5 py-1.5 text-xs rounded-lg border border-border/80 bg-secondary/80 hover:bg-secondary text-foreground font-medium transition-colors cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveFeatured}
+                  className="flex items-center gap-1.5 px-4 py-1.5 text-xs rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-sm transition-colors cursor-pointer"
+                >
+                  <Check className="h-3.5 w-3.5" />
+                  <span>Guardar Destacados</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Menú Popup Grande para Asignar Artículos a la Categoría Actual */}
@@ -1357,69 +1723,14 @@ export function CategoryView() {
         </div>
       </div>
 
-      {/* 1. Category Header Banner (Siluetas por defecto o cualquier banner subido desde el PC en Modo Edición) */}
-      {hasCustomBanner && (
-        <div className="space-y-4 pb-4 border-b border-border/60">
-          <EditableBannerWrapper
-            bannerKey={bannerKey}
-            label={currentCategory?.name || slug || "Categoría"}
-            defaultFit={isPortadores || isPersonajes ? "cover" : "contain"}
-            groundColor="#232e33"
-            className="w-full h-36 sm:h-44 md:h-52 lg:h-60"
-          >
-            {isPersonajes ? (
-              <PersonajesSilhouettesBanner
-                className="w-full h-full"
-                color="#232e33"
-              />
-            ) : isLugares ? (
-              <LugaresSilhouettesBanner
-                className="w-full h-full"
-                color="#232e33"
-              />
-            ) : isDragones ? (
-              <DragonesSilhouettesBanner
-                className="w-full h-full"
-                color="#232e33"
-              />
-            ) : isPrimordiales ? (
-              <PrimordialesSilhouettesBanner
-                className="w-full h-full"
-                color="#232e33"
-              />
-            ) : isAscendidos ? (
-              <AscendidosSilhouettesBanner
-                className="w-full h-full"
-                color="#232e33"
-              />
-            ) : isAntiguos ? (
-              <AntiguosSilhouettesBanner
-                className="w-full h-full"
-                color="#232e33"
-              />
-            ) : isOrganizaciones ? (
-              <OrganizacionesSilhouettesBanner
-                className="w-full h-full"
-                color="#232e33"
-              />
-            ) : isJugadores ? (
-              <JugadoresBanner
-                className="w-full h-full"
-                color="#232e33"
-              />
-            ) : isPortadores ? (
-              <PortadoresBanner
-                className="w-full h-full"
-              />
-            ) : undefined}
-          </EditableBannerWrapper>
-        </div>
-      )}
-
-      {/* 2. Menú de Subcategorías (Se muestra en todas las categorías por igual; si no hay subcategorías, no se expande) */}
-      {!shouldShowExpanded ? (
-        /* Barra Minimizado EXACTA A LA IMAGEN DEL USUARIO */
-        <div className="bg-[#0e1418]/70 border border-[#232e33] rounded-2xl px-4 sm:px-6 py-3 shadow-xs flex items-center justify-between gap-4 transition-all">
+      {/* 2. Menú de Subcategorías (Animación fluida al desplegar/minimizar) */}
+      <section 
+        className={`bg-[#0e1418]/70 border border-[#232e33] rounded-2xl shadow-xs transition-all duration-400 ease-in-out relative overflow-hidden ${
+          !shouldShowExpanded ? "px-4 sm:px-6 py-3" : "px-4 sm:px-6 pt-4 pb-6 space-y-4"
+        }`}
+      >
+        {/* Header de la sección de subcategorías */}
+        <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-3 shrink-0">
             <div 
               className="h-6 w-6 rounded-full flex items-center justify-center shrink-0 border transition-all duration-300 shadow-xs"
@@ -1485,209 +1796,142 @@ export function CategoryView() {
               <button
                 type="button"
                 onClick={toggleSubcatMinimized}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-[#232e33] bg-[#131b20] hover:bg-[#1c282f] font-medium transition-colors shadow-xs cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-[#232e33] bg-[#131b20] hover:bg-[#1c282f] font-medium transition-all duration-300 shadow-xs cursor-pointer"
                 style={{ color: themeColor }}
-                title="Desplegar subcategorías"
+                title={shouldShowExpanded ? "Minimizar subcategorías" : "Desplegar subcategorías"}
               >
-                <span>Desplegar</span>
-                <ChevronDown className="h-3.5 w-3.5" />
+                <span>{shouldShowExpanded ? "Minimizar" : "Desplegar"}</span>
+                <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ease-in-out ${
+                  shouldShowExpanded ? "rotate-180" : "rotate-0"
+                }`} />
               </button>
             )}
           </div>
         </div>
-      ) : (
-        /* Sección Desplegada (Cuando existen subcategorías o está activo el Modo Edición) */
-        <section className="space-y-4 bg-card/40 border border-border/70 rounded-2xl p-4 sm:p-6 shadow-sm">
-          {/* Header de la sección de subcategorías */}
-          <div className="flex items-center justify-between gap-3 flex-wrap">
-            <div className="flex items-center gap-3">
-              <div 
-                className="h-6 w-6 rounded-full flex items-center justify-center shrink-0 border transition-all duration-300 shadow-xs"
-                style={{
-                  borderColor: `${themeColor}60`,
-                  backgroundColor: `${themeColor}20`,
-                  color: themeColor,
-                  boxShadow: `0 0 10px ${themeColor}25`
-                }}
-              >
-                <Icon className="h-3.5 w-3.5" style={{ color: themeColor }} />
-              </div>
-              <h2 className="font-heading font-semibold text-xs sm:text-sm text-foreground tracking-wider uppercase">
-                EXPLORAR SUBCATEGORÍAS DE {currentCategory?.name || slug}
-              </h2>
-            </div>
 
-            <div className="flex items-center gap-3">
-              {isVisualEditMode && (
-                <button
-                  type="button"
-                  onClick={openCreateSubcatModal}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-primary/40 bg-primary/15 hover:bg-primary/25 text-primary font-semibold transition-colors shadow-xs cursor-pointer"
-                  title={`Crear nueva subcategoría dentro de ${currentCategory?.name || slug}`}
-                >
-                  <Plus className="h-3.5 w-3.5" />
-                  <span>Crear subcategoría</span>
-                </button>
-              )}
-
-              {selectedSubcategory === "all" && (
-                <div className="hidden sm:flex items-center bg-[#131b20] border border-[#232e33] rounded-lg p-0.5 text-xs">
-                  <button
-                    type="button"
-                    onClick={() => setViewLayout("standard")}
-                    className={`px-3 py-1 rounded-md flex items-center gap-1.5 font-medium transition-all ${
-                      viewLayout === "standard"
-                        ? "bg-[#1c282f] text-foreground font-semibold shadow-xs"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                    title="Vista en cuadrícula estándar"
-                  >
-                    <LayoutGrid className="h-3.5 w-3.5" />
-                    <span>Cuadrícula</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setViewLayout("sections")}
-                    className={`px-3 py-1 rounded-md flex items-center gap-1.5 font-medium transition-all ${
-                      viewLayout === "sections"
-                        ? "bg-[#1c282f] text-foreground font-semibold shadow-xs"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                    title="Vista organizada por secciones de cada subcategoría (Estilo Inicio)"
-                  >
-                    <ListFilter className="h-3.5 w-3.5" />
-                    <span>Por Secciones</span>
-                  </button>
-                </div>
-              )}
-
-              <button
-                type="button"
-                onClick={toggleSubcatMinimized}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-[#232e33] bg-[#131b20] hover:bg-[#1c282f] text-muted-foreground hover:text-foreground font-medium transition-colors shadow-xs cursor-pointer"
-                title="Minimizar subcategorías"
-              >
-                <span>Minimizar</span>
-                <ChevronUp className="h-3.5 w-3.5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Contenedor de 1 fila visible con desplazamiento por rueda del ratón como en Inicio */}
-          <div
-            ref={subcatContainerRef}
-            className="relative overflow-hidden w-full select-none"
-            style={{ height: `${subcatContainerHeight}px` }}
-          >
+        {/* Cuerpo animado fluido de subcategorías */}
+        <div 
+          className={`grid transition-[grid-template-rows,opacity] duration-400 ease-in-out ${
+            !shouldShowExpanded ? "grid-rows-[0fr] opacity-0 pointer-events-none" : "grid-rows-[1fr] opacity-100"
+          }`}
+        >
+          <div className="overflow-hidden min-h-0 pt-2">
+            {/* Contenedor de 1 fila visible con desplazamiento por rueda del ratón como en Inicio */}
             <div
-              ref={subcatGridRef}
-              style={{
-                transform: `translateY(-${subcatRow * subcatRowStep}px)`,
-                transition: "transform 320ms cubic-bezier(0.2, 0.8, 0.25, 1)"
-              }}
-              className="flex flex-wrap justify-center gap-4"
+              ref={subcatContainerRef}
+              className="relative overflow-hidden w-full select-none"
+              style={{ height: `${subcatContainerHeight}px` }}
             >
-              {subcategories.map((subcat) => {
-                const SubIcon = subcat.icon;
+              <div
+                ref={subcatGridRef}
+                style={{
+                  transform: `translateY(-${subcatRow * subcatRowStep}px)`,
+                  transition: "transform 320ms cubic-bezier(0.2, 0.8, 0.25, 1)"
+                }}
+                className="flex flex-wrap justify-center gap-4"
+              >
+                {subcategories.map((subcat) => {
+                  const SubIcon = subcat.icon;
 
-                return (
-                  <div
-                    key={subcat.id || subcat.slug}
-                    className="relative group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] shrink-0"
-                  >
-                    <Link
-                      to={`/categoria/${subcat.slug}`}
-                      className={`block bg-card border border-border/75 rounded-xl p-4 sm:p-5 hover:border-primary/45 transition-all hover:bg-secondary/20 hover:shadow-sm h-[140px] flex flex-col justify-between ${
-                        isVisualEditMode ? "ring-1 ring-primary/20 hover:ring-primary/60" : ""
-                      }`}
+                  return (
+                    <div
+                      key={subcat.id || subcat.slug}
+                      className="relative group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] shrink-0"
                     >
-                      <div>
-                        <div className="flex items-center justify-between mb-2">
-                          <div
-                            className="h-8 w-8 rounded-lg flex items-center justify-center transition-colors group-hover:scale-105"
-                            style={{ 
-                              backgroundColor: `${subcat.color}15`,
-                              border: `1px solid ${subcat.color}35`
-                            }}
-                          >
-                            <SubIcon className="h-4 w-4" style={{ color: subcat.color }} />
-                          </div>
-                          {isVisualEditMode && (
-                            <div className="flex items-center gap-1">
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setAssignTargetOverride(subcat);
-                                  setAssignSearchQuery("");
-                                  setAssignCategoryFilter("all");
-                                  setIsAssignArticlesOpen(true);
-                                }}
-                                className="text-[10px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1 border cursor-pointer transition-colors hover:brightness-110"
-                                style={{
-                                  color: subcat.color,
-                                  backgroundColor: `${subcat.color}15`,
-                                  borderColor: `${subcat.color}35`
-                                }}
-                                title={`Asignar artículos a ${subcat.name}`}
-                              >
-                                <FolderPlus className="h-2.5 w-2.5" />
-                                Artículos
-                              </button>
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setEditingSubcategory(subcat);
-                                }}
-                                className="text-[10px] font-semibold text-primary bg-primary/15 hover:bg-primary/25 px-2 py-0.5 rounded-full flex items-center gap-1 border border-primary/20 cursor-pointer"
-                                title={`Editar ${subcat.name}`}
-                              >
-                                <Edit3 className="h-2.5 w-2.5" />
-                                Editar
-                              </button>
+                      <Link
+                        to={`/categoria/${subcat.slug}`}
+                        className={`block bg-card border border-border/75 rounded-xl p-4 sm:p-5 hover:border-primary/45 transition-all hover:bg-secondary/20 hover:shadow-sm h-[140px] flex flex-col justify-between ${
+                          isVisualEditMode ? "ring-1 ring-primary/20 hover:ring-primary/60" : ""
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <div
+                              className="h-8 w-8 rounded-lg flex items-center justify-center transition-colors group-hover:scale-105"
+                              style={{ 
+                                backgroundColor: `${subcat.color}15`,
+                                border: `1px solid ${subcat.color}35`
+                              }}
+                            >
+                              <SubIcon className="h-4 w-4" style={{ color: subcat.color }} />
                             </div>
-                          )}
+                            {isVisualEditMode && (
+                              <div className="flex items-center gap-1">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setAssignTargetOverride(subcat);
+                                    setAssignSearchQuery("");
+                                    setAssignCategoryFilter("all");
+                                    setIsAssignArticlesOpen(true);
+                                  }}
+                                  className="text-[10px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1 border cursor-pointer transition-colors hover:brightness-110"
+                                  style={{
+                                    color: subcat.color,
+                                    backgroundColor: `${subcat.color}15`,
+                                    borderColor: `${subcat.color}35`
+                                  }}
+                                  title={`Asignar artículos a ${subcat.name}`}
+                                >
+                                  <FolderPlus className="h-2.5 w-2.5" />
+                                  Artículos
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setEditingSubcategory(subcat);
+                                  }}
+                                  className="text-[10px] font-semibold text-primary bg-primary/15 hover:bg-primary/25 px-2 py-0.5 rounded-full flex items-center gap-1 border border-primary/20 cursor-pointer"
+                                  title={`Editar ${subcat.name}`}
+                                >
+                                  <Edit3 className="h-2.5 w-2.5" />
+                                  Editar
+                                </button>
+                              </div>
+                            )}
+                          </div>
+
+                          <h3 className="font-heading text-xs sm:text-sm font-bold text-foreground group-hover:text-primary transition-colors tracking-wide uppercase line-clamp-1">
+                            {subcat.name}
+                          </h3>
                         </div>
 
-                        <h3 className="font-heading text-xs sm:text-sm font-bold text-foreground group-hover:text-primary transition-colors tracking-wide uppercase line-clamp-1">
-                          {subcat.name}
-                        </h3>
-                      </div>
+                        <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed font-light">
+                          {subcat.description || "Subcategoría mística de Caldo de Dragón."}
+                        </p>
+                      </Link>
+                    </div>
+                  );
+                })}
 
-                      <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed font-light">
-                        {subcat.description || "Subcategoría mística de Caldo de Dragón."}
-                      </p>
-                    </Link>
-                  </div>
-                );
-              })}
-
-              {isVisualEditMode && (
-                <button
-                  type="button"
-                  onClick={openCreateSubcatModal}
-                  className="group bg-card/50 hover:bg-primary/10 border-2 border-dashed border-primary/35 hover:border-primary rounded-xl p-4 sm:p-5 transition-all h-[140px] flex flex-col items-center justify-center gap-2 text-center cursor-pointer w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] shrink-0"
-                >
-                  <div className="h-9 w-9 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                    <Plus className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <span className="font-heading text-xs sm:text-sm font-bold text-primary tracking-wide uppercase block">
-                      Crear subcategoría
-                    </span>
-                    <span className="text-[11px] text-muted-foreground font-light line-clamp-1 mt-0.5">
-                      Añadir dentro de {currentCategory?.name || slug}
-                    </span>
-                  </div>
-                </button>
-              )}
+                {isVisualEditMode && (
+                  <button
+                    type="button"
+                    onClick={openCreateSubcatModal}
+                    className="group bg-card/50 hover:bg-primary/10 border-2 border-dashed border-primary/35 hover:border-primary rounded-xl p-4 sm:p-5 transition-all h-[140px] flex flex-col items-center justify-center gap-2 text-center cursor-pointer w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] shrink-0"
+                  >
+                    <div className="h-9 w-9 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                      <Plus className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <span className="font-heading text-xs sm:text-sm font-bold text-primary tracking-wide uppercase block">
+                        Crear subcategoría
+                      </span>
+                      <span className="text-[11px] text-muted-foreground font-light line-clamp-1 mt-0.5">
+                        Añadir dentro de {currentCategory?.name || slug}
+                      </span>
+                    </div>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* Banner de subcategoría activa cuando hay filtro seleccionado */}
       {selectedSubcategory !== "all" && activeSubcategoryObj && (
@@ -1720,6 +1964,106 @@ export function CategoryView() {
             </button>
           </div>
         </div>
+      )}
+
+      {/* 2.5 Artículos Destacados de la Categoría o Subcategoría (Minimizado por defecto con animación fluida) */}
+      {(featuredArticles.length > 0 || isVisualEditMode) && (
+        <section className={`bg-gradient-to-br from-[#121a20]/90 via-[#0e1418]/90 to-[#141e24]/70 border border-[#232e33] rounded-2xl shadow-md relative overflow-hidden transition-all duration-400 ease-in-out ${
+          isFeaturedMinimized ? "px-4 sm:px-6 py-3.5" : "px-4 sm:px-6 pt-4 pb-5"
+        }`}>
+          {/* Subtle background glow effect using themeColor */}
+          <div 
+            className="absolute -top-16 -right-16 w-56 h-56 rounded-full blur-3xl pointer-events-none opacity-15"
+            style={{ backgroundColor: themeColor }}
+          />
+
+          {/* Section Header */}
+          <div className="flex items-center justify-between gap-3 flex-wrap relative z-10">
+            <div>
+              <h3 className="font-heading font-bold text-sm sm:text-base tracking-wide text-foreground uppercase">
+                {activeSubcategoryObj 
+                  ? `Artículos Destacados de ${activeSubcategoryObj.name}`
+                  : `Artículos Destacados de ${currentCategory?.name || slug || "la Categoría"}`}
+              </h3>
+              <p className="text-[11px] text-muted-foreground">
+                Pergaminos más recientes añadidos a este compendio
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              {isVisualEditMode && (
+                <button
+                  type="button"
+                  onClick={openFeaturedModal}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-amber-500/40 bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 font-semibold transition-colors shadow-xs cursor-pointer"
+                  title="Seleccionar qué artículos destacar en esta categoría o subcategoría"
+                >
+                  <Star className="h-3.5 w-3.5 fill-amber-300" />
+                  <span>Gestionar Destacados</span>
+                </button>
+              )}
+
+              {featuredArticles.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setIsFeaturedMinimized(!isFeaturedMinimized)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-border/70 bg-secondary/50 hover:bg-secondary text-muted-foreground hover:text-foreground transition-all duration-300 cursor-pointer"
+                  title={isFeaturedMinimized ? "Desplegar artículos destacados" : "Minimizar artículos destacados"}
+                >
+                  <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ease-in-out ${
+                    isFeaturedMinimized ? "rotate-0" : "rotate-180"
+                  }`} />
+                  <span>{isFeaturedMinimized ? "Desplegar" : "Minimizar"}</span>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Cards Grid con animación fluida sin saltos */}
+          <div
+            className={`grid transition-[grid-template-rows,opacity] duration-400 ease-in-out relative z-10 ${
+              isFeaturedMinimized
+                ? "grid-rows-[0fr] opacity-0 pointer-events-none"
+                : "grid-rows-[1fr] opacity-100"
+            }`}
+          >
+            <div className="overflow-hidden min-h-0">
+              <div className="pt-4">
+                {featuredArticles.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {featuredArticles.map((article) => (
+                      <div key={article.id} className="relative group flex flex-col">
+                        <ArticleCard 
+                          article={article} 
+                          displayCategory={getCategoryForArticleInSection(
+                            article,
+                            activeSubcategoryObj || currentCategory,
+                            mergedCategories
+                          )}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="py-6 text-center text-xs text-muted-foreground border border-dashed border-border/60 rounded-xl relative z-10">
+                    No hay artículos para destacar en esta sección aún.
+                    {isVisualEditMode && (
+                      <div className="mt-2">
+                        <button
+                          type="button"
+                          onClick={openFeaturedModal}
+                          className="text-xs text-primary underline font-medium cursor-pointer"
+                        >
+                          Haz clic aquí para seleccionar artículos destacados manualmente
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* 3. Dropdown Filters (Desplegables de Categoría) */}
@@ -1944,28 +2288,61 @@ export function CategoryView() {
             </div>
           )}
 
-          {/* Contenedor de artículos: exactamente 2 filas enteras visibles a la vez con scroll de ratón fluido */}
+          {/* Barra superior de control e indicador de navegación por filas */}
+          {totalArticleRows > 2 && (
+            <div className="flex items-center justify-between text-xs text-muted-foreground pb-1 px-1">
+              <span className="flex items-center gap-1.5 font-medium">
+                <span>
+                  Mostrando filas <strong className="text-foreground">{articleRow + 1}</strong> y{" "}
+                  <strong className="text-foreground">
+                    {Math.min(articleRow + 2, totalArticleRows)}
+                  </strong>{" "}
+                  de <strong className="text-foreground">{totalArticleRows}</strong>
+                </span>
+                <span className="opacity-70 hidden sm:inline">• Desplázate con la ruleta para avanzar de 2 en 2 sin cortes</span>
+              </span>
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  disabled={articleRow === 0}
+                  onClick={() => setArticleRow((r) => Math.max(0, r - 1))}
+                  className="p-1 rounded-md border border-border/70 bg-card hover:bg-secondary text-foreground disabled:opacity-35 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                  title="Fila anterior"
+                >
+                  <ChevronUp className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  disabled={articleRow >= maxArticleRow}
+                  onClick={() => setArticleRow((r) => Math.min(r + 1, maxArticleRow))}
+                  className="p-1 rounded-md border border-border/70 bg-card hover:bg-secondary text-foreground disabled:opacity-35 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                  title="Fila siguiente"
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Contenedor de artículos: exactamente 2 filas enteras visibles a la vez con desplazamiento por ruleta */}
           <div
-            className={`w-full relative pr-1 ${
-              totalArticleRows > 2 ? "overflow-y-auto" : "overflow-visible"
-            }`}
+            ref={articleContainerRef}
+            className="relative overflow-hidden w-full select-none"
             style={{
-              maxHeight: twoRowsHeight && totalArticleRows > 2 ? `${twoRowsHeight}px` : undefined,
-              scrollBehavior: "smooth",
-              scrollbarWidth: "thin",
-              scrollSnapType: totalArticleRows > 2 ? "y proximity" : undefined,
+              height: `${articleContainerHeight}px`,
+              transition: "height 240ms ease"
             }}
           >
             <div
               ref={articleGridRef}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-1"
+              style={{
+                transform: `translateY(-${articleRow * articleRowStep}px)`,
+                transition: "transform 320ms cubic-bezier(0.2, 0.8, 0.25, 1)"
+              }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
               {sortedArticles.map((article) => (
-                <div
-                  key={article.id}
-                  className="scroll-mt-3"
-                  style={{ scrollSnapAlign: "start" }}
-                >
+                <div key={article.id} className="h-full">
                   <ArticleCard
                     article={article}
                     displayCategory={getCategoryForArticleInSection(

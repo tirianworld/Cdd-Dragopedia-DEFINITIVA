@@ -727,22 +727,27 @@ export function CategoryView() {
   const NewSubSelectedIcon = ICON_MAP[newSubIcon] || ICON_MAP.Sparkles || BookOpen;
 
   // Detección de columnas y altura para mostrar exactamente 2 filas enteras con desplazamiento ultrasuave por ruleta
+  // Detección de columnas y altura para mostrar exactamente 2 filas enteras con desplazamiento ultrasuave
   const [articleCols, setArticleCols] = useState<number>(3);
   const [articleCardHeight, setArticleCardHeight] = useState(400);
   const [measuredRowStep, setMeasuredRowStep] = useState<number | null>(null);
+  const [articleRow, setArticleRow] = useState(0);
+  const articleRowRef = useRef(0);
+  const maxArticleRowRef = useRef(0);
+  const lastRowAdvanceTimeRef = useRef(0);
+  const wheelAccumulatorRef = useRef(0);
+  const lastWheelTimeRef = useRef(0);
+
+  // Físicas continuas con rAF (zero-jerk, buttery smooth 60/120fps)
+  const currentYRef = useRef(0);
+  const targetRowRef = useRef(0);
+  const targetYRef = useRef(0);
+  const animFrameRef = useRef<number | null>(null);
+  const isAnimatingRef = useRef(false);
+  const rowStepRef = useRef(424);
+
   const articleScrollContainerRef = useRef<HTMLDivElement | null>(null);
   const articleGridRef = useRef<HTMLDivElement | null>(null);
-  const targetScrollRef = useRef<number | null>(null);
-  const animFrameRef = useRef<number | null>(null);
-  const snapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Limpiar animaciones al desmontar
-  useEffect(() => {
-    return () => {
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-      if (snapTimerRef.current) clearTimeout(snapTimerRef.current);
-    };
-  }, []);
 
   useEffect(() => {
     const updateCols = () => {
@@ -760,23 +765,25 @@ export function CategoryView() {
   }, []);
 
   const totalArticleRows = Math.ceil(sortedArticles.length / articleCols);
-  const visibleArticleRows = Math.min(2, Math.max(1, totalArticleRows));
+  const maxArticleRow = Math.max(0, totalArticleRows - 2);
+  maxArticleRowRef.current = maxArticleRow;
 
-  // Restablecer scroll al cambiar de categoría o aplicar filtros
+  const articleGap = 24; // gap-6
+  const articleRowStep = measuredRowStep && measuredRowStep > 100
+    ? measuredRowStep
+    : (articleCardHeight + articleGap);
+
+  // Mantener rowStepRef al día
   useEffect(() => {
-    if (animFrameRef.current) {
-      cancelAnimationFrame(animFrameRef.current);
-      animFrameRef.current = null;
+    rowStepRef.current = articleRowStep;
+    targetYRef.current = targetRowRef.current * articleRowStep;
+    if (!isAnimatingRef.current) {
+      currentYRef.current = targetYRef.current;
+      if (articleGridRef.current) {
+        articleGridRef.current.style.transform = `translate3d(0, -${targetYRef.current.toFixed(2)}px, 0)`;
+      }
     }
-    if (snapTimerRef.current) {
-      clearTimeout(snapTimerRef.current);
-      snapTimerRef.current = null;
-    }
-    targetScrollRef.current = null;
-    if (articleScrollContainerRef.current) {
-      articleScrollContainerRef.current.scrollTop = 0;
-    }
-  }, [slug, selectedSubcategory, filterQuery, sortBy]);
+  }, [articleRowStep]);
 
   // Medir la altura de tarjeta y la separación real exacta para que el contenedor encaje siempre 2 filas completas
   useEffect(() => {
@@ -812,123 +819,212 @@ export function CategoryView() {
     };
   }, [sortedArticles.length, articleCols]);
 
-  const articleGap = 24; // gap-6
-  const articleRowStep = measuredRowStep || (articleCardHeight + articleGap);
-  const articleContainerHeight =
-    visibleArticleRows <= 1
-      ? articleCardHeight + 8
-      : (measuredRowStep ? measuredRowStep + articleCardHeight + 8 : articleCardHeight * 2 + articleGap + 8);
+  // Motor de animación continua por requestAnimationFrame (sin transiciones CSS que causan tirones)
+  const animateToRow = useCallback((newRow: number, immediate: boolean = false) => {
+    const maxRow = maxArticleRowRef.current;
+    const clampedRow = Math.max(0, Math.min(maxRow, newRow));
+    targetRowRef.current = clampedRow;
+    articleRowRef.current = clampedRow;
+    targetYRef.current = clampedRow * rowStepRef.current;
+    setArticleRow(clampedRow);
 
-  const startSmoothAnimation = () => {
-    if (animFrameRef.current) return;
+    if (immediate) {
+      if (animFrameRef.current !== null) {
+        cancelAnimationFrame(animFrameRef.current);
+        animFrameRef.current = null;
+      }
+      isAnimatingRef.current = false;
+      currentYRef.current = targetYRef.current;
+      if (articleGridRef.current) {
+        articleGridRef.current.style.transform = `translate3d(0, -${targetYRef.current.toFixed(2)}px, 0)`;
+      }
+      return;
+    }
 
-    const tick = () => {
-      const c = articleScrollContainerRef.current;
-      if (!c || targetScrollRef.current === null) {
+    if (isAnimatingRef.current) {
+      // El ciclo rAF ya está activo y redirigirá la velocidad suavemente hacia el nuevo targetY
+      return;
+    }
+
+    isAnimatingRef.current = true;
+    let lastTime = performance.now();
+
+    const tick = (now: number) => {
+      const dt = Math.min((now - lastTime) / 1000, 0.05); // máx 50ms para evitar saltos si se oculta la pestaña
+      lastTime = now;
+
+      const target = targetYRef.current;
+      const current = currentYRef.current;
+      const diff = target - current;
+
+      // Al acercarse a menos de 0.2px, anclar con precisión microscópica
+      if (Math.abs(diff) < 0.2) {
+        currentYRef.current = target;
+        if (articleGridRef.current) {
+          articleGridRef.current.style.transform = `translate3d(0, -${target.toFixed(2)}px, 0)`;
+        }
+        isAnimatingRef.current = false;
         animFrameRef.current = null;
         return;
       }
 
-      const current = c.scrollTop;
-      const target = targetScrollRef.current;
-      const diff = target - current;
+      // Amortiguación exponencial crítica independiente de fps: fluidez suprema y sin tirones
+      const factor = 1 - Math.exp(-17 * dt);
+      const nextY = current + diff * factor;
+      currentYRef.current = nextY;
 
-      // Factor lerp 0.22: respuesta inmediata sin lag y desaceleración sedosa
-      if (Math.abs(diff) > 0.5) {
-        c.scrollTop = current + diff * 0.22;
-        animFrameRef.current = requestAnimationFrame(tick);
-      } else {
-        c.scrollTop = target;
-        animFrameRef.current = null;
-        targetScrollRef.current = null;
+      if (articleGridRef.current) {
+        articleGridRef.current.style.transform = `translate3d(0, -${nextY.toFixed(2)}px, 0)`;
       }
+
+      animFrameRef.current = requestAnimationFrame(tick);
     };
 
     animFrameRef.current = requestAnimationFrame(tick);
-  };
+  }, []);
 
-  const handleArticleContainerWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    const container = articleScrollContainerRef.current;
-    if (!container) return;
-
-    const maxScroll = Math.max(0, container.scrollHeight - container.clientHeight);
-
-    // Si todo el contenido cabe sin scroll o hay 2 filas o menos, permitir scroll natural de la página
-    if (maxScroll <= 4 || totalArticleRows <= 2) {
-      return;
-    }
-
-    const isScrollingDown = e.deltaY > 0;
-    const isScrollingUp = e.deltaY < 0;
-
-    const currentScroll = container.scrollTop;
-    const atTop = currentScroll <= 2;
-    const atBottom = currentScroll >= maxScroll - 2;
-
-    // Si está en el tope y sigue scrolleando hacia arriba, permitir que la página se desplace
-    if (atTop && isScrollingUp) {
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-      animFrameRef.current = null;
-      targetScrollRef.current = 0;
-      return;
-    }
-    // Si está en el fondo y sigue scrolleando hacia abajo, permitir que la página se desplace
-    if (atBottom && isScrollingDown) {
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-      animFrameRef.current = null;
-      targetScrollRef.current = maxScroll;
-      return;
-    }
-
-    // Prevenir el scroll exterior de la página mientras se navega fluidamente por las tarjetas
-    e.preventDefault();
-
-    // Normalizar deltas para ratón estándar (deltaMode 1) o trackpads de alta tasa (deltaMode 0)
-    let delta = e.deltaY;
-    if (e.deltaMode === 1) {
-      // Líneas de texto (rueda de ratón de PC típica)
-      delta *= 28;
-    } else if (e.deltaMode === 2) {
-      // Páginas
-      delta *= container.clientHeight * 0.85;
-    } else {
-      // Píxeles (trackpad o ratón de rueda libre/alta resolución)
-      delta = Math.sign(delta) * Math.min(Math.abs(delta), 140);
-    }
-
-    // Acumular de forma continua y suave
-    const baseTarget = targetScrollRef.current !== null ? targetScrollRef.current : currentScroll;
-    targetScrollRef.current = Math.max(0, Math.min(maxScroll, baseTarget + delta * 1.15));
-
-    startSmoothAnimation();
-
-    // Cuando el usuario cesa de girar la rueda (220ms de inactividad), autoalinear con suavidad a la fila exacta más cercana
-    if (snapTimerRef.current) {
-      clearTimeout(snapTimerRef.current);
-    }
-    snapTimerRef.current = setTimeout(() => {
-      const c = articleScrollContainerRef.current;
-      if (!c) return;
-      const step = articleRowStep || 380;
-      if (step <= 0) return;
-
-      const current = c.scrollTop;
-      const nearestRowIndex = Math.round(current / step);
-      const snapTarget = Math.max(0, Math.min(maxScroll, nearestRowIndex * step));
-
-      if (Math.abs(current - snapTarget) > 3) {
-        targetScrollRef.current = snapTarget;
-        startSmoothAnimation();
+  // Cancelar rAF al desmontar
+  useEffect(() => {
+    return () => {
+      if (animFrameRef.current !== null) {
+        cancelAnimationFrame(animFrameRef.current);
       }
-    }, 220);
-  };
+    };
+  }, []);
 
-  const handleArticleContainerScroll = () => {
-    // Si el usuario arrastra directamente la barra de scroll y no hay animación activa, sincronizar target
-    if (!animFrameRef.current && articleScrollContainerRef.current) {
-      targetScrollRef.current = articleScrollContainerRef.current.scrollTop;
+  // Si cambia el total de filas, asegurar que no sobrepase el nuevo máximo
+  useEffect(() => {
+    if (targetRowRef.current > maxArticleRow) {
+      animateToRow(maxArticleRow, true);
     }
-  };
+  }, [maxArticleRow, animateToRow]);
+
+  // Restablecer a la fila inicial al cambiar de categoría o aplicar filtros
+  useEffect(() => {
+    wheelAccumulatorRef.current = 0;
+    animateToRow(0, true);
+  }, [slug, selectedSubcategory, filterQuery, sortBy, animateToRow]);
+
+  // Altura exacta para contener exactamente 2 filas completas sin recortar tarjetas ni asomar filas siguientes
+  const articleContainerHeight =
+    totalArticleRows <= 1
+      ? articleCardHeight + 8
+      : articleCardHeight * 2 + articleGap + 8;
+
+  // Gestor nativo no pasivo para desplazamiento ultrasuave fila por fila por rueda y táctil
+  useEffect(() => {
+    const el = articleScrollContainerRef.current;
+    if (!el) return;
+
+    const onWheel = (e: WheelEvent) => {
+      const maxRow = maxArticleRowRef.current;
+      if (maxRow <= 0) return; // Si hay 2 filas o menos, permitir scroll natural de la página
+
+      const isDown = e.deltaY > 0;
+      const isUp = e.deltaY < 0;
+      const curRow = targetRowRef.current;
+
+      // Si está en el tope superior (fila 0) y el usuario gira hacia arriba, permitir scroll exterior de la página
+      if (curRow <= 0 && isUp) {
+        wheelAccumulatorRef.current = 0;
+        return;
+      }
+
+      // Si está en el tope inferior (última fila) y el usuario gira hacia abajo, permitir scroll exterior de la página
+      if (curRow >= maxRow && isDown) {
+        wheelAccumulatorRef.current = 0;
+        return;
+      }
+
+      // Dentro del compendio: interceptar rueda y deslizar con máxima suavidad
+      e.preventDefault();
+
+      const now = performance.now();
+      if (now - lastWheelTimeRef.current > 180) {
+        wheelAccumulatorRef.current = 0;
+      }
+      lastWheelTimeRef.current = now;
+
+      wheelAccumulatorRef.current += e.deltaY;
+
+      // Umbral equilibrado (38px): responde rápido en ruedas mecánicas y suave en touchpads
+      const THRESHOLD = 38;
+
+      if (Math.abs(wheelAccumulatorRef.current) >= THRESHOLD) {
+        if (now - lastRowAdvanceTimeRef.current >= 80) {
+          lastRowAdvanceTimeRef.current = now;
+          const direction = wheelAccumulatorRef.current > 0 ? 1 : -1;
+          wheelAccumulatorRef.current = 0;
+
+          const next = Math.max(0, Math.min(maxRow, targetRowRef.current + direction));
+          if (next !== targetRowRef.current) {
+            animateToRow(next);
+          }
+        }
+      }
+    };
+
+    let touchStartY: number | null = null;
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (touchStartY === null) return;
+      const maxRow = maxArticleRowRef.current;
+      if (maxRow <= 0) return;
+
+      const deltaY = touchStartY - e.touches[0].clientY;
+      const curRow = targetRowRef.current;
+
+      // En límites superior/inferior, permitir scroll natural de la página móvil
+      if ((curRow <= 0 && deltaY < 0) || (curRow >= maxRow && deltaY > 0)) {
+        return;
+      }
+
+      if (Math.abs(deltaY) > 28) {
+        e.preventDefault();
+        const direction = deltaY > 0 ? 1 : -1;
+        touchStartY = e.touches[0].clientY;
+        const next = Math.max(0, Math.min(maxRow, curRow + direction));
+        if (next !== curRow) {
+          animateToRow(next);
+        }
+      }
+    };
+    const onTouchEnd = () => {
+      touchStartY = null;
+    };
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      const maxRow = maxArticleRowRef.current;
+      if (maxRow <= 0) return;
+      if (e.key === "ArrowDown" || e.key === "PageDown") {
+        if (targetRowRef.current < maxRow) {
+          e.preventDefault();
+          animateToRow(targetRowRef.current + 1);
+        }
+      } else if (e.key === "ArrowUp" || e.key === "PageUp") {
+        if (targetRowRef.current > 0) {
+          e.preventDefault();
+          animateToRow(targetRowRef.current - 1);
+        }
+      }
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
+    el.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+      el.removeEventListener("keydown", onKeyDown);
+    };
+  }, [totalArticleRows, maxArticleRow, animateToRow]);
 
   return (
     <div className="p-6 lg:p-8 space-y-6">
@@ -2309,40 +2405,78 @@ export function CategoryView() {
           })}
         </div>
       ) : sortedArticles.length > 0 ? (
-        /* Vista de cuadrícula estándar con 2 filas enteras visibles a la vez y desplazamiento con ratón */
-        <div className="space-y-4">
-          {isVisualEditMode && (
-            <div className="flex justify-end">
-              <button
-                type="button"
-                onClick={() => {
-                  setAssignSearchQuery("");
-                  setAssignCategoryFilter("all");
-                  setIsAssignArticlesOpen(true);
-                }}
-                className="inline-flex items-center gap-1.5 text-xs px-3.5 py-1.5 bg-primary/20 text-primary border border-primary/30 rounded-lg hover:bg-primary/35 transition-all font-semibold cursor-pointer"
-              >
-                <FolderPlus className="h-3.5 w-3.5" />
-                <span>Asignar Artículos a {currentCategory?.name || "esta categoría"}</span>
-              </button>
+        /* Vista de cuadrícula estándar: exactamente 2 filas enteras visibles a la vez con desplazamiento ultrasuave */
+        <div className="space-y-3">
+          {(isVisualEditMode || maxArticleRow > 0) && (
+            <div className="flex items-center justify-between min-h-[32px] gap-2">
+              <div className="flex-1">
+                {isVisualEditMode && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAssignSearchQuery("");
+                      setAssignCategoryFilter("all");
+                      setIsAssignArticlesOpen(true);
+                    }}
+                    className="inline-flex items-center gap-1.5 text-xs px-3.5 py-1.5 bg-primary/20 text-primary border border-primary/30 rounded-lg hover:bg-primary/35 transition-all font-semibold cursor-pointer"
+                  >
+                    <FolderPlus className="h-3.5 w-3.5" />
+                    <span>Asignar Artículos a {currentCategory?.name || "esta categoría"}</span>
+                  </button>
+                )}
+              </div>
+
+              {maxArticleRow > 0 && (
+                <div className="flex items-center gap-1 bg-secondary/50 border border-border/60 rounded-lg p-0.5 shadow-xs">
+                  <button
+                    type="button"
+                    onClick={() => animateToRow(targetRowRef.current - 1)}
+                    disabled={articleRow === 0}
+                    className={`h-7 w-7 rounded flex items-center justify-center transition-all ${
+                      articleRow === 0
+                        ? "opacity-30 text-muted-foreground cursor-not-allowed"
+                        : "hover:bg-primary/20 text-foreground hover:text-primary cursor-pointer"
+                    }`}
+                    title="Fila anterior"
+                    aria-label="Fila anterior"
+                  >
+                    <ChevronUp className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => animateToRow(targetRowRef.current + 1)}
+                    disabled={articleRow === maxArticleRow}
+                    className={`h-7 w-7 rounded flex items-center justify-center transition-all ${
+                      articleRow === maxArticleRow
+                        ? "opacity-30 text-muted-foreground cursor-not-allowed"
+                        : "hover:bg-primary/20 text-foreground hover:text-primary cursor-pointer"
+                    }`}
+                    title="Fila siguiente"
+                    aria-label="Fila siguiente"
+                  >
+                    <ChevronDown className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
-          {/* Contenedor de artículos: exactamente 2 filas enteras visibles a la vez con desplazamiento ultrasuave y fluido */}
+          {/* Contenedor de artículos: exactamente 2 filas enteras visibles a la vez sin recortes */}
           <div
             ref={articleScrollContainerRef}
-            onWheel={handleArticleContainerWheel}
-            onScroll={handleArticleContainerScroll}
-            className="relative w-full overflow-y-auto overflow-x-hidden overscroll-y-contain rounded-xl pr-1.5 focus:outline-none"
+            tabIndex={0}
+            className="relative w-full overflow-hidden rounded-xl focus:outline-none select-none"
             style={{
               maxHeight: `${articleContainerHeight}px`,
-              height: totalArticleRows <= 2 ? "auto" : `${articleContainerHeight}px`,
-              scrollbarWidth: "thin",
-              scrollbarColor: "rgba(234, 179, 8, 0.45) rgba(255, 255, 255, 0.05)"
+              height: totalArticleRows <= 2 ? "auto" : `${articleContainerHeight}px`
             }}
           >
             <div
               ref={articleGridRef}
+              style={{
+                transform: `translate3d(0, -${currentYRef.current.toFixed(2)}px, 0)`,
+                willChange: "transform"
+              }}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-1"
             >
               {sortedArticles.map((article) => (

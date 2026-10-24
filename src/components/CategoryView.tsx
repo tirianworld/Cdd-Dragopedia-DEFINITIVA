@@ -726,10 +726,14 @@ export function CategoryView() {
 
   const NewSubSelectedIcon = ICON_MAP[newSubIcon] || ICON_MAP.Sparkles || BookOpen;
 
-  // Detección de columnas y altura para mostrar exactamente 2 filas enteras con desplazamiento ultrasuave por ruleta
+  // Constantes de cuadrícula para que siempre se vean exactamente 2 filas completas
+  const ARTICLE_CARD_HEIGHT = 380;
+  const ARTICLE_GAP = 24; // gap-6
+  const DEFAULT_ROW_STEP = ARTICLE_CARD_HEIGHT + ARTICLE_GAP; // 404px
+
   // Detección de columnas y altura para mostrar exactamente 2 filas enteras con desplazamiento ultrasuave
   const [articleCols, setArticleCols] = useState<number>(3);
-  const [articleCardHeight, setArticleCardHeight] = useState(400);
+  const [articleCardHeight, setArticleCardHeight] = useState(ARTICLE_CARD_HEIGHT);
   const [measuredRowStep, setMeasuredRowStep] = useState<number | null>(null);
   const [articleRow, setArticleRow] = useState(0);
   const articleRowRef = useRef(0);
@@ -744,7 +748,7 @@ export function CategoryView() {
   const targetYRef = useRef(0);
   const animFrameRef = useRef<number | null>(null);
   const isAnimatingRef = useRef(false);
-  const rowStepRef = useRef(424);
+  const rowStepRef = useRef(DEFAULT_ROW_STEP);
 
   const articleScrollContainerRef = useRef<HTMLDivElement | null>(null);
   const articleGridRef = useRef<HTMLDivElement | null>(null);
@@ -768,7 +772,7 @@ export function CategoryView() {
   const maxArticleRow = Math.max(0, totalArticleRows - 2);
   maxArticleRowRef.current = maxArticleRow;
 
-  const articleGap = 24; // gap-6
+  const articleGap = ARTICLE_GAP;
   const articleRowStep = measuredRowStep && measuredRowStep > 100
     ? measuredRowStep
     : (articleCardHeight + articleGap);
@@ -868,8 +872,8 @@ export function CategoryView() {
         return;
       }
 
-      // Amortiguación exponencial crítica independiente de fps: fluidez suprema y sin tirones
-      const factor = 1 - Math.exp(-17 * dt);
+      // Amortiguación exponencial crítica: máxima fluidez y sin tirones
+      const factor = 1 - Math.exp(-15 * dt);
       const nextY = current + diff * factor;
       currentYRef.current = nextY;
 
@@ -905,11 +909,12 @@ export function CategoryView() {
     animateToRow(0, true);
   }, [slug, selectedSubcategory, filterQuery, sortBy, animateToRow]);
 
-  // Altura exacta para contener exactamente 2 filas completas sin recortar tarjetas ni asomar filas siguientes
+  // Altura exacta para contener siempre exactamente 2 filas completas sin recortar tarjetas ni asomar filas siguientes
+  const effectiveCardHeight = articleCardHeight || ARTICLE_CARD_HEIGHT;
   const articleContainerHeight =
     totalArticleRows <= 1
-      ? articleCardHeight + 8
-      : articleCardHeight * 2 + articleGap + 8;
+      ? effectiveCardHeight + 8
+      : effectiveCardHeight * 2 + articleGap + 8;
 
   // Gestor nativo no pasivo para desplazamiento ultrasuave fila por fila por rueda y táctil
   useEffect(() => {
@@ -940,18 +945,18 @@ export function CategoryView() {
       e.preventDefault();
 
       const now = performance.now();
-      if (now - lastWheelTimeRef.current > 180) {
+      if (now - lastWheelTimeRef.current > 200) {
         wheelAccumulatorRef.current = 0;
       }
       lastWheelTimeRef.current = now;
 
       wheelAccumulatorRef.current += e.deltaY;
 
-      // Umbral equilibrado (38px): responde rápido en ruedas mecánicas y suave en touchpads
-      const THRESHOLD = 38;
+      // Umbral equilibrado (48px) y enfriamiento de 180ms para avanzar fila a fila con precisión de seda sin saltos accidentales
+      const THRESHOLD = 48;
 
       if (Math.abs(wheelAccumulatorRef.current) >= THRESHOLD) {
-        if (now - lastRowAdvanceTimeRef.current >= 80) {
+        if (now - lastRowAdvanceTimeRef.current >= 180) {
           lastRowAdvanceTimeRef.current = now;
           const direction = wheelAccumulatorRef.current > 0 ? 1 : -1;
           wheelAccumulatorRef.current = 0;
@@ -2468,7 +2473,7 @@ export function CategoryView() {
             className="relative w-full overflow-hidden rounded-xl focus:outline-none select-none"
             style={{
               maxHeight: `${articleContainerHeight}px`,
-              height: totalArticleRows <= 2 ? "auto" : `${articleContainerHeight}px`
+              height: totalArticleRows <= 1 ? "auto" : `${articleContainerHeight}px`
             }}
           >
             <div
@@ -2477,10 +2482,10 @@ export function CategoryView() {
                 transform: `translate3d(0, -${currentYRef.current.toFixed(2)}px, 0)`,
                 willChange: "transform"
               }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-1"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-1 auto-rows-[380px]"
             >
               {sortedArticles.map((article) => (
-                <div key={article.id} className="h-full">
+                <div key={article.id} className="h-[380px] w-full">
                   <ArticleCard
                     article={article}
                     displayCategory={getCategoryForArticleInSection(

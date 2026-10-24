@@ -75,11 +75,11 @@ export function ArticleCard({ article, compact = false, useRootCategory = false,
     <Link 
       to={`/articulo/${article.slug}`}
       state={{ fromCategory: displayedCategory }}
-      className="group bg-card hover:bg-secondary/35 border border-border rounded-xl overflow-hidden flex flex-col h-full transition-all hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5 duration-200"
+      className="group bg-card hover:bg-secondary/35 border border-border rounded-xl overflow-hidden flex flex-col h-[380px] min-h-[380px] max-h-[380px] transition-all hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5 duration-200 w-full"
     >
       {/* Article thumbnail */}
       {safeImageUrl ? (
-        <div className="w-full h-44 overflow-hidden relative border-b border-border">
+        <div className="w-full h-44 overflow-hidden relative border-b border-border shrink-0">
           <img 
             src={safeImageUrl} 
             alt={article.title}
@@ -100,7 +100,7 @@ export function ArticleCard({ article, compact = false, useRootCategory = false,
         </div>
       ) : (
         <div 
-          className="w-full h-44 bg-gradient-to-br from-secondary/60 via-secondary/25 to-card flex flex-col justify-end p-4 relative border-b border-border overflow-hidden"
+          className="w-full h-44 bg-gradient-to-br from-secondary/60 via-secondary/25 to-card flex flex-col justify-end p-4 relative border-b border-border overflow-hidden shrink-0"
           style={{ borderTop: `4px solid ${themeColor}` }}
         >
           <div className="absolute top-4 right-4 h-12 w-12 rounded-xl bg-secondary/80 flex items-center justify-center border border-border shadow-xs">
@@ -116,18 +116,18 @@ export function ArticleCard({ article, compact = false, useRootCategory = false,
       )}
 
       {/* Card Content */}
-      <div className="p-5 flex-1 flex flex-col justify-between">
+      <div className="p-5 flex-1 flex flex-col justify-between min-h-0">
         <div>
-          <h3 className="font-heading text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-1">
+          <h3 className="font-heading text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-1 shrink-0">
             {article.title}
           </h3>
-          <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed">
+          <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed min-h-[3.6rem] overflow-hidden">
             {article.summary || "Explora las leyendas, el origen y los misterios asociados a este elemento del universo."}
           </p>
         </div>
 
         {/* Footer/Meta */}
-        <div className="flex items-center justify-between text-[10px] text-muted-foreground pt-4 mt-4 border-t border-border/40">
+        <div className="flex items-center justify-between text-[10px] text-muted-foreground pt-3 mt-2 border-t border-border/40 shrink-0">
           <div className="flex items-center gap-1">
             <Clock className="h-3 w-3 text-muted-foreground" />
             <span>{article.updated_date ? new Date(article.updated_date).toLocaleDateString() : "Ancestral"}</span>

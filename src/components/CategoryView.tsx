@@ -2454,73 +2454,35 @@ export function CategoryView() {
               </div>
 
               {maxArticleRow > 0 && (
-                <div className="flex items-center gap-2">
-                  {/* Badge HUD interactivo: indicador de filas con estilo del tema */}
-                  <div 
-                    className="inline-flex items-center gap-2 px-3 py-1 rounded-xl border bg-card/90 text-xs font-medium shadow-xs backdrop-blur-md"
-                    style={{ borderColor: `${themeColor}40` }}
+                <div className="flex items-center gap-1 bg-secondary/60 border border-border/70 rounded-xl p-0.5 shadow-xs">
+                  <button
+                    type="button"
+                    onClick={() => animateToRow(articleRow - 1, false, -120)}
+                    disabled={articleRow === 0}
+                    className={`h-7 w-7 rounded-lg flex items-center justify-center transition-all active:scale-90 ${
+                      articleRow === 0
+                        ? "opacity-25 text-muted-foreground cursor-not-allowed"
+                        : "hover:bg-primary/20 text-foreground hover:text-primary cursor-pointer hover:shadow-xs"
+                    }`}
+                    title="Fila anterior (Flecha Arriba)"
+                    aria-label="Fila anterior"
                   >
-                    <div className="flex items-center gap-1.5">
-                      <Layers className="h-3.5 w-3.5" style={{ color: themeColor }} />
-                      <span className="text-muted-foreground text-[11px] font-semibold select-none">
-                        Filas <span className="text-foreground font-bold">{articleRow + 1} - {Math.min(totalArticleRows, articleRow + 2)}</span>
-                        <span className="text-muted-foreground/60 font-normal"> de {totalArticleRows}</span>
-                      </span>
-                    </div>
-
-                    {/* Mini píldoras interactivas de fila */}
-                    <div className="flex items-center gap-1 pl-1.5 border-l border-border/60">
-                      {Array.from({ length: maxArticleRow + 1 }).map((_, idx) => (
-                        <button
-                          key={idx}
-                          type="button"
-                          onClick={() => animateToRow(idx, false, idx > articleRow ? 110 : -110)}
-                          title={`Ir a fila ${idx + 1}`}
-                          className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                            articleRow === idx
-                              ? "w-4.5 shadow-xs"
-                              : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/60"
-                          }`}
-                          style={{
-                            backgroundColor: articleRow === idx ? themeColor : undefined,
-                            boxShadow: articleRow === idx ? `0 0 8px ${themeColor}70` : undefined
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Botones de navegación táctiles con micro-interacción activa */}
-                  <div className="flex items-center gap-1 bg-secondary/60 border border-border/70 rounded-xl p-0.5 shadow-xs">
-                    <button
-                      type="button"
-                      onClick={() => animateToRow(articleRow - 1, false, -120)}
-                      disabled={articleRow === 0}
-                      className={`h-7 w-7 rounded-lg flex items-center justify-center transition-all active:scale-90 ${
-                        articleRow === 0
-                          ? "opacity-25 text-muted-foreground cursor-not-allowed"
-                          : "hover:bg-primary/20 text-foreground hover:text-primary cursor-pointer hover:shadow-xs"
-                      }`}
-                      title="Fila anterior (Flecha Arriba)"
-                      aria-label="Fila anterior"
-                    >
-                      <ChevronUp className="h-4 w-4" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => animateToRow(articleRow + 1, false, 120)}
-                      disabled={articleRow === maxArticleRow}
-                      className={`h-7 w-7 rounded-lg flex items-center justify-center transition-all active:scale-90 ${
-                        articleRow === maxArticleRow
-                          ? "opacity-25 text-muted-foreground cursor-not-allowed"
-                          : "hover:bg-primary/20 text-foreground hover:text-primary cursor-pointer hover:shadow-xs"
-                      }`}
-                      title="Fila siguiente (Flecha Abajo)"
-                      aria-label="Fila siguiente"
-                    >
-                      <ChevronDown className="h-4 w-4" />
-                    </button>
-                  </div>
+                    <ChevronUp className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => animateToRow(articleRow + 1, false, 120)}
+                    disabled={articleRow === maxArticleRow}
+                    className={`h-7 w-7 rounded-lg flex items-center justify-center transition-all active:scale-90 ${
+                      articleRow === maxArticleRow
+                        ? "opacity-25 text-muted-foreground cursor-not-allowed"
+                        : "hover:bg-primary/20 text-foreground hover:text-primary cursor-pointer hover:shadow-xs"
+                    }`}
+                    title="Fila siguiente (Flecha Abajo)"
+                    aria-label="Fila siguiente"
+                  >
+                    <ChevronDown className="h-4 w-4" />
+                  </button>
                 </div>
               )}
             </div>

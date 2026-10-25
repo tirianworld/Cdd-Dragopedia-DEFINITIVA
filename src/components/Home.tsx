@@ -199,42 +199,45 @@ export function Home() {
     }
   }, [rootCategories.length, numCols]);
 
-  // Native wheel and touch event handling to step row by row cleanly without scrollbars
+  const wheelAccumulatorRef = useRef(0);
+  const lastRowAdvanceTimeRef = useRef(0);
+
+  // Native wheel and touch event handling to step row by row cleanly without moving the rest of the web
   useEffect(() => {
     const el = categoryContainerRef.current;
     if (!el) return;
 
     const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) < 15) return;
+      // Bloquear de forma absoluta el scroll del resto de la web mientras el cursor esté en este cuadrante
+      e.preventDefault();
+      e.stopPropagation();
 
-      const now = Date.now();
-      const isDown = e.deltaY > 0;
-      const isUp = e.deltaY < 0;
+      const maxRow = maxRowRef.current;
+      if (maxRow <= 0) return;
 
-      if (isDown && currentRowRef.current < maxRowRef.current) {
-        e.preventDefault();
-        if (now - lastWheelTimeRef.current > 160) {
-          lastWheelTimeRef.current = now;
-          setCurrentRow((r) => {
-            const next = Math.min(r + 1, maxRowRef.current);
-            currentRowRef.current = next;
-            return next;
-          });
-        }
-        return;
+      const now = performance.now();
+      if (now - lastWheelTimeRef.current > 200) {
+        wheelAccumulatorRef.current = 0;
       }
+      lastWheelTimeRef.current = now;
 
-      if (isUp && currentRowRef.current > 0) {
-        e.preventDefault();
-        if (now - lastWheelTimeRef.current > 160) {
-          lastWheelTimeRef.current = now;
+      wheelAccumulatorRef.current += e.deltaY;
+
+      // Umbral equilibrado (35px) y cooldown de 160ms para avanzar fila a fila con precisión y sin saltos bruscos
+      const THRESHOLD = 35;
+
+      if (Math.abs(wheelAccumulatorRef.current) >= THRESHOLD) {
+        if (now - lastRowAdvanceTimeRef.current >= 160) {
+          lastRowAdvanceTimeRef.current = now;
+          const direction = wheelAccumulatorRef.current > 0 ? 1 : -1;
+          wheelAccumulatorRef.current = 0;
+
           setCurrentRow((r) => {
-            const next = Math.max(r - 1, 0);
+            const next = Math.max(0, Math.min(maxRow, r + direction));
             currentRowRef.current = next;
             return next;
           });
         }
-        return;
       }
     };
 
@@ -245,23 +248,22 @@ export function Home() {
     const onTouchMove = (e: TouchEvent) => {
       if (touchStartYRef.current === null) return;
       const deltaY = touchStartYRef.current - e.touches[0].clientY;
-      const now = Date.now();
+      const maxRow = maxRowRef.current;
+      if (maxRow <= 0) return;
 
-      if (Math.abs(deltaY) > 35) {
-        if (deltaY > 0 && currentRowRef.current < maxRowRef.current) {
-          e.preventDefault();
-          if (now - lastWheelTimeRef.current > 260) {
-            lastWheelTimeRef.current = now;
-            touchStartYRef.current = e.touches[0].clientY;
-            setCurrentRow((r) => Math.min(r + 1, maxRowRef.current));
-          }
-        } else if (deltaY < 0 && currentRowRef.current > 0) {
-          e.preventDefault();
-          if (now - lastWheelTimeRef.current > 260) {
-            lastWheelTimeRef.current = now;
-            touchStartYRef.current = e.touches[0].clientY;
-            setCurrentRow((r) => Math.max(r - 1, 0));
-          }
+      if (Math.abs(deltaY) > 28) {
+        e.preventDefault();
+        e.stopPropagation();
+        const now = performance.now();
+        if (now - lastRowAdvanceTimeRef.current >= 180) {
+          lastRowAdvanceTimeRef.current = now;
+          const direction = deltaY > 0 ? 1 : -1;
+          touchStartYRef.current = e.touches[0].clientY;
+          setCurrentRow((r) => {
+            const next = Math.max(0, Math.min(maxRow, r + direction));
+            currentRowRef.current = next;
+            return next;
+          });
         }
       }
     };
@@ -511,6 +513,40 @@ export function Home() {
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Controles de fila para avanzar/retroceder directamente */}
+            {maxCategoryRow > 0 && !isHomeCategoriesMinimized && (
+              <div className="flex items-center gap-1 bg-secondary/50 border border-border/60 rounded-lg p-0.5 shadow-xs">
+                <button
+                  type="button"
+                  onClick={() => setCurrentRow((r) => Math.max(0, r - 1))}
+                  disabled={currentRow === 0}
+                  className={`h-7 w-7 rounded flex items-center justify-center transition-all ${
+                    currentRow === 0
+                      ? "opacity-30 text-muted-foreground cursor-not-allowed"
+                      : "hover:bg-primary/20 text-foreground hover:text-primary cursor-pointer"
+                  }`}
+                  title="Fila anterior de categorías"
+                  aria-label="Fila anterior"
+                >
+                  <ChevronUp className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCurrentRow((r) => Math.min(maxCategoryRow, r + 1))}
+                  disabled={currentRow === maxCategoryRow}
+                  className={`h-7 w-7 rounded flex items-center justify-center transition-all ${
+                    currentRow === maxCategoryRow
+                      ? "opacity-30 text-muted-foreground cursor-not-allowed"
+                      : "hover:bg-primary/20 text-foreground hover:text-primary cursor-pointer"
+                  }`}
+                  title="Fila siguiente de categorías"
+                  aria-label="Fila siguiente"
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+              </div>
+            )}
+
             {/* Toggle minimize button */}
             <button
               type="button"
@@ -589,8 +625,11 @@ export function Home() {
           <div className="overflow-hidden min-h-0">
             <div
               ref={categoryContainerRef}
-              className="relative overflow-hidden w-full select-none pt-0.5"
-              style={{ height: `${containerHeight}px` }}
+              className="relative overflow-hidden w-full select-none pt-0.5 overscroll-contain"
+              style={{
+                height: `${containerHeight}px`,
+                overscrollBehavior: "contain"
+              }}
             >
               <div
                 ref={categoryGridRef}

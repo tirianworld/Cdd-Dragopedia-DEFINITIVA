@@ -922,27 +922,12 @@ export function CategoryView() {
     if (!el) return;
 
     const onWheel = (e: WheelEvent) => {
-      const maxRow = maxArticleRowRef.current;
-      if (maxRow <= 0) return; // Si hay 2 filas o menos, permitir scroll natural de la página
-
-      const isDown = e.deltaY > 0;
-      const isUp = e.deltaY < 0;
-      const curRow = targetRowRef.current;
-
-      // Si está en el tope superior (fila 0) y el usuario gira hacia arriba, permitir scroll exterior de la página
-      if (curRow <= 0 && isUp) {
-        wheelAccumulatorRef.current = 0;
-        return;
-      }
-
-      // Si está en el tope inferior (última fila) y el usuario gira hacia abajo, permitir scroll exterior de la página
-      if (curRow >= maxRow && isDown) {
-        wheelAccumulatorRef.current = 0;
-        return;
-      }
-
-      // Dentro del compendio: interceptar rueda y deslizar con máxima suavidad
+      // Bloquear de forma absoluta el scroll del resto de la web mientras el cursor esté aquí
       e.preventDefault();
+      e.stopPropagation();
+
+      const maxRow = maxArticleRowRef.current;
+      if (maxRow <= 0) return;
 
       const now = performance.now();
       if (now - lastWheelTimeRef.current > 200) {
@@ -2470,10 +2455,11 @@ export function CategoryView() {
           <div
             ref={articleScrollContainerRef}
             tabIndex={0}
-            className="relative w-full overflow-hidden rounded-xl focus:outline-none select-none"
+            className="relative w-full overflow-hidden rounded-xl focus:outline-none select-none overscroll-contain"
             style={{
               maxHeight: `${articleContainerHeight}px`,
-              height: totalArticleRows <= 1 ? "auto" : `${articleContainerHeight}px`
+              height: totalArticleRows <= 1 ? "auto" : `${articleContainerHeight}px`,
+              overscrollBehavior: "contain"
             }}
           >
             <div

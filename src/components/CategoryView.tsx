@@ -2530,27 +2530,13 @@ export function CategoryView() {
           <div
             ref={articleScrollContainerRef}
             tabIndex={0}
-            className="relative w-full overflow-hidden rounded-xl focus:outline-none select-none overscroll-contain group/slider"
+            className="relative w-full overflow-hidden rounded-xl focus:outline-none select-none overscroll-contain"
             style={{
               maxHeight: `${articleContainerHeight}px`,
               height: totalArticleRows <= 1 ? "auto" : `${articleContainerHeight}px`,
               overscrollBehavior: "contain"
             }}
           >
-            {/* Pista lateral visual sutil de posición de scroll */}
-            {maxArticleRow > 0 && (
-              <div className="absolute right-1 top-3 bottom-3 w-1 rounded-full bg-border/25 pointer-events-none z-10 hidden sm:block opacity-40 group-hover/slider:opacity-90 transition-opacity">
-                <div 
-                  className="w-full rounded-full transition-all duration-200"
-                  style={{
-                    backgroundColor: themeColor,
-                    boxShadow: `0 0 6px ${themeColor}80`,
-                    height: `${Math.max(18, (2 / totalArticleRows) * 100)}%`,
-                    transform: `translateY(${maxArticleRow > 0 ? articleRow * ((100 - Math.max(18, (2 / totalArticleRows) * 100)) / maxArticleRow) : 0}%)`
-                  }}
-                />
-              </div>
-            )}
             <div
               ref={articleGridRef}
               style={{

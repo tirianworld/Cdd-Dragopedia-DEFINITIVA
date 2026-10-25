@@ -513,39 +513,6 @@ export function Home() {
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Controles de fila para avanzar/retroceder directamente */}
-            {maxCategoryRow > 0 && !isHomeCategoriesMinimized && (
-              <div className="flex items-center gap-1 bg-secondary/50 border border-border/60 rounded-lg p-0.5 shadow-xs">
-                <button
-                  type="button"
-                  onClick={() => setCurrentRow((r) => Math.max(0, r - 1))}
-                  disabled={currentRow === 0}
-                  className={`h-7 w-7 rounded flex items-center justify-center transition-all ${
-                    currentRow === 0
-                      ? "opacity-30 text-muted-foreground cursor-not-allowed"
-                      : "hover:bg-primary/20 text-foreground hover:text-primary cursor-pointer"
-                  }`}
-                  title="Fila anterior de categorías"
-                  aria-label="Fila anterior"
-                >
-                  <ChevronUp className="h-4 w-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCurrentRow((r) => Math.min(maxCategoryRow, r + 1))}
-                  disabled={currentRow === maxCategoryRow}
-                  className={`h-7 w-7 rounded flex items-center justify-center transition-all ${
-                    currentRow === maxCategoryRow
-                      ? "opacity-30 text-muted-foreground cursor-not-allowed"
-                      : "hover:bg-primary/20 text-foreground hover:text-primary cursor-pointer"
-                  }`}
-                  title="Fila siguiente de categorías"
-                  aria-label="Fila siguiente"
-                >
-                  <ChevronDown className="h-4 w-4" />
-                </button>
-              </div>
-            )}
 
             {/* Toggle minimize button */}
             <button

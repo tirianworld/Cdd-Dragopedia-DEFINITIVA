@@ -2434,57 +2434,22 @@ export function CategoryView() {
       ) : sortedArticles.length > 0 ? (
         /* Vista de cuadrícula estándar: exactamente 2 filas enteras visibles a la vez con desplazamiento ultrasuave */
         <div className="space-y-3">
-          {(isVisualEditMode || maxArticleRow > 0) && (
+          {isVisualEditMode && (
             <div className="flex flex-wrap items-center justify-between min-h-[36px] gap-2.5 px-0.5">
               <div className="flex-1">
-                {isVisualEditMode && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setAssignSearchQuery("");
-                      setAssignCategoryFilter("all");
-                      setIsAssignArticlesOpen(true);
-                    }}
-                    className="inline-flex items-center gap-1.5 text-xs px-3.5 py-1.5 bg-primary/20 text-primary border border-primary/30 rounded-lg hover:bg-primary/35 transition-all font-semibold cursor-pointer shadow-2xs"
-                  >
-                    <FolderPlus className="h-3.5 w-3.5" />
-                    <span>Asignar Artículos a {currentCategory?.name || "esta categoría"}</span>
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAssignSearchQuery("");
+                    setAssignCategoryFilter("all");
+                    setIsAssignArticlesOpen(true);
+                  }}
+                  className="inline-flex items-center gap-1.5 text-xs px-3.5 py-1.5 bg-primary/20 text-primary border border-primary/30 rounded-lg hover:bg-primary/35 transition-all font-semibold cursor-pointer shadow-2xs"
+                >
+                  <FolderPlus className="h-3.5 w-3.5" />
+                  <span>Asignar Artículos a {currentCategory?.name || "esta categoría"}</span>
+                </button>
               </div>
-
-              {maxArticleRow > 0 && (
-                <div className="flex items-center gap-1 bg-secondary/60 border border-border/70 rounded-xl p-0.5 shadow-xs">
-                  <button
-                    type="button"
-                    onClick={() => animateToRow(articleRow - 1, false, -120)}
-                    disabled={articleRow === 0}
-                    className={`h-7 w-7 rounded-lg flex items-center justify-center transition-all active:scale-90 ${
-                      articleRow === 0
-                        ? "opacity-25 text-muted-foreground cursor-not-allowed"
-                        : "hover:bg-primary/20 text-foreground hover:text-primary cursor-pointer hover:shadow-xs"
-                    }`}
-                    title="Fila anterior (Flecha Arriba)"
-                    aria-label="Fila anterior"
-                  >
-                    <ChevronUp className="h-4 w-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => animateToRow(articleRow + 1, false, 120)}
-                    disabled={articleRow === maxArticleRow}
-                    className={`h-7 w-7 rounded-lg flex items-center justify-center transition-all active:scale-90 ${
-                      articleRow === maxArticleRow
-                        ? "opacity-25 text-muted-foreground cursor-not-allowed"
-                        : "hover:bg-primary/20 text-foreground hover:text-primary cursor-pointer hover:shadow-xs"
-                    }`}
-                    title="Fila siguiente (Flecha Abajo)"
-                    aria-label="Fila siguiente"
-                  >
-                    <ChevronDown className="h-4 w-4" />
-                  </button>
-                </div>
-              )}
             </div>
           )}
 

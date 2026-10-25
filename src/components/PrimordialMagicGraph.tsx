@@ -424,7 +424,7 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
   const [showRuneRings, setShowRuneRings] = useState(true);
   const [showParticles, setShowParticles] = useState(true);
   const [isLivePulsing, setIsLivePulsing] = useState(true);
-  const [showSpells, setShowSpells] = useState(true);
+  const [showSpells, setShowSpells] = useState(false);
   const [labelDensity, setLabelDensity] = useState<"all" | "major" | "focused">("major");
 
   // Submagia custom color state & persistence

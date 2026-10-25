@@ -23,6 +23,7 @@ import { SPELL_FUNCTIONALITIES } from '../data/spellFunctionalities';
 import { SPELL_TARGET_OPTIONS } from '../data/spellTargets';
 import { SPELL_ORIGIN_OPTIONS } from '../data/spellOrigins';
 import { CLASS_OPTIONS } from '../data/classOptions';
+import { AccordionCollapse } from './AccordionCollapse';
 
 interface DragopediaSidebarProps {
   currentTab: ViewTab;
@@ -317,14 +318,14 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                 <FolderTree className="w-3 h-3 text-[#bafafd]" />
                 <span>{language === 'es' ? 'DISTRIBUCIÓN Y VISTA' : 'DISTRIBUTION & VIEW'}</span>
               </div>
-              {collapsedSections.distribution ? (
-                <ChevronRight className="w-3.5 h-3.5" />
-              ) : (
-                <ChevronDown className="w-3.5 h-3.5" />
-              )}
+              <ChevronDown
+                className={`w-3.5 h-3.5 transition-transform duration-200 ease-in-out ${
+                  collapsedSections.distribution ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                }`}
+              />
             </button>
 
-            {!collapsedSections.distribution && (
+            <AccordionCollapse isOpen={!collapsedSections.distribution} duration="duration-200">
               <div className="space-y-3 mt-2">
                 <div>
                   <div className="text-[9px] uppercase tracking-wider text-[#8a9ba8]/80 mb-1 px-1">
@@ -426,7 +427,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                   </div>
                 </div>
               </div>
-            )}
+            </AccordionCollapse>
           </div>
 
           {/* MAGIAS PRIMORDIALES */}
@@ -438,11 +439,11 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                 className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-[#bafafd] font-heading cursor-pointer hover:underline"
               >
                 <span>{language === 'es' ? 'MAGIAS PRIMORDIALES' : 'PRIMORDIAL MAGICS'}</span>
-                {collapsedSections.primordial ? (
-                  <ChevronRight className="w-3.5 h-3.5 text-[#bafafd]" />
-                ) : (
-                  <ChevronDown className="w-3.5 h-3.5 text-[#bafafd]" />
-                )}
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ease-in-out ${
+                    collapsedSections.primordial ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                  }`}
+                />
               </button>
               {((selectedPrimordials && selectedPrimordials.length > 0) || selectedPrimordial) && (
                 <button
@@ -461,7 +462,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
               )}
             </div>
 
-            {!collapsedSections.primordial && (
+            <AccordionCollapse isOpen={!collapsedSections.primordial} duration="duration-200">
               <div className="space-y-3">
                 {/* 1ª Generación */}
                 <div>
@@ -615,7 +616,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                   </div>
                 </div>
               </div>
-            )}
+            </AccordionCollapse>
           </div>
 
           {/* Lore / Magic Schools Section */}
@@ -627,11 +628,11 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                 className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-[#8a9ba8] hover:text-[#bafafd] font-heading cursor-pointer transition-colors"
               >
                 <span>{language === 'es' ? 'ESCUELAS DE MAGIA' : 'MAGIC SCHOOLS'}</span>
-                {collapsedSections.schools ? (
-                  <ChevronRight className="w-3.5 h-3.5" />
-                ) : (
-                  <ChevronDown className="w-3.5 h-3.5" />
-                )}
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ease-in-out ${
+                    collapsedSections.schools ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                  }`}
+                />
               </button>
               {((selectedSchools && selectedSchools.length > 0) || selectedSchool) && (
                 <button
@@ -650,7 +651,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
               )}
             </div>
 
-            {!collapsedSections.schools && (
+            <AccordionCollapse isOpen={!collapsedSections.schools} duration="duration-200">
               <div className="space-y-1">
                 {ALL_SCHOOLS.map((school) => {
                   const activeSchools = selectedSchools || (selectedSchool ? [selectedSchool] : []);
@@ -707,7 +708,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                   );
                 })}
               </div>
-            )}
+            </AccordionCollapse>
           </div>
 
           {/* Damage Types Section */}
@@ -719,11 +720,11 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                 className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-[#8a9ba8] hover:text-[#bafafd] font-heading cursor-pointer transition-colors"
               >
                 <span>{language === 'es' ? 'TIPO DE DAÑO' : 'DAMAGE TYPE'}</span>
-                {collapsedSections.damage ? (
-                  <ChevronRight className="w-3.5 h-3.5" />
-                ) : (
-                  <ChevronDown className="w-3.5 h-3.5" />
-                )}
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ease-in-out ${
+                    collapsedSections.damage ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                  }`}
+                />
               </button>
               {(((selectedDamageTypes && selectedDamageTypes.length > 0) || Boolean(selectedDamageType)) && onToggleDamageType) && (
                 <button
@@ -742,7 +743,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
               )}
             </div>
 
-            {!collapsedSections.damage && (
+            <AccordionCollapse isOpen={!collapsedSections.damage} duration="duration-200">
               <div className="space-y-1">
                 {DAMAGE_TYPES.map((dt) => {
                   const activeDamageTypes = selectedDamageTypes || (selectedDamageType ? [selectedDamageType] : []);
@@ -788,7 +789,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                   );
                 })}
               </div>
-            )}
+            </AccordionCollapse>
           </div>
 
           {/* Funcionalidad Section (Debajo de Tipo de Daño) */}
@@ -800,11 +801,11 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                 className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-[#8a9ba8] hover:text-[#bafafd] font-heading cursor-pointer transition-colors"
               >
                 <span>{language === 'es' ? 'FUNCIONALIDAD' : 'FUNCTIONALITY'}</span>
-                {collapsedSections.functionality ? (
-                  <ChevronRight className="w-3.5 h-3.5" />
-                ) : (
-                  <ChevronDown className="w-3.5 h-3.5" />
-                )}
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ease-in-out ${
+                    collapsedSections.functionality ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                  }`}
+                />
               </button>
               {(selectedFunctionalities && selectedFunctionalities.length > 0 && onToggleFunctionality) && (
                 <button
@@ -823,7 +824,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
               )}
             </div>
 
-            {!collapsedSections.functionality && (
+            <AccordionCollapse isOpen={!collapsedSections.functionality} duration="duration-200">
               <div className="space-y-1">
                 {SPELL_FUNCTIONALITIES.map((fn) => {
                   const isSelected = selectedFunctionalities?.includes(fn.id);
@@ -868,7 +869,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                   );
                 })}
               </div>
-            )}
+            </AccordionCollapse>
           </div>
 
           {/* Objetivos Section */}
@@ -880,11 +881,11 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                 className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-[#8a9ba8] hover:text-[#bafafd] font-heading cursor-pointer transition-colors"
               >
                 <span>{language === 'es' ? 'OBJETIVOS' : 'TARGETS'}</span>
-                {collapsedSections.targets ? (
-                  <ChevronRight className="w-3.5 h-3.5" />
-                ) : (
-                  <ChevronDown className="w-3.5 h-3.5" />
-                )}
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ease-in-out ${
+                    collapsedSections.targets ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                  }`}
+                />
               </button>
               {(selectedTargets && selectedTargets.length > 0 && onClearTargets) && (
                 <button
@@ -897,7 +898,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
               )}
             </div>
 
-            {!collapsedSections.targets && (
+            <AccordionCollapse isOpen={!collapsedSections.targets} duration="duration-200">
               <div className="space-y-1">
                 {/* Todos Button */}
                 <button
@@ -980,7 +981,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                   );
                 })}
               </div>
-            )}
+            </AccordionCollapse>
           </div>
 
           {/* Origen Section (Infernal, Celestial, Elemental, Feérica, Shadowfell, Onírico, Astral) */}
@@ -992,11 +993,11 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                 className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-[#8a9ba8] hover:text-[#bafafd] font-heading cursor-pointer transition-colors"
               >
                 <span>{language === 'es' ? 'ORIGEN' : 'ORIGIN'}</span>
-                {collapsedSections.origins ? (
-                  <ChevronRight className="w-3.5 h-3.5" />
-                ) : (
-                  <ChevronDown className="w-3.5 h-3.5" />
-                )}
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ease-in-out ${
+                    collapsedSections.origins ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                  }`}
+                />
               </button>
               {(selectedOrigins && selectedOrigins.length > 0 && onClearOrigins) && (
                 <button
@@ -1009,7 +1010,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
               )}
             </div>
 
-            {!collapsedSections.origins && (
+            <AccordionCollapse isOpen={!collapsedSections.origins} duration="duration-200">
               <div className="space-y-1">
                 {/* Todos Button */}
                 <button
@@ -1093,7 +1094,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                   );
                 })}
               </div>
-            )}
+            </AccordionCollapse>
           </div>
 
           {/* Classes Section */}
@@ -1105,11 +1106,11 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                 className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-[#8a9ba8] hover:text-[#bafafd] font-heading cursor-pointer transition-colors"
               >
                 <span>{language === 'es' ? 'CLASES DE LANZADOR' : 'CASTER CLASSES'}</span>
-                {collapsedSections.classes ? (
-                  <ChevronRight className="w-3.5 h-3.5" />
-                ) : (
-                  <ChevronDown className="w-3.5 h-3.5" />
-                )}
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ease-in-out ${
+                    collapsedSections.classes ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                  }`}
+                />
               </button>
               {((selectedClasses && selectedClasses.length > 0) || selectedClass) && (
                 <button
@@ -1128,7 +1129,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
               )}
             </div>
 
-            {!collapsedSections.classes && (
+            <AccordionCollapse isOpen={!collapsedSections.classes} duration="duration-200">
               <div className="space-y-1">
                 {CLASS_OPTIONS.map((clsOpt) => {
                   const activeClasses = selectedClasses || (selectedClass ? [selectedClass] : []);
@@ -1173,7 +1174,7 @@ export const DragopediaSidebar: React.FC<DragopediaSidebarProps> = ({
                   );
                 })}
               </div>
-            )}
+            </AccordionCollapse>
           </div>
         </div>
 

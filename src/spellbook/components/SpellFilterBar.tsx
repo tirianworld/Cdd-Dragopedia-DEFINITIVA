@@ -33,6 +33,7 @@ import { SPELL_ORIGIN_OPTIONS } from '../data/spellOrigins';
 import { getSchoolTheme } from '../data/schools';
 import { CLASS_OPTIONS } from '../data/classOptions';
 import { MesaRedondaWatermark } from './MesaRedondaWatermark';
+import { AccordionCollapse } from './AccordionCollapse';
 
 interface SpellFilterBarProps {
   filter: FilterState;
@@ -535,16 +536,20 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
           >
             <SlidersHorizontal className="w-3.5 h-3.5 text-[#bafafd]" />
             <span className="hidden sm:inline">{language === 'es' ? 'Filtros' : 'Filters'}</span>
-            {showAdvanced ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            <ChevronDown
+              className={`w-3.5 h-3.5 transition-transform duration-300 ease-in-out ${
+                showAdvanced ? 'rotate-180 text-[#bafafd]' : 'text-slate-400'
+              }`}
+            />
           </button>
 
-          {/* Minimize / Expand Toggle Button */}
+          {/* Minimize / Expand Toggle Button with smooth state animations */}
           <button
             type="button"
             onClick={toggleMinimize}
-            className={`flex items-center gap-1.5 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
+            className={`group flex items-center gap-1.5 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all duration-300 cursor-pointer ${
               isMinimized
-                ? 'bg-[#14282e] border-[#bafafd]/50 text-[#bafafd] hover:bg-[#18323a] shadow-xs'
+                ? 'bg-[#14282e] border-[#bafafd]/60 text-[#bafafd] hover:bg-[#18323a] shadow-xs'
                 : 'bg-[#0c1217] border-[#1a2832] text-slate-300 hover:text-white hover:border-[#233a48]'
             }`}
             title={
@@ -553,28 +558,30 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                 : (language === 'es' ? 'Minimizar panel de filtros' : 'Minimize filter panel')
             }
           >
-            {isMinimized ? (
-              <>
-                <Maximize2 className="w-3.5 h-3.5 text-[#bafafd]" />
-                <span className="hidden sm:inline font-heading tracking-wide">
-                  {language === 'es' ? 'Expandir' : 'Expand'}
-                </span>
-              </>
-            ) : (
-              <>
-                <Minimize2 className="w-3.5 h-3.5 text-slate-400 group-hover:text-white" />
-                <span className="hidden sm:inline font-heading tracking-wide">
-                  {language === 'es' ? 'Minimizar' : 'Minimize'}
-                </span>
-              </>
-            )}
+            <div className="relative w-3.5 h-3.5 flex items-center justify-center shrink-0">
+              <Maximize2
+                className={`w-3.5 h-3.5 text-[#bafafd] absolute transition-all duration-300 ease-in-out ${
+                  isMinimized ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75 pointer-events-none'
+                }`}
+              />
+              <Minimize2
+                className={`w-3.5 h-3.5 text-slate-400 group-hover:text-white absolute transition-all duration-300 ease-in-out ${
+                  !isMinimized ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-75 pointer-events-none'
+                }`}
+              />
+            </div>
+            <span className="hidden sm:inline font-heading tracking-wide transition-colors duration-200">
+              {isMinimized
+                ? (language === 'es' ? 'Expandir' : 'Expand')
+                : (language === 'es' ? 'Minimizar' : 'Minimize')}
+            </span>
           </button>
         </div>
       </div>
 
-      {/* If Minimized: Show sleek compact summary row */}
-      {isMinimized && (
-        <div className="relative z-10 flex items-center justify-between text-xs text-[#8a9ba8] pt-1 px-1 border-t border-[#17232b]/60">
+      {/* Minimized summary row with smooth accordion animation */}
+      <AccordionCollapse isOpen={isMinimized}>
+        <div className="relative z-10 flex items-center justify-between text-xs text-[#8a9ba8] pt-2 px-1 border-t border-[#17232b]/60">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[11px] text-slate-300 font-medium">
               {language === 'es'
@@ -592,7 +599,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
               <button
                 type="button"
                 onClick={clearAllFilters}
-                className="text-[11px] text-rose-400 hover:text-rose-300 flex items-center gap-1 cursor-pointer"
+                className="text-[11px] text-rose-400 hover:text-rose-300 flex items-center gap-1 cursor-pointer transition-colors"
               >
                 <X className="w-3 h-3" />
                 <span>{language === 'es' ? 'Limpiar filtros' : 'Clear filters'}</span>
@@ -601,18 +608,18 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
             <button
               type="button"
               onClick={toggleMinimize}
-              className="text-[11px] text-[#bafafd] hover:underline cursor-pointer flex items-center gap-1 font-semibold"
+              className="text-[11px] text-[#bafafd] hover:underline cursor-pointer flex items-center gap-1 font-semibold group/expBtn"
             >
               <span>{language === 'es' ? 'Expandir panel' : 'Expand panel'}</span>
-              <ChevronDown className="w-3.5 h-3.5" />
+              <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-hover/expBtn:translate-y-0.5" />
             </button>
           </div>
         </div>
-      )}
+      </AccordionCollapse>
 
-      {/* If Not Minimized: Render full level chips, target chips, source filters, and footer */}
-      {!isMinimized && (
-        <>
+      {/* Expanded full filter body with smooth accordion animation */}
+      <AccordionCollapse isOpen={!isMinimized}>
+        <div className="space-y-4 pt-1">
 
       {/* Spell Levels Filter Chips (Dragopedia style pills with circular badges) */}
       <div className="relative z-10">
@@ -971,7 +978,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
       </div>
 
       {/* Advanced Expandable Filter Panel */}
-      {showAdvanced && (
+      <AccordionCollapse isOpen={showAdvanced}>
         <div className="relative z-10 pt-3 border-t border-[#17232b] space-y-3">
           {/* Magias Primordiales */}
           <div>
@@ -982,11 +989,11 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                 className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#bafafd] font-heading cursor-pointer hover:underline"
               >
                 <span>{language === 'es' ? 'Magias Primordiales' : 'Primordial Magics'}</span>
-                {collapsedSections.primordial ? (
-                  <ChevronRight className="w-3 h-3 text-[#bafafd]" />
-                ) : (
-                  <ChevronDown className="w-3 h-3 text-[#bafafd]" />
-                )}
+                <ChevronDown
+                  className={`w-3 h-3 text-[#bafafd] transition-transform duration-200 ease-in-out ${
+                    collapsedSections.primordial ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                  }`}
+                />
               </button>
               {(filter.primordialMagics && filter.primordialMagics.length > 0) && (
                 <button
@@ -999,7 +1006,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
               )}
             </div>
 
-            {!collapsedSections.primordial && (
+            <AccordionCollapse isOpen={!collapsedSections.primordial} duration="duration-200">
               <div className="space-y-2">
                 {/* 1ª Generación */}
                 <div className="flex flex-wrap items-center gap-1.5">
@@ -1081,7 +1088,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                   })}
                 </div>
               </div>
-            )}
+            </AccordionCollapse>
           </div>
 
           {/* Schools */}
@@ -1093,11 +1100,11 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                 className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#8a9ba8] hover:text-[#bafafd] font-heading cursor-pointer transition-colors"
               >
                 <span>{language === 'es' ? 'Escuelas de Magia' : 'Magic Schools'}</span>
-                {collapsedSections.schools ? (
-                  <ChevronRight className="w-3 h-3" />
-                ) : (
-                  <ChevronDown className="w-3 h-3" />
-                )}
+                <ChevronDown
+                  className={`w-3 h-3 transition-transform duration-200 ease-in-out ${
+                    collapsedSections.schools ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                  }`}
+                />
               </button>
               {filter.schools.length > 0 && (
                 <button
@@ -1110,7 +1117,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
               )}
             </div>
 
-            {!collapsedSections.schools && (
+            <AccordionCollapse isOpen={!collapsedSections.schools} duration="duration-200">
               <div className="flex flex-wrap gap-1.5">
                 {ALL_SCHOOLS.map((school) => {
                   const isSelected = filter.schools.includes(school);
@@ -1146,7 +1153,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                   );
                 })}
               </div>
-            )}
+            </AccordionCollapse>
           </div>
 
           {/* Damage Types */}
@@ -1158,11 +1165,11 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                 className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#8a9ba8] hover:text-[#bafafd] font-heading cursor-pointer transition-colors"
               >
                 <span>{language === 'es' ? 'Tipos de Daño' : 'Damage Types'}</span>
-                {collapsedSections.damage ? (
-                  <ChevronRight className="w-3 h-3" />
-                ) : (
-                  <ChevronDown className="w-3 h-3" />
-                )}
+                <ChevronDown
+                  className={`w-3 h-3 transition-transform duration-200 ease-in-out ${
+                    collapsedSections.damage ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                  }`}
+                />
               </button>
               {((filter.damageTypes && filter.damageTypes.length > 0) || Boolean(filter.damageType)) && (
                 <button
@@ -1175,7 +1182,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
               )}
             </div>
 
-            {!collapsedSections.damage && (
+            <AccordionCollapse isOpen={!collapsedSections.damage} duration="duration-200">
               <div className="flex flex-wrap gap-1.5">
                 {DAMAGE_TYPES.map((dt) => {
                   const currentSelected = (filter.damageTypes && filter.damageTypes.length > 0)
@@ -1213,7 +1220,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                   );
                 })}
               </div>
-            )}
+            </AccordionCollapse>
           </div>
 
           {/* Funcionalidad */}
@@ -1225,11 +1232,11 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                 className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#8a9ba8] hover:text-[#bafafd] font-heading cursor-pointer transition-colors"
               >
                 <span>{language === 'es' ? 'Funcionalidad' : 'Functionality'}</span>
-                {collapsedSections.functionality ? (
-                  <ChevronRight className="w-3 h-3" />
-                ) : (
-                  <ChevronDown className="w-3 h-3" />
-                )}
+                <ChevronDown
+                  className={`w-3 h-3 transition-transform duration-200 ease-in-out ${
+                    collapsedSections.functionality ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                  }`}
+                />
               </button>
               {(filter.functionalities && filter.functionalities.length > 0) && (
                 <button
@@ -1242,7 +1249,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
               )}
             </div>
 
-            {!collapsedSections.functionality && (
+            <AccordionCollapse isOpen={!collapsedSections.functionality} duration="duration-200">
               <div className="flex flex-wrap gap-1.5">
                 {SPELL_FUNCTIONALITIES.map((fn) => {
                   const isSelected = (filter.functionalities || []).includes(fn.id);
@@ -1278,7 +1285,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                   );
                 })}
               </div>
-            )}
+            </AccordionCollapse>
           </div>
 
           {/* Objetivos */}
@@ -1290,11 +1297,11 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                 className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#8a9ba8] hover:text-[#bafafd] font-heading cursor-pointer transition-colors"
               >
                 <span>{language === 'es' ? 'Objetivos' : 'Targets'}</span>
-                {collapsedSections.targets ? (
-                  <ChevronRight className="w-3 h-3" />
-                ) : (
-                  <ChevronDown className="w-3 h-3" />
-                )}
+                <ChevronDown
+                  className={`w-3 h-3 transition-transform duration-200 ease-in-out ${
+                    collapsedSections.targets ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                  }`}
+                />
               </button>
               {(filter.targets && filter.targets.length > 0) && (
                 <button
@@ -1307,7 +1314,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
               )}
             </div>
 
-            {!collapsedSections.targets && (
+            <AccordionCollapse isOpen={!collapsedSections.targets} duration="duration-200">
               <div className="flex flex-wrap gap-1.5">
                 <button
                   type="button"
@@ -1354,7 +1361,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                   );
                 })}
               </div>
-            )}
+            </AccordionCollapse>
           </div>
 
           {/* Origen (Infernal, Celestial, Elemental, Feérica, Shadowfell, Onírico, Astral) */}
@@ -1366,11 +1373,11 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                 className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#8a9ba8] hover:text-[#bafafd] font-heading cursor-pointer transition-colors"
               >
                 <span>{language === 'es' ? 'Origen' : 'Origin'}</span>
-                {collapsedSections.origins ? (
-                  <ChevronRight className="w-3 h-3" />
-                ) : (
-                  <ChevronDown className="w-3 h-3" />
-                )}
+                <ChevronDown
+                  className={`w-3 h-3 transition-transform duration-200 ease-in-out ${
+                    collapsedSections.origins ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                  }`}
+                />
               </button>
               {(filter.origins && filter.origins.length > 0) && (
                 <button
@@ -1383,7 +1390,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
               )}
             </div>
 
-            {!collapsedSections.origins && (
+            <AccordionCollapse isOpen={!collapsedSections.origins} duration="duration-200">
               <div className="flex flex-wrap gap-1.5">
                 <button
                   type="button"
@@ -1432,7 +1439,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                   );
                 })}
               </div>
-            )}
+            </AccordionCollapse>
           </div>
 
           {/* Classes */}
@@ -1444,11 +1451,11 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                 className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#8a9ba8] hover:text-[#bafafd] font-heading cursor-pointer transition-colors"
               >
                 <span>{language === 'es' ? 'Clases de D&D' : 'D&D Classes'}</span>
-                {collapsedSections.classes ? (
-                  <ChevronRight className="w-3 h-3" />
-                ) : (
-                  <ChevronDown className="w-3 h-3" />
-                )}
+                <ChevronDown
+                  className={`w-3 h-3 transition-transform duration-200 ease-in-out ${
+                    collapsedSections.classes ? '-rotate-90 opacity-60 text-[#8a9ba8]' : 'rotate-0 text-[#bafafd]'
+                  }`}
+                />
               </button>
               {filter.classes.length > 0 && (
                 <button
@@ -1461,7 +1468,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
               )}
             </div>
 
-            {!collapsedSections.classes && (
+            <AccordionCollapse isOpen={!collapsedSections.classes} duration="duration-200">
               <div className="flex flex-wrap gap-1.5">
                 {CLASS_OPTIONS.map((clsOpt) => {
                   const isSelected = filter.classes.includes(clsOpt.name);
@@ -1496,7 +1503,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
                   );
                 })}
               </div>
-            )}
+            </AccordionCollapse>
           </div>
 
           {/* Quick Properties: Ritual, Concentration, Components with circular badges */}
@@ -1666,7 +1673,7 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
             </button>
           </div>
         </div>
-      )}
+      </AccordionCollapse>
 
       {/* Filter Summary Footer */}
       <div className="relative z-10 flex items-center justify-between text-[11px] text-[#8a9ba8] pt-1">
@@ -1685,8 +1692,8 @@ export const SpellFilterBar: React.FC<SpellFilterBarProps> = ({
           </button>
         )}
       </div>
-        </>
-      )}
+        </div>
+      </AccordionCollapse>
     </div>
   );
 };

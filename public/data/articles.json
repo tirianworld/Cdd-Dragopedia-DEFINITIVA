@@ -10244,7 +10244,7 @@
     "is_featured": false,
     "id": "art-1787664357775",
     "created_date": "2026-08-25T13:26:08.652Z",
-    "updated_date": "2026-09-24T10:10:02.967Z",
+    "updated_date": "2026-10-26T17:55:18.938Z",
     "related_article_ids": [
       "art-1787666875758"
     ],
@@ -10261,7 +10261,7 @@
       "entidad": []
     },
     "image_url": "/images/cloud/plano-del-fuego_5cdbbb3668.webp",
-    "map_url": "https://cartocraft.ai.studio/#/map/map-1yn70y0/no-ui?markers=false&lights=true&helpers=false&root=map-1yn70y0",
+    "map_url": "https://cartocraft-v2.ai.studio/#/map/map-1yn70y0/no-ui?embed=true&root=map-1yn70y0&markers=false&lights=true&helpers=false",
     "extra_categories": []
   },
   {

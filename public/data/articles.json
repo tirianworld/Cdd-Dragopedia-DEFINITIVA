@@ -10726,7 +10726,7 @@
       "muerte-gravatax"
     ],
     "created_date": "2026-08-12T14:48:49.565Z",
-    "updated_date": "2026-10-09T11:41:17.834Z",
+    "updated_date": "2026-10-26T17:55:29.977Z",
     "image_url": "/images/uploads/drangleic_alternativo-1791546029617_j1r58.png",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -10758,7 +10758,7 @@
       "criatura": [],
       "entidad": []
     },
-    "map_url": "https://cartocraft.ai.studio/#/map/map-ba6meuz/no-ui?markers=false&lights=true&helpers=false&root=map-ba6meuz",
+    "map_url": "https://cartocraft-v2.ai.studio/#/map/map-ba6meuz/no-ui?embed=true&root=map-ba6meuz&markers=false&lights=true&helpers=false",
     "extra_categories": [
       "Lugares"
     ]

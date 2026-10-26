@@ -18978,7 +18978,7 @@
     "is_featured": false,
     "id": "art-1783383445659",
     "created_date": "2026-07-07T00:17:29.308Z",
-    "updated_date": "2026-09-24T14:34:33.896Z",
+    "updated_date": "2026-10-26T17:56:01.261Z",
     "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -19006,7 +19006,7 @@
       "criatura": [],
       "entidad": []
     },
-    "map_url": "https://cartocraft.ai.studio/#/map/map-rid59mr/no-ui?markers=false&lights=true&helpers=false&root=map-rid59mr",
+    "map_url": "https://cartocraft-v2.ai.studio/#/map/map-rid59mr/no-ui?embed=true&root=map-rid59mr&markers=false&lights=true&helpers=false",
     "spells": [],
     "spell_images": {},
     "extra_categories": []

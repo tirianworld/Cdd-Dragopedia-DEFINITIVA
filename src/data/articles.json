@@ -273,9 +273,10 @@
     "is_featured": false,
     "id": "art-1790263141584",
     "created_date": "2026-09-24T15:19:01.584Z",
-    "updated_date": "2026-09-24T15:19:01.584Z",
+    "updated_date": "2026-10-26T17:55:08.456Z",
     "extra_categories": [],
-    "image_url": "/images/uploads/lordran-1790264016622_c4yek.png"
+    "image_url": "/images/uploads/lordran-1790264016622_c4yek.png",
+    "map_url": "https://cartocraft-v2.ai.studio/#/map/6a342589eca7c2a147ecf1db/no-ui?embed=true&root=6a342589eca7c2a147ecf1db&markers=false&lights=true&helpers=false"
   },
   {
     "title": "Oceiros",

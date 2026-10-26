@@ -10604,12 +10604,12 @@
     "timeline_markers": [],
     "timeline_order": [],
     "created_date": "2026-08-24T14:54:43.309Z",
-    "updated_date": "2026-10-18T20:41:07.783Z",
+    "updated_date": "2026-10-26T17:55:25.976Z",
     "related_article_ids": [
       "art-1787665014090",
       "art-1787665642246"
     ],
-    "map_url": "https://cartocraft.ai.studio/#/map/6a33c6fb7fcb71b00f8684d7/no-ui?markers=false&lights=true&helpers=false&root=6a33c6fb7fcb71b00f8684d7",
+    "map_url": "https://cartocraft-v2.ai.studio/#/map/6a33c6fb7fcb71b00f8684d7/no-ui?embed=true&root=6a33c6fb7fcb71b00f8684d7&markers=false&lights=true&helpers=false",
     "extra_categories": [
       "Lugares"
     ],

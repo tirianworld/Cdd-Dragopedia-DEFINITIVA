@@ -43,7 +43,7 @@
     "timeline_markers": [],
     "timeline_order": [],
     "created_date": "2026-10-07T05:42:24.272Z",
-    "updated_date": "2026-10-07T07:23:27.032Z",
+    "updated_date": "2026-10-26T17:55:04.738Z",
     "extra_categories": [
       "Magias"
     ],
@@ -63,7 +63,16 @@
       "criatura": [],
       "entidad": []
     },
-    "image_url": "/images/uploads/imagen_2026-10-07_092314068-1791357795595_wy2z6.png"
+    "image_url": "/images/uploads/imagen_2026-10-07_092314068-1791357795595_wy2z6.png",
+    "embedded_graph": {
+      "type": "magias",
+      "subgraphType": "pillar",
+      "targetId": "aurea",
+      "targetTitle": "Magia Áurea",
+      "title": "Subgrafo Mágico: Magia Áurea",
+      "description": "Manifestación única de 2ª generación nacida de la unión de la magia divina y la magia natural en Ávalon, corazón y alma del Árbol Áureo.",
+      "height": 480
+    }
   },
   {
     "id": "caldo-de-dragon",

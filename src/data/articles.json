@@ -1380,7 +1380,7 @@
     "is_featured": false,
     "id": "art-1787667729491",
     "created_date": "2026-08-25T14:22:11.527Z",
-    "updated_date": "2026-10-18T20:36:39.311Z",
+    "updated_date": "2026-10-26T17:55:15.358Z",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -1401,11 +1401,11 @@
     "embedded_graph": {
       "type": "magias",
       "subgraphType": "submagia",
-      "targetId": "Energía del Shadowfell",
-      "targetTitle": "Energía del Shadowfell",
-      "height": 480,
-      "title": "Subgrafo: Escuela Mágica",
-      "description": "Ramificación del pilar de Magia Profana en el cosmos."
+      "targetId": "profana",
+      "targetTitle": "Energía oscura del Shadowfell",
+      "title": "Subgrafo: Energía oscura del Shadowfell",
+      "description": "Ramificación del pilar de Magia Profana en el cosmos.",
+      "height": 480
     },
     "extra_categories": [
       "Magias"

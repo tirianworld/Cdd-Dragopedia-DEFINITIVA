@@ -20565,14 +20565,14 @@
     "is_featured": false,
     "id": "art-1783383224769",
     "created_date": "2026-07-07T00:13:47.143Z",
-    "updated_date": "2026-09-17T09:51:51.928Z",
+    "updated_date": "2026-10-26T17:54:11.184Z",
     "related_article_ids": [
       "art-1783383999658",
       "art-1783383974073",
       "art-1783383696074",
       "art-1787664906161"
     ],
-    "image_url": "",
+    "image_url": "/images/cloud/rexyrian_c86079146f.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -20586,10 +20586,12 @@
       "entidad": []
     },
     "extra_categories": [
-      "Dragones",
-      "Bestias"
+      "Bestias",
+      "Dragones"
     ],
-    "imageUrl": ""
+    "imageUrl": "",
+    "spells": [],
+    "spell_images": {}
   },
   {
     "title": "Raxxar",

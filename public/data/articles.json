@@ -12633,7 +12633,7 @@
     "summary": "<i>Las Islas de Kaanil, en la edad prehistórica del mundo, fueron refugio de esclavos creados con magia por dragones, dragonoides y bestias dracónicas. Tras escapar, evolucionaron a saurios y dinosaurios, hasta que humanos serpentinos los arrasaron. Tras un conflicto con el general saurio Thrag, un viajero del futuro y la expedición de Moonhaven alteraron el futuro, cambiando el destino de las islas.</i>",
     "content": "<h2>Las Islas de Kaanil</h2><p>En la edad prehistórica del mundo, los <a href=\"/articulo/dragones\">dragones</a> tenían esclavos creados con magia, dragonoides y bestias dracónicas. Algunos de estos esclavos lograron escapar a unas islas lejanas, donde fundaron <a href=\"/articulo/kaanil-nah\">Kaanil</a>. Con el tiempo, evolucionaron por la <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a> del lugar a saurios, y se convirtieron en criaturas dinosaurio que vagaban por las islas.</p><p>Con el tiempo, los <a href=\"/articulo/dragones\">dragones</a> perdieron su dominio sobre las islas, sin embargo, <a href=\"/articulo/kaanil-nah\">Kaanil</a> seguía floreciendo.</p><p>Hasta que unos humanos llegaron e hicieron rituales para convertirse en seres serpentinos, aclamando que eran superiores. Arrastaron a las tribus saurias hasta que el general saurio <strong><a href=\"/articulo/thrag-mrdrc85l\" class=\"text-primary hover:underline font-semibold\">Thrag</a></strong> (un hombre triceratops) se hartó y les declaró la guerra. Perdieron debido a un extraño viajero del futuro y los saurios fueron erradicados.</p><p>Los humanos serpentinos, con el tiempo, se mudaron a la península de <a href=\"/articulo/kaanil-nah\">Kaanil</a> en <a href=\"/articulo/aeros\">Aeros</a> y fundaron <a href=\"/articulo/kaanil-nah\">Kaanil Nah</a>.</p><p>Sin embargo, la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a> a <a href=\"#\">Avalon</a>, tras derrotar a la leyenda de <strong><a href=\"/articulo/thrag-mrdrc85l\" class=\"text-primary hover:underline font-semibold\">Thrag</a></strong>, llegaron a la época del conflicto y vencieron a los humanos serpentinos, cambiando el futuro y haciendo que, en el presente, los saurios fueran los que fundaron <a href=\"/articulo/kaanil-nah\">Kaanil Nah</a>.</p>",
     "created_date": "2026-07-09T15:56:59.056Z",
-    "updated_date": "2026-10-11T08:41:47.906Z",
+    "updated_date": "2026-10-26T17:55:53.942Z",
     "image_url": "/images/uploads/Kaanil-1791707282693_bo2a8.jpg",
     "gallery": [],
     "infobox": {
@@ -12714,7 +12714,7 @@
     "animate_illustration": true,
     "image_position_x": 50,
     "image_position_y": 50,
-    "map_url": "https://cartocraft.ai.studio/#/map/map-d7izz7v/no-ui?markers=false&lights=true&helpers=false&root=map-d7izz7v",
+    "map_url": "https://cartocraft-v2.ai.studio/#/map/map-d7izz7v/no-ui?embed=true&root=map-d7izz7v&markers=false&lights=true&helpers=false",
     "extra_categories": [
       "Lugares"
     ],

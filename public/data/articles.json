@@ -11844,7 +11844,7 @@
     "is_featured": false,
     "id": "art-1783680454416",
     "created_date": "2026-07-10T10:47:34.895Z",
-    "updated_date": "2026-10-11T07:40:39.869Z",
+    "updated_date": "2026-10-26T17:55:46.412Z",
     "gallery": [],
     "related_article_ids": [
       "art-1787664997115",
@@ -11880,7 +11880,7 @@
       "titleBadge": "Ambiente Cozy Personalizado",
       "themeAudioUrl": ""
     },
-    "map_url": "https://cartocraft.ai.studio/#/map/map-jh6kgz6/no-ui?markers=false&lights=true&helpers=false&root=map-jh6kgz6",
+    "map_url": "https://cartocraft-v2.ai.studio/#/map/map-jh6kgz6/no-ui?embed=true&root=map-jh6kgz6&markers=false&lights=true&helpers=false",
     "spells": [],
     "spell_images": {},
     "extra_categories": [

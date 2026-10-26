@@ -21057,7 +21057,7 @@
     "is_featured": false,
     "id": "art-1783383166992",
     "created_date": "2026-07-07T00:12:48.538Z",
-    "updated_date": "2026-09-24T10:11:08.331Z",
+    "updated_date": "2026-10-26T17:56:04.742Z",
     "image_url": "",
     "gallery": [],
     "related_article_ids": [],
@@ -21070,7 +21070,7 @@
     },
     "image_position_x": 50,
     "image_position_y": 60,
-    "map_url": "https://cartocraft.ai.studio/#/map/map-iaai74g/no-ui?markers=false&lights=true&helpers=false&root=map-iaai74g",
+    "map_url": "https://cartocraft-v2.ai.studio/#/map/map-iaai74g/no-ui?embed=true&root=map-iaai74g&markers=false&lights=true&helpers=false",
     "extra_categories": []
   },
   {

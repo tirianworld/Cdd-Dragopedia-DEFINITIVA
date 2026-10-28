@@ -5,23 +5,23 @@ import {
   Layers, Compass, Info, X, Flame, Shield, Zap, Wind, Skull,
   Compass as CompassIcon, Orbit, Eye, RefreshCw, BookOpen,
   Palette, Wand2, Edit3, BookMarked, Scroll, Check, RotateCcw,
-  Sparkle, Sliders, ChevronDown, Share2, Github, Loader2, CheckCircle2, AlertCircle, ExternalLink
+  Sparkle, Sliders, ChevronDown, Share2
 } from "lucide-react";
 import { WikiArticle } from "../types";
 import { useVisualEditor } from "../context/VisualEditorContext";
 import { DND_5E_SPELLS, Dnd5eSpell } from "../data/dnd5eSpells";
 import { SubmagiaPaletteModal, SubmagiaItemInfo, COLOR_PRESETS } from "./SubmagiaPaletteModal";
+import { formatInfoboxValue } from "../utils/infoboxHelper";
 import { Dnd5eSpellDrawerCard } from "./Dnd5eSpellDrawerCard";
 import { ColorWheel, ColorWheelModal, ColorWheelModalTarget } from "./ColorWheel";
 import { GraphShareModal } from "./GraphShareModal";
-import { GitHubConfigModal } from "./GitHubConfigModal";
 
 export interface MagicNode {
   id: string;
   title: string;
   subtitle?: string;
-  tier: 0 | 1 | 2 | 3 | 4; // 0 = Core, 1 = Primordial, 2 = Submagia, 3 = Manifestation/Spell, 4 = 2ª Generación (Fusión)
-  pillarId: "divina" | "arcana" | "natural" | "profana" | "salvaje" | "extraplanar" | "core" | "aurea" | "segunda_generacion";
+  tier: 0 | 1 | 2 | 3; // 0 = Core, 1 = Primordial, 2 = Submagia, 3 = Manifestation/Spell
+  pillarId: "divina" | "arcana" | "natural" | "profana" | "salvaje" | "extraplanar" | "aurea" | "core";
   pillarName: string;
   color: string;
   glowColor: string;
@@ -58,7 +58,7 @@ function getLighterGlowColor(hex: string): string {
 }
 
 export interface MagicPillarConfig {
-  id: "divina" | "arcana" | "natural" | "profana" | "salvaje" | "extraplanar";
+  id: "divina" | "arcana" | "natural" | "profana" | "salvaje" | "extraplanar" | "aurea";
   name: string;
   title: string;
   angleDeg: number;
@@ -163,6 +163,21 @@ export const PRIMORDIAL_PILLARS: MagicPillarConfig[] = [
     source: "Las dimensiones alternas y los planos lejanos que rodean el tejido del plano material de Caldo de Dragón.",
     adamantiteEffect: "La adamantita se transforma en un portal latente, permitiendo abrir brechas hacia planos exteriores.",
     summary: "El puente entre lo que es y lo que podría ser. Permite rasgar el velo de la realidad, doblegar la distancia física y canalizar la esencia de entidades extradimensionales."
+  },
+  {
+    id: "aurea",
+    name: "Magia Áurea",
+    title: "Magia Áurea",
+    angleDeg: 0, // 3:00 (Entre Arcana y Natural, conexión sagrada con el Árbol Áureo)
+    color: "#eab308",
+    glowColor: "#fde047",
+    lightColor: "#fef9c3",
+    icon: Sparkles,
+    articleSlug: "magia-aurea",
+    domain: "Curación sagrada, regeneración acelerada, resurrección de almas y creación de leyendas en Ávalon.",
+    source: "El corazón del Árbol Áureo y la unión primordial de la magia divina y natural.",
+    adamantiteEffect: "La adamantita canaliza savia dorada regenerativa que restaura continuamente las heridas y la esencia del portador.",
+    summary: "Manifestación única de 2ª generación nacida de la unión de la magia divina y la magia natural en Ávalon, corazón y alma del Árbol Áureo."
   }
 ];
 
@@ -333,19 +348,24 @@ export function getSubmagiasForPillar(pillarId: string): SubmagiaDef[] {
   } else if (pillarId === "aurea") {
     return [
       {
-        title: "Regeneración",
-        slug: "regeneracion-aurea",
-        summary: "Sanación biológica, celular y espiritual acelerada que emana del Árbol Áureo de Ávalon, capaz de recomponer tejidos, cerrar heridas mortales y revitalizar el flujo vital."
+        title: "Curación & Regeneración Áurea",
+        slug: "magia-aurea",
+        summary: "Sanación de heridas físicas y espirituales, regeneración acelerada de tejidos vitales impulsada por el Árbol Áureo."
       },
       {
-        title: "Resurrección",
-        slug: "resurreccion-aurea",
-        summary: "Poder milagroso de restituir el alma y el aliento vital a los caídos, desafiando el umbral de la muerte mediante la armonía entre la gracia celestial y la fuerza de la naturaleza."
+        title: "Resurrección & Ciclo de Almas",
+        slug: "magia-aurea",
+        summary: "Ciclo kármico de retorno del alma y energía vital vinculado a las leyes sagradas de Ávalon."
       },
       {
-        title: "Leyendas",
-        slug: "creacion-de-leyendas",
-        summary: "Consagración mágica de las gestas y hazañas heroicas en la memoria colectiva del cosmos, convirtiendo a los héroes en mitos inmortales imbuidos de poder eterno."
+        title: "Creación de Leyendas",
+        slug: "magia-aurea",
+        summary: "Manifestación mística en la narrativa y la memoria colectiva que perdura a través del tiempo."
+      },
+      {
+        title: "Poder del Árbol Áureo",
+        slug: "arbol-aureo-mrf9a5jc",
+        summary: "Fusión divina y natural que nutre el corazón de Ávalon, protegiendo la inmortalidad y el renacimiento."
       }
     ];
   }
@@ -368,63 +388,12 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
   const [activePillarFilter, setActivePillarFilter] = useState<string>("all");
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
-  // GitHub Sync state
-  const [isGitHubModalOpen, setIsGitHubModalOpen] = useState(false);
-  const [isSyncingToGitHub, setIsSyncingToGitHub] = useState(false);
-  const [githubSyncFeedback, setGithubSyncFeedback] = useState<{
-    type: "success" | "error";
-    message: string;
-    url?: string;
-  } | null>(null);
-
-  const handleUploadGraphToGitHub = useCallback(async () => {
-    const savedToken = typeof window !== "undefined" ? localStorage.getItem("dragopedia_github_token") : null;
-    if (!savedToken) {
-      setIsGitHubModalOpen(true);
-      return;
-    }
-
-    setIsSyncingToGitHub(true);
-    setGithubSyncFeedback(null);
-
-    try {
-      const res = await fetch("/api/github-sync-graph", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-github-token": savedToken
-        },
-        body: JSON.stringify({ token: savedToken })
-      });
-
-      const data = await res.json();
-      if (!res.ok || data.success === false) {
-        throw new Error(data.error || data.message || "Error al subir el grafo");
-      }
-
-      setGithubSyncFeedback({
-        type: "success",
-        message: data.alreadyUpToDate 
-          ? "¡El Grafo de Magias Primordiales ya está 100% al día en GitHub!" 
-          : "¡Grafo de Magias Primordiales subido exitosamente a GitHub!",
-        url: data.commitUrl
-      });
-    } catch (err: any) {
-      setGithubSyncFeedback({
-        type: "error",
-        message: err.message || "Error al comunicarse con GitHub"
-      });
-    } finally {
-      setIsSyncingToGitHub(false);
-    }
-  }, []);
-
   // Visual toggles
   const [showEquilibriumLines, setShowEquilibriumLines] = useState(true);
   const [showRuneRings, setShowRuneRings] = useState(true);
   const [showParticles, setShowParticles] = useState(true);
   const [isLivePulsing, setIsLivePulsing] = useState(true);
-  const [showSpells, setShowSpells] = useState(false);
+  const [showSpells, setShowSpells] = useState(true);
   const [labelDensity, setLabelDensity] = useState<"all" | "major" | "focused">("major");
 
   // Submagia custom color state & persistence
@@ -659,100 +628,79 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
           opacity: 0.45
         });
 
+        // Outer Ring: D&D 5e Spells and Incantations
+        if (showSpells) {
+          const subSpells = DND_5E_SPELLS.filter(
+            (sp) => (sp.pillarId === focusedPillar.id && sp.submagiaTitle === sub.title) ||
+                    (!sp.pillarId && sp.submagiaTitle === sub.title)
+          );
+          const totalSpells = subSpells.length;
+          if (totalSpells > 0) {
+            const maxSpreadDeg = Math.min((360 / totalSub) * 0.76, Math.max(14, (totalSpells - 1) * 8.5));
+            subSpells.forEach((spell, spIdx) => {
+              const spellOffsetDeg = totalSpells <= 1 ? 0 : ((spIdx / (totalSpells - 1)) - 0.5) * maxSpreadDeg;
+              const spellAngleDeg = angleDeg + spellOffsetDeg;
+              const spellDist = totalSpells > 3 ? (spIdx % 2 === 0 ? 370 : 405) : 385;
+              const spellRad = (spellAngleDeg * Math.PI) / 180;
+              const spX = Math.cos(spellRad) * spellDist;
+              const spY = Math.sin(spellRad) * spellDist;
+
+              const spellNodeId = `spell-${spell.id}`;
+              const spellNode: MagicNode = {
+                id: spellNodeId,
+                title: spell.name,
+                subtitle: `${spell.englishName} • Nivel ${spell.level === 0 ? "Truco" : spell.level} (${spell.school})`,
+                tier: 3,
+                pillarId: focusedPillar.id,
+                pillarName: focusedPillar.name,
+                color: subColor,
+                glowColor: subGlowColor,
+                x: spX,
+                y: spY,
+                r: 9,
+                parentId: subId,
+                isSpell: true,
+                spellData: spell,
+                summary: `${spell.school} • Nivel ${spell.level === 0 ? "Truco" : spell.level} • ${spell.castingTime} • Alcance ${spell.range}`,
+                details: spell.description,
+                infobox: {
+                  "Hechizo Oficial": "D&D 5ª Edición (SRD)",
+                  "Nombre en Inglés": spell.englishName,
+                  "Nivel": spell.level === 0 ? "Truco (Nivel 0)" : `Nivel ${spell.level}`,
+                  "Escuela": spell.school,
+                  "Tiempo de Lanzamiento": spell.castingTime,
+                  "Alcance / Área": spell.range,
+                  "Componentes": spell.components,
+                  "Duración": spell.duration,
+                  "Concentración": spell.concentration ? "Sí" : "No",
+                  "Ritual": spell.ritual ? "Sí" : "No",
+                  "Clases Compatibles": spell.classes.join(", "),
+                  "Submagia Matriz": spell.submagiaTitle,
+                  "Pilar Primordial": focusedPillar.name
+                },
+                connections: [subId]
+              };
+              nodeList.push(spellNode);
+
+              linkList.push({
+                from: subId,
+                to: spellNodeId,
+                color: subColor,
+                width: 1.1,
+                dash: "3 3",
+                opacity: 0.65
+              });
+            });
+          }
+        }
       });
-
-      // 3. Magia de Segunda Generación derivada: Magia Áurea (Fusión Divina + Natural)
-      if (focusedPillar.id === "divina" || focusedPillar.id === "natural") {
-        const otherPillarName = focusedPillar.id === "divina" ? "Magia Natural" : "Magia Divina";
-        const aureaArt = articleMap.get("magia-aurea");
-        const aureaNode: MagicNode = {
-          id: "secondgen-magia-aurea",
-          title: "Magia Áurea",
-          subtitle: `Magia de 2ª Generación (Fusión con ${otherPillarName})`,
-          tier: 4,
-          pillarId: "aurea",
-          pillarName: "2ª Generación • Áurea",
-          color: "#fef08a", // Amarillo pálido luminoso
-          glowColor: "#fde047", // Resplandor dorado pálido celestial
-          x: 390,
-          y: -140,
-          r: 20,
-          articleSlug: "magia-aurea",
-          articleId: aureaArt?.id || "art-1791351732056",
-          summary: aureaArt?.summary || "La Magia Áurea es una manifestación única de la fusión entre la magia divina y la magia natural en Ávalon, centrada en la curación, regeneración, resurrección y creación de leyendas.",
-          details: "El corazón y alma del Árbol Áureo de Ávalon. Nace de la confluencia entre la gracia divina celestial y la vitalidad regenerativa de la naturaleza, permitiendo una sanación que trasciende las leyes biológicas normales y convierte las hazañas de los héroes en mitos inmortales.",
-          infobox: {
-            "Generación": "2ª Generación (Híbrida)",
-            "Fusión Matriz": "Magia Divina + Magia Natural",
-            "Epicentro Cósmico": "El Árbol Áureo de Ávalon",
-            "Dominios": "Curación, Regeneración, Resurrección y Leyendas",
-            "Región": "Ávalon (Isla de la Inmortalidad)"
-          },
-          connections: [centerPillarNode.id]
-        };
-        nodeList.push(aureaNode);
-
-        linkList.push({
-          from: centerPillarNode.id,
-          to: "secondgen-magia-aurea",
-          color: focusedPillar.id === "divina" ? "#f59e0b" : "#10b981",
-          width: 2.6,
-          dash: "8 6",
-          opacity: 0.85
-        });
-
-        // Subramas de Magia Áurea en vista de pilar enfocado: Regeneración, Resurrección y Leyendas
-        const aureaSubmagias = getSubmagiasForPillar("aurea");
-        const aureaSubDist = 58;
-        const aureaSubAngles = [-40, 0, 40];
-        aureaSubmagias.forEach((sub, sIdx) => {
-          const subRad = (aureaSubAngles[sIdx] * Math.PI) / 180;
-          const asX = 390 + Math.cos(subRad) * aureaSubDist;
-          const asY = -140 + Math.sin(subRad) * aureaSubDist;
-          const subId = `sub-aurea-${sIdx}`;
-          const subNode: MagicNode = {
-            id: subId,
-            title: sub.title,
-            subtitle: "Subrama de Magia Áurea",
-            tier: 2,
-            pillarId: "aurea",
-            pillarName: "Magia Áurea",
-            color: "#fef08a",
-            glowColor: "#fde047",
-            x: asX,
-            y: asY,
-            r: 11,
-            parentId: "secondgen-magia-aurea",
-            articleSlug: sub.slug,
-            summary: sub.summary,
-            details: sub.summary,
-            infobox: {
-              "Rama Matriz": "Magia Áurea (2ª Generación)",
-              "Fusión": "Magia Divina + Magia Natural",
-              "Epicentro": "El Árbol Áureo de Ávalon"
-            },
-            connections: ["secondgen-magia-aurea"]
-          };
-          nodeList.push(subNode);
-
-          linkList.push({
-            from: "secondgen-magia-aurea",
-            to: subId,
-            color: "#fef08a",
-            width: 1.6,
-            dash: "4 4",
-            opacity: 0.85
-          });
-        });
-        aureaNode.connections.push(...aureaSubmagias.map((_, i) => `sub-aurea-${i}`));
-      }
 
       // Relaxation pass for single pillar view
       const RELAX_ITERATIONS = 25;
       for (let iter = 0; iter < RELAX_ITERATIONS; iter++) {
         for (let i = 0; i < nodeList.length; i++) {
           const n1 = nodeList[i];
-          if (n1.tier <= 1 || n1.tier === 4) continue;
+          if (n1.tier <= 1) continue;
           const rad1 = n1.tier === 2 ? 24 : 13;
           for (let j = i + 1; j < nodeList.length; j++) {
             const n2 = nodeList[j];
@@ -766,7 +714,7 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
               const overlap = minDist - dist;
               const nx = dx / dist;
               const ny = dy / dist;
-              if (n2.tier <= 1 || n2.tier === 4) {
+              if (n2.tier <= 1) {
                 n1.x -= nx * overlap;
                 n1.y -= ny * overlap;
               } else {
@@ -868,11 +816,11 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
     nodeList.push(coreNode);
 
     // Radii configuration for Sacred Magic Circle (Círculo Mágico)
-    const R_PILLAR = 210; // Distance to 6 Primordial Pillars
-    const R_SUBMAGIA_INNER = 335; // Circunferencia interior de escuelas y subtipos
-    const R_SUBMAGIA_OUTER = 372; // Circunferencia exterior de escuelas y subtipos
+    const R_PILLAR = 210; // Distance to 6 Primordials
+    const R_SUBMAGIA_BASE = 350; // Distance to Tier 2 submagias
+    const R_MANIFESTATION_BASE = 455; // Distance to Tier 3 manifestations
 
-    // 1. Process each pillar and its submagias (escuelas / subtipos)
+    // 1. Process each pillar and its submagias
     PRIMORDIAL_PILLARS.forEach((pillar) => {
       const rad = (pillar.angleDeg * Math.PI) / 180;
       const px = Math.cos(rad) * R_PILLAR;
@@ -919,41 +867,38 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
 
       // Submagias definitions per pillar using shared helper
       const submagias = getSubmagiasForPillar(pillar.id);
+
+      // Distribute submagias smoothly along the circular ribbon of the magic circle
       const totalSub = submagias.length;
 
-      // Distribute schools and subtypes strictly aligned on the 2 circumferences
-      // (R_SUBMAGIA_INNER = 335 y R_SUBMAGIA_OUTER = 372)
       submagias.forEach((sub, sIdx) => {
-        let isInner: boolean;
         let subAngleDeg: number;
+        let subDist: number;
 
         if (pillar.id === "arcana") {
-          // Arcana has 8 submagias (7 D&D 5e schools + Magia de los Espejos):
-          // 4 schools on inner circumference (335) and 4 schools on outer circumference (372)
-          // Interleaved in bilateral mirror symmetry across the 330° axis:
-          // Inner (335): sIdx 0, 2, 5, 7  |  Outer (372): sIdx 1, 3, 4, 6
-          isInner = (sIdx === 0 || sIdx === 2 || sIdx === 5 || sIdx === 7);
-          const spanDeg = 38;
-          const offsetDeg = ((sIdx / (totalSub - 1)) - 0.5) * spanDeg;
-          subAngleDeg = pillar.angleDeg + offsetDeg;
-        } else if (totalSub === 4) {
-          // Divina (4 submagias): 2 on inner circumference, 2 on outer circumference
-          // Bilateral symmetry: flanking on inner (335), central pair on outer (372)
-          isInner = (sIdx === 0 || sIdx === 3);
-          const spanDeg = 28;
-          const offsetDeg = ((sIdx / (totalSub - 1)) - 0.5) * spanDeg;
-          subAngleDeg = pillar.angleDeg + offsetDeg;
+          // Arcana has 8 submagias (7 D&D 5e schools + Magia de los Espejos; Nigromancia belongs to Magia Profana):
+          // Arrange in a dual concentric circular ribbon along the arc [-19°, +19°]
+          const isInner = sIdx % 2 === 0;
+          if (isInner) {
+            const innerIdx = sIdx / 2; // 0, 1, 2, 3
+            const offsetDeg = (innerIdx / 3 - 0.5) * 38; // -19° to +19°
+            subAngleDeg = pillar.angleDeg + offsetDeg;
+            subDist = 334;
+          } else {
+            const outerIdx = Math.floor(sIdx / 2); // 0, 1, 2, 3
+            const offsetDeg = (outerIdx / 3 - 0.5) * 34; // -17° to +17°
+            subAngleDeg = pillar.angleDeg + offsetDeg;
+            subDist = 372;
+          }
         } else {
-          // Standard pillars with 5 submagias (Natural, Profana, Salvaje, Extraplanar):
-          // 3 on inner circumference (sIdx 0, 2, 4), 2 on outer circumference (sIdx 1, 3)
-          // Central submagia (sIdx 2) is perfectly aligned on the pillar's radial axis (offset 0°)
-          isInner = (sIdx % 2 === 0);
-          const spanDeg = 32;
+          // Standard pillars (3-5 submagias): distribute along the circular arc
+          const spanDeg = Math.min(36, Math.max(22, (totalSub - 1) * 9.5));
           const offsetDeg = totalSub <= 1 ? 0 : ((sIdx / (totalSub - 1)) - 0.5) * spanDeg;
           subAngleDeg = pillar.angleDeg + offsetDeg;
+          // Stagger slightly between 340px and 362px for breathing room
+          subDist = sIdx % 2 === 0 ? 340 : 362;
         }
 
-        const subDist = isInner ? R_SUBMAGIA_INNER : R_SUBMAGIA_OUTER;
         const subRad = (subAngleDeg * Math.PI) / 180;
         const sx = Math.cos(subRad) * subDist;
         const sy = Math.sin(subRad) * subDist;
@@ -996,171 +941,90 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
           opacity: 0.72
         });
 
+        // Add official D&D 5e Spells as outer concentric ring of the magic circle
+        if (showSpells) {
+          const subSpells = DND_5E_SPELLS.filter(
+            (sp) => (sp.pillarId === pillar.id && sp.submagiaTitle === sub.title) ||
+                    (!sp.pillarId && sp.submagiaTitle === sub.title)
+          );
+          const totalSpells = subSpells.length;
+
+          subSpells.forEach((spell, spIdx) => {
+            // Spells form an outer concentric circular ring around the perimeter
+            const spellSpreadDeg = totalSpells <= 1 ? 0 : Math.min(7.5, (totalSpells - 1) * 2.4);
+            const spellOffsetDeg = totalSpells <= 1 ? 0 : ((spIdx / (totalSpells - 1)) - 0.5) * spellSpreadDeg;
+            const spellAngleDeg = subAngleDeg + spellOffsetDeg;
+            const spellRad = (spellAngleDeg * Math.PI) / 180;
+
+            // Concentric outer spell ring at ~442-466px
+            const spellDist = 442 + (spIdx % 2 === 0 ? 0 : 24);
+
+            const spX = Math.cos(spellRad) * spellDist;
+            const spY = Math.sin(spellRad) * spellDist;
+            const spellNodeId = `spell-${spell.id}`;
+
+            const spellNode: MagicNode = {
+              id: spellNodeId,
+              title: spell.name,
+              subtitle: `${spell.englishName} • Nivel ${spell.level === 0 ? "Truco" : spell.level} (${spell.school})`,
+              tier: 3,
+              pillarId: pillar.id,
+              pillarName: pillar.name,
+              color: subColor,
+              glowColor: subGlowColor,
+              x: spX,
+              y: spY,
+              r: 8.5,
+              parentId: subId,
+              isSpell: true,
+              spellData: spell,
+              summary: `${spell.school} • Nivel ${spell.level === 0 ? "Truco" : spell.level} • ${spell.castingTime} • Alcance ${spell.range}`,
+              details: spell.description,
+              infobox: {
+                "Hechizo Oficial": "D&D 5ª Edición (SRD)",
+                "Nombre en Inglés": spell.englishName,
+                "Nivel": spell.level === 0 ? "Truco (Nivel 0)" : `Nivel ${spell.level}`,
+                "Escuela": spell.school,
+                "Tiempo de Lanzamiento": spell.castingTime,
+                "Alcance / Área": spell.range,
+                "Componentes": spell.components,
+                "Duración": spell.duration,
+                "Concentración": spell.concentration ? "Sí" : "No",
+                "Ritual": spell.ritual ? "Sí" : "No",
+                "Clases Compatibles": spell.classes.join(", "),
+                "Submagia Matriz": spell.submagiaTitle,
+                "Pilar Primordial": pillar.name
+              },
+              connections: [subId]
+            };
+            nodeList.push(spellNode);
+
+            // Radiant link from submagia to spell node
+            linkList.push({
+              from: subId,
+              to: spellNodeId,
+              color: subColor,
+              width: 1.1,
+              dash: "3 3",
+              opacity: 0.65
+            });
+          });
+        }
       });
     });
 
-    // =========================================================================
-    // ANILLO EXTERIOR: MAGIAS DE SEGUNDA GENERACIÓN
-    // =========================================================================
-    // De momento se agrega exclusivamente la Magia Áurea (fusión Divina + Natural)
-    const R_SECOND_GEN = 490; // Anillo exterior dedicado a magias de 2ª Generación que amplía el círculo
-    const aureaArticle = articleMap.get("magia-aurea");
-
-    // Magia Áurea está posicionada a 330° (bisectriz simétrica entre Divina a 270° y Natural a 30°)
-    const AUREA_ANGLE_DEG = 330;
-    const aureaRad = (AUREA_ANGLE_DEG * Math.PI) / 180;
-    const aureaX = Math.cos(aureaRad) * R_SECOND_GEN;
-    const aureaY = Math.sin(aureaRad) * R_SECOND_GEN;
-
-    const aureaNode: MagicNode = {
-      id: "secondgen-magia-aurea",
-      title: "Magia Áurea",
-      subtitle: "Magia de 2ª Generación (Fusión Divina + Natural)",
-      tier: 4,
-      pillarId: "aurea",
-      pillarName: "2ª Generación • Áurea",
-      color: "#fef08a", // Amarillo pálido luminoso
-      glowColor: "#fde047", // Resplandor dorado pálido celestial
-      x: aureaX,
-      y: aureaY,
-      r: 20,
-      articleSlug: "magia-aurea",
-      articleId: aureaArticle?.id || "art-1791351732056",
-      summary: aureaArticle?.summary || "La Magia Áurea es una manifestación única de la fusión entre la magia divina y la magia natural en Ávalon, centrada en la curación, regeneración, resurrección y creación de leyendas. Esta magia es el corazón y alma del Árbol Áureo, otorgando poderes extraordinarios que trascienden las leyes naturales.",
-      details: "El corazón y alma del Árbol Áureo de Ávalon. Nace de la confluencia entre la gracia divina celestial y la vitalidad regenerativa de la naturaleza, permitiendo una sanación que trasciende las leyes biológicas normales y convierte las hazañas de los héroes en mitos inmortales.",
-      infobox: {
-        "Generación": "2ª Generación (Híbrida)",
-        "Fusión Matriz": "Magia Divina + Magia Natural",
-        "Epicentro Cósmico": "El Árbol Áureo de Ávalon",
-        "Dominios": "Curación, Regeneración, Resurrección y Leyendas",
-        "Región de Poder": "Ávalon (Isla de la Inmortalidad)",
-        "Propiedad Única": "Trascendencia de las Leyes Naturales"
-      },
-      connections: ["pillar-divina", "pillar-natural"]
-    };
-    nodeList.push(aureaNode);
-
-    // Patrón Geométrico Sagrado de Unión (Líneas rectas que amplían el círculo mágico)
-    // 1. Rayo celestial directo Divina -> Áurea
-    linkList.push({
-      from: "pillar-divina",
-      to: "secondgen-magia-aurea",
-      color: "#fef08a",
-      width: 2.2,
-      dash: "6 6",
-      opacity: 0.9
-    });
-
-    // 2. Rayo elemental-vital directo Natural -> Áurea
-    linkList.push({
-      from: "pillar-natural",
-      to: "secondgen-magia-aurea",
-      color: "#6ee7b7",
-      width: 2.2,
-      dash: "6 6",
-      opacity: 0.9
-    });
-
-    // 3. Cuerda Transmutadora Base Divina -> Natural (cierra el Gran Trígono de Fusión)
-    linkList.push({
-      from: "pillar-divina",
-      to: "pillar-natural",
-      color: "rgba(254, 240, 138, 0.45)",
-      width: 1.5,
-      dash: "8 8",
-      opacity: 0.65
-    });
-
-    // =========================================================================
-    // SUBRAMAS DE MAGIA ÁUREA (2ª Generación): Regeneración, Resurrección y Leyendas
-    // =========================================================================
-    const aureaSubmagias = getSubmagiasForPillar("aurea");
-    // Se colocan en un elegante abanico celestial exterior centrado en el ángulo de Magia Áurea (330°)
-    // Distancia radial hacia el exterior amplificando el círculo arcano
-    const aureaSubAngles = [316, 330, 344]; // Regeneración a 316°, Resurrección a 330° (eje central), Leyendas a 344°
-    const aureaSubRadii = [556, 568, 556]; // Arco curvado hacia el exterior
-
-    aureaSubmagias.forEach((sub, sIdx) => {
-      const subRad = (aureaSubAngles[sIdx] * Math.PI) / 180;
-      const subDist = aureaSubRadii[sIdx];
-      const asX = Math.cos(subRad) * subDist;
-      const asY = Math.sin(subRad) * subDist;
-
-      const subId = `sub-aurea-${sIdx}`;
-      const subNode: MagicNode = {
-        id: subId,
-        title: sub.title,
-        subtitle: "Subrama de Magia Áurea",
-        tier: 2,
-        pillarId: "aurea",
-        pillarName: "Magia Áurea",
-        color: "#fef08a",
-        glowColor: "#fde047",
-        x: asX,
-        y: asY,
-        r: 12,
-        parentId: "secondgen-magia-aurea",
-        articleSlug: sub.slug,
-        summary: sub.summary,
-        details: sub.summary,
-        infobox: {
-          "Rama Matriz": "Magia Áurea (2ª Generación)",
-          "Fusión": "Magia Divina + Magia Natural",
-          "Epicentro": "El Árbol Áureo de Ávalon",
-          "Propiedad": sIdx === 0 
-            ? "Restauración celular, biológica y espiritual acelerada"
-            : sIdx === 1
-            ? "Restitución del alma y el hálito vital; umbral de la muerte"
-            : "Consagración de mitos y leyendas inmortales en el cosmos"
-        },
-        connections: ["secondgen-magia-aurea"]
-      };
-      nodeList.push(subNode);
-
-      // Rayo celestial dorado desde Magia Áurea hacia la subrama
-      linkList.push({
-        from: "secondgen-magia-aurea",
-        to: subId,
-        color: "#fef08a",
-        width: 1.8,
-        dash: "4 4",
-        opacity: 0.88
-      });
-    });
-
-    // Conexión geométrica sagrada entre las 3 subramas (Corona de Ávalon)
-    linkList.push({
-      from: "sub-aurea-0",
-      to: "sub-aurea-1",
-      color: "rgba(254, 240, 138, 0.45)",
-      width: 1.2,
-      dash: "3 3",
-      opacity: 0.65
-    });
-    linkList.push({
-      from: "sub-aurea-1",
-      to: "sub-aurea-2",
-      color: "rgba(254, 240, 138, 0.45)",
-      width: 1.2,
-      dash: "3 3",
-      opacity: 0.65
-    });
-
-    aureaNode.connections.push(...aureaSubmagias.map((_, i) => `sub-aurea-${i}`));
-
-    // Anti-Overlap Relaxation Pass: guarantees zero node collision while preserving circular alignment
-    // CRITICAL: Submagias must remain strictly aligned on their assigned circumference (R_SUBMAGIA_INNER or R_SUBMAGIA_OUTER)
-    const RELAX_ITERATIONS = 20;
+    // Anti-Overlap Relaxation Pass: guarantees zero node collision in the circular layout
+    const RELAX_ITERATIONS = 25;
     for (let iter = 0; iter < RELAX_ITERATIONS; iter++) {
       for (let i = 0; i < nodeList.length; i++) {
         const n1 = nodeList[i];
-        if (n1.tier <= 1 || n1.tier === 4 || n1.pillarId === "aurea") continue; // Keep core, pillars, 2nd gen and its subramas fixed
+        if (n1.tier <= 1) continue; // Keep core and 6 pillars fixed
 
-        const rad1 = n1.tier === 2 ? 22 : 13;
+        const rad1 = n1.tier === 2 ? 24 : 13;
 
         for (let j = i + 1; j < nodeList.length; j++) {
           const n2 = nodeList[j];
-          const rad2 = n2.tier === 2 ? 22 : 13;
+          const rad2 = n2.tier === 2 ? 24 : 13;
           const minDist = rad1 + rad2;
 
           const dx = n2.x - n1.x;
@@ -1173,7 +1037,7 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
             const nx = dx / dist;
             const ny = dy / dist;
 
-            if (n2.tier <= 1 || n2.tier === 4 || n2.pillarId === "aurea") {
+            if (n2.tier <= 1) {
               n1.x -= nx * overlap;
               n1.y -= ny * overlap;
             } else {
@@ -1184,17 +1048,6 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
             }
           }
         }
-
-        // Strict lock: Tier 2 submagias of the 6 pillars are strictly re-projected back onto their assigned circumference
-        if (n1.tier === 2) {
-          const currentR = Math.sqrt(n1.x * n1.x + n1.y * n1.y);
-          const targetR = Math.abs(currentR - R_SUBMAGIA_INNER) < Math.abs(currentR - R_SUBMAGIA_OUTER)
-            ? R_SUBMAGIA_INNER
-            : R_SUBMAGIA_OUTER;
-          const angle = Math.atan2(n1.y, n1.x);
-          n1.x = Math.cos(angle) * targetR;
-          n1.y = Math.sin(angle) * targetR;
-        }
       }
     }
 
@@ -1202,9 +1055,10 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
     const spiralNodes: { x: number; y: number; r: number; opacity: number }[] = [];
 
     // 3. Equilibrium links between adjacent pillars (forming the regular polygon between the 6 Primordial Pillars)
-    for (let i = 0; i < PRIMORDIAL_PILLARS.length; i++) {
-      const current = PRIMORDIAL_PILLARS[i];
-      const next = PRIMORDIAL_PILLARS[(i + 1) % PRIMORDIAL_PILLARS.length];
+    const CORE_HEX_PILLARS = PRIMORDIAL_PILLARS.filter((p) => p.id !== "aurea");
+    for (let i = 0; i < CORE_HEX_PILLARS.length; i++) {
+      const current = CORE_HEX_PILLARS[i];
+      const next = CORE_HEX_PILLARS[(i + 1) % CORE_HEX_PILLARS.length];
       linkList.push({
         from: `pillar-${current.id}`,
         to: `pillar-${next.id}`,
@@ -1212,6 +1066,27 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
         width: 1.2,
         dash: "5 7",
         opacity: 0.4
+      });
+    }
+
+    // Sacred bridges for Magia Áurea (Fusión de Magia Divina y Magia Natural)
+    const aureaPillar = PRIMORDIAL_PILLARS.find((p) => p.id === "aurea");
+    if (aureaPillar) {
+      linkList.push({
+        from: "pillar-divina",
+        to: "pillar-aurea",
+        color: "#f59e0b",
+        width: 1.6,
+        dash: "3 5",
+        opacity: 0.65
+      });
+      linkList.push({
+        from: "pillar-natural",
+        to: "pillar-aurea",
+        color: "#10b981",
+        width: 1.6,
+        dash: "3 5",
+        opacity: 0.65
       });
     }
 
@@ -1637,9 +1512,45 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
       <div className="absolute top-3 left-3 z-20 pointer-events-auto interactive-ui flex flex-col gap-2 max-w-[calc(100vw-1.5rem)] sm:max-w-none">
         {tabSelector}
 
-        {/* Single Pillar Return Button */}
-        {isSinglePillarMode && (
-          <div className="flex items-center gap-2 animate-in fade-in duration-150">
+        {/* Single Consolidated Control Bar */}
+        <div className="flex flex-wrap items-center gap-1.5 bg-[#090d18]/92 backdrop-blur-xl border border-purple-500/35 p-1.5 rounded-2xl shadow-2xl shadow-purple-950/40">
+          {/* Quick status emblem / return button */}
+          <div className="hidden sm:flex items-center gap-2 pl-1.5 pr-2 border-r border-border/50">
+            {isSinglePillarMode ? (
+              <button
+                onClick={() => {
+                  setActivePillarFilter("all");
+                  setSelectedNode(null);
+                  if (containerRef.current) {
+                    const rect = containerRef.current.getBoundingClientRect();
+                    setPanZoom({
+                      x: rect.width / 2,
+                      y: rect.height / 2,
+                      scale: rect.width < 768 ? 0.42 : 0.62
+                    });
+                  }
+                }}
+                className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 text-[11px] font-bold border border-purple-500/40 transition-colors cursor-pointer"
+                title="Volver al esquema de los 6 Polos"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 text-purple-300" />
+                <span>6 Polos</span>
+              </button>
+            ) : (
+              <>
+                <div className="relative flex items-center justify-center">
+                  <span className="w-2.5 h-2.5 rounded-full bg-purple-500 animate-ping absolute opacity-60" />
+                  <span className="w-2 h-2 rounded-full bg-purple-400 relative" />
+                </div>
+                <span className="text-[11px] font-heading font-bold text-purple-200 tracking-wider uppercase">
+                  6 Polos
+                </span>
+              </>
+            )}
+          </div>
+
+          {/* Elemental Filters */}
+          <div className="flex flex-wrap items-center gap-1">
             <button
               onClick={() => {
                 setActivePillarFilter("all");
@@ -1653,14 +1564,157 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                   });
                 }
               }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 text-xs font-bold border border-purple-500/40 transition-colors cursor-pointer shadow-lg backdrop-blur-md"
-              title="Volver al mandala completo de los 6 Polos"
+              className={`px-2.5 py-1 text-[10.5px] rounded-xl font-medium transition-all cursor-pointer flex items-center gap-1.5 ${
+                activePillarFilter === "all"
+                  ? "bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-600 text-white font-bold shadow-md shadow-purple-900/60 border border-purple-400/50"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+              }`}
+              title="Ver mandala conjunto de los 6 Polos Primordiales"
             >
-              <ArrowLeft className="w-3.5 h-3.5 text-purple-300" />
-              <span>Volver a Todos los Polos</span>
+              <Sparkles className="w-3 h-3 text-amber-300" />
+              <span>Todas (6 Polos)</span>
+            </button>
+
+            {PRIMORDIAL_PILLARS.map((p) => {
+              const isActive = activePillarFilter === p.id;
+              const isSalvaje = p.id === "salvaje";
+              return (
+                <button
+                  key={p.id}
+                  onClick={() => {
+                    setActivePillarFilter(p.id);
+                    setSelectedNode(null);
+                    if (containerRef.current) {
+                      const rect = containerRef.current.getBoundingClientRect();
+                      setPanZoom({
+                        x: rect.width / 2,
+                        y: rect.height / 2,
+                        scale: rect.width < 768 ? 0.65 : 0.85
+                      });
+                    }
+                  }}
+                  className={`px-2.5 py-1 text-[10.5px] rounded-xl font-medium transition-all cursor-pointer flex items-center gap-1.5 ${
+                    isActive 
+                      ? (isSalvaje 
+                          ? "bg-[#101b38] text-blue-100 font-bold border-2 border-blue-500 shadow-md shadow-blue-950/80" 
+                          : "text-black font-bold shadow-md shadow-black/40") 
+                      : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                  }`}
+                  style={{
+                    backgroundColor: isActive ? (isSalvaje ? "#101b38" : p.color) : undefined,
+                    boxShadow: isActive && !isSalvaje ? `0 0 14px ${p.color}80` : undefined
+                  }}
+                  title={`Abrir esquema dedicado de ${p.name}`}
+                >
+                  <span 
+                    className={`w-2 h-2 rounded-full ${isSalvaje ? "border-2 border-black" : ""}`} 
+                    style={{ backgroundColor: p.color, boxShadow: `0 0 6px ${p.glowColor}` }} 
+                  />
+                  <span>{p.name.replace("Magia ", "")}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <span className="hidden sm:inline-block w-px h-5 bg-border/50 mx-0.5" />
+
+          {/* Quick interactive toggles */}
+          <div className="flex items-center gap-1">
+            {/* Live Pulses Toggle */}
+            <button
+              onClick={() => setIsLivePulsing(!isLivePulsing)}
+              title={isLivePulsing ? "Pausar animación viva de maná" : "Activar animación viva de maná"}
+              className={`px-2 py-1 rounded-xl text-[10px] font-medium flex items-center gap-1 transition-all cursor-pointer ${
+                isLivePulsing
+                  ? "bg-purple-500/20 text-purple-200 border border-purple-500/40 shadow-sm"
+                  : "text-muted-foreground hover:bg-secondary/40"
+              }`}
+            >
+              <Zap className={`w-3 h-3 ${isLivePulsing ? "text-amber-300 animate-pulse" : "text-muted-foreground"}`} />
+              <span className="hidden md:inline">Pulso Vivo</span>
+            </button>
+
+            {/* Astrolabe Toggle */}
+            <button
+              onClick={() => setShowRuneRings(!showRuneRings)}
+              title="Mostrar/ocultar astrolabio y círculos rúnicos"
+              className={`px-2 py-1 rounded-xl text-[10px] font-medium flex items-center gap-1 transition-all cursor-pointer ${
+                showRuneRings
+                  ? "bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 shadow-sm"
+                  : "text-muted-foreground hover:bg-secondary/40"
+              }`}
+            >
+              <Compass className={`w-3 h-3 ${showRuneRings ? "text-cyan-300" : "text-muted-foreground"}`} />
+              <span className="hidden md:inline">Astrolabio</span>
+            </button>
+
+            {/* Label Density */}
+            <button
+              onClick={() => {
+                if (labelDensity === "major") setLabelDensity("all");
+                else if (labelDensity === "all") setLabelDensity("focused");
+                else setLabelDensity("major");
+              }}
+              title="Cambiar densidad de etiquetas"
+              className="px-2 py-1 rounded-xl text-[10px] font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/50 flex items-center gap-1 transition-all cursor-pointer"
+            >
+              <Eye className="w-3 h-3 text-amber-400" />
+              <span className="capitalize">{labelDensity === "all" ? "Todas" : labelDensity === "major" ? "Principales" : "Foco"}</span>
+            </button>
+
+            {/* Hechizos 5e Subnodes Toggle */}
+            <button
+              onClick={() => setShowSpells(!showSpells)}
+              title={showSpells ? `Ocultar los ${DND_5E_SPELLS.length} hechizos oficiales de D&D 5e del árbol` : `Mostrar los ${DND_5E_SPELLS.length} hechizos oficiales de D&D 5e vinculados a sus submagias`}
+              className={`px-2 py-1 rounded-xl text-[10px] font-medium flex items-center gap-1 transition-all cursor-pointer ${
+                showSpells
+                  ? "bg-amber-500/20 text-amber-200 border border-amber-500/40 shadow-sm"
+                  : "text-muted-foreground hover:bg-secondary/40"
+              }`}
+            >
+              <Wand2 className={`w-3 h-3 ${showSpells ? "text-amber-300" : "text-muted-foreground"}`} />
+              <span className="hidden sm:inline">Hechizos 5e ({DND_5E_SPELLS.length})</span>
+            </button>
+
+            {/* Visual Edit Mode Toggle */}
+            <button
+              onClick={toggleEditMode}
+              title="Activar modo edición para personalizar colores de submagias y arrastrar nodos"
+              className={`px-2.5 py-1 rounded-xl text-[10px] font-medium flex items-center gap-1.5 transition-all cursor-pointer ${
+                isEditMode
+                  ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-900/60 border border-purple-400/60 font-semibold"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+              }`}
+            >
+              <Palette className={`w-3 h-3 ${isEditMode ? "text-amber-300" : "text-purple-400"}`} />
+              <span>Modo Edición</span>
+            </button>
+
+            {/* Direct Color Wheel Trigger */}
+            <button
+              onClick={() => handleOpenColorWheel()}
+              title="Abrir Rueda de Color para elegir los colores de los nodos de magia"
+              className="px-2.5 py-1 rounded-xl text-[10px] font-medium flex items-center gap-1.5 transition-all cursor-pointer text-muted-foreground hover:text-foreground hover:bg-secondary/50 border border-border/40"
+            >
+              <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-rose-500 via-amber-400 via-emerald-400 via-cyan-400 to-purple-600 shadow-xs ring-1 ring-white/30 shrink-0" />
+              <span>Rueda de Color</span>
+            </button>
+
+            {/* Hexagrama / Polígono de Equilibrio Toggle */}
+            <button
+              onClick={() => setShowEquilibriumLines(!showEquilibriumLines)}
+              title="Líneas de Equilibrio Primordial (Hexagrama y Polígono de Armonía Cósmica)"
+              className={`px-2.5 py-1 rounded-xl text-[10px] font-medium flex items-center gap-1.5 transition-all cursor-pointer ${
+                showEquilibriumLines
+                  ? "bg-purple-500/20 text-purple-200 border border-purple-500/30 shadow-sm"
+                  : "text-muted-foreground hover:bg-secondary/40 border border-transparent"
+              }`}
+            >
+              <Layers className="w-3 h-3 text-purple-400" />
+              <span className="hidden sm:inline">Hexagrama</span>
             </button>
           </div>
-        )}
+        </div>
 
         {/* Floating Edit Mode Bar when active */}
         {isEditMode && (
@@ -1775,32 +1829,8 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
           )}
         </div>
 
-        {/* Quick tools: Canonical article link & GitHub Sync */}
+        {/* Quick tools: Canonical article link */}
         <div className="flex items-center gap-1.5 bg-[#090d18]/85 backdrop-blur-md border border-border/80 p-1 rounded-xl shadow-xl">
-          {/* GitHub Sync Button */}
-          <button
-            onClick={handleUploadGraphToGitHub}
-            disabled={isSyncingToGitHub}
-            title="Subir Grafo de Magias Primordiales a GitHub (tirianworld/Cdd-Dragopedia-DEFINITIVA)"
-            className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
-              isSyncingToGitHub
-                ? "bg-purple-900/60 text-purple-200 border border-purple-500/50"
-                : "bg-purple-950/60 hover:bg-purple-900/80 text-purple-200 border border-purple-500/40 hover:border-purple-300"
-            }`}
-          >
-            {isSyncingToGitHub ? (
-              <>
-                <Loader2 className="w-3.5 h-3.5 animate-spin text-purple-400" />
-                <span className="hidden sm:inline">Subiendo a GitHub...</span>
-              </>
-            ) : (
-              <>
-                <Github className="w-3.5 h-3.5 text-purple-300" />
-                <span className="hidden sm:inline">Subir a GitHub</span>
-              </>
-            )}
-          </button>
-
           <button
             onClick={() => setShowParticles(!showParticles)}
             title="Espiral y Partículas de Polvo Mágico"
@@ -1810,41 +1840,22 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
           >
             <Sparkles className="w-3.5 h-3.5" />
           </button>
-        </div>
 
-        {/* GitHub Sync Feedback Toast */}
-        {githubSyncFeedback && (
-          <div className={`mt-2 p-3 rounded-xl border shadow-2xl backdrop-blur-md max-w-sm text-xs flex items-start gap-2.5 animate-in fade-in slide-in-from-top-2 duration-200 ${
-            githubSyncFeedback.type === "success" 
-              ? "bg-emerald-950/90 border-emerald-500/50 text-emerald-100" 
-              : "bg-rose-950/90 border-rose-500/50 text-rose-100"
-          }`}>
-            {githubSyncFeedback.type === "success" ? (
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-            ) : (
-              <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
-            )}
-            <div className="flex-1">
-              <p className="font-medium">{githubSyncFeedback.message}</p>
-              {githubSyncFeedback.url && (
-                <a
-                  href={githubSyncFeedback.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-1.5 inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-300 hover:text-white underline"
-                >
-                  Ver commit en GitHub <ExternalLink className="w-3 h-3" />
-                </a>
-              )}
-            </div>
-            <button
-              onClick={() => setGithubSyncFeedback(null)}
-              className="text-muted-foreground hover:text-white p-0.5 cursor-pointer"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        )}
+          <button
+            onClick={() => {
+              const coreNode = nodeLookup.get("core-primordial");
+              if (coreNode) {
+                flyToNode(coreNode);
+                setSelectedNode(coreNode);
+              }
+            }}
+            title="Ver Matriz del Flujo Primordial"
+            className="px-2.5 py-1 text-[10.5px] font-medium text-amber-200/90 hover:text-amber-100 hover:bg-amber-950/30 rounded-lg flex items-center gap-1 transition-all cursor-pointer"
+          >
+            <BookOpen className="w-3 h-3 text-amber-300" />
+            <span className="hidden sm:inline">Códice</span>
+          </button>
+        </div>
       </div>
 
       {/* 4. Bottom-Left Pan/Zoom Floating Bar & Quick Pole Jumper */}
@@ -1920,57 +1931,6 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
               </button>
             );
           })}
-        </div>
-
-        <span className="w-px h-5 bg-border/60" />
-
-        {/* Compact Tool Toggles */}
-        <div className="flex items-center gap-1">
-          <button
-            onClick={() => setIsLivePulsing(!isLivePulsing)}
-            title={isLivePulsing ? "Pausar animación viva de maná" : "Activar animación viva de maná"}
-            className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer ${
-              isLivePulsing ? "text-amber-300 bg-amber-500/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-            }`}
-          >
-            <Zap className="w-3.5 h-3.5" />
-          </button>
-          <button
-            onClick={() => setShowRuneRings(!showRuneRings)}
-            title="Mostrar/ocultar astrolabio y círculos rúnicos"
-            className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer ${
-              showRuneRings ? "text-cyan-300 bg-cyan-500/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-            }`}
-          >
-            <Compass className="w-3.5 h-3.5" />
-          </button>
-          <button
-            onClick={() => setShowEquilibriumLines(!showEquilibriumLines)}
-            title="Líneas de equilibrio (Hexagrama)"
-            className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer ${
-              showEquilibriumLines ? "text-purple-300 bg-purple-500/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-            }`}
-          >
-            <Layers className="w-3.5 h-3.5" />
-          </button>
-          <button
-            onClick={() => setShowSpells(!showSpells)}
-            title={showSpells ? "Ocultar hechizos 5e" : `Mostrar hechizos 5e (${DND_5E_SPELLS.length})`}
-            className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer ${
-              showSpells ? "text-amber-300 bg-amber-500/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-            }`}
-          >
-            <Wand2 className="w-3.5 h-3.5" />
-          </button>
-          <button
-            onClick={toggleEditMode}
-            title="Modo edición de colores"
-            className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer ${
-              isEditMode ? "text-white bg-purple-600 shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-            }`}
-          >
-            <Palette className="w-3.5 h-3.5" />
-          </button>
         </div>
       </div>
 
@@ -2053,31 +2013,6 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                 </linearGradient>
               );
             })}
-
-            {/* Magia Áurea (2ª Generación: Fusión Divina + Natural) Defs - Amarillo Pálido */}
-            <radialGradient id="aurea-node-grad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
-              <stop offset="25%" stopColor="#fefce8" stopOpacity="1" />
-              <stop offset="65%" stopColor="#fef08a" stopOpacity="1" />
-              <stop offset="90%" stopColor="#fde047" stopOpacity="0.95" />
-              <stop offset="100%" stopColor="#fef08a" stopOpacity="1" />
-            </radialGradient>
-            <radialGradient id="aurea-glow-grad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#fefce8" stopOpacity="0.9" />
-              <stop offset="35%" stopColor="#fef08a" stopOpacity="0.6" />
-              <stop offset="70%" stopColor="#fef9c3" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#fde047" stopOpacity="0" />
-            </radialGradient>
-            <linearGradient id="link-grad-divina-aurea" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.85" />
-              <stop offset="60%" stopColor="#fde047" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#fef08a" stopOpacity="1" />
-            </linearGradient>
-            <linearGradient id="link-grad-natural-aurea" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#10b981" stopOpacity="0.85" />
-              <stop offset="60%" stopColor="#a7f3d0" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#fef08a" stopOpacity="1" />
-            </linearGradient>
           </defs>
 
           {/* Transform group for Pan & Zoom */}
@@ -2166,59 +2101,12 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                   </>
                 ) : (
                   <>
-                    {/* Anillo Exterior de Magias de 2ª Generación (Outer Ring) */}
-                    <circle
-                      cx={0}
-                      cy={0}
-                      r={490}
-                      fill="none"
-                      stroke="rgba(254, 240, 138, 0.45)"
-                      strokeWidth={1.8}
-                      strokeDasharray="14 10"
-                      className={isLivePulsing ? "animate-mana-flow" : ""}
-                    />
-                    <circle
-                      cx={0}
-                      cy={0}
-                      r={502}
-                      fill="none"
-                      stroke="rgba(254, 240, 138, 0.22)"
-                      strokeWidth={0.8}
-                      strokeDasharray="5 7"
-                    />
+                    {/* Outer Ring of Spells / Incantations Halo */}
+                    <circle cx={0} cy={0} r={455} fill="none" stroke="rgba(255, 255, 255, 0.14)" strokeWidth={0.9} strokeDasharray="4 6" />
 
-                    {/* Las 2 Circunferencias de Escuelas y Subtipos de las Magias Principales */}
-                    {/* Subtle ethereal corridor between the 2 circumferences */}
-                    <circle
-                      cx={0}
-                      cy={0}
-                      r={(335 + 372) / 2}
-                      fill="none"
-                      stroke="rgba(255, 255, 255, 0.025)"
-                      strokeWidth={372 - 335}
-                    />
-
-                    {/* Circunferencia Exterior (r = 372) */}
-                    <circle
-                      cx={0}
-                      cy={0}
-                      r={372}
-                      fill="none"
-                      stroke="rgba(255, 255, 255, 0.26)"
-                      strokeWidth={1.2}
-                      strokeDasharray="6 8"
-                    />
-
-                    {/* Circunferencia Interior (r = 335) */}
-                    <circle
-                      cx={0}
-                      cy={0}
-                      r={335}
-                      fill="none"
-                      stroke="rgba(255, 255, 255, 0.28)"
-                      strokeWidth={1.2}
-                      strokeDasharray="8 8"
-                    />
+                    {/* Dual Ring of Submagias (The Grand Circular Ribbon) */}
+                    <circle cx={0} cy={0} r={372} fill="none" stroke="rgba(255, 255, 255, 0.18)" strokeWidth={1} strokeDasharray="6 8" />
+                    <circle cx={0} cy={0} r={335} fill="none" stroke="rgba(255, 255, 255, 0.22)" strokeWidth={1.2} strokeDasharray="8 8" />
 
                     {/* Ring of the 6 Primordial Pillars */}
                     <circle cx={0} cy={0} r={210} fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth={1.4} strokeDasharray="8 10" />
@@ -2291,137 +2179,6 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
               </g>
             )}
 
-            {/* Patrón Geométrico Sagrado que amplía el Círculo Mágico hacia la 2ª Generación (Magia Áurea) */}
-            {!isSinglePillarMode && (() => {
-              const pDivina = nodeLookup.get("pillar-divina");
-              const pNatural = nodeLookup.get("pillar-natural");
-              const aurea = nodeLookup.get("secondgen-magia-aurea");
-              if (!pDivina || !pNatural || !aurea) return null;
-
-              const isVisible = activePillarFilter === "all" || 
-                activePillarFilter === "aurea" || 
-                activePillarFilter === "divina" || 
-                activePillarFilter === "natural";
-              if (!isVisible) return null;
-
-              const d = getNodePos(pDivina);
-              const n = getNodePos(pNatural);
-              const a = getNodePos(aurea);
-
-              // Coordenadas de los vértices de la Bóveda Poligonal Arcana Exterior (R=490-510px):
-              const v1 = { x: 0, y: -490 };
-              const v2 = { x: 245, y: -424.4 };
-              const v4 = { x: 490, y: 0 };
-              const v5 = { x: 424.4, y: 245 };
-
-              return (
-                <g key="sacred-secondgen-geometry-expansion" className="sacred-geometry-expansion pointer-events-none">
-                  {/* 1. Relleno místico del Gran Trígono de Fusión Divina + Natural -> Áurea */}
-                  <polygon
-                    points={`${d.x},${d.y} ${n.x},${n.y} ${a.x},${a.y}`}
-                    fill="url(#aurea-glow-grad)"
-                    opacity={0.07}
-                  />
-
-                  {/* 2. Bóveda Poligonal Arcana Exterior: Facetas rectas que rompen y amplían el círculo */}
-                  <polyline
-                    points={`${v1.x},${v1.y} ${v2.x},${v2.y} ${a.x},${a.y} ${v4.x},${v4.y} ${v5.x},${v5.y}`}
-                    fill="none"
-                    stroke="#fef08a"
-                    strokeWidth={1.8}
-                    strokeDasharray="10 8"
-                    strokeOpacity={0.65}
-                    className={isLivePulsing ? "animate-mana-flow" : ""}
-                  />
-
-                  {/* 3. Cuerdas secantes y triangulaciones de la geometría sagrada de ampliación */}
-                  <line
-                    x1={v2.x}
-                    y1={v2.y}
-                    x2={v4.x}
-                    y2={v4.y}
-                    stroke="#fef08a"
-                    strokeWidth={1.3}
-                    strokeDasharray="4 6"
-                    strokeOpacity={0.4}
-                  />
-                  <line
-                    x1={v1.x}
-                    y1={v1.y}
-                    x2={a.x}
-                    y2={a.y}
-                    stroke="#fef08a"
-                    strokeWidth={1.1}
-                    strokeDasharray="3 5"
-                    strokeOpacity={0.35}
-                  />
-                  <line
-                    x1={v5.x}
-                    y1={v5.y}
-                    x2={a.x}
-                    y2={a.y}
-                    stroke="#6ee7b7"
-                    strokeWidth={1.1}
-                    strokeDasharray="3 5"
-                    strokeOpacity={0.35}
-                  />
-
-                  {/* 4. Eje Transmutador Axial: Rayo directo desde el Núcleo (0,0) hacia el Ápex de Magia Áurea */}
-                  <line
-                    x1={0}
-                    y1={0}
-                    x2={a.x}
-                    y2={a.y}
-                    stroke="#fef08a"
-                    strokeWidth={1.4}
-                    strokeDasharray="6 8"
-                    strokeOpacity={0.55}
-                    className={isLivePulsing ? "animate-mana-flow-fast" : ""}
-                  />
-
-                  {/* 5. Cuerda Transmutadora Base que une Magia Divina y Magia Natural en línea recta */}
-                  <line
-                    x1={d.x}
-                    y1={d.y}
-                    x2={n.x}
-                    y2={n.y}
-                    stroke="rgba(254, 240, 138, 0.45)"
-                    strokeWidth={1.6}
-                    strokeDasharray="8 6"
-                    strokeOpacity={0.7}
-                  />
-
-                  {/* 6. Nexos estrellados de poder en los vértices poligonales V2 y V4 */}
-                  {[v2, v4].map((v, idx) => (
-                    <g key={`geom-nexus-${idx}`} transform={`translate(${v.x}, ${v.y})`}>
-                      <polygon
-                        points="0,-7 7,0 0,7 -7,0"
-                        fill="rgba(6, 11, 20, 0.95)"
-                        stroke="#fef08a"
-                        strokeWidth={1.3}
-                      />
-                      <circle r={2.2} fill="#ffffff" />
-                    </g>
-                  ))}
-
-                  {/* 7. Graduaciones arcanas de rayo sobre las facetas poligonales */}
-                  {Array.from({ length: 7 }).map((_, i) => {
-                    const t = (i + 1) / 8;
-                    const fx1 = v2.x + (a.x - v2.x) * t;
-                    const fy1 = v2.y + (a.y - v2.y) * t;
-                    const fx2 = a.x + (v4.x - a.x) * t;
-                    const fy2 = a.y + (v4.y - a.y) * t;
-                    return (
-                      <g key={`facet-ticks-${i}`}>
-                        <circle cx={fx1} cy={fy1} r={1.3} fill="#fef08a" opacity={0.75} />
-                        <circle cx={fx2} cy={fy2} r={1.3} fill="#6ee7b7" opacity={0.75} />
-                      </g>
-                    );
-                  })}
-                </g>
-              );
-            })()}
-
             {/* 5.2 Chromatic Pillar Nebulae Halos */}
             <g className="pillar-auras pointer-events-none">
               {pillarAuras.map((aura) => {
@@ -2492,9 +2249,7 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                   source.pillarId === activePillarFilter || 
                   target.pillarId === activePillarFilter || 
                   source.pillarId === "core" || 
-                  target.pillarId === "core" ||
-                  ((source.tier === 4 || source.pillarId === "aurea") && (activePillarFilter === "divina" || activePillarFilter === "natural" || activePillarFilter === "aurea")) ||
-                  ((target.tier === 4 || target.pillarId === "aurea") && (activePillarFilter === "divina" || activePillarFilter === "natural" || activePillarFilter === "aurea"));
+                  target.pillarId === "core";
 
                 if (!isPillarFiltered) return null;
 
@@ -2503,36 +2258,32 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                 const isCoreConduit = source.tier === 0 || target.tier === 0;
                 const isPillarToSub = (source.tier === 1 && target.tier === 2) || (source.tier === 2 && target.tier === 1);
 
-                const isDivinaAurea = (source.id === "pillar-divina" && target.id === "secondgen-magia-aurea") || (source.id === "secondgen-magia-aurea" && target.id === "pillar-divina");
-                const isNaturalAurea = (source.id === "pillar-natural" && target.id === "secondgen-magia-aurea") || (source.id === "secondgen-magia-aurea" && target.id === "pillar-natural");
                 return (
                   <g key={`link-${idx}`}>
-                      <>
-                        {/* Glowing underlay for high visual impact */}
-                        <line
-                          x1={sPos.x}
-                          y1={sPos.y}
-                          x2={tPos.x}
-                          y2={tPos.y}
-                          stroke={link.color}
-                          strokeWidth={strokeWidth * 1.8}
-                          strokeOpacity={opacity * 0.35}
-                          filter="url(#magic-glow)"
-                        />
-                        {/* Sharp core link with flowing mana dashes */}
-                        <line
-                          x1={sPos.x}
-                          y1={sPos.y}
-                          x2={tPos.x}
-                          y2={tPos.y}
-                          stroke={isLinkActive ? "#ffffff" : link.color}
-                          strokeWidth={strokeWidth}
-                          strokeDasharray={isCoreConduit ? "6 12" : (isPillarToSub ? "4 8" : (link.dash || (isLinkActive ? "4 8" : undefined)))}
-                          strokeOpacity={opacity}
-                          className={isLivePulsing && (isCoreConduit || isPillarToSub || isLinkActive) ? (isLinkActive ? "animate-mana-flow-fast" : "animate-mana-flow") : "transition-all duration-300"}
-                          strokeLinecap="round"
-                        />
-                      </>
+                    {/* Glowing underlay for high visual impact */}
+                    <line
+                      x1={sPos.x}
+                      y1={sPos.y}
+                      x2={tPos.x}
+                      y2={tPos.y}
+                      stroke={link.color}
+                      strokeWidth={strokeWidth * 1.8}
+                      strokeOpacity={opacity * 0.35}
+                      filter="url(#magic-glow)"
+                    />
+                    {/* Sharp core link with flowing mana dashes */}
+                    <line
+                      x1={sPos.x}
+                      y1={sPos.y}
+                      x2={tPos.x}
+                      y2={tPos.y}
+                      stroke={isLinkActive ? "#ffffff" : link.color}
+                      strokeWidth={strokeWidth}
+                      strokeDasharray={isCoreConduit ? "6 12" : (isPillarToSub ? "4 8" : (link.dash || (isLinkActive ? "4 8" : undefined)))}
+                      strokeOpacity={opacity}
+                      className={isLivePulsing && (isCoreConduit || isPillarToSub || isLinkActive) ? (isLinkActive ? "animate-mana-flow-fast" : "animate-mana-flow") : "transition-all duration-300"}
+                      strokeLinecap="round"
+                    />
                   </g>
                 );
               })}
@@ -2624,58 +2375,6 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                 </g>
               );
             })}
-
-            {/* 5.4.1b Animated Mana Pulses: Fusión Matriz -> Magia Áurea (2ª Generación) */}
-            {isLivePulsing && !isSinglePillarMode && (() => {
-              const pDivina = nodeLookup.get("pillar-divina");
-              const pNatural = nodeLookup.get("pillar-natural");
-              const aurea = nodeLookup.get("secondgen-magia-aurea");
-              if (!pDivina || !pNatural || !aurea) return null;
-              const dPos = getNodePos(pDivina);
-              const nPos = getNodePos(pNatural);
-              const aPos = getNodePos(aurea);
-              const divinaPath = `M ${dPos.x} ${dPos.y} L ${aPos.x} ${aPos.y}`;
-              const naturalPath = `M ${nPos.x} ${nPos.y} L ${aPos.x} ${aPos.y}`;
-              const baseChordPath = `M ${dPos.x} ${dPos.y} L ${nPos.x} ${nPos.y}`;
-
-              return (
-                <g key="aurea-fusion-mana-currents" className="pointer-events-none">
-                  {/* Divine Golden Mana Spark along straight celestial ray */}
-                  <circle r={3.6} fill="#fef08a" filter="url(#magic-glow)">
-                    <animateMotion path={divinaPath} dur="2.4s" repeatCount="indefinite" />
-                    <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" repeatCount="indefinite" />
-                  </circle>
-                  <circle r={1.8} fill="#ffffff">
-                    <animateMotion path={divinaPath} dur="2.4s" repeatCount="indefinite" />
-                  </circle>
-                  {/* Second Divine pulse offset */}
-                  <circle r={2.6} fill="#fde047" filter="url(#magic-glow)">
-                    <animateMotion path={divinaPath} dur="2.4s" begin="1.2s" repeatCount="indefinite" />
-                    <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="1.2s" repeatCount="indefinite" />
-                  </circle>
-
-                  {/* Natural Emerald Mana Spark along straight elemental ray */}
-                  <circle r={3.6} fill="#6ee7b7" filter="url(#magic-glow)">
-                    <animateMotion path={naturalPath} dur="2.4s" repeatCount="indefinite" />
-                    <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" repeatCount="indefinite" />
-                  </circle>
-                  <circle r={1.8} fill="#ffffff">
-                    <animateMotion path={naturalPath} dur="2.4s" repeatCount="indefinite" />
-                  </circle>
-                  {/* Second Natural pulse offset */}
-                  <circle r={2.6} fill="#10b981" filter="url(#magic-glow)">
-                    <animateMotion path={naturalPath} dur="2.4s" begin="1.2s" repeatCount="indefinite" />
-                    <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="1.2s" repeatCount="indefinite" />
-                  </circle>
-
-                  {/* Transmutation Pulse along Base Chord between Divina and Natural */}
-                  <circle r={2.8} fill="#fef08a" filter="url(#magic-glow)">
-                    <animateMotion path={baseChordPath} dur="3.6s" repeatCount="indefinite" />
-                    <animate attributeName="opacity" values="0;0.9;0.9;0" dur="3.6s" repeatCount="indefinite" />
-                  </circle>
-                </g>
-              );
-            })()}
 
             {/* 5.4.2 Animated Mana Pulses: Polos Primordiales -> Submagias (Conduit energy in each Pole's color) */}
             {isLivePulsing && submagiaNodes.map((sub, sIdx) => {
@@ -2778,6 +2477,47 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
               );
             })}
 
+            {/* 5.4.3 Animated Mana Sparks: Submagias -> Hechizos 5e (Tier 3) */}
+            {isLivePulsing && spellNodes.map((spellNode, spIdx) => {
+              const isPillarFocused = activePillarFilter === "all" || activePillarFilter === spellNode.pillarId;
+              if (!isPillarFocused) return null;
+
+              const parentSub = spellNode.parentId ? nodeLookup.get(spellNode.parentId) : undefined;
+              if (!parentSub) return null;
+
+              const sPos = getNodePos(parentSub);
+              const mPos = getNodePos(spellNode);
+              const sx = sPos.x.toFixed(1);
+              const sy = sPos.y.toFixed(1);
+              const mx = mPos.x.toFixed(1);
+              const my = mPos.y.toFixed(1);
+
+              const delay = ((spIdx % 6) * 0.35).toFixed(2);
+
+              return (
+                <g key={`sub-to-spell-${spellNode.id}`} className="pointer-events-none">
+                  <circle r={1.6} fill={spellNode.glowColor} filter="url(#magic-glow)">
+                    <animateTransform
+                      attributeName="transform"
+                      type="translate"
+                      from={`${sx},${sy}`}
+                      to={`${mx},${my}`}
+                      dur="3.2s"
+                      begin={`${delay}s`}
+                      repeatCount="indefinite"
+                    />
+                    <animate
+                      attributeName="opacity"
+                      values="0;0.85;0.85;0"
+                      dur="3.2s"
+                      begin={`${delay}s`}
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                </g>
+              );
+            })}
+
             {/* Radar Waves & Orbiting Satellites on each of the 6 Primordial Pillars (Solo en modo 6 Polos) */}
             {isLivePulsing && !isSinglePillarMode && PRIMORDIAL_PILLARS.map((p) => {
               const isPillarFocused = activePillarFilter === "all" || activePillarFilter === p.id;
@@ -2825,52 +2565,6 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                 </g>
               );
             })}
-
-            {/* Radar Waves & Orbiting Satellites on Magia Áurea (Estilo Círculo Arcano en Amarillo Pálido) */}
-            {isLivePulsing && (() => {
-              const aurea = nodeLookup.get("secondgen-magia-aurea");
-              if (!aurea) return null;
-              const isAureaVisible = activePillarFilter === "all" || 
-                activePillarFilter === "aurea" || 
-                activePillarFilter === "divina" || 
-                activePillarFilter === "natural";
-              if (!isAureaVisible) return null;
-              const aPos = getNodePos(aurea);
-              return (
-                <g key="ping-group-aurea" transform={`translate(${aPos.x}, ${aPos.y})`} className="pointer-events-none">
-                  {/* Arcane Radar Ping Wave in pale yellow */}
-                  <circle
-                    className="animate-pillar-ping"
-                    stroke="#fef08a"
-                    fill="none"
-                  />
-                  {/* Orbiting celestial satellite 1 (Pale yellow mana orb) */}
-                  <g>
-                    <animateTransform
-                      attributeName="transform"
-                      type="rotate"
-                      from="0"
-                      to="360"
-                      dur="16s"
-                      repeatCount="indefinite"
-                    />
-                    <circle cx={34} cy={0} r={2.5} fill="#fef08a" filter="url(#magic-glow)" />
-                  </g>
-                  {/* Orbiting celestial satellite 2 (Pure starlight spark) */}
-                  <g>
-                    <animateTransform
-                      attributeName="transform"
-                      type="rotate"
-                      from="360"
-                      to="0"
-                      dur="22s"
-                      repeatCount="indefinite"
-                    />
-                    <circle cx={-28} cy={0} r={1.8} fill="#ffffff" opacity={0.95} />
-                  </g>
-                </g>
-              );
-            })()}
 
             {/* Central Core Astral Sunburst & Corona */}
             <g transform="translate(0, 0)" className="pointer-events-none">
@@ -2931,14 +2625,13 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                 // Check pillar filter
                 const isVisibleByFilter = activePillarFilter === "all" || 
                   node.pillarId === "core" || 
-                  node.pillarId === activePillarFilter ||
-                  ((node.tier === 4 || node.pillarId === "aurea") && (activePillarFilter === "divina" || activePillarFilter === "natural" || activePillarFilter === "aurea"));
+                  node.pillarId === activePillarFilter;
 
                 if (!isVisibleByFilter) return null;
 
                 // Label visibility logic
                 let showLabel = false;
-                if (node.tier === 0 || node.tier === 1 || node.tier === 4) {
+                if (node.tier === 0 || node.tier === 1) {
                   showLabel = true;
                 } else if (labelDensity === "all") {
                   showLabel = true;
@@ -2949,8 +2642,6 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                 } else if (isSelected || isHovered) {
                   showLabel = true;
                 }
-
-                const isTier4 = node.tier === 4;
 
                 return (
                   <g
@@ -2973,10 +2664,10 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                     {/* Pulsing selection aura */}
                     {(isSelected || isHovered) && (
                       <circle
-                        r={node.r * (isTier4 ? 2.4 : 2.2)}
+                        r={node.r * 2.2}
                         fill="none"
-                        stroke={isTier4 ? "#fde047" : (node.pillarId === "salvaje" ? "#60a5fa" : node.glowColor)}
-                        strokeWidth={2.4}
+                        stroke={node.pillarId === "salvaje" ? "#60a5fa" : node.glowColor}
+                        strokeWidth={2}
                         strokeDasharray="4 3"
                         className="animate-spin-slow"
                       />
@@ -3004,70 +2695,11 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
 
                     {/* Ambient outer glow */}
                     <circle
-                      r={node.r * (isTier4 ? 2.5 : 1.6)}
-                      fill={isTier4 ? "url(#aurea-glow-grad)" : (node.pillarId === "salvaje" ? "#1e3a8a" : node.color)}
-                      opacity={node.tier === 0 ? 0.5 : (isTier4 ? 0.8 : (node.tier === 1 ? 0.42 : 0.25))}
+                      r={node.r * 1.6}
+                      fill={node.pillarId === "salvaje" ? "#1e3a8a" : node.color}
+                      opacity={node.tier === 0 ? 0.5 : node.tier === 1 ? 0.42 : 0.25}
                       filter="url(#magic-glow)"
                     />
-
-                    {/* Tier 4 (Magia Áurea): Estilo Círculo Arcano completo (ticks astrales, anillos concéntricos y geometría sagrada) */}
-                    {isTier4 && (
-                      <g className="arcane-circle-aura pointer-events-none">
-                        {/* 1. Arcane radial ticks / astrolabe graduation rays (12 spokes like an arcane summoning dial) */}
-                        <g className={isLivePulsing ? "animate-celestial-spin" : ""}>
-                          {Array.from({ length: 12 }).map((_, i) => {
-                            const a = (i * 360) / 12;
-                            const rad = (a * Math.PI) / 180;
-                            const r1 = node.r + 5;
-                            const r2 = node.r + (i % 3 === 0 ? 15 : 11);
-                            return (
-                              <line
-                                key={`aurea-arcane-tick-${i}`}
-                                x1={Math.cos(rad) * r1}
-                                y1={Math.sin(rad) * r1}
-                                x2={Math.cos(rad) * r2}
-                                y2={Math.sin(rad) * r2}
-                                stroke="#fef08a"
-                                strokeWidth={i % 3 === 0 ? 1.4 : 0.8}
-                                strokeOpacity={0.8}
-                                strokeLinecap="round"
-                              />
-                            );
-                          })}
-                        </g>
-
-                        {/* 2. Outer concentric arcane ring with dashes */}
-                        <circle
-                          r={node.r + 14}
-                          fill="none"
-                          stroke="#fef08a"
-                          strokeWidth={1.3}
-                          strokeDasharray="4 4"
-                          className={isLivePulsing ? "animate-mana-flow" : ""}
-                          strokeOpacity={0.85}
-                        />
-
-                        {/* 3. Middle fine dotted arcane ring */}
-                        <circle
-                          r={node.r + 8}
-                          fill="none"
-                          stroke="#fefce8"
-                          strokeWidth={0.9}
-                          strokeDasharray="2 3"
-                          className={isLivePulsing ? "animate-mana-flow-reverse" : ""}
-                          strokeOpacity={0.7}
-                        />
-
-                        {/* 4. Sacred arcane diamond / 4-point inscribed star */}
-                        <polygon
-                          points={`0,${-(node.r + 5)} ${node.r + 5},0 0,${node.r + 5} ${-(node.r + 5)},0`}
-                          fill="none"
-                          stroke="#fef08a"
-                          strokeWidth={0.8}
-                          strokeOpacity={0.45}
-                        />
-                      </g>
-                    )}
 
                     {/* Magia Salvaje specific: "azul oscura rodeada de negro" */}
                     {node.pillarId === "salvaje" && (
@@ -3091,42 +2723,46 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                     {/* Core node body */}
                     <circle
                       r={node.r}
-                      fill={node.tier === 0 ? "url(#core-glow-grad)" : (isTier4 ? "url(#aurea-node-grad)" : (node.pillarId === "salvaje" ? "#172554" : node.color))}
-                      stroke={isTier4 ? (isSelected ? "#ffffff" : "#fef08a") : (node.pillarId === "salvaje" ? "#000000" : (isSelected ? "#ffffff" : node.glowColor))}
-                      strokeWidth={isTier4 ? 2.5 : (node.pillarId === "salvaje" ? (node.tier <= 1 ? 3.5 : 2.2) : (node.tier === 0 ? 3 : isSelected ? 2.5 : 1.2))}
-                      filter={node.tier <= 1 || isTier4 ? "url(#magic-glow)" : undefined}
+                      fill={node.tier === 0 ? "url(#core-glow-grad)" : (node.pillarId === "salvaje" ? "#172554" : node.color)}
+                      stroke={node.pillarId === "salvaje" ? "#000000" : (isSelected ? "#ffffff" : node.glowColor)}
+                      strokeWidth={node.pillarId === "salvaje" ? (node.tier <= 1 ? 3.5 : 2.2) : (node.tier === 0 ? 3 : isSelected ? 2.5 : 1.2)}
+                      filter={node.tier <= 1 ? "url(#magic-glow)" : undefined}
                       opacity={isInActiveNetwork ? 1.0 : 0.22}
                     />
 
-                    {/* Central white glint / bright starlight core dot (identical to screenshot white center dot) */}
+                    {/* If Magia Salvaje: inner luminous dark blue pulse inside the black rim */}
+                    {node.pillarId === "salvaje" && (
+                      <circle
+                        r={node.r * 0.65}
+                        fill="#1d4ed8"
+                        opacity={0.8}
+                      />
+                    )}
+
+                    {/* Central white glint */}
                     <circle
-                      r={isTier4 ? 5.5 : Math.max(1.8, node.r * 0.3)}
+                      r={Math.max(1.8, node.r * 0.3)}
                       fill="#ffffff"
-                      opacity={0.96}
+                      opacity={0.92}
                     />
 
                     {/* Node Text Label with improved contrast, crisp typography and anti-overlap sizing */}
                     {showLabel && (
                       <g 
-                        transform={`translate(0, ${node.r + (node.tier <= 1 || isTier4 ? 17 : (node.isSpell ? 9 : 12))})`}
+                        transform={`translate(0, ${node.r + (node.tier <= 1 ? 16 : (node.isSpell ? 9 : 12))})`}
                         className="pointer-events-none"
                       >
                         {(() => {
                           const isSpell = !!node.isSpell;
-                          // If Magia Áurea or Tier 1, display uppercase title matching the arcane pill badge
-                          const displayTitle = isTier4 
-                            ? "MAGIA ÁUREA"
-                            : node.tier === 1
-                            ? node.title.toUpperCase()
-                            : (isSpell && !isSelected && !isHovered && node.title.length > 15
-                                ? `${node.title.slice(0, 14)}…`
-                                : node.title);
-
-                          const charW = isTier4 ? 7.8 : node.tier <= 1 ? 7.4 : (isSpell ? 5.2 : 6.2);
-                          const paddingX = isTier4 ? 24 : node.tier <= 1 ? 22 : (isSpell ? 10 : 16);
+                          // If it's a spell in global "all" mode and neither selected nor hovered, display compact title
+                          const displayTitle = isSpell && !isSelected && !isHovered && node.title.length > 15
+                            ? `${node.title.slice(0, 14)}…`
+                            : node.title;
+                          const charW = node.tier <= 1 ? 7.6 : (isSpell ? 5.2 : 6.2);
+                          const paddingX = node.tier <= 1 ? 20 : (isSpell ? 10 : 16);
                           const rectW = Math.round(displayTitle.length * charW + paddingX);
-                          const rectH = isTier4 ? 24 : (node.tier <= 1 ? 23 : (isSpell ? 14 : 17));
-                          const rectRx = isTier4 ? 12 : (node.tier <= 1 ? 11.5 : (isSpell ? 7 : 8));
+                          const rectH = node.tier <= 1 ? 20 : (isSpell ? 14 : 17);
+                          const rectRx = node.tier <= 1 ? 10 : (isSpell ? 7 : 8);
 
                           return (
                             <>
@@ -3136,19 +2772,19 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                                 width={rectW}
                                 height={rectH}
                                 rx={rectRx}
-                                fill="rgba(6, 11, 20, 0.96)"
-                                stroke={isSelected ? (isTier4 ? "#ffffff" : node.pillarId === "salvaje" ? "#60a5fa" : node.glowColor) : isTier4 ? "#fef08a" : node.tier <= 1 ? (node.pillarId === "salvaje" ? "#1d4ed8" : `${node.color}cc`) : isSpell ? "rgba(255,255,255,0.16)" : "rgba(255,255,255,0.22)"}
-                                strokeWidth={isSelected ? 2 : (isTier4 ? 1.8 : node.tier <= 1 ? 1.5 : 0.7)}
-                                filter="drop-shadow(0 2px 8px rgba(0,0,0,0.85))"
+                                fill="rgba(8, 12, 22, 0.94)"
+                                stroke={isSelected ? (node.pillarId === "salvaje" ? "#60a5fa" : node.glowColor) : node.tier <= 1 ? (node.pillarId === "salvaje" ? "#1d4ed8" : `${node.color}90`) : isSpell ? "rgba(255,255,255,0.16)" : "rgba(255,255,255,0.22)"}
+                                strokeWidth={isSelected ? 1.6 : node.tier <= 1 ? 1.2 : 0.7}
+                                filter="drop-shadow(0 2px 5px rgba(0,0,0,0.85))"
                               />
                               <text
                                 textAnchor="middle"
-                                y={3.5}
-                                fill={isSelected ? "#ffffff" : isHovered ? "#ffffff" : node.tier === 0 ? "#fef08a" : isTier4 ? "#fefce8" : node.tier === 1 ? "#ffffff" : isSpell ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.92)"}
-                                fontSize={node.tier === 0 ? "11.5px" : isTier4 ? "10.5px" : node.tier === 1 ? "10px" : (isSpell ? "8px" : "9px")}
-                                fontWeight={node.tier <= 1 || isTier4 || isSelected ? "bold" : "500"}
-                                fontFamily={node.tier <= 1 || isTier4 ? "var(--font-heading)" : "var(--font-body)"}
-                                letterSpacing={isTier4 ? "0.08em" : node.tier <= 1 ? "0.06em" : "normal"}
+                                y={isSpell ? 3 : (node.tier <= 1 ? 4 : 3.5)}
+                                fill={isSelected ? "#ffffff" : isHovered ? "#ffffff" : node.tier === 0 ? "#fef08a" : node.tier === 1 ? "#ffffff" : isSpell ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.92)"}
+                                fontSize={node.tier === 0 ? "11.5px" : node.tier === 1 ? "10.5px" : (isSpell ? "8px" : "9px")}
+                                fontWeight={node.tier <= 1 || isSelected ? "bold" : "500"}
+                                fontFamily={node.tier <= 1 ? "var(--font-heading)" : "var(--font-body)"}
+                                letterSpacing={node.tier <= 1 ? "0.03em" : "normal"}
                               >
                                 {displayTitle}
                               </text>
@@ -3212,8 +2848,6 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                       ? "Magia Primordial" 
                       : selectedNode.tier === 2 
                       ? "Submagia Canónica" 
-                      : selectedNode.tier === 4 
-                      ? "2ª Generación (Fusión)" 
                       : "Hechizo D&D 5e"}
                   </span>
                 </div>
@@ -3235,31 +2869,92 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                       {selectedNode.summary}
                     </p>
                   )}
-
-                  {/* Magia Áurea Canonical Cover Image */}
-                  {selectedNode.id === "secondgen-magia-aurea" && (
-                    <div className="relative rounded-2xl overflow-hidden border border-amber-500/40 shadow-xl shadow-amber-950/40 mt-3 group">
-                      <img
-                        src="/images/uploads/imagen_2026-10-07_092314068-1791357795595_wy2z6.png"
-                        alt="El Árbol Áureo de Ávalon"
-                        className="w-full h-36 object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                        onError={(e) => {
-                          (e.target as HTMLElement).style.display = "none";
-                        }}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1d] via-transparent to-transparent" />
-                      <div className="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between text-[10px]">
-                        <span className="text-amber-200 font-bold bg-black/60 px-2 py-0.5 rounded backdrop-blur-xs border border-amber-400/30">
-                          El Árbol Áureo de Ávalon
-                        </span>
-                        <span className="text-emerald-300 font-mono bg-black/60 px-2 py-0.5 rounded backdrop-blur-xs border border-emerald-400/30">
-                          Epicentro Cósmico
-                        </span>
-                      </div>
-                    </div>
-                  )}
                 </div>
 
+                {/* Magic Node Color Customizer with Color Wheel in Drawer */}
+                {(selectedNode.tier === 1 || selectedNode.tier === 2) && (
+                  <div className="bg-[#101628]/85 border border-purple-500/30 rounded-xl p-3.5 space-y-2.5 shadow-lg">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3.5 h-3.5 rounded-full bg-gradient-to-tr from-rose-500 via-amber-400 via-emerald-400 via-cyan-400 to-purple-600 ring-1 ring-white/50 shrink-0" />
+                        <span className="text-xs font-heading font-bold text-foreground">
+                          {selectedNode.tier === 1 ? "Color del Pilar Primordial" : "Color de esta Submagia"}
+                        </span>
+                      </div>
+                      <span 
+                        className="text-[10px] font-mono px-2 py-0.5 rounded-md border border-white/10"
+                        style={{ backgroundColor: `${selectedNode.color}25`, color: selectedNode.color }}
+                      >
+                        {selectedNode.color}
+                      </span>
+                    </div>
+
+                    <p className="text-[11px] text-muted-foreground">
+                      Usa la rueda cromática o paleta para pintar <strong className="text-foreground">{selectedNode.title}</strong>:
+                    </p>
+
+                    {/* Button to open the interactive Color Wheel */}
+                    <button
+                      onClick={() => handleOpenColorWheel(selectedNode)}
+                      className="w-full py-2 px-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-all shadow-md shadow-purple-950/50 cursor-pointer"
+                    >
+                      <div className="w-3.5 h-3.5 rounded-full bg-gradient-to-tr from-rose-500 via-amber-400 via-emerald-400 via-cyan-400 to-purple-600 ring-1 ring-white/60 shrink-0" />
+                      <span>Abrir Rueda de Color</span>
+                    </button>
+
+                    {/* Quick color preset chips */}
+                    <div className="flex items-center gap-1.5 flex-wrap pt-1">
+                      {COLOR_PRESETS.slice(0, 8).map((preset) => (
+                        <button
+                          key={preset.hex}
+                          onClick={() => {
+                            if (selectedNode.tier === 1) {
+                              handleSetPillarColor(selectedNode.pillarId, preset.hex);
+                            } else {
+                              handleSetSubmagiaColor(selectedNode.title, preset.hex);
+                            }
+                          }}
+                          title={`${preset.label} (${preset.hex})`}
+                          className="w-5 h-5 rounded-full transition-transform hover:scale-125 cursor-pointer border border-white/20 shadow-sm relative"
+                          style={{ backgroundColor: preset.hex }}
+                        >
+                          {selectedNode.color.toLowerCase() === preset.hex.toLowerCase() && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-white absolute inset-0 m-auto" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center gap-2 pt-1 border-t border-border/40">
+                      {selectedNode.tier === 2 && (
+                        <button
+                          onClick={() => setShowPaletteModal(true)}
+                          className="flex-1 py-1.5 px-2 bg-secondary hover:bg-secondary/80 text-foreground border border-border rounded-lg text-xs font-medium flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                        >
+                          <Palette className="w-3 h-3 text-purple-400" />
+                          <span>Paleta General</span>
+                        </button>
+                      )}
+
+                      {((selectedNode.tier === 1 && customPillarColors[selectedNode.pillarId]) ||
+                        (selectedNode.tier === 2 && customSubmagiaColors[selectedNode.title])) && (
+                        <button
+                          onClick={() => {
+                            if (selectedNode.tier === 1) {
+                              handleResetPillarColor(selectedNode.pillarId);
+                            } else {
+                              handleResetSubmagiaColor(selectedNode.title);
+                            }
+                          }}
+                          title="Restablecer al color original"
+                          className="p-1.5 rounded-lg bg-secondary hover:bg-secondary/80 text-muted-foreground hover:text-foreground border border-border cursor-pointer transition-colors"
+                        >
+                          <RotateCcw className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
 
                 {/* Magia Salvaje Essential Lore Banner */}
                 {selectedNode.pillarId === "salvaje" && (
@@ -3272,22 +2967,6 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                     </div>
                     <p className="text-[11px] text-blue-100/90 leading-relaxed">
                       <strong>No es primitiva:</strong> Es la esencia mágica cósmica en su forma virgen y absoluta. Libre de dogmas religiosos, ataduras biológicas o fórmulas arcanas, constituye el maná puro del que emanan todas las escuelas de la existencia.
-                    </p>
-                  </div>
-                )}
-
-
-                {/* Subrama de Magia Áurea Banner */}
-                {selectedNode.pillarId === "aurea" && selectedNode.id !== "secondgen-magia-aurea" && (
-                  <div className="bg-gradient-to-br from-yellow-950/70 via-[#10191c]/80 to-amber-950/70 border border-yellow-400/40 rounded-xl p-3.5 text-xs shadow-xl space-y-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 rounded-full bg-gradient-to-tr from-yellow-300 to-amber-400 ring-2 ring-yellow-200/60 shrink-0" />
-                      <span className="font-heading font-bold text-yellow-200 text-xs tracking-wide">
-                        Subrama de Magia Áurea (2ª Generación)
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-yellow-100/90 leading-relaxed">
-                      Esta disciplina emana de la confluencia entre la <strong>Magia Divina</strong> y la <strong>Magia Natural</strong> en el <strong>Árbol Áureo de Ávalon</strong>, trascendiendo las leyes naturales para operar sanaciones absolutas y forjar leyendas inmortales.
                     </p>
                   </div>
                 )}
@@ -3314,43 +2993,34 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
                       {Object.entries(selectedNode.infobox).map(([k, v]) => (
                         <div key={k} className="text-xs">
                           <span className="text-muted-foreground font-medium block text-[10.5px]">{k}:</span>
-                          <span className="text-foreground text-[11px] leading-snug">{v}</span>
+                          <span className="text-foreground text-[11px] leading-snug">{formatInfoboxValue(v)}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                 )}
 
-                {/* Connected submagias / manifestations / spells / progenitor poles chips */}
-                {(() => {
-                  const relatedNodes = nodes.filter(
-                    (n) => n.parentId === selectedNode.id || 
-                           n.id === selectedNode.parentId ||
-                           (selectedNode.connections && selectedNode.connections.includes(n.id)) ||
-                           (n.connections && n.connections.includes(selectedNode.id))
-                  );
-
-                  return (
-                    <div>
-                      <p className="text-[9.5px] uppercase font-bold text-muted-foreground tracking-widest mb-2">
-                        {selectedNode.tier === 4 ? "Polos Primordiales Progenitores" : `Nodos y Ramificaciones (${relatedNodes.length})`}
-                      </p>
-                      <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto scrollbar-thin pr-1">
-                        {relatedNodes.map((relNode) => (
-                          <button
-                            key={relNode.id}
-                            onClick={() => flyToNode(relNode)}
-                            className="text-[10.5px] px-2 py-1 rounded-lg border border-border bg-secondary/60 hover:bg-secondary text-foreground transition-all flex items-center gap-1.5 cursor-pointer"
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: relNode.color }} />
-                            <span className="truncate max-w-[130px]">{relNode.title}</span>
-                            {relNode.isSpell && <span className="text-[9px] text-amber-300 font-mono">5e</span>}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })()}
+                {/* Connected submagias / manifestations / spells chips */}
+                <div>
+                  <p className="text-[9.5px] uppercase font-bold text-muted-foreground tracking-widest mb-2">
+                    Nodos y Ramificaciones ({nodes.filter(n => n.parentId === selectedNode.id || n.id === selectedNode.parentId).length})
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto scrollbar-thin pr-1">
+                    {nodes
+                      .filter((n) => n.parentId === selectedNode.id || n.id === selectedNode.parentId)
+                      .map((relNode) => (
+                        <button
+                          key={relNode.id}
+                          onClick={() => flyToNode(relNode)}
+                          className="text-[10.5px] px-2 py-1 rounded-lg border border-border bg-secondary/60 hover:bg-secondary text-foreground transition-all flex items-center gap-1.5 cursor-pointer"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: relNode.color }} />
+                          <span className="truncate max-w-[130px]">{relNode.title}</span>
+                          {relNode.isSpell && <span className="text-[9px] text-amber-300 font-mono">5e</span>}
+                        </button>
+                      ))}
+                  </div>
+                </div>
               </>
             )}
           </div>
@@ -3474,16 +3144,6 @@ export function PrimordialMagicGraph({ wikiArticles = [], onOpenArticle, tabSele
         defaultGraph="magias"
         selectedPillarId={selectedNode?.pillarId !== "core" ? selectedNode?.pillarId : undefined}
         selectedPillarName={selectedNode?.pillarName}
-      />
-
-      {/* 10. GitHub Connection & Sync Modal */}
-      <GitHubConfigModal
-        isOpen={isGitHubModalOpen}
-        onClose={() => setIsGitHubModalOpen(false)}
-        onSuccess={() => {
-          setIsGitHubModalOpen(false);
-          handleUploadGraphToGitHub();
-        }}
       />
     </div>
   );

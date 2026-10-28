@@ -3,9 +3,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   Flame, Users, MapPin, Calendar, Sparkles, Shield, Heart, Gem, PawPrint,
   Menu, X, Search, FilePlus, Network, Compass, HelpCircle, BookOpen, SlidersHorizontal, Database, MessageSquare, Book,
-  ChevronDown, Wand2, Layers, Home, GripVertical
+  ChevronDown, Wand2, Layers, Home, GripVertical, ArrowLeft
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { OfflineIndicator } from "./OfflineIndicator";
 import { TarotLogo } from "./TarotLogo";
 import { TarotChatbot } from "./TarotChatbot";
 import { ScribeRadio } from "./ScribeRadio";
@@ -61,6 +62,18 @@ export function Layout({ children }: LayoutProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
+  const currentPath = (location.pathname + location.search + location.hash).toLowerCase();
+  const isSpellbook = 
+    currentPath.includes("spellbook") || 
+    currentPath.includes("hechizos") || 
+    currentPath.includes("conjuros");
+  const isDiario = 
+    currentPath.includes("diario") || 
+    currentPath.includes("cazador") ||
+    currentPath.includes("hunter");
+  const isGrafo = 
+    currentPath.includes("grafo");
+  const showTopBackButton = isSpellbook || isDiario || isGrafo;
   const { mergedCategories, reorderCategories } = useCategories();
   const { currentLang, setLanguage, languages, t } = useLanguage();
   const { isVisualEditMode, showToast } = useVisualEditor();
@@ -488,6 +501,26 @@ export function Layout({ children }: LayoutProps) {
                 );
               })()}
             </div>
+
+            {/* Botón de volver exclusivo para Spellbook, Diario del Cazador y Compendio de Grafos, a la derecha del todo */}
+            {showTopBackButton && (
+              <button
+                type="button"
+                id="top-back-btn"
+                onClick={() => {
+                  if (window.history.state && window.history.state.idx > 0) {
+                    navigate(-1);
+                  } else {
+                    navigate("/");
+                  }
+                }}
+                className="h-8 w-8 flex items-center justify-center rounded-lg bg-secondary/80 hover:bg-secondary border border-border text-foreground hover:text-primary hover:border-primary/50 transition-all cursor-pointer focus:outline-none focus:ring-1 focus:ring-primary/45 shadow-xs shrink-0"
+                title={t("Volver a la Dragopedia") || "Volver"}
+                aria-label={t("Volver a la Dragopedia") || "Volver"}
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </button>
+            )}
           </div>
 
         </div>
@@ -780,6 +813,7 @@ export function Layout({ children }: LayoutProps) {
                         label="Menú Diario Cazador"
                       />
                     </Link>
+
 
                     {isVisualEditMode && (
                       <Link
@@ -1106,6 +1140,9 @@ export function Layout({ children }: LayoutProps) {
           isOpen={isReorderModalOpen}
           onClose={() => setIsReorderModalOpen(false)}
         />
+
+        {/* Indicador de estado de conexión PWA */}
+        <OfflineIndicator />
       </div>
     </div>
   );

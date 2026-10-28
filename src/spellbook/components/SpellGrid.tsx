@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Spell, Character, GroupByDistribution } from '../types';
 import { SpellIcon } from './SpellIcon';
 import { ChevronDown, ChevronUp, Star, Check, Bookmark, Sparkles, FolderTree, BookOpen } from 'lucide-react';
+import { AccordionCollapse } from './AccordionCollapse';
 import { getSpellPrimordialMagic, PRIMORDIAL_MAGICS, PrimordialMagicInfo } from '../data/primordialMagic';
 import { ALL_SCHOOLS } from '../data/spells';
 import { getSchoolTheme } from '../data/schools';
@@ -278,16 +279,16 @@ export const SpellGrid: React.FC<SpellGridProps> = ({
                     ? (language === 'es' ? 'Desplegar' : 'Expand')
                     : (language === 'es' ? 'Plegar' : 'Collapse')}
                 </span>
-                {isCollapsed ? (
-                  <ChevronDown className="w-5 h-5 transition-transform text-[#bafafd]" />
-                ) : (
-                  <ChevronUp className="w-5 h-5 transition-transform text-[#bafafd]" />
-                )}
+                <ChevronDown
+                  className={`w-5 h-5 text-[#bafafd] transition-transform duration-300 ${
+                    isCollapsed ? 'rotate-0' : 'rotate-180'
+                  }`}
+                />
               </div>
             </button>
 
-            {/* List of spells in this section: Always BG3 Icon Grid */}
-            {!isCollapsed && (
+            {/* List of spells in this section: BG3 Icon Grid with smooth accordion collapse */}
+            <AccordionCollapse isOpen={!isCollapsed} duration="duration-300">
               <div className="p-3 sm:p-5 grid grid-cols-2 min-[440px]:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 min-[1800px]:grid-cols-9 min-[2100px]:grid-cols-10 gap-3 sm:gap-4">
                 {section.spells.map((spell) => {
                   const isKnown = activeCharacter?.knownSpellIds.includes(spell.id) ?? false;
@@ -379,7 +380,7 @@ export const SpellGrid: React.FC<SpellGridProps> = ({
                   );
                 })}
               </div>
-            )}
+            </AccordionCollapse>
           </section>
         );
       })}

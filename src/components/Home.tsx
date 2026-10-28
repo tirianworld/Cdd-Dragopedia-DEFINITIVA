@@ -133,17 +133,6 @@ export function Home() {
     (cat) => !cat.parentId && !cat.parentSlug
   );
 
-  // Category 3-row wheel-stepped pagination state
-  const [currentRow, setCurrentRow] = useState(0);
-  const [numCols, setNumCols] = useState(4);
-  const [cardHeight, setCardHeight] = useState(140);
-  const categoryContainerRef = useRef<HTMLDivElement | null>(null);
-  const categoryGridRef = useRef<HTMLDivElement | null>(null);
-  const currentRowRef = useRef(0);
-  const maxRowRef = useRef(0);
-  const lastWheelTimeRef = useRef(0);
-  const touchStartYRef = useRef<number | null>(null);
-
   const [isHomeCategoriesMinimized, setIsHomeCategoriesMinimized] = useState<boolean>(() => {
     try {
       return localStorage.getItem("tarot_home_categories_minimized") === "true";
@@ -161,6 +150,22 @@ export function Home() {
       return next;
     });
   };
+
+  // Category 3-row display with row-by-row navigation without cutting off row 3
+  const [currentRow, setCurrentRow] = useState(0);
+  const [numCols, setNumCols] = useState(() => {
+    if (typeof window === "undefined") return 4;
+    if (window.innerWidth < 640) return 1;
+    if (window.innerWidth < 1024) return 2;
+    return 4;
+  });
+  const categoryContainerRef = useRef<HTMLDivElement | null>(null);
+  const currentRowRef = useRef(0);
+  const maxRowRef = useRef(0);
+  const lastWheelTimeRef = useRef(0);
+  const touchStartYRef = useRef<number | null>(null);
+  const wheelAccumulatorRef = useRef(0);
+  const lastRowAdvanceTimeRef = useRef(0);
 
   useEffect(() => {
     const updateCols = () => {
@@ -190,30 +195,36 @@ export function Home() {
     }
   }, [maxCategoryRow, currentRow]);
 
-  // Measure card height dynamically
-  useEffect(() => {
-    if (!categoryGridRef.current) return;
-    const firstChild = categoryGridRef.current.firstElementChild as HTMLElement;
-    if (firstChild && firstChild.offsetHeight > 0) {
-      setCardHeight(firstChild.offsetHeight);
-    }
-  }, [rootCategories.length, numCols]);
+  // Exact metrics ensuring 3 rows fit with generous bottom margin so row 3 is never cut off
+  const CARD_HEIGHT = 144;
+  const ROW_GAP = 16;
+  const PADDING_TOP = 4;
+  const PADDING_BOTTOM = 14; // Room for bottom border, shadow and hover effects without clipping
+  const visibleRows = Math.min(3, totalCategoryRows);
+  const containerHeight = visibleRows > 0
+    ? CARD_HEIGHT * visibleRows + ROW_GAP * Math.max(0, visibleRows - 1) + PADDING_TOP + PADDING_BOTTOM
+    : 0;
+  const rowStep = CARD_HEIGHT + ROW_GAP;
 
-  const wheelAccumulatorRef = useRef(0);
-  const lastRowAdvanceTimeRef = useRef(0);
-
-  // Native wheel and touch event handling to step row by row cleanly without moving the rest of the web
+  // Wheel and touch navigation: steps rows cleanly, but allows normal page scrolling at the boundaries
   useEffect(() => {
     const el = categoryContainerRef.current;
     if (!el) return;
 
     const onWheel = (e: WheelEvent) => {
-      // Bloquear de forma absoluta el scroll del resto de la web mientras el cursor esté en este cuadrante
-      e.preventDefault();
-      e.stopPropagation();
-
       const maxRow = maxRowRef.current;
       if (maxRow <= 0) return;
+
+      const delta = e.deltaY;
+      const isDown = delta > 0;
+      const isUp = delta < 0;
+
+      // Allow natural page scroll if user is at boundary
+      if (isUp && currentRowRef.current <= 0) return;
+      if (isDown && currentRowRef.current >= maxRow) return;
+
+      e.preventDefault();
+      e.stopPropagation();
 
       const now = performance.now();
       if (now - lastWheelTimeRef.current > 200) {
@@ -221,13 +232,11 @@ export function Home() {
       }
       lastWheelTimeRef.current = now;
 
-      wheelAccumulatorRef.current += e.deltaY;
-
-      // Umbral equilibrado (35px) y cooldown de 160ms para avanzar fila a fila con precisión y sin saltos bruscos
+      wheelAccumulatorRef.current += delta;
       const THRESHOLD = 35;
 
       if (Math.abs(wheelAccumulatorRef.current) >= THRESHOLD) {
-        if (now - lastRowAdvanceTimeRef.current >= 160) {
+        if (now - lastRowAdvanceTimeRef.current >= 150) {
           lastRowAdvanceTimeRef.current = now;
           const direction = wheelAccumulatorRef.current > 0 ? 1 : -1;
           wheelAccumulatorRef.current = 0;
@@ -251,11 +260,17 @@ export function Home() {
       const maxRow = maxRowRef.current;
       if (maxRow <= 0) return;
 
+      const isDown = deltaY > 0;
+      const isUp = deltaY < 0;
+
+      if (isUp && currentRowRef.current <= 0) return;
+      if (isDown && currentRowRef.current >= maxRow) return;
+
       if (Math.abs(deltaY) > 28) {
         e.preventDefault();
         e.stopPropagation();
         const now = performance.now();
-        if (now - lastRowAdvanceTimeRef.current >= 180) {
+        if (now - lastRowAdvanceTimeRef.current >= 160) {
           lastRowAdvanceTimeRef.current = now;
           const direction = deltaY > 0 ? 1 : -1;
           touchStartYRef.current = e.touches[0].clientY;
@@ -318,10 +333,7 @@ export function Home() {
     return () => window.removeEventListener("wiki-articles-updated", handleUpdate);
   }, []);
 
-  const gap = 16;
-  const visibleRows = Math.min(3, totalCategoryRows);
-  const containerHeight = cardHeight * visibleRows + gap * Math.max(0, visibleRows - 1);
-  const rowStep = cardHeight + gap;
+
 
   return (
     <div className="p-6 lg:p-8 space-y-12">
@@ -513,12 +525,23 @@ export function Home() {
           </div>
 
           <div className="flex items-center gap-2">
+            {isVisualEditMode && (
+              <button
+                type="button"
+                onClick={() => setShowReorderModal(true)}
+                className="flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-lg border border-primary/40 bg-primary/10 hover:bg-primary/20 text-primary transition-colors cursor-pointer"
+                title="Reordenar categorías principales"
+              >
+                <SlidersHorizontal className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline font-medium">Reordenar</span>
+              </button>
+            )}
 
             {/* Toggle minimize button */}
             <button
               type="button"
               onClick={toggleHomeCategoriesMinimized}
-              className="flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-lg border border-border/60 bg-secondary/40 hover:bg-secondary/70 text-muted-foreground hover:text-foreground transition-colors"
+              className="flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-lg border border-border/60 bg-secondary/40 hover:bg-secondary/70 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
               title={isHomeCategoriesMinimized ? "Desplegar categorías de Lore" : "Minimizar categorías de Lore"}
               aria-label={isHomeCategoriesMinimized ? "Desplegar categorías" : "Minimizar categorías"}
             >
@@ -581,7 +604,7 @@ export function Home() {
           </div>
         </div>
 
-        {/* Categories container: exactly 3 rows high with smooth accordion */}
+        {/* Categories container: exactly 3 rows high with generous unclipped bottom and smooth accordion */}
         <div
           className={`grid transition-[grid-template-rows,opacity] duration-400 ease-in-out ${
             !isHomeCategoriesMinimized
@@ -592,37 +615,38 @@ export function Home() {
           <div className="overflow-hidden min-h-0">
             <div
               ref={categoryContainerRef}
-              className="relative overflow-hidden w-full select-none pt-0.5 overscroll-contain"
+              className="relative overflow-hidden w-full select-none overscroll-contain"
               style={{
                 height: `${containerHeight}px`,
-                overscrollBehavior: "contain"
+                paddingTop: `${PADDING_TOP}px`,
+                paddingBottom: `${PADDING_BOTTOM}px`,
+                overscrollBehavior: "contain",
               }}
             >
               <div
-                ref={categoryGridRef}
                 style={{
                   transform: `translateY(-${currentRow * rowStep}px)`,
-                  transition: "transform 260ms cubic-bezier(0.16, 1, 0.3, 1)"
+                  transition: "transform 260ms cubic-bezier(0.16, 1, 0.3, 1)",
                 }}
-                className="flex flex-wrap justify-center gap-4"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-0.5"
               >
                 {rootCategories.map((cat) => {
                   const Icon = cat.icon;
                   return (
                     <div
                       key={cat.slug}
-                      className="relative group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] shrink-0"
+                      className="relative group h-[144px]"
                     >
                       <Link
                         to={`/categoria/${cat.slug}`}
-                        className={`block bg-card border border-border/75 rounded-xl p-4 sm:p-5 hover:border-primary/45 transition-all hover:bg-secondary/20 hover:shadow-sm h-[140px] flex flex-col justify-between ${
+                        className={`block bg-card border border-border/75 rounded-xl p-4 sm:p-4.5 hover:border-primary/45 transition-all hover:bg-secondary/20 hover:shadow-sm h-[144px] box-border flex flex-col justify-between ${
                           isVisualEditMode ? "ring-1 ring-primary/20 hover:ring-primary/60" : ""
                         }`}
                       >
                         <div>
                           <div className="flex items-center justify-between mb-2">
                             <div 
-                              className="h-8 w-8 rounded-lg flex items-center justify-center group-hover:bg-primary/10 transition-colors"
+                              className="h-8 w-8 rounded-lg flex items-center justify-center group-hover:bg-primary/10 transition-colors shrink-0"
                               style={{ backgroundColor: `${cat.color}15` }}
                             >
                               <Icon className="h-4 w-4" style={{ color: cat.color }} />

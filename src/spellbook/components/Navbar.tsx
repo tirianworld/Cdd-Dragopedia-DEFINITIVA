@@ -25,6 +25,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onChangeLanguage,
   onOpenMobileSidebar,
 }) => {
+
   return (
     <header className="sticky top-0 z-30 bg-[#0c1013]/95 backdrop-blur-md border-b border-[#172127]">
       <div className="w-full px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">

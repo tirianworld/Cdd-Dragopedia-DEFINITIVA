@@ -62,6 +62,7 @@ export default function App() {
                           <Route path="/filtros" element={<FilterManager />} />
                           <Route path="/tarot-ai" element={<TarotAnalyzer />} />
                           <Route path="/diario" element={<DiarioCazador />} />
+                          <Route path="/diario-del-cazador" element={<DiarioCazador />} />
                           <Route path="/dm-sanctum" element={<DMSanctum />} />
                           <Route path="/dm" element={<DMSanctum />} />
                         </Routes>

@@ -3,9 +3,12 @@
     "private": true,
     "version": "0.0.0",
     "type": "module",
+    "main": "electron/main.cjs",
     "scripts": {
         "dev": "tsx server.ts",
         "build": "vite build",
+        "electron:start": "electron electron/main.cjs",
+        "electron:build": "npm run build && electron-builder --win --x64",
         "predeploy": "npm run build",
         "deploy": "npm run build && wrangler deploy",
         "start": "node server.ts",
@@ -42,11 +45,50 @@
         "@types/react-dom": "^19.2.4",
         "@types/three": "^0.186.0",
         "autoprefixer": "^10.4.21",
+        "electron": "^45.1.0",
+        "electron-builder": "^26.18.0",
         "esbuild": "^0.25.0",
         "tailwindcss": "^4.1.14",
         "tsx": "^4.21.0",
         "typescript": "~5.8.2",
         "vite-plugin-pwa": "^2.0.0",
         "wrangler": "^4.141.0"
+    },
+    "build": {
+        "appId": "com.caldodragon.dragopedia",
+        "productName": "Dragopedia",
+        "directories": {
+            "output": "release"
+        },
+        "files": [
+            "dist/**/*",
+            "electron/**/*",
+            "build/icon.ico",
+            "package.json"
+        ],
+        "win": {
+            "target": [
+                {
+                    "target": "nsis",
+                    "arch": ["x64"]
+                },
+                {
+                    "target": "portable",
+                    "arch": ["x64"]
+                }
+            ],
+            "icon": "build/icon.ico"
+        },
+        "nsis": {
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true,
+            "createDesktopShortcut": true,
+            "createStartMenuShortcut": true,
+            "shortcutName": "Dragopedia"
+        },
+        "portable": {
+            "artifactName": "Dragopedia-Portable.exe"
+        }
     }
 }
+

@@ -10,7 +10,7 @@
     "timeline_markers": [],
     "timeline_order": [],
     "created_date": "2026-10-18T12:43:48.304Z",
-    "updated_date": "2026-10-18T12:45:26.183Z",
+    "updated_date": "2026-10-20T12:56:34.935Z",
     "extra_categories": [
       "Primordiales"
     ],
@@ -43,7 +43,7 @@
     "timeline_markers": [],
     "timeline_order": [],
     "created_date": "2026-10-07T05:42:24.272Z",
-    "updated_date": "2026-10-07T07:23:27.032Z",
+    "updated_date": "2026-10-26T17:55:04.738Z",
     "extra_categories": [
       "Magias"
     ],
@@ -264,8 +264,10 @@
     "is_featured": false,
     "id": "art-1790263141584",
     "created_date": "2026-09-24T15:19:01.584Z",
-    "updated_date": "2026-09-24T15:19:01.584Z",
-    "extra_categories": [],
+    "updated_date": "2026-10-26T17:55:08.456Z",
+    "extra_categories": [
+      "Lugares"
+    ],
     "image_url": "/images/uploads/lordran-1790264016622_c4yek.png"
   },
   {
@@ -1370,7 +1372,7 @@
     "is_featured": false,
     "id": "art-1787667729491",
     "created_date": "2026-08-25T14:22:11.527Z",
-    "updated_date": "2026-10-18T20:36:39.311Z",
+    "updated_date": "2026-10-26T17:55:15.358Z",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -1601,7 +1603,7 @@
     "is_featured": false,
     "id": "art-1787667632755",
     "created_date": "2026-08-25T14:20:39.692Z",
-    "updated_date": "2026-10-15T12:27:58.278Z",
+    "updated_date": "2026-10-26T17:54:55.283Z",
     "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -2377,7 +2379,7 @@
     "is_featured": false,
     "id": "art-1787666886596",
     "created_date": "2026-08-25T14:08:15.478Z",
-    "updated_date": "2026-09-24T10:35:40.284Z",
+    "updated_date": "2026-10-26T17:54:58.483Z",
     "image_url": "/images/cloud/magia-sagrada_9e941813ac.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -2572,7 +2574,9 @@
       "astral-projection": "/images/cloud/magia-sagrada_spl_61f4e6df99.png",
       "true-resurrection": "/images/cloud/magia-sagrada_spl_cc38a56b5d.png"
     },
-    "extra_categories": []
+    "extra_categories": [
+      "Magias"
+    ]
   },
   {
     "title": "Planos",
@@ -3739,7 +3743,7 @@
     "is_featured": false,
     "id": "art-1787666120866",
     "created_date": "2026-08-25T13:55:25.926Z",
-    "updated_date": "2026-09-24T10:16:09.089Z",
+    "updated_date": "2026-10-26T17:55:01.477Z",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -4017,7 +4021,9 @@
       "astral-projection": "/images/cloud/magia-sagrada_spl_61f4e6df99.png",
       "true-resurrection": "/images/cloud/magia-sagrada_spl_cc38a56b5d.png"
     },
-    "extra_categories": []
+    "extra_categories": [
+      "Clases"
+    ]
   },
   {
     "title": "Metamagia",
@@ -5244,7 +5250,7 @@
     "is_featured": false,
     "id": "art-1787665881215",
     "created_date": "2026-08-25T13:51:26.092Z",
-    "updated_date": "2026-09-24T10:16:15.024Z",
+    "updated_date": "2026-10-26T17:55:11.875Z",
     "image_position_x": 50,
     "image_position_y": 50,
     "gallery": [],
@@ -5371,7 +5377,9 @@
       "raise-dead": "/images/cloud/magia-sagrada_spl_807f0faf5e.png",
       "resurrection": "/images/cloud/magia-sagrada_spl_8c19d7ecf5.png"
     },
-    "extra_categories": []
+    "extra_categories": [
+      "Clases"
+    ]
   },
   {
     "title": "Pícaro",
@@ -9365,7 +9373,7 @@
     "is_featured": false,
     "id": "art-1787664991651",
     "created_date": "2026-08-25T13:36:35.142Z",
-    "updated_date": "2026-09-24T10:16:50.797Z",
+    "updated_date": "2026-10-26T17:55:22.302Z",
     "image_url": "/images/cloud/magia-divina_8611067fdd.jpg",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -9558,7 +9566,9 @@
       "astral-projection": "/images/cloud/magia-sagrada_spl_61f4e6df99.png",
       "true-resurrection": "/images/cloud/magia-sagrada_spl_cc38a56b5d.png"
     },
-    "extra_categories": []
+    "extra_categories": [
+      "Magias"
+    ]
   },
   {
     "title": "Universo de Caldo de Dragón",
@@ -10226,7 +10236,7 @@
     "is_featured": false,
     "id": "art-1787664357775",
     "created_date": "2026-08-25T13:26:08.652Z",
-    "updated_date": "2026-09-24T10:10:02.967Z",
+    "updated_date": "2026-10-26T17:55:18.938Z",
     "related_article_ids": [
       "art-1787666875758"
     ],
@@ -10244,7 +10254,9 @@
     },
     "image_url": "/images/cloud/plano-del-fuego_5cdbbb3668.webp",
     "map_url": "https://cartocraft.ai.studio/#/map/map-1yn70y0/no-ui?markers=false&lights=true&helpers=false&root=map-1yn70y0",
-    "extra_categories": []
+    "extra_categories": [
+      "Planos"
+    ]
   },
   {
     "title": "Stygia",
@@ -10584,7 +10596,7 @@
     "timeline_markers": [],
     "timeline_order": [],
     "created_date": "2026-08-24T14:54:43.309Z",
-    "updated_date": "2026-10-18T20:41:07.783Z",
+    "updated_date": "2026-10-26T17:55:25.976Z",
     "related_article_ids": [
       "art-1787665014090",
       "art-1787665642246"
@@ -10706,7 +10718,7 @@
       "muerte-gravatax"
     ],
     "created_date": "2026-08-12T14:48:49.565Z",
-    "updated_date": "2026-10-09T11:41:17.834Z",
+    "updated_date": "2026-10-26T17:55:29.977Z",
     "image_url": "/images/uploads/drangleic_alternativo-1791546029617_j1r58.png",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -11256,7 +11268,7 @@
     "summary": "Institución arcana de Drangleic dedicada a la investigación e instrucción en magia de espejos, reconocida como una de las academias más prestigiosas de Kaliria.",
     "content": "<h2>Academia de los Espejos</h2><p>La <a href=\"/articulo/academia-de-los-espejos\">Academia de los Espejos</a>, conocida y prestigiosa en <a href=\"/articulo/drangleic-869efe\">Drangleic</a>, la <a href=\"/articulo/academia-de-los-espejos\">Academia de los Espejos</a> de <a href=\"/articulo/drangleic-869efe\">Drangleic</a> fue una institución arcana  en la ciudad de <a href=\"/articulo/drangleic-869efe\">Drangleic</a>, dedicada exclusivamente al estudio y desarrollo de la <a href=\"/articulo/magia-de-los-espejos-mrfe8ahx\">Magia de los Espejos</a>. Reconocida como una de las academias más prestigiosas de <a href=\"/articulo/kaliria\">Kaliria</a>.</p><h3>Investigación y Enseñanza</h3><p>La academia se centraba en la manipulación de espejos como herramientas mágicas, explorando sus propiedades para reflejar no solo imágenes físicas, sino también eventos pasados, memorias y realidades alternativas. Sus miembros, en su mayoría <a href=\"/articulo/magos\" class=\"text-primary hover:underline font-semibold\">magos</a> y alquimistas de élite, desarrollaron técnicas avanzadas para capturar y proyectar fragmentos del tiempo y el espacio a través de superficies reflectantes.</p><h3>Artefactos Destacados</h3><p>Entre los logros más notables de la academia se encontraban:</p><ul><li><strong>Cristales del Recuerdo</strong>: Objetos cristalinos que, al ser activados, permitían visualizar el pasado de un lugar específico. Estos artefactos eran altamente valorados por su capacidad para revelar secretos históricos y eventos ocultos.</li></ul><ul><li><a href=\"/articulo/el-caballero-del-espejo-95b1cd\"><strong>El Caballero del Espejo</strong></a>: Un elemental de rayo creado por los eruditos de <a href=\"/articulo/drangleic-869efe\">Drangleic</a> como respuesta a la apertura de la ciudad a no humanos. Este caballero portaba un escudo con un espejo encantado capaz de reflejar ataques físicos y mágicos, convirtiéndose en una defensa casi impenetrable. Su propósito era engañar y manipular, especialmente al <a href=\"/articulo/rey-allant-fb4cad\">Rey Allant</a>, mostrando imágenes falsas de crímenes cometidos por no humanos para justificar su persecución.</li></ul><h3>Relación con la Sociedad de <a href=\"/articulo/drangleic-869efe\">Drangleic</a></h3><p>La academia era una institución ampliamente reconocida en <a href=\"/articulo/drangleic-869efe\">Drangleic</a>, con gran influencia entre la élite y el pueblo, aunque su naturaleza arcana y los secretos que manejaba la hacían objeto de respeto y temor. Sus miembros eran tolerados debido a su capacidad para proporcionar ventajas políticas y militares a la ciudad. La creación del <a href=\"/articulo/el-caballero-del-espejo-95b1cd\">Caballero del Espejo</a> y los <strong>Cristales del Recuerdo</strong> reflejaba la paranoia y el deseo de control de los líderes de <a href=\"/articulo/drangleic-869efe\">Drangleic</a>, que buscaban mantener su autonomía y superioridad sobre otras razas y regiones.</p><h3>Destino Desconocido</h3><p>Tras el cierre de las puertas de <a href=\"/articulo/drangleic-869efe\">Drangleic</a> por parte del <a href=\"/articulo/rey-allant-fb4cad\">Rey Allant</a> y la posterior caída de la ciudad, el destino de la <a href=\"/articulo/academia-de-los-espejos\">Academia de los Espejos</a> de <a href=\"/articulo/drangleic-869efe\">Drangleic</a> quedó en el olvido. Se desconoce si sus artefactos y conocimientos sobrevivieron o si fueron destruidos durante los conflictos que marcaron el ocaso de la ciudad.</p>",
     "created_date": "2026-07-10T20:10:01.103Z",
-    "updated_date": "2026-09-24T10:10:15.991Z",
+    "updated_date": "2026-10-26T17:55:34.199Z",
     "gallery": [],
     "infobox": {
       "Nombre": "Academia de los Espejos",
@@ -11331,7 +11343,9 @@
       ]
     },
     "map_url": "https://cartocraft.ai.studio/#/map/6a3421b268196ec66c7119aa/no-ui?markers=false&lights=true&helpers=false&root=6a3421b268196ec66c7119aa",
-    "extra_categories": [],
+    "extra_categories": [
+      "Lugares"
+    ],
     "image_url": ""
   },
   {
@@ -11342,7 +11356,7 @@
     "summary": "Región ártica sobrenatural de Boletaria, marcada por la maldición del Reloj Astral, niebla demoníaca y paisajes helados desolados.",
     "content": "<p>textoGlacio</p>\n<p>Glacio es una península y región ártica sobrenatur</p>\n\n<p>textoal ubicada en el continente de <a href=\"/articulo/kaliria\">Kaliria</a>, conocida por su clima gélido extremo y su paisaje desolado. Antaño fue un territorio lleno de vida y abundancia, pero tras la maldición del <a href=\"/articulo/el-cierre-del-reloj-astral-36732c\">Cierre del Reloj Astral</a>, se convirtió en un páramo helado y desolado, donde el viento gélido corta la piel y la oscuridad parece haber consumido la esperanza.</p>\n<h2>Geografía y Clima</h2>\n<p>Glacio se caracteriza por su clima ártico sobrenatural, con temperaturas extremadamente bajas y una niebla espesa y opaca que envuelve la región. Esta niebla actúa como una barrera que impide que los demonios crucen más allá de ciertos límites, aunque dentro de ella, los horrores del otro lado acechan, esperando para devorar lo poco que queda de humanidad.</p>\n<h2>La Maldición de Boletaria</h2>\n<p>La maldición que recae sobre Glacio se remonta a la clausura del <em><a href=\"/articulo/reloj-astral\" class=\"text-primary hover:underline font-semibold\">Reloj Astral</a></em>. La niebla espesa y opaca que envuelve la ciudad y sus alrededores es más que un simple fenómeno climático: se dice que actúa como una barrera, impidiendo que los demonios crucen más allá de ciertos límites. Sin embargo, dentro de la niebla, los horrores del otro lado acechan, esperando para devorar lo poco que queda de humanidad.</p>\n<p>Boletaria, antes de la maldición, era la segunda ciudad más rica de toda <a href=\"/articulo/kaliria\">Kaliria</a>, solo superada por <em><a href=\"/articulo/la-capital\">La Capital</a></em>. Gracias a su riqueza, el reino fue un centro de comercio, cultura y poder, una ciudad cuyo esplendor rivalizaba con el de cualquier otra. Sin embargo, las tensiones entre Boletaria y <a href=\"/articulo/la-capital\">La Capital</a> eran constantes, especialmente por la política económica y el poder que el rey de Boletaria ejercía sobre sus tierras.</p>\n<p>La relación con <a href=\"/articulo/la-capital\">La Capital</a> era fría, distante y llena de desconfianza. Los reyes de Boletaria nunca se sometieron a la autoridad de <a href=\"/articulo/la-capital\">La Capital</a> ni a la influencia del <em>Tribunal</em>.</p>\n<p>Sin embargo, esta aparente independencia se vería marcada por una serie de eventos fatales cuando el <a href=\"/articulo/rey-allant-fb4cad\">Rey Allant</a> decidió tomar un paso más allá de la soberanía.</p>\n<p>La ambición de <a href=\"/articulo/rey-allant-fb4cad\">Allant</a> lo llevó a contactar con <a href=\"/articulo/el-tribunal\" class=\"text-primary hover:underline font-semibold\">el Tribunal</a> con la esperanza de obtener más poder y riqueza. Al recibir una carta que le ofrecía un pacto con <a href=\"/articulo/el-tribunal\" class=\"text-primary hover:underline font-semibold\">el Tribunal</a>, Allant aceptó sin dudar, sellando la condena de su ciudad.</p>\n<h2>Boletaria: La Ciudad de los Demonios</h2>\n<p>Boletaria se sumió en un caos del que no ha logrado recuperarse. Las calles de Boletaria, antes llenas de mercados y comerciantes, se han convertido en un campo de batalla, donde los demonios patrullan las ruinas de lo que alguna vez fue un próspero reino.</p>\n<p>Los ciudadanos sobrevivientes viven con miedo, temiendo tanto a los demonios como al propio gobierno de <a href=\"/articulo/rey-allant-fb4cad\">Allant</a>.</p>\n<p>Así, Boletaria pasó de ser un símbolo de riqueza y poder a ser una ciudad condenada, gobernada por un rey cuya ambición y miedo a la muerte lo llevaron a sellar el destino de su pueblo.</p>\n<h3>Religión Principal</h3>\n<ul>\n<li>Los Seguidores de la Luna</li>\n</ul>\n<ul>\n<li>Luna Oscura</li>\n</ul>\n<h2>La Torre de Latria</h2>\n<p>La <em><a href=\"/articulo/torre-de-latria-mrfccvm3\">Torre de Latria</a></em>, antes conocida como la <em>Torre de Marfil</em>, se erige como un monumento al poder que alguna vez tuvo Boletaria.</p>\n<h2>Mehetia</h2>\n<p><em><a href=\"/articulo/mehetia-mrfciyvp\">Mehetia</a></em> es una ciudad marginada de Boletaria, hogar de demonios y corrupción. Fue utilizada como vertedero para todas las almas no deseadas, los marginados serían exiliados para vivir sus vidas lejos de la civilización y establecer una nueva residencia en el horrible pantano. Cuando <a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Santa Astraea de la Piedad</a> descubrió los horrores del valle, se encargó de viajar hacia allá para purificar y salvar a sus habitantes de la depravación total. Al llegar, se sintió profundamente afligida por el estado de la tierra y su gente. Disgustada de que los dioses permitieran que existiera algo así, decidió renegar de sus votos y adoptó el alma de un demonio que <a href=\"/articulo/rey-allant-fb4cad\">Rey Allant</a> le ofreció, lo que le dio las habilidades necesarias para purificar, aunque solo fuera un poco, el valle de Mehetia. Gracias a esto, <a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Astraea</a> es muy querida en todo el valle, pero también lleva el alma demoníaca más impía y vil de todas. La familia <a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Vinland</a> es bien conocida en las tierras occidentales de <a href=\"/articulo/kaliria\">Kaliria</a> y siempre tuvo una gran influencia en sus iglesias.</p>\n<h2>Personajes Clave de Glacio</h2>\n<ul>\n<li><strong><a href=\"/articulo/rey-allant-fb4cad\">Rey Allant</a></strong>: Un personaje que ofrece el alma de un demonio a la <a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Dama Astraea</a>.</li>\n</ul>\n<ul>\n<li><strong><a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Garl Vinland</a></strong>: Un <a href=\"/articulo/guerrero\" class=\"text-primary hover:underline font-semibold\">guerrero</a> robusto y devoto, protector de la <a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Dama Astraea</a>.</li>\n</ul>\n<ul>\n<li><strong><a href=\"/articulo/garl-vinland-y-la-dama-astraea-ffd99b\">Dama Astraea</a></strong>: Una figura pura y serena, santa de gran piedad que busca purificar el valle de Mehetia.</li>\n</ul>\n<ul>\n<li><strong><a href=\"/articulo/ostrava-c9fdb2\">Ostrava</a></strong>: Hijo del rey Allant, protector de la Torre de Latria y custodio del corazón demoníaco que sella las puertas de Boletaria.</li>\n</ul>\n<h2>Lugares Relacionados</h2>\n<ul>\n<li><a href=\"/articulo/boletaria-7e36fa\">Boletaria</a>: La ciudad principal de Glacio, ahora sumida en la corrupción y el caos.</li>\n</ul>\n<ul>\n<li><a href=\"/articulo/torre-de-latria-mrfccvm3\">Torre de Latria</a>: Prisión y bastión que custodia el corazón demoníaco que sella las puertas de Boletaria.</li>\n</ul>\n<ul>\n<li><a href=\"/articulo/mehetia-mrfciyvp\">Mehetia</a>: Ciudad marginada y repugnante, hogar de demonios asquerosos y despreciables.</li>\n</ul>",
     "created_date": "2026-07-10T20:03:47.800Z",
-    "updated_date": "2026-09-24T10:20:57.261Z",
+    "updated_date": "2026-10-26T17:55:38.138Z",
     "gallery": [],
     "infobox": {},
     "tags": [],
@@ -11421,7 +11435,9 @@
       "titleBadge": "Ambiente Cozy Personalizado"
     },
     "map_url": "https://cartocraft.ai.studio/#/map/6a33d30084bd4bc511636167/no-ui?markers=false&lights=true&helpers=false&root=6a33d30084bd4bc511636167",
-    "extra_categories": []
+    "extra_categories": [
+      "Lugares"
+    ]
   },
   {
     "id": "art-1783712765755",
@@ -11513,7 +11529,7 @@
     "summary": "Prisión y bastión en Boletaria que custodia el corazón demoníaco que sella las puertas de la ciudad, con Ostrava como su protector.",
     "content": "<p>texto## <strong>Descripción</strong></p>\n<p>La Torre de Latria es una prisión y bastión ubicado en el corazón de <a href=\"/articulo/boletaria-7e36fa\">Boletaria</a>, convertida en un símbolo de su decadencia y aislamiento. Su estructura, antes imponente, ahora refleja el abandono y la corrupción que asolan la ciudad. La torre alberga en su interior un <a href=\"/articulo/el-senor-de-la-ceniza-bestia-del-apocalipsis\">corazón demoníaco</a>, un artefacto de poder oscuro que mantiene selladas las puertas de <a href=\"/articulo/boletaria-7e36fa\">Boletaria</a>, impidiendo la entrada o salida de cualquier ser vivo.</p>\n<h2><strong>Función y Propósito</strong></h2>\n<p>La principal función de la Torre de Latria es custodiar el <a href=\"/articulo/el-senor-de-la-ceniza-bestia-del-apocalipsis\">corazón demoníaco</a>, una entidad que actúa como barrera mágica para contener la maldición de <a href=\"/articulo/boletaria-7e36fa\">Boletaria</a>. Este corazón, de naturaleza corrupta, es el responsable de mantener a raya a los demonios y otras fuerzas oscuras que asolan la ciudad. Sin embargo, su presencia también ha convertido a la torre en un lugar de sufrimiento y desesperación, donde los pocos que se atreven a acercarse son consumidos por la corrupción.</p>\n<h2><strong><a href=\"/articulo/ostrava-c9fdb2\">Ostrava</a> y la Torre de Latria</strong></h2>\n<p><a href=\"/articulo/ostrava-c9fdb2\">Ostrava</a>, hijo del <a href=\"/articulo/rey-allant-fb4cad\">Rey Allant</a>, es el protector designado de la Torre de Latria. Su deber es defender el <a href=\"/articulo/el-senor-de-la-ceniza-bestia-del-apocalipsis\">corazón demoníaco</a> a toda costa, incluso si eso significa sacrificar su propia vida. <a href=\"/articulo/ostrava-c9fdb2\">Ostrava</a>, marcado por la culpa y el remordimiento, cumple su rol con una lealtad inquebrantable, aunque su corazón esté lleno de dolor por las decisiones que lo llevaron a este destino. La torre, por tanto, no solo es una prisión, sino también un recordatorio constante de la traición y el sufrimiento que han definido la historia reciente de <a href=\"/articulo/boletaria-7e36fa\">Boletaria</a>.</p>\n<h2><strong>Historia</strong></h2>\n<p>La Torre de Latria fue construida como parte del sistema defensivo de <a href=\"/articulo/boletaria-7e36fa\">Boletaria</a>, pero su propósito original se distorsionó con el tiempo. Tras la caída de la ciudad y la corrupción de su rey, <a href=\"/articulo/rey-allant-fb4cad\">Allant</a>, la torre se convirtió en el último bastión de control sobre <a href=\"/articulo/boletaria-7e36fa\">Boletaria</a>. El <a href=\"/articulo/el-senor-de-la-ceniza-bestia-del-apocalipsis\">corazón demoníaco</a> fue colocado en su interior como un sello para evitar que los demonios y otras fuerzas oscuras escaparan y devastaran el resto del continente. Sin embargo, este sello también atrapó a los habitantes de <a href=\"/articulo/boletaria-7e36fa\">Boletaria</a> dentro de sus propias ruinas, condenándolos a una existencia de sufrimiento y desesperación.</p>\n<p><a href=\"/articulo/ostrava-c9fdb2\">Ostrava</a>, como protector de la torre, ha sido testigo de cómo la corrupción ha consumido lentamente a <a href=\"/articulo/boletaria-7e36fa\">Boletaria</a>. Aunque su deber es mantener el <a href=\"/articulo/el-senor-de-la-ceniza-bestia-del-apocalipsis\">corazón demoníaco</a> en su lugar, su presencia en la torre lo ha marcado profundamente, convirtiéndolo en una figura trágica dentro de la historia de la ciudad.</p>",
     "created_date": "2026-07-10T19:41:22.059Z",
-    "updated_date": "2026-09-24T10:21:02.793Z",
+    "updated_date": "2026-10-26T17:55:42.169Z",
     "filters": {
       "campaña": [
         "Las Doce Marcas"
@@ -11824,7 +11840,7 @@
     "is_featured": false,
     "id": "art-1783680454416",
     "created_date": "2026-07-10T10:47:34.895Z",
-    "updated_date": "2026-10-11T07:40:39.869Z",
+    "updated_date": "2026-10-26T17:55:46.412Z",
     "gallery": [],
     "related_article_ids": [
       "art-1787664997115",
@@ -12152,7 +12168,7 @@
     "summary": "Reino élfico en Avalon, fundado por elfos del Plano de la Foresta. Gobernado por Elyndar y Thranduin, aliado de humanos y enanos para forjar las espadas de los Caballeros de la Mesa Redonda. Su caída estuvo ligada a la locura de Arturo y la maldición de Elyndar.",
     "content": "<p>SiramarLos elfos llegaron a <a href=\"/articulo/avalon\">Avalon</a> desde el <a href=\"/articulo/plano-de-la-tierra\">Plano de la Tierra</a>, expandiéndose luego por <a href=\"/articulo/aeros\">Aeros</a>. Fundaron <strong><a href=\"/articulo/palacio-de-los-elfos-de-siramar-mreuygo8\">Siramar</a></strong>, la Joya del Mar, un reino que aprovechaba la potente <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a> de <a href=\"/articulo/avalon\">Avalon</a> para obtener energía.</p><p>Durante siglos, el rey de <a href=\"/articulo/palacio-de-los-elfos-de-siramar-mreuygo8\">Siramar</a>, primero <strong>Elyndar</strong> y luego su sucesor y mano derecha <strong>Thranduin</strong>, gobernaron con compasión. Thranduin, aunque inicialmente alejado de los designios de la <a href=\"/articulo/primordiales\">Primordial</a> de la Vida, fue corrompido por la <strong>Primordial Natural</strong>, una entidad vinculada a la esencia misma de la magia natural de <a href=\"/articulo/avalon\">Avalon</a>. Su influencia transformó a Thranduin en madera, reduciéndolo a un estado vegetal y despojándolo de su esencia elfa. Sin embargo, la <a href=\"/articulo/moonhaven\">Moonhaven</a> intervino en el proceso, liberando su alma y deteniendo su corrupción total. Este evento debilitó la conexión de Siramar con la <a href=\"/articulo/magia\">magia</a> primordial, afectando indirectamente a Elyndar, quien ya se encontraba en una relación tensa con la <a href=\"/articulo/primordiales\">Primordial</a> de la Vida. La corrupción de Thranduin, junto con la influencia de la <a href=\"/articulo/primordiales\">Primordial</a> de la Vida sobre Elyndar, contribuyó al desequilibrio mágico que luego afectaría a <a href=\"/articulo/arturo\">Arturo</a>. Colaboraron con humanos y enanos para crear las espadas de los <a href=\"/articulo/guerreros-de-la-luz-solar\">Guerreros de la Luz Solar</a>.</p><p>Cuando <a href=\"/articulo/arturo\">Arturo</a> cayó en la locura, las fuerzas mágicas se descontrolaron, haciendo que Elyndar cayera presa de la <a href=\"/articulo/primordiales\">Primordial</a> de la Vida. Su rey cayó, presa de una maldición, y su príncipe, <strong>Bedivere</strong>, hermano adoptivo del rey <a href=\"/articulo/arturo\">Arturo</a>, se dio a la bebida y el juego.</p><p>El rey de los elfos adoptó a <a href=\"/articulo/arturo\">Arturo</a> cuando este era un niño y aún no gobernaba <a href=\"/articulo/camelot\">Camelot</a>.</p>",
     "created_date": "2026-07-09T23:53:35.939Z",
-    "updated_date": "2026-10-11T08:21:03.537Z",
+    "updated_date": "2026-10-21T10:13:48.950Z",
     "image_url": "/images/uploads/siramar-1791706856003_qiz6t.png",
     "gallery": [],
     "infobox": {},
@@ -12348,7 +12364,7 @@
     "summary": "El Gran Reino Enano de Thorin, fundado por enanos colonos descendientes de Silverbrook, atrapados en Ávalon tras la aparición de la isla viajera. Su cultura se basa en torneos para decidir el apellido Loux, la forja de metales mágicos y la entrega de espadas a los elfos de Siramar.",
     "content": "<p>textoGran Reino Enano de ThorinEl <strong>Gran Reino Enano de <a href=\"/articulo/thorin-loux\">Thorin</a></strong> es una de las naciones más antiguas y veneradas de los enanos, fundada por colonos enanos que quedaron atrapados en <a href=\"/articulo/avalon\">Ávalon</a> cuando la isla viajera apareció en el <a href=\"/articulo/plano-de-la-tierra\" class=\"text-primary hover:underline font-semibold\">Plano de la Tierra</a>. Estos enanos, descendientes de los humildes mineros de <a href=\"/articulo/glimmerstone-aa54d9\">Glimmerstone</a> —una ciudad cercana a <a href=\"/articulo/glimmerstone-aa54d9\">Glimmerstone</a>—, se vieron obligados a adaptarse a un nuevo mundo, donde desarrollaron una cultura única basada en la competencia, la forja y la lealtad a su linaje.</p>\n<h2>Orígenes y Fundación</h2>\n<p>Tras la aparición de <a href=\"/articulo/avalon\">Ávalon</a> en el <a href=\"/articulo/plano-de-la-tierra\" class=\"text-primary hover:underline font-semibold\">Plano de la Tierra</a>, los enanos colonos quedaron atrapados en la isla. Para decidir quién llevaría el apellido <a href=\"/articulo/familia-loux\">Loux</a> —el apellido del primer rey enano, <a href=\"/articulo/thorin-loux\">Thorin Loux</a>, el más venerado de su pueblo—, se instituyeron torneos anuales. El ganador del primer torneo fue <strong>Utric <a href=\"/articulo/familia-loux\">Loux</a> I</strong>, quien se convirtió en el primer gobernante del reino y estableció las bases de su cultura competitiva.</p>\n<h2>Cultura de los Torneos</h2>\n<p>La cultura de los torneos se convirtió en el pilar del Gran Reino Enano de <a href=\"/articulo/thorin-loux\">Thorin</a>. Estos eventos no solo decidían el liderazgo, sino que también reforzaban la jerarquía y la identidad del pueblo. Los participantes competían en pruebas de fuerza, habilidad forjadora y resistencia, y el ganador obtenía el derecho de llevar el apellido <a href=\"/articulo/familia-loux\">Loux</a>, un honor que simbolizaba la grandeza y el liderazgo.</p>\n<h2>Forja de Metales Mágicos</h2>\n<p>Con el tiempo, los enanos del reino comenzaron a excavar metales mágicos en las profundidades de <a href=\"/articulo/avalon\">Ávalon</a>. Su maestría en la forja alcanzó niveles legendarios, permitiéndoles crear armas y artefactos de poder inigualable. Entre sus logros más destacados se encuentran las <strong>espadas de los Caballeros de la Mesa Redonda</strong>, que fueron forjadas en el Gran Reino Enano de <a href=\"/articulo/thorin-loux\">Thorin</a> y entregadas a los elfos de <a href=\"/articulo/siramar-mreuygo8\">Siramar</a> para que las encantaran.</p>\n<h2>Relación con los Elfos de <a href=\"/articulo/siramar-mreuygo8\">Siramar</a></h2>\n<p>El Gran Reino Enano de <a href=\"/articulo/thorin-loux\">Thorin</a> mantuvo una relación estrecha con los elfos de <a href=\"/articulo/siramar-mreuygo8\">Siramar</a>. Las espadas forjadas en el reino fueron enviadas a <a href=\"/articulo/siramar-mreuygo8\">Siramar</a> para ser encantadas con magia élfica, convirtiéndose en armas legendarias que más tarde serían utilizadas en batallas épicas. Esta alianza reforzó el prestigio del reino y su influencia en el continente.</p>\n<h2>La Expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a> y la Caída de <a href=\"/articulo/kaelgor-loux\">Kaelgor Loux</a></h2>\n<p>Cuando la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a> llegó a <a href=\"/articulo/avalon\">Ávalon</a>, se encontraron con el tiránico rey <a href=\"/articulo/kaelgor-loux\">Kaelgor Loux</a>, quien gobernaba el reino con mano de <a href=\"/articulo/hierro\" class=\"text-primary hover:underline font-semibold\">hierro</a> y extraía poder de cristales de <a href=\"/articulo/magia-profana\" class=\"text-primary hover:underline font-semibold\">magia profana</a>. Los miembros de la expedición se enfrentaron a <a href=\"/articulo/kaelgor-loux\">Kaelgor Loux</a>, lo derrotaron y lo mataron. Tras su muerte, restauraron en el poder a <strong>Utric <a href=\"/articulo/familia-loux\">Loux</a> II</strong>, hijo de <a href=\"/articulo/kaelgor-loux\">Kaelgor</a>, quien reavivó las tradiciones del reino y guió a los enanos a <a href=\"/articulo/siramar-mreuygo8\">Siramar</a> para extraer información sobre las espadas encantadas.</p>\n<h2>Legado</h2>\n<p>El Gran Reino Enano de <a href=\"/articulo/thorin-loux\">Thorin</a> dejó un legado de grandeza, forja y competencia. Su cultura de torneos, su maestría en la forja de metales mágicos y su alianza con los elfos de <a href=\"/articulo/siramar-mreuygo8\">Siramar</a> lo convirtieron en una de las naciones más influyentes de los enanos. Aunque su historia está marcada por la adaptación y la superación, su espíritu competitivo y su devoción a la forja siguen siendo recordados como símbolos de su grandeza.</p>",
     "created_date": "2026-07-09T18:16:22.812Z",
-    "updated_date": "2026-10-11T08:18:48.601Z",
+    "updated_date": "2026-10-26T17:55:50.139Z",
     "gallery": [],
     "infobox": {
       "Nombre": "Gran Reino Enano de Thorin",
@@ -12613,7 +12629,7 @@
     "summary": "<i>Las Islas de Kaanil, en la edad prehistórica del mundo, fueron refugio de esclavos creados con magia por dragones, dragonoides y bestias dracónicas. Tras escapar, evolucionaron a saurios y dinosaurios, hasta que humanos serpentinos los arrasaron. Tras un conflicto con el general saurio Thrag, un viajero del futuro y la expedición de Moonhaven alteraron el futuro, cambiando el destino de las islas.</i>",
     "content": "<h2>Las Islas de Kaanil</h2><p>En la edad prehistórica del mundo, los <a href=\"/articulo/dragones\">dragones</a> tenían esclavos creados con magia, dragonoides y bestias dracónicas. Algunos de estos esclavos lograron escapar a unas islas lejanas, donde fundaron <a href=\"/articulo/kaanil-nah\">Kaanil</a>. Con el tiempo, evolucionaron por la <a href=\"/articulo/magia-natural\" class=\"text-primary hover:underline font-semibold\">magia natural</a> del lugar a saurios, y se convirtieron en criaturas dinosaurio que vagaban por las islas.</p><p>Con el tiempo, los <a href=\"/articulo/dragones\">dragones</a> perdieron su dominio sobre las islas, sin embargo, <a href=\"/articulo/kaanil-nah\">Kaanil</a> seguía floreciendo.</p><p>Hasta que unos humanos llegaron e hicieron rituales para convertirse en seres serpentinos, aclamando que eran superiores. Arrastaron a las tribus saurias hasta que el general saurio <strong><a href=\"/articulo/thrag-mrdrc85l\" class=\"text-primary hover:underline font-semibold\">Thrag</a></strong> (un hombre triceratops) se hartó y les declaró la guerra. Perdieron debido a un extraño viajero del futuro y los saurios fueron erradicados.</p><p>Los humanos serpentinos, con el tiempo, se mudaron a la península de <a href=\"/articulo/kaanil-nah\">Kaanil</a> en <a href=\"/articulo/aeros\">Aeros</a> y fundaron <a href=\"/articulo/kaanil-nah\">Kaanil Nah</a>.</p><p>Sin embargo, la expedición de <a href=\"/articulo/moonhaven\">Moonhaven</a> a <a href=\"#\">Avalon</a>, tras derrotar a la leyenda de <strong><a href=\"/articulo/thrag-mrdrc85l\" class=\"text-primary hover:underline font-semibold\">Thrag</a></strong>, llegaron a la época del conflicto y vencieron a los humanos serpentinos, cambiando el futuro y haciendo que, en el presente, los saurios fueran los que fundaron <a href=\"/articulo/kaanil-nah\">Kaanil Nah</a>.</p>",
     "created_date": "2026-07-09T15:56:59.056Z",
-    "updated_date": "2026-10-11T08:41:47.906Z",
+    "updated_date": "2026-10-26T17:55:53.942Z",
     "image_url": "/images/uploads/Kaanil-1791707282693_bo2a8.jpg",
     "gallery": [],
     "infobox": {
@@ -15144,7 +15160,7 @@
     "is_featured": false,
     "id": "art-1783384032020",
     "created_date": "2026-07-07T00:27:14.910Z",
-    "updated_date": "2026-09-26T15:30:33.092Z",
+    "updated_date": "2026-10-26T17:55:57.737Z",
     "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -15180,7 +15196,9 @@
     "map_url": "https://cartocraft.ai.studio/#/map/6a33c6fb7fcb71b00f8684d7/no-ui?markers=false&lights=true&helpers=false&root=6a33c6fb7fcb71b00f8684d7",
     "spells": [],
     "spell_images": {},
-    "extra_categories": []
+    "extra_categories": [
+      "Lugares"
+    ]
   },
   {
     "title": "Kairon",
@@ -18958,7 +18976,7 @@
     "is_featured": false,
     "id": "art-1783383445659",
     "created_date": "2026-07-07T00:17:29.308Z",
-    "updated_date": "2026-09-24T14:34:33.896Z",
+    "updated_date": "2026-10-26T17:56:01.261Z",
     "image_url": "",
     "image_position_x": 50,
     "image_position_y": 50,
@@ -18989,7 +19007,9 @@
     "map_url": "https://cartocraft.ai.studio/#/map/map-rid59mr/no-ui?markers=false&lights=true&helpers=false&root=map-rid59mr",
     "spells": [],
     "spell_images": {},
-    "extra_categories": []
+    "extra_categories": [
+      "Lugares"
+    ]
   },
   {
     "title": "Aeliana",
@@ -20565,7 +20585,7 @@
     "is_featured": false,
     "id": "art-1783383224769",
     "created_date": "2026-07-07T00:13:47.143Z",
-    "updated_date": "2026-09-17T09:51:51.928Z",
+    "updated_date": "2026-10-26T17:54:11.184Z",
     "related_article_ids": [
       "art-1783383999658",
       "art-1783383974073",
@@ -20586,8 +20606,8 @@
       "entidad": []
     },
     "extra_categories": [
-      "Dragones",
-      "Bestias"
+      "Bestias",
+      "Dragones"
     ],
     "imageUrl": ""
   },
@@ -21035,7 +21055,7 @@
     "is_featured": false,
     "id": "art-1783383166992",
     "created_date": "2026-07-07T00:12:48.538Z",
-    "updated_date": "2026-09-24T10:11:08.331Z",
+    "updated_date": "2026-10-26T17:56:04.742Z",
     "image_url": "",
     "gallery": [],
     "related_article_ids": [],
@@ -21049,7 +21069,9 @@
     "image_position_x": 50,
     "image_position_y": 60,
     "map_url": "https://cartocraft.ai.studio/#/map/map-iaai74g/no-ui?markers=false&lights=true&helpers=false&root=map-iaai74g",
-    "extra_categories": []
+    "extra_categories": [
+      "Planos"
+    ]
   },
   {
     "title": "Plano Onírico",
@@ -21464,7 +21486,7 @@
     "is_featured": false,
     "id": "art-1783383056680",
     "created_date": "2026-07-07T00:10:59.395Z",
-    "updated_date": "2026-07-20T23:28:47.476Z",
+    "updated_date": "2026-10-20T10:48:57.283Z",
     "related_article_ids": [
       "art-1783383107977",
       "art-1787664370722",

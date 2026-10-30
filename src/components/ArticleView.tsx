@@ -8,7 +8,9 @@ import { getAllArticleCategories } from "../utils/categoryHelper";
 import { syncFetch, getCachedArticles, getCachedArticleBySlugOrId } from "../utils/syncArticles";
 import { getCleanMapUrl } from "../utils/mapHelper";
 import { getSafeImageUrl, handleImageErrorWithFallback, isBlockedGeoImage, checkAndRemoveIfGeoBlockedImage } from "../utils/imageUrl";
-import { formatInfoboxValue, normalizeInfobox } from "../utils/infoboxHelper";
+import { formatInfoboxValue, normalizeInfobox, getArticleInfoboxImages } from "../utils/infoboxHelper";
+import { InfoboxImageGallery } from "./InfoboxImageGallery";
+import type { InfoboxImageItem } from "../types";
 import { motion, AnimatePresence, useDragControls } from "motion/react";
 import { 
   ArrowLeft, Edit, Trash2, Calendar, Link2, Loader2, BookOpen, AlertCircle, Eye, Compass,
@@ -184,6 +186,7 @@ export function ArticleView() {
   const [editCategory, setEditCategory] = useState("");
   const [editExtraCategories, setEditExtraCategories] = useState<string[]>([]);
   const [editCoverImage, setEditCoverImage] = useState("");
+  const [editInfoboxImages, setEditInfoboxImages] = useState<InfoboxImageItem[]>([]);
   const [isBlockedImage, setIsBlockedImage] = useState(false);
   const [editInfobox, setEditInfobox] = useState<Record<string, string>>({});
   const [editTimelineMarkers, setEditTimelineMarkers] = useState<any[]>([]);
@@ -215,6 +218,7 @@ export function ArticleView() {
         setEditCoverImage(currentImg);
       }
 
+      setEditInfoboxImages(getArticleInfoboxImages(article));
       setEditInfobox(article.infobox ? normalizeInfobox(article.infobox) : {});
       setEditTimelineMarkers(Array.isArray(article.timeline_markers) ? [...article.timeline_markers] : []);
       setEditContent(article.content || "");
@@ -237,7 +241,8 @@ export function ArticleView() {
       summary: editSummary.trim(),
       category: editCategory.trim(),
       extra_categories: finalExtras,
-      image_url: editCoverImage.trim(),
+      image_url: (editInfoboxImages.length > 0 && editInfoboxImages[0]?.url) ? editInfoboxImages[0].url : editCoverImage.trim(),
+      infobox_images: editInfoboxImages,
       infobox: editInfobox,
       timeline_markers: editTimelineMarkers,
       content: editContent,
@@ -1742,69 +1747,45 @@ export function ArticleView() {
               {article.title}
             </div>
 
-            {/* Core Infobox image */}
-            {displayedImageUrl ? (
-              <div 
-                onClick={() => setModalImage({ url: displayedImageUrl, alt: article.title, caption: article.title })}
-                className="w-full h-60 border-b border-border overflow-hidden relative cursor-pointer group"
-                title="Haz clic para ampliar la imagen"
-              >
-                <img 
-                  src={displayedImageUrl} 
-                  alt={article.title} 
-                  referrerPolicy="no-referrer"
-                  onError={(e) => handleImageErrorWithFallback(e, rawDisplayedImageUrl)}
-                  onLoad={(e) => {
-                    checkAndRemoveIfGeoBlockedImage(e.currentTarget, async () => {
-                      setIsBlockedImage(true);
-                      setEditCoverImage("");
-                      if (article) {
-                        const updated = { ...article, image_url: "" };
-                        await saveArticleDirectly(updated);
-                        setArticle(updated);
-                        showToast("Se detectó una imagen no disponible regionalmente y ha sido retirada del artículo.", "info", 4500);
-                      }
-                    });
-                  }}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  style={{
-                    objectPosition: `${article.image_position_x ?? 50}% ${article.image_position_y ?? 50}%`
-                  }}
-                />
-                {isVisualEditMode && (
-                  <button
-                    type="button"
-                    onClick={async (e) => {
-                      e.stopPropagation();
-                      if (window.confirm("¿Seguro que deseas quitar la imagen de este artículo?")) {
-                        setIsBlockedImage(true);
-                        setEditCoverImage("");
-                        if (article) {
-                          const updated = { ...article, image_url: "" };
-                          await saveArticleDirectly(updated);
-                          setArticle(updated);
-                          showToast("Imagen retirada del artículo con éxito.", "info");
-                        }
-                      }
-                    }}
-                    className="absolute top-2 left-2 px-2.5 py-1 rounded bg-rose-600/90 hover:bg-rose-600 text-[10px] font-bold text-white uppercase tracking-wider backdrop-blur-sm flex items-center gap-1 shadow-md z-30 transition-all cursor-pointer"
-                    title="Quitar la imagen del artículo"
-                  >
-                    <Trash2 className="h-3 w-3" /> Quitar imagen
-                  </button>
-                )}
-                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <span className="px-2.5 py-1 rounded bg-black/70 text-[10px] font-bold text-white uppercase tracking-wider backdrop-blur-sm flex items-center gap-1 border border-white/20">
-                    <Eye className="h-3.5 w-3.5" /> Ampliar
-                  </span>
-                </div>
-              </div>
-            ) : (
-              <div className="p-8 text-center bg-secondary/15 border-b border-border flex flex-col items-center justify-center gap-2">
-                <BookOpen className="h-10 w-10 text-muted-foreground/45" />
-                <span className="text-[10px] uppercase font-bold text-muted-foreground">Registro de Ilustración Vacío</span>
-              </div>
-            )}
+            {/* Infobox image or multi-image gallery with tabs */}
+            <InfoboxImageGallery
+              images={editInfoboxImages}
+              articleTitle={article.title}
+              themeColor={themeColor}
+              isVisualEditMode={isVisualEditMode}
+              onImagesChange={async (newImages) => {
+                setEditInfoboxImages(newImages);
+                if (article) {
+                  const updated: WikiArticle = {
+                    ...article,
+                    infobox_images: newImages,
+                    image_url: newImages[0]?.url || "",
+                  };
+                  await saveArticleDirectly(updated);
+                  setArticle(updated);
+                  showToast("Imágenes de la ficha actualizadas con éxito.", "success");
+                }
+              }}
+              onImageClick={(item) => {
+                setModalImage({ url: item.url, alt: item.alt, caption: item.caption });
+              }}
+              onRemoveMainImage={async () => {
+                if (window.confirm("¿Seguro que deseas quitar la imagen principal?")) {
+                  const newImages = editInfoboxImages.slice(1);
+                  setEditInfoboxImages(newImages);
+                  if (article) {
+                    const updated = {
+                      ...article,
+                      infobox_images: newImages,
+                      image_url: newImages[0]?.url || "",
+                    };
+                    await saveArticleDirectly(updated);
+                    setArticle(updated);
+                    showToast("Imagen retirada con éxito.", "info");
+                  }
+                }
+              }}
+            />
 
             {/* Infobox fields table list */}
             {isVisualEditMode ? (

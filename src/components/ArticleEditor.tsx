@@ -23,8 +23,8 @@ import { ArtGalleryPickerModal } from "./ArtGalleryPickerModal";
 import { ArticleTarotScribeModal } from "./ArticleTarotScribeModal";
 import { ArticleMergeModal, MergedDataResult } from "./ArticleMergeModal";
 import { getSafeImageUrl } from "../utils/imageUrl";
-import { formatInfoboxValue } from "../utils/infoboxHelper";
-import { SpellbookSpell } from "../types";
+import { formatInfoboxValue, getArticleInfoboxImages } from "../utils/infoboxHelper";
+import { SpellbookSpell, InfoboxImageItem } from "../types";
 export function ArticleEditor() {
   const { slug } = useParams<{ slug: string }>();
   const isEditMode = !!slug;
@@ -49,6 +49,10 @@ export function ArticleEditor() {
   const [imageUrl, setImageUrl] = useState(() => cachedArt?.image_url || "");
   const [imagePositionX, setImagePositionX] = useState<number>(() => cachedArt?.image_position_x !== undefined ? cachedArt.image_position_x : 50);
   const [imagePositionY, setImagePositionY] = useState<number>(() => cachedArt?.image_position_y !== undefined ? cachedArt.image_position_y : 50);
+  const [infoboxImages, setInfoboxImages] = useState<InfoboxImageItem[]>(() => getArticleInfoboxImages(cachedArt));
+  const [newInfoboxImgUrl, setNewInfoboxImgUrl] = useState("");
+  const [newInfoboxImgLabel, setNewInfoboxImgLabel] = useState("");
+  const [newInfoboxImgCaption, setNewInfoboxImgCaption] = useState("");
   const [tagsInput, setTagsInput] = useState(() => Array.isArray(cachedArt?.tags) ? cachedArt!.tags.filter(Boolean).join(", ") : "");
   const [mapUrl, setMapUrl] = useState(() => cachedArt?.map_url || "");
 
@@ -328,6 +332,7 @@ export function ArticleEditor() {
         setImageUrl(updatedArt.image_url || "");
         setImagePositionX(updatedArt.image_position_x !== undefined ? updatedArt.image_position_x : 50);
         setImagePositionY(updatedArt.image_position_y !== undefined ? updatedArt.image_position_y : 50);
+        setInfoboxImages(getArticleInfoboxImages(updatedArt));
         setTagsInput(updatedArt.tags ? updatedArt.tags.join(", ") : "");
         setMapUrl(updatedArt.map_url || "");
         if (updatedArt.embedded_graph) {
@@ -987,6 +992,7 @@ export function ArticleEditor() {
             setImageUrl(art.image_url || "");
             setImagePositionX(art.image_position_x !== undefined ? art.image_position_x : 50);
             setImagePositionY(art.image_position_y !== undefined ? art.image_position_y : 50);
+            setInfoboxImages(getArticleInfoboxImages(art));
             setTagsInput(Array.isArray(art.tags) ? art.tags.filter(Boolean).join(", ") : "");
             setMapUrl(art.map_url || "");
             if (art.embedded_graph) {
@@ -1219,9 +1225,10 @@ export function ArticleEditor() {
       content: finalContent,
       category: articleCategory,
       extra_categories: finalExtraCategories,
-      image_url: imageUrl.trim() || undefined,
+      image_url: (infoboxImages.length > 0 && infoboxImages[0]?.url) ? infoboxImages[0].url : (imageUrl.trim() || undefined),
       image_position_x: imagePositionX,
       image_position_y: imagePositionY,
+      infobox_images: infoboxImages.filter((img) => img.url && img.url.trim()),
       map_url: mapUrl.trim() || undefined,
       embedded_graph: embeddedGraph || undefined,
       gallery: galleryItems.filter((g) => g.url && g.url.trim().length > 0),
@@ -2686,6 +2693,160 @@ export function ArticleEditor() {
                 </div>
               </div>
             )}
+
+            {/* Galería de Múltiples Imágenes para la Ficha / Infobox */}
+            <div className="p-4 bg-secondary/30 rounded-xl border border-border/70 space-y-3.5 mt-2">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-2">
+                  <Layers className="h-4 w-4 text-primary" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-foreground">
+                    Imágenes de la Ficha / Infobox ({infoboxImages.length})
+                  </span>
+                </div>
+                <span className="text-[11px] text-muted-foreground">
+                  Permite alternar entre varias ilustraciones (pestañas) en la ficha del artículo
+                </span>
+              </div>
+
+              {/* Formulario para agregar una nueva imagen al infobox */}
+              <div className="p-3 bg-card/60 rounded-lg border border-border/60 flex flex-col gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <input
+                    type="url"
+                    value={newInfoboxImgUrl}
+                    onChange={(e) => setNewInfoboxImgUrl(e.target.value)}
+                    placeholder="URL de imagen adicional (ej: /images/... o https://...)"
+                    className="flex-1 h-9 px-3 bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-primary/50 transition-all text-xs font-mono"
+                  />
+                  <input
+                    type="text"
+                    value={newInfoboxImgLabel}
+                    onChange={(e) => setNewInfoboxImgLabel(e.target.value)}
+                    placeholder="Nombre pestaña (ej: Forma Bestia, Armadura...)"
+                    className="sm:w-56 h-9 px-3 bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-primary/50 transition-all text-xs"
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newInfoboxImgCaption}
+                    onChange={(e) => setNewInfoboxImgCaption(e.target.value)}
+                    placeholder="Pie de foto opcional para esta imagen"
+                    className="flex-1 h-9 px-3 bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-primary/50 transition-all text-xs"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!newInfoboxImgUrl.trim()) return;
+                      const newItem: InfoboxImageItem = {
+                        id: `infobox-${Date.now()}`,
+                        url: newInfoboxImgUrl.trim(),
+                        label: newInfoboxImgLabel.trim() || `Imagen ${infoboxImages.length + 1}`,
+                        caption: newInfoboxImgCaption.trim() || "",
+                        position_x: 50,
+                        position_y: 50,
+                      };
+                      setInfoboxImages((prev) => [...prev, newItem]);
+                      setNewInfoboxImgUrl("");
+                      setNewInfoboxImgLabel("");
+                      setNewInfoboxImgCaption("");
+                    }}
+                    disabled={!newInfoboxImgUrl.trim()}
+                    className="px-4 h-9 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xs uppercase tracking-wider rounded-lg flex items-center gap-1.5 transition-all shadow-sm cursor-pointer disabled:opacity-50 shrink-0"
+                  >
+                    <Plus className="h-4 w-4" />
+                    <span>Añadir a la Ficha</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Lista y previsualización de imágenes agregadas */}
+              {infoboxImages.length > 0 && (
+                <div className="space-y-2 pt-1">
+                  <span className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider block">
+                    Ilustraciones configuradas en la Ficha:
+                  </span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {infoboxImages.map((img, idx) => (
+                      <div
+                        key={img.id || idx}
+                        className="flex items-center gap-2.5 p-2 rounded-lg bg-card border border-border/80 shadow-xs"
+                      >
+                        <img
+                          src={getSafeImageUrl(img.url)}
+                          alt={img.label}
+                          className="w-12 h-12 rounded object-cover border border-border shrink-0"
+                          onError={(e) => (e.currentTarget.style.display = 'none')}
+                        />
+                        <div className="flex-1 min-w-0 flex flex-col gap-1">
+                          <div className="flex items-center gap-1">
+                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary font-bold">
+                              #{idx + 1}
+                            </span>
+                            <input
+                              type="text"
+                              value={img.label || ""}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setInfoboxImages((prev) =>
+                                  prev.map((item, i) => (i === idx ? { ...item, label: val } : item))
+                                );
+                              }}
+                              placeholder={`Pestaña ${idx + 1}`}
+                              className="h-6 px-1.5 text-xs font-semibold bg-secondary/80 border border-border rounded text-foreground w-full"
+                            />
+                          </div>
+                          <input
+                            type="text"
+                            value={img.caption || ""}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setInfoboxImages((prev) =>
+                                prev.map((item, i) => (i === idx ? { ...item, caption: val } : item))
+                              );
+                            }}
+                            placeholder="Pie de foto"
+                            className="h-5 px-1.5 text-[11px] bg-secondary/50 border border-border/60 rounded text-muted-foreground w-full"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-1 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (idx === 0) return;
+                              const updated = [...infoboxImages];
+                              const [moved] = updated.splice(idx, 1);
+                              updated.splice(idx - 1, 0, moved);
+                              setInfoboxImages(updated);
+                              if (idx === 1) setImageUrl(updated[0].url);
+                            }}
+                            disabled={idx === 0}
+                            className="p-1 rounded hover:bg-secondary text-muted-foreground hover:text-foreground disabled:opacity-20 cursor-pointer"
+                            title="Subir orden"
+                          >
+                            <ChevronRight className="h-3 w-3 -rotate-90" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const updated = infoboxImages.filter((_, i) => i !== idx);
+                              setInfoboxImages(updated);
+                              if (idx === 0 && updated.length > 0) {
+                                setImageUrl(updated[0].url);
+                              }
+                            }}
+                            className="p-1 rounded hover:bg-rose-950/50 text-rose-400 hover:text-rose-200 cursor-pointer"
+                            title="Eliminar de la ficha"
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Tags comma input */}
             <div className="space-y-1.5">

@@ -77,3 +77,54 @@ export function normalizeInfobox(infobox?: Record<string, any> | null): Record<s
   }
   return result;
 }
+
+import type { InfoboxImageItem, WikiArticle } from "../types";
+
+/**
+ * Returns an array of InfoboxImageItem extracted from the article.
+ * Falls back to article.image_url if infobox_images is not defined.
+ */
+export function getArticleInfoboxImages(article?: Partial<WikiArticle> | null): InfoboxImageItem[] {
+  if (!article) return [];
+
+  const rawList = (article as any).infobox_images;
+  if (Array.isArray(rawList) && rawList.length > 0) {
+    const valid = rawList
+      .filter((img: any) => img && (typeof img === "string" ? img.trim() : (img.url && img.url.trim())))
+      .map((img: any, idx: number) => {
+        if (typeof img === "string") {
+          return {
+            id: `img-${idx}`,
+            url: img.trim(),
+            label: idx === 0 ? "Principal" : `Imagen ${idx + 1}`,
+            position_x: article.image_position_x ?? 50,
+            position_y: article.image_position_y ?? 50,
+          };
+        }
+        return {
+          id: img.id || `img-${idx}`,
+          url: img.url.trim(),
+          label: (img.label && img.label.trim()) || (idx === 0 ? "Principal" : `Imagen ${idx + 1}`),
+          caption: img.caption || "",
+          position_x: img.position_x ?? article.image_position_x ?? 50,
+          position_y: img.position_y ?? article.image_position_y ?? 50,
+        };
+      });
+
+    if (valid.length > 0) return valid;
+  }
+
+  // Fallback to single image_url
+  const fallbackUrl = article.image_url || (article as any)?.imageUrl || "";
+  if (fallbackUrl && fallbackUrl.trim()) {
+    return [{
+      id: "img-0",
+      url: fallbackUrl.trim(),
+      label: "Principal",
+      position_x: article.image_position_x ?? 50,
+      position_y: article.image_position_y ?? 50,
+    }];
+  }
+
+  return [];
+}

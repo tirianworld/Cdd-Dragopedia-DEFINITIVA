@@ -119,6 +119,15 @@ export interface ArticleEmbeddedGraph {
   };
 }
 
+export interface InfoboxImageItem {
+  id?: string;
+  url: string;
+  label?: string; // e.g., 'Principal', 'Forma Alternativa', 'Armadura', 'Retrato'
+  caption?: string;
+  position_x?: number;
+  position_y?: number;
+}
+
 export interface WikiArticle {
   id: string;
   title: string;
@@ -130,6 +139,7 @@ export interface WikiArticle {
   image_url?: string;
   image_position_x?: number;
   image_position_y?: number;
+  infobox_images?: InfoboxImageItem[];
   gallery?: GalleryItem[];
   is_featured?: boolean;
   importance?: "normal" | "destacado" | "urgente" | "epico";
